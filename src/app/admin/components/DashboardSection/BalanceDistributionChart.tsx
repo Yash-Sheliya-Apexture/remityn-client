@@ -1,0 +1,717 @@
+// "use client";
+
+// import React, { useState, useEffect, useMemo } from "react";
+// import { Pie, PieChart, Tooltip, Label as RechartsLabel, Cell } from "recharts"; // Added Cell
+// import { TrendingUp, CircleDollarSign, AlertCircle, RefreshCw, Info } from "lucide-react";
+
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardFooter,
+//   CardHeader,
+//   CardTitle,
+// } from "@/components/ui/card";
+// import {
+//   ChartConfig,
+//   ChartContainer,
+//   ChartTooltip as ShadcnChartTooltip, // Use ShadcnChartTooltip for consistency
+//   ChartTooltipContent as ShadcnChartTooltipContent, // Use ShadcnChartTooltipContent
+// } from "@/components/ui/chart";
+// import { Skeleton } from "@/components/ui/skeleton";
+// import { Button } from "@/components/ui/button"; // Using Shadcn Button
+// import statsAdminService, {
+//   BalanceDistributionDataPoint,
+// } from "../../../services/admin/stats.admin"; // Adjust path if necessary
+// import { cn } from "@/lib/utils";
+
+// // Define a list of distinct colors for the pie chart segments
+// // These should correspond to CSS variables defined in your globals.css
+// const PREDEFINED_COLORS_HSL = [
+//   "hsl(var(--chart-1))",
+//   "hsl(var(--chart-2))",
+//   "hsl(var(--chart-3))",
+//   "hsl(var(--chart-4))",
+//   "hsl(var(--chart-5))",
+//   "hsl(var(--chart-6))",
+//   "hsl(var(--chart-7))",
+//   "hsl(var(--chart-8))",
+// ];
+
+// export default function BalanceDistributionChart() {
+//   // State for chart data, excluding the 'fill' property initially
+//   // 'fill' will be applied via <Cell> or can be added to chartConfig for tooltips
+//   const [chartData, setChartData] = useState<Omit<BalanceDistributionDataPoint, 'fill'>[]>([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+
+//   const fetchData = async () => {
+//     setLoading(true);
+//     setError(null);
+//     try {
+//       const data = await statsAdminService.getAdminBalanceDistribution();
+//       // Data from API doesn't need 'fill' if we use <Cell> components for coloring
+//       setChartData(data);
+//     } catch (err: any) {
+//       setError(err.message || "Failed to load balance distribution data.");
+//       console.error("Error fetching balance distribution:", err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchData();
+//   }, []); // Empty dependency array means this runs once on mount
+
+//   const chartConfig = useMemo(() => {
+//     const config: ChartConfig = {
+//       totalBalance: { label: "Balance" }, // For the tooltip value if not overridden by formatter
+//     };
+//     chartData.forEach((item, index) => {
+//       config[item.currencyCode] = {
+//         label: `${item.currencyCode} (${item.currencyName})`,
+//         // Assign color to chartConfig for tooltip label/indicator consistency
+//         color: PREDEFINED_COLORS_HSL[index % PREDEFINED_COLORS_HSL.length],
+//       };
+//     });
+//     return config;
+//   }, [chartData]);
+
+//   const totalOverallBalance = useMemo(() => {
+//     return chartData.reduce((acc, curr) => acc + curr.totalBalance, 0);
+//   }, [chartData]);
+
+//   const formatCurrency = (value: number) => {
+//     if (isNaN(value) || value === null) return "N/A";
+//     return `$${value.toLocaleString(undefined, {
+//       minimumFractionDigits: 2,
+//       maximumFractionDigits: 2,
+//     })}`;
+//   };
+
+//   if (loading) {
+//     return (
+//       <Card className="flex flex-col sm:w-1/4 w-full h-full bg-card dark:bg-primarybox border border-border">
+//         <CardHeader className="items-center pb-0">
+//           <Skeleton className="h-6 w-3/4 rounded-md bg-muted" />
+//           <Skeleton className="h-4 w-1/2 mt-1 rounded-md bg-muted" />
+//         </CardHeader>
+//         <CardContent className="flex-1 pb-0 flex items-center justify-center">
+//           <Skeleton className="aspect-square w-full max-w-[200px] rounded-full bg-muted" />
+//         </CardContent>
+//         <CardFooter className="flex-col gap-2 text-sm pt-4">
+//           <Skeleton className="h-4 w-3/5 rounded-md bg-muted" />
+//           <Skeleton className="h-4 w-4/5 mt-1 rounded-md bg-muted" />
+//         </CardFooter>
+//       </Card>
+//     );
+//   }
+
+//   if (error) {
+//     return (
+//       <Card className="flex flex-col items-center justify-center sm:w-1/4 w-full h-full p-6 bg-card dark:bg-primarybox border border-border">
+//         <AlertCircle className="w-12 h-12 text-destructive mb-4" />
+//         <CardTitle className="text-lg text-destructive text-center">Loading Failed</CardTitle>
+//         <CardDescription className="text-sm text-muted-foreground text-center mt-1 mb-4">
+//           {error}
+//         </CardDescription>
+//         <Button variant="outline" onClick={fetchData} size="sm">
+//           <RefreshCw className="w-4 h-4 mr-2" />
+//           Try Again
+//         </Button>
+//       </Card>
+//     );
+//   }
+
+//   if (chartData.length === 0) {
+//      return (
+//       <Card className="flex flex-col items-center justify-center text-center sm:w-1/4 w-full h-full p-6 bg-card dark:bg-primarybox border border-border">
+//         <Info className="w-12 h-12 text-muted-foreground mb-4" />
+//         <CardTitle className="text-lg text-card-foreground">No Balance Data</CardTitle>
+//         <CardDescription className="text-sm text-muted-foreground mt-1">
+//           There are currently no account balances to display.
+//         </CardDescription>
+//       </Card>
+//     );
+//   }
+
+//   // Type for the props passed to the Label's content function
+//   type LabelContentProps = {
+//     viewBox?: { cx?: number; cy?: number; [key: string]: any };
+//     [key: string]: any;
+//   };
+
+//   return (
+//     <Card className="sm:w-1/4 w-full bg-card dark:bg-primarybox sm:p-6 p-4 rounded-xl border border-border relative overflow-hidden">
+//       <CardHeader className="items-center pb-0">
+//         <div className="flex items-center gap-2 mt-4 mb-1">
+//             <CircleDollarSign className="w-5 h-5 text-primary" />
+//             <CardTitle className="text-card-foreground">Account Balances</CardTitle>
+//         </div>
+//       </CardHeader>
+//       <CardContent className="flex-1 pb-0">
+//         <ChartContainer
+//           config={chartConfig}
+//           className="mx-auto aspect-square w-full max-w-[300px] sm:max-w-[320px] md:max-w-[280px] lg:max-w-[400px]"
+//         >
+//           <PieChart>
+//             <ShadcnChartTooltip
+//               cursor={false} // No cursor effect on hover for pie chart
+//               content={
+//                 <ShadcnChartTooltipContent
+//                   formatter={(value, name, entry) => { // entry is the payload for the hovered segment
+//                     // 'name' here is the nameKey from <Pie> (currencyCode)
+//                     // 'value' is the dataKey from <Pie> (totalBalance)
+//                     // 'entry.payload' contains the original data object for the segment
+//                     const currencyLabel = chartConfig[name as string]?.label || name;
+//                     return [`${formatCurrency(value as number)}`, currencyLabel];
+//                   }}
+//                   hideLabel={false} // Will use the second item returned by formatter as label
+//                   className="bg-popover text-popover-foreground dark:bg-primarybox/95 dark:text-white backdrop-blur-sm"
+//                   // To show color indicator in tooltip, Recharts usually uses entry.payload.fill or chartConfig color
+//                   // indicator="dot" // or "line", "dashed" - depends on ShadcnChartTooltipContent capabilities
+//                 />
+//               }
+//             />
+//             <Pie
+//               data={chartData}
+//               dataKey="totalBalance"
+//               nameKey="currencyCode" // Used to link to chartConfig for tooltips
+//               innerRadius={60}
+//               strokeWidth={5}
+//               // stroke="hsl(var(--background))" // Optional: adds a border around segments, using background for separation
+//               // activeIndex={0} // Optionally set an active segment
+//             >
+//               {/* Map over chartData to render a <Cell> for each segment to control its color */}
+//               {chartData.map((entry, index) => (
+//                 <Cell 
+//                   key={`cell-${entry.currencyCode}-${index}`} 
+//                   fill={PREDEFINED_COLORS_HSL[index % PREDEFINED_COLORS_HSL.length]} 
+//                   stroke="hsl(var(--border))" // Add a border to each cell for better separation
+//                   strokeWidth={1} // Adjust if strokeWidth on Pie is also high
+//                 />
+//               ))}
+//               <RechartsLabel
+//                 content={(props: LabelContentProps) => {
+//                   const { viewBox } = props;
+//                   if (viewBox && typeof viewBox.cx === 'number' && typeof viewBox.cy === 'number') {
+//                     return (
+//                       <text
+//                         x={viewBox.cx}
+//                         y={viewBox.cy}
+//                         textAnchor="middle"
+//                         dominantBaseline="middle"
+//                       >
+//                         <tspan
+//                           x={viewBox.cx}
+//                           y={viewBox.cy}
+//                           className="fill-foreground text-3xl font-bold"
+//                         >
+//                           {formatCurrency(totalOverallBalance)}
+//                         </tspan>
+//                         <tspan
+//                           x={viewBox.cx}
+//                           y={viewBox.cy + 24}
+//                           className="fill-muted-foreground text-sm"
+//                         >
+//                           Total Balance
+//                         </tspan>
+//                       </text>
+//                     );
+//                   }
+//                   return null;
+//                 }}
+//               />
+//             </Pie>
+//           </PieChart>
+//         </ChartContainer>
+//       </CardContent>
+//     </Card>
+//   );
+// }
+
+
+// "use client";
+
+// import React, { useState, useEffect, useMemo } from "react";
+// import { Pie, PieChart, Tooltip, Label as RechartsLabel, Cell } from "recharts"; 
+// import { TrendingUp, CircleDollarSign, AlertCircle, RefreshCw, Info } from "lucide-react";
+
+// import {
+//   Card,
+//   CardContent,
+//   CardDescription,
+//   CardFooter,
+//   CardHeader,
+//   CardTitle,
+// } from "@/components/ui/card";
+// import {
+//   ChartConfig,
+//   ChartContainer,
+//   ChartTooltip as ShadcnChartTooltip, 
+//   ChartTooltipContent as ShadcnChartTooltipContent, 
+// } from "@/components/ui/chart";
+// import { Skeleton } from "@/components/ui/skeleton";
+// import { Button } from "@/components/ui/button"; 
+// import statsAdminService, {
+//   BalanceDistributionDataPoint,
+// } from "../../../services/admin/stats.admin"; 
+// import { cn } from "@/lib/utils";
+
+// const PREDEFINED_COLORS_HSL = [
+//   "hsl(var(--chart-1))",
+//   "hsl(var(--chart-2))",
+//   "hsl(var(--chart-3))",
+//   "hsl(var(--chart-4))",
+//   "hsl(var(--chart-5))",
+//   "hsl(var(--chart-6))",
+//   "hsl(var(--chart-7))",
+//   "hsl(var(--chart-8))",
+// ];
+
+// export default function BalanceDistributionChart() {
+//   const [chartData, setChartData] = useState<Omit<BalanceDistributionDataPoint, 'fill'>[]>([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+
+//   const fetchData = async () => {
+//     setLoading(true);
+//     setError(null);
+//     try {
+//       const data = await statsAdminService.getAdminBalanceDistribution();
+//       setChartData(data);
+//     } catch (err: any) {
+//       setError(err.message || "Failed to load balance distribution data.");
+//       console.error("Error fetching balance distribution:", err);
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchData();
+//   }, []); 
+
+//   const chartConfig = useMemo(() => {
+//     const config: ChartConfig = {
+//       totalBalance: { label: "Balance" }, 
+//     };
+//     chartData.forEach((item, index) => {
+//       config[item.currencyCode] = {
+//         label: `${item.currencyCode} (${item.currencyName})`,
+//         color: PREDEFINED_COLORS_HSL[index % PREDEFINED_COLORS_HSL.length],
+//       };
+//     });
+//     return config;
+//   }, [chartData]);
+
+//   const totalOverallBalance = useMemo(() => {
+//     // This will now sum the corrected balances from the API
+//     return chartData.reduce((acc, curr) => acc + curr.totalBalance, 0);
+//   }, [chartData]);
+
+//   const formatCurrency = (value: number) => {
+//     if (isNaN(value) || value === null) return "N/A";
+//     return `$${value.toLocaleString(undefined, {
+//       minimumFractionDigits: 2,
+//       maximumFractionDigits: 2,
+//     })}`;
+//   };
+
+//   if (loading) {
+//     return (
+//       <Card className="flex flex-col sm:w-1/4 w-full h-full bg-card dark:bg-primarybox border border-border">
+//         <CardHeader className="items-center pb-0">
+//           <Skeleton className="h-6 w-3/4 rounded-md bg-muted" />
+//           <Skeleton className="h-4 w-1/2 mt-1 rounded-md bg-muted" />
+//         </CardHeader>
+//         <CardContent className="flex-1 pb-0 flex items-center justify-center">
+//           <Skeleton className="aspect-square w-full max-w-[200px] rounded-full bg-muted" />
+//         </CardContent>
+//         <CardFooter className="flex-col gap-2 text-sm pt-4">
+//           <Skeleton className="h-4 w-3/5 rounded-md bg-muted" />
+//           <Skeleton className="h-4 w-4/5 mt-1 rounded-md bg-muted" />
+//         </CardFooter>
+//       </Card>
+//     );
+//   }
+
+//   if (error) {
+//     return (
+//       <Card className="flex flex-col items-center justify-center sm:w-1/4 w-full h-full p-6 bg-card dark:bg-primarybox border border-border">
+//         <AlertCircle className="w-12 h-12 text-destructive mb-4" />
+//         <CardTitle className="text-lg text-destructive text-center">Loading Failed</CardTitle>
+//         <CardDescription className="text-sm text-muted-foreground text-center mt-1 mb-4">
+//           {error}
+//         </CardDescription>
+//         <Button variant="outline" onClick={fetchData} size="sm">
+//           <RefreshCw className="w-4 h-4 mr-2" />
+//           Try Again
+//         </Button>
+//       </Card>
+//     );
+//   }
+
+//   if (chartData.length === 0) {
+//      return (
+//       <Card className="flex flex-col items-center justify-center text-center sm:w-1/4 w-full h-full p-6 bg-card dark:bg-primarybox border border-border">
+//         <Info className="w-12 h-12 text-muted-foreground mb-4" />
+//         <CardTitle className="text-lg text-card-foreground">No Balance Data</CardTitle>
+//         <CardDescription className="text-sm text-muted-foreground mt-1">
+//           There are currently no calculated account balances to display.
+//         </CardDescription>
+//       </Card>
+//     );
+//   }
+
+//   type LabelContentProps = {
+//     viewBox?: { cx?: number; cy?: number; [key: string]: any };
+//     [key: string]: any;
+//   };
+
+//   return (
+//     <Card className="sm:w-1/4 w-full bg-card dark:bg-primarybox sm:p-6 p-4 rounded-xl border border-border relative overflow-hidden">
+//       <CardHeader className="items-center pb-0">
+//         <div className="flex items-center gap-2 mt-4 mb-1">
+//             <CircleDollarSign className="w-5 h-5 text-primary" />
+//             <CardTitle className="text-card-foreground">Account Balances</CardTitle>
+//         </div>
+//         <CardDescription className="text-xs text-center text-muted-foreground">
+//             Net calculated balances (Completed Add Money - Completed Send Money)
+//         </CardDescription>
+//       </CardHeader>
+//       <CardContent className="flex-1 pb-0">
+//         <ChartContainer
+//           config={chartConfig}
+//           className="mx-auto aspect-square w-full max-w-[300px] sm:max-w-[320px] md:max-w-[280px] lg:max-w-[400px]"
+//         >
+//           <PieChart>
+//             <ShadcnChartTooltip
+//               cursor={false} 
+//               content={
+//                 <ShadcnChartTooltipContent
+//                   formatter={(value, name, entry) => { 
+//                     const currencyLabel = chartConfig[name as string]?.label || name;
+//                     return [`${formatCurrency(value as number)}`, currencyLabel];
+//                   }}
+//                   hideLabel={false} 
+//                   className="bg-popover text-popover-foreground dark:bg-primarybox/95 dark:text-white backdrop-blur-sm"
+//                 />
+//               }
+//             />
+//             <Pie
+//               data={chartData}
+//               dataKey="totalBalance"
+//               nameKey="currencyCode" 
+//               innerRadius={60}
+//               strokeWidth={5}
+//             >
+//               {chartData.map((entry, index) => (
+//                 <Cell 
+//                   key={`cell-${entry.currencyCode}-${index}`} 
+//                   fill={PREDEFINED_COLORS_HSL[index % PREDEFINED_COLORS_HSL.length]} 
+//                   stroke="hsl(var(--border))" 
+//                   strokeWidth={1} 
+//                 />
+//               ))}
+//               <RechartsLabel
+//                 content={(props: LabelContentProps) => {
+//                   const { viewBox } = props;
+//                   if (viewBox && typeof viewBox.cx === 'number' && typeof viewBox.cy === 'number') {
+//                     return (
+//                       <text
+//                         x={viewBox.cx}
+//                         y={viewBox.cy}
+//                         textAnchor="middle"
+//                         dominantBaseline="middle"
+//                       >
+//                         <tspan
+//                           x={viewBox.cx}
+//                           y={viewBox.cy}
+//                           className="fill-foreground text-3xl font-bold"
+//                         >
+//                           {formatCurrency(totalOverallBalance)}
+//                         </tspan>
+//                         <tspan
+//                           x={viewBox.cx}
+//                           y={viewBox.cy + 24}
+//                           className="fill-muted-foreground text-sm"
+//                         >
+//                           Total Net Balance
+//                         </tspan>
+//                       </text>
+//                     );
+//                   }
+//                   return null;
+//                 }}
+//               />
+//             </Pie>
+//           </PieChart>
+//         </ChartContainer>
+//       </CardContent>
+//     </Card>
+//   );
+// }
+
+
+"use client";
+
+import React, { useState, useEffect, useMemo } from "react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+   Cell,
+} from "recharts";
+import {  AlertCircle, RefreshCw, Info, BarChart2 } from "lucide-react";
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip as ShadcnChartTooltip,
+  ChartTooltipContent as ShadcnChartTooltipContent,
+} from "@/components/ui/chart"; // Keep for consistency if other charts use it
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import statsAdminService, {
+  BalanceDistributionDataPoint,
+} from "../../../services/admin/stats.admin";
+import { cn } from "@/lib/utils";
+
+const PREDEFINED_COLORS_HSL = [
+  "hsl(var(--chart-1))",
+  "hsl(var(--chart-2))",
+  "hsl(var(--chart-3))",
+  "hsl(var(--chart-4))",
+  "hsl(var(--chart-5))",
+  "hsl(var(--chart-6))",
+  "hsl(var(--chart-7))",
+  "hsl(var(--chart-8))",
+];
+
+// Helper to format currency values
+const formatCurrency = (value: number | undefined | null, showDollarSign = true) => {
+  if (value === undefined || value === null || isNaN(value)) return "N/A";
+  return `${showDollarSign ? '$' : ''}${value.toLocaleString(undefined, {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+};
+
+// Helper for Y-axis tick formatting
+const formatYAxisTick = (value: number) => {
+  if (Math.abs(value) >= 1000000) return `${(value / 1000000).toFixed(1)}M`;
+  if (Math.abs(value) >= 1000) return `${(value / 1000).toFixed(0)}K`;
+  return `${value}`;
+};
+
+
+export default function BalanceDistributionChart() {
+  const [chartData, setChartData] = useState<BalanceDistributionDataPoint[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchData = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await statsAdminService.getAdminBalanceDistribution();
+      // Assign colors for the bar chart, similar to how pie chart did
+      const dataWithColors = data.map((item, index) => ({
+        ...item,
+        fill: PREDEFINED_COLORS_HSL[index % PREDEFINED_COLORS_HSL.length],
+      }));
+      setChartData(dataWithColors);
+    } catch (err: any) {
+      setError(err.message || "Failed to load balance distribution data.");
+      console.error("Error fetching balance distribution:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const chartConfig = useMemo(() => {
+    const config: ChartConfig = {
+      totalBalance: {
+        label: "Balance",
+        // color: "hsl(var(--chart-1))", // Default color, can be overridden by item.fill
+      },
+    };
+    chartData.forEach((item) => {
+      config[item.currencyCode] = { // Not strictly necessary for BarChart if using item.fill
+        label: item.currencyName || item.currencyCode,
+        color: item.fill,
+      };
+    });
+    return config;
+  }, [chartData]);
+
+  const totalOverallBalance = useMemo(() => {
+    return chartData.reduce((acc, curr) => acc + curr.totalBalance, 0);
+  }, [chartData]);
+
+
+  const barSize = useMemo(() => {
+    const numBars = chartData.length;
+    if (numBars === 0) return 20;
+    // Adjust bar size based on number of bars to prevent them from being too wide or too narrow
+    // This is a heuristic, you might need to fine-tune it
+    const baseSize = 60;
+    const minSize = 15;
+    const maxSize = 80;
+    const calculatedSize = Math.max(minSize, baseSize - numBars * 5);
+    return Math.min(maxSize, calculatedSize);
+  }, [chartData.length]);
+
+
+  if (loading) {
+    return (
+      <Card className="flex flex-col sm:w-1/4 w-full h-full bg-card dark:bg-primarybox border border-border">
+        <CardHeader className="items-start pb-2">
+          <div className="flex items-center gap-2 mb-1">
+            <BarChart2 className="w-5 h-5 text-primary" />
+            <Skeleton className="h-6 w-3/4 rounded-md bg-muted" />
+          </div>
+          <Skeleton className="h-4 w-full rounded-md bg-muted" />
+          <Skeleton className="h-8 w-1/2 mt-3 rounded-md bg-muted" /> {/* For total balance */}
+        </CardHeader>
+        <CardContent className="flex-1 flex items-end justify-center pb-4">
+          <Skeleton className="w-full h-[150px] rounded-md bg-muted" />
+        </CardContent>
+        <CardFooter className="flex-col gap-1 text-xs pt-2 items-start">
+            <Skeleton className="h-3 w-20 rounded-md bg-muted" />
+        </CardFooter>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card className="flex flex-col items-center justify-center sm:w-1/4 w-full h-full p-6 bg-card dark:bg-primarybox border border-border">
+        <AlertCircle className="w-12 h-12 text-destructive mb-4" />
+        <CardTitle className="text-lg text-destructive text-center">Loading Failed</CardTitle>
+        <CardDescription className="text-sm text-muted-foreground text-center mt-1 mb-4">
+          {error}
+        </CardDescription>
+        <Button variant="outline" onClick={fetchData} size="sm">
+          <RefreshCw className="w-4 h-4 mr-2" />
+          Try Again
+        </Button>
+      </Card>
+    );
+  }
+
+  if (chartData.length === 0) {
+     return (
+      <Card className="flex flex-col items-center justify-center text-center sm:w-1/4 w-full h-full p-6 bg-card dark:bg-primarybox border border-border">
+        <Info className="w-12 h-12 text-muted-foreground mb-4" />
+        <CardTitle className="text-lg text-card-foreground">No Balance Data</CardTitle>
+        <CardDescription className="text-sm text-muted-foreground mt-1">
+          There are currently no calculated account balances to display.
+        </CardDescription>
+      </Card>
+    );
+  }
+
+  return (
+    <Card className="sm:w-1/4 w-full bg-card dark:bg-primarybox sm:p-6 p-4 rounded-xl border border-border relative overflow-hidden">
+      <CardHeader className="items-start pb-2">
+        <div className="flex items-center gap-2 mb-1">
+            <BarChart2 className="w-5 h-5 text-primary" />
+            <CardTitle className="text-card-foreground text-base sm:text-lg">Account Balances</CardTitle>
+        </div>
+        <CardDescription className="text-xs text-muted-foreground">
+            Net calculated balances (Completed Add Money - Completed Send Money) by currency.
+        </CardDescription>
+        <div className="mt-3">
+            <p className="text-xs text-muted-foreground">Total Net Balance</p>
+            <p className="text-2xl font-bold text-primary">
+                {formatCurrency(totalOverallBalance)}
+            </p>
+        </div>
+      </CardHeader>
+      <CardContent className="flex-1 pb-0 pt-4">
+        <ChartContainer
+          config={chartConfig}
+          className="w-full h-[200px]" // Adjust height as needed
+        >
+          <ResponsiveContainer width="100%" height="100%">
+            <BarChart
+              data={chartData}
+              margin={{
+                top: 5,
+                right: 5, // Add some right margin if labels are long
+                left: -10, // Adjust if Y-axis labels are cut off
+                bottom: 0,
+              }}
+              barCategoryGap="20%" // Gap between categories of bars
+            >
+              <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="hsl(var(--border))" opacity={0.5}/>
+              <XAxis
+                dataKey="currencyCode"
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                fontSize={10}
+                stroke="hsl(var(--muted-foreground))"
+                interval={0} // Show all currency codes if space allows
+              />
+              <YAxis
+                tickFormatter={formatYAxisTick}
+                tickLine={false}
+                axisLine={false}
+                tickMargin={8}
+                fontSize={10}
+                stroke="hsl(var(--muted-foreground))"
+                domain={['auto', 'auto']} // Allow negative balances if possible
+              />
+              <ShadcnChartTooltip
+                cursor={{ fill: "hsl(var(--primary) / 0.1)" }}
+                content={
+                  <ShadcnChartTooltipContent
+                    formatter={(value, name, props) => {
+                      const currencyLabel = props.payload?.currencyName ? `${props.payload.currencyName} (${props.payload.currencyCode})` : props.payload?.currencyCode;
+                      return [formatCurrency(value as number), currencyLabel];
+                    }}
+                    indicator="dot"
+                    className="bg-popover text-popover-foreground dark:bg-primarybox/95 dark:text-white backdrop-blur-sm"
+                  />
+                }
+              />
+              <Bar
+                dataKey="totalBalance"
+                radius={[4, 4, 0, 0]} // Rounded top corners for bars
+                barSize={barSize}
+              >
+                {chartData.map((entry) => (
+                  <Cell key={`cell-${entry.currencyCode}`} fill={entry.fill} />
+                ))}
+                {/* Optional: Add labels on top of bars if desired */}
+                {/* <LabelList dataKey="totalBalance" position="top" formatter={(value:number) => formatCurrency(value, false)} fontSize={9} fill="hsl(var(--muted-foreground))" /> */}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </ChartContainer>
+      </CardContent>
+       <CardFooter className="flex-col gap-1 text-xs pt-4 items-start">
+            <p className="text-muted-foreground">Showing balances for active currencies.</p>
+        </CardFooter>
+    </Card>
+  );
+}

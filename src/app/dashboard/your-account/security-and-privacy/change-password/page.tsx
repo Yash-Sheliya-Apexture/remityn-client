@@ -1150,7 +1150,7 @@
 import Link from "next/link";
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { BsExclamationLg } from "react-icons/bs";
-import { FiX } from "react-icons/fi";
+import { FiAlertTriangle, FiX } from "react-icons/fi";
 import { LuCheck, LuEye, LuEyeClosed } from "react-icons/lu";
 import { useAuth } from "@/app/contexts/AuthContext"; // Import useAuth
 import userService from "@/app/services/user"; // Import user service
@@ -1302,11 +1302,13 @@ export default function ChangePassword() {
   };
 
   return (
-    <section className="ChangePasswor py-10">
+    <section className="ChangePasswor">
       <div className="">
-        <DashboardHeader title="Change Password"/>
+        <DashboardHeader title="Change Password" />
 
-        <div className="space-y-4 w-full lg:max-w-lg mt-8"> {/* Added mt-8 */}
+        <div className="space-y-4 w-full lg:max-w-lg mt-8">
+          {" "}
+          {/* Added mt-8 */}
           {/* Informational Message */}
           <div className="bg-lightgray dark:bg-primarybox rounded-xl p-4 flex items-start gap-4 ">
             <div className="p-3 bg-yellow-400 rounded-full flex-shrink-0">
@@ -1326,55 +1328,56 @@ export default function ChangePassword() {
               </Link>
             </div>
           </div>
-
           {/* --- Messages Area --- */}
           <div className="space-y-3">
             {/* API Error Message */}
-            
+
             {apiError && (
-              <div className="bg-red-100 dark:bg-red-600/20 border border-red-400 dark:border-red-600/50 rounded-xl p-4 flex items-center gap-4">
-                <div className="p-1 bg-red-600 rounded-full flex-shrink-0">
-                  <FiX size={20} className="text-white" />
+              <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
+                <div className="flex-shrink-0 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+                  <FiAlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
-                <p className="text-red-600 dark:text-red-400 text-sm font-medium">{apiError}</p>
+                <p className="text-red-700 dark:text-red-300/90">{apiError}</p>
               </div>
             )}
 
             {/* Success Message */}
             {successMessage && (
-              <div className="bg-green-100 dark:bg-green-600/20 border border-green-400 dark:border-green-600/50 rounded-xl p-4 flex items-center gap-4">
-                <div className="p-1 bg-green-600 rounded-full flex-shrink-0">
-                  <LuCheck size={20} className="text-white" />
+              <div className="bg-green-50 dark:bg-green-900/25 border border-green-500 rounded-lg p-3 flex items-center gap-3">
+                <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-green-600/20">
+                  <LuCheck className="text-green-600 dark:text-green-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
-                <p className="text-green-600 dark:text-green-400 text-sm font-medium">{successMessage}</p>
+                <p className="text-green-700 dark:text-green-300/90">
+                  {successMessage}
+                </p>
               </div>
             )}
 
             {/* Error Message: Invalid Current Password */}
             {showInvalidCurrentPasswordError && (
-              <div className="bg-red-100 dark:bg-red-600/20 border border-red-400 dark:border-red-600/50 rounded-xl p-4 flex items-center gap-4">
-                <div className="p-1 bg-red-600 rounded-full flex-shrink-0">
-                  <FiX size={20} className="text-white" />
+              <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
+                <div className="flex-shrink-0 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+                  <FiAlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
-                <p className="text-red-600 dark:text-red-400 text-sm font-medium">Incorrect current password.</p>
+                <p className="text-red-700 dark:text-red-300/90">
+                  Incorrect current password.
+                </p>
               </div>
             )}
 
             {/* Error Message: Same Password */}
             {showSamePasswordError && (
-              <div className="bg-red-100 dark:bg-red-600/20 border border-red-400 dark:border-red-600/50 rounded-xl p-4 flex items-center gap-4">
-                <div className="p-1 bg-red-600 rounded-full flex-shrink-0">
-                  <FiX size={20} className="text-white" />
+              <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
+                <div className="flex-shrink-0 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+                  <FiAlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
-                <p className="text-red-600 dark:text-red-400 text-sm font-medium">
+                <p className="text-red-700 dark:text-red-300/90">
                   Your new password can't be the same as the current one.
                 </p>
               </div>
             )}
           </div>
           {/* --- End Messages Area --- */}
-
-
           {/* Password Change Form */}
           <div>
             <form className="space-y-6" onSubmit={handleSubmit} noValidate>
@@ -1418,7 +1421,10 @@ export default function ChangePassword() {
                   name="newPassword"
                   autoComplete="new-password"
                   className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 ${
-                    (showSamePasswordError || (newPassword && !isNewPasswordValid())) && !showSortedMessage && !successMessage // Show error border if same password or invalid (and not yet sorted/successful)
+                    (showSamePasswordError ||
+                      (newPassword && !isNewPasswordValid())) &&
+                    !showSortedMessage &&
+                    !successMessage // Show error border if same password or invalid (and not yet sorted/successful)
                       ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
                       : "focus:border-[#5f5f5f]"
                   }`}
@@ -1435,7 +1441,9 @@ export default function ChangePassword() {
                   type="button"
                   className="absolute right-4 top-11.5 text-gray-500 dark:text-gray-300 focus:outline-none bg-white dark:bg-background"
                   onClick={toggleNewPasswordVisibility}
-                  aria-label={isNewPasswordVisible ? "Hide password" : "Show password"}
+                  aria-label={
+                    isNewPasswordVisible ? "Hide password" : "Show password"
+                  }
                   disabled={loading} // Disable button when loading
                 >
                   {isNewPasswordVisible ? (
@@ -1449,30 +1457,32 @@ export default function ChangePassword() {
               {/* Password Hint/Validation Message Area */}
               {/* Only show hints if no success message */}
               {!successMessage && (
-                 <div id="password-hint">
+                <div id="password-hint">
                   {/* Password Requirements Message */}
                   {showPasswordMessage && (
-                    <div className="flex items-start gap-3 mt-2 p-3 rounded-md bg-yellow-100 dark:bg-yellow-600/20 border border-yellow-400 dark:border-yellow-600/50">
-                      <div className="flex-shrink-0 pt-0.5">
-                        <BsExclamationLg size={20} className="text-yellow-600 dark:text-yellow-400" />
+                    <div className="bg-yellow-50 dark:bg-yellow-900/25 border border-yellow-500 rounded-lg p-3 flex items-start gap-3">
+                      <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-yellow-600/20">
+                        <BsExclamationLg className="text-yellow-600 dark:text-yellow-500 size-5 sm:size-6 flex-shrink-0" />
                       </div>
-                      <p className="text-yellow-800 dark:text-yellow-200 text-sm">
-                        Password must contain a letter and a number, and be minimum 8 characters long.
+                      <p className="text-yellow-700 dark:text-yellow-300/90">
+                        Password must contain a letter and a number, and be
+                        minimum 8 characters long.
                       </p>
                     </div>
                   )}
 
                   {/* Password Valid Message */}
-                  {showSortedMessage && !showPasswordMessage && ( // Only show if requirements met and initial message hidden
-                    <div className="flex items-center gap-3 mt-2 p-3 rounded-md bg-green-100 dark:bg-green-600/20 border border-green-400 dark:border-green-600/50">
-                      <div className="flex-shrink-0 pt-0.5">
-                        <LuCheck size={20} className="text-green-600 dark:text-green-400" />
+                  {/* Only show if requirements met and initial message hidden */}
+                  {showSortedMessage && !showPasswordMessage && (
+                      <div className="bg-green-50 dark:bg-green-900/25 border border-green-500 rounded-lg p-3 flex items-center gap-3">
+                        <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-green-600/20">
+                          <LuCheck className="text-green-600 dark:text-green-500 size-5 sm:size-6 flex-shrink-0" />
+                        </div>
+                        <p className="text-green-700 dark:text-green-300/90">
+                          That’s your new password sorted.
+                        </p>
                       </div>
-                      <p className="text-green-800 dark:text-green-200 text-sm">
-                        That’s your new password sorted.
-                      </p>
-                    </div>
-                  )}
+                    )}
                 </div>
               )}
 

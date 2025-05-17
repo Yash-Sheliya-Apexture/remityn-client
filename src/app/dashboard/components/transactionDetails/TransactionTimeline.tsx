@@ -75,7 +75,7 @@ const TransactionTimeline: React.FC<TransactionTimelineProps> = ({
                                 step.status === 'active' ? 'bg-blue-600/20 dark:border-none text-blue-600 dark:text-blue-400' :
                                 step.status === 'failed' ? 'bg-rose-600/10 border-rose-600/70 text-rose-600 dark:text-rose-300' :
                                 step.status === 'cancelled' ? 'bg-red-600/20 border-red-600/60 text-red-600 dark:text-red-400' :
-                                'bg-gray-600/20 border-gray-600/60 text-gray-600 dark:text-gray-300'
+                                'bg-lightgray dark:bg-primarybox text-gray-500 dark:text-gray-300'
                             )}>
                                 <p>{step.info}</p>
                             </div>)}
@@ -89,7 +89,7 @@ const TransactionTimeline: React.FC<TransactionTimelineProps> = ({
                                     I haven't paid / Cancel
                                 </button>
                             )}
-                        </div>
+                        </div>  
                     </li>
                 ))}
             </ul>

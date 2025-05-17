@@ -1871,6 +1871,18 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
 
   // --- Hooks ---
 
+  // Body Scroll Lock
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen]);
+
   // Detect mobile view
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 640);
@@ -1878,6 +1890,7 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
+  
 
   // Fetch currencies when modal opens
   useEffect(() => {
@@ -2034,7 +2047,7 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
         <div className="flex-grow flex items-center justify-center py-4 min-h-[100px]" >
           {" "}
           {/* Added min-height */}
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-neutral-900 dark:border-white"></div>
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       );
     }
@@ -2044,8 +2057,10 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
     if (!isFetching && error && currencies.length === 0) {
       return (
         <div className="flex-grow flex flex-col items-center justify-center text-center py-4 min-h-[100px]">
-          <FaExclamationCircle className="w-8 h-8 text-red-500 dark:text-red-400 mb-2" />
-          <p className="text-red-600 dark:text-red-400 font-medium">
+          <div className="size-10 rounded-full flex items-center justify-center bg-red-600/20">
+            <FaExclamationCircle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+          </div>
+          <p className="text-red-500 font-medium">
             {error || "Could not load currencies."}
           </p>
         </div>
@@ -2234,9 +2249,11 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
                       className="overflow-hidden flex-shrink-0"
                       role="alert"
                     >
-                      <div className="mt-1 mb-1 p-3 rounded-lg bg-red-50 dark:bg-red-900/30 inline-flex items-center gap-2 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-600/50 w-full">
-                        <FaExclamationCircle className="flex-shrink-0 w-5 h-5" />
-                        <p className="text-sm font-medium">{error}</p>
+                      <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
+                        <div className="size-10 rounded-full flex items-center justify-center bg-red-600/20">
+                          <FaExclamationCircle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                        </div>
+                        <p className="text-sm font-medium text-red-700 dark:text-red-300/90">{error}</p>
                       </div>
                     </motion.div>
                   )}
@@ -2244,7 +2261,6 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
               {/* Dynamic Content Area (List, Loading, No Results) */}
               {renderContent()}
             </div>{" "}
-
             {!isFetching && (
               <div
                 className={cn(
@@ -2261,7 +2277,7 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
                 </button>
 
                 <button
-                  className="inline-flex justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 order-1 sm:order-2 disabled:opacity-50 disabled:bg-primary/50 disabled:cursor-not-allowed font-medium rounded-full px-8 py-3 text-center w-full transition-all duration-75 ease-linear" // Adjusted styles, sm:w-auto
+                  className="inline-flex items-center justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 order-1 sm:order-2 disabled:opacity-50 disabled:bg-primary/50 disabled:cursor-not-allowed font-medium rounded-full px-8 py-3 text-center w-full transition-all duration-75 ease-linear" // Adjusted styles, sm:w-auto
                   type="button"
                   onClick={handleConfirm}
                   disabled={
@@ -2272,10 +2288,73 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
                 >
                   {/* Show specific text for adding state */}
                   {isAdding ? (
-                    <div className="flex items-center justify-center gap-2">
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current"></div>
+                    <>
+                      <svg
+                      className="h-5 w-5 text-neutral-900 animate-spin mr-2" 
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      aria-hidden="true"
+                    >
+                      <path
+                        d="M12 2V6"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M12 18V22"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M4.93 4.93L7.76 7.76"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M16.24 16.24L19.07 19.07"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M2 12H6"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M18 12H22"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M4.93 19.07L7.76 16.24"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M16.24 7.76L19.07 4.93"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
                       <span>Adding...</span>
-                    </div>
+                    </>
                   ) : (
                     "Confirm"
                   )}

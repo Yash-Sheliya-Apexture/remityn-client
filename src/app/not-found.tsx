@@ -339,7 +339,7 @@ const Error404Page: React.FC = () => {
               width={500}
               height={500}
               alt="404 Error Illustration Light"
-              className="max-w-full object-contain sm:aspect-square max-h-[500px] dark:hidden block"
+              className="max-w-full object-contain sm:aspect-square max-h-[500px] dark:hidden block "
               priority // Good practice for LCP images
             />
 

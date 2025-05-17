@@ -2645,8 +2645,9 @@ const ReviewSendPage = () => {
       console.log("Transfer execution response:", response.data);
       localStorage.removeItem("sendTransferSummary"); // Clean up on success
       const transferId = response.data?._id ?? ""; // Use empty string as fallback
+      // UPDATED LINE:
       router.push(
-        `/dashboard?transferSuccess=true&transferId=${transferId}`
+        `/dashboard/transactions/${transferId}?transferSuccess=true&transferId=${transferId}`
       );
     } catch (err: unknown) {
       console.error("Error executing transfer:", err);
@@ -2719,47 +2720,42 @@ const ReviewSendPage = () => {
       <div className="min-h-screen">
         {/* Make sure DashboardHeaderProps includes totalSteps */}
         <DashboardHeader title="Send Money" currentStep={3} steps={steps} />
-        <div className="container mx-auto max-w-2xl">
-          {/* Card container with subtle tint and border */}
-          <div className="bg-red-50 dark:bg-red-900/20 rounded-xl sm:p-8 p-4 text-center border border-red-200 dark:border-red-700/50">
-            {/* Icon */}
+
+        {/* Card container with subtle tint and border */}
+        <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+          {/* Icon */}
+          <div className="lg:size-16 size-14 flex items-center justify-center bg-red-600 dark:bg-transparent dark:bg-gradient-to-t dark:from-red-600 rounded-full mb-2">
             <FiAlertTriangle
-              className="text-red-500 dark:text-red-400 text-4xl mx-auto mb-4"
+              className="lg:size-8 size-6 mx-auto text-white dark:text-red-400"
               aria-hidden="true"
             />
-
-            <h2 className="text-xl font-semibold mb-3 text-neutral-800 dark:text-neutral-100">
-              Something went wrong
-            </h2>
-
-            <p className="text-red-700 dark:text-red-300 mb-8 text-base">
-              {error || "An unexpected error occurred. Please try again."}
-            </p>
-
-            {balanceId && recipientId ? (
-              <Link
-                href={getPreviousStepLink()}
-                className="inline-flex items-center justify-center bg-red-600 text-white hover:bg-red-700 font-medium rounded-full px-6 py-3 h-12.5 text-center  cursor-pointer transition-all duration-75 ease-linear" // Adjusted button color to match theme
-              >
-                <FiArrowLeft
-                  className="-ml-1 mr-2 h-5 w-5"
-                  aria-hidden="true"
-                />
-                Go back and try again
-              </Link>
-            ) : (
-              <Link
-                href="/dashboard/balances" // Fallback link
-                className="inline-flex items-center justify-center bg-red-600 text-white hover:bg-red-700 font-medium rounded-full px-6 py-3 h-12.5 text-center  cursor-pointer transition-all duration-75 ease-linear" // Neutral button for fallback
-              >
-                <FiArrowLeft
-                  className="-ml-1 mr-2 h-5 w-5"
-                  aria-hidden="true"
-                />
-                Return to Balances
-              </Link>
-            )}
           </div>
+
+          <h2 className="lg:text-3xl text-2xl font-medium mt-1 text-red-800 dark:text-red-200 ">
+            Something went wrong
+          </h2>
+
+          <p className="text-red-700 dark:text-red-300/90 max-w-lg mx-auto">
+            {error || "An unexpected error occurred. Please try again."}
+          </p>
+
+          {balanceId && recipientId ? (
+            <Link
+              href={getPreviousStepLink()}
+              className="inline-flex items-center justify-center bg-red-600 text-white hover:bg-red-700 font-medium rounded-full px-8 py-3 h-12.5 text-center sm:w-auto w-full cursor-pointer transition-all duration-75 ease-linear" // Adjusted button color to match theme
+            >
+              <FiArrowLeft className="mr-2 h-5 w-5" aria-hidden="true" />
+              Go back and try again
+            </Link>
+          ) : (
+            <Link
+              href="/dashboard/balances" // Fallback link
+              className="inline-flex items-center justify-center bg-red-600 text-white hover:bg-red-700 font-medium rounded-full px-8 py-3 h-12.5 text-center sm:w-auto w-full cursor-pointer transition-all duration-75 ease-linear" // Neutral button for fallback
+            >
+              <FiArrowLeft className="mr-2 h-5 w-5" aria-hidden="true" />
+              Return to Balances
+            </Link>
+          )}
         </div>
       </div>
     );
@@ -2780,22 +2776,23 @@ const ReviewSendPage = () => {
           currentStep={3}
           steps={steps}
         />
-        <div className="container mx-auto max-w-2xl px-4 py-8">
-          <div className="bg-white dark:bg-background rounded-xl p-8 text-center border border-yellow-200 dark:border-yellow-800">
-            <FiAlertTriangle className="text-yellow-500 size-10 mx-auto mb-4" />
-            <h2 className="text-xl font-medium mb-4 text-neutral-900 dark:text-white">Missing Information</h2>
-            <p className="text-gray-600 dark:text-gray-300 mb-6">
+        <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+          <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
+            <FiAlertTriangle className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+          </div>
+            <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">Missing Information</h2>
+            <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
               Could not load the necessary transfer details. Please start the process again.
             </p>
             <Link
                 // Use balanceId if available for a more specific starting point
                 href={balanceId ? `/dashboard/balances/${balanceId}/send/select-recipient` : '/dashboard/balances'}
-                className="inline-flex items-center px-6 py-3 bg-primary hover:bg-primaryhover text-mainheading font-medium rounded-lg transition-colors"
+                className="inline-flex justify-center items-center px-8 py-3 bg-primary hover:bg-primaryhover text-neutral-900 font-medium rounded-full sm:w-auto w-full transition-all duration-75 ease-linear cursor-pointer"
             >
               Start Transfer Again
             </Link>
           </div>
-        </div>
+       
       </div>
      );
   }
@@ -2812,15 +2809,15 @@ const ReviewSendPage = () => {
 
         {/* Submission Error Display */}
         {error && isSubmitting && (
-          <div className="bg-red-100 dark:bg-red-600/20 border border-red-400 dark:border-red-600/50 rounded-xl p-4 flex items-center gap-4 mb-3">
-            <div className="p-2 bg-red-600 rounded-full">
-              <FiAlertTriangle size={20} className="text-white" />
+          <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-xl p-4 flex items-center gap-4 mb-3">
+            <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+              <FiAlertTriangle size={20} className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
             </div>
             <div>
-              <h3 className="text-sm font-medium text-red-800 dark:text-red-300">
+              <h3 className="font-medium text-red-800 dark:text-red-200 text-base">
                 Transfer Failed
               </h3>
-              <p className="text-red-600 dark:text-red-400 text-sm font-medium">
+              <p className="text-red-700 dark:text-red-300/90">
                 {error}
               </p>
             </div>

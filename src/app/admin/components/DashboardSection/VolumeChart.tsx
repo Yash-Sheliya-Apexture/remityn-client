@@ -1917,6 +1917,8 @@
 //   );
 // }
 
+
+
 "use client";
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
@@ -2123,49 +2125,55 @@ export function VolumeChart({
   return (
     <Card
       className={cn(
-        "flex flex-col h-full dark:bg-primarybox shadow-none border border-border",
+        "flex  flex-col h-full dark:bg-primarybox shadow-none",
         className
       )}
     >
       <CardHeader className="flex-shrink-0 p-3">
-        <div className="flex flex-wrap items-start justify-between gap-2">
-          <div className="flex items-center gap-2">
-            <div className="flex justify-center items-center w-12 h-12 bg-muted dark:bg-primarybox rounded-full">
+        <div className="flex flex-wrap items-center justify-between w-full gap-3">
+          <div className="flex gap-3">
+            <div className="flex justify-center items-center size-12 bg-primary dark:bg-primarybox rounded-full">
               {icon}
             </div>
+            
             <div>
-              <CardTitle className="text-lg font-semibold text-card-foreground dark:text-card-foreground">
+              <CardTitle className="text-lg font-semibold text-neutral-900 dark:text-white">
                 {title}
               </CardTitle>
-              <CardDescription className="text-xs text-muted-foreground">
+
+              <CardDescription className="text-xs text-gray-500 dark:text-gray-300 max-w-44">
                 {description}
               </CardDescription>
+
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          
+          <div className="flex font-medium">
             {showRefreshButton && (
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={handleRefresh}
                 disabled={loading}
-                className="size-10 rounded-full text-muted-foreground hover:bg-primarybox"
+                className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white size-10 rounded-full transition-all duration-75 ease-linear"
               >
                 <RefreshCw
-                  className={`h-4 w-4 ${loading ? "animate-spin" : ""}`}
+                  className={`size-4 ${loading ? "animate-spin" : ""}`}
                 />
-                <span className="sr-only">Refresh</span>
+                <span className="sr-only"> Refresh</span>
               </Button>
             )}
+          </div>
+
             <Tabs
               value={timeRange}
               onValueChange={(value) => setTimeRange(value as ChartRange)}
             >
               <TabsList
                 className={cn(
-                  "relative inline-flex items-center rounded-full py-1.5 px-1.5 overflow-hidden",
-                  "bg-muted dark:bg-primarybox",
-                  "sm:w-auto w-full"
+                  "relative flex items-center rounded-full py-5 px-1",
+                  "bg-lightgray dark:bg-primarybox",
+                  "sm:w-auto w-full z-0"
                 )}
               >
                 {timeRangeTabs.map((tab) => (
@@ -2173,7 +2181,7 @@ export function VolumeChart({
                     key={tab.id}
                     value={tab.id}
                     className={cn(
-                      "flex-1 relative text-xs sm:text-sm px-3 py-1.5 sm:px-4 sm:py-2 font-medium rounded-full",
+                      "flex-1 relative text-xs sm:text-sm px-3 py-4 sm:p-4 font-medium rounded-full",
                       "flex items-center justify-center",
                       "transition-colors duration-200 ease-linear focus:outline-none cursor-pointer",
                       "focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none data-[state=active]:shadow-sm"
@@ -2183,7 +2191,7 @@ export function VolumeChart({
                     {timeRange === tab.id && (
                       <motion.div
                         layoutId={`activeVolumeChartTabIndicator-${chartType}`}
-                        className="absolute inset-0 rounded-full bg-background dark:bg-primarybox shadow-md"
+                        className="absolute inset-0 rounded-full bg-primary dark:bg-primarybox"
                         transition={{
                           type: "spring",
                           stiffness: 300,
@@ -2193,10 +2201,10 @@ export function VolumeChart({
                     )}
                     <span
                       className={cn(
-                        "relative z-10",
+                        "relative z-10 ",
                         timeRange === tab.id
-                          ? "text-primary dark:text-primary-foreground"
-                          : "text-muted-foreground"
+                          ? "text-neutral-900"
+                          : "text-gray-500 dark:text-gray-300"
                       )}
                     >
                       {tab.label}
@@ -2205,7 +2213,6 @@ export function VolumeChart({
                 ))}
               </TabsList>
             </Tabs>
-          </div>
         </div>
       </CardHeader>
 
@@ -2213,23 +2220,23 @@ export function VolumeChart({
         {loading && (
           <>
             <div className="flex flex-col items-center justify-center mb-4 pt-2">
-              <Skeleton className="h-7 w-2/5 max-w-[160px] sm:h-8 rounded-md bg-muted" />
-              <div className="flex items-center gap-2 mt-1">
-                <Skeleton className="h-4 w-20 rounded-sm bg-muted" />
-                <Skeleton className="h-5 w-16 rounded-md bg-muted" />
+              <Skeleton className="sm:w-1/3 w-1/2 h-10 rounded-md" />
+              <div className="flex items-center gap-1.5 mt-1">
+                <Skeleton className="h-6 sm:w-32 w-24 rounded-md" />
+                <Skeleton className="h-6 sm:w-25 w-18 rounded-md" />
               </div>
             </div>
             <div
               className="flex-grow w-full flex flex-col"
-              style={{ minHeight: "200px" }}
+              style={{ minHeight: "180px" }}
             >
-              <Skeleton className="flex-grow w-full rounded-md bg-muted" />
-              <div className="flex justify-between w-full px-1 pt-2">
-                {[...Array(timeRange === "by_currency" ? 3 : 5)].map(
+              <Skeleton className="flex-grow w-full rounded-md" />
+              <div className="flex justify-between w-full gap-1 pt-2">
+                {[...Array(timeRange === "by_currency" ? 5 : 8)].map(
                   (_, i) => (
                     <Skeleton
                       key={i}
-                      className="h-5 w-12 sm:w-16 rounded-xl opacity-70 bg-muted"
+                      className="h-5 w-12 sm:w-16 rounded-xl opacity-70"
                     />
                   )
                 )}
@@ -2249,7 +2256,7 @@ export function VolumeChart({
                 onClick={handleRefresh}
                 className="mt-3 text-xs"
               >
-                <RefreshCw className="h-3.5 w-3.5 mr-1.5" /> Try Again
+                <RefreshCw className="size-4 mr-1.5" /> Try Again
               </Button>
             </div>
           </div>
@@ -2273,12 +2280,13 @@ export function VolumeChart({
                 </span>
                 <Badge
                   variant="outline"
-                  className="text-xs font-normal border-primary/30 bg-primary/10 text-primary dark:text-primary dark:bg-primary/20"
+                  className="text-xs font-normal dark:border-primary border-primarybox text-white bg-secondarybox dark:text-primary dark:bg-primary/20"
                 >
-                  {chartType === "payments" ? "Payments" : "Transfers"}
+                  {chartType === "payments" ? "Add Money" : "Send Money"}
                 </Badge>
               </div>
             </div>
+
             <ChartContainer
               config={chartConfig}
               className="aspect-auto h-[200px] w-full flex-grow"

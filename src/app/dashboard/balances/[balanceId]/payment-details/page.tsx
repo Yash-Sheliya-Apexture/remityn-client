@@ -2842,18 +2842,18 @@ const PaymentDetailsPage = () => {
       { hasPaymentDetails: !!paymentDetails, hasBalanceId: !!balanceId }
     );
     return (
-      <div className="mx-auto px-4 py-8 text-center text-gray-500 dark:text-gray-300 md:max-w-lg">
+      <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
         <Toaster richColors position="top-center" />
-        <p className="mb-4">
+        <p className="lg:text-xl text-lg text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
           Payment details could not be found, are no longer valid, or the page
           context is incorrect.
         </p>
-        <Button
+        <button
           onClick={() => router.push("/dashboard/transactions")}
-          className="mt-4 bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center cursor-pointer transition-all duration-75 ease-linear"
+          className="bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 sm:w-auto w-full text-center cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
         >
           View Transactions
-        </Button>
+        </button>
       </div>
     );
   }
@@ -2864,14 +2864,14 @@ const PaymentDetailsPage = () => {
       "PaymentDetailsPage: Reached render section unexpectedly with null paymentDetails."
     );
     return (
-      <div className="mx-auto px-4 py-8 text-center text-gray-500 dark:text-gray-300 md:max-w-lg">
-        <p>Something went wrong loading payment details. Please try again.</p>
-        <Button
+      <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+        <p className="lg:text-xl text-lg text-gray-500 dark:text-gray-300 max-w-lg mx-auto">Something went wrong loading payment details. Please try again.</p>
+        <button
           onClick={() => router.push("/dashboard/transactions")}
-          className="mt-4 bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center cursor-pointer transition-all duration-75 ease-linear"
+          className="bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 sm:w-auto w-full text-center cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
         >
           View Transactions
-        </Button>
+        </button>
       </div>
     );
   }
@@ -2904,13 +2904,13 @@ const PaymentDetailsPage = () => {
 
   return (
     <section className="Payment-Details">
-      <div className="mx-auto py-5 lg:max-w-2xl">
+      <div className="mx-auto lg:max-w-2xl">
         <Toaster richColors position="top-center" />
         {/* Header */}
         <h1 className="lg:text-3xl md:text-2xl text-xl lg:text-center font-semibold text-mainheading mb-2.5 dark:text-white">
           Use your bank to make a payment to Wise
         </h1>
-        <p className="text-sm text-gray-500 dark:text-gray-300 lg:mb-10 mb-5 text-left lg:text-center">
+        <p className="lg:text-base text-sm text-gray-500 dark:text-gray-300 lg:mb-10 mb-5 text-left lg:text-center">
           Make a {`${payInCurrencyCode}`} payment — not an international one —
           using the details below.
         </p>
@@ -2934,9 +2934,9 @@ const PaymentDetailsPage = () => {
                   fieldName="Reference code"
                 />
               </div>
-              <p className="text-xs text-gray-500 dark:text-gray-300 sm:max-w-[200px] flex-shrink-0 mt-1 sm:mt-0">
+              <p className="text-sm font-medium text-neutral-900 dark:text-white sm:max-w-[200px] flex-shrink-0 mt-1 sm:mt-0">
                 Include{" "}
-                <strong className="text-primary">{referenceCode}</strong> as the
+                <strong className="text-primary font-bold">{referenceCode}</strong> as the
                 reference or reason for your transfer.
               </p>
             </div>
@@ -2973,9 +2973,11 @@ const PaymentDetailsPage = () => {
         {/* Non-critical Error Display */}
         {error &&
           !isLoading && ( // No need to check paymentDetails here as it's guaranteed non-null
-            <div className="bg-red-700/20  text-red-500 p-3 rounded-lg mb-6 flex items-center gap-4">
-              <AlertTriangle size={28} />
-              <span>{error}</span>
+            <div className="my-4 bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
+              <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-red-600/20">
+                <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+              </div>
+              <span className="text-red-700 dark:text-red-300/90">{error}</span>
             </div>
           )}
 

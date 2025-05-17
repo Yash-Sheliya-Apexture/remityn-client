@@ -201,14 +201,14 @@ const Search: React.FC<SearchProps> = ({
     <div className="relative w-full">
       <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
         <FiSearch
-          className="h-5 w-5 text-neutral-900 dark:text-white"
+          className="size-5  text-neutral-900 dark:text-white"
           aria-hidden="true"
         />
       </div>
       <input
         type="text"
         placeholder="Search Name, Type, Status..." // Updated placeholder
-        className="w-full rounded-full h-12.5 py-3 pl-12 pr-3 border border-neutral-300 dark:border-neutral-700 focus:border-neutral-500 dark:focus:border-neutral-500 focus:outline-0 transition-all duration-75 ease-in-out placeholder:text-neutral-600 dark:placeholder:text-neutral-400 bg-white dark:bg-primarybox text-neutral-900 dark:text-white" // Added more styling for consistency
+        className="w-full rounded-full h-12.5 py-3 pl-12 pr-3  focus:outline-0 transition-all duration-75 ease-in-out placeholder:text-neutral-600 dark:placeholder:text-neutral-400 border focus:border-[#5f5f5f] text-neutral-900 dark:text-white" // Added more styling for consistency
         value={searchTerm} // Controlled input
         onChange={handleInputChange}
         aria-label="Search transactions" // Accessibility

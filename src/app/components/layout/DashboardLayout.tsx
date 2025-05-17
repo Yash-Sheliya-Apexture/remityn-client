@@ -398,7 +398,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
           <div className="flex flex-col flex-grow lg:w-[calc(100%-256px)] w-full">
             <Header toggleSidebar={toggleSidebar} />
             <main className="flex-grow">
-              <div className="max-w-5xl mx-auto px-4 pt-4 sm:px-6 lg:px-8 pb-24 sm:pb-10 lg:pb-10">
+              <div className="max-w-5xl mx-auto px-4 pt-4 pb-32 sm:pb-10 lg:pb-10">
                 {children}
               </div>
             </main>

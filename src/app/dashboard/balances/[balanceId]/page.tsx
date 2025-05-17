@@ -171,12 +171,6 @@
 
 // export default BalanceDetailPage;
 
-
-
-
-
-
-
 // // frontend/app/dashboard/balances/[balanceId]/page.tsx
 // "use client";
 
@@ -201,7 +195,6 @@
 // // Components and Types
 // import TransactionActions from "../../components/TransactionPageSection/TransactionActions"; // Adjust path as needed
 // import { Transaction } from "@/types/transaction"; // Ensure this type includes sourceAccountId and correct currency object shapes
-
 
 // // Axios default URL
 // axios.defaults.baseURL = apiConfig.baseUrl;
@@ -400,7 +393,6 @@
 //     setDisplayTransactions(filtered); // Initialize display list with filtered results
 //   }, [allTransactions, balanceId]);
 
-
 //   // --- Callbacks for TransactionActions ---
 //   const handleSearchChange = useCallback((searchResults: Transaction[]) => {
 //     // Update the displayed list based on search results from TransactionActions
@@ -470,7 +462,6 @@
 //     [balanceSpecificTransactions] // Re-run filter logic if the base list changes
 //   );
 
-
 //   // --- Memoized Transaction Grouping for Display ---
 //   const { inProgressTransactions, groupedProcessedTransactions } = useMemo(() => {
 //       // Calculations are based on the currently visible transactions (`displayTransactions`)
@@ -514,7 +505,6 @@
 //         groupedProcessedTransactions: grouped,
 //       };
 //     }, [displayTransactions]); // Re-calculate only when the displayed transactions change
-
 
 //   // --- Render Logic ---
 
@@ -739,7 +729,6 @@
 
 // export default BalanceDetailPage;
 
-
 // // frontend/app/dashboard/balances/[balanceId]/page.tsx
 // "use client";
 
@@ -952,7 +941,6 @@
 //       setDisplayTransactions(filtered); // Initialize display list with filtered results
 //   }, [allTransactions, balanceId]);
 
-
 //   // --- Callbacks for TransactionActions ---
 //   const handleSearchChange = useCallback((searchResults: Transaction[]) => {
 //     // ... (handleSearchChange logic remains the same)
@@ -1011,7 +999,6 @@
 //       setDisplayTransactions(tempFiltered);
 //   }, [balanceSpecificTransactions]);
 
-
 //   // --- Memoized Transaction Grouping for Display ---
 //   const { inProgressTransactions, groupedProcessedTransactions } = useMemo(() => {
 //     // ... (useMemo logic remains the same)
@@ -1053,7 +1040,6 @@
 //         groupedProcessedTransactions: grouped,
 //       };
 //   }, [displayTransactions]);
-
 
 //   // --- Modal Handlers ---
 //   const handleOpenInsufficientBalanceModal = () => {
@@ -1327,7 +1313,6 @@
 // };
 
 // export default BalanceDetailPage;
-
 
 // // frontend/app/dashboard/balances/[balanceId]/page.tsx
 
@@ -1611,7 +1596,6 @@
 
 //     }, [balanceSpecificTransactions]); // Recalculate filters if the base list changes
 
-
 //   // --- Memoized Transaction Grouping for Display ---
 //   // Groups transactions from the `displayTransactions` state (which reflects search/filters)
 //   const { pendingAttentionTransactions, inProgressTransactions, groupedProcessedTransactions, hasProcessedTransactions } = useMemo(() => {
@@ -1673,7 +1657,6 @@
 //           hasProcessedTransactions: processed.length > 0,
 //       };
 //   }, [displayTransactions]); // Recalculate only when the transactions to display change
-
 
 //   // --- Modal Handlers ---
 //   const handleOpenInsufficientBalanceModal = () => { setIsInsufficientBalanceModalOpen(true); };
@@ -1969,9 +1952,6 @@
 
 // export default BalanceDetailPage;
 
-
-
-
 // // frontend/app/dashboard/balances/[balanceId]/page.tsx
 
 // "use client"; // Required for hooks and client-side interactivity
@@ -2254,7 +2234,6 @@
 
 //     }, [balanceSpecificTransactions]); // Recalculate filters if the base list changes
 
-
 //   // --- Memoized Transaction Grouping for Display ---
 //   // Groups transactions from the `displayTransactions` state (which reflects search/filters)
 //   const { pendingAttentionTransactions, inProgressTransactions, groupedProcessedTransactions, hasProcessedTransactions } = useMemo(() => {
@@ -2316,7 +2295,6 @@
 //           hasProcessedTransactions: processed.length > 0,
 //       };
 //   }, [displayTransactions]); // Recalculate only when the transactions to display change
-
 
 //   // --- Modal Handlers ---
 //   const handleOpenInsufficientBalanceModal = () => { setIsInsufficientBalanceModalOpen(true); };
@@ -2612,8 +2590,6 @@
 
 // export default BalanceDetailPage;
 
-
-
 // // frontend/src/app/dashboard/balances/[balanceId]/page.tsx
 // "use client"; // Required for hooks and client-side interactivity
 
@@ -2623,7 +2599,6 @@
 // import Link from "next/link";
 // import axios from "axios"; // Keep for direct balance fetch
 // import { parseISO } from "date-fns"; // Keep for potential use, though grouping uses toLocaleDateString
-
 
 // // Icons
 // import { IoIosArrowBack } from "react-icons/io";
@@ -2796,7 +2771,6 @@
 //            }
 //            setIsRatesLoading(false); // Rates loading finished (success or fail)
 
-
 //            // Process Transactions Results
 //            let combinedTransactions: Transaction[] = [];
 //            if (paymentsResult.status === 'fulfilled') {
@@ -2842,7 +2816,6 @@
 //             });
 //             setAllTransactions(combinedTransactions);
 //             setIsTransactionsLoading(false); // Transactions loading finished
-
 
 //        } catch (err: any) { // Catch errors from initial balance fetch or unexpected issues
 //            console.error("Overall fetch error in BalanceDetailPage:", err);
@@ -2959,7 +2932,6 @@
 
 //     }, [balanceSpecificTransactions]); // Recalculate filters if the base list of balance-specific transactions changes
 
-
 //   // --- Memoized Transaction Grouping for Display ---
 //   // Groups transactions from the `displayTransactions` state (which reflects search/filters)
 //   const { pendingAttentionTransactions, inProgressTransactions, groupedProcessedTransactions, hasProcessedTransactions } = useMemo(() => {
@@ -3060,7 +3032,6 @@
 //         return results;
 
 //     }, [balanceDetail, liveRates, isRatesLoading]); // Dependencies for recalculation
-
 
 //     // Get the adjustment percentage for the current balance's currency
 //     const currentAdjustmentPercent = useMemo(() => {
@@ -3444,7 +3415,6 @@
 
 // export default BalanceDetailPage;
 
-
 // // frontend/src/app/dashboard/balances/[balanceId]/page.tsx
 // "use client"; // Required for hooks and client-side interactivity
 
@@ -3454,7 +3424,6 @@
 // import Link from "next/link";
 // import axios from "axios"; // Keep for direct balance fetch
 // import { parseISO } from "date-fns"; // Keep for potential use, though grouping uses toLocaleDateString
-
 
 // // Icons
 // import { IoIosArrowBack } from "react-icons/io";
@@ -3547,7 +3516,6 @@
 //   const [error, setError] = useState<string | null>(null); // General error for balance/transactions
 //   const [isInsufficientBalanceModalOpen, setIsInsufficientBalanceModalOpen] = useState(false);
 
-
 //   // --- Data Fetching ---
 //    const fetchData = useCallback(async () => {
 //        if (!balanceId || !token) {
@@ -3577,7 +3545,6 @@
 //                paymentService.getUserPayments(token),
 //                transferService.getUserTransfers(token),
 //            ]);
-
 
 //            // Process Transactions Results
 //            let combinedTransactions: Transaction[] = [];
@@ -3624,7 +3591,6 @@
 //             });
 //             setAllTransactions(combinedTransactions);
 //             setIsTransactionsLoading(false); // Transactions loading finished
-
 
 //        } catch (err: any) { // Catch errors from initial balance fetch or unexpected issues
 //            console.error("Overall fetch error in BalanceDetailPage:", err);
@@ -3740,7 +3706,6 @@
 //         setDisplayTransactions(tempFiltered);
 
 //     }, [balanceSpecificTransactions]); // Recalculate filters if the base list of balance-specific transactions changes
-
 
 //   // --- Memoized Transaction Grouping for Display ---
 //   // Groups transactions from the `displayTransactions` state (which reflects search/filters)
@@ -4124,8 +4089,6 @@
 
 // export default BalanceDetailPage;
 
-
-
 // // frontend/src/app/dashboard/balances/[balanceId]/page.tsx
 // "use client";
 
@@ -4195,13 +4158,11 @@
 //   const currencyCode = useMemo(() => balanceDetail?.currency?.code ?? 'N/A', [balanceDetail]);
 //   const wasInitiallyEmpty = useMemo(() => !isTransactionsLoading && balanceSpecificTransactions.length === 0, [isTransactionsLoading, balanceSpecificTransactions]);
 
-
 //   // --- Effect to Initialize/Reset Display Transactions ---
 //   useEffect(() => {
 //       // When the base list from the hook changes (initial load, refetch), reset the display list
 //       setDisplayTransactions(balanceSpecificTransactions);
 //   }, [balanceSpecificTransactions]);
-
 
 //   // --- Callbacks for TransactionActions (Search/Filter) ---
 //   const handleSearchChange = useCallback((searchResults: Transaction[]) => {
@@ -4267,7 +4228,6 @@
 
 //   }, [balanceSpecificTransactions]); // Recalculate if the base list changes
 
-
 //   // --- Modal Handlers ---
 //   const handleOpenInsufficientBalanceModal = () => { setIsInsufficientBalanceModalOpen(true); };
 //   const handleCloseInsufficientBalanceModal = () => { setIsInsufficientBalanceModalOpen(false); };
@@ -4282,7 +4242,6 @@
 //         }
 //     };
 //     const handleBackClick = () => router.back();
-
 
 //   // --- Render Logic ---
 
@@ -4375,7 +4334,6 @@
 
 // export default BalanceDetailPage;
 
-
 // // frontend/src/app/dashboard/balances/[balanceId]/page.tsx
 // "use client";
 
@@ -4455,7 +4413,6 @@
 //       setDisplayTransactions(balanceSpecificTransactions);
 //   }, [balanceSpecificTransactions]);
 
-
 //   // --- Callbacks for TransactionActions (Search/Filter) ---
 //   const handleSearchChange = useCallback((searchResults: Transaction[]) => {
 //       setDisplayTransactions(searchResults); // Update display list based on search
@@ -4520,7 +4477,6 @@
 
 //   }, [balanceSpecificTransactions]); // Recalculate if the base list changes
 
-
 //   // --- Modal Handlers ---
 //   const handleOpenInsufficientBalanceModal = () => { setIsInsufficientBalanceModalOpen(true); };
 //   const handleCloseInsufficientBalanceModal = () => { setIsInsufficientBalanceModalOpen(false); };
@@ -4566,7 +4522,6 @@
 //         fetchRatesAgainstINR();
 //     }, [balanceDetail, currencyCode]);
 
-
 //   // --- Render Logic ---
 
 //   // Loading state before balance detail is available (or critical error)
@@ -4604,7 +4559,7 @@
 //       <BalanceHeader
 //           balanceDetail={balanceDetail} // Already checked for null above
 //           isLoading={isLoading} // Pass loading state for internal skeleton
-          
+
 //           onSendClick={handleSendClick}
 //           canSendMoney={canSendMoney}
 //           marketRateAgainstINR={marketRateAgainstINR}
@@ -4659,7 +4614,6 @@
 // };
 
 // export default BalanceDetailPage;
-
 
 // // frontend/src/app/dashboard/balances/[balanceId]/page.tsx
 // "use client";
@@ -4740,7 +4694,6 @@
 //       setDisplayTransactions(balanceSpecificTransactions);
 //   }, [balanceSpecificTransactions]);
 
-
 //   // --- Callbacks for TransactionActions (Search/Filter) ---
 //   const handleSearchChange = useCallback((searchResults: Transaction[]) => {
 //       setDisplayTransactions(searchResults); // Update display list based on search
@@ -4804,7 +4757,6 @@
 //       setDisplayTransactions(tempFiltered); // Update display list based on filters
 
 //   }, [balanceSpecificTransactions]); // Recalculate if the base list changes
-
 
 //   // --- Modal Handlers ---
 //   const handleOpenInsufficientBalanceModal = () => { setIsInsufficientBalanceModalOpen(true); }; // <<<--- FUNCTION TO OPEN MODAL
@@ -4874,7 +4826,6 @@
 //         };
 //         fetchRatesAgainstINR();
 //     }, [balanceDetail, currencyCode]); // currencyCode dependency is correct
-
 
 //   // --- Render Logic ---
 
@@ -4968,8 +4919,6 @@
 // };
 
 // export default BalanceDetailPage;
-
-
 
 // // frontend/src/app/dashboard/balances/[balanceId]/page.tsx
 // "use client";
@@ -5052,7 +5001,6 @@
 //       setDisplayTransactions(balanceSpecificTransactions);
 //   }, [balanceSpecificTransactions]);
 
-
 //   // --- Callbacks for TransactionActions (Search/Filter) ---
 //   const handleSearchChange = useCallback((searchResults: Transaction[]) => {
 //       setDisplayTransactions(searchResults); // Update display list based on search
@@ -5116,7 +5064,6 @@
 //       setDisplayTransactions(tempFiltered); // Update display list based on filters
 
 //   }, [balanceSpecificTransactions]); // Recalculate if the base list changes
-
 
 //   // --- Modal Handlers ---
 //   const handleOpenInsufficientBalanceModal = () => { setIsInsufficientBalanceModalOpen(true); }; // <<<--- FUNCTION TO OPEN MODAL
@@ -5186,7 +5133,6 @@
 //         };
 //         fetchRatesAgainstINR();
 //     }, [balanceDetail, currencyCode]); // currencyCode dependency is correct
-
 
 //   // --- Render Logic ---
 
@@ -5281,9 +5227,6 @@
 
 // export default BalanceDetailPage;
 
-
-
-
 // // frontend/src/app/dashboard/balances/[balanceId]/page.tsx
 // "use client";
 
@@ -5346,7 +5289,6 @@
 //     currency: ExtendedCurrency;
 // }
 
-
 // // --- Utility Function --- (Keep or move to utils)
 // function parseDateString(dateString: string | undefined): Date | null {
 //     if (!dateString) return null;
@@ -5402,7 +5344,6 @@
 //   useEffect(() => {
 //       setDisplayTransactions(balanceSpecificTransactions);
 //   }, [balanceSpecificTransactions]);
-
 
 //   // --- Callbacks for TransactionActions (Search/Filter) ---
 //   const handleSearchChange = useCallback((searchResults: Transaction[]) => {
@@ -5465,7 +5406,6 @@
 //       setDisplayTransactions(tempFiltered);
 
 //   }, [balanceSpecificTransactions]);
-
 
 //   // --- Modal Handlers ---
 //   const handleOpenInsufficientBalanceModal = () => { setIsInsufficientBalanceModalOpen(true); };
@@ -5534,7 +5474,6 @@
 //         };
 //         fetchRatesAgainstINR();
 //     }, [typedBalanceDetail, currencyCode]); // Depend on typedBalanceDetail
-
 
 //   // --- Render Logic ---
 
@@ -5621,7 +5560,6 @@
 
 // export default BalanceDetailPage;
 
-
 // // frontend/src/app/dashboard/balances/[balanceId]/page.tsx
 // "use client";
 
@@ -5647,7 +5585,6 @@
 
 // // --- Interfaces ---
 
-
 // // Using Record<string, string | string[]> covers typical path parameters.
 // interface BalanceDetailPageParams extends Record<string, string | string[]> {
 //   balanceId: string;
@@ -5670,7 +5607,6 @@
 // interface ExtendedBalanceDetail extends BalanceDetail {
 //     currency: ExtendedCurrency;
 // }
-
 
 // // --- Utility Function --- (Keep or move to utils)
 // function parseDateString(dateString: string | undefined): Date | null {
@@ -5727,7 +5663,6 @@
 //   useEffect(() => {
 //       setDisplayTransactions(balanceSpecificTransactions);
 //   }, [balanceSpecificTransactions]);
-
 
 //   // --- Callbacks for TransactionActions (Search/Filter) ---
 //   const handleSearchChange = useCallback((searchResults: Transaction[]) => {
@@ -5790,7 +5725,6 @@
 //       setDisplayTransactions(tempFiltered);
 
 //   }, [balanceSpecificTransactions]);
-
 
 //   // --- Modal Handlers ---
 //   const handleOpenInsufficientBalanceModal = () => { setIsInsufficientBalanceModalOpen(true); };
@@ -5859,7 +5793,6 @@
 //         };
 //         fetchRatesAgainstINR();
 //     }, [typedBalanceDetail, currencyCode]); // Depend on typedBalanceDetail
-
 
 //   // --- Render Logic ---
 
@@ -5996,7 +5929,6 @@
 //     currency: ExtendedCurrency;
 // }
 
-
 // // --- Utility Function --- (Keep or move to utils)
 // function parseDateString(dateString: string | undefined): Date | null {
 //     if (!dateString) return null;
@@ -6073,7 +6005,6 @@
 //       setDisplayTransactions(balanceSpecificTransactions);
 //   }, [balanceSpecificTransactions]);
 
-
 //   // --- Callbacks for TransactionActions (Search/Filter) ---
 //   const handleSearchChange = useCallback((searchResults: Transaction[]) => {
 //       setDisplayTransactions(searchResults);
@@ -6141,7 +6072,6 @@
 //       setDisplayTransactions(tempFiltered);
 
 //   }, [balanceSpecificTransactions]);
-
 
 //   // --- KYC Modal Handlers ---
 //   const handleOpenKycModal = () => setIsKycModalOpen(true);
@@ -6263,7 +6193,6 @@
 //         };
 //         fetchRatesAgainstINR();
 //     }, [typedBalanceDetail, currencyCode]); // Depend on typedBalanceDetail and currencyCode
-
 
 //   // Combined loading state for initial page render
 //   const isLoading = isBalanceLoading || authLoading; // Consider auth loading as part of initial load
@@ -6417,7 +6346,6 @@
 
 // export default BalanceDetailPage;
 
-
 // // frontend/src/app/dashboard/balances/[balanceId]/page.tsx
 // "use client";
 
@@ -6459,7 +6387,6 @@
 // }
 // // --- END MODIFICATION ---
 
-
 // // Extended interface locally if modifying the shared type isn't feasible immediately
 // interface ExtendedCurrency extends Currency {
 //     rateAdjustmentPercentage?: number;
@@ -6468,7 +6395,6 @@
 // interface ExtendedBalanceDetail extends BalanceDetail {
 //     currency: ExtendedCurrency;
 // }
-
 
 // // --- Utility Function --- (Keep or move to utils)
 // function parseDateString(dateString: string | undefined): Date | null {
@@ -6546,7 +6472,6 @@
 //       setDisplayTransactions(balanceSpecificTransactions);
 //   }, [balanceSpecificTransactions]);
 
-
 //   // --- Callbacks for TransactionActions (Search/Filter) ---
 //   const handleSearchChange = useCallback((searchResults: Transaction[]) => {
 //       setDisplayTransactions(searchResults);
@@ -6614,7 +6539,6 @@
 //       setDisplayTransactions(tempFiltered);
 
 //   }, [balanceSpecificTransactions]);
-
 
 //   // --- KYC Modal Handlers ---
 //   const handleOpenKycModal = () => setIsKycModalOpen(true);
@@ -6738,7 +6662,6 @@
 //         };
 //         fetchRatesAgainstINR();
 //     }, [typedBalanceDetail, currencyCode]); // Depend on typedBalanceDetail and currencyCode
-
 
 //   // Combined loading state for initial page render
 //   const isLoading = isBalanceLoading || authLoading; // Consider auth loading as part of initial load
@@ -6893,18 +6816,6 @@
 
 // export default BalanceDetailPage;
 
-
-
-
-
-
-
-
-
-
-
-
-
 // // frontend/src/app/dashboard/balances/[balanceId]/page.tsx
 // "use client";
 
@@ -6946,7 +6857,6 @@
 // }
 // // --- END MODIFICATION ---
 
-
 // // Extended interface locally if modifying the shared type isn't feasible immediately
 // interface ExtendedCurrency extends Currency {
 //     rateAdjustmentPercentage?: number;
@@ -6955,7 +6865,6 @@
 // interface ExtendedBalanceDetail extends BalanceDetail {
 //     currency: ExtendedCurrency;
 // }
-
 
 // // --- Utility Function --- (Keep or move to utils)
 // function parseDateString(dateString: string | undefined): Date | null {
@@ -7033,7 +6942,6 @@
 //       setDisplayTransactions(balanceSpecificTransactions);
 //   }, [balanceSpecificTransactions]);
 
-
 //   // --- Callbacks for TransactionActions (Search/Filter) ---
 //   const handleSearchChange = useCallback((searchResults: Transaction[]) => {
 //       setDisplayTransactions(searchResults);
@@ -7101,7 +7009,6 @@
 //       setDisplayTransactions(tempFiltered);
 
 //   }, [balanceSpecificTransactions]);
-
 
 //   // --- KYC Modal Handlers ---
 //   const handleOpenKycModal = () => setIsKycModalOpen(true);
@@ -7226,7 +7133,6 @@
 //         fetchRatesAgainstINR();
 //     }, [typedBalanceDetail, currencyCode]); // Depend on typedBalanceDetail and currencyCode
 
-
 //   // Combined loading state for initial page render
 //   const isLoading = isBalanceLoading || authLoading; // Consider auth loading as part of initial load
 
@@ -7343,7 +7249,7 @@
 //                 <Skeleton className="h-10 w-full sm:w-64 rounded-full" />
 //                 <Skeleton className="h-10 w-32 rounded-full" />{" "}
 //               </div>
-            
+
 //           )}
 //         </div>
 
@@ -7385,8 +7291,6 @@
 // };
 
 // export default BalanceDetailPage;
-
-
 
 // // frontend/src/app/dashboard/balances/[balanceId]/page.tsx
 // "use client";
@@ -7468,7 +7372,6 @@
 //     console.warn("Could not parse date string into a valid Date object:", dateString);
 //     return null;
 // }
-
 
 // // --- Component ---
 // const BalanceDetailPage = () => {
@@ -7928,7 +7831,6 @@
 //     return null;
 // }
 
-
 // // --- Component ---
 // const BalanceDetailPage = () => {
 //   const params = useParams<BalanceDetailPageParams>();
@@ -7972,7 +7874,6 @@
 //          setInitiallyEmpty(balanceSpecificTransactions.length === 0);
 //       }
 //   }, [isTransactionsLoading, balanceSpecificTransactions]);
-
 
 //   // Effect to filter/search transactions
 //    useEffect(() => {
@@ -8053,7 +7954,6 @@
 
 //     }, [balanceSpecificTransactions, searchTerm, activeFilters, isTransactionsLoading]);
 
-
 //   // Effect to fetch exchange rates
 //   useEffect(() => {
 //       const fetchRatesAgainstINR = async () => {
@@ -8074,13 +7974,11 @@
 //       fetchRatesAgainstINR();
 //   }, [typedBalanceDetail, currencyCode]);
 
-
 //   // --- Filter application callback ---
 //   const handleFiltersApply = useCallback((filters: AppliedFilters) => {
 //       setActiveFilters(filters);
 //       setIsFilterModalOpen(false);
 //   }, []);
-
 
 //   // --- Memoized check if filters or search are active ---
 //   const filtersOrSearchAreActive = useMemo(() => {
@@ -8299,8 +8197,6 @@
 
 // export default BalanceDetailPage;
 
-
-
 // // frontend/src/app/dashboard/balances/[balanceId]/page.tsx
 // "use client";
 
@@ -8361,7 +8257,6 @@
 //     return null;
 // }
 
-
 // // --- Component ---
 // const BalanceDetailPage = () => {
 //   const params = useParams<BalanceDetailPageParams>();
@@ -8407,7 +8302,6 @@
 //       }
 //       // Reset initiallyEmpty if balanceId changes (though unlikely in this component structure)
 //   }, [isTransactionsLoading, balanceSpecificTransactions, displayTransactions.length]);
-
 
 //   // Effect to filter/search transactions
 //    useEffect(() => {
@@ -8489,7 +8383,6 @@
 
 //     }, [balanceSpecificTransactions, searchTerm, activeFilters, isTransactionsLoading]); // Dependency on isTransactionsLoading ensures re-filter when loading finishes
 
-
 //   // Effect to fetch exchange rates
 //   useEffect(() => {
 //       const fetchRatesAgainstINR = async () => {
@@ -8510,13 +8403,11 @@
 //       fetchRatesAgainstINR();
 //   }, [typedBalanceDetail, currencyCode]);
 
-
 //   // --- Filter application callback ---
 //   const handleFiltersApply = useCallback((filters: AppliedFilters) => {
 //       setActiveFilters(filters);
 //       setIsFilterModalOpen(false);
 //   }, []);
-
 
 //   // --- Memoized check if filters or search are active ---
 //   const filtersOrSearchAreActive = useMemo(() => {
@@ -8743,10 +8634,695 @@
 
 // export default BalanceDetailPage;
 
+// "use client";
+
+// import React, { useState, useCallback, useMemo, useEffect } from "react";
+// import { useParams, useRouter } from "next/navigation";
+
+// // Hooks and Services
+// import { useAuth } from "../../../contexts/AuthContext";
+// import { useBalanceDetailData } from "../../../hooks/useBalanceDetailData";
+// import { parseISO } from "date-fns";
+// import exchangeRateService from "../../../services/exchangeRate";
+
+// // Components and Types
+// import BalanceHeader from "../../components/BalanceHeader";
+// import Search from "../../components/TransactionPageSection/Search"; // Import Search
+// import TransactionList from "../../components/TransactionList";
+// import InsufficientBalanceModal from "../../components/InsufficientBalanceModal";
+// import KycRequiredModal from "../../components/KycRequiredModal";
+// import FilterModal, {
+//   AppliedFilters,
+// } from "../../components/TransactionPageSection/FilterModal";
+// import { Transaction } from "@/types/transaction";
+// import { BalanceDetail } from "../../../../types/balance";
+// import { Currency } from "../../../../types/currency";
+// import { Account } from "@/types/account";
+// import { Skeleton } from "@/components/ui/skeleton";
+// import { Button } from "@/components/ui/button";
+// import type { KycStatus } from "@/app/services/kyc";
+// import { LuSettings2 } from "react-icons/lu"; // Icon for filter button
+// import { AlertTriangle, Inbox } from "lucide-react";
+
+// // --- Interfaces ---
+// interface BalanceDetailPageParams extends Record<string, string | string[]> {
+//   balanceId: string;
+// }
+// interface ExchangeRateApiResponse {
+//   base?: string;
+//   rates?: { [currencyCode: string]: number };
+// }
+// interface ExtendedCurrency extends Currency {
+//   rateAdjustmentPercentage?: number;
+// }
+// interface ExtendedBalanceDetail extends BalanceDetail {
+//   currency: ExtendedCurrency;
+// }
+
+// // --- Utility Function --- (Keep the robust parseDateString)
+// function parseDateString(dateString: string | undefined): Date | null {
+//   if (!dateString) return null;
+//   try {
+//     const isoDate = parseISO(dateString);
+//     if (!isNaN(isoDate.getTime())) {
+//       return isoDate;
+//     }
+//   } catch (e) {}
+//   const parts = dateString.split("-");
+//   if (parts.length === 3) {
+//     const day = parseInt(parts[0], 10);
+//     const month = parseInt(parts[1], 10) - 1;
+//     const year = parseInt(parts[2], 10);
+//     if (
+//       !isNaN(day) &&
+//       !isNaN(month) &&
+//       !isNaN(year) &&
+//       month >= 0 &&
+//       month <= 11 &&
+//       day >= 1 &&
+//       day <= 31
+//     ) {
+//       const date = new Date(Date.UTC(year, month, day));
+//       if (
+//         date.getUTCFullYear() === year &&
+//         date.getUTCMonth() === month &&
+//         date.getUTCDate() === day
+//       ) {
+//         return date;
+//       }
+//     }
+//   }
+//   try {
+//     const genericDate = new Date(dateString);
+//     if (!isNaN(genericDate.getTime())) {
+//       return genericDate;
+//     }
+//   } catch (e) {}
+//   console.warn(
+//     "Could not parse date string into a valid Date object:",
+//     dateString
+//   );
+//   return null;
+// }
+
+// // --- Component ---
+// const BalanceDetailPage = () => {
+//   const params = useParams<BalanceDetailPageParams>();
+//   const router = useRouter();
+//   const { balanceId } = params;
+//   const { token, user, loading: authLoading } = useAuth();
+//   const kycStatus: KycStatus | undefined = user?.kyc.status;
+
+//   // --- Data Fetching ---
+//   const {
+//     balanceDetail,
+//     balanceSpecificTransactions,
+//     isLoading: isBalanceLoading,
+//     isTransactionsLoading,
+//     error,
+//   } = useBalanceDetailData(balanceId);
+
+//   // --- State ---
+//   const [displayTransactions, setDisplayTransactions] = useState<Transaction[]>(
+//     []
+//   );
+//   const [searchTerm, setSearchTerm] = useState<string>("");
+//   const [activeFilters, setActiveFilters] = useState<AppliedFilters>({
+//     selectedRecipients: [],
+//     selectedDirection: "all",
+//     selectedStatus: null,
+//     selectedBalance: [],
+//     fromDate: "",
+//     toDate: "",
+//   });
+//   const [isInsufficientBalanceModalOpen, setIsInsufficientBalanceModalOpen] =
+//     useState(false);
+//   const [isKycModalOpen, setIsKycModalOpen] = useState(false);
+//   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+//   const [marketRateAgainstINR, setMarketRateAgainstINR] = useState<
+//     number | null
+//   >(null);
+//   const [ourRateAgainstINR, setOurRateAgainstINR] = useState<number | null>(
+//     null
+//   );
+//   const [initiallyEmpty, setInitiallyEmpty] = useState<boolean>(false);
+
+//   // --- Derived State ---
+//   const typedBalanceDetail = balanceDetail as ExtendedBalanceDetail | null;
+//   const hasSufficientFunds = useMemo(
+//     () => (typedBalanceDetail?.balance ?? 0) > 0,
+//     [typedBalanceDetail]
+//   );
+//   const currencyCode = useMemo(
+//     () => typedBalanceDetail?.currency?.code ?? "N/A",
+//     [typedBalanceDetail]
+//   );
+
+//   // --- Effects ---
+//   useEffect(() => {
+//     if (
+//       !isTransactionsLoading &&
+//       balanceSpecificTransactions &&
+//       displayTransactions.length === balanceSpecificTransactions.length
+//     ) {
+//       setInitiallyEmpty(balanceSpecificTransactions.length === 0);
+//     }
+//   }, [
+//     isTransactionsLoading,
+//     balanceSpecificTransactions,
+//     displayTransactions.length,
+//   ]);
+
+//   useEffect(() => {
+//     if (isTransactionsLoading) {
+//       return;
+//     }
+//     let results = [...balanceSpecificTransactions];
+//     if (searchTerm.trim()) {
+//       const searchTermLower = searchTerm.toLowerCase().trim();
+//       results = results.filter((tx) => {
+//         const nameMatches = tx.name?.toLowerCase().includes(searchTermLower);
+//         const descriptionMatches =
+//           typeof tx.description === "string" &&
+//           tx.description.toLowerCase().includes(searchTermLower);
+//         const typeMatches = tx.type?.toLowerCase().includes(searchTermLower);
+//         const statusMatches = tx.status
+//           ?.toLowerCase()
+//           .includes(searchTermLower);
+//         const recipientNameMatch =
+//           typeof tx.recipient === "object" &&
+//           tx.recipient?.accountHolderName
+//             ?.toLowerCase()
+//             .includes(searchTermLower);
+//         let currencyMatch = false;
+//         if (tx.type === "Add Money") {
+//           currencyMatch =
+//             (typeof tx.balanceCurrency === "object" &&
+//               tx.balanceCurrency?.code
+//                 ?.toLowerCase()
+//                 .includes(searchTermLower)) ||
+//             (typeof tx.payInCurrency === "object" &&
+//               tx.payInCurrency?.code?.toLowerCase().includes(searchTermLower));
+//         } else if (tx.type === "Send Money") {
+//           currencyMatch =
+//             (typeof tx.sendCurrency === "object" &&
+//               tx.sendCurrency?.code?.toLowerCase().includes(searchTermLower)) ||
+//             (typeof tx.receiveCurrency === "object" &&
+//               tx.receiveCurrency?.code
+//                 ?.toLowerCase()
+//                 .includes(searchTermLower));
+//         }
+//         return (
+//           nameMatches ||
+//           descriptionMatches ||
+//           typeMatches ||
+//           statusMatches ||
+//           recipientNameMatch ||
+//           currencyMatch
+//         );
+//       });
+//     }
+//     const filters = activeFilters;
+//     const direction = filters.selectedDirection;
+//     if (direction !== "all") {
+//       results = results.filter(
+//         (tx) =>
+//           (direction === "add" && tx.type === "Add Money") ||
+//           (direction === "send" && tx.type === "Send Money")
+//       );
+//     }
+//     const statusFilter = filters.selectedStatus?.toLowerCase();
+//     if (statusFilter) {
+//       results = results.filter((tx) => {
+//         const txStatus = tx.status;
+//         if (!txStatus) return false;
+//         if (statusFilter === "completed") return txStatus === "completed";
+//         if (statusFilter === "cancelled") return txStatus === "canceled";
+//         if (statusFilter === "in progress")
+//           return txStatus === "in progress" || txStatus === "pending";
+//         if (statusFilter === "failed") return txStatus === "failed";
+//         return false;
+//       });
+//     }
+//     const recipientFilters = filters.selectedRecipients;
+//     if (recipientFilters && recipientFilters.length > 0) {
+//       const recipientFilterIds = recipientFilters.map(String);
+//       results = results.filter((tx) => {
+//         if (tx.type !== "Send Money") return true;
+//         const recipientId =
+//           typeof tx.recipient === "object" && tx.recipient?._id
+//             ? String(tx.recipient._id)
+//             : typeof tx.recipient === "string"
+//             ? tx.recipient
+//             : null;
+//         return recipientId ? recipientFilterIds.includes(recipientId) : false;
+//       });
+//     }
+//     const fromDateObj = parseDateString(filters.fromDate || undefined);
+//     const toDateObj = parseDateString(filters.toDate || undefined);
+//     if (fromDateObj) fromDateObj.setUTCHours(0, 0, 0, 0);
+//     if (toDateObj) toDateObj.setUTCHours(23, 59, 59, 999);
+//     if (fromDateObj || toDateObj) {
+//       results = results.filter((tx) => {
+//         const transactionDateStr = tx.updatedAt || tx.createdAt;
+//         if (!transactionDateStr) return false;
+//         try {
+//           const transactionDateObj = new Date(transactionDateStr);
+//           if (isNaN(transactionDateObj.getTime())) return false;
+//           let include = true;
+//           if (fromDateObj && transactionDateObj < fromDateObj) include = false;
+//           if (toDateObj && transactionDateObj > toDateObj) include = false;
+//           return include;
+//         } catch (e) {
+//           console.warn(
+//             "Error parsing transaction date:",
+//             transactionDateStr,
+//             e
+//           );
+//           return false;
+//         }
+//       });
+//     }
+//     setDisplayTransactions(results);
+//   }, [
+//     balanceSpecificTransactions,
+//     searchTerm,
+//     activeFilters,
+//     isTransactionsLoading,
+//   ]);
+
+//   useEffect(() => {
+//     const fetchRatesAgainstINR = async () => {
+//       if (
+//         !typedBalanceDetail ||
+//         !currencyCode ||
+//         currencyCode === "N/A" ||
+//         currencyCode === "INR"
+//       )
+//         return;
+//       try {
+//         const ratesData: ExchangeRateApiResponse =
+//           await exchangeRateService.getExchangeRatesForCurrencies();
+//         const liveRates = ratesData.rates;
+//         const baseCurrency = ratesData.base || "USD";
+//         if (liveRates && liveRates[currencyCode] && liveRates["INR"]) {
+//           const rateToBase = liveRates[currencyCode];
+//           const inrToBase = liveRates["INR"];
+//           if (rateToBase === 0) {
+//             console.warn(
+//               `Rate for ${currencyCode} vs ${baseCurrency} is zero.`
+//             );
+//             setMarketRateAgainstINR(null);
+//             setOurRateAgainstINR(null);
+//             return;
+//           }
+//           const liveRateToINR = inrToBase / rateToBase;
+//           setMarketRateAgainstINR(liveRateToINR);
+//           const adjustmentPercent =
+//             typeof typedBalanceDetail.currency.rateAdjustmentPercentage ===
+//             "number"
+//               ? typedBalanceDetail.currency.rateAdjustmentPercentage
+//               : 0;
+//           const adjustedRateMultiplier = 1 + adjustmentPercent / 100;
+//           const ourRateToINR = liveRateToINR * adjustedRateMultiplier;
+//           setOurRateAgainstINR(ourRateToINR);
+//         } else {
+//           console.warn(
+//             `Could not find rates for ${currencyCode} or INR. Base: ${baseCurrency}`,
+//             liveRates
+//           );
+//           setMarketRateAgainstINR(null);
+//           setOurRateAgainstINR(null);
+//         }
+//       } catch (error) {
+//         console.error("Error fetching rates:", error);
+//         setMarketRateAgainstINR(null);
+//         setOurRateAgainstINR(null);
+//       }
+//     };
+//     fetchRatesAgainstINR();
+//   }, [typedBalanceDetail, currencyCode]);
+
+//   const handleFiltersApply = useCallback((filters: AppliedFilters) => {
+//     setActiveFilters(filters);
+//     setIsFilterModalOpen(false);
+//   }, []);
+
+//   const filtersOrSearchAreActive = useMemo(() => {
+//     const isFilterActive =
+//       activeFilters.selectedRecipients.length > 0 ||
+//       activeFilters.selectedDirection !== "all" ||
+//       activeFilters.selectedStatus !== null ||
+//       activeFilters.fromDate !== "" ||
+//       activeFilters.toDate !== "";
+//     const isSearchActive = searchTerm.trim() !== "";
+//     return isFilterActive || isSearchActive;
+//   }, [activeFilters, searchTerm]);
+
+//   const handleOpenKycModal = useCallback(() => setIsKycModalOpen(true), []);
+//   const handleCloseKycModal = useCallback(() => setIsKycModalOpen(false), []);
+//   const handleStartVerification = useCallback(() => {
+//     router.push("/kyc/start");
+//     handleCloseKycModal();
+//   }, [router, handleCloseKycModal]);
+
+//   const handleOpenInsufficientBalanceModal = useCallback(
+//     () => setIsInsufficientBalanceModalOpen(true),
+//     []
+//   );
+//   const handleCloseInsufficientBalanceModal = useCallback(
+//     () => setIsInsufficientBalanceModalOpen(false),
+//     []
+//   );
+
+//   const handleAddMoneyFromInsufficientModal = useCallback(() => {
+//     if (authLoading || !user) return;
+//     if (kycStatus !== "verified") {
+//       handleCloseInsufficientBalanceModal();
+//       handleOpenKycModal();
+//       return;
+//     }
+//     router.push(`/dashboard/balances/${balanceId}/add-money`);
+//     handleCloseInsufficientBalanceModal();
+//   }, [
+//     authLoading,
+//     user,
+//     kycStatus,
+//     balanceId,
+//     router,
+//     handleCloseInsufficientBalanceModal,
+//     handleOpenKycModal,
+//   ]);
+
+//   const handleAddMoneyClick = useCallback(() => {
+//     if (authLoading || !user) return;
+//     if (kycStatus !== "verified") {
+//       handleOpenKycModal();
+//     } else {
+//       router.push(`/dashboard/balances/${balanceId}/add-money`);
+//     }
+//   }, [kycStatus, authLoading, user, balanceId, router, handleOpenKycModal]);
+
+//   const handleSendClick = useCallback(() => {
+//     if (authLoading || !user) return;
+//     if (kycStatus !== "verified") {
+//       handleOpenKycModal();
+//       return; // Important: return after opening modal
+//     }
+//     // KYC is verified at this point
+//     if (hasSufficientFunds) {
+//       router.push(`/dashboard/balances/${balanceId}/send/select-recipient`);
+//     } else {
+//       handleOpenInsufficientBalanceModal();
+//     }
+//   }, [
+//     kycStatus,
+//     hasSufficientFunds,
+//     authLoading,
+//     user,
+//     balanceId,
+//     router,
+//     handleOpenKycModal,
+//     handleOpenInsufficientBalanceModal,
+//   ]);
+
+//   const handleBackClick = () => router.back();
+//   const handleOpenFilterModal = () => setIsFilterModalOpen(true);
+//   const handleCloseFilterModal = () => setIsFilterModalOpen(false);
+//   const clearAllFiltersAndSearch = () => {
+//     setActiveFilters({
+//       selectedRecipients: [],
+//       selectedDirection: "all",
+//       selectedStatus: null,
+//       selectedBalance: [],
+//       fromDate: "",
+//       toDate: "",
+//     });
+//     setSearchTerm("");
+//   };
+
+//   const isPageLoading = isBalanceLoading || authLoading;
+
+//   if (isPageLoading && !typedBalanceDetail && !error) {
+//     return (
+//       <div className="py-5">
+//         <div className="pb-6 mb-8 border-b">
+//           <div className="flex sm:flex-row flex-col gap-4 justify-between">
+//             <div>
+//               <div className="flex items-center sm:justify-start justify-center gap-2 mb-4">
+//                 {" "}
+//                 <Skeleton className="w-[50px] h-[50px] rounded-full" />{" "}
+//                 <Skeleton className="h-6 w-24" />{" "}
+//               </div>
+//               <Skeleton className="h-12 w-48 mb-6 sm:mx-0 mx-auto" />
+//               <div className="flex sm:flex-row flex-col items-center gap-4">
+//                 {" "}
+//                 <Skeleton className="h-8 w-64 mb-4 rounded-4xl" />{" "}
+//                 <Skeleton className="h-8 w-64 mb-4 rounded-4xl" />{" "}
+//               </div>
+//             </div>
+//             <div className="flex flex-col justify-start items-center sm:items-end">
+//               <div className="flex justify-center space-x-6">
+//                 <div className="flex flex-col items-center">
+//                   {" "}
+//                   <Skeleton className="w-14 h-14 rounded-full mb-1" />{" "}
+//                   <Skeleton className="h-4 w-8" />{" "}
+//                 </div>
+//                 <div className="flex flex-col items-center">
+//                   {" "}
+//                   <Skeleton className="w-14 h-14 rounded-full mb-1" />{" "}
+//                   <Skeleton className="h-4 w-8" />{" "}
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//         <div className="mt-10">
+//           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-8 sticky lg:top-28 top-20 z-10 bg-background dark:bg-background">
+//             <Skeleton className="h-8 w-48 rounded-md" />
+//             <div className="flex items-center gap-4 w-full md:w-auto md:justify-end">
+//               <Skeleton className="h-12.5 w-full sm:w-68 rounded-full" />
+//               <Skeleton className="h-12.5 w-36 rounded-full" />
+//             </div>
+//           </div>
+//           <div className="space-y-2">
+//             {Array(5)
+//               .fill(0)
+//               .map((_, index) => (
+//                 <div key={index} className="block p-2 sm:p-4 rounded-2xl">
+//                   <div className="flex items-center gap-4">
+//                     <Skeleton className="size-12 rounded-full flex-shrink-0" />
+//                     <div className="flex-grow flex flex-row justify-between items-center gap-4">
+//                       <div className="flex-grow">
+//                         {" "}
+//                         <Skeleton className="h-4 w-40 mb-2" />{" "}
+//                         <Skeleton className="h-3 w-32" />{" "}
+//                       </div>
+//                       <Skeleton className="h-6 w-26 rounded-full" />
+//                     </div>
+//                   </div>
+//                 </div>
+//               ))}
+//           </div>
+//         </div>
+
+//         <div className="flex flex-col justify-start items-center sm:items-end">
+//           <div className="flex justify-center space-x-6">
+//             <div className="flex flex-col items-center">
+//               {" "}
+//               <Skeleton className="w-14 h-14 rounded-full mb-1" />{" "}
+//               <Skeleton className="h-4 w-8" />{" "}
+//             </div>
+//             <div className="flex flex-col items-center">
+//               {" "}
+//               <Skeleton className="w-14 h-14 rounded-full mb-1" />{" "}
+//               <Skeleton className="h-4 w-8" />{" "}
+//             </div>
+//           </div>
+//         </div>
+
+//         <div className="mt-10">
+//           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-8 sticky lg:top-28 top-20 z-10 bg-background dark:bg-background">
+//             <Skeleton className="h-8 w-48 rounded-md" />
+//             <div className="flex items-center gap-4 w-full md:w-auto md:justify-end">
+//               <Skeleton className="h-12.5 w-full sm:w-68 rounded-full" />
+//               <Skeleton className="h-12.5 w-36 rounded-full" />
+//             </div>
+//           </div>
+//           <div className="space-y-2">
+//             {Array(5)
+//               .fill(0)
+//               .map((_, index) => (
+//                 <div key={index} className="block p-2 sm:p-4 rounded-2xl">
+//                   <div className="flex items-center gap-4">
+//                     <Skeleton className="size-12 rounded-full flex-shrink-0" />
+//                     <div className="flex-grow flex flex-row justify-between items-center gap-4">
+//                       <div className="flex-grow">
+//                         {" "}
+//                         <Skeleton className="h-4 w-40 mb-2" />{" "}
+//                         <Skeleton className="h-3 w-32" />{" "}
+//                       </div>
+//                       <Skeleton className="h-6 w-26 rounded-full" />
+//                     </div>
+//                   </div>
+//                 </div>
+//               ))}
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   if ((error && !typedBalanceDetail && !isBalanceLoading) || (!isPageLoading && !typedBalanceDetail)) {
+//      const message = typeof error === 'string' ? error : "Balance details not found or you may not have access.";
+//         return (
+//           <>
+//             <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 sm:p-10 p-4 flex sm:flex-col sm:items-center justify-center gap-3 rounded-lg ">
+//               <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+//                 <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+//               </div>
+//               <div className="flex flex-col sm:items-center w-full">
+//                 <p className="font-semibold text-red-800 dark:text-red-200">
+//                   {" "}
+//                   Error Loading Balance{" "}
+//                 </p>
+//                 <p className="text-sm text-red-700 dark:text-red-300/90 mt-1">
+//                   {" "}
+//                   {message}{" "}
+//                 </p>
+//               </div>
+//             </div>
+//             <div className="text-center">
+//               <button
+//                 onClick={handleBackClick}
+//                 className="mt-6 inline-flex font-medium cursor-pointer bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear"
+//               >
+//                 Go Back
+//               </button>
+//             </div>
+//           </>
+//         );
+//     }
+
+//    if (!typedBalanceDetail) {
+//         console.error("Invariant violation: Reached main render but typedBalanceDetail is null/undefined despite passing loading/error checks.");
+//             return (
+//                 <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+//                      <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300 max-w-lg mx-auto">Something went wrong. Balance details are unavailable.</p>
+//                      <button onClick={handleBackClick} className="inline-flex font-medium bg-primary hover:bg-primaryhover text-neutral-900 px-8 py-3 h-12.5 rounded-full transition-all duration-75 ease-linear cursor-pointer">Go Back</button>
+//                 </div>
+//             );
+//    }
+
+//   const showNoMatchEmptyState =
+//     !isTransactionsLoading &&
+//     displayTransactions.length === 0 &&
+//     !initiallyEmpty &&
+//     filtersOrSearchAreActive;
+
+//   return (
+//     <div className="py-5">
+//       <BalanceHeader
+//         balanceDetail={typedBalanceDetail}
+//         isLoading={isBalanceLoading}
+//         onSendClick={handleSendClick}
+//         onAddMoneyClick={handleAddMoneyClick}
+//         canSendMoney={hasSufficientFunds}
+//         marketRateAgainstINR={marketRateAgainstINR}
+//         ourRateAgainstINR={ourRateAgainstINR}
+//       />
+
+//       <div className="mt-10">
+//         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-8 sticky lg:top-28 top-20 z-10 bg-background dark:bg-background">
+//           <h3 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white">
+//             Transactions
+//           </h3>
+//           {(!initiallyEmpty || isTransactionsLoading) && (
+//             <div className="flex justify-between items-center gap-4 sm:w-auto w-full">
+//               <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+//               <button
+//                 className="inline-flex items-center justify-center gap-3 bg-primary text-neutral-900 hover:bg-primaryhover h-12.5 md:w-40 w-12.5 font-medium rounded-full transition-all duration-75 ease-linear cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+//                 onClick={handleOpenFilterModal}
+//                 aria-haspopup="dialog"
+//                 disabled={
+//                   isTransactionsLoading ||
+//                   (initiallyEmpty && !filtersOrSearchAreActive)
+//                 }
+//               >
+//                 <LuSettings2 size={20} />
+//                 <span className="md:block hidden">Filters</span>
+//               </button>
+//             </div>
+//           )}
+//         </div>
+
+//         <TransactionList
+//           transactions={displayTransactions}
+//           isLoading={isTransactionsLoading}
+//           error={
+//             typeof error === "string" &&
+//             (error.includes("payment history") ||
+//               error.includes("transfer history"))
+//               ? error
+//               : null
+//           }
+//           currencyCode={currencyCode}
+//           balanceId={balanceId!}
+//           onSendClick={handleSendClick}
+//           onAddMoneyClick={handleAddMoneyClick}
+//           canSendMoney={hasSufficientFunds}
+//           wasInitiallyEmpty={initiallyEmpty}
+//         />
+
+//         {showNoMatchEmptyState && (
+//           <div className="text-center flex flex-col items-center text-lg px-4 text-gray-500 dark:text-gray-300 bg-lightgray py-8 dark:bg-white/5 rounded-lg space-y-4   ">
+//             <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full">
+//               <Inbox className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+//             </div>
+
+//             <span className="text-gray-500 dark:text-gray-300">
+//               No transactions match your current filter or search criteria.
+//             </span>
+
+//             <Button
+//               onClick={clearAllFiltersAndSearch}
+//               className="px-6 cursor-pointer lg:py-3 py-2.5 lg:text-base text-sm font-medium w-auto bg-primary text-neutral-900 rounded-full hover:bg-primaryhover transition-colors duration-500 ease-in-out"
+//             >
+//               Clear Filters
+//             </Button>
+//           </div>
+//         )}
+//       </div>
+
+//       <InsufficientBalanceModal
+//         isOpen={isInsufficientBalanceModalOpen}
+//         onClose={handleCloseInsufficientBalanceModal}
+//         onAddMoney={handleAddMoneyFromInsufficientModal}
+//         currencyCode={currencyCode}
+//       />
+//       <KycRequiredModal
+//         isOpen={isKycModalOpen}
+//         onClose={handleCloseKycModal}
+//         onStartVerification={handleStartVerification}
+//       />
+
+//       <FilterModal
+//         isOpen={isFilterModalOpen}
+//         onClose={handleCloseFilterModal}
+//         userAccounts={[]}
+//         onFiltersApply={handleFiltersApply}
+//         initialFilters={activeFilters}
+//       />
+//     </div>
+//   );
+// };
+
+// export default BalanceDetailPage;
 
 
 
 
+// app/(website)/components/BalanceDetailPage/index.tsx
 "use client";
 
 import React, { useState, useCallback, useMemo, useEffect } from "react";
@@ -8756,56 +9332,88 @@ import { useParams, useRouter } from "next/navigation";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useBalanceDetailData } from "../../../hooks/useBalanceDetailData";
 import { parseISO } from "date-fns";
-import exchangeRateService from '../../../services/exchangeRate';
+import exchangeRateService from "../../../services/exchangeRate";
 
 // Components and Types
 import BalanceHeader from "../../components/BalanceHeader";
-import Search from "../../components/TransactionPageSection/Search"; // Import Search
+import Search from "../../components/TransactionPageSection/Search";
 import TransactionList from "../../components/TransactionList";
 import InsufficientBalanceModal from "../../components/InsufficientBalanceModal";
 import KycRequiredModal from "../../components/KycRequiredModal";
-import FilterModal, { AppliedFilters } from "../../components/TransactionPageSection/FilterModal";
+import FilterModal, {
+  AppliedFilters,
+} from "../../components/TransactionPageSection/FilterModal";
 import { Transaction } from "@/types/transaction";
 import { BalanceDetail } from "../../../../types/balance";
 import { Currency } from "../../../../types/currency";
-import { Account } from "@/types/account";
+import { Account } from "@/types/account"; // Import Account if needed for FilterModal
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import type { KycStatus } from '@/app/services/kyc';
-import { LuSettings2 } from "react-icons/lu"; // Icon for filter button
+import type { KycStatus } from "@/app/services/kyc";
+import { LuSettings2 } from "react-icons/lu";
+import { AlertTriangle, Inbox } from "lucide-react";
 
 // --- Interfaces ---
 interface BalanceDetailPageParams extends Record<string, string | string[]> {
   balanceId: string;
 }
+// Adjusted interface to match the scraped data structure { [currencyCode: string]: number }
 interface ExchangeRateApiResponse {
-    base?: string;
-    rates?: { [currencyCode: string]: number };
+  rates?: { [currencyCode: string]: number }; // Expecting only 'rates' now, no 'base' needed
 }
 interface ExtendedCurrency extends Currency {
-    rateAdjustmentPercentage?: number;
+  rateAdjustmentPercentage?: number;
 }
 interface ExtendedBalanceDetail extends BalanceDetail {
-    currency: ExtendedCurrency;
+  currency: ExtendedCurrency;
 }
 
 // --- Utility Function --- (Keep the robust parseDateString)
 function parseDateString(dateString: string | undefined): Date | null {
-    if (!dateString) return null;
-    try { const isoDate = parseISO(dateString); if (!isNaN(isoDate.getTime())) { return isoDate; } } catch (e) {}
-    const parts = dateString.split('-');
-    if (parts.length === 3) {
-        const day = parseInt(parts[0], 10); const month = parseInt(parts[1], 10) - 1; const year = parseInt(parts[2], 10);
-        if (!isNaN(day) && !isNaN(month) && !isNaN(year) && month >= 0 && month <= 11 && day >= 1 && day <= 31) {
-             const date = new Date(Date.UTC(year, month, day));
-             if (date.getUTCFullYear() === year && date.getUTCMonth() === month && date.getUTCDate() === day) { return date; }
-        }
-    }
-    try { const genericDate = new Date(dateString); if (!isNaN(genericDate.getTime())) { return genericDate; } } catch (e) {}
-    console.warn("Could not parse date string into a valid Date object:", dateString);
-    return null;
+  // ... (parseDateString function remains unchanged) ...
+   if (!dateString) return null;
+   try {
+     const isoDate = parseISO(dateString);
+     if (!isNaN(isoDate.getTime())) {
+       return isoDate;
+     }
+   } catch (e) {}
+   const parts = dateString.split("-");
+   if (parts.length === 3) {
+     const day = parseInt(parts[0], 10);
+     const month = parseInt(parts[1], 10) - 1;
+     const year = parseInt(parts[2], 10);
+     if (
+       !isNaN(day) &&
+       !isNaN(month) &&
+       !isNaN(year) &&
+       month >= 0 &&
+       month <= 11 &&
+       day >= 1 &&
+       day <= 31
+     ) {
+       const date = new Date(Date.UTC(year, month, day));
+       if (
+         date.getUTCFullYear() === year &&
+         date.getUTCMonth() === month &&
+         date.getUTCDate() === day
+       ) {
+         return date;
+       }
+     }
+   }
+   try {
+     const genericDate = new Date(dateString);
+     if (!isNaN(genericDate.getTime())) {
+       return genericDate;
+     }
+   } catch (e) {}
+   console.warn(
+     "Could not parse date string into a valid Date object:",
+     dateString
+   );
+   return null;
 }
-
 
 // --- Component ---
 const BalanceDetailPage = () => {
@@ -8817,341 +9425,635 @@ const BalanceDetailPage = () => {
 
   // --- Data Fetching ---
   const {
-      balanceDetail, balanceSpecificTransactions, isLoading: isBalanceLoading,
-      isTransactionsLoading, error,
+    balanceDetail,
+    balanceSpecificTransactions,
+    isLoading: isBalanceLoading,
+    isTransactionsLoading,
+    error,
   } = useBalanceDetailData(balanceId);
 
   // --- State ---
-  const [displayTransactions, setDisplayTransactions] = useState<Transaction[]>([]);
+  const [displayTransactions, setDisplayTransactions] = useState<Transaction[]>(
+    []
+  );
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [activeFilters, setActiveFilters] = useState<AppliedFilters>({
-        selectedRecipients: [], selectedDirection: 'all', selectedStatus: null,
-        selectedBalance: [], fromDate: "", toDate: "",
-    });
-  const [isInsufficientBalanceModalOpen, setIsInsufficientBalanceModalOpen] = useState(false);
+    selectedRecipients: [],
+    selectedDirection: "all",
+    selectedStatus: null,
+    selectedBalance: [], // This filter likely applies at the data source level, review if needed
+    fromDate: "",
+    toDate: "",
+  });
+  const [isInsufficientBalanceModalOpen, setIsInsufficientBalanceModalOpen] =
+    useState(false);
   const [isKycModalOpen, setIsKycModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const [marketRateAgainstINR, setMarketRateAgainstINR] = useState<number | null>(null);
-  const [ourRateAgainstINR, setOurRateAgainstINR] = useState<number | null>(null);
+
+  // State for rates against INR
+  const [marketRateAgainstINR, setMarketRateAgainstINR] = useState<
+    number | null
+  >(null);
+  const [ourRateAgainstINR, setOurRateAgainstINR] = useState<number | null>(
+    null
+  );
+
   const [initiallyEmpty, setInitiallyEmpty] = useState<boolean>(false);
 
   // --- Derived State ---
   const typedBalanceDetail = balanceDetail as ExtendedBalanceDetail | null;
-  const hasSufficientFunds = useMemo(() => (typedBalanceDetail?.balance ?? 0) > 0, [typedBalanceDetail]);
-  const currencyCode = useMemo(() => typedBalanceDetail?.currency?.code ?? 'N/A', [typedBalanceDetail]);
+  const hasSufficientFunds = useMemo(
+    () => (typedBalanceDetail?.balance ?? 0) > 0,
+    [typedBalanceDetail]
+  );
+  const currencyCode = useMemo(
+    () => typedBalanceDetail?.currency?.code ?? "N/A",
+    [typedBalanceDetail]
+  );
 
   // --- Effects ---
+
+  // Effect to check if transactions were initially empty
   useEffect(() => {
-      if (!isTransactionsLoading && balanceSpecificTransactions && displayTransactions.length === balanceSpecificTransactions.length) {
-         setInitiallyEmpty(balanceSpecificTransactions.length === 0);
+    // Only set initiallyEmpty once balanceSpecificTransactions is first loaded and not empty
+    if (!isTransactionsLoading && balanceSpecificTransactions && !initiallyEmpty) {
+      if (balanceSpecificTransactions.length === 0) {
+          setInitiallyEmpty(true);
       }
-  }, [isTransactionsLoading, balanceSpecificTransactions, displayTransactions.length]);
+    }
+     // Also reset if balanceSpecificTransactions becomes null/undefined (e.g., error state or refetch)
+    if (!balanceSpecificTransactions && !isTransactionsLoading && initiallyEmpty) {
+         setInitiallyEmpty(false);
+    }
 
-   useEffect(() => {
-        if (isTransactionsLoading) {
-             return;
-        }
-        let results = [...balanceSpecificTransactions];
-        if (searchTerm.trim()) {
-            const searchTermLower = searchTerm.toLowerCase().trim();
-            results = results.filter(tx => {
-                const nameMatches = tx.name?.toLowerCase().includes(searchTermLower);
-                const descriptionMatches = typeof tx.description === 'string' && tx.description.toLowerCase().includes(searchTermLower);
-                const typeMatches = tx.type?.toLowerCase().includes(searchTermLower);
-                const statusMatches = tx.status?.toLowerCase().includes(searchTermLower);
-                const recipientNameMatch = (typeof tx.recipient === 'object' && tx.recipient?.accountHolderName?.toLowerCase().includes(searchTermLower));
-                let currencyMatch = false;
-                if (tx.type === 'Add Money') {
-                     currencyMatch = (typeof tx.balanceCurrency === 'object' && tx.balanceCurrency?.code?.toLowerCase().includes(searchTermLower)) ||
-                                     (typeof tx.payInCurrency === 'object' && tx.payInCurrency?.code?.toLowerCase().includes(searchTermLower));
-                } else if (tx.type === 'Send Money') {
-                     currencyMatch = (typeof tx.sendCurrency === 'object' && tx.sendCurrency?.code?.toLowerCase().includes(searchTermLower)) ||
-                                     (typeof tx.receiveCurrency === 'object' && tx.receiveCurrency?.code?.toLowerCase().includes(searchTermLower));
-                }
-                return nameMatches || descriptionMatches || typeMatches || statusMatches || recipientNameMatch || currencyMatch;
-            });
-        }
-        const filters = activeFilters;
-        const direction = filters.selectedDirection;
-        if (direction !== 'all') {
-            results = results.filter(tx => (direction === 'add' && tx.type === 'Add Money') || (direction === 'send' && tx.type === 'Send Money'));
-        }
-        const statusFilter = filters.selectedStatus?.toLowerCase();
-        if (statusFilter) {
-           results = results.filter(tx => {
-               const txStatus = tx.status; if (!txStatus) return false;
-               if (statusFilter === 'completed') return txStatus === 'completed';
-               if (statusFilter === 'cancelled') return txStatus === 'canceled';
-               if (statusFilter === 'in progress') return txStatus === 'in progress' || txStatus === 'pending';
-               if (statusFilter === 'failed') return txStatus === 'failed';
-               return false;
-            });
-        }
-        const recipientFilters = filters.selectedRecipients;
-        if (recipientFilters && recipientFilters.length > 0) {
-           const recipientFilterIds = recipientFilters.map(String);
-           results = results.filter(tx => {
-              if (tx.type !== "Send Money") return true;
-              const recipientId = (typeof tx.recipient === 'object' && tx.recipient?._id) ? String(tx.recipient._id) : (typeof tx.recipient === 'string' ? tx.recipient : null);
-              return recipientId ? recipientFilterIds.includes(recipientId) : false;
-          });
-        }
-        const fromDateObj = parseDateString(filters.fromDate || undefined);
-        const toDateObj = parseDateString(filters.toDate || undefined);
-        if (fromDateObj) fromDateObj.setUTCHours(0, 0, 0, 0);
-        if (toDateObj) toDateObj.setUTCHours(23, 59, 59, 999);
-        if (fromDateObj || toDateObj) {
-           results = results.filter(tx => {
-               const transactionDateStr = tx.updatedAt || tx.createdAt; if (!transactionDateStr) return false;
-               try {
-                   const transactionDateObj = new Date(transactionDateStr); if (isNaN(transactionDateObj.getTime())) return false;
-                   let include = true;
-                   if (fromDateObj && transactionDateObj < fromDateObj) include = false;
-                   if (toDateObj && transactionDateObj > toDateObj) include = false;
-                   return include;
-               } catch (e) { console.warn("Error parsing transaction date:", transactionDateStr, e); return false; }
-           });
-        }
-        setDisplayTransactions(results);
-    }, [balanceSpecificTransactions, searchTerm, activeFilters, isTransactionsLoading]);
+  }, [
+    isTransactionsLoading,
+    balanceSpecificTransactions,
+    initiallyEmpty // Keep this dependency to avoid infinite loop if logic changes
+  ]);
 
+
+  // Effect for filtering and searching transactions
   useEffect(() => {
-      const fetchRatesAgainstINR = async () => {
-           if (!typedBalanceDetail || !currencyCode || currencyCode === 'N/A' || currencyCode === 'INR') return;
-           try {
-               const ratesData: ExchangeRateApiResponse = await exchangeRateService.getExchangeRatesForCurrencies();
-               const liveRates = ratesData.rates; const baseCurrency = ratesData.base || 'USD';
-               if (liveRates && liveRates[currencyCode] && liveRates['INR']) {
-                   const rateToBase = liveRates[currencyCode]; const inrToBase = liveRates['INR'];
-                   if (rateToBase === 0) { console.warn(`Rate for ${currencyCode} vs ${baseCurrency} is zero.`); setMarketRateAgainstINR(null); setOurRateAgainstINR(null); return; }
-                   const liveRateToINR = inrToBase / rateToBase; setMarketRateAgainstINR(liveRateToINR);
-                   const adjustmentPercent = typeof typedBalanceDetail.currency.rateAdjustmentPercentage === 'number' ? typedBalanceDetail.currency.rateAdjustmentPercentage : 0;
-                   const adjustedRateMultiplier = (1 + (adjustmentPercent / 100));
-                   const ourRateToINR = liveRateToINR * adjustedRateMultiplier; setOurRateAgainstINR(ourRateToINR);
-               } else { console.warn(`Could not find rates for ${currencyCode} or INR. Base: ${baseCurrency}`, liveRates); setMarketRateAgainstINR(null); setOurRateAgainstINR(null); }
-           } catch (error) { console.error("Error fetching rates:", error); setMarketRateAgainstINR(null); setOurRateAgainstINR(null); }
-      };
-      fetchRatesAgainstINR();
-  }, [typedBalanceDetail, currencyCode]);
+     console.log("Transaction filtering effect running...");
+    if (isTransactionsLoading) {
+        console.log("Filtering skipped: Transactions still loading.");
+        setDisplayTransactions([]); // Clear display while loading or if data isn't ready
+        return;
+    }
+    if (!balanceSpecificTransactions) {
+         console.log("Filtering skipped: balanceSpecificTransactions is null/undefined.");
+         setDisplayTransactions([]);
+         return;
+    }
+
+    let results = [...balanceSpecificTransactions];
+
+    // Apply Search Term
+    if (searchTerm.trim()) {
+      const searchTermLower = searchTerm.toLowerCase().trim();
+      results = results.filter((tx) => {
+        const nameMatches = tx.name?.toLowerCase().includes(searchTermLower);
+        const descriptionMatches =
+          typeof tx.description === "string" &&
+          tx.description.toLowerCase().includes(searchTermLower);
+        const typeMatches = tx.type?.toLowerCase().includes(searchTermLower);
+        const statusMatches = tx.status
+          ?.toLowerCase()
+          .includes(searchTermLower);
+        const recipientNameMatch =
+          typeof tx.recipient === "object" &&
+          tx.recipient?.accountHolderName
+            ?.toLowerCase()
+            .includes(searchTermLower);
+        let currencyMatch = false;
+         // Check relevant currency fields based on transaction type
+        if (tx.type === "Add Money") {
+          currencyMatch =
+            (typeof tx.balanceCurrency === "object" && tx.balanceCurrency?.code?.toLowerCase().includes(searchTermLower)) ||
+            (typeof tx.payInCurrency === "object" && tx.payInCurrency?.code?.toLowerCase().includes(searchTermLower));
+        } else if (tx.type === "Send Money") {
+          currencyMatch =
+            (typeof tx.sendCurrency === "object" && tx.sendCurrency?.code?.toLowerCase().includes(searchTermLower)) ||
+            (typeof tx.receiveCurrency === "object" && tx.receiveCurrency?.code?.toLowerCase().includes(searchTermLower));
+        } else { // Handle other potential transaction types if needed
+             currencyMatch = false; // Assume no currency match for unknown types
+        }
+
+        return (
+          nameMatches ||
+          descriptionMatches ||
+          typeMatches ||
+          statusMatches ||
+          recipientNameMatch ||
+          currencyMatch
+        );
+      });
+    }
+
+    // Apply Filters
+    const filters = activeFilters;
+
+    // Direction Filter
+    const direction = filters.selectedDirection;
+    if (direction !== "all") {
+      results = results.filter(
+        (tx) =>
+          (direction === "add" && tx.type === "Add Money") ||
+          (direction === "send" && tx.type === "Send Money")
+      );
+    }
+
+    // Status Filter
+    const statusFilter = filters.selectedStatus?.toLowerCase();
+    if (statusFilter) {
+      results = results.filter((tx) => {
+        const txStatus = tx.status?.toLowerCase(); // Ensure transaction status is also lower case
+        if (!txStatus) return false; // Skip if status is null or undefined
+        if (statusFilter === "completed") return txStatus === "completed";
+        if (statusFilter === "cancelled") return txStatus === "canceled"; // Note the 'canceled' spelling from your backend
+        if (statusFilter === "in progress")
+          return txStatus === "in progress" || txStatus === "pending";
+        if (statusFilter === "failed") return txStatus === "failed";
+        return false; // Return false for unknown statusFilter values
+      });
+    }
+
+    // Recipient Filter
+    const recipientFilters = filters.selectedRecipients;
+    if (recipientFilters && recipientFilters.length > 0) {
+      const recipientFilterIds = recipientFilters.map(String); // Ensure filter IDs are strings
+      results = results.filter((tx) => {
+        if (tx.type !== "Send Money") return true; // Only filter 'Send Money' types by recipient
+        const recipientId =
+          typeof tx.recipient === "object" && tx.recipient?._id
+            ? String(tx.recipient._id) // Handle object recipient with _id
+            : typeof tx.recipient === "string" // Handle string recipient (maybe just the ID?)
+            ? tx.recipient
+            : null; // No recipient found
+
+        return recipientId ? recipientFilterIds.includes(recipientId) : false; // Include if recipientId matches one of the filters
+      });
+    }
+
+    // Date Range Filter
+    const fromDateObj = parseDateString(filters.fromDate || undefined);
+    const toDateObj = parseDateString(filters.toDate || undefined);
+
+    // Adjust to start/end of day in UTC
+    if (fromDateObj) fromDateObj.setUTCHours(0, 0, 0, 0);
+    if (toDateObj) toDateObj.setUTCHours(23, 59, 59, 999);
+
+    if (fromDateObj || toDateObj) {
+      results = results.filter((tx) => {
+        // Use updatedAt or createdAt, prioritize updatedAt if it exists
+        const transactionDateStr = tx.updatedAt || tx.createdAt;
+        if (!transactionDateStr) return false; // Transaction must have a date
+
+        try {
+          // Ensure parsing dates consistently, assuming backend provides ISO strings or similar
+          const transactionDateObj = new Date(transactionDateStr);
+
+          if (isNaN(transactionDateObj.getTime())) {
+              console.warn("Invalid date for transaction:", transactionDateStr);
+              return false; // Exclude transactions with invalid dates
+          }
+
+          let include = true;
+          // Check if the transaction date is within the specified range (inclusive)
+          if (fromDateObj && transactionDateObj < fromDateObj) include = false;
+          if (toDateObj && transactionDateObj > toDateObj) include = false;
+
+          return include;
+        } catch (e) {
+          console.warn(
+            "Error parsing transaction date for filter:",
+            transactionDateStr,
+            e
+          );
+          return false; // Exclude transactions that cause parsing errors
+        }
+      });
+    }
+
+    // Finally, update the displayed transactions
+    console.log(`Filtered transactions: ${results.length} results.`);
+    setDisplayTransactions(results);
+
+  }, [
+    balanceSpecificTransactions,
+    searchTerm,
+    activeFilters,
+    isTransactionsLoading, // Re-run when loading state changes (data becomes available)
+    // Removed displayTransactions.length as a dependency here to prevent potential loops
+  ]);
+
+
+  // Effect to fetch and calculate rates against INR
+  useEffect(() => {
+      console.log("Fetching rates effect triggered.");
+    // Only fetch and calculate if balanceDetail is available and the currency is not INR
+    if (
+      !typedBalanceDetail ||
+      !currencyCode ||
+      currencyCode === "N/A" ||
+      currencyCode === "INR"
+    ) {
+        console.log("Rates fetch skipped: Balance detail unavailable or currency is INR.");
+        // Reset rates if conditions are not met
+        setMarketRateAgainstINR(null);
+        setOurRateAgainstINR(null);
+        return;
+    }
+
+    const fetchRatesAgainstINR = async () => {
+        console.log(`Fetching rates against INR for ${currencyCode}...`);
+      try {
+        // This service call now fetches rates scraped from Google Finance against INR
+        const ratesData: ExchangeRateApiResponse =
+          await exchangeRateService.getExchangeRatesForCurrencies();
+        const liveRates = ratesData?.rates; // Get the rates object
+
+        // --- MODIFIED RATE CALCULATION ---
+        // The scraped rate is already CURRENCY_CODE/INR
+        const marketRateForCurrency = liveRates ? liveRates[currencyCode] : undefined;
+
+        if (marketRateForCurrency === undefined || marketRateForCurrency === null || isNaN(marketRateForCurrency) || marketRateForCurrency <= 0) {
+          // Handle cases where the rate for the specific currency is missing or invalid
+          console.warn(
+            `Could not find a valid market rate for ${currencyCode} in fetched rates.`,
+            liveRates
+          );
+          setMarketRateAgainstINR(null);
+          setOurRateAgainstINR(null);
+          return; // Stop here if the market rate is invalid
+        }
+
+        // The scraped rate is the market rate
+        setMarketRateAgainstINR(marketRateForCurrency);
+
+        // Find the adjustment percentage for this currency from the balance detail
+        const adjustmentPercent =
+          typeof typedBalanceDetail.currency.rateAdjustmentPercentage ===
+          "number"
+            ? typedBalanceDetail.currency.rateAdjustmentPercentage
+            : 0;
+
+        // Calculate 'Our Rate' including the adjustment
+        const adjustedRateMultiplier = 1 + adjustmentPercent / 100;
+        const ourRateToINR = marketRateForCurrency * adjustedRateMultiplier;
+
+        setOurRateAgainstINR(ourRateToINR);
+        console.log(`Rates calculated for ${currencyCode}/INR: Market=${marketRateForCurrency.toFixed(4)}, Our=${ourRateToINR.toFixed(4)}, Adjustment=${adjustmentPercent}%`);
+
+      } catch (error) {
+        console.error("Error fetching/calculating rates:", error);
+        setMarketRateAgainstINR(null);
+        setOurRateAgainstINR(null);
+      }
+    };
+
+    // Fetch rates only if the currencyCode is set and not INR
+    if(currencyCode && currencyCode !== 'N/A' && currencyCode !== 'INR') {
+         fetchRatesAgainstINR();
+    }
+
+
+  }, [typedBalanceDetail, currencyCode]); // Dependencies: re-run if balance detail or currency changes
+
+  // --- Handlers ---
 
   const handleFiltersApply = useCallback((filters: AppliedFilters) => {
-      setActiveFilters(filters);
-      setIsFilterModalOpen(false);
+    console.log("Applying filters:", filters);
+    setActiveFilters(filters);
+    setIsFilterModalOpen(false);
   }, []);
 
   const filtersOrSearchAreActive = useMemo(() => {
-      const isFilterActive = (
-            activeFilters.selectedRecipients.length > 0 ||
-            activeFilters.selectedDirection !== 'all' ||
-            activeFilters.selectedStatus !== null ||
-            activeFilters.fromDate !== "" ||
-            activeFilters.toDate !== ""
-      );
-      const isSearchActive = searchTerm.trim() !== "";
-      return isFilterActive || isSearchActive;
+    const isFilterActive =
+      activeFilters.selectedRecipients.length > 0 ||
+      activeFilters.selectedDirection !== "all" ||
+      activeFilters.selectedStatus !== null ||
+      activeFilters.fromDate !== "" ||
+      activeFilters.toDate !== "";
+    const isSearchActive = searchTerm.trim() !== "";
+    return isFilterActive || isSearchActive;
   }, [activeFilters, searchTerm]);
 
   const handleOpenKycModal = useCallback(() => setIsKycModalOpen(true), []);
   const handleCloseKycModal = useCallback(() => setIsKycModalOpen(false), []);
-  const handleStartVerification = useCallback(() => { router.push('/kyc/start'); handleCloseKycModal(); }, [router, handleCloseKycModal]);
-  
-  const handleOpenInsufficientBalanceModal = useCallback(() => setIsInsufficientBalanceModalOpen(true), []);
-  const handleCloseInsufficientBalanceModal = useCallback(() => setIsInsufficientBalanceModalOpen(false), []);
+  const handleStartVerification = useCallback(() => {
+    router.push("/kyc/start");
+    handleCloseKycModal();
+  }, [router, handleCloseKycModal]);
+
+  const handleOpenInsufficientBalanceModal = useCallback(
+    () => setIsInsufficientBalanceModalOpen(true),
+    []
+  );
+  const handleCloseInsufficientBalanceModal = useCallback(
+    () => setIsInsufficientBalanceModalOpen(false),
+    []
+  );
 
   const handleAddMoneyFromInsufficientModal = useCallback(() => {
-      if (authLoading || !user) return;
-      if (kycStatus !== 'verified') { handleCloseInsufficientBalanceModal(); handleOpenKycModal(); return; }
-      router.push(`/dashboard/balances/${balanceId}/add-money`);
+    if (authLoading || !user) return;
+    if (kycStatus !== "verified") {
       handleCloseInsufficientBalanceModal();
-  }, [authLoading, user, kycStatus, balanceId, router, handleCloseInsufficientBalanceModal, handleOpenKycModal]);
+      handleOpenKycModal();
+      return;
+    }
+    router.push(`/dashboard/balances/${balanceId}/add-money`);
+    handleCloseInsufficientBalanceModal();
+  }, [
+    authLoading,
+    user,
+    kycStatus,
+    balanceId,
+    router,
+    handleCloseInsufficientBalanceModal,
+    handleOpenKycModal,
+  ]);
 
   const handleAddMoneyClick = useCallback(() => {
-      if (authLoading || !user) return;
-      if (kycStatus !== 'verified') { handleOpenKycModal(); }
-      else { router.push(`/dashboard/balances/${balanceId}/add-money`); }
+    if (authLoading || !user) return;
+    if (kycStatus !== "verified") {
+      handleOpenKycModal();
+    } else {
+      router.push(`/dashboard/balances/${balanceId}/add-money`);
+    }
   }, [kycStatus, authLoading, user, balanceId, router, handleOpenKycModal]);
 
+
   const handleSendClick = useCallback(() => {
-      if (authLoading || !user) return;
-      if (kycStatus !== 'verified') {
-          handleOpenKycModal();
-          return; // Important: return after opening modal
-      }
-      // KYC is verified at this point
-      if (hasSufficientFunds) {
-          router.push(`/dashboard/balances/${balanceId}/send/select-recipient`);
-      } else {
-          handleOpenInsufficientBalanceModal();
-      }
+      console.log("Send button clicked. Checking KYC and balance...");
+    if (authLoading || !user) {
+         console.log("Send click skipped: Auth loading or no user.");
+         return; // Cannot proceed if auth is loading or user is not logged in
+    }
+    // Check KYC Status first
+    if (kycStatus !== "verified") {
+         console.log("Send click: KYC not verified. Opening KYC modal.");
+         handleOpenKycModal();
+         return; // Stop processing if KYC is required
+    }
+    // KYC is verified, now check balance
+    if (hasSufficientFunds) {
+         console.log("Send click: KYC verified and sufficient funds. Navigating to select recipient.");
+      router.push(`/dashboard/balances/${balanceId}/send/select-recipient`);
+    } else {
+         console.log("Send click: KYC verified but insufficient funds. Opening insufficient balance modal.");
+      handleOpenInsufficientBalanceModal();
+    }
   }, [
-      kycStatus, 
-      hasSufficientFunds, 
-      authLoading, 
-      user, 
-      balanceId, 
-      router, 
-      handleOpenKycModal, 
-      handleOpenInsufficientBalanceModal
+    kycStatus,
+    hasSufficientFunds,
+    authLoading,
+    user,
+    balanceId,
+    router,
+    handleOpenKycModal,
+    handleOpenInsufficientBalanceModal,
   ]);
+
 
   const handleBackClick = () => router.back();
   const handleOpenFilterModal = () => setIsFilterModalOpen(true);
   const handleCloseFilterModal = () => setIsFilterModalOpen(false);
   const clearAllFiltersAndSearch = () => {
-      setActiveFilters({ selectedRecipients: [], selectedDirection: 'all', selectedStatus: null, selectedBalance: [], fromDate: "", toDate: "" });
-      setSearchTerm("");
+    setActiveFilters({
+      selectedRecipients: [],
+      selectedDirection: "all",
+      selectedStatus: null,
+      selectedBalance: [],
+      fromDate: "",
+      toDate: "",
+    });
+    setSearchTerm("");
   };
 
-  const isPageLoading = isBalanceLoading || authLoading;
+  const isPageLoading = isBalanceLoading || authLoading; // Combined loading state
 
+  // --- Conditional Renderings ---
+
+  // Skeleton Loader
   if (isPageLoading && !typedBalanceDetail && !error) {
-        return (
-            <div className="py-5 animate-pulse">
-                 <div className="pb-6 mb-8 border-b">
-                    <div className="flex sm:flex-row flex-col gap-4 justify-between">
-                        <div>
-                            <div className="flex items-center sm:justify-start justify-center gap-2 mb-4"> <Skeleton className="w-[50px] h-[50px] rounded-full" /> <Skeleton className="h-6 w-24" /> </div>
-                            <Skeleton className="h-12 w-48 mb-6 sm:mx-0 mx-auto" />
-                            <div className="flex sm:flex-row flex-col items-center gap-4"> <Skeleton className="h-8 w-64 mb-4 rounded-4xl" /> <Skeleton className="h-8 w-64 mb-4 rounded-4xl" /> </div>
-                        </div>
-                        <div className="flex flex-col justify-start items-center sm:items-end">
-                             <div className="flex justify-center space-x-6">
-                                  <div className="flex flex-col items-center"> <Skeleton className="w-14 h-14 rounded-full mb-1" /> <Skeleton className="h-4 w-8" /> </div>
-                                  <div className="flex flex-col items-center"> <Skeleton className="w-14 h-14 rounded-full mb-1" /> <Skeleton className="h-4 w-8" /> </div>
-                             </div>
-                        </div>
-                    </div>
-                 </div>
-                 <div className="mt-10">
-                     <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-8 sticky lg:top-28 top-20 z-10 bg-background dark:bg-background">
-                         <Skeleton className="h-8 w-48 rounded-md" />
-                         <div className="flex items-center gap-4 w-full md:w-auto md:justify-end">
-                             <Skeleton className="h-12.5 w-full sm:w-68 rounded-full" />
-                             <Skeleton className="h-12.5 w-36 rounded-full" />
-                         </div>
-                     </div>
-                     <div className="space-y-2">
-                        {Array(5).fill(0).map((_, index) => (
-                             <div key={index} className="block p-2 sm:p-4 rounded-2xl">
-                                 <div className="flex items-center gap-4">
-                                     <Skeleton className="size-12 rounded-full flex-shrink-0" />
-                                     <div className="flex-grow flex flex-row justify-between items-center gap-4">
-                                         <div className="flex-grow"> <Skeleton className="h-4 w-40 mb-2" /> <Skeleton className="h-3 w-32" /> </div>
-                                         <Skeleton className="h-6 w-26 rounded-full" />
-                                     </div>
-                                 </div>
-                             </div>
-                         ))}
-                     </div>
-                 </div>
+      console.log("Rendering Skeleton Loader...");
+    return (
+      <div className="">
+        <div className="pb-6 mb-8 border-b">
+          <div className="flex sm:flex-row flex-col gap-4 justify-between">
+            <div>
+              <div className="flex items-center sm:justify-start justify-center gap-2 mb-4">
+                <Skeleton className="w-[50px] h-[50px] rounded-full" />
+                <Skeleton className="h-6 w-24" />
+              </div>
+              <Skeleton className="h-12 w-48 mb-6 sm:mx-0 mx-auto" />
+              <div className="flex sm:flex-row flex-col items-center gap-4">
+                <Skeleton className="h-8 w-64 mb-4 rounded-4xl" />
+                <Skeleton className="h-8 w-64 mb-4 rounded-4xl" />
+              </div>
             </div>
-         );
+            <div className="flex flex-col justify-start items-center sm:items-end">
+              <div className="flex justify-center space-x-6">
+                <div className="flex flex-col items-center">
+                  <Skeleton className="w-14 h-14 rounded-full mb-1" />
+                  <Skeleton className="h-4 w-8" />
+                </div>
+                <div className="flex flex-col items-center">
+                  <Skeleton className="w-14 h-14 rounded-full mb-1" />
+                  <Skeleton className="h-4 w-8" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-10">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-8 sticky lg:top-28 top-20 z-10 bg-background dark:bg-background">
+            <Skeleton className="h-8 w-48 rounded-md" />
+            <div className="flex items-center gap-4 w-full md:w-auto md:justify-end">
+              <Skeleton className="h-12.5 w-full sm:w-68 rounded-full" />
+              <Skeleton className="h-12.5 w-36 rounded-full" />
+            </div>
+          </div>
+          <div className="space-y-2">
+            {Array(5)
+              .fill(0)
+              .map((_, index) => (
+                <div key={index} className="block p-2 sm:p-4 rounded-2xl">
+                  <div className="flex items-center gap-4">
+                    <Skeleton className="size-12 rounded-full flex-shrink-0" />
+                    <div className="flex-grow flex flex-row justify-between items-center gap-4">
+                      <div className="flex-grow">
+                        <Skeleton className="h-4 w-40 mb-2" />
+                        <Skeleton className="h-3 w-32" />
+                      </div>
+                      <Skeleton className="h-6 w-26 rounded-full" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+          </div>
+        </div>
+         {/* Removed duplicate skeleton block here */}
+      </div>
+    );
   }
 
-  if ((error && !typedBalanceDetail && !isBalanceLoading) || (!isPageLoading && !typedBalanceDetail)) {
+  // Error State
+  if ((error && !typedBalanceDetail) || (!isPageLoading && !typedBalanceDetail)) {
+       console.error("Rendering Error State:", error);
      const message = typeof error === 'string' ? error : "Balance details not found or you may not have access.";
         return (
-            <div className="container mx-auto px-4 py-8 text-center">
-                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700/40 text-red-700 dark:text-red-300 p-4 rounded-md max-w-lg mx-auto">
-                     <p className="font-semibold">Error Loading Balance</p>
-                     <p className="text-sm mt-1">{message}</p>
-                </div>
-                <Button onClick={handleBackClick} variant="outline" className="mt-6">Go Back</Button>
-            </div>
-         );
-   }
+          <> {/* Wrap error state in py-5 for consistent spacing */}
+             <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 sm:p-10 p-4 flex sm:flex-col sm:items-center justify-center gap-3 rounded-lg ">
+               <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+                 <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+               </div>
+               <div className="flex flex-col sm:items-center w-full">
+                 <p className="font-semibold text-red-800 dark:text-red-200">
+                   Error Loading Balance
+                 </p>
+                 <p className="text-sm text-red-700 dark:text-red-300/90 mt-1">
+                   {message}
+                 </p>
+               </div>
+             </div>
+             <div className="text-center">
+               <button
+                 onClick={handleBackClick}
+                 className="mt-6 inline-flex font-medium cursor-pointer bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear"
+               >
+                 Go Back
+               </button>
+             </div>
+          </>
+        );
+    }
 
+    // If we reach here, typedBalanceDetail should be available
    if (!typedBalanceDetail) {
-        console.error("Invariant violation: Reached main render but typedBalanceDetail is null/undefined despite passing loading/error checks.");
+        // This is a safeguard, should theoretically not be reached after the checks above
+        console.error("Invariant violation: Balance detail is unexpectedly null/undefined in main render.");
             return (
-                <div className="container mx-auto px-4 py-8 text-center">
-                     <p>Something went wrong. Balance details are unavailable.</p>
-                     <Button onClick={handleBackClick} variant="outline" className="mt-6">Go Back</Button>
+                <div className="py-5"> {/* Wrap safeguard in py-5 */}
+                   <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+                        <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300 max-w-lg mx-auto">Something went wrong. Balance details are unavailable.</p>
+                        <button onClick={handleBackClick} className="inline-flex font-medium bg-primary hover:bg-primaryhover text-neutral-900 px-8 py-3 h-12.5 rounded-full transition-all duration-75 ease-linear cursor-pointer">Go Back</button>
+                   </div>
                 </div>
             );
    }
 
-  const showNoMatchEmptyState = !isTransactionsLoading &&
-                                displayTransactions.length === 0 &&
-                                !initiallyEmpty && 
-                                filtersOrSearchAreActive; 
+
+   // Content Render
+  const showNoMatchEmptyState =
+    !isTransactionsLoading &&
+    displayTransactions.length === 0 && // No transactions currently displayed
+    !initiallyEmpty && // Transactions were NOT initially empty
+    filtersOrSearchAreActive; // Filters or search are applied
+
 
   return (
-    <div className="py-5">
+    <>
       <BalanceHeader
         balanceDetail={typedBalanceDetail}
         isLoading={isBalanceLoading}
         onSendClick={handleSendClick}
         onAddMoneyClick={handleAddMoneyClick}
-        canSendMoney={hasSufficientFunds}
-        marketRateAgainstINR={marketRateAgainstINR}
-        ourRateAgainstINR={ourRateAgainstINR}
+        canSendMoney={hasSufficientFunds} // Pass sufficient funds status
+        marketRateAgainstINR={marketRateAgainstINR} // Pass calculated market rate
+        ourRateAgainstINR={ourRateAgainstINR} // Pass calculated our rate
       />
 
       <div className="mt-10">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-8 sticky lg:top-28 top-20 z-10 bg-background dark:bg-background">
-           <h3 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white">
-             Transactions
-           </h3>
-           {(!initiallyEmpty || isTransactionsLoading) && (
-              <div className="flex justify-between items-center gap-4 sm:w-auto w-full">
-                 <Search
-                     searchTerm={searchTerm}
-                     onSearchChange={setSearchTerm}
-                 />
-                 <button
-                      className="inline-flex items-center justify-center gap-3 bg-primary text-neutral-900 hover:bg-primaryhover h-12.5 md:w-40 w-12.5 font-medium rounded-full transition-all duration-75 ease-linear cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
-                      onClick={handleOpenFilterModal}
-                      aria-haspopup="dialog"
-                      disabled={isTransactionsLoading || (initiallyEmpty && !filtersOrSearchAreActive)}
-                  >
-                      <LuSettings2 size={20} />
-                      <span className="md:block hidden">Filters</span>
-                  </button>
-              </div>
-           )}
+          <h3 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white">
+            Transactions
+          </h3>
+           {/* Only show search/filter if not initially empty OR if transactions are loading */}
+           {/* This prevents showing search/filter on an empty balance page with no history */}
+          {(!initiallyEmpty || isTransactionsLoading) && (
+            <div className="flex justify-between items-center gap-4 sm:w-auto w-full">
+              <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} />
+              <button
+                className="inline-flex items-center justify-center gap-3 bg-primary text-neutral-900 hover:bg-primaryhover h-12.5 md:w-40 w-12.5 font-medium rounded-full transition-all duration-75 ease-linear cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                onClick={handleOpenFilterModal}
+                aria-haspopup="dialog"
+                // Disable filter button if loading, or if initially empty and no filters/search are active yet
+                disabled={
+                  isTransactionsLoading ||
+                  (initiallyEmpty && !filtersOrSearchAreActive)
+                }
+              >
+                <LuSettings2 size={20} />
+                <span className="md:block hidden">Filters</span>
+              </button>
+            </div>
+          )}
         </div>
 
-        <TransactionList
-          transactions={displayTransactions} 
-          isLoading={isTransactionsLoading} 
-          error={
-            typeof error === "string" && (error.includes("payment history") || error.includes("transfer history"))
-              ? error 
-              : null
-          }
-          currencyCode={currencyCode}
-          balanceId={balanceId!}
-          onSendClick={handleSendClick}
-          onAddMoneyClick={handleAddMoneyClick} 
-          canSendMoney={hasSufficientFunds}
-          wasInitiallyEmpty={initiallyEmpty} 
-        />
+         {/* Transaction List */}
+         <TransactionList
+            transactions={displayTransactions}
+            isLoading={isTransactionsLoading}
+            // Pass a more specific error message if needed for the list itself
+            error={
+                (typeof error === 'string' && (error.includes("payment history") || error.includes("transfer history")))
+                ? "Failed to load transactions." // Generic user-friendly error for transaction list
+                : null // No transaction specific error, handled by main error state if balance detail fails
+            }
+            currencyCode={currencyCode}
+            balanceId={balanceId!}
+            // Pass down handlers needed by the list (e.g., for empty states)
+            onSendClick={handleSendClick}
+            onAddMoneyClick={handleAddMoneyClick}
+            canSendMoney={hasSufficientFunds}
+            wasInitiallyEmpty={initiallyEmpty} // Indicate if there were initially no transactions
+         />
 
+
+        {/* "No Transactions Match Filters" Empty State */}
         {showNoMatchEmptyState && (
-            <div className="text-center flex flex-col items-center text-lg px-4 text-gray-500 dark:text-gray-300 bg-lightgray py-8 dark:bg-white/5 rounded-lg mt-6">
-               <span>No transactions match your current filter or search criteria.</span>
-               <Button
-                 onClick={clearAllFiltersAndSearch}
-                 className="mt-4 px-6 cursor-pointer lg:py-3 py-2.5 lg:text-base text-sm font-medium w-auto bg-primary text-neutral-900 rounded-full hover:bg-primaryhover transition-colors duration-500 ease-in-out"
-               >
-                 Clear Filters
-               </Button>
+          <div className="text-center flex flex-col items-center text-lg px-4 text-gray-500 dark:text-gray-300 bg-lightgray py-8 dark:bg-white/5 rounded-lg space-y-4">
+            <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full">
+              <Inbox className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
             </div>
+            <span className="text-gray-500 dark:text-gray-300">
+              No transactions match your current filter or search criteria.
+            </span>
+            <Button
+              onClick={clearAllFiltersAndSearch}
+              className="px-6 cursor-pointer lg:py-3 py-2.5 lg:text-base text-sm font-medium w-auto bg-primary text-neutral-900 rounded-full hover:bg-primaryhover transition-colors duration-500 ease-in-out"
+            >
+              Clear Filters
+            </Button>
+          </div>
         )}
-      </div>
 
-      <InsufficientBalanceModal isOpen={isInsufficientBalanceModalOpen} onClose={handleCloseInsufficientBalanceModal} onAddMoney={handleAddMoneyFromInsufficientModal} currencyCode={currencyCode} />
-      <KycRequiredModal isOpen={isKycModalOpen} onClose={handleCloseKycModal} onStartVerification={handleStartVerification}/>
-
-      <FilterModal
-        isOpen={isFilterModalOpen}
-        onClose={handleCloseFilterModal}
-        userAccounts={[]}
-        onFiltersApply={handleFiltersApply}
-        initialFilters={activeFilters}
+         {/* Modals */}
+      <InsufficientBalanceModal
+        isOpen={isInsufficientBalanceModalOpen}
+        onClose={handleCloseInsufficientBalanceModal}
+        onAddMoney={handleAddMoneyFromInsufficientModal}
+        currencyCode={currencyCode}
       />
-    </div>
+      <KycRequiredModal
+        isOpen={isKycModalOpen}
+        onClose={handleCloseKycModal}
+        onStartVerification={handleStartVerification}
+      />
+      {/* Pass necessary props to FilterModal, including userAccounts if you use them for recipient filtering */}
+       <FilterModal
+         isOpen={isFilterModalOpen}
+         onClose={handleCloseFilterModal}
+         userAccounts={[]}
+         onFiltersApply={handleFiltersApply}
+         initialFilters={activeFilters}
+       />
+
+      </div>
+    </>
   );
 };
 

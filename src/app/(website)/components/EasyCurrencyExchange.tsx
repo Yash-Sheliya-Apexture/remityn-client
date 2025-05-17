@@ -466,6 +466,180 @@
 
 
 
+// "use client";
+// import React from "react";
+// import { BiShieldAlt2 } from "react-icons/bi";
+// import { HiOutlineGlobeAlt } from "react-icons/hi";
+// import { MdOutlineSwapHoriz, MdOutlineSpeed } from "react-icons/md";
+// import { motion } from "framer-motion";
+
+// // Interface for solution items
+// interface SolutionItem {
+//   id: number;
+//   icon: React.ReactNode;
+//   title: string;
+//   description: string;
+// }
+
+// // Data structure for currency exchange solutions
+// const exchangeSolutions: SolutionItem[] = [
+//   {
+//     id: 1,
+//     icon: <BiShieldAlt2 className="lg:size-8 size-6 text-neutral-900" />,
+//     title: "Secure Transactions",
+//     description:
+//       "Every exchange is protected with bank-grade encryption and secure payment protocols, ensuring your money transfers remain private and protected",
+//   },
+//   {
+//     id: 2,
+//     icon: (
+//       <MdOutlineSwapHoriz className="lg:size-8 size-6 text-neutral-900" />
+//     ),
+//     title: "Competitive Exchange Rates",
+//     description:
+//       "We offer real-time market rates with minimal spreads, providing you better value for your money compared to traditional banks and exchange services",
+//   },
+//   {
+//     id: 3,
+//     icon: (
+//       <MdOutlineSpeed className="lg:size-8 size-6 text-neutral-900" />
+//     ),
+//     title: "Fast Processing",
+//     description:
+//       "Experience lightning-fast currency conversions with most transactions completed within minutes, not days, regardless of the transaction size",
+//   },
+//   {
+//     id: 4,
+//     icon: (
+//       <HiOutlineGlobeAlt className="lg:size-8 size-6 text-neutral-900" />
+//     ),
+//     title: "Global Coverage",
+//     description:
+//       "Exchange between multiple currencies across 190+ countries with full transparency on fees and competitive rates for both major and exotic currencies",
+//   },
+// ];
+
+// // Animation variants
+// const sectionVariants = {
+//   hidden: {},
+//   visible: {
+//     transition: {
+//       staggerChildren: 0.15,
+//     },
+//   },
+// };
+
+// const headingVariants = {
+//   hidden: { opacity: 0, y: -40 },
+//   visible: {
+//     opacity: 1,
+//     y: 0,
+//     transition: {
+//       duration: 0.7,
+//       ease: "easeOut",
+//     },
+//   },
+// };
+
+// const gridContainerVariants = {
+//   hidden: {},
+//   visible: {
+//     transition: {
+//       staggerChildren: 0.12,
+//       delayChildren: 0.2,
+//     },
+//   },
+// };
+
+// const cardVariants = {
+//   hidden: {
+//     opacity: 0,
+//     scale: 0.8,
+//     rotateY: 30,
+//   },
+//   visible: {
+//     opacity: 1,
+//     scale: 1,
+//     rotateY: 0,
+//     transition: {
+//       duration: 0.6,
+//       ease: [0.175, 0.885, 0.32, 1.275],
+//     },
+//   },
+// };
+
+// const EasyCurrencyExchange: React.FC = () => {
+//   return (
+//     <section className="EasyCurrencyExchangeSection lg:py-10 py-5 overflow-hidden bg-white dark:bg-background">
+//       <motion.div
+//         className="container mx-auto px-4"
+//         variants={sectionVariants}
+//         initial="hidden"
+//         whileInView="visible"
+//         viewport={{ amount: 0.2, once: true }}
+//       >
+//         {/* Heading Section */}
+//         <motion.div
+//           className="text-center space-y-4 max-w-3xl mx-auto"
+//           variants={headingVariants}
+//         >
+//           <div className="inline-block px-4 py-1.5 bg-lightgray dark:bg-primarybox rounded-full">
+//             <span className="text-neutral-900 dark:text-white font-medium text-sm capitalize">
+//               Simple, Fast & Secure Currency Exchange
+//             </span>
+//           </div>
+
+//           <h1 className="text-3xl md:text-4xl xl:text-6xl font-black text-mainheading dark:text-white uppercase">
+//             Currency Exchange
+//             <span className="text-primary"> Made Simple</span>
+//           </h1>
+
+//           <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+//             Convert currencies with confidence using our secure, fast, and
+//             transparent exchange platform. Benefit from real-time rates and
+//             minimal fees on every transaction.
+//           </p>
+//         </motion.div>
+
+//         {/* Solutions Grid */}
+//         <motion.div
+//           className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:mt-10 mt-5"
+//           variants={gridContainerVariants}
+//         >
+//           {exchangeSolutions.map((item) => (
+//             <motion.div
+//               key={item.id}
+//               variants={cardVariants}
+//               whileHover={{
+//                 y: -10,
+//                 transition: { duration: 0.2 },
+//               }}
+//               className="solution-item h-full"
+//             >
+//               <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 lg:space-y-4 space-y-2.5 h-full">
+//                 <div className="lg:size-14 size-12 rounded-full bg-primary flex items-center justify-center">
+//                   {item.icon}
+//                 </div>
+//                 <h3 className="sm:text-xl text-lg font-medium dark:text-white text-neutral-900 capitalize">
+//                   {item.title}
+//                 </h3>
+//                 <p className="sm:text-base text-sm text-gray-500 dark:text-gray-300">
+//                   {item.description}
+//                 </p>
+//               </div>
+//             </motion.div>
+//           ))}
+//         </motion.div>
+//       </motion.div>
+//     </section>
+//   );
+// };
+
+// export default EasyCurrencyExchange;
+
+
+
+
 "use client";
 import React from "react";
 import { BiShieldAlt2 } from "react-icons/bi";
@@ -570,7 +744,7 @@ const cardVariants = {
 
 const EasyCurrencyExchange: React.FC = () => {
   return (
-    <section className="EasyCurrencyExchangeSection lg:py-10 py-5 overflow-hidden bg-white dark:bg-background">
+    <section className="EasyCurrencyExchangeSection lg:pt-10 pt-5 sm:pb-12 pb-5 bg-white dark:bg-background">
       <motion.div
         className="container mx-auto px-4"
         variants={sectionVariants}
@@ -606,15 +780,15 @@ const EasyCurrencyExchange: React.FC = () => {
           className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:mt-10 mt-5"
           variants={gridContainerVariants}
         >
-          {exchangeSolutions.map((item) => (
+          {exchangeSolutions.map((item, index) => (
             <motion.div
               key={item.id}
               variants={cardVariants}
-              whileHover={{
-                y: -10,
-                transition: { duration: 0.2 },
-              }}
-              className="solution-item h-full"
+              // Apply margin-top to odd-indexed items (2nd, 4th, etc.) on md screens and up
+              // This makes them appear "lower" than the even-indexed items
+              className={`solution-item h-full ${
+                index % 2 !== 0 ? "md:mt-8 lg:mt-12" : "" // You can adjust the margin value (e.g., mt-8, mt-10, mt-12)
+              }`}
             >
               <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 lg:space-y-4 space-y-2.5 h-full">
                 <div className="lg:size-14 size-12 rounded-full bg-primary flex items-center justify-center">

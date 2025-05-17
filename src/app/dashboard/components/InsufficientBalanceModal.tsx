@@ -400,6 +400,20 @@ const InsufficientBalanceModal: React.FC<InsufficientBalanceModalProps> = ({
 
   const [isMobile, setIsMobile] = useState(false);
 
+  // --- Body Scroll Lock ---
+useEffect(() => {
+    if (isOpen) {
+        document.body.classList.add("overflow-hidden");
+    } else {
+        document.body.classList.remove("overflow-hidden");
+    }
+    // Cleanup function to ensure the class is removed when the component unmounts
+    // or if the modal was closed by other means.
+    return () => {
+        document.body.classList.remove("overflow-hidden");
+    };
+}, [isOpen]);
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 640); // Example breakpoint, adjust as needed
@@ -424,6 +438,9 @@ const InsufficientBalanceModal: React.FC<InsufficientBalanceModalProps> = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose} // Close on overlay click
+          aria-modal="true" // Added for accessibility
+          role="dialog"      // Added for accessibility
+          aria-labelledby="insufficient-balance-modal-title" // Added for accessibility
         >
           <motion.div
             className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl sm:p-8 p-4 w-full sm:max-w-lg relative text-center" // Added dark mode and shadow
@@ -472,7 +489,7 @@ const InsufficientBalanceModal: React.FC<InsufficientBalanceModalProps> = ({
             </div>
 
             {/* Title */}
-            <h3 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white my-6">
+            <h3 id="insufficient-balance-modal-title" className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white my-6">
               Insufficient Balance
             </h3>
 
@@ -494,7 +511,7 @@ const InsufficientBalanceModal: React.FC<InsufficientBalanceModalProps> = ({
               </button>
               {/* Added dark mode and focus styles */}
               <button
-                className="bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-noned"
+                className="bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
                 onClick={onClose}
               >
                 Got It

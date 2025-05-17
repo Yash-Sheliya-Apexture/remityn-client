@@ -441,6 +441,293 @@
 // }
 
 
+// // app/components/TawkToManager.tsx
+// "use client";
+
+// import { usePathname } from 'next/navigation';
+// import { useEffect, useRef } from 'react';
+// import Script from 'next/script';
+
+// // --- Environment Variables ---
+// const tawkToPropertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID;
+// const tawkToWidgetId = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID;
+// const tawkToSrc = tawkToPropertyId && tawkToWidgetId ? `https://embed.tawk.to/${tawkToPropertyId}/${tawkToWidgetId}` : null;
+
+// // --- TypeScript Definition ---
+// interface TawkCustomStyleVisibility {
+//   position?: 'br' | 'bl' | 'tr' | 'tl' | 'cr' | 'cl' | 'mm'; // bottom-right, bottom-left, etc.
+//   xOffset?: number;
+//   yOffset?: number;
+// }
+
+// interface TawkCustomStyleBubble {
+//   rotate?: string; // e.g., '0deg'
+//   xOffset?: number;
+//   yOffset?: number;
+//   backgroundColor?: string; // Optional: Tawk.to might support these
+//   foregroundColor?: string; // Optional
+// }
+
+// interface TawkCustomStyleObject {
+//   visibility?: {
+//     desktop?: TawkCustomStyleVisibility;
+//     mobile?: TawkCustomStyleVisibility;
+//     bubble?: TawkCustomStyleBubble;
+//   };
+//   // You can add other top-level customStyle properties here if Tawk.to supports them
+// }
+
+// interface TawkAPI {
+//     hideWidget: () => void;
+//     showWidget: () => void;
+//     onLoad?: () => void;
+//     customStyle?: TawkCustomStyleObject;
+//     [key: string]: any;
+// }
+
+// declare global {
+//     interface Window {
+//         Tawk_API?: TawkAPI;
+//     }
+// }
+
+// // --- Define Custom Styles ---
+// const defaultTawkCustomStyle: TawkCustomStyleObject = {
+//     visibility: {
+//         desktop: {
+//             position: 'bl',
+//             xOffset: 25,
+//             yOffset: 25
+//         },
+//         mobile: {
+//             position: 'bl',
+//             xOffset: 30,
+//             yOffset: 30
+//         },
+//         bubble: {
+//             rotate: '0deg',
+//             xOffset: 0,
+//             yOffset: 0
+//         }
+//     }
+// };
+
+// const yourAccountPageTawkCustomStyle: TawkCustomStyleObject = {
+//     visibility: {
+//         desktop: {
+//             position: 'bl',
+//             xOffset: 25,
+//             yOffset: 25
+//         },
+//         mobile: {
+//             position: 'br',
+//             xOffset: 15,
+//             yOffset: 75
+//         },
+//         bubble: {
+//             rotate: '0deg',
+//             xOffset: -50,
+//             yOffset: -10
+//         }
+//     }
+// };
+
+// const themeSettingsPageTawkCustomStyle: TawkCustomStyleObject = {
+//     visibility: {
+//         desktop: {
+//             position: 'br',
+//             xOffset: 30,      // Example: Different X offset for theme page
+//             yOffset: 95       // Example: Different Y offset for theme page
+//         },
+//         mobile: {
+//             position: 'br',
+//             xOffset: 20,      // Example: Different mobile X offset
+//             yOffset: 85       // Example: Different mobile Y offset
+//         },
+//         bubble: {
+//             rotate: '0deg',
+//             xOffset: 0,
+//             yOffset: 0
+//         }
+//     }
+// };
+
+// // --- Helper Function: Get Custom Style based on Path ---
+// const getCustomStyleForPath = (currentPath: string): TawkCustomStyleObject => {
+//     if (currentPath === '/dashboard/your-account/theme-settings') {
+//         // console.log(`TawkToManager: Using themeSettingsPageTawkCustomStyle for ${currentPath}`);
+//         return themeSettingsPageTawkCustomStyle;
+//     }
+//     if (currentPath === '/dashboard/your-account') {
+//         // console.log(`TawkToManager: Using yourAccountPageTawkCustomStyle for ${currentPath}`);
+//         return yourAccountPageTawkCustomStyle;
+//     }
+//     // console.log(`TawkToManager: Using defaultTawkCustomStyle for ${currentPath}`);
+//     return defaultTawkCustomStyle;
+// };
+
+
+// // --- Helper Function (Visibility Logic) ---
+// const shouldShowWidgetBasedOnPath = (currentPath: string): boolean => {
+//     const isAdminPath = currentPath.startsWith('/admin');
+//     const isAuthPath = currentPath.startsWith('/auth');
+//     const isDashboardPath = currentPath.startsWith('/dashboard');
+//     const isYourAccountPath = currentPath === '/dashboard/your-account';
+//     const isThemeSettingsPath = currentPath === '/dashboard/your-account/theme-settings';
+
+//     if (isAdminPath || isAuthPath) return false;
+
+//     // Show on specific dashboard pages, hide on others
+//     if (isDashboardPath) {
+//         return isYourAccountPath || isThemeSettingsPath;
+//     }
+
+//     return true; // Default show for public pages
+// };
+
+// // --- TawkToManager Component ---
+// export default function TawkToManager() {
+//     const pathname = usePathname();
+//     const tawkApiReady = useRef(false);
+//     const pathnameRef = useRef(pathname);
+
+//     // Keep pathnameRef updated for Tawk API callbacks
+//     useEffect(() => {
+//         pathnameRef.current = pathname;
+//     }, [pathname]);
+
+//     // Effect to initialize Tawk_API, set customStyle, and handle onLoad
+//     useEffect(() => {
+//         if (typeof window === 'undefined') return; // Ensure running in browser
+
+//         window.Tawk_API = window.Tawk_API || ({} as TawkAPI);
+
+//         const initialPath = pathnameRef.current;
+//         window.Tawk_API.customStyle = getCustomStyleForPath(initialPath);
+//         console.log(`TawkToManager (Initial Setup): Set customStyle for ${initialPath}`, window.Tawk_API.customStyle);
+
+//         window.Tawk_API.onLoad = () => {
+//             console.log("TawkToManager: Tawk_API.onLoad fired.");
+//             tawkApiReady.current = true;
+
+//             const pathAtLoadTime = pathnameRef.current;
+//             const styleAtLoadTime = getCustomStyleForPath(pathAtLoadTime);
+
+//             if (window.Tawk_API!.customStyle !== styleAtLoadTime) {
+//                 console.log(`TawkToManager (onLoad Update): Correcting customStyle for ${pathAtLoadTime}`, styleAtLoadTime);
+//                 window.Tawk_API!.customStyle = styleAtLoadTime;
+//             }
+
+//             try {
+//                 if (typeof window.Tawk_API?.hideWidget === 'function') {
+//                     console.log(`TawkToManager (onLoad): Pre-emptively hiding widget for path ${pathAtLoadTime}.`);
+//                     window.Tawk_API.hideWidget();
+//                 } else {
+//                     console.warn("TawkToManager (onLoad): hideWidget not available for pre-emptive hide.");
+//                 }
+//             } catch (e) {
+//                 console.error("TawkToManager (onLoad): Error during pre-emptive hide:", e);
+//             }
+
+//             const shouldShow = shouldShowWidgetBasedOnPath(pathAtLoadTime);
+//             if (shouldShow) {
+//                 if (typeof window.Tawk_API?.showWidget === 'function') {
+//                     console.log(`TawkToManager (onLoad): Showing widget for path: ${pathAtLoadTime}`);
+//                     window.Tawk_API.showWidget();
+//                 } else {
+//                     console.warn(`TawkToManager (onLoad): showWidget function not found when trying to show for ${pathAtLoadTime}.`);
+//                 }
+//             } else {
+//                 console.log(`TawkToManager (onLoad): Widget remains hidden for ${pathAtLoadTime} based on rules.`);
+//             }
+//         };
+
+//         return () => {
+//             if (window.Tawk_API && window.Tawk_API.onLoad) {
+//                 window.Tawk_API.onLoad = undefined;
+//             }
+//         };
+//     }, []); // Runs once on mount to set up Tawk_API and onLoad.
+
+//     // Effect for Tawk Visibility and Custom Style on Path Changes (after initial load)
+//      useEffect(() => {
+//         if (!tawkApiReady.current || !window.Tawk_API || typeof window === 'undefined') {
+//             return;
+//         }
+
+//         const currentPath = pathname;
+//         const styleToApply = getCustomStyleForPath(currentPath);
+
+//         if (window.Tawk_API.customStyle !== styleToApply) {
+//             console.log(`TawkToManager (Path Change): Applying customStyle for path: ${currentPath}`, styleToApply);
+//             window.Tawk_API.customStyle = styleToApply;
+//         }
+
+//         try {
+//             if (typeof window.Tawk_API.hideWidget === 'function') {
+//                 // console.log(`TawkToManager (Path Change): Hiding widget before visibility check for ${currentPath}`);
+//                 window.Tawk_API.hideWidget();
+//             } else {
+//                  console.warn(`TawkToManager (Path Change): hideWidget not found when attempting to hide for ${currentPath}.`);
+//             }
+//         } catch (error) {
+//             console.error(`TawkToManager (Path Change): Error hiding widget for ${currentPath}:`, error);
+//         }
+
+//         const shouldShow = shouldShowWidgetBasedOnPath(currentPath);
+//         if (shouldShow) {
+//             if (typeof window.Tawk_API.showWidget === 'function') {
+//                 console.log(`TawkToManager (Path Change): Showing widget for path: ${currentPath}`);
+//                 window.Tawk_API.showWidget();
+//             } else {
+//                 console.warn(`TawkToManager (Path Change): showWidget function not found when trying to show for ${currentPath}.`);
+//             }
+//         } else {
+//             console.log(`TawkToManager (Path Change): Widget remains hidden for path: ${currentPath} based on rules.`);
+//         }
+//     }, [pathname]); // Re-run this effect whenever the pathname changes.
+
+//     // --- Effect: Manage Body Class based on Path ---
+//     useEffect(() => {
+//         const targetPaths = ['/dashboard/your-account', '/dashboard/your-account/theme-settings'];
+//         const bodyClass = 'your-account-page-active'; // You can make this dynamic if needed
+
+//         if (targetPaths.includes(pathname)) {
+//             document.body.classList.add(bodyClass);
+//             // console.log(`BodyClassManager: Added class '${bodyClass}' for path: ${pathname}`);
+//             return () => {
+//                 document.body.classList.remove(bodyClass);
+//                 // console.log(`BodyClassManager: Removed class '${bodyClass}' (cleanup for path: ${pathname})`);
+//             };
+//         } else {
+//              // Ensure class is removed if current path is not one of the targets
+//              if (document.body.classList.contains(bodyClass)) {
+//                 document.body.classList.remove(bodyClass);
+//                 // console.log(`BodyClassManager: Removed class '${bodyClass}' as path is not a target: ${pathname}`);
+//              }
+//         }
+//     }, [pathname]); // Re-run this effect whenever the pathname changes
+
+//     // --- Render Script ---
+//     if (!tawkToSrc) {
+//         console.warn("TawkToManager: Missing Tawk.to Property ID or Widget ID. Tawk.to disabled.");
+//         return null;
+//     }
+
+//     return (
+//         <Script
+//             id="tawkto-script-manager"
+//             strategy="lazyOnload"
+//             src={tawkToSrc}
+//             onError={(e) => {
+//                 console.error('TawkToManager: Tawk.to script failed to load:', e);
+//                 tawkApiReady.current = false; // Ensure API ready state is false on error
+//             }}
+//         />
+//     );
+// }
+
+
 // app/components/TawkToManager.tsx
 "use client";
 
@@ -455,17 +742,17 @@ const tawkToSrc = tawkToPropertyId && tawkToWidgetId ? `https://embed.tawk.to/${
 
 // --- TypeScript Definition ---
 interface TawkCustomStyleVisibility {
-  position?: 'br' | 'bl' | 'tr' | 'tl' | 'cr' | 'cl' | 'mm'; // bottom-right, bottom-left, etc.
+  position?: 'br' | 'bl' | 'tr' | 'tl' | 'cr' | 'cl' | 'mm';
   xOffset?: number;
   yOffset?: number;
 }
 
 interface TawkCustomStyleBubble {
-  rotate?: string; // e.g., '0deg'
+  rotate?: string;
   xOffset?: number;
   yOffset?: number;
-  backgroundColor?: string; // Optional: Tawk.to might support these
-  foregroundColor?: string; // Optional
+  backgroundColor?: string;
+  foregroundColor?: string;
 }
 
 interface TawkCustomStyleObject {
@@ -474,12 +761,14 @@ interface TawkCustomStyleObject {
     mobile?: TawkCustomStyleVisibility;
     bubble?: TawkCustomStyleBubble;
   };
-  // You can add other top-level customStyle properties here if Tawk.to supports them
 }
 
 interface TawkAPI {
     hideWidget: () => void;
     showWidget: () => void;
+    maximize?: () => void;
+    minimize?: () => void;
+    toggle?: () => void;
     onLoad?: () => void;
     customStyle?: TawkCustomStyleObject;
     [key: string]: any;
@@ -500,9 +789,9 @@ const defaultTawkCustomStyle: TawkCustomStyleObject = {
             yOffset: 25
         },
         mobile: {
-            position: 'br',
+            position: 'bl',
             xOffset: 30,
-            yOffset: 100
+            yOffset: 30
         },
         bubble: {
             rotate: '0deg',
@@ -536,13 +825,13 @@ const themeSettingsPageTawkCustomStyle: TawkCustomStyleObject = {
     visibility: {
         desktop: {
             position: 'br',
-            xOffset: 30,      // Example: Different X offset for theme page
-            yOffset: 95       // Example: Different Y offset for theme page
+            xOffset: 30,
+            yOffset: 95
         },
         mobile: {
             position: 'br',
-            xOffset: 20,      // Example: Different mobile X offset
-            yOffset: 85       // Example: Different mobile Y offset
+            xOffset: 20,
+            yOffset: 85
         },
         bubble: {
             rotate: '0deg',
@@ -555,34 +844,29 @@ const themeSettingsPageTawkCustomStyle: TawkCustomStyleObject = {
 // --- Helper Function: Get Custom Style based on Path ---
 const getCustomStyleForPath = (currentPath: string): TawkCustomStyleObject => {
     if (currentPath === '/dashboard/your-account/theme-settings') {
-        // console.log(`TawkToManager: Using themeSettingsPageTawkCustomStyle for ${currentPath}`);
         return themeSettingsPageTawkCustomStyle;
     }
     if (currentPath === '/dashboard/your-account') {
-        // console.log(`TawkToManager: Using yourAccountPageTawkCustomStyle for ${currentPath}`);
         return yourAccountPageTawkCustomStyle;
     }
-    // console.log(`TawkToManager: Using defaultTawkCustomStyle for ${currentPath}`);
     return defaultTawkCustomStyle;
 };
 
 
-// --- Helper Function (Visibility Logic) ---
+// --- Helper Function (Visibility Logic) --- MODIFIED
 const shouldShowWidgetBasedOnPath = (currentPath: string): boolean => {
     const isAdminPath = currentPath.startsWith('/admin');
     const isAuthPath = currentPath.startsWith('/auth');
     const isDashboardPath = currentPath.startsWith('/dashboard');
-    const isYourAccountPath = currentPath === '/dashboard/your-account';
-    const isThemeSettingsPath = currentPath === '/dashboard/your-account/theme-settings';
 
-    if (isAdminPath || isAuthPath) return false;
-
-    // Show on specific dashboard pages, hide on others
-    if (isDashboardPath) {
-        return isYourAccountPath || isThemeSettingsPath;
+    // If the current path is an admin path, an auth path, or ANY dashboard path,
+    // the widget should be hidden.
+    if (isAdminPath || isAuthPath || isDashboardPath) {
+        return false;
     }
 
-    return true; // Default show for public pages
+    // For all other paths (e.g., public-facing pages like '/', '/contact'), show the widget.
+    return true;
 };
 
 // --- TawkToManager Component ---
@@ -591,54 +875,52 @@ export default function TawkToManager() {
     const tawkApiReady = useRef(false);
     const pathnameRef = useRef(pathname);
 
-    // Keep pathnameRef updated for Tawk API callbacks
     useEffect(() => {
         pathnameRef.current = pathname;
     }, [pathname]);
 
-    // Effect to initialize Tawk_API, set customStyle, and handle onLoad
     useEffect(() => {
-        if (typeof window === 'undefined') return; // Ensure running in browser
+        if (typeof window === 'undefined') return;
 
         window.Tawk_API = window.Tawk_API || ({} as TawkAPI);
 
         const initialPath = pathnameRef.current;
         window.Tawk_API.customStyle = getCustomStyleForPath(initialPath);
-        console.log(`TawkToManager (Initial Setup): Set customStyle for ${initialPath}`, window.Tawk_API.customStyle);
+        // console.log(`TawkToManager (Initial Setup): Set customStyle for ${initialPath}`, window.Tawk_API.customStyle);
 
         window.Tawk_API.onLoad = () => {
-            console.log("TawkToManager: Tawk_API.onLoad fired.");
+            // console.log("TawkToManager: Tawk_API.onLoad fired.");
             tawkApiReady.current = true;
 
             const pathAtLoadTime = pathnameRef.current;
             const styleAtLoadTime = getCustomStyleForPath(pathAtLoadTime);
 
             if (window.Tawk_API!.customStyle !== styleAtLoadTime) {
-                console.log(`TawkToManager (onLoad Update): Correcting customStyle for ${pathAtLoadTime}`, styleAtLoadTime);
+                // console.log(`TawkToManager (onLoad Update): Correcting customStyle for ${pathAtLoadTime}`, styleAtLoadTime);
                 window.Tawk_API!.customStyle = styleAtLoadTime;
             }
 
             try {
                 if (typeof window.Tawk_API?.hideWidget === 'function') {
-                    console.log(`TawkToManager (onLoad): Pre-emptively hiding widget for path ${pathAtLoadTime}.`);
+                    // console.log(`TawkToManager (onLoad): Pre-emptively hiding widget for path ${pathAtLoadTime}.`);
                     window.Tawk_API.hideWidget();
                 } else {
-                    console.warn("TawkToManager (onLoad): hideWidget not available for pre-emptive hide.");
+                    // console.warn("TawkToManager (onLoad): hideWidget not available for pre-emptive hide.");
                 }
             } catch (e) {
-                console.error("TawkToManager (onLoad): Error during pre-emptive hide:", e);
+                // console.error("TawkToManager (onLoad): Error during pre-emptive hide:", e);
             }
 
             const shouldShow = shouldShowWidgetBasedOnPath(pathAtLoadTime);
             if (shouldShow) {
                 if (typeof window.Tawk_API?.showWidget === 'function') {
-                    console.log(`TawkToManager (onLoad): Showing widget for path: ${pathAtLoadTime}`);
+                    // console.log(`TawkToManager (onLoad): Showing widget for path: ${pathAtLoadTime}`);
                     window.Tawk_API.showWidget();
                 } else {
-                    console.warn(`TawkToManager (onLoad): showWidget function not found when trying to show for ${pathAtLoadTime}.`);
+                    // console.warn(`TawkToManager (onLoad): showWidget function not found when trying to show for ${pathAtLoadTime}.`);
                 }
             } else {
-                console.log(`TawkToManager (onLoad): Widget remains hidden for ${pathAtLoadTime} based on rules.`);
+                // console.log(`TawkToManager (onLoad): Widget remains hidden for ${pathAtLoadTime} based on rules.`);
             }
         };
 
@@ -647,9 +929,8 @@ export default function TawkToManager() {
                 window.Tawk_API.onLoad = undefined;
             }
         };
-    }, []); // Runs once on mount to set up Tawk_API and onLoad.
+    }, []);
 
-    // Effect for Tawk Visibility and Custom Style on Path Changes (after initial load)
      useEffect(() => {
         if (!tawkApiReady.current || !window.Tawk_API || typeof window === 'undefined') {
             return;
@@ -659,56 +940,49 @@ export default function TawkToManager() {
         const styleToApply = getCustomStyleForPath(currentPath);
 
         if (window.Tawk_API.customStyle !== styleToApply) {
-            console.log(`TawkToManager (Path Change): Applying customStyle for path: ${currentPath}`, styleToApply);
+            // console.log(`TawkToManager (Path Change): Applying customStyle for path: ${currentPath}`, styleToApply);
             window.Tawk_API.customStyle = styleToApply;
         }
 
         try {
             if (typeof window.Tawk_API.hideWidget === 'function') {
-                // console.log(`TawkToManager (Path Change): Hiding widget before visibility check for ${currentPath}`);
                 window.Tawk_API.hideWidget();
             } else {
-                 console.warn(`TawkToManager (Path Change): hideWidget not found when attempting to hide for ${currentPath}.`);
+                // console.warn(`TawkToManager (Path Change): hideWidget not found when attempting to hide for ${currentPath}.`);
             }
         } catch (error) {
-            console.error(`TawkToManager (Path Change): Error hiding widget for ${currentPath}:`, error);
+            // console.error(`TawkToManager (Path Change): Error hiding widget for ${currentPath}:`, error);
         }
 
         const shouldShow = shouldShowWidgetBasedOnPath(currentPath);
         if (shouldShow) {
             if (typeof window.Tawk_API.showWidget === 'function') {
-                console.log(`TawkToManager (Path Change): Showing widget for path: ${currentPath}`);
+                // console.log(`TawkToManager (Path Change): Showing widget for path: ${currentPath}`);
                 window.Tawk_API.showWidget();
             } else {
-                console.warn(`TawkToManager (Path Change): showWidget function not found when trying to show for ${currentPath}.`);
+                // console.warn(`TawkToManager (Path Change): showWidget function not found when trying to show for ${currentPath}.`);
             }
         } else {
-            console.log(`TawkToManager (Path Change): Widget remains hidden for path: ${currentPath} based on rules.`);
+            // console.log(`TawkToManager (Path Change): Widget remains hidden for path: ${currentPath} based on rules.`);
         }
-    }, [pathname]); // Re-run this effect whenever the pathname changes.
+    }, [pathname]);
 
-    // --- Effect: Manage Body Class based on Path ---
     useEffect(() => {
         const targetPaths = ['/dashboard/your-account', '/dashboard/your-account/theme-settings'];
-        const bodyClass = 'your-account-page-active'; // You can make this dynamic if needed
+        const bodyClass = 'your-account-page-active';
 
         if (targetPaths.includes(pathname)) {
             document.body.classList.add(bodyClass);
-            // console.log(`BodyClassManager: Added class '${bodyClass}' for path: ${pathname}`);
             return () => {
                 document.body.classList.remove(bodyClass);
-                // console.log(`BodyClassManager: Removed class '${bodyClass}' (cleanup for path: ${pathname})`);
             };
         } else {
-             // Ensure class is removed if current path is not one of the targets
              if (document.body.classList.contains(bodyClass)) {
                 document.body.classList.remove(bodyClass);
-                // console.log(`BodyClassManager: Removed class '${bodyClass}' as path is not a target: ${pathname}`);
              }
         }
-    }, [pathname]); // Re-run this effect whenever the pathname changes
+    }, [pathname]);
 
-    // --- Render Script ---
     if (!tawkToSrc) {
         console.warn("TawkToManager: Missing Tawk.to Property ID or Widget ID. Tawk.to disabled.");
         return null;
@@ -721,7 +995,7 @@ export default function TawkToManager() {
             src={tawkToSrc}
             onError={(e) => {
                 console.error('TawkToManager: Tawk.to script failed to load:', e);
-                tawkApiReady.current = false; // Ensure API ready state is false on error
+                tawkApiReady.current = false;
             }}
         />
     );

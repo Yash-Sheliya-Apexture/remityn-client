@@ -136,7 +136,7 @@ const AccountSettings: React.FC = () => {
       <div className="lg:max-w-2xl lg:mx-auto grid grid-cols-1 md:grid-cols-[auto,1fr] gap-10">
         <AccountCard username={displayName} />
         <div className="flex flex-col w-full">
-          <h2 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white mb-4">
+          <h2 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white mb-4">
             Your account
           </h2>
           <div className="space-y-2 mb-6">
@@ -158,7 +158,7 @@ const AccountSettings: React.FC = () => {
             />
           </div>
 
-          <h2 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white mb-4">
+          <h2 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white mb-4">
             Settings
           </h2>
           <div className="space-y-2">

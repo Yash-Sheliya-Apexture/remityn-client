@@ -2233,8 +2233,8 @@ export default function KycStartPage() {
       headerIcon = <AlertTriangle className="h-8 w-8" />;
       iconBgColor = "bg-red-100 text-destructive border-red-300 dark:bg-red-900/40 dark:text-red-400 dark:border-red-700"; // Red theme
       startButtonText = "Retry Verification";
-      startButtonIcon = <RotateCcw className="mr-2 size-4.5" />;
-      primaryButtonClasses = "bg-destructive text-destructive-foreground hover:bg-destructive/90"; // Red button
+      startButtonIcon = <RotateCcw className="ml-2 size-4.5" />;
+      primaryButtonClasses = "bg-red-600 hover:bg-red-700 text-white"; // Red button
     }
 
     // --- JSX ---
@@ -2271,13 +2271,16 @@ export default function KycStartPage() {
           <CardContent className="p-4 md:p-8 space-y-6">
             {/* Conditional Alert for Skipped */}
             {backendStatus === "skipped" && (
-              <Alert className="bg-blue-100 border-blue-300 dark:bg-blue-900/40 dark:border-blue-700 rounded-lg p-4">
-                <Info className="text-blue-600 dark:text-blue-400 h-5 w-5 flex-shrink-0 mt-1" />
+              <Alert className="bg-blue-50 dark:bg-blue-900/25 border-blue-500 rounded-lg p-4 gap-3">
+                <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-blue-600/20">
+
+                  <Info className="text-blue-600 dark:text-blue-500 size-5 sm:size-6 flex-shrink-0" />
+                </div>
                 <div>
-                  <AlertTitle className="font-medium text-neutral-900 dark:text-white tracking-normal text-base">
+                  <AlertTitle className="font-medium text-blue-800 dark:text-blue-200 tracking-normal text-base">
                     Verification Pending
                   </AlertTitle>
-                  <AlertDescription className="text-gray-500 dark:text-gray-300">
+                  <AlertDescription className="text-blue-700 dark:text-blue-300/90">
                     Complete verification now to unlock full account features.
                   </AlertDescription>
                 </div>
@@ -2286,13 +2289,16 @@ export default function KycStartPage() {
 
             {/* Conditional Alert for Rejected */}
             {backendStatus === 'rejected' && (
-              <Alert className="bg-red-100 border-red-300 dark:bg-red-600/20 dark:border-red-700 rounded-lg p-4">
-                <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5 text-red-700 dark:text-red-400 " />
+              <Alert className="bg-red-50 dark:bg-red-900/25 border-red-500 rounded-lg p-4 gap-3">
+                <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+
+                <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                </div>
                 <div>
-                  <AlertTitle className="font-medium tracking-normal text-red-700 dark:text-red-400  text-base">
+                  <AlertTitle className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
                     Previous Attempt Failed
                   </AlertTitle>
-                  <AlertDescription className="text-red-600 dark:text-red-300">
+                  <AlertDescription className="text-red-700 dark:text-red-300/90">
                     {rejectionReason ||
                       "Please review the requirements carefully and ensure your documents are clear and valid."}
                   </AlertDescription>
@@ -2331,13 +2337,15 @@ export default function KycStartPage() {
 
             {/* Action Error Message */}
             {actionError && (
-              <Alert className="bg-red-100 border-red-300 dark:bg-red-600/20 dark:border-red-700 rounded-lg p-4">
-                <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5 text-red-700 dark:text-red-400 " />
-                <div className="">
-                  <AlertTitle className="font-medium tracking-normal text-red-700 dark:text-red-400  text-base">
+              <Alert className="bg-red-50 dark:bg-red-900/25 border-red-500 rounded-lg p-4 gap-3">
+                <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+                  <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                </div>
+                <div>
+                  <AlertTitle className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
                     Action Failed
                   </AlertTitle>
-                  <AlertDescription className="text-red-600 dark:text-red-300">
+                  <AlertDescription className="text-red-700 dark:text-red-300/90">
                     {actionError}
                   </AlertDescription>
                 </div>
@@ -2382,7 +2390,7 @@ export default function KycStartPage() {
                 disabled={isSkipping} // Disable if skipping is in progress
                 // Apply base button styles + dynamic primary color
                 className={cn(
-                  "inline-flex items-center justify-center font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-150 ease-linear focus:outline-none",
+                  "inline-flex items-center justify-center font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none",
                   primaryButtonClasses // Applies blue or red background
                 )}
               >

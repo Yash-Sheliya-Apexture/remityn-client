@@ -2318,7 +2318,6 @@ import { FaCheck } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion"; // Import motion and AnimatePresence
 import { FiX } from "react-icons/fi";
 import Link from "next/link";
-
 // --- Animation Variants (Same as LoginPage/RegisterPage) ---
 
 // Variant for the main container to orchestrate children animations

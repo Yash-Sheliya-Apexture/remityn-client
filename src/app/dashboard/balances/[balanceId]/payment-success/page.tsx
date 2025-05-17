@@ -494,7 +494,7 @@ const PaymentSuccessPage = () => {
           {!isLoading &&
             paymentDetails &&
             !error && ( // Show even if details are partial but essential ID is there
-              <p className="sm:text-lg text-base leading-tight text-muted-foreground">
+              <p className="sm:text-lg text-base leading-tight text-gray-500 dark:text-gray-300">
                 Track your transfers in real-time and enjoy fast, secure
                 delivery to your recipients — anytime, anywhere.
                 {/* Conditionally display amount/currency only if valid */}
@@ -509,7 +509,7 @@ const PaymentSuccessPage = () => {
 
           {/* Generic Success (Fallback if paymentDetails couldn't be set but no blocking error) */}
           {!isLoading && !paymentDetails && !error && (
-            <p className="text-lg mb-8 text-muted-foreground">
+            <p className="text-lg mb-8 text-gray-500 dark:text-gray-300">
               Your payment is processing and should arrive 2 hours. We'll keep
               you posted.
             </p>
@@ -527,7 +527,7 @@ const PaymentSuccessPage = () => {
           {/* Action Button */}
           <button
             onClick={handleGotIt}
-            className="bg-primary hover:bg-primaryhover mt-4 font-medium py-3 px-8 rounded-full transition duration-300 text-mainheading focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-primary hover:bg-primaryhover mt-4 font-medium py-3 px-8 rounded-full transition-all duration-75 ease-linear text-neutral-900 focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isLoading}
           >
             Check Now's

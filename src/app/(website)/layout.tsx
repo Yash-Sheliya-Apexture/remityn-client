@@ -401,6 +401,7 @@ import { WebsiteAppProvider } from "../contexts/WebsiteAppContext"; // Adjust pa
 import BackToTopButton from "../../app/dashboard/components/BackToTopButton"; // --- IMPORT THE REUSABLE COMPONENT --- (Adjust path if necessary)
 // import TawkToScript from "../components/TawkToScript"; // Adjust path if needed
 import "../globals.css"; // Keep global styles
+import FloatingActionButtons from "./components/FloatingActionButtons";
 
 interface LayoutProps {
   children: ReactNode;
@@ -452,6 +453,8 @@ export default function WebsiteLayout({ children }: LayoutProps) {
 
       {/* Tawk.to Live Chat Script */}
       {/* {tawkToSrc && <TawkToScript src={tawkToSrc} />} */}
+         <FloatingActionButtons />
+
     </WebsiteAppProvider>
   );
 }

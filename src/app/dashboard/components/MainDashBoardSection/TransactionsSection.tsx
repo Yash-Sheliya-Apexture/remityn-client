@@ -1968,7 +1968,7 @@ const TransactionsSection: React.FC = () => {
       <div className="Transactions">
         {/* Section Header */}
         <div className="flex justify-between items-center mb-4 gap-4">
-          <h1 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white text-wrap">
+          <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white text-wrap">
             Recent Transactions
           </h1>
           <div className="flex items-center justify-center cursor-pointer underline bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox px-4 py-1.5 rounded-full transition-all duration-75 ease-linear">

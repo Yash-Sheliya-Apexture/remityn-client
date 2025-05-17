@@ -624,7 +624,7 @@ export const InboxMessageListItem: React.FC<InboxMessageListItemProps> =
         >
           <div
             className={cn(
-              "lg:p-4 p-3 flex items-start gap-3",
+              "p-4 flex items-start gap-3",
               isUnread ? "bg-lightgray dark:bg-primary/10" : ""
             )}
           >
@@ -701,7 +701,7 @@ export const InboxMessageListItem: React.FC<InboxMessageListItemProps> =
 
             {/* Delete Button */}
             <button
-              className="absolute bottom-3 right-3 h-8 w-8 rounded-full flex items-center bg-lightborder dark:bg-primarybox text-neutral-900 dark:text-white hover:bg-primary dark:hover:bg-secondarybox transition-all duration-75 ease-linear justify-center cursor-pointer"
+              className="absolute bottom-3 right-3 size-8 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white rounded-full transition-all duration-75 ease-linear flex justify-center items-center gap-2 cursor-pointer"
               onClick={handleOpenDeleteModal} // Changed to open modal
               aria-label={`Delete message: ${message.subject}`}
               disabled={isDeleting} // Keep disabled if a delete operation is in progress

@@ -167,8 +167,6 @@
 
 // export default TransferTable;
 
-
-
 // // frontend/src/app/admin/components/transfers/TransferTable.tsx
 // "use client";
 // import React from "react";
@@ -195,7 +193,6 @@
 //   createdAt: string; // Assuming createdAt is a string (like ISO date string)
 //   // Add any other relevant fields from your transfer data model here
 // }
-
 
 // interface TransferTableProps {
 //   // Use the specific Transfer type here instead of 'any'
@@ -396,7 +393,6 @@
 // // Corresponds to the values passed by the parent and handled by the header
 // type TransferTableSortField = keyof Omit<Transfer, 'user' | 'recipient' | 'sendCurrency'> | 'user' | 'recipient' | 'createdAt' | 'amount' | '_id';
 
-
 // interface TransferTableProps {
 //   filteredTransfers: Transfer[]; // Expects the Transfer type defined above
 //   loadingTransfers: boolean;
@@ -548,10 +544,6 @@
 
 // export default TransferTable;
 
-
-
-
-
 // frontend/src/app/admin/components/transfers/TransferTable.tsx
 "use client";
 import React from "react";
@@ -584,14 +576,13 @@ interface Transfer {
 // We rely on TransferSortField imported from the header.
 // type TransferTableSortField = keyof Omit<Transfer, 'user' | 'recipient' | 'sendCurrency'> | 'user' | 'recipient' | 'createdAt' | 'amount' | '_id';
 
-
 interface TransferTableProps {
   filteredTransfers: Transfer[]; // Expects the Transfer type defined above
   loadingTransfers: boolean;
   getStatusColor: (status: string) => string;
   // --- FIX: Update prop type to match the parent's state type ---
   toggleSort: (field: TransferSortField) => void; // Use the imported type
-  sortField: TransferSortField | null;         // Use the imported type
+  sortField: TransferSortField | null; // Use the imported type
   sortDirection: "asc" | "desc";
 }
 
@@ -605,7 +596,7 @@ const TransferTable: React.FC<TransferTableProps> = ({
 }) => {
   const formatDate = (dateString: string) => {
     if (!dateString || isNaN(new Date(dateString).getTime())) {
-        return "Invalid Date";
+      return "Invalid Date";
     }
     const options: Intl.DateTimeFormatOptions = {
       year: "numeric",
@@ -624,27 +615,40 @@ const TransferTable: React.FC<TransferTableProps> = ({
   if (loadingTransfers) {
     return (
       <div className="rounded-xl border overflow-hidden">
-        <table className="min-w-full">
-          <TransferTableHeader
-            // Cast the specific types back to general string if the Header component expects it
-            toggleSort={toggleSort} // Pass directly - types now match
-            sortField={sortField}   // Pass directly - types now match
-            sortDirection={sortDirection}
-          />
-          <tbody>
-            {Array(10)
-              .fill(0)
-              .map((_, i) => (
-                <tr key={i}>
-                  {Array(numberOfColumns).fill(0).map((_, j) => ( // Dynamic skeleton columns
-                      <td key={j} className="px-4 py-3 whitespace-nowrap">
-                          <Skeleton className="h-4 w-full" /> {/* Use full width skeleton */}
-                      </td>
-                  ))}
-                </tr>
-              ))}
-          </tbody>
-        </table>
+        <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+          <table className="min-w-full">
+            <TransferTableHeader
+              // Cast the specific types back to general string if the Header component expects it
+              toggleSort={toggleSort} // Pass directly - types now match
+              sortField={sortField} // Pass directly - types now match
+              sortDirection={sortDirection}
+            />
+            <tbody>
+              {Array(10)
+                .fill(0)
+                .map((_, i) => (
+                  <tr key={i} className="border-b">
+                    {Array(numberOfColumns)
+                      .fill(0)
+                      .map(
+                        (
+                          _,
+                          j // Dynamic skeleton columns
+                        ) => (
+                          <td
+                            key={j}
+                            className="px-6 py-4 h-[70px] whitespace-nowrap"
+                          >
+                            {/* Use full width skeleton */}
+                            <Skeleton className="h-4 w-full" />{" "}
+                          </td>
+                        )
+                      )}
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     );
   }
@@ -654,10 +658,10 @@ const TransferTable: React.FC<TransferTableProps> = ({
       <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
         <table className="min-w-full overflow-hidden">
           <TransferTableHeader
-             // Cast the specific types back to general string if the Header component expects it
-             toggleSort={toggleSort} // Pass directly - types now match
-             sortField={sortField}   // Pass directly - types now match
-             sortDirection={sortDirection}
+            // Cast the specific types back to general string if the Header component expects it
+            toggleSort={toggleSort} // Pass directly - types now match
+            sortField={sortField} // Pass directly - types now match
+            sortDirection={sortDirection}
           />
           <tbody className="divide-y overflow-hidden">
             {filteredTransfers.length === 0 ? (
@@ -679,7 +683,9 @@ const TransferTable: React.FC<TransferTableProps> = ({
                 >
                   <td className="px-6 py-3 whitespace-nowrap">
                     <span className="font-medium text-neutral-900 dark:text-white">
-                      {transfer._id ? `${transfer._id.substring(0, 10)}...` : "N/A"}
+                      {transfer._id
+                        ? `${transfer._id.substring(0, 10)}...`
+                        : "N/A"}
                     </span>
                   </td>
                   <td className="px-6 py-3">
@@ -708,10 +714,10 @@ const TransferTable: React.FC<TransferTableProps> = ({
                   <td className="px-6 py-3 whitespace-nowrap">
                     <span
                       className={`inline-flex justify-center items-center px-4 py-1 w-28 font-medium rounded-3xl capitalize ${getStatusColor(
-                        transfer.status || 'unknown'
+                        transfer.status || "unknown"
                       )}`}
                     >
-                      {transfer.status || 'Unknown'}
+                      {transfer.status || "Unknown"}
                     </span>
                   </td>
                   <td className="px-6 py-3 font-medium text-neutral-900 dark:text-white whitespace-nowrap">

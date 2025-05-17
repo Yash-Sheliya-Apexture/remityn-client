@@ -476,6 +476,7 @@ import activityAdminService, {
 import moment from "moment";
 // import { Button } from '@/components/ui/button'; // Removed Shadcn Button
 import { Skeleton } from "@/components/ui/skeleton";
+import { LuActivity } from "react-icons/lu";
 
 type ActivityConfig = {
   icon: React.ReactNode;
@@ -483,13 +484,6 @@ type ActivityConfig = {
   bgColor: string;
 };
 
-/**
- * Premium Recent Activity Component
- *
- * Displays the most recent system activity.
- * Design and skeleton for items match ActivityList.tsx.
- * Framer Motion animations have been removed.
- */
 export default function RecentActivity() {
   const [activities, setActivities] = useState<ActivityItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true); // For initial load
@@ -601,7 +595,7 @@ export default function RecentActivity() {
   if (loading && !refreshing && activities.length === 0) {
     // More specific condition for full component skeleton
     return (
-      <div className="sm:w-3/4 w-full bg-white dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
+      <div className="xl:w-3/4 w-full bg-white dark:bg-primarybox sm:order-1 order-2 sm:p-6 p-4 rounded-xl border">
         <div className="flex items-center justify-between mb-5">
           <Skeleton className="h-6 rounded-md w-40" />
           <Skeleton className="h-9 w-9 rounded-full" />
@@ -630,7 +624,7 @@ export default function RecentActivity() {
     // Don't show main error if we are just trying to refresh
     return (
       <div
-        className="sm:w-3/4 w-full bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/30 text-red-700 dark:text-red-300 px-5 py-4 rounded-xl"
+        className="xl:w-3/4 w-full bg-red-50 dark:bg-red-900/20 border sm:order-1 order-2 border-red-200 dark:border-red-800/30 text-red-700 dark:text-red-300 px-5 py-4 rounded-xl"
         role="alert"
       >
         <div className="flex items-center gap-3">
@@ -660,28 +654,33 @@ export default function RecentActivity() {
   );
 
   return (
-    <div className="sm:w-3/4 w-full bg-white dark:bg-primarybox sm:p-6 p-4 rounded-xl border relative overflow-hidden">
+    <div className="xl:w-3/4 w-full bg-white dark:bg-primarybox sm:order-1 order-2 sm:p-6 p-4 rounded-xl border relative overflow-hidden">
       <div className="flex items-center justify-between mb-5 relative">
-        <div className="flex items-center gap-2">
-          <ActivityIcon className="h-5 w-5 text-primary" />
+        <div className="flex gap-3 items-center">
+          <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
+            <LuActivity className="size-6 text-mainheading dark:text-primary" />
+          </div>
+
           <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
             Recent Activity
           </h3>
         </div>
+
         <div className="flex items-center gap-2">
           {!isMobile && (
             <Link
               href="/admin/activity"
-              className="flex items-center justify-center cursor-pointer gap-2 bg-primary text-neutral-900 font-medium text-base px-8 py-3 h-12.5 sm:w-auto w-full rounded-full hover:bg-primaryhover transition-all duration-75 ease-linear"
+              className="flex items-center justify-center cursor-pointer gap-2 bg-primary text-neutral-900 font-medium text-base px-8 py-3 h-10 sm:w-auto w-full rounded-full hover:bg-primaryhover transition-all duration-75 ease-linear"
             >
               <span>All Activity</span>
             </Link>
           )}
+
           <button
             type="button"
             onClick={handleRefresh}
             disabled={refreshing || loading} // Disable if already refreshing or initial loading
-            className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white h-12.5 w-12.5 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
+            className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white size-10 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
             aria-label="Refresh recent activity"
           >
             <RefreshCw
@@ -691,8 +690,8 @@ export default function RecentActivity() {
         </div>
       </div>
 
-      <div className="space-y-3 relative">
-        {showSkeletons ? ( // Show skeletons for the list if loading OR refreshing
+      <div className="space-y-4 relative">
+        {showSkeletons ? ( // Show skeletons for the list if loading OR refreshing 508px
           [...Array(activitiesToDisplayCount)].map((_, i) => (
             <div
               key={`skel-list-item-${i}`}
@@ -703,7 +702,10 @@ export default function RecentActivity() {
                 <Skeleton className="h-4 w-4/5 rounded-full bg-lightborder dark:bg-accent" />
                 <Skeleton className="h-3 w-2/5 rounded-full bg-lightborder dark:bg-accent" />
               </div>
-              <Skeleton className="h-3 w-24 rounded-full ml-4 flex-shrink-0 self-start mt-1 bg-lightborder dark:bg-accent" />
+              <div className="space-y-1.5">
+                <Skeleton className="h-3 w-32 rounded-full  bg-lightborder dark:bg-accent" />
+                <Skeleton className="h-3 w-22 rounded-full  bg-lightborder dark:bg-accent" />
+              </div>
             </div>
           ))
         ) : activities.length > 0 ? (
@@ -770,325 +772,15 @@ export default function RecentActivity() {
           </div>
         )}
       </div>
+      
       {isMobile && (
-            <Link
-              href="/admin/activity"
-              className="mt-3 flex items-center justify-center cursor-pointer gap-2 bg-primary text-neutral-900 font-medium text-base px-8 py-3 h-12.5 sm:w-auto w-full rounded-full hover:bg-primaryhover transition-all duration-75 ease-linear"
-            >
-              <span>All Activity</span>
-            </Link>
-          )}
+        <Link
+          href="/admin/activity"
+          className="mt-3 flex items-center justify-center cursor-pointer gap-2 bg-primary text-neutral-900 font-medium text-base px-8 py-3 h-12.5 sm:w-auto w-full rounded-full hover:bg-primaryhover transition-all duration-75 ease-linear"
+        >
+          <span>All Activity</span>
+        </Link>
+      )}
     </div>
   );
 }
-
-
-// "use client";
-
-// import React, { useState, useEffect, useMemo, useCallback } from "react"; // Added useCallback
-// import Link from "next/link";
-// import {
-//   User,
-//   CreditCard,
-//   Send,
-//   FileText,
-//   AlertCircle,
-//   Clock,
-//   RefreshCw,
-//   Activity as ActivityIcon, // Renamed to avoid conflict with local Activity type if any
-//   MessageSquare,
-// } from "lucide-react";
-// import activityAdminService, {
-//   ActivityItem,
-// } from "../../../services/admin/activity.admin";
-// import moment from "moment";
-// import { Skeleton } from "@/components/ui/skeleton";
-
-// type ActivityConfig = {
-//   icon: React.ReactNode;
-//   color: string;
-//   bgColor: string;
-// };
-
-// /**
-//  * Premium Recent Activity Component
-//  *
-//  * Displays the most recent system activity.
-//  * Data is fetched on initial load and on manual refresh.
-//  */
-// export default function RecentActivity() {
-//   const [activities, setActivities] = useState<ActivityItem[]>([]);
-//   const [loading, setLoading] = useState<boolean>(true); // For initial load
-//   const [error, setError] = useState<string | null>(null);
-//   const [refreshing, setRefreshing] = useState<boolean>(false); // Specifically for refresh button click
-//   const [isMobile, setIsMobile] = useState(false);
-
-//   useEffect(() => {
-//     const checkScreenSize = () => {
-//       setIsMobile(window.innerWidth < 768);
-//     };
-//     checkScreenSize();
-//     window.addEventListener("resize", checkScreenSize);
-//     return () => window.removeEventListener("resize", checkScreenSize);
-//   }, []);
-
-//   const activityConfig = useMemo<Record<string, ActivityConfig>>(
-//     () => ({
-//       NEW_USER: {
-//         icon: <User size={20} />,
-//         color: "text-blue-500 dark:text-blue-400",
-//         bgColor: "bg-blue-100 dark:bg-blue-900/30",
-//       },
-//       NEW_PAYMENT: {
-//         icon: <CreditCard size={20} />,
-//         color: "text-green-500 dark:text-green-400",
-//         bgColor: "bg-green-100 dark:bg-green-900/30",
-//       },
-//       NEW_TRANSFER: {
-//         icon: <Send size={20} />,
-//         color: "text-purple-500 dark:text-purple-400",
-//         bgColor: "bg-purple-100 dark:bg-purple-900/30",
-//       },
-//       KYC_PENDING: {
-//         icon: <FileText size={20} />,
-//         color: "text-yellow-500 dark:text-yellow-400",
-//         bgColor: "bg-yellow-100 dark:bg-yellow-900/30",
-//       },
-//       SUPPORT_MESSAGE: {
-//         icon: <MessageSquare size={20} />,
-//         color: "text-indigo-500 dark:text-indigo-400",
-//         bgColor: "bg-indigo-100 dark:bg-indigo-900/30",
-//       },
-//       KYC_VERIFIED: {
-//         icon: <FileText size={20} />,
-//         color: "text-teal-500 dark:text-teal-400",
-//         bgColor: "bg-teal-100 dark:bg-teal-900/30",
-//       },
-//       KYC_REJECTED: {
-//         icon: <FileText size={20} />,
-//         color: "text-red-500 dark:text-red-400",
-//         bgColor: "bg-red-100 dark:bg-red-900/30",
-//       },
-//       DEFAULT: {
-//         icon: <ActivityIcon size={20} />, // Using renamed import
-//         color: "text-gray-500 dark:text-gray-400",
-//         bgColor: "bg-gray-100 dark:bg-gray-700/30",
-//       },
-//     }),
-//     []
-//   );
-
-//   // Using useCallback for fetchActivities as it's a dependency of useEffect
-//   const fetchActivities = useCallback(async (isManualRefresh = false) => {
-//     if (isManualRefresh) {
-//       setRefreshing(true);
-//     } else {
-//       setLoading(true); // Only set general loading for initial fetch
-//     }
-//     setError(null);
-//     try {
-//       const response = await activityAdminService.getRecentActivities(4, 1);
-//       setActivities(response.data || []);
-//     } catch (err: any) {
-//       setError(err.message || "Failed to load recent activities.");
-//       console.error("Error fetching recent activities:", err);
-//     } finally {
-//       if (isManualRefresh) {
-//         setTimeout(() => setRefreshing(false), 300); // Visual feedback for manual refresh
-//       }
-//       setLoading(false); // Always set general loading to false
-//     }
-//   }, []); // Empty dependency array as it doesn't depend on props/state outside its scope
-
-//   // Effect for initial data fetch
-//   useEffect(() => {
-//     fetchActivities(false); // Initial fetch, not a manual refresh
-//   }, [fetchActivities]); // fetchActivities is now stable due to useCallback
-
-//   const getActivityConfig = (type: ActivityItem["type"]): ActivityConfig => {
-//     return activityConfig[type] || activityConfig["DEFAULT"];
-//   };
-
-//   const handleRefresh = (e: React.MouseEvent) => {
-//     e.preventDefault();
-//     if (!refreshing && !loading) { // Prevent refresh if already refreshing or initial loading
-//       fetchActivities(true); // Indicate manual refresh
-//     }
-//   };
-
-//   const activitiesToDisplayCount = 4;
-//   const showSkeletonsForList = refreshing || (loading && activities.length === 0); // Show list skeletons if refreshing OR (initial loading AND no activities yet)
-
-//   // Skeleton for the entire component on initial load when no activities are present yet
-//   if (loading && activities.length === 0 && !refreshing) {
-//     return (
-//       <div className="sm:w-3/4 w-full bg-white dark:bg-primarybox sm:p-6 p-4 rounded-xl border border-border">
-//         <div className="flex items-center justify-between mb-5">
-//           <Skeleton className="h-6 rounded-md w-40 bg-muted" />
-//           <Skeleton className="h-9 w-9 rounded-full bg-muted" />
-//         </div>
-//         <div className="space-y-3 mt-1">
-//           {[...Array(activitiesToDisplayCount)].map((_, i) => (
-//             <div
-//               key={`skel-recent-activity-${i}`}
-//               className="flex items-start bg-muted/50 dark:bg-primarybox/70 p-4 rounded-lg "
-//             >
-//               <Skeleton className="h-10 w-10 rounded-full mr-4 flex-shrink-0 bg-muted" />
-//               <div className="flex-grow space-y-2.5">
-//                 <Skeleton className="h-4 w-4/5 rounded-full bg-muted" />
-//                 <Skeleton className="h-3 w-2/5 rounded-full bg-muted" />
-//               </div>
-//               <Skeleton className="h-3 w-24 rounded-full ml-4 flex-shrink-0 self-start mt-1 bg-muted" />
-//             </div>
-//           ))}
-//         </div>
-//         <Skeleton className="h-10 rounded-lg w-full mt-6 bg-muted" />
-//       </div>
-//     );
-//   }
-
-//   if (error && !refreshing) { // Show main error only if not in the middle of a manual refresh
-//     return (
-//       <div
-//         className="sm:w-3/4 w-full bg-destructive/10 dark:bg-destructive/20 border border-destructive/30 text-destructive dark:text-destructive-foreground px-5 py-4 rounded-xl"
-//         role="alert"
-//       >
-//         <div className="flex items-center gap-3">
-//           <div className="flex-shrink-0">
-//             <AlertCircle className="h-5 w-5" />
-//           </div>
-//           <div className="flex-1">
-//             <h4 className="font-medium">Unable to load activities</h4>
-//             <p className="text-sm mt-1">{error}</p>
-//           </div>
-//           <button
-//             onClick={handleRefresh}
-//             className="p-2 rounded-md hover:bg-destructive/20 dark:hover:bg-destructive/30 transition-colors"
-//             aria-label="Retry loading activities"
-//           >
-//             <RefreshCw className="h-4 w-4" />
-//           </button>
-//         </div>
-//       </div>
-//     );
-//   }
-
-
-//   return (
-//     <div className="sm:w-3/4 w-full bg-card dark:bg-primarybox sm:p-6 p-4 rounded-xl border border-border relative overflow-hidden">
-//       <div className="flex items-center justify-between mb-5 relative">
-//         <div className="flex items-center gap-2">
-//           <ActivityIcon className="h-5 w-5 text-primary" />
-//           <h3 className="text-lg font-semibold text-card-foreground dark:text-white">
-//             Recent Activity
-//           </h3>
-//         </div>
-//         <div className="flex items-center gap-2">
-//           {!isMobile && (
-//             <Link
-//               href="/admin/activity"
-//               className="flex items-center justify-center cursor-pointer gap-2 bg-primary text-primary-foreground font-medium text-sm px-6 py-2.5 h-10 rounded-full hover:bg-primary/90 transition-all duration-75 ease-linear"
-//             >
-//               <span>All Activity</span>
-//             </Link>
-//           )}
-//           <button
-//             type="button"
-//             onClick={handleRefresh}
-//             disabled={refreshing || loading}
-//             className="flex items-center justify-center cursor-pointer gap-2 bg-muted hover:bg-muted/80 dark:bg-primarybox/70 dark:hover:bg-secondarybox text-muted-foreground dark:text-white h-10 w-10 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
-//             aria-label="Refresh recent activity"
-//           >
-//             <RefreshCw
-//               className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`}
-//             />
-//           </button>
-//         </div>
-//       </div>
-
-//       <div className="space-y-3 relative">
-//         {showSkeletonsForList ? (
-//           [...Array(activitiesToDisplayCount)].map((_, i) => (
-//             <div
-//               key={`skel-list-item-${i}`}
-//               className="flex items-start bg-muted/50 dark:bg-primarybox/70 p-4 rounded-lg "
-//             >
-//               <Skeleton className="h-10 w-10 rounded-full mr-4 flex-shrink-0 bg-muted" />
-//               <div className="flex-grow space-y-2.5">
-//                 <Skeleton className="h-4 w-4/5 rounded-full bg-muted" />
-//                 <Skeleton className="h-3 w-2/5 rounded-full bg-muted" />
-//               </div>
-//               <Skeleton className="h-3 w-24 rounded-full ml-4 flex-shrink-0 self-start mt-1 bg-muted" />
-//             </div>
-//           ))
-//         ) : activities.length > 0 ? (
-//           activities.map((activity, index) => {
-//             const config = getActivityConfig(activity.type);
-//             return (
-//               <div
-//                 key={`${activity.itemId || "activity"}-${activity.timestamp}-${index}`}
-//                 className="flex items-start bg-muted/30 dark:bg-primarybox/60 p-3.5 sm:p-4 rounded-lg transition-all duration-150 ease-out cursor-default"
-//               >
-//                 <div
-//                   className={`flex-shrink-0 h-10 w-10 sm:h-11 sm:w-11 rounded-full ${config.bgColor} flex items-center justify-center mr-3.5 sm:mr-4`}
-//                 >
-//                   <span className={config.color}>{config.icon}</span>
-//                 </div>
-//                 <div className="flex-grow min-w-0">
-//                   <p className="text-sm text-foreground dark:text-white break-words">
-//                     {activity.message}
-//                     {activity.itemId && (
-//                       <span className="block text-xs text-muted-foreground sm:mt-0.5 mt-1">
-//                         ID: {activity.itemId}
-//                       </span>
-//                     )}
-//                   </p>
-//                   {isMobile && ( // Timestamp for mobile shown below message
-//                     <div className="mt-1.5 flex flex-col items-start gap-0.5">
-//                       <p className="text-xs text-muted-foreground whitespace-nowrap">
-//                         {moment(activity.timestamp).format("MMM D, h:mm A")}
-//                       </p>
-//                       <p className="text-xs text-muted-foreground/80 whitespace-nowrap">
-//                         ({moment(activity.timestamp).fromNow()})
-//                       </p>
-//                     </div>
-//                   )}
-//                 </div>
-//                 {!isMobile && ( // Timestamp for desktop on the right
-//                   <div className="flex flex-col items-end gap-0.5 ml-2 sm:ml-4 flex-shrink-0 self-start pt-0.5">
-//                     <p className="text-xs text-muted-foreground whitespace-nowrap">
-//                       {moment(activity.timestamp).format("MMM D, YYYY h:mm A")}
-//                     </p>
-//                     <p className="text-xs text-muted-foreground/80 whitespace-nowrap">
-//                       ({moment(activity.timestamp).fromNow()})
-//                     </p>
-//                   </div>
-//                 )}
-//               </div>
-//             );
-//           })
-//         ) : ( // No activities state
-//           <div className="flex flex-col items-center justify-center py-8 text-center">
-//             <div className="w-12 h-12 rounded-full bg-muted flex items-center justify-center mb-3">
-//               <Clock className="h-6 w-6 text-muted-foreground/70" />
-//             </div>
-//             <p className="text-sm font-medium text-muted-foreground">
-//               No recent activity
-//             </p>
-//             <p className="text-xs text-muted-foreground/80 mt-1">
-//               Check back later or try refreshing.
-//             </p>
-//           </div>
-//         )}
-//       </div>
-//       {isMobile && ( // "All Activity" button for mobile shown at the bottom
-//             <Link
-//               href="/admin/activity"
-//               className="mt-4 flex items-center justify-center cursor-pointer gap-2 bg-primary text-primary-foreground font-medium text-sm px-6 py-2.5 h-10 rounded-full hover:bg-primary/90 transition-all duration-75 ease-linear"
-//             >
-//               <span>All Activity</span>
-//             </Link>
-//           )}
-//     </div>
-//   );
-// }

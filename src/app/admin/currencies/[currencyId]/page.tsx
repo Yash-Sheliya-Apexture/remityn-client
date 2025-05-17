@@ -7649,6 +7649,7 @@
 
 
 
+
 // frontend/src/app/admin/currencies/[currencyId]/page.tsx
 "use client";
 import React, { useState, useEffect } from "react";
@@ -7731,7 +7732,7 @@ interface ApiErrorData {
 
 // --- Loading Skeleton Component (remains the same) ---
 const LoadingSkeleton = () => (
-  <div className="container mx-auto px-4 py-8">
+  <div className="container mx-auto px-4 py-5">
     <motion.div className="py-6">
       <div className="mx-auto max-w-5xl space-y-8">
         {" "}
@@ -8162,6 +8163,7 @@ const AdminEditCurrencyPage = () => {
             </div>
 
             <div className="md:col-span-1">
+              {/* Image input feild with logic */}
               <label
                 htmlFor="flagImage"
                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
@@ -8269,7 +8271,7 @@ const AdminEditCurrencyPage = () => {
           variants={itemVariants}
           className="rounded-xl bg-white dark:bg-background border shadow-sm"
         >
-          <div className="border-b pb-2 px-4 py-3 ">
+          <div className="border-b pb-2 px-4 py-3">
             <h3 className="md:text-lg text-base font-medium text-neutral-900 dark:text-white">
               Bank Details (Optional)
             </h3>
@@ -8354,16 +8356,15 @@ const AdminEditCurrencyPage = () => {
               </label>
 
               <div className="mt-2 overflow-y-auto rounded-lg">
-
-              <textarea
-                id="bankAddress"
-                name="bankAddress"
-                rows={3}
-                placeholder="Full address of the recipient's bank"
-                value={formState.bankAddress}
-                onChange={handleChange}
-                className="min-h-[100px] resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 bg-white dark:bg-background h-14 w-full transition-all border rounded-lg focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75"
-              ></textarea>
+                <textarea
+                  id="bankAddress"
+                  name="bankAddress"
+                  rows={3}
+                  placeholder="Full address of the recipient's bank"
+                  value={formState.bankAddress}
+                  onChange={handleChange}
+                  className="min-h-[100px] resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 bg-white dark:bg-background h-14 w-full transition-all border rounded-lg focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75"
+                ></textarea>
               </div>
             </div>
           </div>
@@ -8397,7 +8398,7 @@ const AdminEditCurrencyPage = () => {
                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
               >
                 <Percent size={18} className="text-primary" />
-                Wise Fees  <span className="text-red-600">*</span>
+                Wise Fees <span className="text-red-600">*</span>
               </label>
 
               <div className="relative">
@@ -8426,7 +8427,7 @@ const AdminEditCurrencyPage = () => {
                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
               >
                 <DollarSign size={18} className="text-primary" />
-                Bank Transfer Fees 
+                Bank Transfer Fees
                 <span className="text-red-600">*</span>
               </label>
               <div className="relative">
@@ -8448,7 +8449,7 @@ const AdminEditCurrencyPage = () => {
                 </div>
               </div>
               <p className="mt-2 text-sm text-gray-500  dark:text-gray-300">
-                Fixed Fees  in {formState.code || "currency"} (leave blank if
+                Fixed Fees in {formState.code || "currency"} (leave blank if
                 none).
               </p>
             </div>
@@ -8482,19 +8483,19 @@ const AdminEditCurrencyPage = () => {
           </div>
 
           <div className="lg:p-6 p-4">
-            <div className="rounded-md bg-[#f5f5f5] dark:bg-primarybox p-4">
-              <h4 className="text-gray-500 dark:text-gray-300 font-medium capitalize text-sm flex gap-1 items-center lg:text-base">
-                <BarChart4 size={18} className="text-lime-500" />
+            <div className="rounded-md bg-lightgray dark:bg-background border overflow-hidden">
+
+              <h4 className="px-4 py-3 md:text-lg text-base font-medium bg-lightborder border-b dark:bg-primarybox text-neutral-900 dark:text-white">
                 Exchange Rate Info
               </h4>
 
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
-                The Our Adjustment % modifies the market
-                exchange rate used in calculations. A positive value (e.g., 1%)
-                increases the rate, making the foreign currency relatively
-                cheaper. A negative value (e.g., -0.5%) decreases the rate,
-                making the foreign currency relatively more expensive. Set to 0
-                (or leave blank) to use the market rate directly.
+              <p className="px-4 py-3 text-sm text-gray-500 dark:text-gray-300">
+                The Our Adjustment % modifies the market exchange rate used in
+                calculations. A positive value (e.g., 1%) increases the rate,
+                making the foreign currency relatively cheaper. A negative value
+                (e.g., -0.5%) decreases the rate, making the foreign currency
+                relatively more expensive. Set to 0 (or leave blank) to use the
+                market rate directly.
               </p>
             </div>
           </div>
@@ -8514,9 +8515,9 @@ const AdminEditCurrencyPage = () => {
 
   if (!isLoading && !currency && !formState) {
     return (
-      <div className="container mx-auto px-4 py-8 relative">
+      <div className="container mx-auto px-4 py-5 relative">
         <CurrencyEditHeader currencyName="Error" currencyCode="XXX" />
-        <div className="mt-8 text-center text-red-600 bg-red-600/10 border border-red-400 dark:border-red-600 p-4 rounded-lg">
+        <div className="mt-5 text-center text-red-600 bg-red-600/10 border border-red-400 dark:border-red-600 p-4 rounded-lg">
           Failed to load currency details. Please check the ID or try again
           later.
           <Link
@@ -8531,186 +8532,192 @@ const AdminEditCurrencyPage = () => {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 relative">
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="py-6 bg-white dark:bg-background"
-      >
-        <ToastContainer
-          position="top-right"
-          autoClose={3000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
-        <div className="mx-auto max-w-5xl">
-          <CurrencyEditHeader
-            currencyName={currency?.currencyName || formState?.currencyName}
-            currencyCode={currency?.code || formState?.code}
+    <div className="py-5">
+      <CurrencyEditHeader
+        currencyName={currency?.currencyName || formState?.currencyName}
+        currencyCode={currency?.code || formState?.code}
+      />
+
+      <div className="container mx-auto px-4 relative">
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="bg-white dark:bg-background"
+        >
+          
+          <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="colored"
           />
 
-          {!isLoading && formState && (
-            <motion.form
-              onSubmit={handleSubmit}
-              className="space-y-8"
-              initial="hidden" // Moved initial animation props here if form itself should animate
-              animate="visible"
-              variants={containerVariants} // Use containerVariants for the form to stagger children
-            >
-              
-              {/* --- New Tabs Section --- */}
-              <Tabs
-                value={activeTab}
-                onValueChange={(value) =>
-                  setActiveTab(value as "general" | "bank" | "fees")
-                }
-                className="w-full"
+          <div className="mx-auto max-w-5xl">
+            {!isLoading && formState && (
+              <motion.form
+                onSubmit={handleSubmit}
+                className="space-y-8"
+                initial="hidden" // Moved initial animation props here if form itself should animate
+                animate="visible"
+                variants={containerVariants} // Use containerVariants for the form to stagger children
               >
-                <motion.div variants={itemVariants} className="mb-4 rounded-full overflow-hidden">
-                  {" "}
-                  {/* itemVariant for the TabsList container */}
-                  <TabsList className="relative z-20 flex w-full h-full whitespace-nowrap overflow-x-auto  dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
-                    {TABS_CONFIG.map((tabInfo) => (
-                      <TabsTrigger
-                        key={tabInfo.value}
-                        value={tabInfo.value}
-                        className={cn(
-                          "relative px-4 py-3 flex items-center justify-center gap-2 text-base shrink-0 min-w-max rounded-full text-neutral-900 dark:text-white data-[state=active]:text-neutral-900 dark:data-[state=active]:text-primary border-none data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none cursor-pointer transition-colors duration-150 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                        )}
-                      >
-                        {activeTab === tabInfo.value && (
-                          <motion.div
-                            layoutId="active-currency-tab-indicator" // Unique layoutId
-                            className="absolute inset-0 -z-10 bg-primary dark:bg-secondarybox rounded-full shadow-sm"
-                            transition={{ stiffness: 350, damping: 30 }}
+                {/* --- New Tabs Section --- */}
+                <Tabs
+                  value={activeTab}
+                  onValueChange={(value) =>
+                    setActiveTab(value as "general" | "bank" | "fees")
+                  }
+                  className="w-full"
+                >
+                  <motion.div
+                    variants={itemVariants}
+                    className="mb-4 rounded-full overflow-hidden"
+                  >
+                    {" "}
+                    {/* itemVariant for the TabsList container */}
+                    <TabsList className="relative z-0 flex w-full h-full whitespace-nowrap overflow-x-auto  dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
+                      {TABS_CONFIG.map((tabInfo) => (
+                        <TabsTrigger
+                          key={tabInfo.value}
+                          value={tabInfo.value}
+                          className={cn(
+                            "relative px-4 py-3 flex items-center justify-center gap-2 text-base shrink-0 min-w-max rounded-full text-neutral-900 dark:text-white data-[state=active]:text-neutral-900 dark:data-[state=active]:text-primary border-none data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none cursor-pointer transition-colors duration-150 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                          )}
+                        >
+                          {activeTab === tabInfo.value && (
+                            <motion.div
+                              layoutId="active-currency-tab-indicator" // Unique layoutId
+                              className="absolute inset-0 -z-10 bg-primary dark:bg-secondarybox rounded-full shadow-sm"
+                              transition={{ stiffness: 350, damping: 30 }}
+                            />
+                          )}
+                          <tabInfo.icon className="size-5" />{" "}
+                          <span className="truncate">{tabInfo.label}</span>
+                        </TabsTrigger>
+                      ))}
+                    </TabsList>
+                  </motion.div>
+
+                  <TabsContent value="general">
+                    {renderGeneralContent()}
+                  </TabsContent>
+                  <TabsContent value="bank">{renderBankContent()}</TabsContent>
+                  <TabsContent value="fees">{renderFeesContent()}</TabsContent>
+                </Tabs>
+
+                {/* Action Buttons */}
+                <motion.div
+                  variants={itemVariants} // itemVariant for the buttons container
+                  className="flex flex-col sm:flex-row justify-end gap-3"
+                >
+                  <button
+                    type="button"
+                    onClick={handleReset}
+                    disabled={isSubmitting || !formChanged}
+                    className="inline-flex items-center justify-center gap-2 cursor-pointer bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed font-medium rounded-full px-6 py-3 h-12 text-center w-full sm:w-auto transition-all duration-75 ease-linear group"
+                  >
+                    <RefreshCw
+                      size={20}
+                      className={`transition-transform duration-300 ${
+                        formChanged && !isSubmitting
+                          ? "group-hover:rotate-[-180deg]"
+                          : ""
+                      }`}
+                    />
+                    Reset
+                  </button>
+
+                  <button
+                    type="submit"
+                    disabled={isSubmitting || !formChanged}
+                    className="inline-flex items-center justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 disabled:opacity-50 disabled:cursor-not-allowed font-medium rounded-full px-6 py-3 h-12 text-center w-full sm:w-auto transition-all duration-75 ease-linear"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <svg
+                          className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M12 2V6"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />{" "}
+                          <path
+                            d="M12 18V22"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
                           />
-                        )}
-                        <tabInfo.icon className="size-5" />{" "}
-                        <span className="truncate">{tabInfo.label}</span>
-                      </TabsTrigger>
-                    ))}
-                  </TabsList>
+                          <path
+                            d="M4.93 4.93L7.76 7.76"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M16.24 16.24L19.07 19.07"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M2 12H6"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M18 12H22"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M4.93 19.07L7.76 16.24"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M16.24 7.76L19.07 4.93"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        <span>Saving...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>Save Changes</span>
+                      </>
+                    )}
+                  </button>
                 </motion.div>
-
-                <TabsContent value="general">
-                  {renderGeneralContent()}
-                </TabsContent>
-                <TabsContent value="bank">{renderBankContent()}</TabsContent>
-                <TabsContent value="fees">{renderFeesContent()}</TabsContent>
-              </Tabs>
-
-              {/* Action Buttons */}
-              <motion.div
-                variants={itemVariants} // itemVariant for the buttons container
-                className="flex flex-col sm:flex-row justify-end gap-3"
-              >
-                <button
-                  type="button"
-                  onClick={handleReset}
-                  disabled={isSubmitting || !formChanged}
-                  className="inline-flex items-center justify-center gap-2 cursor-pointer bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed font-medium rounded-full px-6 py-3 h-12 text-center w-full sm:w-auto transition-all duration-75 ease-linear group"
-                >
-                  <RefreshCw
-                    size={20}
-                    className={`transition-transform duration-300 ${
-                      formChanged && !isSubmitting
-                        ? "group-hover:rotate-[-180deg]"
-                        : ""
-                    }`}
-                  />
-                  Reset
-                </button>
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting || !formChanged}
-                  className="inline-flex items-center justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 disabled:opacity-50 disabled:cursor-not-allowed font-medium rounded-full px-6 py-3 h-12 text-center w-full sm:w-auto transition-all duration-75 ease-linear"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <svg
-                        className="h-5 w-5 text-neutral-900 animate-spin mr-2"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M12 2V6"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />{" "}
-                        <path
-                          d="M12 18V22"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M4.93 4.93L7.76 7.76"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M16.24 16.24L19.07 19.07"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M2 12H6"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M18 12H22"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M4.93 19.07L7.76 16.24"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                        <path
-                          d="M16.24 7.76L19.07 4.93"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                      <span>Saving...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>Save Changes</span>
-                    </>
-                  )}
-                </button>
-              </motion.div>
-            </motion.form>
-          )}
-        </div>
-      </motion.div>
+              </motion.form>
+            )}
+          </div>
+        </motion.div>
+      </div>
     </div>
   );
 };

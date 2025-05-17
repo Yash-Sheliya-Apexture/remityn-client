@@ -1852,7 +1852,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     >
       {/* Top Navigation Links */}
       <motion.div
-        className="p-4 space-y-2 overflow-y-auto border-t"
+        className="p-4 space-y-2 border-t overflow-x-hidden overflow-y-auto sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3  sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox"
         initial="hidden"
         animate="visible"
         variants={listVariants}

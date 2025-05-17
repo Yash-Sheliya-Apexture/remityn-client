@@ -5979,7 +5979,918 @@
 
 // export default AddRecipientPage;
 
+// // frontend/src/app/dashboard/recipients/addrecipient/page.tsx
+// "use client";
+// import React, { useState, useEffect, useMemo } from "react";
+// import { useRouter, useSearchParams } from "next/navigation";
+// import DashboardHeader from "../../../components/layout/DashboardHeader";
+// import { useAuth } from "../../../contexts/AuthContext";
+// import recipientService from "../../../services/recipient";
+// import currencyService, { Currency } from "../../../services/currency";
+// import { IoMdCloseCircle } from "react-icons/io";
+// import Image from "next/image";
+// import { IoArrowForward, IoClose as IoCloseIcon } from "react-icons/io5";
+// import { Skeleton } from "@/components/ui/skeleton";
+// import { FiSearch } from "react-icons/fi";
+// import { MdCancel } from "react-icons/md";
+// import AccountTypeDropdown from "../../../components/ui/AccountTypeDropdown";
+// import { AlertTriangle } from "lucide-react";
 
+// // Interfaces (ApiErrorData, ApiErrorResponse, ApiError, NewRecipient) remain the same...
+// interface ApiErrorData {
+//   errors?: Record<string, string>;
+//   message?: string;
+// }
+
+// interface ApiErrorResponse {
+//   status: number;
+//   data: ApiErrorData;
+// }
+
+// interface ApiError {
+//   response?: ApiErrorResponse;
+//   message?: string;
+// }
+
+// interface NewRecipient {
+//   _id: string;
+// }
+// // --- End Interfaces ---
+
+// const AddRecipientPage = () => {
+//   const router = useRouter();
+//   const { token } = useAuth();
+//   const searchParams = useSearchParams();
+
+//   // State variables remain the same...
+//   const [step, setStep] = useState(1);
+//   const [currencies, setCurrencies] = useState<Currency[]>([]);
+//   const [selectedCurrencyCode, setSelectedCurrencyCode] = useState("");
+//   const [email, setEmail] = useState("");
+//   const [accountHolderName, setAccountHolderName] = useState("");
+//   const [ifscCode, setIfscCode] = useState("");
+//   const [accountNumber, setAccountNumber] = useState("");
+//   const [bankName, setBankName] = useState("");
+//   const [address, setAddress] = useState("");
+//   const [accountType, setAccountType] = useState("");
+//   const [formError, setFormError] = useState("");
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const [accountHolderNameError, setAccountHolderNameError] = useState("");
+//   const [ifscCodeError, setIfscCodeError] = useState("");
+//   const [accountNumberError, setAccountNumberError] = useState("");
+//   const [bankNameError, setBankNameError] = useState("");
+//   const [addressError, setAddressError] = useState("");
+//   const [accountTypeError, setAccountTypeError] = useState("");
+//   const [isLoadingCurrencies, setIsLoadingCurrencies] = useState(true);
+//   const [searchCurrency, setSearchCurrency] = useState("");
+//   // --- End State Variables ---
+
+//   // useEffect for fetching currencies remains the same...
+//   useEffect(() => {
+//     const fetchCurrencies = async () => {
+//       setIsLoadingCurrencies(true);
+//       setFormError("");
+//       try {
+//         const fetchedCurrencies = await currencyService.getAllCurrencies();
+//         setCurrencies(fetchedCurrencies);
+//       } catch (error) {
+//         console.error("Error fetching currencies:", error);
+//         const errorMessage =
+//           error instanceof Error ? error.message : "Failed to load currencies.";
+//         setFormError(errorMessage);
+//       } finally {
+//         setIsLoadingCurrencies(false);
+//       }
+//     };
+
+//     fetchCurrencies();
+//   }, []);
+//   // --- End useEffect ---
+
+//   // Memoized currency lists remain the same...
+//   const availableCurrenciesBase = useMemo((): Currency[] => {
+//     return currencies.filter((currency) => ["INR"].includes(currency.code));
+//   }, [currencies]);
+
+//   const comingSoonCurrenciesBase = useMemo((): Currency[] => {
+//     const availableCodes = ["INR"];
+//     return currencies.filter(
+//       (currency) =>
+//         !availableCodes.includes(currency.code) &&
+//         ["EUR", "USD", "GBP"].includes(currency.code)
+//     );
+//   }, [currencies]);
+
+//   const filteredAvailableCurrencies = useMemo((): Currency[] => {
+//     if (!searchCurrency) return availableCurrenciesBase;
+//     const searchTerm = searchCurrency.toLowerCase();
+//     return availableCurrenciesBase.filter((currency) => {
+//       return (
+//         currency.currencyName?.toLowerCase().includes(searchTerm) ||
+//         currency.code?.toLowerCase().includes(searchTerm)
+//       );
+//     });
+//   }, [availableCurrenciesBase, searchCurrency]);
+
+//   const filteredComingSoonCurrencies = useMemo((): Currency[] => {
+//     if (!searchCurrency) return comingSoonCurrenciesBase;
+//     const searchTerm = searchCurrency.toLowerCase();
+//     return comingSoonCurrenciesBase.filter((currency) => {
+//       return (
+//         currency.currencyName?.toLowerCase().includes(searchTerm) ||
+//         currency.code?.toLowerCase().includes(searchTerm)
+//       );
+//     });
+//   }, [comingSoonCurrenciesBase, searchCurrency]);
+//   // --- End Memoized Lists ---
+
+//   // useMemo hook for isFormInvalid remains the same...
+//   const isFormInvalid = useMemo(() => {
+//     return (
+//       !accountHolderName.trim() ||
+//       !ifscCode.trim() ||
+//       !accountNumber.trim() ||
+//       !accountType ||
+//       !bankName.trim() ||
+//       !address.trim()
+//     );
+//   }, [
+//     accountHolderName,
+//     ifscCode,
+//     accountNumber,
+//     accountType,
+//     bankName,
+//     address,
+//   ]);
+//   // --- End useMemo ---
+
+//   // handleCurrencySelect and handleBackStep remain the same...
+//   const handleCurrencySelect = (currencyCode: string) => {
+//     setSelectedCurrencyCode(currencyCode);
+//     setStep(2);
+//   };
+
+//   const handleBackStep = () => {
+//     if (step > 1) {
+//       setStep(step - 1);
+//     } else {
+//       router.back();
+//     }
+//   };
+//   // --- End Navigation Handlers ---
+
+//   // --- MODIFIED: validateForm function ---
+//   const validateForm = (): boolean => {
+//     let isValid = true;
+//     // Reset errors first
+//     setAccountHolderNameError("");
+//     setIfscCodeError("");
+//     setAccountNumberError("");
+//     setBankNameError("");
+//     setAddressError("");
+//     setAccountTypeError("");
+
+//     // Name Validation
+//     if (!accountHolderName.trim()) {
+//       setAccountHolderNameError("Account holder name is required");
+//       isValid = false;
+//     }
+
+//     // IFSC Code Validation
+//     const trimmedIfsc = ifscCode.trim();
+//     // Regex for IFSC: 4 letters, 1 zero, 6 alphanumeric chars (total 11)
+//     const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+//     if (!trimmedIfsc) {
+//       setIfscCodeError("IFSC code is required");
+//       isValid = false;
+//     } else if (!ifscRegex.test(trimmedIfsc)) {
+//       setIfscCodeError("Invalid IFSC code format (e.g., ABCD0123456)");
+//       isValid = false;
+//     }
+//     // Note: The length check (11 chars) is implicitly handled by the regex.
+
+//     // Account Number Validation
+//     if (!accountNumber.trim()) {
+//       setAccountNumberError("Account number is required");
+//       isValid = false;
+//     }
+//     // Add specific validation for account number format if needed here
+//     // e.g., length checks, specific bank rules if applicable
+
+//     // Bank Name Validation
+//     if (!bankName.trim()) {
+//       setBankNameError("Bank name is required");
+//       isValid = false;
+//     }
+
+//     // Address Validation
+//     if (!address.trim()) {
+//       setAddressError("Address is required");
+//       isValid = false;
+//     }
+
+//     // Account Type Validation
+//     if (!accountType) {
+//       setAccountTypeError("Account type is required");
+//       isValid = false;
+//     }
+
+//     return isValid;
+//   };
+//   // --- END MODIFIED: validateForm function ---
+
+//   // handleSubmit remains largely the same, relies on the updated validateForm
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     setFormError("");
+
+//     const isValid = validateForm(); // Uses the updated validation
+
+//     if (!isValid) {
+//       // Errors are already set by validateForm
+//       return;
+//     }
+
+//     setIsSubmitting(true);
+//     try {
+//       const recipientData = {
+//         currencyCode: selectedCurrencyCode,
+//         email: email.trim() || undefined,
+//         accountHolderName: accountHolderName.trim(),
+//         ifscCode: ifscCode.trim().toUpperCase(), // Ensure it's uppercase for consistency
+//         accountNumber: accountNumber.trim(),
+//         bankName: bankName.trim(),
+//         address: address.trim(),
+//         accountType,
+//       };
+
+//       const newRecipient: NewRecipient = await recipientService.addRecipient(
+//         recipientData,
+//         token
+//       );
+
+//       // Redirection logic remains the same...
+//       const returnToParam = searchParams.get("returnTo");
+//       if (returnToParam) {
+//           const decodedReturnUrl = decodeURIComponent(returnToParam);
+//           const match = decodedReturnUrl.match(
+//               /\/dashboard\/balances\/([^/]+)\/send\/select-recipient/
+//           );
+
+//           if (match?.[1] && newRecipient?._id) {
+//               const balanceId = match[1];
+//               const targetUrl = `/dashboard/balances/${balanceId}/send/amount?recipientId=${newRecipient._id}`;
+//               console.log("Redirecting back to send flow:", targetUrl);
+//               router.push(targetUrl);
+//           } else {
+//               console.warn(
+//                   "Could not parse balanceId from returnTo URL or missing recipient ID, redirecting to recipient details:",
+//                   decodedReturnUrl,
+//                   newRecipient?._id
+//               );
+//               router.push(
+//                   newRecipient?._id
+//                       ? `/dashboard/recipients/${newRecipient._id}`
+//                       : "/dashboard/recipients"
+//               );
+//           }
+//       } else if (newRecipient?._id) {
+//           console.log("Redirecting to recipient details page (standard flow)");
+//           router.push(`/dashboard/recipients/${newRecipient._id}`);
+//       } else {
+//           console.warn(
+//               "Recipient added, but no ID received or standard flow error. Redirecting to recipient list."
+//           );
+//           setFormError(
+//               "Recipient added, but failed to redirect. Please check the recipients list."
+//           );
+//           router.push("/dashboard/recipients");
+//       }
+//       // --- End Redirection Logic ---
+
+//     } catch (error: unknown) {
+//       console.error("Error adding recipient:", error);
+//       const apiError = error as ApiError;
+
+//       // Backend error handling remains the same...
+//        if (apiError.response?.data && apiError.response.status === 400) {
+//            const backendErrors = apiError.response.data.errors;
+//            if (backendErrors && typeof backendErrors === 'object') {
+//                setAccountHolderNameError(backendErrors.accountHolderName || '');
+//                setIfscCodeError(backendErrors.ifscCode || ''); // Will be overridden by frontend validation first usually
+//                setAccountNumberError(backendErrors.accountNumber || '');
+//                setBankNameError(backendErrors.bankName || '');
+//                setAddressError(backendErrors.address || '');
+//                setAccountTypeError(backendErrors.accountType || '');
+//            }
+
+//            if (apiError.response.data.message) {
+//                setFormError(apiError.response.data.message);
+//            } else if (!backendErrors || Object.keys(backendErrors).length === 0) {
+//                setFormError('Invalid data submitted. Please check the fields.');
+//            }
+//        } else {
+//            // Handle other types of errors (Unchanged)
+//            const errorMessage = apiError?.response?.data?.message || apiError?.message || (error instanceof Error ? error.message : "An unknown error occurred");
+//            setFormError(errorMessage || "Failed to add recipient. Please try again.");
+//        }
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
+//   // --- End handleSubmit ---
+
+//   // handleCloseFormError, clearSearchTerm, handleClearForm remain the same...
+//   const handleCloseFormError = () => {
+//     setFormError("");
+//   };
+
+//   const clearSearchTerm = () => {
+//     setSearchCurrency("");
+//   };
+
+//   const handleClearForm = () => {
+//     setEmail("");
+//     setAccountHolderName("");
+//     setIfscCode("");
+//     setAccountNumber("");
+//     setBankName("");
+//     setAddress("");
+//     setAccountType("");
+//     setFormError("");
+//     setAccountHolderNameError("");
+//     setIfscCodeError("");
+//     setAccountNumberError("");
+//     setBankNameError("");
+//     setAddressError("");
+//     setAccountTypeError("");
+//   };
+//   // --- End Utility Handlers ---
+
+//   // --- JSX Section (No changes needed here for IFSC validation logic, but showing relevant part) ---
+//   return (
+//     <div className="AddRecipientPage">
+//       <DashboardHeader title="Recipients" onBack={handleBackStep} />
+//       <div className="Steps">
+//         {/* Step 1: Currency Selection (No changes needed) */}
+//         {step === 1 && (
+//           <div
+//             key="currency-step"
+//             className="bg-white dark:bg-background relative"
+//           >
+//             {/* ... Currency selection UI ... */}
+//             <h2 className="lg:text-3xl md:text-2xl text-xl capitalize font-semibold text-mainheading dark:text-white text-left md:text-center mb-4">
+//               Select their currency
+//             </h2>
+
+//             {/* Currency Search Input */}
+//             <div className="relative mb-4">
+//               <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+//                 <FiSearch
+//                   className="h-5 w-5 text-neutral-900 dark:text-white"
+//                   aria-hidden="true"
+//                 />
+//               </div>
+//               <input
+//                 type="text"
+//                 className="w-full rounded-full h-14 py-3 pl-12 pr-10 border transition-all ease-linear duration-75 focus:outline-none focus:border-[#5f5f5f] placeholder:text-neutral-600 dark:placeholder:text-white bg-white dark:bg-background"
+//                 placeholder="Search currency by name or code..."
+//                 value={searchCurrency}
+//                 onChange={(e) => setSearchCurrency(e.target.value)}
+//               />
+//               {searchCurrency && (
+//                 <button
+//                   type="button"
+//                   onClick={clearSearchTerm}
+//                   className="absolute inset-y-0 right-3 flex items-center text-neutral-900 dark:text-primary focus:outline-none cursor-pointer"
+//                   aria-label="Clear search"
+//                 >
+//                   <MdCancel size={28} aria-hidden="true" />
+//                 </button>
+//               )}
+//             </div>
+
+//             {/* General Form Error Display for Currency Step */}
+//             {formError && !isLoadingCurrencies && (
+//               <div
+//                 className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-xl p-3 flex items-center gap-3 relative mb-3"
+//                 role="alert"
+//               >
+//                 <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-red-600/20">
+//                   <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+//                 </div>
+//                 <span className="text-red-700 dark:text-red-300/90 text-sm font-medium">
+//                   {formError}
+//                 </span>
+//               </div>
+//             )}
+
+//             {/* Currency List Section */}
+//             <div className="space-y-6">
+//               {isLoadingCurrencies ? (
+//                 <>
+//                   <Skeleton className="h-16 rounded-xl w-full" />
+//                   <Skeleton className="h-16 rounded-xl w-full" />
+//                   <Skeleton className="h-16 rounded-xl w-full" />
+//                 </>
+//               ) : (
+//                 <>
+//                   {/* Available Currencies */}
+//                   {filteredAvailableCurrencies.length > 0 && (
+//                     <div>
+//                       <h3 className="font-medium text-gray-500 dark:text-gray-300 mb-3 tracking-wide leading-8 border-b">
+//                         All currencies
+//                       </h3>
+//                       <div className="space-y-2">
+//                         {filteredAvailableCurrencies.map((currency) => (
+//                           <div
+//                             key={currency._id || currency.code}
+//                             role="button"
+//                             tabIndex={0}
+//                             className={`block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer`}
+//                             onClick={() => handleCurrencySelect(currency.code)}
+//                             onKeyDown={(e) =>
+//                               e.key === "Enter" || e.key === " "
+//                                 ? handleCurrencySelect(currency.code)
+//                                 : null
+//                             }
+//                           >
+//                             <div className="flex items-center justify-between">
+//                               <div className="flex items-center gap-3 sm:gap-4">
+//                                 {currency.flagImage ? (
+//                                   <Image
+//                                     src={currency.flagImage}
+//                                     width={40}
+//                                     height={40}
+//                                     alt={`${currency.currencyName} Flag`}
+//                                     className="rounded-full object-cover flex-shrink-0"
+//                                   />
+//                                 ) : (
+//                                   <div className="w-10 h-10 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center text-gray-500 dark:text-gray-300 text-xs font-medium flex-shrink-0">
+//                                     {currency.code}
+//                                   </div>
+//                                 )}
+//                                 <div className="flex-grow text-wrap">
+//                                   <h4 className="font-medium text-neutral-900 dark:text-white text-sm md:text-base">
+//                                     {currency.code} - {currency.currencyName}
+//                                   </h4>
+//                                 </div>
+//                               </div>
+//                               <div className="ml-4">
+//                                 <IoArrowForward className="size-5 text-neutral-900 dark:text-white" />
+//                               </div>
+//                             </div>
+//                           </div>
+//                         ))}
+//                       </div>
+//                     </div>
+//                   )}
+
+//                   {/* Coming Soon Currencies */}
+//                   {filteredComingSoonCurrencies.length > 0 && (
+//                     <div>
+//                       <h3 className="font-medium text-gray-500 dark:text-gray-300 mb-3 tracking-wide leading-8 border-b">
+//                         Coming soon
+//                       </h3>
+//                       <div className="space-y-2">
+//                         {filteredComingSoonCurrencies.map((currency) => (
+//                           <div
+//                             key={currency._id || currency.code}
+//                             className={`p-2 sm:p-4 rounded-xl cursor-not-allowed opacity-60 border border-transparent dark:border-transparent`}
+//                           >
+//                             <div className="flex items-center justify-between">
+//                               <div className="flex items-center gap-3 sm:gap-4">
+//                                 {currency.flagImage ? (
+//                                   <Image
+//                                     src={currency.flagImage}
+//                                     width={40}
+//                                     height={40}
+//                                     alt={`${currency.currencyName} Flag`}
+//                                     className="rounded-full object-cover flex-shrink-0"
+//                                   />
+//                                 ) : (
+//                                   <div className="w-10 h-10 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center text-gray-500 dark:text-gray-300 text-xs font-medium flex-shrink-0">
+//                                     {currency.code}
+//                                   </div>
+//                                 )}
+//                                 <div className="flex-grow text-wrap">
+//                                   <h4 className="font-medium text-neutral-900 dark:text-white text-sm md:text-base">
+//                                     {currency.code} - {currency.currencyName}
+//                                   </h4>
+//                                 </div>
+//                               </div>
+//                               <span className="text-xs bg-lightgray dark:bg-primarybox text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full flex-shrink-0 ml-2">
+//                                 Coming soon
+//                               </span>
+//                             </div>
+//                           </div>
+//                         ))}
+//                       </div>
+//                     </div>
+//                   )}
+
+//                   {/* No Results Message */}
+//                   {!isLoadingCurrencies &&
+//                     filteredAvailableCurrencies.length === 0 &&
+//                     filteredComingSoonCurrencies.length === 0 && (
+//                       <div className="text-center text-gray-700 dark:bg-white/5 bg-lightgray dark:text-gray-300 mt-8 py-5 rounded-lg">
+//                         {searchCurrency.trim() !== ""
+//                           ? `No currencies found for "${searchCurrency}".`
+//                           : "No currencies available at the moment."}
+//                       </div>
+//                     )}
+//                 </>
+//               )}
+//             </div>
+//           </div>
+//         )}
+
+//         {/* Step 2: Account Details Form */}
+//         {step === 2 && (
+//           <div
+//             key="account-step"
+//             className="bg-white dark:bg-background w-full lg:max-w-lg"
+//           >
+//             <h2 className="lg:text-2xl text-xl font-semibold text-mainheading dark:text-white mb-6 text-left">
+//               Enter their account details ({selectedCurrencyCode})
+//             </h2>
+
+//             {/* General Form Error Display */}
+//             {formError && (
+//               <div
+//                 className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-xl p-3 flex items-center gap-3 relative mb-3"
+//                 role="alert"
+//               >
+//                 <div className="flex-shrink-0 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+//                   <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+//                 </div>
+//                 <span className="text-red-700 dark:text-red-300/90 text-sm font-medium">
+//                   {formError}
+//                 </span>
+//               </div>
+//             )}
+
+//             {/* Recipient Form */}
+//             <form className="mt-2 space-y-5" onSubmit={handleSubmit} noValidate>
+//               {/* Email Input */}
+//               <div>
+//                 <label
+//                   htmlFor="email"
+//                   className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+//                 >
+//                   Their email (optional)
+//                 </label>
+//                 <input
+//                   type="email"
+//                   id="email"
+//                   className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 focus:border-[#5f5f5f]`}
+//                   value={email}
+//                   placeholder="example@domain.com"
+//                   onChange={(e) => setEmail(e.target.value)}
+//                 />
+//               </div>
+//               {/* Heading */}
+//               <h3 className="font-medium text-gray-600 dark:text-white pt-2 pb-1 mb-3 relative after:content-[''] after:block after:w-full after:h-px after:bg-gray-200 dark:after:bg-primarybox after:mt-1">
+//                 Recipient's bank details
+//               </h3>
+//               {/* Bank Details Section */}
+//               <div className="space-y-5">
+//                 {/* Account Holder Name */}
+//                 <div>
+//                   <label
+//                     htmlFor="accountHolderName"
+//                     className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+//                   >
+//                     Full name of the account holder
+//                     <span className="text-red-500 ml-1">*</span>
+//                   </label>
+//                   <input
+//                     type="text"
+//                     id="accountHolderName"
+//                     className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 ${
+//                       accountHolderNameError
+//                         ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
+//                         : "focus:border-[#5f5f5f]"
+//                     }`}
+//                     value={accountHolderName}
+//                     placeholder="e.g., John Doe"
+//                     onChange={(e) => {
+//                       setAccountHolderName(e.target.value);
+//                       // Clear error as user types
+//                       if (accountHolderNameError) setAccountHolderNameError("");
+//                     }}
+//                     required
+//                     aria-invalid={!!accountHolderNameError}
+//                     aria-describedby={
+//                       accountHolderNameError
+//                         ? "accountHolderName-error"
+//                         : undefined
+//                     }
+//                   />
+//                   {accountHolderNameError && (
+//                     <p
+//                       id="accountHolderName-error"
+//                       className="flex text-red-500 text-xs items-center mt-1"
+//                       role="alert"
+//                     >
+//                       <IoMdCloseCircle className="size-3.5 mr-1 flex-shrink-0" />
+//                       {accountHolderNameError}
+//                     </p>
+//                   )}
+//                 </div>
+
+//                 {/* IFSC Code - Input remains the same, error handling works with new logic */}
+//                 <div>
+//                   <label
+//                     htmlFor="ifscCode"
+//                     className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+//                   >
+//                     IFSC code <span className="text-red-500 ml-1">*</span>
+//                   </label>
+//                   <input
+//                     type="text"
+//                     id="ifscCode"
+//                     className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 ${
+//                       ifscCodeError
+//                         ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
+//                         : "focus:border-[#5f5f5f]"
+//                     }`}
+//                     value={ifscCode}
+//                     placeholder="e.g., YESB0123456"
+//                     // --- MODIFIED: onChange for IFSC ---
+//                     onChange={(e) => {
+//                       // Convert to uppercase, remove non-alphanumeric, limit length
+//                       const val = e.target.value
+//                         .toUpperCase()
+//                         .replace(/[^A-Z0-9]/g, "");
+//                       setIfscCode(val.slice(0, 11));
+//                       // Clear error as user types
+//                       if (ifscCodeError) {
+//                         setIfscCodeError("");
+//                       }
+//                     }}
+//                     required
+//                     aria-invalid={!!ifscCodeError}
+//                     aria-describedby={
+//                       ifscCodeError ? "ifscCode-error" : undefined
+//                     }
+//                     maxLength={11}
+//                     // The pattern attribute can provide browser-level hints but validation is primarily JS
+//                     // pattern="^[A-Z]{4}0[A-Z0-9]{6}$"
+//                   />
+//                   {ifscCodeError && (
+//                     <p
+//                       id="ifscCode-error"
+//                       className="flex text-red-500 text-xs items-center mt-1"
+//                       role="alert"
+//                     >
+//                       <IoMdCloseCircle className="size-3.5 mr-1 flex-shrink-0" />
+//                       {ifscCodeError}
+//                     </p>
+//                   )}
+//                 </div>
+
+//                 {/* Account Number */}
+//                 <div>
+//                   <label
+//                     htmlFor="accountNumber"
+//                     className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+//                   >
+//                     Account number <span className="text-red-500 ml-1">*</span>
+//                   </label>
+//                   <input
+//                     type="text"
+//                     inputMode="numeric"
+//                     id="accountNumber"
+//                     className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 ${
+//                       accountNumberError
+//                         ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
+//                         : "focus:border-[#5f5f5f]"
+//                     }`}
+//                     value={accountNumber}
+//                     placeholder="Enter account number"
+//                     onChange={(e) => {
+//                       // Only allow digits
+//                       const val = e.target.value.replace(/\D/g, "");
+//                       setAccountNumber(val);
+//                       // Clear error as user types
+//                       if (accountNumberError) setAccountNumberError("");
+//                     }}
+//                     required
+//                     aria-invalid={!!accountNumberError}
+//                     aria-describedby={
+//                       accountNumberError ? "accountNumber-error" : undefined
+//                     }
+//                   />
+//                   {accountNumberError && (
+//                     <p
+//                       id="accountNumber-error"
+//                       className="flex text-red-500 text-xs items-center mt-1"
+//                       role="alert"
+//                     >
+//                       <IoMdCloseCircle className="size-3.5 mr-1 flex-shrink-0" />
+//                       {accountNumberError}
+//                     </p>
+//                   )}
+//                 </div>
+
+//                 {/* Account Type Dropdown */}
+//                 <div>
+//                   <label className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base">
+//                     Account type <span className="text-red-500 ml-1">*</span>
+//                   </label>
+//                   <AccountTypeDropdown
+//                     value={accountType}
+//                     onChange={(value) => {
+//                       setAccountType(value);
+//                       // Clear error on selection
+//                       if (accountTypeError) setAccountTypeError("");
+//                     }}
+//                     error={accountTypeError} // Pass error string
+//                   />
+//                   {/* Error displayed within component */}
+//                 </div>
+
+//                 {/* Bank Name */}
+//                 <div>
+//                   <label
+//                     htmlFor="bankName"
+//                     className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+//                   >
+//                     Bank name <span className="text-red-500 ml-1">*</span>
+//                   </label>
+//                   <input
+//                     type="text"
+//                     id="bankName"
+//                     className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 ${
+//                       bankNameError
+//                         ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
+//                         : "focus:border-[#5f5f5f]"
+//                     }`}
+//                     value={bankName}
+//                     placeholder="e.g., State Bank of India"
+//                     onChange={(e) => {
+//                       setBankName(e.target.value);
+//                       // Clear error as user types
+//                       if (bankNameError) setBankNameError("");
+//                     }}
+//                     required
+//                     aria-invalid={!!bankNameError}
+//                     aria-describedby={
+//                       bankNameError ? "bankName-error" : undefined
+//                     }
+//                   />
+//                   {bankNameError && (
+//                     <p
+//                       id="bankName-error"
+//                       className="flex text-red-500 text-xs items-center mt-1"
+//                       role="alert"
+//                     >
+//                       <IoMdCloseCircle className="size-3.5 mr-1 flex-shrink-0" />
+//                       {bankNameError}
+//                     </p>
+//                   )}
+//                 </div>
+
+//                 {/* Recipient Address */}
+//                 <div>
+//                   <label
+//                     htmlFor="address"
+//                     className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+//                   >
+//                     Recipient Address (Street, City, Postcode, Country)
+//                     <span className="text-red-500 ml-1">*</span>
+//                   </label>
+//                   <input
+//                     type="text"
+//                     id="address"
+//                     className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 ${
+//                       addressError
+//                         ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
+//                         : "focus:border-[#5f5f5f]"
+//                     }`}
+//                     value={address}
+//                     placeholder="e.g., 123 Main St, Anytown, 12345, India"
+//                     onChange={(e) => {
+//                       setAddress(e.target.value);
+//                       // Clear error as user types
+//                       if (addressError) setAddressError("");
+//                     }}
+//                     required
+//                     aria-invalid={!!addressError}
+//                     aria-describedby={
+//                       addressError ? "address-error" : undefined
+//                     }
+//                   />
+//                   {addressError && (
+//                     <p
+//                       id="address-error"
+//                       className="flex text-red-500 text-xs items-center mt-1"
+//                       role="alert"
+//                     >
+//                       <IoMdCloseCircle className="size-3.5 mr-1 flex-shrink-0" />
+//                       {addressError}
+//                     </p>
+//                   )}
+//                 </div>
+//               </div>
+//               {/* Form Action Buttons */}
+//               <div className="flex sm:flex-row flex-col-reverse justify-center items-center gap-4 pt-4">
+//                 <button
+//                   type="button"
+//                   className={`sm:order-1 order-2 bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear flex items-center justify-center`}
+//                   onClick={handleClearForm}
+//                 >
+//                   Clear All
+//                 </button>
+//                 <button
+//                   type="submit"
+//                   className={`sm:order-2 order-1 bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center`}
+//                   disabled={isSubmitting || isFormInvalid} // isFormInvalid still useful for initial disabling
+//                 >
+//                   {isSubmitting ? (
+//                     <>
+//                       {/* SVG Loader */}
+//                       <svg
+//                         className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+//                         viewBox="0 0 24 24"
+//                         fill="none"
+//                         xmlns="http://www.w3.org/2000/svg"
+//                       >
+//                         {/* paths... */}
+//                         <path
+//                           d="M12 2V6"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M12 18V22"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M4.93 4.93L7.76 7.76"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M16.24 16.24L19.07 19.07"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M2 12H6"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M18 12H22"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M4.93 19.07L7.76 16.24"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M16.24 7.76L19.07 4.93"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                       </svg>
+//                       <span>Confirming...</span>
+//                     </>
+//                   ) : (
+//                     "Confirm"
+//                   )}
+//                 </button>
+//               </div>
+//             </form>
+//           </div>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default AddRecipientPage;
 
 // frontend/src/app/dashboard/recipients/addrecipient/page.tsx
 "use client";
@@ -5987,17 +6898,18 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import DashboardHeader from "../../../components/layout/DashboardHeader";
 import { useAuth } from "../../../contexts/AuthContext";
-import recipientService from "../../../services/recipient";
-import currencyService, { Currency } from "../../../services/currency";
+import recipientService from "../../../services/recipient"; // Adjusted path if needed
+import currencyService, { Currency } from "../../../services/currency"; // Adjusted path
 import { IoMdCloseCircle } from "react-icons/io";
 import Image from "next/image";
-import { IoArrowForward, IoClose as IoCloseIcon } from "react-icons/io5";
+import { IoArrowForward } from "react-icons/io5";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FiSearch } from "react-icons/fi";
 import { MdCancel } from "react-icons/md";
-import AccountTypeDropdown from "../../../components/ui/AccountTypeDropdown";
+import AccountTypeDropdown from "../../../components/ui/AccountTypeDropdown"; // Adjusted path
+import { AlertTriangle } from "lucide-react";
 
-// Interfaces (ApiErrorData, ApiErrorResponse, ApiError, NewRecipient) remain the same...
+// Interfaces
 interface ApiErrorData {
   errors?: Record<string, string>;
   message?: string;
@@ -6008,9 +6920,12 @@ interface ApiErrorResponse {
   data: ApiErrorData;
 }
 
+// This interface should now correctly reflect an Axios-like error object
 interface ApiError {
-  response?: ApiErrorResponse;
-  message?: string;
+  response?: ApiErrorResponse; // This will be populated by Axios errors
+  message: string; // Default message or message from Axios error itself
+  // We don't need 'status' or 'data' at the top level of ApiError
+  // if we are relying on error.response.status and error.response.data
 }
 
 interface NewRecipient {
@@ -6023,7 +6938,6 @@ const AddRecipientPage = () => {
   const { token } = useAuth();
   const searchParams = useSearchParams();
 
-  // State variables remain the same...
   const [step, setStep] = useState(1);
   const [currencies, setCurrencies] = useState<Currency[]>([]);
   const [selectedCurrencyCode, setSelectedCurrencyCode] = useState("");
@@ -6031,22 +6945,21 @@ const AddRecipientPage = () => {
   const [accountHolderName, setAccountHolderName] = useState("");
   const [ifscCode, setIfscCode] = useState("");
   const [accountNumber, setAccountNumber] = useState("");
-  const [bankName, setBankName] = useState("");
-  const [address, setAddress] = useState("");
   const [accountType, setAccountType] = useState("");
   const [formError, setFormError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [accountHolderNameError, setAccountHolderNameError] = useState("");
   const [ifscCodeError, setIfscCodeError] = useState("");
   const [accountNumberError, setAccountNumberError] = useState("");
-  const [bankNameError, setBankNameError] = useState("");
-  const [addressError, setAddressError] = useState("");
   const [accountTypeError, setAccountTypeError] = useState("");
   const [isLoadingCurrencies, setIsLoadingCurrencies] = useState(true);
   const [searchCurrency, setSearchCurrency] = useState("");
-  // --- End State Variables ---
 
-  // useEffect for fetching currencies remains the same...
+  const [fetchedBankName, setFetchedBankName] = useState("");
+  const [fetchedAddress, setFetchedAddress] = useState("");
+  const [isFetchingBankDetails, setIsFetchingBankDetails] = useState(false);
+  const [ifscApiError, setIfscApiError] = useState("");
+
   useEffect(() => {
     const fetchCurrencies = async () => {
       setIsLoadingCurrencies(true);
@@ -6063,152 +6976,168 @@ const AddRecipientPage = () => {
         setIsLoadingCurrencies(false);
       }
     };
-
     fetchCurrencies();
   }, []);
-  // --- End useEffect ---
 
-  // Memoized currency lists remain the same...
-  const availableCurrenciesBase = useMemo((): Currency[] => {
-    return currencies.filter((currency) => ["INR"].includes(currency.code));
-  }, [currencies]);
-
+  const availableCurrenciesBase = useMemo(
+    (): Currency[] => currencies.filter((c) => ["INR"].includes(c.code)),
+    [currencies]
+  );
   const comingSoonCurrenciesBase = useMemo((): Currency[] => {
     const availableCodes = ["INR"];
     return currencies.filter(
-      (currency) =>
-        !availableCodes.includes(currency.code) &&
-        ["EUR", "USD", "GBP"].includes(currency.code)
+      (c) =>
+        !availableCodes.includes(c.code) &&
+        ["EUR", "USD", "GBP"].includes(c.code)
     );
   }, [currencies]);
-
   const filteredAvailableCurrencies = useMemo((): Currency[] => {
     if (!searchCurrency) return availableCurrenciesBase;
     const searchTerm = searchCurrency.toLowerCase();
-    return availableCurrenciesBase.filter((currency) => {
-      return (
-        currency.currencyName?.toLowerCase().includes(searchTerm) ||
-        currency.code?.toLowerCase().includes(searchTerm)
-      );
-    });
+    return availableCurrenciesBase.filter(
+      (c) =>
+        c.currencyName?.toLowerCase().includes(searchTerm) ||
+        c.code?.toLowerCase().includes(searchTerm)
+    );
   }, [availableCurrenciesBase, searchCurrency]);
-
   const filteredComingSoonCurrencies = useMemo((): Currency[] => {
     if (!searchCurrency) return comingSoonCurrenciesBase;
     const searchTerm = searchCurrency.toLowerCase();
-    return comingSoonCurrenciesBase.filter((currency) => {
-      return (
-        currency.currencyName?.toLowerCase().includes(searchTerm) ||
-        currency.code?.toLowerCase().includes(searchTerm)
-      );
-    });
+    return comingSoonCurrenciesBase.filter(
+      (c) =>
+        c.currencyName?.toLowerCase().includes(searchTerm) ||
+        c.code?.toLowerCase().includes(searchTerm)
+    );
   }, [comingSoonCurrenciesBase, searchCurrency]);
-  // --- End Memoized Lists ---
 
-  // useMemo hook for isFormInvalid remains the same...
-  const isFormInvalid = useMemo(() => {
-    return (
+  const isFormInvalid = useMemo(
+    () =>
       !accountHolderName.trim() ||
       !ifscCode.trim() ||
       !accountNumber.trim() ||
       !accountType ||
-      !bankName.trim() ||
-      !address.trim()
-    );
-  }, [
-    accountHolderName,
-    ifscCode,
-    accountNumber,
-    accountType,
-    bankName,
-    address,
-  ]);
-  // --- End useMemo ---
+      !fetchedBankName ||
+      !fetchedAddress,
+    [
+      accountHolderName,
+      ifscCode,
+      accountNumber,
+      accountType,
+      fetchedBankName,
+      fetchedAddress,
+    ]
+  );
 
-  // handleCurrencySelect and handleBackStep remain the same...
   const handleCurrencySelect = (currencyCode: string) => {
     setSelectedCurrencyCode(currencyCode);
     setStep(2);
   };
-
   const handleBackStep = () => {
-    if (step > 1) {
-      setStep(step - 1);
-    } else {
-      router.back();
+    if (step > 1) setStep(step - 1);
+    else router.back();
+  };
+
+  const fetchBankDetailsByIFSC = async (ifsc: string) => {
+    setIsFetchingBankDetails(true);
+    setIfscApiError("");
+    setFetchedBankName("");
+    setFetchedAddress("");
+    try {
+      const response = await fetch(`https://ifsc.razorpay.com/${ifsc}`);
+      if (!response.ok) {
+        if (response.status === 404)
+          throw new Error("Invalid IFSC code. Bank details not found.");
+        const errorData = await response.json().catch(() => null);
+        throw new Error(
+          errorData?.message ||
+            `Failed to fetch bank details. Status: ${response.status}`
+        );
+      }
+      const data = await response.json();
+      if (data && data.BANK && data.ADDRESS) {
+        setFetchedBankName(data.BANK);
+        setFetchedAddress(data.ADDRESS);
+      } else {
+        throw new Error("Incomplete bank details received.");
+      }
+    } catch (error: any) {
+      setIfscApiError(error.message || "Could not retrieve bank details.");
+      setFetchedBankName("");
+      setFetchedAddress("");
+    } finally {
+      setIsFetchingBankDetails(false);
     }
   };
-  // --- End Navigation Handlers ---
+  const handleIfscBlur = async () => {
+    const trimmedIfsc = ifscCode.trim();
+    const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
+    if (!trimmedIfsc) {
+      setIfscCodeError("");
+      setIfscApiError("");
+      setFetchedBankName("");
+      setFetchedAddress("");
+      return;
+    }
+    if (!ifscRegex.test(trimmedIfsc)) {
+      setIfscCodeError("Invalid IFSC code format (e.g., ABCD0123456)");
+      setIfscApiError("");
+      setFetchedBankName("");
+      setFetchedAddress("");
+      return;
+    }
+    setIfscCodeError("");
+    await fetchBankDetailsByIFSC(trimmedIfsc);
+  };
 
-  // --- MODIFIED: validateForm function ---
   const validateForm = (): boolean => {
     let isValid = true;
-    // Reset errors first
     setAccountHolderNameError("");
     setIfscCodeError("");
+    setIfscApiError("");
     setAccountNumberError("");
-    setBankNameError("");
-    setAddressError("");
     setAccountTypeError("");
+    setFormError("");
 
-    // Name Validation
     if (!accountHolderName.trim()) {
       setAccountHolderNameError("Account holder name is required");
       isValid = false;
     }
-
-    // IFSC Code Validation
     const trimmedIfsc = ifscCode.trim();
-    // Regex for IFSC: 4 letters, 1 zero, 6 alphanumeric chars (total 11)
     const ifscRegex = /^[A-Z]{4}0[A-Z0-9]{6}$/;
     if (!trimmedIfsc) {
       setIfscCodeError("IFSC code is required");
       isValid = false;
     } else if (!ifscRegex.test(trimmedIfsc)) {
-      setIfscCodeError("Invalid IFSC code format (e.g., ABCD0123456)");
+      setIfscCodeError("Invalid IFSC code format");
+      isValid = false;
+    } else if (!fetchedBankName || !fetchedAddress) {
+      setIfscApiError(
+        "Bank details could not be verified. Please check IFSC or try again."
+      );
       isValid = false;
     }
-    // Note: The length check (11 chars) is implicitly handled by the regex.
-
-    // Account Number Validation
     if (!accountNumber.trim()) {
       setAccountNumberError("Account number is required");
       isValid = false;
     }
-    // Add specific validation for account number format if needed here
-    // e.g., length checks, specific bank rules if applicable
-
-    // Bank Name Validation
-    if (!bankName.trim()) {
-      setBankNameError("Bank name is required");
-      isValid = false;
-    }
-
-    // Address Validation
-    if (!address.trim()) {
-      setAddressError("Address is required");
-      isValid = false;
-    }
-
-    // Account Type Validation
     if (!accountType) {
       setAccountTypeError("Account type is required");
       isValid = false;
     }
-
     return isValid;
   };
-  // --- END MODIFIED: validateForm function ---
 
-  // handleSubmit remains largely the same, relies on the updated validateForm
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError("");
+    setAccountHolderNameError("");
+    setIfscCodeError("");
+    setIfscApiError("");
+    setAccountNumberError("");
+    setAccountTypeError("");
 
-    const isValid = validateForm(); // Uses the updated validation
-
+    const isValid = validateForm();
     if (!isValid) {
-      // Errors are already set by validateForm
       return;
     }
 
@@ -6218,10 +7147,10 @@ const AddRecipientPage = () => {
         currencyCode: selectedCurrencyCode,
         email: email.trim() || undefined,
         accountHolderName: accountHolderName.trim(),
-        ifscCode: ifscCode.trim().toUpperCase(), // Ensure it's uppercase for consistency
+        ifscCode: ifscCode.trim().toUpperCase(),
         accountNumber: accountNumber.trim(),
-        bankName: bankName.trim(),
-        address: address.trim(),
+        bankName: fetchedBankName,
+        address: fetchedAddress,
         accountType,
       };
 
@@ -6230,121 +7159,123 @@ const AddRecipientPage = () => {
         token
       );
 
-      // Redirection logic remains the same...
       const returnToParam = searchParams.get("returnTo");
       if (returnToParam) {
-          const decodedReturnUrl = decodeURIComponent(returnToParam);
-          const match = decodedReturnUrl.match(
-              /\/dashboard\/balances\/([^/]+)\/send\/select-recipient/
+        const decodedReturnUrl = decodeURIComponent(returnToParam);
+        const match = decodedReturnUrl.match(
+          /\/dashboard\/balances\/([^/]+)\/send\/select-recipient/
+        );
+        if (match?.[1] && newRecipient?._id) {
+          const balanceId = match[1];
+          router.push(
+            `/dashboard/balances/${balanceId}/send/amount?recipientId=${newRecipient._id}`
           );
-
-          if (match?.[1] && newRecipient?._id) {
-              const balanceId = match[1];
-              const targetUrl = `/dashboard/balances/${balanceId}/send/amount?recipientId=${newRecipient._id}`;
-              console.log("Redirecting back to send flow:", targetUrl);
-              router.push(targetUrl);
-          } else {
-              console.warn(
-                  "Could not parse balanceId from returnTo URL or missing recipient ID, redirecting to recipient details:",
-                  decodedReturnUrl,
-                  newRecipient?._id
-              );
-              router.push(
-                  newRecipient?._id
-                      ? `/dashboard/recipients/${newRecipient._id}`
-                      : "/dashboard/recipients"
-              );
-          }
+        } else {
+          router.push(
+            newRecipient?._id
+              ? `/dashboard/recipients/${newRecipient._id}`
+              : "/dashboard/recipients"
+          );
+        }
       } else if (newRecipient?._id) {
-          console.log("Redirecting to recipient details page (standard flow)");
-          router.push(`/dashboard/recipients/${newRecipient._id}`);
+        router.push(`/dashboard/recipients/${newRecipient._id}`);
       } else {
-          console.warn(
-              "Recipient added, but no ID received or standard flow error. Redirecting to recipient list."
-          );
-          setFormError(
-              "Recipient added, but failed to redirect. Please check the recipients list."
-          );
-          router.push("/dashboard/recipients");
+        setFormError("Recipient added, but failed to redirect.");
+        router.push("/dashboard/recipients");
       }
-      // --- End Redirection Logic ---
-
     } catch (error: unknown) {
-      console.error("Error adding recipient:", error);
-      const apiError = error as ApiError;
+      // Log the raw error to inspect its structure in the console
+      console.error("handleSubmit caught error:", error);
 
-      // Backend error handling remains the same...
-       if (apiError.response?.data && apiError.response.status === 400) {
-           const backendErrors = apiError.response.data.errors;
-           if (backendErrors && typeof backendErrors === 'object') {
-               setAccountHolderNameError(backendErrors.accountHolderName || '');
-               setIfscCodeError(backendErrors.ifscCode || ''); // Will be overridden by frontend validation first usually
-               setAccountNumberError(backendErrors.accountNumber || '');
-               setBankNameError(backendErrors.bankName || '');
-               setAddressError(backendErrors.address || '');
-               setAccountTypeError(backendErrors.accountType || '');
-           }
+      const apiError = error as ApiError; // Cast to our updated ApiError interface
 
-           if (apiError.response.data.message) {
-               setFormError(apiError.response.data.message);
-           } else if (!backendErrors || Object.keys(backendErrors).length === 0) {
-               setFormError('Invalid data submitted. Please check the fields.');
-           }
-       } else {
-           // Handle other types of errors (Unchanged)
-           const errorMessage = apiError?.response?.data?.message || apiError?.message || (error instanceof Error ? error.message : "An unknown error occurred");
-           setFormError(errorMessage || "Failed to add recipient. Please try again.");
-       }
+      if (apiError.response) {
+        // Check if 'response' property exists (standard Axios error)
+        const status = apiError.response.status;
+        const responseData = apiError.response.data;
+
+        if (status === 409 && responseData?.message) {
+          setAccountNumberError(responseData.message);
+        } else if (status === 400 && responseData) {
+          const backendErrors = responseData.errors;
+          if (backendErrors && typeof backendErrors === "object") {
+            setAccountHolderNameError(backendErrors.accountHolderName || "");
+            setIfscCodeError(backendErrors.ifscCode || "");
+            setAccountNumberError(
+              (prevError) => backendErrors.accountNumber || prevError
+            );
+            setAccountTypeError(backendErrors.accountType || "");
+            if (backendErrors.bankName || backendErrors.address) {
+              setIfscApiError(
+                backendErrors.bankName ||
+                  backendErrors.address ||
+                  "Server validation failed for bank details."
+              );
+            }
+          }
+          if (
+            responseData.message &&
+            (!backendErrors || Object.keys(backendErrors).length === 0)
+          ) {
+            setFormError(responseData.message);
+          } else if (
+            !backendErrors ||
+            (Object.keys(backendErrors).length === 0 && !responseData.message)
+          ) {
+            setFormError("Invalid data submitted. Please check the fields.");
+          }
+        } else {
+          // Other errors with a response object
+          setFormError(
+            responseData?.message ||
+              apiError.message ||
+              "An unknown error occurred."
+          );
+        }
+      } else {
+        // Errors without a .response property (e.g., network errors, or if service threw a simple string before)
+        // The `apiError.message` should contain the string thrown by your service or a default Axios message.
+        setFormError(
+          apiError.message ||
+            "An unknown network error occurred. Please try again."
+        );
+      }
     } finally {
       setIsSubmitting(false);
     }
   };
-  // --- End handleSubmit ---
 
-  // handleCloseFormError, clearSearchTerm, handleClearForm remain the same...
-  const handleCloseFormError = () => {
-    setFormError("");
-  };
-
-  const clearSearchTerm = () => {
-    setSearchCurrency("");
-  };
-
+  const handleCloseFormError = () => setFormError("");
+  const clearSearchTerm = () => setSearchCurrency("");
   const handleClearForm = () => {
     setEmail("");
     setAccountHolderName("");
     setIfscCode("");
     setAccountNumber("");
-    setBankName("");
-    setAddress("");
     setAccountType("");
     setFormError("");
     setAccountHolderNameError("");
     setIfscCodeError("");
     setAccountNumberError("");
-    setBankNameError("");
-    setAddressError("");
     setAccountTypeError("");
+    setFetchedBankName("");
+    setFetchedAddress("");
+    setIsFetchingBankDetails(false);
+    setIfscApiError("");
   };
-  // --- End Utility Handlers ---
 
-  // --- JSX Section (No changes needed here for IFSC validation logic, but showing relevant part) ---
   return (
-    <div className="AddRecipientPage py-5">
+    <div className="AddRecipientPage">
       <DashboardHeader title="Recipients" onBack={handleBackStep} />
       <div className="Steps">
-        {/* Step 1: Currency Selection (No changes needed) */}
         {step === 1 && (
           <div
             key="currency-step"
             className="bg-white dark:bg-background relative"
           >
-             {/* ... Currency selection UI ... */}
-             <h2 className="lg:text-3xl md:text-2xl text-xl capitalize font-semibold text-mainheading dark:text-white text-left md:text-center mb-4">
+            <h2 className="lg:text-3xl md:text-2xl text-xl capitalize font-semibold text-mainheading dark:text-white text-left md:text-center mb-4">
               Select their currency
             </h2>
-
-            {/* Currency Search Input */}
             <div className="relative mb-4">
               <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                 <FiSearch
@@ -6354,7 +7285,7 @@ const AddRecipientPage = () => {
               </div>
               <input
                 type="text"
-                className="w-full rounded-full h-14 py-3 pl-12 pr-10 border transition-all ease-linear duration-75 focus:outline-none focus:border-[#5f5f5f] placeholder:text-neutral-600 dark:placeholder:text-white bg-white dark:bg-background"
+                className="w-full rounded-full h-14 py-3 pl-12 pr-10 border transition-all focus:outline-none focus:border-[#5f5f5f] placeholder:text-neutral-600 dark:placeholder:text-white bg-white dark:bg-background"
                 placeholder="Search currency by name or code..."
                 value={searchCurrency}
                 onChange={(e) => setSearchCurrency(e.target.value)}
@@ -6370,30 +7301,29 @@ const AddRecipientPage = () => {
                 </button>
               )}
             </div>
-
-            {/* General Form Error Display for Currency Step */}
             {formError && !isLoadingCurrencies && (
               <div
-                className="bg-red-100 dark:bg-red-600/20 border border-red-400 dark:border-red-600/50 rounded-xl p-4 relative mb-3"
+                className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-xl p-3 flex items-center gap-3 relative mb-3"
                 role="alert"
               >
-                <span className="text-red-600 dark:text-red-400 text-sm font-medium">
+                <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-red-600/20">
+                  <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                </div>
+                <span className="text-red-700 dark:text-red-300/90 text-sm font-medium">
                   {formError}
                 </span>
               </div>
             )}
-
-            {/* Currency List Section */}
             <div className="space-y-6">
               {isLoadingCurrencies ? (
                 <>
-                  <Skeleton className="h-16 rounded-xl w-full" />
-                  <Skeleton className="h-16 rounded-xl w-full" />
-                  <Skeleton className="h-16 rounded-xl w-full" />
+                  {" "}
+                  <Skeleton className="h-16 rounded-xl w-full" />{" "}
+                  <Skeleton className="h-16 rounded-xl w-full" />{" "}
+                  <Skeleton className="h-16 rounded-xl w-full" />{" "}
                 </>
               ) : (
                 <>
-                  {/* Available Currencies */}
                   {filteredAvailableCurrencies.length > 0 && (
                     <div>
                       <h3 className="font-medium text-gray-500 dark:text-gray-300 mb-3 tracking-wide leading-8 border-b">
@@ -6405,7 +7335,7 @@ const AddRecipientPage = () => {
                             key={currency._id || currency.code}
                             role="button"
                             tabIndex={0}
-                            className={`block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer`}
+                            className={`block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all cursor-pointer`}
                             onClick={() => handleCurrencySelect(currency.code)}
                             onKeyDown={(e) =>
                               e.key === "Enter" || e.key === " "
@@ -6421,15 +7351,15 @@ const AddRecipientPage = () => {
                                     width={40}
                                     height={40}
                                     alt={`${currency.currencyName} Flag`}
-                                    className="rounded-full object-cover flex-shrink-0"
+                                    className="rounded-full object-cover shrink-0"
                                   />
                                 ) : (
-                                  <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-400 text-xs font-medium flex-shrink-0">
+                                  <div className="w-10 h-10 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center text-gray-500 dark:text-gray-300 text-xs font-medium shrink-0">
                                     {currency.code}
                                   </div>
                                 )}
-                                <div className="flex-grow">
-                                  <h4 className="font-medium text-neutral-900 dark:text-white text-sm md:text-base truncate">
+                                <div className="grow text-wrap">
+                                  <h4 className="font-medium text-neutral-900 dark:text-white text-sm md:text-base">
                                     {currency.code} - {currency.currencyName}
                                   </h4>
                                 </div>
@@ -6443,8 +7373,6 @@ const AddRecipientPage = () => {
                       </div>
                     </div>
                   )}
-
-                  {/* Coming Soon Currencies */}
                   {filteredComingSoonCurrencies.length > 0 && (
                     <div>
                       <h3 className="font-medium text-gray-500 dark:text-gray-300 mb-3 tracking-wide leading-8 border-b">
@@ -6454,9 +7382,9 @@ const AddRecipientPage = () => {
                         {filteredComingSoonCurrencies.map((currency) => (
                           <div
                             key={currency._id || currency.code}
-                            className={`p-3 sm:p-4 rounded-xl cursor-not-allowed opacity-60 border border-transparent dark:border-transparent`}
+                            className={`p-2 sm:p-4 rounded-xl cursor-not-allowed opacity-60 border border-transparent dark:border-transparent`}
                           >
-                             <div className="flex items-center justify-between">
+                            <div className="flex items-center justify-between">
                               <div className="flex items-center gap-3 sm:gap-4">
                                 {currency.flagImage ? (
                                   <Image
@@ -6464,20 +7392,20 @@ const AddRecipientPage = () => {
                                     width={40}
                                     height={40}
                                     alt={`${currency.currencyName} Flag`}
-                                    className="rounded-full object-cover flex-shrink-0"
+                                    className="rounded-full object-cover shrink-0"
                                   />
                                 ) : (
-                                  <div className="w-10 h-10 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center text-gray-500 dark:text-gray-400 text-xs font-medium flex-shrink-0">
+                                  <div className="w-10 h-10 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center text-gray-500 dark:text-gray-300 text-xs font-medium shrink-0">
                                     {currency.code}
                                   </div>
                                 )}
-                                <div className="flex-grow">
-                                  <h4 className="font-medium text-neutral-900 dark:text-white text-sm md:text-base truncate">
+                                <div className="grow text-wrap">
+                                  <h4 className="font-medium text-neutral-900 dark:text-white text-sm md:text-base">
                                     {currency.code} - {currency.currencyName}
                                   </h4>
                                 </div>
                               </div>
-                              <span className="text-xs bg-lightgray dark:bg-primarybox text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full flex-shrink-0 ml-2">
+                              <span className="text-xs bg-lightgray dark:bg-primarybox text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full shrink-0 ml-2">
                                 Coming soon
                               </span>
                             </div>
@@ -6486,15 +7414,13 @@ const AddRecipientPage = () => {
                       </div>
                     </div>
                   )}
-
-                  {/* No Results Message */}
-                   {!isLoadingCurrencies &&
-                    filteredAvailableCurrencies.length === 0 &&
-                    filteredComingSoonCurrencies.length === 0 && (
+                  {!isLoadingCurrencies &&
+                    !filteredAvailableCurrencies.length &&
+                    !filteredComingSoonCurrencies.length && (
                       <div className="text-center text-gray-700 dark:bg-white/5 bg-lightgray dark:text-gray-300 mt-8 py-5 rounded-lg">
                         {searchCurrency.trim() !== ""
                           ? `No currencies found for "${searchCurrency}".`
-                          : "No currencies available at the moment."}
+                          : "No currencies available."}
                       </div>
                     )}
                 </>
@@ -6503,32 +7429,29 @@ const AddRecipientPage = () => {
           </div>
         )}
 
-        {/* Step 2: Account Details Form */}
         {step === 2 && (
           <div
             key="account-step"
             className="bg-white dark:bg-background w-full lg:max-w-lg"
           >
-            <h2 className="lg:text-3xl md:text-2xl text-xl font-semibold text-mainheading dark:text-white mb-6 text-left">
+            <h2 className="lg:text-2xl text-xl font-semibold text-mainheading dark:text-white mb-6 text-left">
               Enter their account details ({selectedCurrencyCode})
             </h2>
-
-            {/* General Form Error Display */}
             {formError && (
               <div
-                className="bg-red-100 dark:bg-red-600/20 border border-red-400 dark:border-red-600/50 rounded-xl p-4 relative mb-3"
+                className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-xl p-3 flex items-center gap-3 relative mb-3"
                 role="alert"
               >
-                <span className="text-red-600 dark:text-red-400 text-sm font-medium">
+                <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-red-600/20">
+                  <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                </div>
+                <span className="text-red-700 dark:text-red-300/90 text-sm font-medium">
                   {formError}
                 </span>
               </div>
             )}
-
-            {/* Recipient Form */}
             <form className="mt-2 space-y-5" onSubmit={handleSubmit} noValidate>
-              {/* Email Input */}
-               <div>
+              <div>
                 <label
                   htmlFor="email"
                   className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
@@ -6538,19 +7461,16 @@ const AddRecipientPage = () => {
                 <input
                   type="email"
                   id="email"
-                  className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 focus:border-[#5f5f5f]`}
+                  className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none focus:border-[#5f5f5f]`}
                   value={email}
                   placeholder="example@domain.com"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-               {/* Heading */}
               <h3 className="font-medium text-gray-600 dark:text-white pt-2 pb-1 mb-3 relative after:content-[''] after:block after:w-full after:h-px after:bg-gray-200 dark:after:bg-primarybox after:mt-1">
                 Recipient's bank details
               </h3>
-              {/* Bank Details Section */}
               <div className="space-y-5">
-                {/* Account Holder Name */}
                 <div>
                   <label
                     htmlFor="accountHolderName"
@@ -6562,7 +7482,7 @@ const AddRecipientPage = () => {
                   <input
                     type="text"
                     id="accountHolderName"
-                    className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 ${
+                    className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ${
                       accountHolderNameError
                         ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
                         : "focus:border-[#5f5f5f]"
@@ -6571,7 +7491,6 @@ const AddRecipientPage = () => {
                     placeholder="e.g., John Doe"
                     onChange={(e) => {
                       setAccountHolderName(e.target.value);
-                      // Clear error as user types
                       if (accountHolderNameError) setAccountHolderNameError("");
                     }}
                     required
@@ -6588,13 +7507,11 @@ const AddRecipientPage = () => {
                       className="flex text-red-500 text-xs items-center mt-1"
                       role="alert"
                     >
-                      <IoMdCloseCircle className="size-3.5 mr-1 flex-shrink-0" />
+                      <IoMdCloseCircle className="size-3.5 mr-1 shrink-0" />
                       {accountHolderNameError}
                     </p>
                   )}
                 </div>
-
-                {/* IFSC Code - Input remains the same, error handling works with new logic */}
                 <div>
                   <label
                     htmlFor="ifscCode"
@@ -6605,33 +7522,34 @@ const AddRecipientPage = () => {
                   <input
                     type="text"
                     id="ifscCode"
-                    className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 ${
-                      ifscCodeError
+                    className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ${
+                      ifscCodeError || ifscApiError
                         ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
                         : "focus:border-[#5f5f5f]"
                     }`}
                     value={ifscCode}
                     placeholder="e.g., YESB0123456"
-                    // --- MODIFIED: onChange for IFSC ---
                     onChange={(e) => {
-                      // Convert to uppercase, remove non-alphanumeric, limit length
                       const val = e.target.value
                         .toUpperCase()
                         .replace(/[^A-Z0-9]/g, "");
                       setIfscCode(val.slice(0, 11));
-                      // Clear error as user types
-                      if (ifscCodeError) {
-                        setIfscCodeError("");
-                      }
+                      if (ifscCodeError) setIfscCodeError("");
+                      if (ifscApiError) setIfscApiError("");
+                      setFetchedBankName("");
+                      setFetchedAddress("");
                     }}
+                    onBlur={handleIfscBlur}
                     required
-                    aria-invalid={!!ifscCodeError}
+                    aria-invalid={!!ifscCodeError || !!ifscApiError}
                     aria-describedby={
-                      ifscCodeError ? "ifscCode-error" : undefined
+                      ifscCodeError
+                        ? "ifscCode-error"
+                        : ifscApiError
+                        ? "ifsc-api-error"
+                        : undefined
                     }
                     maxLength={11}
-                    // The pattern attribute can provide browser-level hints but validation is primarily JS
-                    // pattern="^[A-Z]{4}0[A-Z0-9]{6}$"
                   />
                   {ifscCodeError && (
                     <p
@@ -6639,14 +7557,71 @@ const AddRecipientPage = () => {
                       className="flex text-red-500 text-xs items-center mt-1"
                       role="alert"
                     >
-                      <IoMdCloseCircle className="size-3.5 mr-1 flex-shrink-0" />
+                      <IoMdCloseCircle className="size-3.5 mr-1 shrink-0" />
                       {ifscCodeError}
                     </p>
                   )}
+                  {isFetchingBankDetails && (
+                    <div className="mt-2 flex items-center text-sm text-gray-500 dark:text-gray-400">
+                      <svg
+                        className="animate-spin -ml-1 mr-2 h-4 w-4 text-primary"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                      >
+                        <circle
+                          className="opacity-25"
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          stroke="currentColor"
+                          strokeWidth="4"
+                        ></circle>
+                        <path
+                          className="opacity-75"
+                          fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                        ></path>
+                      </svg>
+                      Fetching bank details...
+                    </div>
+                  )}
+                  {ifscApiError && !isFetchingBankDetails && (
+                    <p
+                      id="ifsc-api-error"
+                      className="flex text-red-500 text-xs items-center mt-1"
+                      role="alert"
+                    >
+                      <IoMdCloseCircle className="size-3.5 mr-1 shrink-0" />
+                      {ifscApiError}
+                    </p>
+                  )}
+                  {!isFetchingBankDetails &&
+                    fetchedBankName &&
+                    fetchedAddress &&
+                    !ifscApiError &&
+                    !ifscCodeError && (
+                      <div className="mt-3 p-3 bg-lightgray/30 dark:bg-primarybox/30 rounded-lg border border-gray-200 dark:border-secondarybox space-y-2">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400">
+                            Bank Name
+                          </label>
+                          <p className="text-sm text-neutral-900 dark:text-white">
+                            {fetchedBankName}
+                          </p>
+                        </div>
+                        <div>
+                          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400">
+                            Branch Address
+                          </label>
+                          <p className="text-sm text-neutral-900 dark:text-white">
+                            {fetchedAddress}
+                          </p>
+                        </div>
+                      </div>
+                    )}
                 </div>
-
-                {/* Account Number */}
-                 <div>
+                <div>
                   <label
                     htmlFor="accountNumber"
                     className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
@@ -6657,19 +7632,17 @@ const AddRecipientPage = () => {
                     type="text"
                     inputMode="numeric"
                     id="accountNumber"
-                    className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 ${
+                    className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ${
                       accountNumberError
                         ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
                         : "focus:border-[#5f5f5f]"
                     }`}
                     value={accountNumber}
                     placeholder="Enter account number"
-                     onChange={(e) => {
-                      // Only allow digits
+                    onChange={(e) => {
                       const val = e.target.value.replace(/\D/g, "");
                       setAccountNumber(val);
-                       // Clear error as user types
-                      if(accountNumberError) setAccountNumberError("");
+                      if (accountNumberError) setAccountNumberError("");
                     }}
                     required
                     aria-invalid={!!accountNumberError}
@@ -6683,14 +7656,12 @@ const AddRecipientPage = () => {
                       className="flex text-red-500 text-xs items-center mt-1"
                       role="alert"
                     >
-                      <IoMdCloseCircle className="size-3.5 mr-1 flex-shrink-0" />
+                      <IoMdCloseCircle className="size-3.5 mr-1 shrink-0" />
                       {accountNumberError}
                     </p>
                   )}
                 </div>
-
-                {/* Account Type Dropdown */}
-                 <div>
+                <div>
                   <label className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base">
                     Account type <span className="text-red-500 ml-1">*</span>
                   </label>
@@ -6698,124 +7669,91 @@ const AddRecipientPage = () => {
                     value={accountType}
                     onChange={(value) => {
                       setAccountType(value);
-                      // Clear error on selection
                       if (accountTypeError) setAccountTypeError("");
                     }}
-                    error={accountTypeError} // Pass error string
+                    error={accountTypeError}
                   />
-                  {/* Error displayed within component */}
-                </div>
-
-                {/* Bank Name */}
-                <div>
-                  <label
-                    htmlFor="bankName"
-                    className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
-                  >
-                    Bank name <span className="text-red-500 ml-1">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="bankName"
-                    className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 ${
-                      bankNameError
-                        ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
-                        : "focus:border-[#5f5f5f]"
-                    }`}
-                    value={bankName}
-                    placeholder="e.g., State Bank of India"
-                    onChange={(e) => {
-                      setBankName(e.target.value);
-                      // Clear error as user types
-                      if(bankNameError) setBankNameError("");
-                    }}
-                    required
-                    aria-invalid={!!bankNameError}
-                    aria-describedby={
-                      bankNameError ? "bankName-error" : undefined
-                    }
-                  />
-                  {bankNameError && (
-                    <p
-                      id="bankName-error"
-                      className="flex text-red-500 text-xs items-center mt-1"
-                      role="alert"
-                    >
-                      <IoMdCloseCircle className="size-3.5 mr-1 flex-shrink-0" />
-                      {bankNameError}
-                    </p>
-                  )}
-                </div>
-
-                {/* Recipient Address */}
-                <div>
-                  <label
-                    htmlFor="address"
-                    className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
-                  >
-                    Recipient Address (Street, City, Postcode, Country)
-                    <span className="text-red-500 ml-1">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    id="address"
-                    className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 ${
-                      addressError
-                        ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
-                        : "focus:border-[#5f5f5f]"
-                    }`}
-                    value={address}
-                    placeholder="e.g., 123 Main St, Anytown, 12345, India"
-                    onChange={(e) => {
-                      setAddress(e.target.value);
-                      // Clear error as user types
-                      if(addressError) setAddressError("");
-                    }}
-                    required
-                    aria-invalid={!!addressError}
-                    aria-describedby={
-                      addressError ? "address-error" : undefined
-                    }
-                  />
-                  {addressError && (
-                    <p
-                      id="address-error"
-                      className="flex text-red-500 text-xs items-center mt-1"
-                      role="alert"
-                    >
-                      <IoMdCloseCircle className="size-3.5 mr-1 flex-shrink-0" />
-                      {addressError}
-                    </p>
-                  )}
                 </div>
               </div>
-              {/* Form Action Buttons */}
               <div className="flex sm:flex-row flex-col-reverse justify-center items-center gap-4 pt-4">
                 <button
                   type="button"
-                  className={`sm:order-1 order-2 bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear`}
+                  className={`sm:order-1 order-2 bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all flex items-center justify-center`}
                   onClick={handleClearForm}
                 >
                   Clear All
                 </button>
                 <button
                   type="submit"
-                  className={`sm:order-2 order-1 bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center`}
-                  disabled={isSubmitting || isFormInvalid} // isFormInvalid still useful for initial disabling
+                  className={`sm:order-2 order-1 bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center`}
+                  disabled={isSubmitting || isFormInvalid}
                 >
                   {isSubmitting ? (
                     <>
-                      {/* SVG Loader */}
-                      <svg className="h-5 w-5 text-neutral-900 animate-spin mr-2" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        {/* paths... */}
-                         <path d="M12 2V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                         <path d="M12 18V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                         <path d="M4.93 4.93L7.76 7.76" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                         <path d="M16.24 16.24L19.07 19.07" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                         <path d="M2 12H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                         <path d="M18 12H22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                         <path d="M4.93 19.07L7.76 16.24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                         <path d="M16.24 7.76L19.07 4.93" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                      {" "}
+                      <svg
+                        className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        {" "}
+                        <path
+                          d="M12 2V6"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M12 18V22"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M4.93 4.93L7.76 7.76"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M16.24 16.24L19.07 19.07"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M2 12H6"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M18 12H22"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M4.93 19.07L7.76 16.24"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M16.24 7.76L19.07 4.93"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
                       </svg>
                       <span>Confirming...</span>
                     </>

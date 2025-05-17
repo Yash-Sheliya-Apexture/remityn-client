@@ -4129,6 +4129,657 @@
 //   );
 // }
 
+// // frontend/src/app/dashboard/balances/[balanceId]/send/amount/page.tsx
+// "use client";
+// import React, {
+//   useState,
+//   useCallback,
+//   useMemo,
+//   useEffect,
+//   useRef,
+// } from "react"; // Import useRef
+// import { useParams, useRouter, useSearchParams } from "next/navigation";
+// import Link from "next/link";
+// import { IoIosArrowBack, IoIosInformationCircleOutline } from "react-icons/io";
+// import { TrendingUp } from "lucide-react"; // Import TrendingUp
+// import { FaPiggyBank } from "react-icons/fa"; // Import FaPiggyBank
+// import { motion, AnimatePresence } from "framer-motion"; // Import framer-motion
+// import { IoClose } from "react-icons/io5";
+
+// // Hooks & Logic
+// import { useSendAmountLogic } from "../../../../../hooks/useSendAmountLogic"; // Adjust path
+
+// // Components
+// import DashboardHeader from "@/app/dashboard/components/layout/DashboardHeader"; // Adjust path
+// import RateDisplay from "../../../../components/send/RateDisplay"; // Adjust path
+// import AmountInput from "../../../../components/send/AmountInput"; // Adjust path
+// import PayingWithDisplay from "../../../../components/send/PayingWithDisplay"; // Adjust path
+// import { Skeleton } from "@/components/ui/skeleton"; // Adjust path
+
+// // --- Component Definition ---
+// const steps = ["Recipient", "Amount", "Review", "Pay"];
+
+// interface SendAmountPageParams extends Record<string, string | string[]> {
+//   balanceId: string;
+// }
+
+// // --- Skeleton Component ---
+// const SkeletonAmountSection = () => (
+//   <div className="space-y-4 mb-4">
+//     <div className="flex items-end flex-col gap-1.5">
+//       <Skeleton className="h-10 w-72 rounded-full" />
+//       <Skeleton className="h-9 w-65 rounded-full" />
+//     </div>
+//     <div className="space-y-1 mb-2">
+//       <Skeleton className="h-6 w-20" />
+//       <div className="flex justify-between">
+//         <Skeleton className="h-12.5 w-1/4 rounded-full mt-3" />
+//         <Skeleton className="h-12.5 w-40 rounded-lg mt-3" />
+//       </div>
+//       <Skeleton className="h-5 w-1/3 ml-auto mb-4" />
+//     </div>
+//     <div className="space-y-1 mb-2">
+//       <Skeleton className="h-6 w-1/3" />
+//       <div className="flex justify-between">
+//         <Skeleton className="h-12.5 w-1/4 rounded-full mt-3" />
+//         <Skeleton className="h-12.5 w-40 rounded-lg mt-3" />
+//       </div>
+//       <Skeleton className="h-5 w-1/3 ml-auto mb-4" />
+//     </div>
+//   </div>
+// );
+
+// // --- Framer Motion Variants (Copied from HeroSection for consistency) ---
+// const savingsBannerVariants = {
+//   hidden: { opacity: 0, y: -10, scaleY: 0.9, height: 0 },
+//   visible: {
+//     opacity: 1,
+//     y: 0,
+//     scaleY: 1,
+//     height: "auto",
+//     transition: {
+//       duration: 0.4,
+//       ease: [0.25, 0.46, 0.45, 0.94],
+//       height: { duration: 0.3, ease: [0.4, 0, 0.2, 1], delay: 0.05 },
+//     },
+//   },
+//   exit: {
+//     opacity: 0,
+//     y: -15,
+//     scaleY: 0.95,
+//     height: 0,
+//     transition: {
+//       duration: 0.35, // Faster exit
+//       ease: "easeIn",
+//       height: { duration: 0.2, ease: [0.4, 0, 0.2, 1] },
+//     },
+//   },
+// };
+
+// export default function SendAmountPage() {
+//   // --- Hooks ---
+//   const router = useRouter();
+//   const params = useParams<SendAmountPageParams>();
+//   const searchParams = useSearchParams();
+//   const { balanceId } = params;
+//   const recipientId = searchParams.get("recipientId");
+
+//   // --- Custom Hook for Data and Logic ---
+//   const {
+//     sourceAccount,
+//     recipient,
+//     summary,
+//     initialRateSummary,
+//     isLoading,
+//     isCalculating,
+//     error: logicError,
+//     apiError,
+//     calculateSummary,
+//     cancelCalculation,
+//     setError: setLogicError,
+//   } = useSendAmountLogic(balanceId, recipientId);
+
+//   // --- UI State ---
+//   const [sendAmount, setSendAmount] = useState<string>("");
+//   const [receiveAmount, setReceiveAmount] = useState<string>("");
+//   const [lastEdited, setLastEdited] = useState<"send" | "receive" | null>(null);
+//   const [isSendFocused, setIsSendFocused] = useState(false);
+//   const [isReceiveFocused, setIsReceiveFocused] = useState(false);
+
+//   // --- Refs for Inputs and Timers ---
+//   const sendInputRef = useRef<HTMLInputElement>(null);
+//   const receiveInputRef = useRef<HTMLInputElement>(null);
+//   const sendBlurTimerRef = useRef<NodeJS.Timeout | null>(null);
+//   const receiveBlurTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+//   // --- Derived State for UI ---
+//   const rateContext = summary ?? initialRateSummary;
+//   const isInsufficientBalanceError = logicError === "Insufficient balance.";
+//   const displayError = logicError || apiError;
+
+//   // Effect to sync hook summary changes back to the *other* input field
+//   useEffect(() => {
+//     if (!summary) return;
+//     const newSend = summary.sendAmount.toFixed(2);
+//     const newReceive = summary.receiveAmount.toFixed(2);
+//     if (lastEdited === "send") {
+//       setReceiveAmount(newReceive);
+//     } else if (lastEdited === "receive") {
+//       setSendAmount(newSend);
+//     }
+//     // Also update if no field was edited last (initial load or external update)
+//     else if (!lastEdited) {
+//       setSendAmount(newSend);
+//       setReceiveAmount(newReceive);
+//     }
+//   }, [summary, lastEdited]);
+
+//   // --- Timer Cleanup ---
+//   useEffect(() => {
+//     // Clear timers when the component unmounts
+//     return () => {
+//       if (sendBlurTimerRef.current) clearTimeout(sendBlurTimerRef.current);
+//       if (receiveBlurTimerRef.current)
+//         clearTimeout(receiveBlurTimerRef.current);
+//     };
+//   }, []);
+
+//   // --- Input Handlers ---
+//   const handleAmountChange = useCallback(
+//     (value: string, type: "send" | "receive") => {
+//       setLastEdited(type);
+
+//       // Clear existing blur timer for this input
+//       const timerRef = type === "send" ? sendBlurTimerRef : receiveBlurTimerRef;
+//       if (timerRef.current) {
+//         clearTimeout(timerRef.current);
+//         timerRef.current = null;
+//       }
+
+//       if (type === "send") setSendAmount(value);
+//       else setReceiveAmount(value);
+
+//       const amountNum = parseFloat(value);
+//       const isValidAmount = !isNaN(amountNum) && amountNum > 0;
+
+//       if (isValidAmount && logicError && !isInsufficientBalanceError) {
+//         setLogicError(null); // Clear non-balance errors when user types valid amount
+//       }
+
+//       if (isValidAmount) {
+//         calculateSummary(amountNum, type === "send");
+
+//         // Start new blur timer
+//         timerRef.current = setTimeout(() => {
+//           const inputRef =
+//             type === "send" ? sendInputRef.current : receiveInputRef.current;
+//           inputRef?.blur(); // Trigger blur on the specific input
+//           timerRef.current = null; // Clear the stored timer ID after it fires
+//         }, 1000); // 1 second delay
+//       } else {
+//         cancelCalculation();
+//         if (type === "send") setReceiveAmount("");
+//         else setSendAmount("");
+//         // Trigger calculation with 0. The hook will handle setting its internal summary state.
+//         calculateSummary(0, true);
+
+//         if (value && isNaN(amountNum)) {
+//           setLogicError("Please enter a valid number.");
+//         } else if (logicError === "Please enter a valid number.") {
+//           setLogicError(null); // Clear valid number error if input becomes empty/valid
+//         }
+//       }
+//     },
+//     // Removed initialRateSummary as dependency as the core logic relies on calculateSummary(0) now
+//     [
+//       calculateSummary,
+//       cancelCalculation,
+//       setLogicError,
+//       logicError,
+//       isInsufficientBalanceError,
+//     ]
+//   );
+
+//   const handleFocus = useCallback((type: "send" | "receive") => {
+//     // Clear blur timer when input gains focus manually
+//     const timerRef = type === "send" ? sendBlurTimerRef : receiveBlurTimerRef;
+//     if (timerRef.current) {
+//       clearTimeout(timerRef.current);
+//       timerRef.current = null;
+//     }
+
+//     if (type === "send") setIsSendFocused(true);
+//     else setIsReceiveFocused(true);
+//   }, []); // Refs don't need to be dependencies
+
+//   const handleBlur = useCallback((type: "send" | "receive") => {
+//     // Clear blur timer if input loses focus for any reason
+//     const timerRef = type === "send" ? sendBlurTimerRef : receiveBlurTimerRef;
+//     if (timerRef.current) {
+//       clearTimeout(timerRef.current);
+//       timerRef.current = null;
+//     }
+
+//     if (type === "send") setIsSendFocused(false);
+//     else setIsReceiveFocused(false);
+//   }, []); // Refs don't need to be dependencies
+
+//   const handleAvailableBalanceClick = useCallback(() => {
+//     if (sourceAccount) {
+//       const availableBalance = sourceAccount.balance.toFixed(2);
+//       // Clear any existing send timer before setting value and calculating
+//       if (sendBlurTimerRef.current) {
+//         clearTimeout(sendBlurTimerRef.current);
+//         sendBlurTimerRef.current = null;
+//       }
+//       // Set amount and trigger calculation/new timer
+//       handleAmountChange(availableBalance, "send");
+//       // Manually focus after setting value
+//       setTimeout(() => sendInputRef.current?.focus(), 0);
+//     }
+//   }, [sourceAccount, handleAmountChange]); // Added handleAmountChange dependency
+
+//   // --- Continue Logic ---
+//   const handleContinue = useCallback(() => {
+//     if (!summary || !(summary.sendAmount > 0) || !(summary.receiveAmount > 0)) {
+//       // Ensure an error is set if trying to continue with invalid/missing summary
+//       if (!logicError && !apiError) {
+//         // Only set if no other error is present
+//         setLogicError("Please enter a valid amount and wait for calculation.");
+//       }
+//       return;
+//     }
+//     if (isCalculating) return;
+//     // Check logicError specifically for insufficient balance AFTER checking summary
+//     if (logicError === "Insufficient balance.") {
+//       // Keep the error message displayed, but allow potential continuation
+//       // The canContinue logic might block it anyway if desired
+//     }
+//     // Check other potential logic errors or API errors that might block continuation
+//     else if (logicError || apiError) {
+//       // Update the error slightly for clarity if trying to continue despite it
+//       setLogicError(`Cannot proceed due to: ${logicError || apiError}`);
+//       return;
+//     }
+
+//     // Final balance check before proceeding
+//     if (sourceAccount && summary.sendAmount > sourceAccount.balance) {
+//       setLogicError("Insufficient balance.");
+//       return;
+//     }
+
+//     setLogicError(null); // Clear any previous non-blocking errors before navigation
+
+//     console.log("Saving transfer summary:", summary);
+//     localStorage.setItem("sendTransferSummary", JSON.stringify(summary));
+
+//     const needsReason = recipient?.currency.code === "INR";
+//     const nextPath = needsReason
+//       ? `/dashboard/balances/${balanceId}/send/reason?recipientId=${recipientId}`
+//       : `/dashboard/balances/${balanceId}/send/review?recipientId=${recipientId}`;
+//     router.push(nextPath);
+//   }, [
+//     summary,
+//     isCalculating,
+//     apiError,
+//     logicError, // Added logicError dependency
+//     sourceAccount,
+//     recipient,
+//     balanceId,
+//     recipientId,
+//     router,
+//     setLogicError,
+//   ]);
+
+//   // Enable continue button logic
+//   const canContinue = useMemo(
+//     () =>
+//       !!summary &&
+//       summary.sendAmount > 0 &&
+//       summary.receiveAmount > 0 &&
+//       !isCalculating &&
+//       !apiError && // Block on API errors
+//       logicError !== "Please enter a valid number." && // Block on validation error
+//       logicError !== "Please enter a valid amount and wait for calculation." && // Block on this specific error
+//       logicError !== "Missing required information." && // Block on critical errors
+//       !logicError?.startsWith("Cannot proceed due to:") && // Block on continuation error
+//       logicError !== "Insufficient balance.", // **** ALSO BLOCK ON INSUFFICIENT BALANCE ****
+//     // Decide if you want to allow clicking continue even with insufficient balance.
+//     // If not, add the check above. If yes, remove it. Let's block it for now.
+//     [summary, isCalculating, apiError, logicError] // Added logicError
+//   );
+
+//   // --- Savings Calculation (Adapted from HeroSection) ---
+//   const savingsAmount = useMemo(() => {
+//     if (
+//       !summary ||
+//       !summary.liveExchangeRate ||
+//       summary.sendAmount <= 0 ||
+//       summary.receiveAmount <= 0 ||
+//       isCalculating ||
+//       isInsufficientBalanceError || // Use derived state for clarity
+//       !!apiError ||
+//       logicError === "Please enter a valid number."
+//     ) {
+//       return null;
+//     }
+
+//     const marketRate = summary.liveExchangeRate;
+//     const ourRate = summary.exchangeRate;
+
+//     if (ourRate <= marketRate) {
+//       return null;
+//     }
+
+//     // Calculate based on received amounts: actual vs market hypothetical
+//     // This comparison uses the *final* receive amount, implicitly accounting for fees deducted before conversion
+//     const amountConverted = summary.receiveAmount / ourRate; // Amount in send currency before fees that was converted
+//     const marketEquivalentReceive = amountConverted * marketRate; // What that amount would be worth at market rate
+
+//     const rateDifferenceValue = summary.receiveAmount - marketEquivalentReceive;
+
+//     if (rateDifferenceValue <= 0.01) {
+//       return null;
+//     }
+
+//     return rateDifferenceValue.toFixed(2);
+//   }, [
+//     summary,
+//     isCalculating,
+//     isInsufficientBalanceError,
+//     apiError,
+//     logicError,
+//   ]); // Dependencies
+
+//   // --- Render Logic ---
+
+//   // --- Render Logic ---
+//   if (isLoading) {
+//     return (
+//       <div className="min-h-screen animate-pulse">
+//         <DashboardHeader title="Send Money" steps={steps} currentStep={2} />
+//         <div className="mx-auto lg:max-w-xl p-4 sm:p-6 mt-5 border rounded-2xl bg-white dark:bg-background">
+//           <SkeletonAmountSection />
+//           <div className="space-y-2">
+//             <Skeleton className="h-6 w-30" />
+//             <Skeleton className="h-26 w-full rounded-2xl" />
+//             <Skeleton className="h-12.5 w-full rounded-full" />
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   }
+//   // Critical Error State (Account/Recipient Load Failure)
+//   const criticalError =
+//     !sourceAccount || !recipient
+//       ? logicError || apiError || "Error loading essential page details."
+//       : null;
+//   if (criticalError) {
+//     return (
+//       <div className="min-h-screen">
+//         <DashboardHeader title="Send Money" steps={steps} currentStep={2} />
+//         <div className="p-10 text-center">
+//           <div
+//             className="bg-red-100 border border-red-400 text-red-800 px-4 py-3 rounded-lg relative max-w-md mx-auto mt-10 shadow-md"
+//             role="alert"
+//           >
+//             <strong className="font-bold mr-2">Error!</strong>
+//             <span className="block sm:inline">{criticalError}</span>
+//           </div>
+//           <Link
+//             href={
+//               balanceId
+//                 ? `/dashboard/balances/${balanceId}/send/select-recipient`
+//                 : "/dashboard"
+//             }
+//             className="mt-6 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
+//           >
+//             <IoIosArrowBack size={20} className="-ml-1 mr-1" /> Go back
+//           </Link>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   // --- Main Render ---
+//   return (
+//     <div className="SendAmount-Page">
+//       <DashboardHeader title="Send Money" steps={steps} currentStep={2} />
+//       <div className="mx-auto lg:max-w-xl p-4 sm:p-6 mt-5 border rounded-2xl bg-white dark:bg-background">
+//         <RateDisplay
+//           rateContext={rateContext}
+//           apiError={apiError && !logicError ? apiError : null}
+//         />
+
+//         {/* --- Savings Banner --- */}
+//         <AnimatePresence>
+//           {savingsAmount &&
+//             recipient && ( // Check recipient for currency code
+//               <motion.div
+//                 key="savings-banner-send-page"
+//                 className="my-6 overflow-hidden" // Use margin-top/bottom to space it
+//                 variants={savingsBannerVariants}
+//                 initial="hidden"
+//                 animate="visible"
+//                 exit="exit"
+//               >
+//                 <div className="bg-lightgray dark:bg-primarybox rounded-xl lg:p-4 p-3 border-l-4 border-primary">
+//                   <div className="flex items-center gap-2">
+//                     <div className="bg-primary rounded-full p-2 flex-shrink-0">
+//                       <FaPiggyBank
+//                         size={20}
+//                         className="lg:size-6 size-4 text-mainheading"
+//                       />
+//                     </div>
+//                     <div>
+//                       <p className="font-bold text-neutral-900 dark:text-primary lg:text-base text-sm flex items-center gap-1">
+//                         <span>
+//                           Save up to {recipient.currency.code} {savingsAmount}{" "}
+//                           with Wise {/* Use recipient currency */}
+//                         </span>
+//                         <TrendingUp size={18} />
+//                       </p>
+//                       <p className="text-xs text-gray-500 dark:text-gray-300">
+//                         Better rates than traditional banks!
+//                       </p>
+//                     </div>
+//                   </div>
+//                 </div>
+//               </motion.div>
+//             )}
+//         </AnimatePresence>
+//         {/* --- End Savings Banner --- */}
+
+//         <div className="space-y-4 mt-4">
+//           {" "}
+//           {/* You Send Section */}
+//           <AmountInput
+//             ref={sendInputRef} // Pass ref here
+//             label="You send"
+//             labelSuffix={
+//               summary?.sendAmount && !isCalculating && !displayError
+//                 ? "exactly"
+//                 : ""
+//             } // Hide 'exactly' if error
+//             currencyCode={sourceAccount!.currency.code}
+//             flagImage={sourceAccount!.currency.flagImage}
+//             value={sendAmount}
+//             onValueChange={(val) => handleAmountChange(val, "send")}
+//             onFocus={() => handleFocus("send")}
+//             onBlur={() => handleBlur("send")}
+//             isFocused={isSendFocused}
+//             isDimmed={lastEdited === "receive" && !isCalculating}
+//             hasError={isInsufficientBalanceError} // Only specific error for styling
+//             inputId="send-amount"
+//             data-testid="send-amount-input"
+//           />
+
+//           <div className="text-right -mt-4 pr-4">
+//             <span className="text-sm text-gray-500 dark:text-gray-300">
+//               Available:{" "}
+//             </span>
+//             <button
+//               onClick={handleAvailableBalanceClick}
+//               className="text-sm font-medium text-primary dark:text-primary cursor-pointer hover:underline focus:outline-none focus:underline disabled:opacity-50 disabled:cursor-not-allowed"
+//               aria-label={`Use available balance: ${sourceAccount!.balance.toFixed(
+//                 2
+//               )} ${sourceAccount!.currency.code}`}
+//               disabled={isLoading || isCalculating} // Disable while loading/calculating
+//             >
+//               {sourceAccount!.balance.toLocaleString(undefined, {
+//                 minimumFractionDigits: 2,
+//                 maximumFractionDigits: 2,
+//               })}{" "}
+//               {sourceAccount!.currency.code}
+//             </button>
+//           </div>
+
+//           {/* Recipient Gets Section */}
+//           <AmountInput
+//             ref={receiveInputRef} // Pass ref here
+//             label={
+//               recipient!.nickname || recipient!.accountHolderName || "Recipient"
+//             }
+//             labelPrefix=""
+//             labelSuffix={
+//               summary?.receiveAmount && !isCalculating && !displayError
+//                 ? "gets exactly"
+//                 : "gets approx." // Show approx if error or calculating
+//             }
+//             currencyCode={recipient!.currency.code}
+//             flagImage={`/assets/icon/${recipient!.currency.code.toLowerCase()}.svg`}
+//             value={receiveAmount}
+//             onValueChange={(val) => handleAmountChange(val, "receive")}
+//             onFocus={() => handleFocus("receive")}
+//             onBlur={() => handleBlur("receive")}
+//             isFocused={isReceiveFocused}
+//             isDimmed={lastEdited === "send" && !isCalculating}
+//             inputId="receive-amount"
+//             data-testid="receive-amount-input"
+//           />
+//           {recipient?.accountNumber && (
+//             <p className="text-sm text-gray-500 dark:text-gray-300 text-right -mt-4 pr-4">
+//               Account ending in {recipient.accountNumber.slice(-4)}
+//             </p>
+//           )}
+//           <PayingWithDisplay sourceAccount={sourceAccount!} />
+//           {/* Error Display Section */}
+//           {displayError && (
+//             <div
+//               className={`relative p-4 rounded-lg dark:border ${
+//                 isInsufficientBalanceError
+//                   ? "bg-red-50  text-red-800 dark:bg-red-900/20 dark:border-red-700 dark:text-red-300"
+//                   : "bg-yellow-50 border-yellow-300 text-yellow-800 dark:bg-yellow-900/20 dark:border-yellow-700 dark:text-yellow-300"
+//               }`}
+//               role="alert"
+//             >
+//               <div className="flex items-center">
+//                 <IoIosInformationCircleOutline
+//                   className={`w-5 h-5 mr-2 ${
+//                     isInsufficientBalanceError
+//                       ? "text-red-600 dark:text-red-400"
+//                       : "text-yellow-600 dark:text-yellow-400"
+//                   }`}
+//                 />
+//                 <span className="flex-1 text-sm">{displayError}</span>
+//                 <button
+//                   onClick={() => {
+//                     setLogicError(null);
+//                     // Decide if you want dismissing the error to also clear API errors
+//                     // if (apiError) { /* logic to clear apiError if needed */ }
+//                   }}
+//                   className="absolute top-1.5 cursor-pointer right-1.5 p-2 rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none"
+//                   aria-label="Dismiss error message"
+//                 >
+//                   <IoClose size={18} />
+//                 </button>
+//               </div>
+//             </div>
+//           )}
+//           {/* Continue Button */}
+//           <button
+//             onClick={handleContinue}
+//             disabled={!canContinue || isCalculating} // Disable also if not canContinue or calculating
+//             className={`flex items-center justify-center w-full bg-primary text-neutral-900 font-medium hover:bg-primaryhover space-x-3 py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
+//             data-testid="continue-button"
+//           >
+//             {isCalculating ? (
+//               <>
+//                 {/* Using the same SVG spinner */}
+//                 <svg
+//                   className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+//                   viewBox="0 0 24 24"
+//                   fill="none"
+//                   xmlns="http://www.w3.org/2000/svg"
+//                 >
+//                   <path
+//                     d="M12 2V6"
+//                     stroke="currentColor"
+//                     strokeWidth="2"
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                   />
+//                   <path
+//                     d="M12 18V22"
+//                     stroke="currentColor"
+//                     strokeWidth="2"
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                   />
+//                   <path
+//                     d="M4.93 4.93L7.76 7.76"
+//                     stroke="currentColor"
+//                     strokeWidth="2"
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                   />
+//                   <path
+//                     d="M16.24 16.24L19.07 19.07"
+//                     stroke="currentColor"
+//                     strokeWidth="2"
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                   />
+//                   <path
+//                     d="M2 12H6"
+//                     stroke="currentColor"
+//                     strokeWidth="2"
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                   />
+//                   <path
+//                     d="M18 12H22"
+//                     stroke="currentColor"
+//                     strokeWidth="2"
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                   />
+//                   <path
+//                     d="M4.93 19.07L7.76 16.24"
+//                     stroke="currentColor"
+//                     strokeWidth="2"
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                   />
+//                   <path
+//                     d="M16.24 7.76L19.07 4.93"
+//                     stroke="currentColor"
+//                     strokeWidth="2"
+//                     strokeLinecap="round"
+//                     strokeLinejoin="round"
+//                   />
+//                 </svg>
+//                 <span>Calculating...</span>
+//               </>
+//             ) : (
+//               "Continue"
+//             )}
+//           </button>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
 
 
 
@@ -4144,7 +4795,7 @@ import React, {
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { IoIosArrowBack, IoIosInformationCircleOutline } from "react-icons/io";
-import { TrendingUp } from "lucide-react"; // Import TrendingUp
+import { AlertTriangle, TrendingUp } from "lucide-react"; // Import TrendingUp
 import { FaPiggyBank } from "react-icons/fa"; // Import FaPiggyBank
 import { motion, AnimatePresence } from "framer-motion"; // Import framer-motion
 import { IoClose } from "react-icons/io5";
@@ -4324,7 +4975,7 @@ export default function SendAmountPage() {
         if (type === "send") setReceiveAmount("");
         else setSendAmount("");
         // Trigger calculation with 0. The hook will handle setting its internal summary state.
-        calculateSummary(0, true);
+        calculateSummary(0, true); // Or type === "send" based on current context
 
         if (value && isNaN(amountNum)) {
           setLogicError("Please enter a valid number.");
@@ -4333,7 +4984,6 @@ export default function SendAmountPage() {
         }
       }
     },
-    // Removed initialRateSummary as dependency as the core logic relies on calculateSummary(0) now
     [
       calculateSummary,
       cancelCalculation,
@@ -4353,7 +5003,7 @@ export default function SendAmountPage() {
 
     if (type === "send") setIsSendFocused(true);
     else setIsReceiveFocused(true);
-  }, []); // Refs don't need to be dependencies
+  }, []);
 
   const handleBlur = useCallback((type: "send" | "receive") => {
     // Clear blur timer if input loses focus for any reason
@@ -4365,53 +5015,47 @@ export default function SendAmountPage() {
 
     if (type === "send") setIsSendFocused(false);
     else setIsReceiveFocused(false);
-  }, []); // Refs don't need to be dependencies
+  }, []);
 
   const handleAvailableBalanceClick = useCallback(() => {
     if (sourceAccount) {
       const availableBalance = sourceAccount.balance.toFixed(2);
-      // Clear any existing send timer before setting value and calculating
       if (sendBlurTimerRef.current) {
         clearTimeout(sendBlurTimerRef.current);
         sendBlurTimerRef.current = null;
       }
-      // Set amount and trigger calculation/new timer
       handleAmountChange(availableBalance, "send");
-      // Manually focus after setting value
       setTimeout(() => sendInputRef.current?.focus(), 0);
     }
-  }, [sourceAccount, handleAmountChange]); // Added handleAmountChange dependency
+  }, [sourceAccount, handleAmountChange]);
 
   // --- Continue Logic ---
   const handleContinue = useCallback(() => {
     if (!summary || !(summary.sendAmount > 0) || !(summary.receiveAmount > 0)) {
-      // Ensure an error is set if trying to continue with invalid/missing summary
       if (!logicError && !apiError) {
-        // Only set if no other error is present
         setLogicError("Please enter a valid amount and wait for calculation.");
       }
       return;
     }
     if (isCalculating) return;
-    // Check logicError specifically for insufficient balance AFTER checking summary
+
     if (logicError === "Insufficient balance.") {
-      // Keep the error message displayed, but allow potential continuation
-      // The canContinue logic might block it anyway if desired
+      // Error is already displayed
+      return;
     }
-    // Check other potential logic errors or API errors that might block continuation
-    else if (logicError || apiError) {
-      // Update the error slightly for clarity if trying to continue despite it
+
+    if (logicError || apiError) {
       setLogicError(`Cannot proceed due to: ${logicError || apiError}`);
       return;
     }
 
-    // Final balance check before proceeding
+    // Final balance check before proceeding (belt and suspenders)
     if (sourceAccount && summary.sendAmount > sourceAccount.balance) {
       setLogicError("Insufficient balance.");
       return;
     }
 
-    setLogicError(null); // Clear any previous non-blocking errors before navigation
+    setLogicError(null); // Clear any previous non-blocking errors
 
     console.log("Saving transfer summary:", summary);
     localStorage.setItem("sendTransferSummary", JSON.stringify(summary));
@@ -4425,7 +5069,7 @@ export default function SendAmountPage() {
     summary,
     isCalculating,
     apiError,
-    logicError, // Added logicError dependency
+    logicError,
     sourceAccount,
     recipient,
     balanceId,
@@ -4441,15 +5085,13 @@ export default function SendAmountPage() {
       summary.sendAmount > 0 &&
       summary.receiveAmount > 0 &&
       !isCalculating &&
-      !apiError && // Block on API errors
-      logicError !== "Please enter a valid number." && // Block on validation error
-      logicError !== "Please enter a valid amount and wait for calculation." && // Block on this specific error
-      logicError !== "Missing required information." && // Block on critical errors
-      !logicError?.startsWith("Cannot proceed due to:") && // Block on continuation error
-      logicError !== "Insufficient balance.", // **** ALSO BLOCK ON INSUFFICIENT BALANCE ****
-    // Decide if you want to allow clicking continue even with insufficient balance.
-    // If not, add the check above. If yes, remove it. Let's block it for now.
-    [summary, isCalculating, apiError, logicError] // Added logicError
+      !apiError &&
+      logicError !== "Please enter a valid number." &&
+      logicError !== "Please enter a valid amount and wait for calculation." &&
+      logicError !== "Missing required information." &&
+      !logicError?.startsWith("Cannot proceed due to:") &&
+      logicError !== "Insufficient balance.", // Block on insufficient balance
+    [summary, isCalculating, apiError, logicError]
   );
 
   // --- Savings Calculation (Adapted from HeroSection) ---
@@ -4460,7 +5102,7 @@ export default function SendAmountPage() {
       summary.sendAmount <= 0 ||
       summary.receiveAmount <= 0 ||
       isCalculating ||
-      isInsufficientBalanceError || // Use derived state for clarity
+      isInsufficientBalanceError ||
       !!apiError ||
       logicError === "Please enter a valid number."
     ) {
@@ -4474,11 +5116,8 @@ export default function SendAmountPage() {
       return null;
     }
 
-    // Calculate based on received amounts: actual vs market hypothetical
-    // This comparison uses the *final* receive amount, implicitly accounting for fees deducted before conversion
-    const amountConverted = summary.receiveAmount / ourRate; // Amount in send currency before fees that was converted
-    const marketEquivalentReceive = amountConverted * marketRate; // What that amount would be worth at market rate
-
+    const amountConverted = summary.receiveAmount / ourRate;
+    const marketEquivalentReceive = amountConverted * marketRate;
     const rateDifferenceValue = summary.receiveAmount - marketEquivalentReceive;
 
     if (rateDifferenceValue <= 0.01) {
@@ -4492,9 +5131,7 @@ export default function SendAmountPage() {
     isInsufficientBalanceError,
     apiError,
     logicError,
-  ]); // Dependencies
-
-  // --- Render Logic ---
+  ]);
 
   // --- Render Logic ---
   if (isLoading) {
@@ -4512,7 +5149,7 @@ export default function SendAmountPage() {
       </div>
     );
   }
-  // Critical Error State (Account/Recipient Load Failure)
+
   const criticalError =
     !sourceAccount || !recipient
       ? logicError || apiError || "Error loading essential page details."
@@ -4521,24 +5158,32 @@ export default function SendAmountPage() {
     return (
       <div className="min-h-screen">
         <DashboardHeader title="Send Money" steps={steps} currentStep={2} />
-        <div className="p-10 text-center">
-          <div
-            className="bg-red-100 border border-red-400 text-red-800 px-4 py-3 rounded-lg relative max-w-md mx-auto mt-10 shadow-md"
-            role="alert"
-          >
-            <strong className="font-bold mr-2">Error!</strong>
-            <span className="block sm:inline">{criticalError}</span>
+        <div className="py-8">
+          <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-4 flex items-center gap-3">
+            <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+              <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+            </div>
+            <div className="flex items-center">
+              <span className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
+                Error!
+              </span>
+              <span className="ml-2 block sm:inline text-red-700 dark:text-red-300/90">
+                {criticalError}
+              </span>
+            </div>
           </div>
-          <Link
-            href={
-              balanceId
-                ? `/dashboard/balances/${balanceId}/send/select-recipient`
-                : "/dashboard"
-            }
-            className="mt-6 inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
-          >
-            <IoIosArrowBack size={20} className="-ml-1 mr-1" /> Go back
-          </Link>
+          <div className="text-center">
+            <Link
+              href={
+                balanceId
+                  ? `/dashboard/balances/${balanceId}/send/select-recipient`
+                  : "/dashboard"
+              }
+              className="mt-6 inline-flex justify-center cursor-pointer bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 text-center sm:w-auto w-full transition-all duration-75 ease-linear"
+            >
+              <IoIosArrowBack size={20} className="-ml-1 mr-1" /> Go back
+            </Link>
+          </div>
         </div>
       </div>
     );
@@ -4554,57 +5199,51 @@ export default function SendAmountPage() {
           apiError={apiError && !logicError ? apiError : null}
         />
 
-        {/* --- Savings Banner --- */}
         <AnimatePresence>
-          {savingsAmount &&
-            recipient && ( // Check recipient for currency code
-              <motion.div
-                key="savings-banner-send-page"
-                className="my-6 overflow-hidden" // Use margin-top/bottom to space it
-                variants={savingsBannerVariants}
-                initial="hidden"
-                animate="visible"
-                exit="exit"
-              >
-                <div className="bg-lightgray dark:bg-primarybox rounded-xl lg:p-4 p-3 border-l-4 border-primary">
-                  <div className="flex items-center gap-2">
-                    <div className="bg-primary rounded-full p-2 flex-shrink-0">
-                      <FaPiggyBank
-                        size={20}
-                        className="lg:size-6 size-4 text-mainheading"
-                      />
-                    </div>
-                    <div>
-                      <p className="font-bold text-neutral-900 dark:text-primary lg:text-base text-sm flex items-center gap-1">
-                        <span>
-                          Save up to {recipient.currency.code} {savingsAmount}{" "}
-                          with Wise {/* Use recipient currency */}
-                        </span>
-                        <TrendingUp size={18} />
-                      </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-300">
-                        Better rates than traditional banks!
-                      </p>
-                    </div>
+          {savingsAmount && recipient && (
+            <motion.div
+              key="savings-banner-send-page"
+              className="my-6 overflow-hidden"
+              variants={savingsBannerVariants}
+              initial="hidden"
+              animate="visible"
+              exit="exit"
+            >
+              <div className="bg-lightgray dark:bg-primarybox rounded-xl lg:p-4 p-3 border-l-4 border-primary">
+                <div className="flex items-center gap-2">
+                  <div className="bg-primary rounded-full p-2 flex-shrink-0">
+                    <FaPiggyBank
+                      size={20}
+                      className="lg:size-6 size-4 text-mainheading"
+                    />
+                  </div>
+                  <div>
+                    <p className="font-bold text-neutral-900 dark:text-primary lg:text-base text-sm flex items-center gap-1">
+                      <span>
+                        Save up to {recipient.currency.code} {savingsAmount}{" "}
+                        with Wise
+                      </span>
+                      <TrendingUp size={18} />
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-300">
+                      Better rates than traditional banks!
+                    </p>
                   </div>
                 </div>
-              </motion.div>
-            )}
+              </div>
+            </motion.div>
+          )}
         </AnimatePresence>
-        {/* --- End Savings Banner --- */}
 
         <div className="space-y-4 mt-4">
-          {" "}
-          {/* Ensure mt-4 is still here if savings banner is not shown */}
-          {/* You Send Section */}
           <AmountInput
-            ref={sendInputRef} // Pass ref here
+            ref={sendInputRef}
             label="You send"
             labelSuffix={
               summary?.sendAmount && !isCalculating && !displayError
                 ? "exactly"
                 : ""
-            } // Hide 'exactly' if error
+            }
             currencyCode={sourceAccount!.currency.code}
             flagImage={sourceAccount!.currency.flagImage}
             value={sendAmount}
@@ -4613,11 +5252,10 @@ export default function SendAmountPage() {
             onBlur={() => handleBlur("send")}
             isFocused={isSendFocused}
             isDimmed={lastEdited === "receive" && !isCalculating}
-            hasError={isInsufficientBalanceError} // Only specific error for styling
+            hasError={isInsufficientBalanceError} // This ensures the input field shows error style
             inputId="send-amount"
             data-testid="send-amount-input"
           />
-
           <div className="text-right -mt-4 pr-4">
             <span className="text-sm text-gray-500 dark:text-gray-300">
               Available:{" "}
@@ -4628,7 +5266,7 @@ export default function SendAmountPage() {
               aria-label={`Use available balance: ${sourceAccount!.balance.toFixed(
                 2
               )} ${sourceAccount!.currency.code}`}
-              disabled={isLoading || isCalculating} // Disable while loading/calculating
+              disabled={isLoading || isCalculating}
             >
               {sourceAccount!.balance.toLocaleString(undefined, {
                 minimumFractionDigits: 2,
@@ -4637,10 +5275,9 @@ export default function SendAmountPage() {
               {sourceAccount!.currency.code}
             </button>
           </div>
-
           {/* Recipient Gets Section */}
           <AmountInput
-            ref={receiveInputRef} // Pass ref here
+            ref={receiveInputRef}
             label={
               recipient!.nickname || recipient!.accountHolderName || "Recipient"
             }
@@ -4648,7 +5285,7 @@ export default function SendAmountPage() {
             labelSuffix={
               summary?.receiveAmount && !isCalculating && !displayError
                 ? "gets exactly"
-                : "gets approx." // Show approx if error or calculating
+                : "gets approx."
             }
             currencyCode={recipient!.currency.code}
             flagImage={`/assets/icon/${recipient!.currency.code.toLowerCase()}.svg`}
@@ -4658,6 +5295,7 @@ export default function SendAmountPage() {
             onBlur={() => handleBlur("receive")}
             isFocused={isReceiveFocused}
             isDimmed={lastEdited === "send" && !isCalculating}
+            // No hasError prop here unless you want to display a specific error for this input too
             inputId="receive-amount"
             data-testid="receive-amount-input"
           />
@@ -4667,49 +5305,65 @@ export default function SendAmountPage() {
             </p>
           )}
           <PayingWithDisplay sourceAccount={sourceAccount!} />
-          {/* Error Display Section */}
+
           {displayError && (
             <div
-              className={`relative p-4 rounded-lg dark:border ${
+              className={`relative flex justify-between items-center p-2 rounded-lg border ${
                 isInsufficientBalanceError
-                  ? "bg-red-50  text-red-800 dark:bg-red-900/20 dark:border-red-700 dark:text-red-300"
-                  : "bg-yellow-50 border-yellow-300 text-yellow-800 dark:bg-yellow-900/20 dark:border-yellow-700 dark:text-yellow-300"
+                  ? "bg-red-50 dark:bg-red-900/25 border-red-500"
+                  : "bg-yellow-50 dark:bg-yellow-900/25 border-yellow-500"
               }`}
               role="alert"
             >
-              <div className="flex items-center">
-                <IoIosInformationCircleOutline
-                  className={`w-5 h-5 mr-2 ${
+              <div className="flex sm:items-center items-start gap-3">
+                <div
+                  className={`flex-shrink-0 size-10 rounded-full flex items-center justify-center ${
                     isInsufficientBalanceError
-                      ? "text-red-600 dark:text-red-400"
-                      : "text-yellow-600 dark:text-yellow-400"
+                      ? "bg-red-600/20 text-red-600 dark:text-red-500"
+                      : "bg-yellow-600/20 text-yellow-600 dark:text-yellow-500"
                   }`}
-                />
-                <span className="flex-1 text-sm">{displayError}</span>
-                <button
-                  onClick={() => {
-                    setLogicError(null);
-                    // Decide if you want dismissing the error to also clear API errors
-                    // if (apiError) { /* logic to clear apiError if needed */ }
-                  }}
-                  className="absolute top-1.5 cursor-pointer right-1.5 p-2 rounded-full text-gray-500 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none"
-                  aria-label="Dismiss error message"
                 >
-                  <IoClose size={18} />
-                </button>
+                  <IoIosInformationCircleOutline
+                    className={`size-5 sm:size-6 flex-shrink-0`}
+                  />
+                </div>
+                <span
+                  className={`${
+                    isInsufficientBalanceError
+                      ? "text-red-700 dark:text-red-300/90"
+                      : "text-yellow-700 dark:text-yellow-300/90"
+                  }`}
+                >
+                  {displayError}
+                </span>
               </div>
+
+              <button
+                onClick={() => {
+                  setLogicError(null);
+                  // Decide if you want dismissing the error to also clear API errors
+                  // if (apiError) { /* logic to clear apiError if needed */ }
+                }}
+                className={`ml-2 cursor-pointer p-2 rounded-full focus:outline-none ${
+                  isInsufficientBalanceError
+                    ? " text-red-600 dark:text-red-500"
+                    : " text-yellow-600 dark:text-yellow-500"
+                }`}
+                aria-label="Dismiss error message"
+              >
+                <IoClose size={18} />
+              </button>
             </div>
           )}
-          {/* Continue Button */}
+
           <button
             onClick={handleContinue}
-            disabled={!canContinue || isCalculating} // Disable also if not canContinue or calculating
+            disabled={!canContinue || isCalculating}
             className={`flex items-center justify-center w-full bg-primary text-neutral-900 font-medium hover:bg-primaryhover space-x-3 py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
             data-testid="continue-button"
           >
             {isCalculating ? (
               <>
-                {/* Using the same SVG spinner */}
                 <svg
                   className="h-5 w-5 text-neutral-900 animate-spin mr-2"
                   viewBox="0 0 24 24"
@@ -4784,5 +5438,3 @@ export default function SendAmountPage() {
     </div>
   );
 }
-
-

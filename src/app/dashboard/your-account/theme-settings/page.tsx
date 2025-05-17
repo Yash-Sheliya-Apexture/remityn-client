@@ -759,7 +759,7 @@ const AppearanceSettingsPage: React.FC = () => {
     <section className='Theme-Setting-Wrapper'>
       {/* Back Button and Title */}
       <div className="flex items-center mb-6 relative">
-        <h1 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white flex-shrink-0">
+        <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white flex-shrink-0">
         Theme Settings
         </h1>
       </div>

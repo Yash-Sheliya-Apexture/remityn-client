@@ -1520,13 +1520,15 @@ export default function KycReviewPage() {
       <CardContent className="space-y-6">
         {/* Display combined error */}
         {displayError && (
-          <Alert className="bg-red-100 border-red-300 dark:bg-red-600/20 dark:border-red-700 rounded-lg p-4 mb-4">
-            <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5 text-red-700 dark:text-red-400" />
+          <Alert className="bg-red-50 dark:bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
+            <div className="flex-shrink-0 sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20">
+              <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+            </div>
             <div>
-              <AlertTitle className="font-medium tracking-normal text-red-700 dark:text-red-400 text-base">
+              <AlertTitle className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
                 Submission Problem
               </AlertTitle>
-              <AlertDescription className="text-red-600 dark:text-red-300">
+              <AlertDescription className="text-red-700 dark:text-red-300/90">
                 {displayError}
               </AlertDescription>
             </div>
@@ -1534,15 +1536,19 @@ export default function KycReviewPage() {
         )}
         {/* Show missing fields warning only if no other error is present */}
         {missingFields.length > 0 && !displayError && (
-          <Alert className="mb-4 border-yellow-600 text-yellow-600 bg-yellow-100 dark:bg-yellow-600/20 rounded-lg items-center">
-            <AlertTriangle className="h-5 w-5 text-yellow-600 flex-shrink-0" />
-            <AlertTitle className="font-semibold text-base">
-              Incomplete Information
-            </AlertTitle>
-            <AlertDescription className="text-neutral-900 dark:text-white">
-              Before submitting, please provide:
-              <span className="font-light">{missingFields.join(", ")}.</span>
-            </AlertDescription>
+          <Alert className="bg-yellow-50 dark:bg-yellow-900/25 border-yellow-500 rounded-lg p-4 gap-3 mb-6">
+            <div className="flex-shrink-0 sm:size-12 size-10 rounded-full flex items-center justify-center bg-yellow-600/20">
+              <AlertTriangle className="text-yellow-600 dark:text-yellow-500 size-5 sm:size-6 flex-shrink-0" />
+            </div>
+            <div>
+              <AlertTitle className="font-medium text-yellow-800 dark:text-yellow-200 tracking-normal text-base">
+                Incomplete Information
+              </AlertTitle>
+              <AlertDescription className="text-yellow-700 dark:text-yellow-300/90">
+                Before submitting, please provide:
+                <span className="font-light">{missingFields.join(", ")}</span>
+              </AlertDescription>
+            </div>
           </Alert>
         )}
 
@@ -1556,7 +1562,7 @@ export default function KycReviewPage() {
             value="personal"
             className="border rounded-lg overflow-hidden bg-white dark:bg-background "
           >
-            <AccordionTrigger className="text-base font-semibold text-neutral-900 dark:text-white hover:no-underline px-4 py-3 bg-accent [&[data-state=open]>svg]:rotate-180 rounded-none cursor-pointer">
+            <AccordionTrigger className="text-base font-semibold text-neutral-900 dark:text-white hover:no-underline px-4 py-3 bg-accent items-center [&[data-state=open]>svg]:rotate-180 rounded-none cursor-pointer">
               Personal & Contact Details
             </AccordionTrigger>
             <AccordionContent className="px-4 pt-0 pb-0">
@@ -1624,7 +1630,7 @@ export default function KycReviewPage() {
             value="identity"
             className="border rounded-lg overflow-hidden bg-white dark:bg-background"
           >
-            <AccordionTrigger className="text-base font-semibold text-neutral-900 dark:text-white hover:no-underline px-4 py-3 bg-accent [&[data-state=open]>svg]:rotate-180 rounded-none cursor-pointer">
+            <AccordionTrigger className="text-base font-semibold text-neutral-900 dark:text-white hover:no-underline px-4 py-3 bg-accent items-center [&[data-state=open]>svg]:rotate-180 rounded-none cursor-pointer">
               Identity Document Details
             </AccordionTrigger>
             <AccordionContent className="px-4 pt-0 pb-0">
@@ -1663,7 +1669,7 @@ export default function KycReviewPage() {
             value="documents"
             className="border rounded-lg overflow-hidden bg-white dark:bg-background"
           >
-            <AccordionTrigger className="text-base font-semibold text-neutral-900 dark:text-white hover:no-underline px-4 py-3 bg-accent [&[data-state=open]>svg]:rotate-180 rounded-none cursor-pointer">
+            <AccordionTrigger className="text-base font-semibold text-neutral-900 dark:text-white hover:no-underline px-4 py-3 bg-accent items-center [&[data-state=open]>svg]:rotate-180 rounded-none cursor-pointer">
               Uploaded Documents
             </AccordionTrigger>
             <AccordionContent className="px-4 pt-0 pb-0">

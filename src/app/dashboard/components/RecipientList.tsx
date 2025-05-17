@@ -586,7 +586,7 @@ export default function RecipientList({
     >
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center">
-          <div className="w-12.5 h-12.5 rounded-full bg-lightborder dark:bg-secondarybox flex items-center justify-center relative">
+          <div className="w-12.5 h-12.5 rounded-full bg-lightborder dark:bg-secondarybox flex items-center justify-center relative flex-shrink-0">
             <span className="font-bold text-neutral-900 dark:text-white">
               {getInitials(recipient.accountHolderName)}
             </span>

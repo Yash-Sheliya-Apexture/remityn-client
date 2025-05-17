@@ -1998,13 +1998,15 @@ export default function KycUploadPage() {
         {" "}
         {/* Increased spacing */}
         {formError && (
-          <Alert className="bg-red-100 border-red-300 dark:bg-red-600/20 dark:border-red-700 rounded-lg p-4 mb-6">
-            <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5 text-red-700 dark:text-red-400" />
+          <Alert className="bg-red-50 dark:bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
+            <div className="flex-shrink-0 sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20">
+              <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+            </div>
             <div>
-              <AlertTitle className="font-medium tracking-normal text-red-700 dark:text-red-400 text-base">
+              <AlertTitle className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
                 Missing Documents
               </AlertTitle>
-              <AlertDescription className="text-red-600 dark:text-red-300">
+              <AlertDescription className="text-red-700 dark:text-red-300/90">
                 {formError}
               </AlertDescription>
             </div>
@@ -2032,13 +2034,15 @@ export default function KycUploadPage() {
         )}
         {/* Info for Passport */}
         {kycData.idType === "passport" && (
-          <Alert className="bg-blue-100 border-blue-300 dark:bg-blue-900/40 dark:border-blue-700 rounded-lg p-4">
-            <CheckCircle className="text-blue-600 dark:text-blue-400 h-5 w-5 flex-shrink-0 mt-0.5" />
+          <Alert className="bg-blue-50 dark:bg-blue-900/25 border-blue-500 rounded-lg p-4 gap-3">
+            <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-blue-600/20">
+              <CheckCircle className="text-blue-600 dark:text-blue-500 size-5 sm:size-6 flex-shrink-0" />
+            </div>
             <div>
-              <AlertTitle className="text-blue-800 dark:text-blue-200 font-semibold tracking-normal">
+              <AlertTitle className="font-medium text-blue-800 dark:text-blue-200 tracking-normal text-base">
                 Passport Upload
               </AlertTitle>
-              <AlertDescription className="text-blue-700 dark:text-blue-300">
+              <AlertDescription className="text-blue-700 dark:text-blue-300/90">
                 Only the main photo page (the page with your photo and personal
                 details) is required.
               </AlertDescription>
@@ -2130,7 +2134,7 @@ export default function KycUploadPage() {
                     strokeLinejoin="round"
                   />
                 </svg>
-                <span>Continue to Review</span>
+                <span>Continue to Review...</span>
               </>
             ) : (
               // ----- End Loading State -----

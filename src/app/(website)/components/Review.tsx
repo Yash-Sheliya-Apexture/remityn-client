@@ -1464,6 +1464,456 @@
 
 // export default ReviewCards;
 
+// "use client";
+
+// import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+// import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+// import { motion, AnimatePresence } from "framer-motion";
+
+// // --- Constants ---
+// const MOBILE_BREAKPOINT = 768;
+// const REVIEWS_PER_PAGE_MOBILE = 6;
+// const LOAD_MORE_DELAY_MS = 750;
+
+// // --- StarRating Component (No changes needed) ---
+// interface StarRatingProps {
+//   rating: number;
+//   maxRating?: number;
+// }
+
+// const StarRating: React.FC<StarRatingProps> = ({ rating, maxRating = 5 }) => {
+//   const stars = [];
+//   const fullStars = Math.floor(rating);
+//   const hasHalfStar = rating % 1 !== 0;
+
+//   for (let i = 0; i < maxRating; i++) {
+//     if (i < fullStars) {
+//       stars.push(
+//         <FaStar
+//           key={i}
+//           className="inline-block text-[#FBBF24] dark:text-white"
+//         />
+//       );
+//     } else if (i === fullStars && hasHalfStar) {
+//       stars.push(
+//         <FaStarHalfAlt
+//           key={i}
+//           className="inline-block text-[#FBBF24] dark:text-white"
+//         />
+//       );
+//     } else {
+//       stars.push(
+//         <FaStar
+//           key={i}
+//           className="inline-block text-gray-300 dark:text-gray-600"
+//         />
+//       );
+//     }
+//   }
+//   return <div className="inline-block">{stars}</div>;
+// };
+
+// // --- ReviewCard Component (No changes needed) ---
+// interface ReviewCardProps {
+//   reviewerName: string;
+//   avatarUrl: string;
+//   rating: number;
+//   comment: string;
+// }
+
+// const ReviewCard: React.FC<ReviewCardProps> = ({
+//   reviewerName,
+//   avatarUrl,
+//   rating,
+//   comment,
+// }) => {
+//   return (
+//     <div className="bg-lightgray dark:bg-primarybox rounded-2xl lg:p-6 p-4 flex flex-col items-start shadow-sm h-full">
+//       <div className="flex items-center gap-4 w-full">
+//         <img
+//           src={avatarUrl}
+//           alt={`Avatar of ${reviewerName}`}
+//           className="lg:size-16 size-14 rounded-full object-cover flex-shrink-0"
+//         />
+//         <div className="flex flex-col items-start">
+//           <div className="text-neutral-900 lg:text-lg text-base capitalize dark:text-primary font-medium text-nowrap">
+//             {reviewerName}
+//           </div>
+//           <StarRating rating={rating} />
+//         </div>
+//       </div>
+//       <div className="text-gray-500 dark:text-gray-300 lg:text-lg text-base mt-5 flex-grow">
+//         {comment}
+//       </div>
+//     </div>
+//   );
+// };
+
+// // --- Loading Dots Component (No changes needed) ---
+// const LoadingDots: React.FC = () => (
+//   <div className="flex justify-center items-center space-x-1.5 py-4">
+//     <motion.div
+//       className="size-2.5 bg-primary dark:bg-white rounded-full"
+//       animate={{ y: ["0rem", "-0.4rem", "0rem"] }}
+//       transition={{
+//         duration: 0.8,
+//         repeat: Infinity,
+//         ease: "easeInOut",
+//         delay: 0,
+//       }}
+//     />
+//     <motion.div
+//       className="size-2.5 bg-primary dark:bg-white rounded-full"
+//       animate={{ y: ["0rem", "-0.4rem", "0rem"] }}
+//       transition={{
+//         duration: 0.8,
+//         repeat: Infinity,
+//         ease: "easeInOut",
+//         delay: 0.2,
+//       }}
+//     />
+//     <motion.div
+//       className="size-2.5 bg-primary dark:bg-white rounded-full"
+//       animate={{ y: ["0rem", "-0.4rem", "0rem"] }}
+//       transition={{
+//         duration: 0.8,
+//         repeat: Infinity,
+//         ease: "easeInOut",
+//         delay: 0.4,
+//       }}
+//     />
+//   </div>
+// );
+
+// // --- Types for review data (No changes needed) ---
+// interface Review {
+//   id: string | number;
+//   reviewerName: string;
+//   avatarUrl: string;
+//   rating: number;
+//   comment: string;
+// }
+
+// interface ReviewGroup {
+//   id: string | number;
+//   reviews: Omit<Review, "id">[];
+// }
+
+// interface ReviewJson {
+//   reviewGroups: ReviewGroup[];
+// }
+
+// // --- ReviewCards Component ---
+// const ReviewCards: React.FC = () => {
+//   const [reviewGroups, setReviewGroups] = useState<ReviewGroup[]>([]);
+//   const [initialLoading, setInitialLoading] = useState<boolean>(true);
+//   const [error, setError] = useState<Error | null>(null);
+//   const [isMobile, setIsMobile] = useState<boolean>(false);
+//   const [visibleReviewsCount, setVisibleReviewsCount] = useState<number>(
+//     REVIEWS_PER_PAGE_MOBILE
+//   );
+//   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+
+//   const sentinelRef = useRef<HTMLDivElement | null>(null);
+//   const columnRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+//   // --- Flatten reviews ---
+//   const allReviews = useMemo(() => {
+//     let flatReviews: Review[] = [];
+//     reviewGroups.forEach((group, groupIndex) => {
+//       group.reviews.forEach((review, reviewIndex) => {
+//         flatReviews.push({
+//           ...review,
+//           id: `${group.id}-${groupIndex}-${reviewIndex}`,
+//         });
+//       });
+//     });
+//     return flatReviews;
+//   }, [reviewGroups]);
+
+//   // --- Fetch initial data ---
+//   useEffect(() => {
+//     const fetchReviews = async () => {
+//       setInitialLoading(true);
+//       setError(null);
+//       try {
+//         const response = await fetch("/Review.json");
+//         if (!response.ok)
+//           throw new Error(`HTTP error! status: ${response.status}`);
+//         const data: ReviewJson = await response.json();
+//         setReviewGroups(data.reviewGroups);
+//         columnRefs.current = Array(data.reviewGroups.length).fill(null);
+//       } catch (err: any) {
+//         console.error("Failed to fetch reviews:", err);
+//         setError(err);
+//       } finally {
+//         setInitialLoading(false);
+//       }
+//     };
+//     fetchReviews();
+//   }, []);
+
+//   // --- Detect mobile screen size ---
+//   useEffect(() => {
+//     const checkScreenSize = () => {
+//       setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+//     };
+//     checkScreenSize();
+//     window.addEventListener("resize", checkScreenSize);
+//     return () => window.removeEventListener("resize", checkScreenSize);
+//   }, []);
+
+//   // --- Framer Motion Variants ---
+
+//   // Variants for the HEADER section container (to stagger children)
+//   const headerContainerVariants = {
+//     hidden: { opacity: 0 },
+//     visible: {
+//       opacity: 1,
+//       transition: {
+//         delayChildren: 0.2, // Small delay before the first item starts
+//         staggerChildren: 0.2, // Delay between each child animation (badge, h1, p)
+//       },
+//     },
+//   };
+
+//   // Variants for INDIVIDUAL header items (badge, h1, p)
+//   const headerItemVariants = {
+//     hidden: { opacity: 0, y: 25 }, // Start transparent and slightly lower
+//     visible: {
+//       opacity: 1,
+//       y: 0, // Animate to full opacity and original y position
+//       transition: {
+//         duration: 0.6,
+//         ease: "easeOut",
+//       },
+//     },
+//   };
+
+//   // Variants for review card columns/container (Desktop)
+//   const columnContainerVariants = {
+//     hidden: { opacity: 0 },
+//     visible: {
+//       opacity: 1,
+//       transition: { staggerChildren: 0.25, delayChildren: 0.1 },
+//     },
+//   };
+
+//   // Variants for individual review cards (Mobile & Desktop)
+//   const cardVariants = {
+//     hidden: { opacity: 0, y: 30, scale: 0.95 },
+//     visible: {
+//       opacity: 1,
+//       y: 0,
+//       scale: 1,
+//       transition: { duration: 0.7, ease: "easeOut" },
+//     },
+//     exit: {
+//       // For AnimatePresence
+//       opacity: 0,
+//       y: -20,
+//       scale: 0.98,
+//       transition: { duration: 0.3, ease: "easeIn" },
+//     },
+//   };
+
+//   // --- Load more reviews function ---
+//   const loadMoreReviews = useCallback(() => {
+//     if (isLoadingMore || visibleReviewsCount >= allReviews.length) return;
+//     setIsLoadingMore(true);
+//     setTimeout(() => {
+//       setVisibleReviewsCount((prevCount) =>
+//         Math.min(prevCount + REVIEWS_PER_PAGE_MOBILE, allReviews.length)
+//       );
+//       setIsLoadingMore(false);
+//     }, LOAD_MORE_DELAY_MS);
+//   }, [isLoadingMore, visibleReviewsCount, allReviews.length]);
+
+//   // --- Intersection Observer for mobile auto-load ---
+//   useEffect(() => {
+//     if (!isMobile || initialLoading || allReviews.length === 0) return;
+//     const observer = new IntersectionObserver(
+//       (entries) => {
+//         if (entries[0].isIntersecting && !isLoadingMore) {
+//           loadMoreReviews();
+//         }
+//       },
+//       { root: null, rootMargin: "0px", threshold: 0.1 }
+//     );
+//     const currentSentinel = sentinelRef.current;
+//     if (currentSentinel) observer.observe(currentSentinel);
+//     return () => {
+//       if (currentSentinel) observer.unobserve(currentSentinel);
+//       observer.disconnect();
+//     };
+//   }, [
+//     isMobile,
+//     initialLoading,
+//     isLoadingMore,
+//     loadMoreReviews,
+//     allReviews.length,
+//   ]);
+
+//   // --- Loading and Error States ---
+//   if (initialLoading && reviewGroups.length === 0) {
+//     return <div className="text-center p-10">Loading reviews...</div>;
+//   }
+//   if (error) {
+//     return (
+//       <div className="text-center p-10 text-red-500">
+//         Error loading reviews: {error.message}
+//       </div>
+//     );
+//   }
+//   if (!initialLoading && reviewGroups.length === 0 && !error) {
+//     return <div className="text-center p-10">No reviews found.</div>;
+//   }
+
+//   const reviewsToShowMobile = allReviews.slice(0, visibleReviewsCount);
+//   const hasMoreReviews = visibleReviewsCount < allReviews.length;
+
+//   // --- Render Component ---
+//   return (
+//     <section className="Reviews md:pt-14 pt-10 overflow-hidden">
+//       <div className="container mx-auto px-4">
+//         {/* === Animated Header Section === */}
+//         <motion.div // Parent container for staggering header items
+//           className="space-y-4 text-center md:text-left"
+//           variants={headerContainerVariants}
+//           initial="hidden"
+//           whileInView="visible" // Trigger animation when this div scrolls into view
+//           viewport={{ once: true, amount: 0.2 }} // Trigger once, when 20% is visible
+//         >
+//           {/* Animated Badge */}
+//           <motion.div // Apply item variants to the wrapper div of the badge
+//             className="inline-block" // Keep inline-block for layout
+//             variants={headerItemVariants}
+//             // No need for initial/animate here, inherited from parent
+//           >
+//             <div className="px-4 py-1.5 bg-lightgray dark:bg-primarybox rounded-full">
+//               <span className="text-neutral-900 dark:text-white font-medium text-sm capitalize">
+//                 Genuine Customer Reviews
+//               </span>
+//             </div>
+//           </motion.div>
+
+//           {/* Animated Heading */}
+//           <motion.h1 // Apply item variants directly to h1
+//             className="text-3xl md:text-4xl xl:text-6xl font-black text-mainheading dark:text-white uppercase"
+//             variants={headerItemVariants}
+//           >
+//             Honest Reviews{" "}
+//             <span className="text-primary">Real Travelers Like You</span>
+//           </motion.h1>
+
+//           {/* Animated Paragraph */}
+//           <motion.p // Apply item variants directly to p
+//             className="text-gray-500 dark:text-gray-300 lg:text-lg text-base pb-10"
+//             variants={headerItemVariants}
+//           >
+//             Discover what real travelers have to say about their experiences
+//             with our currency exchange services. From frequent flyers to
+//             first-time tourists, our customers share honest feedback about fast,
+//             reliable, and secure transactions.
+//           </motion.p>
+//         </motion.div>
+//         {/* === End Animated Header Section === */}
+
+//         {/* Conditional Rendering: Mobile vs Desktop */}
+//         {isMobile ? (
+//           // --- Mobile View (Single Column with Auto Load More) ---
+//           <div className="flex flex-col items-center gap-5">
+//             <motion.div
+//               className="w-full space-y-5"
+//               // Using layout on the container might help if container size changes drastically
+//               // layout
+//             >
+//               <AnimatePresence initial={false}>
+//                 {reviewsToShowMobile.map((review) => (
+//                   <motion.div
+//                     key={review.id}
+//                     variants={cardVariants} // Use card variants for mobile too
+//                     layout="position"
+//                     initial="hidden"
+//                     animate="visible"
+//                     exit="exit"
+//                   >
+//                     <ReviewCard {...review} />
+//                   </motion.div>
+//                 ))}
+//               </AnimatePresence>
+//             </motion.div>
+
+//             {/* Sentinel Element */}
+//             {hasMoreReviews && (
+//               <div
+//                 ref={sentinelRef}
+//                 style={{ height: "10px" }}
+//                 aria-hidden="true"
+//               />
+//             )}
+
+//             {/* Loading Indicator */}
+//             <AnimatePresence>
+//               {isLoadingMore && (
+//                 <motion.div
+//                   initial={{ opacity: 0 }}
+//                   animate={{ opacity: 1 }}
+//                   exit={{ opacity: 0 }}
+//                   transition={{ duration: 0.3 }}
+//                 >
+//                   <LoadingDots />
+//                 </motion.div>
+//               )}
+//             </AnimatePresence>
+//           </div>
+//         ) : (
+//           // --- Desktop View (Grid with Column Animation) ---
+//           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 relative">
+//             {reviewGroups.map((group, index) => (
+//               <div
+//                 key={group.id}
+//                 className={`marquee-column marquee-column-${index + 1}`}
+//                 ref={(el) => {
+//                   columnRefs.current[index] = el;
+//                 }}
+//               >
+//                 {group.reviews && group.reviews.length > 0 ? (
+//                   <motion.div
+//                     className="marquee-content space-y-5"
+//                     variants={columnContainerVariants} // Use column variants for desktop columns
+//                     initial="hidden"
+//                     whileInView="visible"
+//                     viewport={{ once: true, amount: 0.1 }} // Lower amount for columns
+//                   >
+//                     {group.reviews.map((review, reviewIndex) => (
+//                       <motion.div
+//                         key={`${group.id}-card-${reviewIndex}`}
+//                         variants={cardVariants} // Use card variants for cards inside columns
+//                         className="h-full" // Keep for layout consistency
+//                       >
+//                         <ReviewCard {...review} />
+//                       </motion.div>
+//                     ))}
+//                   </motion.div>
+//                 ) : (
+//                   <div className="text-center p-4 text-gray-500">
+//                     No reviews in this group.
+//                   </div>
+//                 )}
+//               </div>
+//             ))}
+//           </div>
+//         )}
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default ReviewCards;
+
+
+
 "use client";
 
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
@@ -1471,11 +1921,12 @@ import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { motion, AnimatePresence } from "framer-motion";
 
 // --- Constants ---
-const MOBILE_BREAKPOINT = 768;
+// Tailwind's default breakpoints: md: 768px, lg: 1024px.
+// These are now implicitly used via Tailwind classes like md:hidden, lg:block, etc.
 const REVIEWS_PER_PAGE_MOBILE = 6;
 const LOAD_MORE_DELAY_MS = 750;
 
-// --- StarRating Component (No changes needed) ---
+// --- StarRating Component (Original Styling) ---
 interface StarRatingProps {
   rating: number;
   maxRating?: number;
@@ -1513,7 +1964,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, maxRating = 5 }) => {
   return <div className="inline-block">{stars}</div>;
 };
 
-// --- ReviewCard Component (No changes needed) ---
+// --- ReviewCard Component (Original Styling) ---
 interface ReviewCardProps {
   reviewerName: string;
   avatarUrl: string;
@@ -1549,7 +2000,7 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
   );
 };
 
-// --- Loading Dots Component (No changes needed) ---
+// --- Loading Dots Component (Original Styling) ---
 const LoadingDots: React.FC = () => (
   <div className="flex justify-center items-center space-x-1.5 py-4">
     <motion.div
@@ -1585,13 +2036,14 @@ const LoadingDots: React.FC = () => (
   </div>
 );
 
-// --- Types for review data (No changes needed) ---
+// --- Types for review data ---
 interface Review {
-  id: string | number;
+  id: string;
   reviewerName: string;
   avatarUrl: string;
   rating: number;
   comment: string;
+  location?: string;
 }
 
 interface ReviewGroup {
@@ -1603,35 +2055,34 @@ interface ReviewJson {
   reviewGroups: ReviewGroup[];
 }
 
-// --- ReviewCards Component ---
+// --- ReviewCards Component (Main Logic) ---
 const ReviewCards: React.FC = () => {
   const [reviewGroups, setReviewGroups] = useState<ReviewGroup[]>([]);
   const [initialLoading, setInitialLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
-  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  // State for mobile "load more"
   const [visibleReviewsCount, setVisibleReviewsCount] = useState<number>(
     REVIEWS_PER_PAGE_MOBILE
   );
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
-
   const sentinelRef = useRef<HTMLDivElement | null>(null);
-  const columnRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  // --- Flatten reviews ---
+  // Flatten reviews from groups
   const allReviews = useMemo(() => {
     let flatReviews: Review[] = [];
     reviewGroups.forEach((group, groupIndex) => {
       group.reviews.forEach((review, reviewIndex) => {
         flatReviews.push({
           ...review,
-          id: `${group.id}-${groupIndex}-${reviewIndex}`,
+          id: `review-${group.id}-${groupIndex}-${reviewIndex}`,
         });
       });
     });
     return flatReviews;
   }, [reviewGroups]);
 
-  // --- Fetch initial data ---
+  // Fetch initial data
   useEffect(() => {
     const fetchReviews = async () => {
       setInitialLoading(true);
@@ -1642,7 +2093,6 @@ const ReviewCards: React.FC = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         const data: ReviewJson = await response.json();
         setReviewGroups(data.reviewGroups);
-        columnRefs.current = Array(data.reviewGroups.length).fill(null);
       } catch (err: any) {
         console.error("Failed to fetch reviews:", err);
         setError(err);
@@ -1653,63 +2103,46 @@ const ReviewCards: React.FC = () => {
     fetchReviews();
   }, []);
 
-  // --- Detect mobile screen size ---
-  useEffect(() => {
-    const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
-    };
-    checkScreenSize();
-    window.addEventListener("resize", checkScreenSize);
-    return () => window.removeEventListener("resize", checkScreenSize);
-  }, []);
-
-  // --- Framer Motion Variants ---
-
-  // Variants for the HEADER section container (to stagger children)
+  // Framer Motion Variants
   const headerContainerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        delayChildren: 0.2, // Small delay before the first item starts
-        staggerChildren: 0.2, // Delay between each child animation (badge, h1, p)
-      },
+      transition: { delayChildren: 0.2, staggerChildren: 0.2 },
     },
   };
 
-  // Variants for INDIVIDUAL header items (badge, h1, p)
   const headerItemVariants = {
-    hidden: { opacity: 0, y: 25 }, // Start transparent and slightly lower
-    visible: {
-      opacity: 1,
-      y: 0, // Animate to full opacity and original y position
-      transition: {
-        duration: 0.6,
-        ease: "easeOut",
-      },
-    },
+    hidden: { opacity: 0, y: 25 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
   };
 
-  // Variants for review card columns/container (Desktop)
-  const columnContainerVariants = {
+  const gridVariants = { // For the main grid container (2-col or 3-col)
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.25, delayChildren: 0.1 },
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 }, // Staggers columns
+    },
+  };
+  
+  const columnVariants = { // For each column within the grid
+    hidden: { opacity: 0, y:20 },
+    visible: {
+      opacity: 1,
+      y:0,
+      transition: { staggerChildren: 0.07, delayChildren: 0.1 }, // Staggers cards within this column
     },
   };
 
-  // Variants for individual review cards (Mobile & Desktop)
   const cardVariants = {
     hidden: { opacity: 0, y: 30, scale: 0.95 },
     visible: {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: { duration: 0.7, ease: "easeOut" },
+      transition: { duration: 0.4, ease: "easeOut" },
     },
-    exit: {
-      // For AnimatePresence
+    exit: { // For mobile AnimatePresence
       opacity: 0,
       y: -20,
       scale: 0.98,
@@ -1717,7 +2150,7 @@ const ReviewCards: React.FC = () => {
     },
   };
 
-  // --- Load more reviews function ---
+  // Load more reviews function (for mobile)
   const loadMoreReviews = useCallback(() => {
     if (isLoadingMore || visibleReviewsCount >= allReviews.length) return;
     setIsLoadingMore(true);
@@ -1729,16 +2162,24 @@ const ReviewCards: React.FC = () => {
     }, LOAD_MORE_DELAY_MS);
   }, [isLoadingMore, visibleReviewsCount, allReviews.length]);
 
-  // --- Intersection Observer for mobile auto-load ---
+  // Intersection Observer for mobile auto-load
   useEffect(() => {
-    if (!isMobile || initialLoading || allReviews.length === 0) return;
+    // Only run observer logic if we are effectively on mobile (based on CSS, but this logic is for mobile features)
+    // and other conditions are met.
+    if (initialLoading || allReviews.length === 0 || !sentinelRef.current) return;
+    
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !isLoadingMore) {
-          loadMoreReviews();
+        // Check if sentinel is visible AND if we are in a "mobile" like layout context
+        // (i.e., the sentinel element itself is visible, implying the mobile layout is active)
+        if (entries[0].isIntersecting && !isLoadingMore && visibleReviewsCount < allReviews.length) {
+          const sentinelIsDisplayed = window.getComputedStyle(entries[0].target).display !== 'none';
+          if (sentinelIsDisplayed) { // Extra check to ensure observer acts only when mobile layout is active
+             loadMoreReviews();
+          }
         }
       },
-      { root: null, rootMargin: "0px", threshold: 0.1 }
+      { root: null, rootMargin: "0px 0px 200px 0px", threshold: 0.1 }
     );
     const currentSentinel = sentinelRef.current;
     if (currentSentinel) observer.observe(currentSentinel);
@@ -1747,16 +2188,40 @@ const ReviewCards: React.FC = () => {
       observer.disconnect();
     };
   }, [
-    isMobile,
-    initialLoading,
+    initialLoading, // Removed isMobile state
     isLoadingMore,
     loadMoreReviews,
     allReviews.length,
+    visibleReviewsCount,
   ]);
+  
 
-  // --- Loading and Error States ---
-  if (initialLoading && reviewGroups.length === 0) {
-    return <div className="text-center p-10">Loading reviews...</div>;
+  // Prepare data for different layouts
+  const reviewsToShowMobile = useMemo(() => allReviews.slice(0, visibleReviewsCount), [allReviews, visibleReviewsCount]);
+  const hasMoreReviewsMobile = visibleReviewsCount < allReviews.length;
+
+  const tabletLayoutColumns = useMemo(() => {
+    if (allReviews.length === 0) return [];
+    const columns: Review[][] = [[], []]; // 2 columns
+    allReviews.forEach((review, index) => {
+      columns[index % 2].push(review);
+    });
+    return columns;
+  }, [allReviews]);
+
+  const desktopLayoutColumns = useMemo(() => {
+    if (allReviews.length === 0) return [];
+    const columns: Review[][] = [[], [], []]; // 3 columns
+    allReviews.forEach((review, index) => {
+      columns[index % 3].push(review);
+    });
+    return columns;
+  }, [allReviews]);
+
+
+  // Loading and Error States
+  if (initialLoading && allReviews.length === 0) {
+    return <div className="text-center p-10 dark:text-white">Loading reviews...</div>;
   }
   if (error) {
     return (
@@ -1765,49 +2230,36 @@ const ReviewCards: React.FC = () => {
       </div>
     );
   }
-  if (!initialLoading && reviewGroups.length === 0 && !error) {
-    return <div className="text-center p-10">No reviews found.</div>;
+  if (!initialLoading && allReviews.length === 0 && !error) {
+    return <div className="text-center p-10 dark:text-white">No reviews found.</div>;
   }
 
-  const reviewsToShowMobile = allReviews.slice(0, visibleReviewsCount);
-  const hasMoreReviews = visibleReviewsCount < allReviews.length;
-
-  // --- Render Component ---
   return (
-    <section className="Reviews md:pt-14 pt-10 overflow-hidden">
+    <section className="Reviews md:pt-14 pt-10 pb-16 md:pb-24 overflow-hidden">
       <div className="container mx-auto px-4">
         {/* === Animated Header Section === */}
-        <motion.div // Parent container for staggering header items
+        <motion.div
           className="space-y-4 text-center md:text-left"
           variants={headerContainerVariants}
           initial="hidden"
-          whileInView="visible" // Trigger animation when this div scrolls into view
-          viewport={{ once: true, amount: 0.2 }} // Trigger once, when 20% is visible
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
         >
-          {/* Animated Badge */}
-          <motion.div // Apply item variants to the wrapper div of the badge
-            className="inline-block" // Keep inline-block for layout
-            variants={headerItemVariants}
-            // No need for initial/animate here, inherited from parent
-          >
-            <div className="px-4 py-1.5 bg-lightgray dark:bg-primarybox rounded-full">
+          <motion.div className="inline-block" variants={headerItemVariants}>
+            <div className="px-4 py-1.5 bg-lightgray dark:bg-primarybox rounded-full inline-block">
               <span className="text-neutral-900 dark:text-white font-medium text-sm capitalize">
                 Genuine Customer Reviews
               </span>
             </div>
           </motion.div>
-
-          {/* Animated Heading */}
-          <motion.h1 // Apply item variants directly to h1
+          <motion.h1
             className="text-3xl md:text-4xl xl:text-6xl font-black text-mainheading dark:text-white uppercase"
             variants={headerItemVariants}
           >
             Honest Reviews{" "}
             <span className="text-primary">Real Travelers Like You</span>
           </motion.h1>
-
-          {/* Animated Paragraph */}
-          <motion.p // Apply item variants directly to p
+          <motion.p
             className="text-gray-500 dark:text-gray-300 lg:text-lg text-base pb-10"
             variants={headerItemVariants}
           >
@@ -1817,23 +2269,18 @@ const ReviewCards: React.FC = () => {
             reliable, and secure transactions.
           </motion.p>
         </motion.div>
-        {/* === End Animated Header Section === */}
 
-        {/* Conditional Rendering: Mobile vs Desktop */}
-        {isMobile ? (
-          // --- Mobile View (Single Column with Auto Load More) ---
+        {/* --- Mobile View: 1 Column --- */}
+        {/* Visible by default, hidden on 'md' (768px) and up */}
+        <div className="block md:hidden">
           <div className="flex flex-col items-center gap-5">
-            <motion.div
-              className="w-full space-y-5"
-              // Using layout on the container might help if container size changes drastically
-              // layout
-            >
+            <div className="w-full space-y-5">
               <AnimatePresence initial={false}>
                 {reviewsToShowMobile.map((review) => (
                   <motion.div
                     key={review.id}
-                    variants={cardVariants} // Use card variants for mobile too
-                    layout="position"
+                    variants={cardVariants}
+                    layout
                     initial="hidden"
                     animate="visible"
                     exit="exit"
@@ -1842,18 +2289,10 @@ const ReviewCards: React.FC = () => {
                   </motion.div>
                 ))}
               </AnimatePresence>
-            </motion.div>
-
-            {/* Sentinel Element */}
-            {hasMoreReviews && (
-              <div
-                ref={sentinelRef}
-                style={{ height: "10px" }}
-                aria-hidden="true"
-              />
+            </div>
+            {hasMoreReviewsMobile && (
+              <div ref={sentinelRef} style={{ height: "1px" }} aria-hidden="true" />
             )}
-
-            {/* Loading Indicator */}
             <AnimatePresence>
               {isLoadingMore && (
                 <motion.div
@@ -1861,50 +2300,70 @@ const ReviewCards: React.FC = () => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.3 }}
+                  className="w-full"
                 >
                   <LoadingDots />
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
-        ) : (
-          // --- Desktop View (Grid with Column Animation) ---
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 relative">
-            {reviewGroups.map((group, index) => (
-              <div
-                key={group.id}
-                className={`marquee-column marquee-column-${index + 1}`}
-                ref={(el) => {
-                  columnRefs.current[index] = el;
-                }}
-              >
-                {group.reviews && group.reviews.length > 0 ? (
-                  <motion.div
-                    className="marquee-content space-y-5"
-                    variants={columnContainerVariants} // Use column variants for desktop columns
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, amount: 0.1 }} // Lower amount for columns
-                  >
-                    {group.reviews.map((review, reviewIndex) => (
-                      <motion.div
-                        key={`${group.id}-card-${reviewIndex}`}
-                        variants={cardVariants} // Use card variants for cards inside columns
-                        className="h-full" // Keep for layout consistency
-                      >
-                        <ReviewCard {...review} />
-                      </motion.div>
-                    ))}
-                  </motion.div>
-                ) : (
-                  <div className="text-center p-4 text-gray-500">
-                    No reviews in this group.
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
+        </div>
+
+        {/* --- Tablet View: 2 Columns --- */}
+        {/* Hidden by default, visible on 'md' (768px) to 'lg' (1024px, exclusive), hidden on 'lg' and up */}
+        <motion.div
+          className="hidden md:grid md:grid-cols-2 lg:hidden gap-5"
+          variants={gridVariants}
+          initial="hidden"
+          whileInView="visible" // Animate when this specific layout becomes visible
+          viewport={{ once: true, amount: 0.05 }} // Lower amount for grid, higher if it's tall
+        >
+          {tabletLayoutColumns.map((columnReviews, colIndex) => (
+            <motion.div
+              key={`tablet-col-${colIndex}`}
+              className="space-y-5 flex flex-col" // Each column stacks cards
+              variants={columnVariants} // This column itself will animate based on gridVariants stagger
+            >
+              {columnReviews.map(review => (
+                <motion.div
+                  key={review.id}
+                  variants={cardVariants} // Each card animates based on columnVariants stagger
+                  className="h-full"
+                >
+                  <ReviewCard {...review} />
+                </motion.div>
+              ))}
+            </motion.div>
+          ))}
+        </motion.div>
+
+        {/* --- Desktop View: 3 Columns --- */}
+        {/* Hidden by default, visible on 'lg' (1024px) and up */}
+        <motion.div
+          className="hidden lg:grid lg:grid-cols-3 gap-5"
+          variants={gridVariants}
+          initial="hidden"
+          whileInView="visible" // Animate when this specific layout becomes visible
+          viewport={{ once: true, amount: 0.05 }}
+        >
+          {desktopLayoutColumns.map((columnReviews, colIndex) => (
+            <motion.div
+              key={`desktop-col-${colIndex}`}
+              className="space-y-5 flex flex-col" // Each column stacks cards
+              variants={columnVariants} // This column itself will animate based on gridVariants stagger
+            >
+              {columnReviews.map(review => (
+                <motion.div
+                  key={review.id}
+                  variants={cardVariants} // Each card animates based on columnVariants stagger
+                  className="h-full"
+                >
+                  <ReviewCard {...review} />
+                </motion.div>
+              ))}
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

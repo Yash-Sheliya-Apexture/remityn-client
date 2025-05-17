@@ -2776,12 +2776,438 @@
 
 // export default ReviewCards;
 
+// // src/app/(website)/components/SocialTrust.tsx
+// "use client";
+// import React, { useState, useEffect, useRef } from "react";
+// import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+// import { usePathname } from "next/navigation";
+// import { motion } from "framer-motion"; // Import motion
+
+// // --- StarRating Component (No changes needed) ---
+// interface StarRatingProps {
+//   rating: number;
+//   maxRating?: number;
+// }
+
+// const StarRating: React.FC<StarRatingProps> = ({ rating, maxRating = 5 }) => {
+//   const stars = [];
+//   const fullStars = Math.floor(rating);
+//   const hasHalfStar = rating % 1 !== 0;
+
+//   for (let i = 0; i < maxRating; i++) {
+//     if (i < fullStars) {
+//       stars.push(
+//         <FaStar
+//           key={i}
+//           className="inline-block text-[#FBBF24] dark:text-white"
+//           size={18}
+//         />
+//       );
+//     } else if (i === fullStars && hasHalfStar) {
+//       stars.push(
+//         <FaStarHalfAlt
+//           key={i}
+//           className="inline-block text-[#FBBF24] dark:text-white"
+//           size={18}
+//         />
+//       );
+//     } else {
+//       stars.push(
+//         <FaStar
+//           key={i}
+//           className="inline-block text-lightgray dark:text-white"
+//           size={18}
+//         />
+//       );
+//     }
+//   }
+
+//   return <div className="inline-block">{stars}</div>;
+// };
+
+// // --- ReviewCard Component (No changes needed) ---
+// interface ReviewCardProps {
+//   reviewerName: string;
+//   avatarUrl: string;
+//   rating: number;
+//   comment: string;
+// }
+
+// const ReviewCard: React.FC<ReviewCardProps> = ({
+//   reviewerName,
+//   avatarUrl,
+//   rating,
+//   comment,
+// }) => {
+//   return (
+//     <div className="bg-lightgray dark:bg-primarybox rounded-2xl lg:p-6 p-4 flex flex-col items-start relative flex-shrink-0 h-full">
+//       <div className="flex md:flex-row items-center w-full justify-center md:justify-start">
+//         <div className="flex flex-col md:flex-row items-center gap-4">
+//           <img
+//             src={avatarUrl}
+//             alt={`Avatar of ${reviewerName}`}
+//             className="size-16 rounded-full object-cover"
+//           />
+//           <div className="flex flex-col items-center md:items-start">
+//             <div className="text-mainheading lg:text-lg text-base capitalize dark:text-primary leading-5 font-medium text-nowrap">
+//               {reviewerName}
+//             </div>
+//             <StarRating rating={rating} />
+//           </div>
+//         </div>
+//       </div>
+
+//       <div className="text-gray-500 dark:text-gray-300 lg:text-lg text-base mt-5">
+//         {comment}
+//       </div>
+//     </div>
+//   );
+// };
+
+// // --- Interfaces for Data Structure (No changes needed) ---
+// interface Review {
+//   reviewerName: string;
+//   avatarUrl: string;
+//   rating: number;
+//   comment: string;
+// }
+
+// interface ReviewGroup {
+//   id: string;
+//   reviews: Review[];
+// }
+
+// interface ReviewData {
+//   reviewGroups: ReviewGroup[];
+// }
+
+// // --- Animation Variants (No changes needed) ---
+// const sectionVariants = {
+//   hidden: {},
+//   visible: {
+//     transition: {
+//       staggerChildren: 0.1, // Stagger text block and columns container
+//     },
+//   },
+// };
+
+// const textBlockVariants = {
+//   hidden: { opacity: 0, y: 20 },
+//   visible: {
+//     opacity: 1,
+//     y: 0,
+//     transition: { duration: 0.5, ease: "easeOut" },
+//   },
+// };
+
+// // Variants for the container holding the columns
+// const columnsContainerVariants = {
+//   hidden: {},
+//   visible: {
+//     transition: {
+//       staggerChildren: 0.15, // Stagger the appearance of each column
+//       delayChildren: 0.2, // Delay start slightly after text appears
+//     },
+//   },
+// };
+
+// // Variants for each column wrapper (to stagger cards within)
+// const columnItemVariants = {
+//   hidden: { opacity: 0 }, // Column itself can just fade in or have no visual effect
+//   visible: {
+//     opacity: 1,
+//     transition: {
+//       staggerChildren: 0.1, // Stagger the cards *inside* this column
+//     },
+//   },
+// };
+
+// // Variants for individual review card entrance animation
+// const cardEntranceVariants = {
+//   hidden: { opacity: 0, y: 30, scale: 0.95 }, // Start invisible, down, and slightly smaller
+//   visible: {
+//     opacity: 1,
+//     y: 0,
+//     scale: 1, // Animate to visible, original position, and full size
+//     transition: { duration: 0.4, ease: "easeOut" },
+//   },
+// };
+
+// // --- Main Component ---
+// const ReviewCards: React.FC = () => {
+//   const [reviewGroups, setReviewGroups] = useState<ReviewGroup[]>([]);
+//   const [loading, setLoading] = useState<boolean>(true);
+//   const [error, setError] = useState<Error | null>(null);
+//   const pathname = usePathname();
+//   const columnRefs = useRef<(HTMLDivElement | null)[]>([]); // Keep refs for marquee duplication
+
+//   useEffect(() => {
+//     const fetchReviews = async () => {
+//       setLoading(true);
+//       setError(null);
+//       try {
+//         // Ensure the path to Review.json is correct relative to the public folder
+//         const response = await fetch("/Review.json");
+//         if (!response.ok) {
+//           throw new Error(
+//             `HTTP error! status: ${response.status} fetching /Review.json`
+//           );
+//         }
+//         const data: ReviewData = await response.json();
+//         if (!data || !Array.isArray(data.reviewGroups)) {
+//           throw new Error("Invalid data structure received from Review.json");
+//         }
+//         // Only take the first 3 groups for display
+//         setReviewGroups(data.reviewGroups.slice(0, 3));
+//       } catch (err: any) {
+//         console.error("Failed to fetch reviews:", err);
+//         setError(err instanceof Error ? err : new Error("Unknown error"));
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchReviews();
+//   }, []);
+
+//   // Marquee Duplication Logic - CORRECTED
+//   useEffect(() => {
+//     // Only run if data is loaded, no error, and we have groups and refs
+//     if (
+//       loading ||
+//       error ||
+//       reviewGroups.length === 0 ||
+//       columnRefs.current.length === 0
+//     ) {
+//       return;
+//     }
+
+//     const columns = columnRefs.current;
+
+//     // Timeout to allow initial render and Framer Motion animations potentially
+//     const timer = setTimeout(() => {
+//       // Iterate through refs using index
+//       columns.forEach((columnEl, index) => {
+//         if (!columnEl) return;
+//         const contentEl =
+//           columnEl.querySelector<HTMLDivElement>(".marquee-content");
+//         if (!contentEl) return;
+
+//         // *** FIX: Get the corresponding review group using the index ***
+//         const currentGroup = reviewGroups[index];
+//         // Safety check: Ensure the group exists for this index
+//         if (!currentGroup) {
+//           console.warn(`No review group found for column index ${index}`);
+//           return;
+//         }
+
+//         // Check if content needs duplication
+//         if (contentEl.scrollHeight < columnEl.offsetHeight * 1.5) {
+//           // *** FIX: Use the correct group's review count ***
+//           const originalChildrenCount = currentGroup.reviews.length;
+
+//           // Avoid duplicating if already duplicated (or more items than original somehow)
+//           if (contentEl.children.length <= originalChildrenCount) {
+//             const originalChildren = Array.from(contentEl.children);
+//             originalChildren.forEach((child) => {
+//               const clone = child.cloneNode(true) as HTMLElement;
+//               // Remove Framer Motion specific attributes/styles from clones if they cause issues
+//               // Basic style removal, might need more specific cleanup (e.g., removing data attributes)
+//               clone.removeAttribute("style");
+//               // Optionally remove Framer motion data attributes if they interfere
+//               // Object.keys(clone.dataset).forEach(key => {
+//               //    if (key.startsWith('motion') || key.startsWith('framer')) {
+//               //        delete clone.dataset[key];
+//               //    }
+//               // });
+//               contentEl.appendChild(clone);
+//             });
+//             console.log(`Duplicated content for column ${index + 1}`);
+//           } else {
+//             console.log(
+//               `Skipping duplication for column ${
+//                 index + 1
+//               } - already duplicated`
+//             );
+//           }
+//         } else {
+//           console.log(
+//             `Skipping duplication for column ${index + 1} - content tall enough`
+//           );
+//         }
+//       });
+//     }, 300); // Delay duplication slightly
+
+//     return () => clearTimeout(timer); // Cleanup timer
+//     // Rerun if data changes, loading state changes, or error state changes
+//   }, [loading, error, reviewGroups]);
+
+//   if (loading) {
+//     return (
+//       <div className="text-center p-6">
+//         Loading reviews please you can wait...
+//       </div>
+//     );
+//   }
+
+//   if (error) {
+//     return (
+//       <div className="text-center p-10 text-red-500">
+//         Error loading reviews: {error.message}
+//       </div>
+//     );
+//   }
+
+//   if (reviewGroups.length === 0) {
+//     return (
+//       <div className="text-center p-10 text-gray-700">
+//         No reviews available yet.
+//       </div>
+//     );
+//   }
+
+//   const isHomePage = pathname === "/";
+
+//   const heading = isHomePage ? (
+//     <h1 className="text-3xl md:text-4xl xl:text-6xl font-black text-mainheading dark:text-white uppercase">
+//       Honest Reviews
+//       <span className="text-primary"> Real Travelers Like You </span>
+//     </h1>
+//   ) : (
+//     <h1 className="text-3xl md:text-4xl xl:text-6xl font-black text-mainheading dark:text-white uppercase">
+//       Trusted Currency Exchange
+//       <span className="text-primary"> Feedback & Rating </span>
+//     </h1>
+//   );
+
+//   const paragraph = isHomePage ? (
+//     <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base lg:max-w-5xl max-w-full">
+//       Discover what real travelers have to say about their experiences with our
+//       currency exchange services. From frequent flyers to first-time tourists,
+//       our customers share honest feedback about fast, reliable, and secure
+//       transactions.
+//     </p>
+//   ) : (
+//     <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base lg:max-w-5xl max-w-full">
+//       Read honest customer reviews about our currency exchange services. See why
+//       travelers, investors, and expats trust us for fast, reliable, and
+//       competitive rates. Our clients appreciate the transparency, excellent
+//       support, and real-time rates.
+//     </p>
+//   );
+
+//   return (
+//     <motion.section
+//       className="Reviews-Cards lg:py-10 py-5 bg-white dark:bg-background overflow-hidden" // Added overflow-hidden
+//       id="review"
+//       variants={sectionVariants}
+//       initial="hidden"
+//       whileInView="visible"
+//       // *** FIX: Set once to true for single animation trigger ***
+//       viewport={{ amount: 0.2, once: true }} // Trigger when 10% visible, animate ONLY ONCE
+//     >
+//       <div className="container mx-auto px-4">
+//         {/* Text Block Animation */}
+//         <motion.div
+//           className="w-full mb-10 space-y-4 text-center md:text-left"
+//           variants={textBlockVariants}
+//           // Inherits trigger from parent section
+//         >
+//           {heading}
+//           {paragraph}
+//         </motion.div>
+//         {/* --- Grid Container for Columns --- */}
+//         <motion.div
+//           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-[1000px] overflow-hidden relative" // Keep fixed height for marquee
+//           variants={columnsContainerVariants} // Controls staggering of columns
+//           // Inherits trigger from parent section
+//         >
+//           {/* Map through the review groups for columns */}
+//           {reviewGroups.map(
+//             (
+//               group,
+//               index // We already slice to max 3 groups in fetch useEffect
+//             ) => (
+//               // --- Column Wrapper for Staggering Cards Within ---
+//               <motion.div
+//                 key={group.id || `group-${index}`}
+//                 variants={columnItemVariants} // Controls staggering of cards inside
+//                 // This motion.div wraps the column structure but doesn't interfere with marquee ref/class
+//               >
+//                 {/* Actual Column Structure with Marquee Ref */}
+//                 <div
+//                   className={`marquee-column marquee-column-${index + 1}`}
+//                   ref={(el: HTMLDivElement | null) => {
+//                     // Assign the ref to the correct index
+//                     if (el) columnRefs.current[index] = el;
+//                   }}
+//                 >
+//                   {/* Marquee Content Div (NO motion here) */}
+//                   <div className="marquee-content flex flex-col gap-6">
+//                     {/* Map through reviews WITHIN the group */}
+//                     {group.reviews.map((review, reviewIndex) => (
+//                       // --- Individual Card Wrapper for Entrance Animation ---
+//                       <motion.div
+//                         // Use a more unique key if possible, e.g., review ID if available
+//                         key={`${group.id}-review-${reviewIndex}`}
+//                         variants={cardEntranceVariants} // Apply entrance animation HERE
+//                       >
+//                         <ReviewCard {...review} />
+//                       </motion.div>
+//                     ))}
+//                   </div>{" "}
+//                   {/* End marquee-content */}
+//                 </div>{" "}
+//                 {/* End marquee-column div with ref */}
+//               </motion.div> // End column wrapper motion.div
+//             )
+//           )}
+
+//           {/* Gradient Fades */}
+//           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-background dark:via-background/80 dark:to-transparent pointer-events-none z-10"></div>
+//           <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white via-white/80 to-transparent dark:from-background dark:via-background/80 dark:to-transparent pointer-events-none z-10"></div>
+//         </motion.div>
+//       </div>
+
+//       <style jsx global>{`
+//         .marquee-column {
+//           overflow: hidden;
+//           height: 100%;
+//           position: relative;
+//         }
+
+//         .marquee-content {
+//           // display: block; /* Or flex if needed */
+//           // position: relative; /* Keep relative for transform */
+//           animation: scroll-up 40s linear infinite; /* Slower animation? */
+//         }
+
+//         .marquee-column:hover .marquee-content {
+//           animation-play-state: paused;
+//         }
+
+//         @keyframes scroll-up {
+//           0% {
+//             transform: translateY(0%);
+//           }
+//           100% {
+//             /* This assumes duplication. Adjust if duplication logic changes */
+//             transform: translateY(-50%);
+//           }
+//         }
+//       `}</style>
+
+//     </motion.section>
+//   );
+// };
+
+// export default ReviewCards;
+
 // src/app/(website)/components/SocialTrust.tsx
 "use client";
 import React, { useState, useEffect, useRef } from "react";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
 import { usePathname } from "next/navigation";
-import { motion } from "framer-motion"; // Import motion
+import { motion } from "framer-motion";
 
 // --- StarRating Component (No changes needed) ---
 interface StarRatingProps {
@@ -2798,7 +3224,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, maxRating = 5 }) => {
     if (i < fullStars) {
       stars.push(
         <FaStar
-          key={i}
+          key={`star-full-${i}`}
           className="inline-block text-[#FBBF24] dark:text-white"
           size={18}
         />
@@ -2806,7 +3232,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, maxRating = 5 }) => {
     } else if (i === fullStars && hasHalfStar) {
       stars.push(
         <FaStarHalfAlt
-          key={i}
+          key={`star-half-${i}`}
           className="inline-block text-[#FBBF24] dark:text-white"
           size={18}
         />
@@ -2814,7 +3240,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, maxRating = 5 }) => {
     } else {
       stars.push(
         <FaStar
-          key={i}
+          key={`star-empty-${i}`}
           className="inline-block text-lightgray dark:text-white"
           size={18}
         />
@@ -2864,16 +3290,17 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
   );
 };
 
-// --- Interfaces for Data Structure (No changes needed) ---
+// --- Interfaces for Data Structure ---
 interface Review {
   reviewerName: string;
   avatarUrl: string;
   rating: number;
   comment: string;
+  location?: string; // From original JSON, though not used in ReviewCard
 }
 
 interface ReviewGroup {
-  id: string;
+  id: number; // JSON uses number for group id
   reviews: Review[];
 }
 
@@ -2881,12 +3308,12 @@ interface ReviewData {
   reviewGroups: ReviewGroup[];
 }
 
-// --- Animation Variants (No changes needed) ---
+// --- Animation Variants (Largely unchanged) ---
 const sectionVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.1, // Stagger text block and columns container
+      staggerChildren: 0.1,
     },
   },
 };
@@ -2900,20 +3327,20 @@ const textBlockVariants = {
   },
 };
 
-// Variants for the container holding the columns
 const columnsContainerVariants = {
+  // For the flex container holding the 3 columns
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.15, // Stagger the appearance of each column
-      delayChildren: 0.2, // Delay start slightly after text appears
+      staggerChildren: 0.15, // Stagger the appearance of each column wrapper
+      delayChildren: 0.2,
     },
   },
 };
 
-// Variants for each column wrapper (to stagger cards within)
 const columnItemVariants = {
-  hidden: { opacity: 0 }, // Column itself can just fade in or have no visual effect
+  // For each of the 3 column wrappers
+  hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
@@ -2922,32 +3349,34 @@ const columnItemVariants = {
   },
 };
 
-// Variants for individual review card entrance animation
 const cardEntranceVariants = {
-  hidden: { opacity: 0, y: 30, scale: 0.95 }, // Start invisible, down, and slightly smaller
+  hidden: { opacity: 0, y: 30, scale: 0.95 },
   visible: {
     opacity: 1,
     y: 0,
-    scale: 1, // Animate to visible, original position, and full size
+    scale: 1,
     transition: { duration: 0.4, ease: "easeOut" },
   },
 };
 
 // --- Main Component ---
 const ReviewCards: React.FC = () => {
-  const [reviewGroups, setReviewGroups] = useState<ReviewGroup[]>([]);
+  const [allReviewsFlat, setAllReviewsFlat] = useState<Review[]>([]);
+  const [marqueeColumnContents, setMarqueeColumnContents] = useState<
+    Review[][]
+  >([[], [], []]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
   const pathname = usePathname();
-  const columnRefs = useRef<(HTMLDivElement | null)[]>([]); // Keep refs for marquee duplication
+  // Refs for the 3 marquee column divs
+  const columnRefs = useRef<(HTMLDivElement | null)[]>(new Array(3).fill(null));
 
   useEffect(() => {
     const fetchReviews = async () => {
       setLoading(true);
       setError(null);
       try {
-        // Ensure the path to Review.json is correct relative to the public folder
-        const response = await fetch("/Review.json");
+        const response = await fetch("/Review.json"); // Assuming Review.json is in public folder
         if (!response.ok) {
           throw new Error(
             `HTTP error! status: ${response.status} fetching /Review.json`
@@ -2957,8 +3386,8 @@ const ReviewCards: React.FC = () => {
         if (!data || !Array.isArray(data.reviewGroups)) {
           throw new Error("Invalid data structure received from Review.json");
         }
-        // Only take the first 3 groups for display
-        setReviewGroups(data.reviewGroups.slice(0, 3));
+        const flatReviews = data.reviewGroups.flatMap((group) => group.reviews);
+        setAllReviewsFlat(flatReviews);
       } catch (err: any) {
         console.error("Failed to fetch reviews:", err);
         setError(err instanceof Error ? err : new Error("Unknown error"));
@@ -2969,77 +3398,77 @@ const ReviewCards: React.FC = () => {
     fetchReviews();
   }, []);
 
-  // Marquee Duplication Logic - CORRECTED
+  // Distribute flat reviews into 3 columns for marquee effect
   useEffect(() => {
-    // Only run if data is loaded, no error, and we have groups and refs
+    if (allReviewsFlat.length > 0) {
+      const columns: Review[][] = [[], [], []];
+      allReviewsFlat.forEach((review, index) => {
+        columns[index % 3].push(review); // Round-robin distribution
+      });
+      setMarqueeColumnContents(columns);
+    } else {
+      setMarqueeColumnContents([[], [], []]); // Clear if no reviews
+    }
+  }, [allReviewsFlat]);
+
+  // Marquee Duplication Logic
+  useEffect(() => {
+    // Ensure data is loaded, no errors, and refs are set.
+    // Also check that there's actual content in at least one column.
     if (
       loading ||
       error ||
-      reviewGroups.length === 0 ||
-      columnRefs.current.length === 0
+      marqueeColumnContents.every((col) => col.length === 0) ||
+      columnRefs.current.some((ref) => !ref)
     ) {
       return;
     }
 
-    const columns = columnRefs.current;
+    const columnsToProcess = columnRefs.current;
 
-    // Timeout to allow initial render and Framer Motion animations potentially
     const timer = setTimeout(() => {
-      // Iterate through refs using index
-      columns.forEach((columnEl, index) => {
-        if (!columnEl) return;
+      columnsToProcess.forEach((columnEl, index) => {
+        if (!columnEl) return; // Skip if ref for this column is not set
+
         const contentEl =
           columnEl.querySelector<HTMLDivElement>(".marquee-content");
         if (!contentEl) return;
 
-        // *** FIX: Get the corresponding review group using the index ***
-        const currentGroup = reviewGroups[index];
-        // Safety check: Ensure the group exists for this index
-        if (!currentGroup) {
-          console.warn(`No review group found for column index ${index}`);
-          return;
-        }
+        const reviewsInThisColumn = marqueeColumnContents[index];
+        // Skip if this column has no reviews
+        if (!reviewsInThisColumn || reviewsInThisColumn.length === 0) return;
 
-        // Check if content needs duplication
-        if (contentEl.scrollHeight < columnEl.offsetHeight * 1.5) {
-          // *** FIX: Use the correct group's review count ***
-          const originalChildrenCount = currentGroup.reviews.length;
+        // Check if content needs duplication (e.g., content shorter than 1.5x viewport height)
+        if (
+          contentEl.scrollHeight > 0 &&
+          columnEl.offsetHeight > 0 &&
+          contentEl.scrollHeight < columnEl.offsetHeight * 1.5
+        ) {
+          const originalChildrenCount = reviewsInThisColumn.length;
 
-          // Avoid duplicating if already duplicated (or more items than original somehow)
-          if (contentEl.children.length <= originalChildrenCount) {
+          // Avoid re-duplicating if already duplicated
+          if (contentEl.children.length === originalChildrenCount) {
             const originalChildren = Array.from(contentEl.children);
             originalChildren.forEach((child) => {
               const clone = child.cloneNode(true) as HTMLElement;
-              // Remove Framer Motion specific attributes/styles from clones if they cause issues
-              // Basic style removal, might need more specific cleanup (e.g., removing data attributes)
+              // Basic cleanup of styles/attributes from clones that might interfere
               clone.removeAttribute("style");
-              // Optionally remove Framer motion data attributes if they interfere
-              // Object.keys(clone.dataset).forEach(key => {
-              //    if (key.startsWith('motion') || key.startsWith('framer')) {
-              //        delete clone.dataset[key];
-              //    }
-              // });
+              Object.keys(clone.dataset).forEach((key) => {
+                if (key.startsWith("motion") || key.startsWith("framer")) {
+                  delete clone.dataset[key];
+                }
+              });
+              clone.classList.add("marquee-clone"); // For potential debugging/styling
               contentEl.appendChild(clone);
             });
-            console.log(`Duplicated content for column ${index + 1}`);
-          } else {
-            console.log(
-              `Skipping duplication for column ${
-                index + 1
-              } - already duplicated`
-            );
+            // console.log(`Duplicated content for column ${index + 1}`);
           }
-        } else {
-          console.log(
-            `Skipping duplication for column ${index + 1} - content tall enough`
-          );
         }
       });
-    }, 300); // Delay duplication slightly
+    }, 300); // Delay duplication slightly to allow Framer Motion and layout settlement
 
     return () => clearTimeout(timer); // Cleanup timer
-    // Rerun if data changes, loading state changes, or error state changes
-  }, [loading, error, reviewGroups]);
+  }, [loading, error, marqueeColumnContents]); // Rerun if data, loading, or error state changes
 
   if (loading) {
     return (
@@ -3057,7 +3486,7 @@ const ReviewCards: React.FC = () => {
     );
   }
 
-  if (reviewGroups.length === 0) {
+  if (allReviewsFlat.length === 0 && !loading) {
     return (
       <div className="text-center p-10 text-gray-700">
         No reviews available yet.
@@ -3066,7 +3495,7 @@ const ReviewCards: React.FC = () => {
   }
 
   const isHomePage = pathname === "/";
-
+  // Dynamic heading and paragraph (no changes needed here)
   const heading = isHomePage ? (
     <h1 className="text-3xl md:text-4xl xl:text-6xl font-black text-mainheading dark:text-white uppercase">
       Honest Reviews
@@ -3088,99 +3517,104 @@ const ReviewCards: React.FC = () => {
     </p>
   ) : (
     <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base lg:max-w-5xl max-w-full">
-      Read honest customer reviews about our currency exchange services. See why 
+      Read honest customer reviews about our currency exchange services. See why
       travelers, investors, and expats trust us for fast, reliable, and
       competitive rates. Our clients appreciate the transparency, excellent
       support, and real-time rates.
     </p>
   );
 
+  // Helper to get responsive classes for each of the 3 columns
+  const getColumnResponsiveClasses = (index: number): string => {
+    // Base classes: flex item, full height, allows shrinking, acts as a flex column for its content
+    let classes = "h-full flex-1 min-w-0 flex flex-col";
+    // `min-w-0` is crucial for flex items that might contain overflowing content.
+    // `flex-1` allows columns to grow and shrink equally to fill space.
+
+    if (index === 0) {
+      // First column is always visible (effectively `block` or `flex`)
+    } else if (index === 1) {
+      classes += " hidden md:flex"; // Hidden on mobile, becomes flex item from md breakpoint
+    } else if (index === 2) {
+      classes += " hidden lg:flex"; // Hidden on mobile and sm, becomes flex item from lg breakpoint
+    }
+    return classes;
+  };
+
   return (
     <motion.section
-      className="Reviews-Cards lg:py-10 py-5 bg-white dark:bg-background overflow-hidden" // Added overflow-hidden
+      className="Reviews-Cards lg:py-10 py-5 bg-white dark:bg-background overflow-hidden"
       id="review"
       variants={sectionVariants}
       initial="hidden"
       whileInView="visible"
-      // *** FIX: Set once to true for single animation trigger ***
-      viewport={{ amount: 0.2, once: true }} // Trigger when 10% visible, animate ONLY ONCE
+      viewport={{ amount: 0.1, once: true }} // Animate once when 10% is visible
     >
       <div className="container mx-auto px-4">
         {/* Text Block Animation */}
         <motion.div
           className="w-full mb-10 space-y-4 text-center md:text-left"
           variants={textBlockVariants}
-          // Inherits trigger from parent section
         >
           {heading}
           {paragraph}
         </motion.div>
-        {/* --- Grid Container for Columns --- */}
-        <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 h-[1000px] overflow-hidden relative" // Keep fixed height for marquee
-          variants={columnsContainerVariants} // Controls staggering of columns
-          // Inherits trigger from parent section
-        >
-          {/* Map through the review groups for columns */}
-          {reviewGroups.map(
-            (
-              group,
-              index // We already slice to max 3 groups in fetch useEffect
-            ) => (
-              // --- Column Wrapper for Staggering Cards Within ---
-              <motion.div
-                key={group.id || `group-${index}`}
-                variants={columnItemVariants} // Controls staggering of cards inside
-                // This motion.div wraps the column structure but doesn't interfere with marquee ref/class
-              >
-                {/* Actual Column Structure with Marquee Ref */}
-                <div
-                  className={`marquee-column marquee-column-${index + 1}`}
-                  ref={(el: HTMLDivElement | null) => {
-                    // Assign the ref to the correct index
-                    if (el) columnRefs.current[index] = el;
-                  }}
-                >
-                  {/* Marquee Content Div (NO motion here) */}
-                  <div className="marquee-content flex flex-col gap-6">
-                    {/* Map through reviews WITHIN the group */}
-                    {group.reviews.map((review, reviewIndex) => (
-                      // --- Individual Card Wrapper for Entrance Animation ---
-                      <motion.div
-                        // Use a more unique key if possible, e.g., review ID if available
-                        key={`${group.id}-review-${reviewIndex}`}
-                        variants={cardEntranceVariants} // Apply entrance animation HERE
-                      >
-                        <ReviewCard {...review} />
-                      </motion.div>
-                    ))}
-                  </div>{" "}
-                  {/* End marquee-content */}
-                </div>{" "}
-                {/* End marquee-column div with ref */}
-              </motion.div> // End column wrapper motion.div
-            )
-          )}
 
-          {/* Gradient Fades */}
+        {/* Container for the 3 (conditionally visible) marquee columns */}
+        <motion.div
+          className="flex gap-6 h-[1000px] relative" // Flex row, fixed height for marquee viewport
+          variants={columnsContainerVariants} // Animates the container of columns
+        >
+          {marqueeColumnContents.map((reviewsInColumn, index) => (
+            // Wrapper for each column, handles its visibility and staggering
+            <motion.div
+              key={`marquee-col-wrapper-${index}`}
+              variants={columnItemVariants} // Staggers appearance of each column itself
+              className={getColumnResponsiveClasses(index)}
+            >
+              {/* This div is the actual column for marquee mechanics & ref */}
+              <div
+                className={`marquee-column marquee-column-${
+                  index + 1
+                } flex-grow overflow-hidden h-full`}
+                ref={(el: HTMLDivElement | null) => {
+                  if (el) columnRefs.current[index] = el;
+                }}
+              >
+                {/* Content that scrolls within the column */}
+                <div className="marquee-content flex flex-col gap-6">
+                  {reviewsInColumn.map((review, reviewIndex) => (
+                    // Wrapper for individual card entrance animation
+                    <motion.div
+                      key={`${review.reviewerName}-${review.rating}-${reviewIndex}-${index}`} // Unique key
+                      variants={cardEntranceVariants}
+                    >
+                      <ReviewCard {...review} />
+                    </motion.div>
+                  ))}
+                </div>{" "}
+                {/* End marquee-content */}
+              </div>{" "}
+              {/* End marquee-column div with ref */}
+            </motion.div> // End column wrapper motion.div
+          ))}
+
+          {/* Gradient Fades at top and bottom of the column container */}
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-white via-white/80 to-transparent dark:from-background dark:via-background/80 dark:to-transparent pointer-events-none z-10"></div>
           <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-white via-white/80 to-transparent dark:from-background dark:via-background/80 dark:to-transparent pointer-events-none z-10"></div>
         </motion.div>
       </div>
-      
+
       <style jsx global>{`
-        .marquee-column {
-          overflow: hidden;
-          height: 100%;
-          position: relative;
-        }
+        /* .marquee-column styles are now applied via Tailwind: flex-grow overflow-hidden h-full */
 
         .marquee-content {
-          // display: block; /* Or flex if needed */
-          // position: relative; /* Keep relative for transform */
-          animation: scroll-up 40s linear infinite; /* Slower animation? */
+          /* Already a flex column with gap via Tailwind */
+          animation: scroll-up 60s linear infinite; /* Adjust duration as needed */
+          /* Slower animation: higher duration value */
         }
 
+        /* Pause animation on hover for any individual column's content */
         .marquee-column:hover .marquee-content {
           animation-play-state: paused;
         }
@@ -3190,12 +3624,16 @@ const ReviewCards: React.FC = () => {
             transform: translateY(0%);
           }
           100% {
-            /* This assumes duplication. Adjust if duplication logic changes */
+            /* Assumes content is duplicated. Scrolls one full "original content height" up. */
             transform: translateY(-50%);
           }
         }
-      `}</style>
 
+        /* Optional: class to identify cloned items for debugging or specific styling if needed */
+        .marquee-clone {
+          /* Example: opacity: 0.8; /* to visually distinguish clones during testing */
+        }
+      `}</style>
     </motion.section>
   );
 };

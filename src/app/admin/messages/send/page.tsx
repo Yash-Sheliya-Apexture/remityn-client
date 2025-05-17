@@ -746,10 +746,6 @@
 
 // export default AdminSendAllMessagePage;
 
-
-
-
-
 // // frontend/src/app/(admin)/admin/messages/send/page.tsx
 // "use client";
 
@@ -793,7 +789,6 @@
 // };
 // // --- End function definition ---
 
-
 // const BATCHES_PER_PAGE = 5;
 
 // // Main Page Component
@@ -826,7 +821,6 @@
 //   const [isUpdatingBatch, setIsUpdatingBatch] = useState<boolean>(false);
 //   const [fullEditBodyFetched, setFullEditBodyFetched] = useState<boolean>(false);
 
-
 //   // ... (rest of the functions: fetchBatches, useEffect, auth checks, handleSendMessage, etc. remain the same)
 //    const fetchBatches = useCallback(
 //     async (page: number) => {
@@ -853,7 +847,6 @@
 //     },
 //     [isAdmin]
 // );
-
 
 //   useEffect(() => {
 //     // ... implementation
@@ -1009,7 +1002,6 @@
 //       setIsUpdatingBatch(false); // Ensure this is reset even on error
 //     }
 //   };
-
 
 //   // --- Main Page Render ---
 //   return (
@@ -1203,40 +1195,808 @@
 
 // export default AdminSendAllMessagePage;
 
+// "use client";
 
+// import React, { useState, useEffect, useCallback } from "react";
+// import { useRouter } from "next/navigation";
+// import { toast } from "sonner";
+// import { format } from "date-fns"; // Keep this import for the function
+// import { useAuth } from "@/app/contexts/AuthContext";
+// import inboxAdminService, {
+//   BroadcastBatchInfo,
+//   BroadcastBatchListResponse,
+//   UpdateBatchPayload,
+// } from "../../../services/admin/inbox";
+// // Removed cn from here as it's used in modals
 
+// // Icons
+// import {
+//   AlertCircle,
+//   Loader2,
+//   MessageSquareText,
+//   // Trash2, Pencil, X - Icons moved to respective modals
+// } from "lucide-react";
+
+// // Import the components
+// import ComposeBroadcastForm from "../../components/message/send/ComposeBroadcastForm";
+// import BroadcastHistoryTable from "../../components/message/send/BroadcastHistoryTable";
+// import EditBroadcastBatchModal from "../../components/message/send/EditBroadcastBatchModal";
+// import DeleteBroadcastBatchModal from "../../components/message/send/DeleteBroadcastBatchModal";
+// import { FaPaperPlane } from "react-icons/fa";
+
+// // --- Define formatDate directly in this file ---
+// // This function will be passed as a prop to DeleteBroadcastBatchModal
+// const formatDateForDisplay = (dateInput?: string | Date | null): string => {
+//   if (!dateInput) return "N/A";
+//   try {
+//     const date = new Date(dateInput);
+//     return isNaN(date.getTime())
+//       ? "Invalid Date"
+//       : format(date, "MMM d, yyyy, HH:mm");
+//   } catch (e) {
+//     return "Invalid Date";
+//   }
+// };
+// // --- End function definition ---
+
+// const BATCHES_PER_PAGE = 5;
+
+// // Main Page Component
+// const AdminSendAllMessagePage: React.FC = () => {
+//   const router = useRouter();
+//   const { isAdmin, loading: authLoading } = useAuth();
+
+//   // State for Composing
+//   const [subject, setSubject] = useState<string>("");
+//   const [body, setBody] = useState<string>("");
+//   const [isSending, setIsSending] = useState<boolean>(false);
+//   const [sendError, setSendError] = useState<string | null>(null);
+
+//   // State for History
+//   const [batchesData, setBatchesData] =
+//     useState<BroadcastBatchListResponse | null>(null);
+//   const [batchesLoading, setBatchesLoading] = useState<boolean>(true);
+//   const [batchesError, setBatchesError] = useState<string | null>(null);
+//   const [batchCurrentPage, setBatchCurrentPage] = useState<number>(1);
+
+//   // State for Deleting
+//   const [deletingBatchId, setDeletingBatchId] = useState<string | null>(null);
+//   const [showDeleteConfirm, setShowDeleteConfirm] =
+//     useState<BroadcastBatchInfo | null>(null);
+
+//   // State for Editing
+//   const [editingBatch, setEditingBatch] = useState<BroadcastBatchInfo | null>(
+//     null
+//   );
+//   const [editBatchSubject, setEditBatchSubject] = useState<string>("");
+//   const [editBatchBody, setEditBatchBody] = useState<string>("");
+//   const [showEditBatchDialog, setShowEditBatchDialog] =
+//     useState<boolean>(false);
+//   const [isUpdatingBatch, setIsUpdatingBatch] = useState<boolean>(false);
+//   const [fullEditBodyFetched, setFullEditBodyFetched] =
+//     useState<boolean>(false);
+
+//   const fetchBatches = useCallback(
+//     async (page: number) => {
+//       if (!isAdmin) return;
+//       setBatchesLoading(true);
+//       setBatchesError(null);
+//       try {
+//         const data = await inboxAdminService.getBroadcastBatchesAdmin(
+//           page,
+//           BATCHES_PER_PAGE
+//         );
+//         setBatchesData(data);
+//         if (data.currentPage !== page) {
+//           setTimeout(() => setBatchCurrentPage(data.currentPage), 0);
+//         }
+//       } catch (err: any) {
+//         console.error("Error fetching broadcast batches:", err);
+//         setBatchesError(err.message || "Failed to load broadcast history.");
+//         setBatchesData(null);
+//       } finally {
+//         setBatchesLoading(false);
+//       }
+//     },
+//     [isAdmin]
+//   );
+
+//   useEffect(() => {
+//     if (!authLoading && isAdmin) {
+//       fetchBatches(batchCurrentPage);
+//     }
+//     if (!isAdmin && !authLoading) {
+//       setBatchesData(null);
+//       setBatchesLoading(false);
+//     }
+//   }, [authLoading, isAdmin, batchCurrentPage, fetchBatches]);
+
+//   if (authLoading) {
+//     return (
+//       <div className="flex items-center justify-center h-screen text-gray-600 dark:text-gray-300">
+//         <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+//         <span className="ml-2 text-lg">Loading...</span>
+//       </div>
+//     );
+//   }
+//   if (!isAdmin) {
+//     return (
+//       <div className="container mx-auto px-4 py-10">
+//         <div className="max-w-lg mx-auto p-4 border border-red-300 bg-red-50 dark:bg-red-900/30 dark:border-red-700 rounded-md flex items-start space-x-3">
+//           <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
+//           <div>
+//             <h3 className="text-lg font-medium text-red-800 dark:text-red-200">
+//               Access Denied
+//             </h3>
+//             <p className="text-sm text-red-700 dark:text-red-300 mt-1">
+//               You do not have permissions to view this page. Administrator
+//               privileges required.
+//             </p>
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
+//     setSendError(null);
+//     setIsSending(true);
+//     try {
+//       const result = await inboxAdminService.sendMessageToAllAdmin(
+//         subject.trim(),
+//         body.trim()
+//       );
+//       toast.success("Broadcast Sent", {
+//         description:
+//           result.message ||
+//           `Message queued for ${result.totalAttempted} users.`,
+//       });
+//       setSubject("");
+//       setBody("");
+//       if (batchCurrentPage !== 1) setBatchCurrentPage(1);
+//       else fetchBatches(1);
+//     } catch (err: any) {
+//       const errorMsg = err.message || "Failed to send broadcast.";
+//       setSendError(errorMsg);
+//       toast.error("Sending Failed", { description: errorMsg });
+//     } finally {
+//       setIsSending(false);
+//     }
+//   };
+
+//   const goToBatchPage = (newPage: number) => {
+//     if (
+//       newPage > 0 &&
+//       newPage !== batchCurrentPage &&
+//       (!batchesData || newPage <= batchesData.totalPages)
+//     ) {
+//       setBatchCurrentPage(newPage);
+//     }
+//   };
+//   const goToPreviousBatchPage = () => goToBatchPage(batchCurrentPage - 1);
+//   const goToNextBatchPage = () => goToBatchPage(batchCurrentPage + 1);
+//   const handleRefreshBatches = () => {
+//     if (!batchesLoading) fetchBatches(batchCurrentPage);
+//   };
+
+//   const openDeleteConfirmation = (batch: BroadcastBatchInfo) =>
+//     setShowDeleteConfirm(batch);
+//   const closeDeleteConfirmation = () => setShowDeleteConfirm(null);
+
+//   const handleDeleteBatch = async () => {
+//     if (!showDeleteConfirm) return;
+//     const batchIdToDelete = showDeleteConfirm.batchId;
+//     setDeletingBatchId(batchIdToDelete);
+//     closeDeleteConfirmation();
+//     try {
+//       const result = await inboxAdminService.deleteBroadcastBatchAdmin(
+//         batchIdToDelete
+//       );
+//       toast.success("Batch Deleted", {
+//         description:
+//           result.message || `Deleted ${result.deletedCount} messages.`,
+//       });
+//       const wasLastItem =
+//         batchesData?.batches.length === 1 && batchCurrentPage > 1;
+//       const pageToFetch = wasLastItem ? batchCurrentPage - 1 : batchCurrentPage;
+//       if (wasLastItem) setBatchCurrentPage(pageToFetch);
+//       else fetchBatches(pageToFetch);
+//     } catch (err: any) {
+//       toast.error("Failed to delete batch", { description: err.message });
+//     } finally {
+//       setDeletingBatchId(null);
+//     }
+//   };
+
+//   const openEditBatchDialog = async (batch: BroadcastBatchInfo) => {
+//     setEditingBatch(batch);
+//     setEditBatchSubject(batch.subject);
+//     setShowEditBatchDialog(true);
+//     setFullEditBodyFetched(false);
+//     setEditBatchBody("Loading full message body...");
+
+//     try {
+//       // In a real scenario, you might fetch the full body if the snippet is truncated.
+//       // For now, we assume the snippet is sufficient or use a placeholder.
+//       // const fullMessage = await inboxAdminService.getSampleMessageFromBatch(batch.batchId);
+//       // setEditBatchBody(fullMessage.body);
+//       setEditBatchBody(
+//         batch.bodySnippet.endsWith("...")
+//           ? batch.bodySnippet.slice(0, -3)
+//           : batch.bodySnippet
+//       );
+//       setFullEditBodyFetched(true);
+//     } catch (error) {
+//       console.error("Failed to fetch full body for edit:", error);
+//       setEditBatchBody(
+//         batch.bodySnippet +
+//           "\n\n--- (Error fetching full body, snippet shown) ---"
+//       );
+//       toast.error("Could not load full message body for editing.");
+//       setFullEditBodyFetched(true); // Still allow editing of snippet
+//     }
+//   };
+
+//   const closeEditBatchDialog = () => {
+//     setShowEditBatchDialog(false);
+//     setEditingBatch(null);
+//     setEditBatchSubject("");
+//     setEditBatchBody("");
+//     setIsUpdatingBatch(false); // Reset updating state
+//     setFullEditBodyFetched(false);
+//   };
+
+//   const handleUpdateBatch = async () => {
+//     if (!editingBatch || isUpdatingBatch) return;
+//     if (!editBatchSubject.trim() || !editBatchBody.trim()) {
+//       toast.error("Validation Error", {
+//         description: "Subject and Body cannot be empty.",
+//       });
+//       return;
+//     }
+//     setIsUpdatingBatch(true);
+//     const payload: UpdateBatchPayload = {
+//       subject: editBatchSubject.trim(),
+//       body: editBatchBody.trim(),
+//     };
+//     try {
+//       const result = await inboxAdminService.updateBroadcastBatchAdmin(
+//         editingBatch.batchId,
+//         payload
+//       );
+//       toast.success("Batch Updated", {
+//         description:
+//           result.message || `Updated ${result.modifiedCount} messages.`,
+//       });
+//       closeEditBatchDialog();
+//       fetchBatches(batchCurrentPage);
+//     } catch (err: any) {
+//       toast.error("Failed to update batch", { description: err.message });
+//       // setIsUpdatingBatch(false); // Already in finally
+//     } finally {
+//       setIsUpdatingBatch(false);
+//     }
+//   };
+
+//   // --- Main Page Render ---
+//   return (
+//     <div className="container mx-auto px-4 py-5">
+//       <div className="Send mb-5">
+//         <div className="flex flex-wrap items-center gap-3">
+//           <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
+//             <FaPaperPlane className="size-6 text-mainheading dark:text-primary" />
+//           </div>
+
+//           <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+//             Send Broadcast Message
+//           </h1>
+//         </div>
+
+//         <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+//           Broadcast messages allow administrators to quickly and efficiently
+//           communicate important updates, alerts, or announcements to all users
+//           at once
+//         </p>
+//       </div>
+
+//       {/* Compose Form Component */}
+//       <ComposeBroadcastForm
+//         subject={subject}
+//         onSubjectChange={setSubject}
+//         body={body}
+//         onBodyChange={setBody}
+//         isSending={isSending}
+//         sendError={sendError}
+//         onSubmit={handleSendMessage}
+//       />
+
+//       {/* History Table Component */}
+//       <BroadcastHistoryTable
+//         batchesData={batchesData}
+//         isLoading={batchesLoading}
+//         error={batchesError}
+//         currentPage={batchCurrentPage}
+//         deletingBatchId={deletingBatchId}
+//         editingBatchId={editingBatch?.batchId ?? null}
+//         isUpdatingBatch={isUpdatingBatch}
+//         onRefresh={handleRefreshBatches}
+//         onEdit={openEditBatchDialog}
+//         onDelete={openDeleteConfirmation}
+//         onPreviousPage={goToPreviousBatchPage}
+//         onNextPage={goToNextBatchPage}
+//       />
+
+//       {/* Edit Batch Dialog (Modal Component) */}
+//       <EditBroadcastBatchModal
+//         isOpen={showEditBatchDialog}
+//         onClose={closeEditBatchDialog}
+//         batchToEdit={editingBatch}
+//         editSubject={editBatchSubject}
+//         onSubjectChange={setEditBatchSubject}
+//         editBody={editBatchBody}
+//         onBodyChange={setEditBatchBody}
+//         onUpdate={handleUpdateBatch}
+//         isUpdating={isUpdatingBatch}
+//         fullBodyFetched={fullEditBodyFetched}
+//       />
+
+//       {/* Delete Batch Confirmation Dialog (Modal Component) */}
+//       <DeleteBroadcastBatchModal
+//         isOpen={!!showDeleteConfirm}
+//         onClose={closeDeleteConfirmation}
+//         batchToDelete={showDeleteConfirm}
+//         onDelete={handleDeleteBatch}
+//         isDeleting={deletingBatchId === showDeleteConfirm?.batchId}
+//         formatDateForDisplay={formatDateForDisplay} // Pass the formatting function
+//       />
+//     </div>
+//   );
+// };
+
+// export default AdminSendAllMessagePage;
+
+// frontend/src/app/(admin)/admin/messages/send/page.tsx
+
+// "use client";
+
+// import React, { useState, useEffect, useCallback, useMemo } from "react";
+// import { useRouter } from "next/navigation";
+// import { toast } from "sonner";
+// import { format } from "date-fns";
+// import { useAuth } from "@/app/contexts/AuthContext";
+// import inboxAdminService, {
+//   BroadcastBatchInfo,
+//   BroadcastBatchListResponse, // This type is still used for batchesData state
+//   UpdateBatchPayload,
+// } from "../../../services/admin/inbox";
+
+// import { AlertCircle, Loader2 } from "lucide-react";
+
+// import ComposeBroadcastForm from "../../components/message/send/ComposeBroadcastForm";
+// import BroadcastHistoryTable, {
+//   BroadcastSortField,
+// } from "../../components/message/send/BroadcastHistoryTable";
+// import EditBroadcastBatchModal from "../../components/message/send/EditBroadcastBatchModal";
+// import DeleteBroadcastBatchModal from "../../components/message/send/DeleteBroadcastBatchModal";
+// import { FaPaperPlane } from "react-icons/fa";
+
+// const formatDateForDisplay = (dateInput?: string | Date | null): string => {
+//   if (!dateInput) return "N/A";
+//   try {
+//     const date = new Date(dateInput);
+//     return isNaN(date.getTime())
+//       ? "Invalid Date"
+//       : format(date, "MMM d, yyyy, HH:mm");
+//   } catch (e) {
+//     return "Invalid Date";
+//   }
+// };
+
+// const BATCHES_PER_PAGE = 5;
+
+// const AdminSendAllMessagePage: React.FC = () => {
+//   const router = useRouter();
+//   const { isAdmin, loading: authLoading } = useAuth();
+
+//   const [subject, setSubject] = useState<string>("");
+//   const [body, setBody] = useState<string>("");
+//   const [isSending, setIsSending] = useState<boolean>(false);
+//   const [sendError, setSendError] = useState<string | null>(null);
+
+//   const [batchesData, setBatchesData] =
+//     useState<BroadcastBatchListResponse | null>(null);
+//   const [batchesLoading, setBatchesLoading] = useState<boolean>(true);
+//   const [batchesError, setBatchesError] = useState<string | null>(null);
+//   const [batchCurrentPage, setBatchCurrentPage] = useState<number>(1);
+
+//   const [broadcastSortField, setBroadcastSortField] =
+//     useState<BroadcastSortField | null>("sentAt");
+//   const [broadcastSortDirection, setBroadcastSortDirection] = useState<
+//     "asc" | "desc"
+//   >("desc");
+
+//   const [deletingBatchId, setDeletingBatchId] = useState<string | null>(null);
+//   const [showDeleteConfirm, setShowDeleteConfirm] =
+//     useState<BroadcastBatchInfo | null>(null);
+
+//   const [editingBatch, setEditingBatch] = useState<BroadcastBatchInfo | null>(
+//     null
+//   );
+//   const [editBatchSubject, setEditBatchSubject] = useState<string>("");
+//   const [editBatchBody, setEditBatchBody] = useState<string>("");
+//   const [showEditBatchDialog, setShowEditBatchDialog] =
+//     useState<boolean>(false);
+//   const [isUpdatingBatch, setIsUpdatingBatch] = useState<boolean>(false);
+//   const [fullEditBodyFetched, setFullEditBodyFetched] =
+//     useState<boolean>(false);
+
+//   const fetchBatches = useCallback(
+//     async (page: number) => {
+//       if (!isAdmin) return;
+//       setBatchesLoading(true);
+//       setBatchesError(null);
+//       try {
+//         const data = await inboxAdminService.getBroadcastBatchesAdmin(
+//           page,
+//           BATCHES_PER_PAGE
+//         );
+//         setBatchesData(data);
+//         if (data.currentPage !== page && data.totalPages > 0) {
+//           if (data.currentPage <= data.totalPages) {
+//             setBatchCurrentPage(data.currentPage);
+//           } else if (data.totalPages > 0) {
+//             setBatchCurrentPage(data.totalPages);
+//           } else {
+//             setBatchCurrentPage(1);
+//           }
+//         } else if (page > data.totalPages && data.totalPages > 0) {
+//           setBatchCurrentPage(data.totalPages);
+//         } else if (data.totalPages === 0) {
+//           setBatchCurrentPage(1);
+//         }
+//       } catch (err: any) {
+//         console.error("Error fetching broadcast batches:", err);
+//         setBatchesError(err.message || "Failed to load broadcast history.");
+//         setBatchesData(null);
+//       } finally {
+//         setBatchesLoading(false);
+//       }
+//     },
+//     [isAdmin]
+//   );
+
+//   useEffect(() => {
+//     if (!authLoading && isAdmin) {
+//       fetchBatches(batchCurrentPage);
+//     }
+//     if (!isAdmin && !authLoading) {
+//       setBatchesData(null);
+//       setBatchesLoading(false);
+//       setBatchesError("Administrator privileges required.");
+//     }
+//   }, [authLoading, isAdmin, batchCurrentPage, fetchBatches]);
+
+//   const sortedBatches = useMemo(() => {
+//     if (!batchesData?.batches) return [];
+//     const sortableBatches = [...batchesData.batches];
+
+//     if (broadcastSortField) {
+//       sortableBatches.sort((a, b) => {
+//         let valA: any, valB: any;
+
+//         switch (broadcastSortField) {
+//           case "sentAt":
+//             valA = new Date(a.sentAt).getTime();
+//             valB = new Date(b.sentAt).getTime();
+//             break;
+//           case "subject":
+//             valA = (a.subject || "").toLowerCase();
+//             valB = (b.subject || "").toLowerCase();
+//             break;
+//           case "recipientCount":
+//             valA = a.recipientCount;
+//             valB = b.recipientCount;
+//             break;
+//           default:
+//             return 0;
+//         }
+
+//         let comparison = 0;
+//         if (isNaN(valA) && isNaN(valB)) comparison = 0;
+//         else if (isNaN(valA))
+//           comparison = broadcastSortDirection === "asc" ? 1 : -1;
+//         else if (isNaN(valB))
+//           comparison = broadcastSortDirection === "asc" ? -1 : 1;
+//         else if (valA < valB) comparison = -1;
+//         else if (valA > valB) comparison = 1;
+
+//         return broadcastSortDirection === "asc" ? comparison : comparison * -1;
+//       });
+//     }
+//     return sortableBatches;
+//   }, [batchesData?.batches, broadcastSortField, broadcastSortDirection]);
+
+//   const handleBroadcastSort = (field: BroadcastSortField) => {
+//     const newDirection =
+//       broadcastSortField === field && broadcastSortDirection === "asc"
+//         ? "desc"
+//         : "asc";
+//     setBroadcastSortField(field);
+//     setBroadcastSortDirection(newDirection);
+//   };
+
+//   if (authLoading) {
+//     return (
+//       <div className="flex items-center justify-center h-screen text-gray-600 dark:text-gray-300">
+//         <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+//         <span className="ml-2 text-lg">Loading...</span>
+//       </div>
+//     );
+//   }
+//   if (!isAdmin) {
+//     return (
+//       <div className="container mx-auto px-4 py-10">
+//         <div className="max-w-lg mx-auto p-4 border border-red-300 bg-red-50 dark:bg-red-900/30 dark:border-red-700 rounded-md flex items-start space-x-3">
+//           <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
+//           <div>
+//             <h3 className="text-lg font-medium text-red-800 dark:text-red-200">
+//               Access Denied
+//             </h3>
+//             <p className="text-sm text-red-700 dark:text-red-300 mt-1">
+//               You do not have permissions to view this page. Administrator
+//               privileges required.
+//             </p>
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
+//     setSendError(null);
+//     setIsSending(true);
+//     try {
+//       const result = await inboxAdminService.sendMessageToAllAdmin(
+//         subject.trim(),
+//         body.trim()
+//       );
+//       toast.success("Broadcast Sent", {
+//         description:
+//           result.message ||
+//           `Message queued for ${result.totalAttempted} users.`,
+//       });
+//       setSubject("");
+//       setBody("");
+//       if (batchCurrentPage !== 1) setBatchCurrentPage(1);
+//       else fetchBatches(1);
+//     } catch (err: any) {
+//       const errorMsg = err.message || "Failed to send broadcast.";
+//       setSendError(errorMsg);
+//       toast.error("Sending Failed", { description: errorMsg });
+//     } finally {
+//       setIsSending(false);
+//     }
+//   };
+
+//   const goToBatchPage = (newPage: number) => {
+//     if (
+//       newPage > 0 &&
+//       newPage !== batchCurrentPage &&
+//       (!batchesData || newPage <= batchesData.totalPages)
+//     ) {
+//       setBatchCurrentPage(newPage);
+//     }
+//   };
+//   const goToPreviousBatchPage = () => goToBatchPage(batchCurrentPage - 1);
+//   const goToNextBatchPage = () => goToBatchPage(batchCurrentPage + 1);
+//   const handleRefreshBatches = () => {
+//     if (!batchesLoading) fetchBatches(batchCurrentPage);
+//   };
+
+//   const openDeleteConfirmation = (batch: BroadcastBatchInfo) =>
+//     setShowDeleteConfirm(batch);
+//   const closeDeleteConfirmation = () => setShowDeleteConfirm(null);
+
+//   const handleDeleteBatch = async () => {
+//     if (!showDeleteConfirm) return;
+//     const batchIdToDelete = showDeleteConfirm.batchId;
+//     setDeletingBatchId(batchIdToDelete);
+//     try {
+//       const result = await inboxAdminService.deleteBroadcastBatchAdmin(
+//         batchIdToDelete
+//       );
+//       toast.success("Batch Deleted", {
+//         description:
+//           result.message || `Deleted ${result.deletedCount} messages.`,
+//       });
+//       const wasLastItemOnPage =
+//         sortedBatches.length === 1 && batchCurrentPage > 1;
+//       const pageToFetch = wasLastItemOnPage
+//         ? batchCurrentPage - 1
+//         : batchCurrentPage;
+
+//       if (wasLastItemOnPage) {
+//         setBatchCurrentPage(pageToFetch);
+//       } else {
+//         fetchBatches(pageToFetch);
+//       }
+//     } catch (err: any) {
+//       toast.error("Failed to delete batch", { description: err.message });
+//     } finally {
+//       setDeletingBatchId(null);
+//       closeDeleteConfirmation();
+//     }
+//   };
+
+//   const openEditBatchDialog = async (batch: BroadcastBatchInfo) => {
+//     setEditingBatch(batch);
+//     setEditBatchSubject(batch.subject);
+//     setShowEditBatchDialog(true);
+//     setFullEditBodyFetched(false);
+//     setEditBatchBody("Loading full message body...");
+
+//     try {
+//       setEditBatchBody(
+//         batch.bodySnippet.endsWith("...")
+//           ? batch.bodySnippet
+//           : batch.bodySnippet
+//       );
+//       setFullEditBodyFetched(true);
+//     } catch (error) {
+//       console.error("Failed to fetch full body for edit:", error);
+//       setEditBatchBody(
+//         batch.bodySnippet +
+//           "\n\n--- (Error fetching full body, snippet shown) ---"
+//       );
+//       toast.error("Could not load full message body for editing.");
+//       setFullEditBodyFetched(true);
+//     }
+//   };
+
+//   const closeEditBatchDialog = () => {
+//     setShowEditBatchDialog(false);
+//     setEditingBatch(null);
+//     setEditBatchSubject("");
+//     setEditBatchBody("");
+//     setIsUpdatingBatch(false);
+//     setFullEditBodyFetched(false);
+//   };
+
+//   const handleUpdateBatch = async () => {
+//     if (!editingBatch || isUpdatingBatch) return;
+//     if (!editBatchSubject.trim() || !editBatchBody.trim()) {
+//       toast.error("Validation Error", {
+//         description: "Subject and Body cannot be empty.",
+//       });
+//       return;
+//     }
+//     setIsUpdatingBatch(true);
+//     const payload: UpdateBatchPayload = {
+//       subject: editBatchSubject.trim(),
+//       body: editBatchBody.trim(),
+//     };
+//     try {
+//       const result = await inboxAdminService.updateBroadcastBatchAdmin(
+//         editingBatch.batchId,
+//         payload
+//       );
+//       toast.success("Batch Updated", {
+//         description:
+//           result.message || `Updated ${result.modifiedCount} messages.`,
+//       });
+//       closeEditBatchDialog();
+//       fetchBatches(batchCurrentPage);
+//     } catch (err: any) {
+//       toast.error("Failed to update batch", { description: err.message });
+//     } finally {
+//       setIsUpdatingBatch(false);
+//     }
+//   };
+
+//   function goToNextPage(): void {
+//     throw new Error("Function not implemented.");
+//   }
+
+//   return (
+//     <div className="container mx-auto px-4 py-5">
+//       <div className="Send mb-5">
+//         <div className="flex flex-wrap items-center gap-3">
+//           <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
+//             <FaPaperPlane className="size-6 text-mainheading dark:text-primary" />
+//           </div>
+//           <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+//             Send Broadcast Message
+//           </h1>
+//         </div>
+//         <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+//           Broadcast messages allow administrators to quickly and efficiently
+//           communicate important updates, alerts, or announcements to all users
+//           at once
+//         </p>
+//       </div>
+
+//       <ComposeBroadcastForm
+//         subject={subject}
+//         onSubjectChange={setSubject}
+//         body={body}
+//         onBodyChange={setBody}
+//         isSending={isSending}
+//         sendError={sendError}
+//         onSubmit={handleSendMessage}
+//       />
+
+//       <BroadcastHistoryTable
+//         batches={sortedBatches}
+//         totalPages={batchesData?.totalPages ?? 0}
+//         // totalItems={batchesData?.totalItems ?? 0} // REMOVE THIS LINE
+//         isLoading={batchesLoading}
+//         error={batchesError}
+//         currentPage={batchCurrentPage}
+//         deletingBatchId={deletingBatchId}
+//         editingBatchId={editingBatch?.batchId ?? null}
+//         isUpdatingBatch={isUpdatingBatch}
+//         onRefresh={handleRefreshBatches}
+//         onEdit={openEditBatchDialog}
+//         onDelete={openDeleteConfirmation}
+//         onPreviousPage={goToPreviousBatchPage}
+//         onNextPage={goToNextPage}
+//         onSort={handleBroadcastSort}
+//         sortField={broadcastSortField}
+//         sortDirection={broadcastSortDirection}
+//       />
+
+//       <EditBroadcastBatchModal
+//         isOpen={showEditBatchDialog}
+//         onClose={closeEditBatchDialog}
+//         batchToEdit={editingBatch}
+//         editSubject={editBatchSubject}
+//         onSubjectChange={setEditBatchSubject}
+//         editBody={editBatchBody}
+//         onBodyChange={setEditBatchBody}
+//         onUpdate={handleUpdateBatch}
+//         isUpdating={isUpdatingBatch}
+//         fullBodyFetched={fullEditBodyFetched}
+//       />
+
+//       <DeleteBroadcastBatchModal
+//         isOpen={!!showDeleteConfirm}
+//         onClose={closeDeleteConfirmation}
+//         batchToDelete={showDeleteConfirm}
+//         onDelete={handleDeleteBatch}
+//         isDeleting={deletingBatchId === showDeleteConfirm?.batchId}
+//         formatDateForDisplay={formatDateForDisplay}
+//       />
+//     </div>
+//   );
+// };
+
+// export default AdminSendAllMessagePage;
 
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { format } from "date-fns"; // Keep this import for the function
+import { format } from "date-fns";
 import { useAuth } from "@/app/contexts/AuthContext";
 import inboxAdminService, {
   BroadcastBatchInfo,
   BroadcastBatchListResponse,
   UpdateBatchPayload,
 } from "../../../services/admin/inbox";
-// Removed cn from here as it's used in modals
 
-// Icons
-import {
-  AlertCircle,
-  Loader2,
-  MessageSquareText,
-  // Trash2, Pencil, X - Icons moved to respective modals
-} from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react";
 
-// Import the components
 import ComposeBroadcastForm from "../../components/message/send/ComposeBroadcastForm";
-import BroadcastHistoryTable from "../../components/message/send/BroadcastHistoryTable";
+import BroadcastHistoryTable, {
+  BroadcastSortField,
+} from "../../components/message/send/BroadcastHistoryTable";
 import EditBroadcastBatchModal from "../../components/message/send/EditBroadcastBatchModal";
 import DeleteBroadcastBatchModal from "../../components/message/send/DeleteBroadcastBatchModal";
+import { FaPaperPlane } from "react-icons/fa";
 
-
-// --- Define formatDate directly in this file ---
-// This function will be passed as a prop to DeleteBroadcastBatchModal
 const formatDateForDisplay = (dateInput?: string | Date | null): string => {
   if (!dateInput) return "N/A";
   try {
@@ -1248,117 +2008,191 @@ const formatDateForDisplay = (dateInput?: string | Date | null): string => {
     return "Invalid Date";
   }
 };
-// --- End function definition ---
-
 
 const BATCHES_PER_PAGE = 5;
 
-// Main Page Component
 const AdminSendAllMessagePage: React.FC = () => {
   const router = useRouter();
   const { isAdmin, loading: authLoading } = useAuth();
 
-  // State for Composing
   const [subject, setSubject] = useState<string>("");
   const [body, setBody] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
   const [sendError, setSendError] = useState<string | null>(null);
 
-  // State for History
-  const [batchesData, setBatchesData] = useState<BroadcastBatchListResponse | null>(null);
+  const [batchesData, setBatchesData] =
+    useState<BroadcastBatchListResponse | null>(null);
   const [batchesLoading, setBatchesLoading] = useState<boolean>(true);
   const [batchesError, setBatchesError] = useState<string | null>(null);
   const [batchCurrentPage, setBatchCurrentPage] = useState<number>(1);
 
-  // State for Deleting
-  const [deletingBatchId, setDeletingBatchId] = useState<string | null>(null);
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState<BroadcastBatchInfo | null>(null);
+  // Initialize sortField to null, so no icon is active by default.
+  // Default sort direction can be 'desc' for the first click on 'sentAt'.
+  const [broadcastSortField, setBroadcastSortField] =
+    useState<BroadcastSortField | null>(null);
+  const [broadcastSortDirection, setBroadcastSortDirection] = useState<
+    "asc" | "desc"
+  >("desc");
 
-  // State for Editing
-  const [editingBatch, setEditingBatch] = useState<BroadcastBatchInfo | null>(null);
+  const [deletingBatchId, setDeletingBatchId] = useState<string | null>(null);
+  const [showDeleteConfirm, setShowDeleteConfirm] =
+    useState<BroadcastBatchInfo | null>(null);
+
+  const [editingBatch, setEditingBatch] = useState<BroadcastBatchInfo | null>(
+    null
+  );
   const [editBatchSubject, setEditBatchSubject] = useState<string>("");
   const [editBatchBody, setEditBatchBody] = useState<string>("");
-  const [showEditBatchDialog, setShowEditBatchDialog] = useState<boolean>(false);
+  const [showEditBatchDialog, setShowEditBatchDialog] =
+    useState<boolean>(false);
   const [isUpdatingBatch, setIsUpdatingBatch] = useState<boolean>(false);
-  const [fullEditBodyFetched, setFullEditBodyFetched] = useState<boolean>(false);
+  const [fullEditBodyFetched, setFullEditBodyFetched] =
+    useState<boolean>(false);
 
-
-   const fetchBatches = useCallback(
+  const fetchBatches = useCallback(
     async (page: number) => {
-        if (!isAdmin) return;
-        setBatchesLoading(true);
-        setBatchesError(null);
-        try {
-            const data = await inboxAdminService.getBroadcastBatchesAdmin(
-                page,
-                BATCHES_PER_PAGE
-            );
-            setBatchesData(data);
-             if (data.currentPage !== page) {
-               setTimeout(() => setBatchCurrentPage(data.currentPage), 0);
-            }
-        } catch (err: any) {
-            console.error("Error fetching broadcast batches:", err);
-            setBatchesError(err.message || "Failed to load broadcast history.");
-            setBatchesData(null);
-        } finally {
-            setBatchesLoading(false);
+      if (!isAdmin) return;
+      setBatchesLoading(true);
+      setBatchesError(null);
+      try {
+        const data = await inboxAdminService.getBroadcastBatchesAdmin(
+          page,
+          BATCHES_PER_PAGE
+        );
+        setBatchesData(data);
+        if (data.currentPage !== page && data.totalPages > 0) {
+          if (data.currentPage <= data.totalPages) {
+            setBatchCurrentPage(data.currentPage);
+          } else if (data.totalPages > 0) {
+            setBatchCurrentPage(data.totalPages);
+          } else {
+            setBatchCurrentPage(1);
+          }
+        } else if (page > data.totalPages && data.totalPages > 0) {
+          setBatchCurrentPage(data.totalPages);
+        } else if (data.totalPages === 0) {
+          setBatchCurrentPage(1);
         }
+      } catch (err: any) {
+        console.error("Error fetching broadcast batches:", err);
+        setBatchesError(err.message || "Failed to load broadcast history.");
+        setBatchesData(null);
+      } finally {
+        setBatchesLoading(false);
+      }
     },
     [isAdmin]
-);
-
+  );
 
   useEffect(() => {
-     if (!authLoading && isAdmin) {
+    if (!authLoading && isAdmin) {
       fetchBatches(batchCurrentPage);
     }
-     if (!isAdmin && !authLoading) {
-       setBatchesData(null); 
-       setBatchesLoading(false);
-     }
+    if (!isAdmin && !authLoading) {
+      setBatchesData(null);
+      setBatchesLoading(false);
+      setBatchesError("Administrator privileges required.");
+    }
   }, [authLoading, isAdmin, batchCurrentPage, fetchBatches]);
 
-   if (authLoading) {
-        return (
-        <div className="flex items-center justify-center h-screen text-gray-600 dark:text-gray-300">
-          <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
-          <span className="ml-2 text-lg">Loading...</span>
-        </div>
-      );
-   }
-   if (!isAdmin) {
-       return (
-        <div className="container mx-auto px-4 py-12">
-          <div className="max-w-lg mx-auto p-4 border border-red-300 bg-red-50 dark:bg-red-900/30 dark:border-red-700 rounded-md flex items-start space-x-3">
-              <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
-              <div>
-                  <h3 className="text-lg font-medium text-red-800 dark:text-red-200">Access Denied</h3>
-                  <p className="text-sm text-red-700 dark:text-red-300 mt-1">
-                  You do not have permissions to view this page. Administrator privileges required.
-                  </p>
-              </div>
+  const sortedBatches = useMemo(() => {
+    if (!batchesData?.batches) return [];
+    const sortableBatches = [...batchesData.batches];
+
+    // Determine the effective sort field and direction
+    // Default to 'sentAt' descending if no user sort is active
+    const effectiveSortField = broadcastSortField ?? "sentAt";
+    const effectiveSortDirection = broadcastSortField
+      ? broadcastSortDirection
+      : "desc";
+
+    sortableBatches.sort((a, b) => {
+      let valA: any, valB: any;
+
+      switch (effectiveSortField) {
+        case "sentAt":
+          valA = new Date(a.sentAt).getTime();
+          valB = new Date(b.sentAt).getTime();
+          break;
+        // "subject" case removed as it's no longer sortable
+        case "recipientCount":
+          valA = a.recipientCount;
+          valB = b.recipientCount;
+          break;
+        default:
+          // Should not happen with typed BroadcastSortField
+          return 0;
+      }
+
+      let comparison = 0;
+      if (isNaN(valA) && isNaN(valB)) comparison = 0;
+      else if (isNaN(valA))
+        comparison = effectiveSortDirection === "asc" ? 1 : -1;
+      else if (isNaN(valB))
+        comparison = effectiveSortDirection === "asc" ? -1 : 1;
+      else if (valA < valB) comparison = -1;
+      else if (valA > valB) comparison = 1;
+
+      return effectiveSortDirection === "asc" ? comparison : comparison * -1;
+    });
+
+    return sortableBatches;
+  }, [batchesData?.batches, broadcastSortField, broadcastSortDirection]);
+
+  const handleBroadcastSort = (field: BroadcastSortField) => {
+    const newDirection =
+      broadcastSortField === field && broadcastSortDirection === "asc"
+        ? "desc"
+        : "asc";
+    setBroadcastSortField(field);
+    setBroadcastSortDirection(newDirection);
+  };
+
+  if (authLoading) {
+    return (
+      <div className="flex items-center justify-center h-screen text-gray-600 dark:text-gray-300">
+        <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+        <span className="ml-2 text-lg">Loading...</span>
+      </div>
+    );
+  }
+  if (!isAdmin) {
+    return (
+      <div className="container mx-auto px-4 py-10">
+        <div className="max-w-lg mx-auto p-4 border border-red-300 bg-red-50 dark:bg-red-900/30 dark:border-red-700 rounded-md flex items-start space-x-3">
+          <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <h3 className="text-lg font-medium text-red-800 dark:text-red-200">
+              Access Denied
+            </h3>
+            <p className="text-sm text-red-700 dark:text-red-300 mt-1">
+              You do not have permissions to view this page. Administrator
+              privileges required.
+            </p>
           </div>
         </div>
-      );
-   }
+      </div>
+    );
+  }
 
   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
-     e.preventDefault(); 
-     setSendError(null);
-     setIsSending(true);
-     try {
+    e.preventDefault();
+    setSendError(null);
+    setIsSending(true);
+    try {
       const result = await inboxAdminService.sendMessageToAllAdmin(
         subject.trim(),
         body.trim()
       );
       toast.success("Broadcast Sent", {
-        description: result.message || `Message queued for ${result.totalAttempted} users.`,
+        description:
+          result.message ||
+          `Message queued for ${result.totalAttempted} users.`,
       });
-      setSubject(""); 
+      setSubject("");
       setBody("");
-      if (batchCurrentPage !== 1) setBatchCurrentPage(1); 
-      else fetchBatches(1); 
+      if (batchCurrentPage !== 1) setBatchCurrentPage(1);
+      else fetchBatches(1);
     } catch (err: any) {
       const errorMsg = err.message || "Failed to send broadcast.";
       setSendError(errorMsg);
@@ -1369,35 +2203,52 @@ const AdminSendAllMessagePage: React.FC = () => {
   };
 
   const goToBatchPage = (newPage: number) => {
-      if ( newPage > 0 && newPage !== batchCurrentPage && (!batchesData || newPage <= batchesData.totalPages)) {
-         setBatchCurrentPage(newPage);
-     }
+    if (
+      newPage > 0 &&
+      newPage !== batchCurrentPage &&
+      (!batchesData || newPage <= batchesData.totalPages)
+    ) {
+      setBatchCurrentPage(newPage);
+    }
   };
   const goToPreviousBatchPage = () => goToBatchPage(batchCurrentPage - 1);
   const goToNextBatchPage = () => goToBatchPage(batchCurrentPage + 1);
   const handleRefreshBatches = () => {
-     if (!batchesLoading) fetchBatches(batchCurrentPage);
+    if (!batchesLoading) fetchBatches(batchCurrentPage);
   };
 
-  const openDeleteConfirmation = (batch: BroadcastBatchInfo) => setShowDeleteConfirm(batch);
+  const openDeleteConfirmation = (batch: BroadcastBatchInfo) =>
+    setShowDeleteConfirm(batch);
   const closeDeleteConfirmation = () => setShowDeleteConfirm(null);
 
   const handleDeleteBatch = async () => {
-     if (!showDeleteConfirm) return;
+    if (!showDeleteConfirm) return;
     const batchIdToDelete = showDeleteConfirm.batchId;
     setDeletingBatchId(batchIdToDelete);
-    closeDeleteConfirmation();
     try {
-      const result = await inboxAdminService.deleteBroadcastBatchAdmin(batchIdToDelete);
-      toast.success("Batch Deleted", { description: result.message || `Deleted ${result.deletedCount} messages.` });
-      const wasLastItem = batchesData?.batches.length === 1 && batchCurrentPage > 1;
-      const pageToFetch = wasLastItem ? batchCurrentPage - 1 : batchCurrentPage;
-      if (wasLastItem) setBatchCurrentPage(pageToFetch);
-      else fetchBatches(pageToFetch);
+      const result = await inboxAdminService.deleteBroadcastBatchAdmin(
+        batchIdToDelete
+      );
+      toast.success("Batch Deleted", {
+        description:
+          result.message || `Deleted ${result.deletedCount} messages.`,
+      });
+      const wasLastItemOnPage =
+        sortedBatches.length === 1 && batchCurrentPage > 1;
+      const pageToFetch = wasLastItemOnPage
+        ? batchCurrentPage - 1
+        : batchCurrentPage;
+
+      if (wasLastItemOnPage) {
+        setBatchCurrentPage(pageToFetch);
+      } else {
+        fetchBatches(pageToFetch);
+      }
     } catch (err: any) {
       toast.error("Failed to delete batch", { description: err.message });
     } finally {
       setDeletingBatchId(null);
+      closeDeleteConfirmation();
     }
   };
 
@@ -1409,34 +2260,39 @@ const AdminSendAllMessagePage: React.FC = () => {
     setEditBatchBody("Loading full message body...");
 
     try {
-      // In a real scenario, you might fetch the full body if the snippet is truncated.
-      // For now, we assume the snippet is sufficient or use a placeholder.
-      // const fullMessage = await inboxAdminService.getSampleMessageFromBatch(batch.batchId); 
-      // setEditBatchBody(fullMessage.body);
-       setEditBatchBody(batch.bodySnippet.endsWith('...') ? batch.bodySnippet.slice(0, -3) : batch.bodySnippet); 
+      setEditBatchBody(
+        batch.bodySnippet.endsWith("...")
+          ? batch.bodySnippet
+          : batch.bodySnippet
+      );
       setFullEditBodyFetched(true);
     } catch (error) {
       console.error("Failed to fetch full body for edit:", error);
-      setEditBatchBody(batch.bodySnippet + "\n\n--- (Error fetching full body, snippet shown) ---");
+      setEditBatchBody(
+        batch.bodySnippet +
+          "\n\n--- (Error fetching full body, snippet shown) ---"
+      );
       toast.error("Could not load full message body for editing.");
-      setFullEditBodyFetched(true); // Still allow editing of snippet
+      setFullEditBodyFetched(true);
     }
   };
 
   const closeEditBatchDialog = () => {
-     setShowEditBatchDialog(false);
+    setShowEditBatchDialog(false);
     setEditingBatch(null);
     setEditBatchSubject("");
     setEditBatchBody("");
-    setIsUpdatingBatch(false); // Reset updating state
+    setIsUpdatingBatch(false);
     setFullEditBodyFetched(false);
   };
 
   const handleUpdateBatch = async () => {
-     if (!editingBatch || isUpdatingBatch) return;
+    if (!editingBatch || isUpdatingBatch) return;
     if (!editBatchSubject.trim() || !editBatchBody.trim()) {
-       toast.error("Validation Error", { description: "Subject and Body cannot be empty." });
-       return;
+      toast.error("Validation Error", {
+        description: "Subject and Body cannot be empty.",
+      });
+      return;
     }
     setIsUpdatingBatch(true);
     const payload: UpdateBatchPayload = {
@@ -1444,34 +2300,45 @@ const AdminSendAllMessagePage: React.FC = () => {
       body: editBatchBody.trim(),
     };
     try {
-      const result = await inboxAdminService.updateBroadcastBatchAdmin(editingBatch.batchId, payload);
-      toast.success("Batch Updated", { description: result.message || `Updated ${result.modifiedCount} messages.` });
+      const result = await inboxAdminService.updateBroadcastBatchAdmin(
+        editingBatch.batchId,
+        payload
+      );
+      toast.success("Batch Updated", {
+        description:
+          result.message || `Updated ${result.modifiedCount} messages.`,
+      });
       closeEditBatchDialog();
-      fetchBatches(batchCurrentPage); 
+      fetchBatches(batchCurrentPage);
     } catch (err: any) {
       toast.error("Failed to update batch", { description: err.message });
-      // setIsUpdatingBatch(false); // Already in finally
     } finally {
-      setIsUpdatingBatch(false); 
+      setIsUpdatingBatch(false);
     }
   };
 
+  function goToNextPage(): void {
+    throw new Error("Function not implemented.");
+  }
 
-  // --- Main Page Render ---
   return (
-    <div className="container mx-auto px-4 py-8">
-      {/* Page Header */}
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold leading-tight text-mainheading dark:text-white sm:text-3xl inline-flex items-center gap-2">
-          <MessageSquareText size={28} className="text-primary" />
-          Send Broadcast Message
-        </h1>
-        <p className="text-gray-500 dark:text-gray-300">
-          Compose and send messages to all users, and manage past broadcasts.
+    <div className="container mx-auto px-4 py-5">
+      <div className="Send mb-5">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
+            <FaPaperPlane className="size-6 text-mainheading dark:text-primary" />
+          </div>
+          <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+            Send Broadcast Message
+          </h1>
+        </div>
+        <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+          Broadcast messages allow administrators to quickly and efficiently
+          communicate important updates, alerts, or announcements to all users
+          at once
         </p>
       </div>
 
-      {/* Compose Form Component */}
       <ComposeBroadcastForm
         subject={subject}
         onSubjectChange={setSubject}
@@ -1482,9 +2349,9 @@ const AdminSendAllMessagePage: React.FC = () => {
         onSubmit={handleSendMessage}
       />
 
-      {/* History Table Component */}
       <BroadcastHistoryTable
-        batchesData={batchesData}
+        batches={sortedBatches}
+        totalPages={batchesData?.totalPages ?? 0}
         isLoading={batchesLoading}
         error={batchesError}
         currentPage={batchCurrentPage}
@@ -1495,33 +2362,33 @@ const AdminSendAllMessagePage: React.FC = () => {
         onEdit={openEditBatchDialog}
         onDelete={openDeleteConfirmation}
         onPreviousPage={goToPreviousBatchPage}
-        onNextPage={goToNextBatchPage}
+        onNextPage={goToNextPage}
+        onSort={handleBroadcastSort}
+        sortField={broadcastSortField}
+        sortDirection={broadcastSortDirection}
       />
 
-       {/* Edit Batch Dialog (Modal Component) */}
-       <EditBroadcastBatchModal
-         isOpen={showEditBatchDialog}
-         onClose={closeEditBatchDialog}
-         batchToEdit={editingBatch}
-         editSubject={editBatchSubject}
-         onSubjectChange={setEditBatchSubject}
-         editBody={editBatchBody}
-         onBodyChange={setEditBatchBody}
-         onUpdate={handleUpdateBatch}
-         isUpdating={isUpdatingBatch}
-         fullBodyFetched={fullEditBodyFetched}
-       />
+      <EditBroadcastBatchModal
+        isOpen={showEditBatchDialog}
+        onClose={closeEditBatchDialog}
+        batchToEdit={editingBatch}
+        editSubject={editBatchSubject}
+        onSubjectChange={setEditBatchSubject}
+        editBody={editBatchBody}
+        onBodyChange={setEditBatchBody}
+        onUpdate={handleUpdateBatch}
+        isUpdating={isUpdatingBatch}
+        fullBodyFetched={fullEditBodyFetched}
+      />
 
-      {/* Delete Batch Confirmation Dialog (Modal Component) */}
       <DeleteBroadcastBatchModal
         isOpen={!!showDeleteConfirm}
         onClose={closeDeleteConfirmation}
         batchToDelete={showDeleteConfirm}
         onDelete={handleDeleteBatch}
         isDeleting={deletingBatchId === showDeleteConfirm?.batchId}
-        formatDateForDisplay={formatDateForDisplay} // Pass the formatting function
+        formatDateForDisplay={formatDateForDisplay}
       />
-
     </div>
   );
 };

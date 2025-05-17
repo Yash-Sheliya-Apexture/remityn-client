@@ -221,6 +221,8 @@ input:-webkit-autofill:active {
   /* Optional: Prevent transition delays if needed */
   transition: background-color 5000s ease-in-out 0s;
 }
+
+
 /* --- Dark Mode Overrides --- */
 /* Ensure your dark mode is triggered by a class, e.g., 'dark' on the html/body */
 .dark input:-webkit-autofill,
@@ -299,4 +301,33 @@ input:-webkit-autofill:active {
 /* Firefox */
 .no-spinner[type=number] {
   -moz-appearance: textfield;
+}
+
+/* Remove default focus outline for a and button */
+a:focus,
+button:focus {
+  outline: none;
+}
+
+
+/* Add to your global CSS file (e.g., globals.css) if not already present */
+
+.toast-progress-success {
+  background: #22c55e !important; /* Corresponds to green-500 */
+}
+
+.toast-progress-error {
+  background: #ef4444 !important; /* Corresponds to red-500 */
+}
+
+.toast-progress-info {
+  background: #3b82f6 !important; /* Corresponds to blue-500 */
+}
+
+.toast-progress-warning {
+  background: #eab308 !important; /* Corresponds to yellow-500 */
+}
+
+.toast-progress-default {
+  background: #6b7280 !important; /* Corresponds to gray-500 */
 }

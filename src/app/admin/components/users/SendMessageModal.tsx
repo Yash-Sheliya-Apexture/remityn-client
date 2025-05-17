@@ -3,13 +3,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoClose, IoClose as X } from "react-icons/io5";
-import {
-  MessageSquareText,
-  Loader2,
-  SendHorizonal,
-  AlertCircle,
-} from "lucide-react";
-
+import { AlertCircle } from "lucide-react";
 
 interface SendMessageModalProps {
   isOpen: boolean;
@@ -112,7 +106,7 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
             className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl w-full sm:max-w-lg relative" // Adjusted max-width slightly
           >
             {/* Header */}
-            <div className="p-4 sm:p-6 rounded-t-2xl flex items-center justify-between border-b">
+            <div className="p-4 sm:p-6 flex items-center justify-between flex-shrink-0 border-b font-medium">
               <h2
                 id="send-message-modal-title"
                 className="lg:text-2xl text-xl font-semibold text-mainheading dark:text-white"
@@ -120,14 +114,16 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
                 Send Message to User
               </h2>
 
-              <div className="absolute sm:top-2 sm:right-2 top-1 right-1">
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="p-3 bg-lightborder hover:bg-neutral-300 dark:bg-primarybox dark:hover:bg-secondarybox rounded-full transition-all duration-75 ease-linear cursor-pointer"
-                  aria-label="Close send message modal"
-                >
+              <div
+                onClick={() => setIsOpen(false)}
+                className="size-12 bg-lightgray hover:bg-lightborder cursor-pointer dark:bg-primarybox dark:hover:bg-secondarybox flex items-center justify-center rounded-full transition-all duration-75 ease-linear"
+                aria-label="Close send message modal"
+                role="button"
+              >
+                <button className="text-neutral-900 dark:text-primary cursor-pointer focus:outline-none">
                   <IoClose
                     size={28}
+                    aria-label="Close"
                     className="text-neutral-900 dark:text-primary"
                   />
                 </button>
@@ -144,8 +140,7 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
                   htmlFor="subject"
                   className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
                 >
-                  Subject{" "}
-                  <span className="text-red-600 dark:text-red-400">*</span>
+                  Subject <span className="text-red-600">*</span>
                 </label>
 
                 <input
@@ -164,19 +159,22 @@ const SendMessageModal: React.FC<SendMessageModalProps> = ({
                   htmlFor="body"
                   className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
                 >
-                  Body <span className="text-red-600 dark:text-red-400">*</span>
+                  Body <span className="text-red-600">*</span>
                 </label>
 
-                <textarea
-                  id="body"
-                  value={body}
-                  onChange={(e) => setBody(e.target.value)}
-                  className="mt-1 block min-h-[150px] px-4 py-3 bg-white focus:border-[#5f5f5f] dark:bg-background h-14 w-full border focus:outline-none rounded-lg transition-all ease-linear duration-75"
-                  maxLength={5000}
-                  disabled={isSending}
-                  placeholder="Enter message content..."
-                />
+                <div className="overflow-y-auto rounded-lg">
+                  <textarea
+                    id="body"
+                    value={body}
+                    onChange={(e) => setBody(e.target.value)}
+                    className="resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 bg-white dark:bg-background h-14 w-full transition-all border rounded-lg focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75 min-h-[150px]"
+                    maxLength={5000}
+                    disabled={isSending}
+                    placeholder="Enter message content..."
+                  />
+                </div>
               </div>
+
               {/* Error Display Area */}
               {sendError && (
                 <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700/30 text-red-700 dark:text-red-300 px-4 py-3 rounded-lg text-sm flex items-start gap-2">

@@ -1220,11 +1220,16 @@ import {
   SortAsc,
   X, // Import X for closing messages
   ShieldUser,
+  ListChecks,
 } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { FiSearch } from "react-icons/fi";
-import { MdCancel, MdOutlineAccessTime } from "react-icons/md";
+import {
+  MdCancel,
+  MdManageAccounts,
+  MdOutlineAccessTime,
+} from "react-icons/md";
 import { Skeleton } from "@/components/ui/skeleton";
 
 // Import Pagination Component
@@ -1446,10 +1451,11 @@ const KycManagementPage: React.FC = () => {
   );
 
   // Empty State (Considers search query)
+
   const renderEmptyState = () => (
     <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
       <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
-        <Inbox className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+        <ListChecks className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
       </div>
       <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
         {searchQuery ? "No Matches Found" : "All Clear KYC !"}
@@ -1460,7 +1466,6 @@ const KycManagementPage: React.FC = () => {
           ? "No applications match your current search query."
           : "There are currently no KYC applications awaiting review so you can try agaain."}
       </p>
-      
     </div>
   );
 
@@ -1469,7 +1474,7 @@ const KycManagementPage: React.FC = () => {
     <div
       key={listKey} // Used for refresh animation trigger
       className={cn(
-        "border rounded-xl overflow-hidden mt-6", // Keep mt-6 here
+        "border rounded-xl overflow-hidden mt-5", // Keep mt-6 here
         isRefreshing &&
           !isLoading &&
           "opacity-75 transition-opacity duration-300"
@@ -1491,7 +1496,7 @@ const KycManagementPage: React.FC = () => {
           <Skeleton className="h-10 w-44 rounded-full" />
         ) : (
           // Sorting Controls (unchanged)
-          <div className="relative inline-flex items-center rounded-full bg-lightgray dark:bg-primarybox p-1 gap-1">
+          <div className="relative inline-flex items-center rounded-full bg-white dark:bg-primarybox p-1 gap-1">
             {/* Date Button */}
             <button
               onClick={() => setSortBy("date")}
@@ -1515,7 +1520,7 @@ const KycManagementPage: React.FC = () => {
                 )}
               >
                 <Calendar className="h-4 w-4" /> Date
-              </span> 
+              </span>
             </button>
 
             {/* Name Button */}
@@ -1562,12 +1567,12 @@ const KycManagementPage: React.FC = () => {
               >
                 <div className="min-w-0 w-full space-y-2">
                   <div className="flex flex-wrap items-center gap-3 mb-2">
-                    <Skeleton className="h-5 w-32" />
-                    <Skeleton className="h-5 w-16 rounded-full" />
+                    <Skeleton className="h-5 w-38" />
+                    <Skeleton className="h-5 w-18 rounded-full" />
                   </div>
                   <div className="flex flex-col sm:flex-row sm:items-center gap-2">
-                    <Skeleton className="h-4 w-48" />
-                    <Skeleton className="h-4 w-40 " />
+                    <Skeleton className="h-4 w-52" />
+                    <Skeleton className="h-4 w-44" />
                   </div>
                 </div>
                 <Skeleton className="h-9 w-full sm:w-24 rounded-full mt-3 sm:mt-0 flex-shrink-0" />
@@ -1723,25 +1728,32 @@ const KycManagementPage: React.FC = () => {
   // --- Component Return ---
   return (
     <div className="min-h-screen bg-white dark:bg-background">
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-5">
         {/* Page Header: Skeleton or Actual */}
         <div className="mb-8">
           {isLoading && pendingUsers.length === 0 ? (
-            <>
+            <div>
               <Skeleton className="h-10 w-64 mb-3" /> {/* Skeleton for h1 */}
               <Skeleton className="h-4 sm:w-2/3 w-full" />{" "}
-              {/* Skeleton for p */}
-            </>
+            </div>
           ) : (
-            <>
-              <h1 className="text-2xl font-bold leading-tight text-mainheading dark:text-white sm:text-3xl inline-flex items-center gap-2">
-                <ShieldUser size={28} className="text-primary" />
-                KYC Management
-              </h1>
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
-                Review and manage user Know Your Customer (KYC) applications.
+            <div className="Management">
+              <div className="flex flex-wrap items-center gap-3">
+                <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
+                  <MdManageAccounts className="size-6 text-mainheading dark:text-primary" />
+                </div>
+
+                <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+                  KYC Management
+                </h1>
+              </div>
+
+              <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+                Easily review and manage Know Your Customer (KYC) applications.
+                Track pending verifications and ensure compliance with secure
+                identity checks — all from one central dashboard.{" "}
               </p>
-            </>
+            </div>
           )}
         </div>
 
@@ -1764,8 +1776,9 @@ const KycManagementPage: React.FC = () => {
               {/* Actual Section Title */}
               <h2 className="inline-flex items-center gap-2 text-xl font-bold text-mainheading dark:text-white flex-shrink-0">
                 <FileClock className="h-5 w-5 text-primary" />
-                Pending Applications
+                Pending 
               </h2>
+
               {/* Actual Controls (Rendered only if no initial load error) */}
               {!(error && pendingUsers.length === 0) && renderControls()}
             </>
@@ -1784,6 +1797,7 @@ const KycManagementPage: React.FC = () => {
                 >
                   Show:
                 </label>
+
                 <select
                   id="itemsPerPage"
                   value={itemsPerPage}

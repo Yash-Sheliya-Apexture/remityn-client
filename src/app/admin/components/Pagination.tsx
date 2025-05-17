@@ -715,7 +715,7 @@ const Pagination: React.FC<PaginationProps> = ({
     };
 
     // Button style classes
-    const navButtonClasses = "relative flex items-center justify-center rounded-3xl px-2 py-2 w-12 h-12 bg-lightgray dark:bg-primarybox dark:hover:bg-secondarybox text-sm font-medium text-neutral-900 dark:text-white hover:bg-lightborder focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200";
+    const navButtonClasses = "relative flex items-center justify-center rounded-3xl px-2 py-2 size-12 bg-lightgray dark:bg-primarybox dark:hover:bg-secondarybox text-sm font-medium text-neutral-900 dark:text-white hover:bg-lightborder focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200";
 
     const pageButtonClasses = (isActive: boolean) => `
         relative z-10 flex items-center justify-center w-full h-full font-semibold rounded-3xl cursor-pointer focus:z-10 focus:outline-none transition-colors duration-150 ease-in-out
@@ -730,7 +730,7 @@ const Pagination: React.FC<PaginationProps> = ({
             <div className="flex justify-between w-full sm:hidden">
                 <button
                     onClick={goToPreviousPage}
-                    className="inline-flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-4 py-2 h-12 rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="inline-flex items-center w-32 justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-4 py-2 h-12 rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={currentPage === 1}
                     aria-label="Previous page"
                 >
@@ -746,7 +746,7 @@ const Pagination: React.FC<PaginationProps> = ({
 
                 <button
                     onClick={goToNextPage}
-                    className="inline-flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-4 py-2 h-12 rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="inline-flex items-center w-32 justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-4 py-2 h-12 rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={currentPage === totalPages}
                     aria-label="Next page"
                 >
@@ -781,7 +781,7 @@ const Pagination: React.FC<PaginationProps> = ({
                                 return (
                                     <span
                                         key={`ellipsis-${index}`}
-                                        className="relative inline-flex items-center justify-center rounded-3xl px-2 py-2 w-12 h-12 text-sm font-medium text-gray-500 dark:text-gray-300 select-none"
+                                        className="relative inline-flex items-center justify-center rounded-3xl px-2 py-2 size-12 text-sm font-medium text-gray-500 dark:text-gray-300 select-none"
                                         aria-hidden="true"
                                     >
                                         {page}

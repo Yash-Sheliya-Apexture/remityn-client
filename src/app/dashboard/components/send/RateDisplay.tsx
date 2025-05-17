@@ -204,7 +204,7 @@ const RateDisplay: React.FC<RateDisplayProps> = ({ rateContext, apiError }) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   {/* The element that triggers the tooltip */}
-                  <div className="font-semibold p-2 px-8 rounded-full bg-primary text-mainheading inline-flex items-center gap-1.5 cursor-default">
+                  <div className="font-semibold sm:text-base text-sm p-2 sm:px-8 px-4 rounded-full bg-primary text-mainheading inline-flex items-center gap-1.5 cursor-default">
                     <FaLock size={16} /> Our Rate: {adjustedRateDisplay}
                   </div>
                 </TooltipTrigger>
@@ -229,7 +229,7 @@ const RateDisplay: React.FC<RateDisplayProps> = ({ rateContext, apiError }) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   {/* The element that triggers the tooltip */}
-                  <div className="font-medium text-sm p-2 px-4 rounded-full bg-lightgray dark:bg-primarybox text-mainheading dark:text-white inline-flex items-center gap-1.5 cursor-help">
+                  <div className="font-medium sm:text-sm text-13px p-2 px-4 rounded-full bg-lightgray dark:bg-primarybox text-mainheading dark:text-white inline-flex items-center gap-1.5 cursor-help">
                     <FaInfoCircle size={16} /> Market Rate: {liveRateDisplay}
                   </div>
                 </TooltipTrigger>

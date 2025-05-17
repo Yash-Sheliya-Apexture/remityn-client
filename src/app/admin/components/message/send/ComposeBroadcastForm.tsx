@@ -1,7 +1,7 @@
 // frontend/src/app/(admin)/admin/messages/send/ComposeBroadcastForm.tsx
-import React from 'react';
-import { Loader2, Send, AlertCircle, Newspaper } from 'lucide-react';
-import { cn } from '@/lib/utils'; // Import cn
+import React from "react";
+import { Loader2, Send, AlertCircle, Newspaper } from "lucide-react";
+import { cn } from "@/lib/utils"; // Import cn
 
 interface ComposeBroadcastFormProps {
   subject: string;
@@ -25,13 +25,16 @@ const ComposeBroadcastForm: React.FC<ComposeBroadcastFormProps> = ({
   const isSubmitDisabled = isSending || !subject.trim() || !body.trim();
 
   return (
-    <div className="mb-8 border rounded-2xl overflow-hidden">
+    <div className="border rounded-2xl overflow-hidden">
       <form onSubmit={onSubmit}>
         {/* Header */}
-        <div className="px-6 py-4 border-b bg-lightgray dark:bg-primarybox">
-          <h2 className="text-xl font-semibold text-neutral-900-900 dark:text-white flex items-center gap-2">
-            <Newspaper size={22} /> Compose New Broadcast
+
+        <div className="sm:px-6 px-4 py-4 bg-lightgray dark:bg-primarybox">
+          <h2 className="text-xl font-semibold text-neutral-900 dark:text-white flex flex-wrap items-center gap-1.5">
+            <Newspaper size={22} className="text-primary" /> Compose New
+            Broadcast
           </h2>
+            
           <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
             This message will be delivered to the inbox of every registered
             user.
@@ -57,7 +60,8 @@ const ComposeBroadcastForm: React.FC<ComposeBroadcastFormProps> = ({
               htmlFor="subject"
               className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
             >
-              Subject
+              Subject{" "}
+              <span className="text-red-600">*</span>
             </label>
             <input
               type="text"
@@ -65,7 +69,7 @@ const ComposeBroadcastForm: React.FC<ComposeBroadcastFormProps> = ({
               placeholder="E.g., Important System Update"
               value={subject}
               onChange={(e) => onSubjectChange(e.target.value)}
-              maxLength={200}
+              maxLength={100}
               required
               disabled={isSending}
               className="mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75"
@@ -76,26 +80,27 @@ const ComposeBroadcastForm: React.FC<ComposeBroadcastFormProps> = ({
               htmlFor="body"
               className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
             >
-              Body
+              Body{" "}
+              <span className="text-red-600">*</span>
             </label>
-            <div className='overflow-y-auto rounded-lg'>
 
-            <textarea
-              id="body"
-              placeholder="Write your message content here..."
-              value={body}
-              onChange={(e) => onBodyChange(e.target.value)}
-              rows={8}
-              required
-              disabled={isSending}
-              className="resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 bg-white dark:bg-background h-14 w-full transition-all border rounded-lg focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75 min-h-[200px]"
-            />
+            <div className="overflow-y-auto rounded-lg">
+              <textarea
+                id="body"
+                placeholder="Write your message content here..."
+                value={body}
+                onChange={(e) => onBodyChange(e.target.value)}
+                rows={8}
+                required
+                disabled={isSending}
+                className="resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 bg-white dark:bg-background h-14 w-full transition-all border rounded-lg focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75 min-h-[200px]"
+              />
             </div>
           </div>
           {/* Footer */}
 
           {/* --- Replaced PlainButton with standard button --- */}
-          <div className='flex items-center sm:justify-end justify-center'>
+          <div className="flex items-center sm:justify-end justify-center">
             <button
               type="submit"
               disabled={isSubmitDisabled}

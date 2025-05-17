@@ -1542,6 +1542,836 @@
 
 
 
+// // frontend/src/app/kyc/identity/page.tsx
+// "use client";
+
+// import React, { useState, useEffect, useCallback, useMemo } from "react";
+// import { useForm } from "react-hook-form";
+// import { zodResolver } from "@hookform/resolvers/zod";
+// import * as z from "zod";
+// import {
+//   format,
+//   startOfDay,
+//   parseISO,
+//   isValid as isDateValid,
+//   addDays,
+//   subYears,
+// } from "date-fns";
+// import { cn } from "@/lib/utils";
+
+// // --- UI Components ---
+// import { Button } from "@/components/ui/button";
+// import { Input } from "@/components/ui/input";
+// import { Calendar } from "@/components/ui/calendar";
+// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+// import {
+//   Form,
+//   FormControl,
+//   FormDescription,
+//   FormField,
+//   FormItem,
+//   FormLabel,
+//   FormMessage,
+// } from "@/components/ui/form";
+// import {
+//   Popover,
+//   PopoverContent,
+//   PopoverTrigger,
+// } from "@/components/ui/popover";
+// import {
+//   Card,
+//   CardContent,
+//   CardHeader,
+//   CardTitle,
+//   CardDescription,
+// } from "@/components/ui/card";
+// import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
+// import {
+//   Calendar as CalendarIcon,
+//   Loader2,
+//   Fingerprint,
+//   AlertTriangle,
+//   ArrowRight,
+//   ArrowLeft,
+//   Check,
+//   BookUser,
+//   Contact,
+// } from "lucide-react";
+
+// // --- App Specific Imports ---
+// import { useKyc, formStepOrder } from "../../contexts/KycContext";
+// import type { IdType } from "@/app/services/kyc";
+
+// // --- Zod Validation Schema ---
+// const idTypeValues: [IdType, ...IdType[]] = ["passport", "resident_permit"];
+
+// // Base date validation constants
+// const todayStart = startOfDay(new Date());
+// const minIssueDate = new Date("1950-01-01");
+// const minExpiryDate = startOfDay(addDays(new Date(), 1));
+
+// const identitySchema = z
+//   .object({
+//     idType: z.enum(idTypeValues, {
+//       required_error: "Please select the type of ID you will upload.",
+//     }),
+//     idNumber: z.string().trim().optional(),
+//     idIssueDate: z.date().optional(),
+//     idExpiryDate: z.date().optional(),
+//   })
+//   .superRefine((data, ctx) => {
+//     if (data.idType) {
+//       // --- ID Number Validation ---
+//       const idNumberMinLength = 5;
+//       const idNumberMaxLength = 50;
+//       if (!data.idNumber || data.idNumber.length < idNumberMinLength) {
+//         ctx.addIssue({
+//           code: z.ZodIssueCode.too_small,
+//           minimum: idNumberMinLength,
+//           type: "string", // Required for too_small/string
+//           inclusive: true, // Required for too_small
+//           message: `ID number must be at least ${idNumberMinLength} characters.`,
+//           path: ["idNumber"],
+//         });
+//       } else if (data.idNumber.length > idNumberMaxLength) {
+//          ctx.addIssue({
+//           code: z.ZodIssueCode.too_big,
+//           maximum: idNumberMaxLength,
+//           type: "string", // Required for too_big/string
+//           inclusive: true, // Required for too_big
+//           message: `ID number cannot exceed ${idNumberMaxLength} characters.`,
+//           path: ["idNumber"],
+//         });
+//       }
+
+//       // --- ID Issue Date Validation ---
+//       if (!data.idIssueDate) {
+//         ctx.addIssue({
+//           // invalid_date doesn't require extra props beyond message/path
+//           code: z.ZodIssueCode.invalid_date,
+//           message: "Issue date is required.",
+//           path: ["idIssueDate"],
+//         });
+//       } else {
+//          if (!isDateValid(data.idIssueDate)) {
+//             ctx.addIssue({
+//                 code: z.ZodIssueCode.invalid_date,
+//                 message: "Please enter a valid issue date.",
+//                 path: ["idIssueDate"],
+//             });
+//          // ***** FIX HERE *****
+//          } else if (data.idIssueDate > todayStart) {
+//             ctx.addIssue({
+//                 code: z.ZodIssueCode.too_big,
+//                 type: "date", // Required for too_big/date
+//                 maximum: todayStart.getTime(), // Required for too_big/date (use timestamp)
+//                 inclusive: true, // Required for too_big/date (max date is inclusive)
+//                 message: "Issue date cannot be in the future.",
+//                 path: ["idIssueDate"],
+//             });
+//          // ***** FIX HERE *****
+//          } else if (data.idIssueDate < minIssueDate) {
+//             ctx.addIssue({
+//                 code: z.ZodIssueCode.too_small,
+//                 type: "date", // Required for too_small/date
+//                 minimum: minIssueDate.getTime(), // Required for too_small/date (use timestamp)
+//                 inclusive: true, // Required for too_small/date (min date is inclusive)
+//                 message: "Issue date seems incorrect (before 1950).",
+//                 path: ["idIssueDate"],
+//             });
+//          }
+//       }
+
+//       // --- ID Expiry Date Validation ---
+//       if (!data.idExpiryDate) {
+//         ctx.addIssue({
+//           code: z.ZodIssueCode.invalid_date,
+//           message: "Expiry date is required.",
+//           path: ["idExpiryDate"],
+//         });
+//        } else {
+//          if (!isDateValid(data.idExpiryDate)) {
+//             ctx.addIssue({
+//                 code: z.ZodIssueCode.invalid_date,
+//                 message: "Please enter a valid expiry date.",
+//                 path: ["idExpiryDate"],
+//             });
+//          // ***** FIX HERE *****
+//          } else if (data.idExpiryDate < minExpiryDate) {
+//             ctx.addIssue({
+//                 code: z.ZodIssueCode.too_small,
+//                 type: "date", // Required for too_small/date
+//                 minimum: minExpiryDate.getTime(), // Required for too_small/date (use timestamp)
+//                 inclusive: true, // Required for too_small/date (min date is inclusive)
+//                 message: "This ID appears to be expired or expires today.",
+//                 path: ["idExpiryDate"],
+//             });
+//          }
+//        }
+
+//       // --- Cross-Field Date Validation (Expiry vs Issue) ---
+//       if (data.idIssueDate && isDateValid(data.idIssueDate) &&
+//           data.idExpiryDate && isDateValid(data.idExpiryDate) &&
+//           data.idExpiryDate <= data.idIssueDate) {
+//          ctx.addIssue({
+//             code: z.ZodIssueCode.custom, // custom is fine with just message/path
+//             message: "Expiry date must be after the issue date.",
+//             path: ["idExpiryDate"],
+//          });
+//       }
+//     }
+//   });
+
+
+// type IdentityFormData = z.infer<typeof identitySchema>;
+
+// // --- Helper Arrays for Date Picker Dropdowns ---
+// const datePickerMonths = [
+//   "January", "February", "March", "April", "May", "June",
+//   "July", "August", "September", "October", "November", "December",
+// ];
+
+// // --- Component ---
+// export default function KycIdentityPage() {
+//   const {
+//     kycData,
+//     setKycData,
+//     nextStep,
+//     prevStep,
+//     updateCurrentUiStepId,
+//     isInitialized: kycInitialized,
+//     backendStatus,
+//     isLoadingStatus: kycLoadingStatus,
+//   } = useKyc();
+
+//   const [formError, setFormError] = useState<string | null>(null);
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const [isPageLoading, setIsPageLoading] = useState(true);
+
+//   const [issueCalendarDate, setIssueCalendarDate] = useState<Date>(
+//     subYears(new Date(), 5)
+//   );
+//   const [expiryCalendarDate, setExpiryCalendarDate] = useState<Date>(
+//     new Date()
+//   );
+
+//   const form = useForm<IdentityFormData>({
+//     resolver: zodResolver(identitySchema),
+//     defaultValues: {
+//       idType: undefined,
+//       idNumber: "",
+//       idIssueDate: undefined,
+//       idExpiryDate: undefined,
+//     },
+//     mode: "onChange",
+//   });
+
+//   // Effect 1: Set UI step
+//   useEffect(() => {
+//     if (kycInitialized && window.location.pathname === "/kyc/identity") {
+//       updateCurrentUiStepId("identity");
+//     }
+//   }, [kycInitialized, updateCurrentUiStepId]);
+
+//   // Effect 2: Load data from context and initialize calendar views
+//   useEffect(() => {
+//     if (!kycInitialized) {
+//       setIsPageLoading(true);
+//       return;
+//     }
+//     if (
+//       !["not_started", "rejected", "skipped", "loading"].includes(
+//         backendStatus as string
+//       )
+//     ) {
+//       setIsPageLoading(false);
+//       return;
+//     }
+
+//     setIsPageLoading(true);
+//     const parseContextDate = (dateString?: string): Date | undefined => {
+//       if (!dateString) return undefined;
+//       try {
+//         const date = parseISO(dateString);
+//         return isDateValid(date) ? date : undefined;
+//       } catch {
+//         return undefined;
+//       }
+//     };
+
+//     const initialIssueDate = parseContextDate(kycData.idIssueDate);
+//     const initialExpiryDate = parseContextDate(kycData.idExpiryDate);
+
+//     const defaultIdType = kycData.idType && idTypeValues.includes(kycData.idType)
+//         ? kycData.idType
+//         : undefined;
+
+//     form.reset({
+//       idType: defaultIdType,
+//       idNumber: kycData.idNumber || "",
+//       idIssueDate: initialIssueDate,
+//       idExpiryDate: initialExpiryDate,
+//     });
+
+//     if (defaultIdType) {
+//         // Use a timeout to allow state update before triggering validation
+//         // This can sometimes help if validation relies on watched values updated slightly later
+//         setTimeout(() => form.trigger(), 0);
+//     }
+
+//     setIssueCalendarDate(initialIssueDate || subYears(new Date(), 5));
+//     setExpiryCalendarDate(initialExpiryDate || new Date());
+
+//     setIsPageLoading(false);
+//   }, [kycInitialized, backendStatus, kycData, form.reset, form.trigger]);
+
+
+//   const onSubmit = useCallback(
+//     (data: IdentityFormData) => {
+//       if (!data.idType || !data.idNumber || !data.idIssueDate || !data.idExpiryDate) {
+//           setFormError("Please fill in all required fields.");
+//           setIsSubmitting(false);
+//           return;
+//       }
+
+//       setIsSubmitting(true);
+//       setFormError(null);
+//       try {
+//         setKycData({
+//           idType: data.idType,
+//           idNumber: data.idNumber,
+//           idIssueDate: format(data.idIssueDate, "yyyy-MM-dd"),
+//           idExpiryDate: format(data.idExpiryDate, "yyyy-MM-dd"),
+//         });
+//         nextStep();
+//       } catch (error: any) {
+//         setFormError(error.message || "Failed to save progress.");
+//         setIsSubmitting(false);
+//       }
+//     },
+//     [setKycData, nextStep]
+//   );
+
+//   const handleIssueYearChange = (year: string) => {
+//     const newDate = new Date(issueCalendarDate);
+//     newDate.setFullYear(Number.parseInt(year));
+//     if (isDateValid(newDate)) {
+//         setIssueCalendarDate(newDate);
+//     }
+//   };
+
+//   const handleIssueMonthChange = (month: string) => {
+//     const newDate = new Date(issueCalendarDate);
+//     newDate.setMonth(datePickerMonths.indexOf(month));
+//     if (isDateValid(newDate)) {
+//        setIssueCalendarDate(newDate);
+//     }
+//   };
+
+//   const handleExpiryYearChange = (year: string) => {
+//     const newDate = new Date(expiryCalendarDate);
+//     newDate.setFullYear(Number.parseInt(year));
+//     if (isDateValid(newDate)) {
+//       setExpiryCalendarDate(newDate);
+//     }
+//   };
+
+//   const handleExpiryMonthChange = (month: string) => {
+//     const newDate = new Date(expiryCalendarDate);
+//     newDate.setMonth(datePickerMonths.indexOf(month));
+//     if (isDateValid(newDate)) {
+//       setExpiryCalendarDate(newDate);
+//     }
+//   };
+
+//   const selectedIdType = form.watch("idType");
+
+//   // --- Render Logic ---
+//   if (isPageLoading || (kycLoadingStatus && !isPageLoading)) {
+//     return (
+//       <div className="flex justify-center items-center min-h-[400px]">
+//         <Loader2 className="h-8 w-8 animate-spin text-primary" />
+//       </div>
+//     );
+//   }
+//   if (
+//     !["not_started", "rejected", "skipped", "loading"].includes(
+//       backendStatus as string
+//     )
+//   ) {
+//     return (
+//       <div className="flex justify-center items-center min-h-[400px]">
+//         <Loader2 className="h-8 w-8 animate-spin text-primary" />
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <Card className="w-full max-w-2xl mx-auto shadow-none border animate-fadeIn sm:p-8 p-4">
+//       <CardHeader className="border-b pb-6 mb-6 space-y-2">
+//         <CardTitle className="sm:text-2xl text-xl font-semibold tracking-tight flex items-start gap-2 text-mainheading dark:text-white">
+//           <Fingerprint className="h-6 w-6 text-primary mt-1" />
+//           Identity Document (Step {formStepOrder.indexOf("identity") +
+//             1} of {formStepOrder.length})
+//         </CardTitle>
+//         <CardDescription className="text-gray-500 dark:text-gray-300">
+//           Select the ID type and enter details exactly as shown on the document.
+//           Fields marked with <span className="text-red-500">*</span> are
+//           required once an ID type is selected.
+//         </CardDescription>
+//       </CardHeader>
+//       <CardContent>
+//         {formError && (
+//           <Alert className="bg-red-50 dark:bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
+//             <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+//               <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+//             </div>
+//             <div>
+//               <AlertTitle className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
+//                 Error
+//               </AlertTitle>
+//               <AlertDescription className="text-red/700 dark:text-red-300/90">
+//                 {formError}
+//               </AlertDescription>
+//             </div>
+//           </Alert>
+//         )}
+//         <Form {...form}>
+//           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+//             {/* ID Type Radio Group */}
+//             <FormField
+//               control={form.control}
+//               name="idType"
+//               render={({ field }) => (
+//                 <FormItem className="space-y-4">
+//                   <FormLabel className="text-base font-medium text-neutral-900 dark:text-white">
+//                     Select ID Type <span className="text-red-500">*</span>
+//                   </FormLabel>
+//                   <FormControl>
+//                     <RadioGroup
+//                       onValueChange={field.onChange}
+//                       value={field.value ?? ""}
+//                       className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+//                     >
+//                       <FormItem>
+//                         <FormControl>
+//                           <RadioGroupItem
+//                             value="passport"
+//                             id="passport-radio"
+//                             className="peer sr-only"
+//                           />
+//                         </FormControl>
+//                         <FormLabel
+//                           htmlFor="passport-radio"
+//                           className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors duration-200"
+//                         >
+//                           <BookUser className="h-6 w-6 text-gray-500 dark:text-gray-300 mb-2" />
+//                           <span className="font-semibold text-neutral-900 dark:text-white">
+//                             Passport
+//                           </span>
+//                           <div className="h-5 mt-1">
+//                             {field.value === "passport" && (
+//                               <Check className="h-5 w-5 text-primary" />
+//                             )}
+//                           </div>
+//                         </FormLabel>
+//                       </FormItem>
+//                       <FormItem>
+//                         <FormControl>
+//                           <RadioGroupItem
+//                             value="resident_permit"
+//                             id="resident_permit-radio"
+//                             className="peer sr-only"
+//                           />
+//                         </FormControl>
+//                         <FormLabel
+//                           htmlFor="resident_permit-radio"
+//                           className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors duration-200"
+//                         >
+//                           <Contact className="h-6 w-6 text-gray-500 dark:text-gray-300 mb-2" />
+//                           <span className="font-semibold text-neutral-900 dark:text-white">
+//                             Resident Permit / National ID
+//                           </span>
+//                           <div className="h-5 mt-1">
+//                             {field.value === "resident_permit" && (
+//                               <Check className="h-5 w-5 text-primary" />
+//                             )}
+//                           </div>
+//                         </FormLabel>
+//                       </FormItem>
+//                     </RadioGroup>
+//                   </FormControl>
+//                   <FormMessage />
+//                 </FormItem>
+//               )}
+//             />
+
+//             {/* Conditionally Rendered Fields */}
+//             <div
+//               className={cn(
+//                 "space-y-6 pt-6 border-t transition-opacity duration-300 ease-in-out",
+//                 selectedIdType
+//                   ? "opacity-100"
+//                   : "opacity-0 h-0 overflow-hidden pointer-events-none"
+//               )}
+//               aria-hidden={!selectedIdType}
+//             >
+//               {/* ID Number Field */}
+//               <FormField
+//                 control={form.control}
+//                 name="idNumber"
+//                 render={({ field }) => (
+//                   <FormItem>
+//                     <FormLabel className="text-neutral-900 dark:text-white">
+//                       {selectedIdType === "passport"
+//                         ? "Passport Number"
+//                         : "Permit / ID Number"}{" "}
+//                       <span className="text-red-500">*</span>
+//                     </FormLabel>
+//                     <FormControl>
+//                       <Input
+//                         placeholder="Enter document number"
+//                         {...field}
+//                         disabled={!selectedIdType || isSubmitting}
+//                         aria-required="true"
+//                         value={field.value ?? ""}
+//                       />
+//                     </FormControl>
+//                     <FormDescription className="text-gray-500 dark:text-gray-300">
+//                       Enter the full ID number.
+//                     </FormDescription>
+//                     <FormMessage />
+//                   </FormItem>
+//                 )}
+//               />
+
+//               {/* Issue and Expiry Date Fields */}
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-4 gap-y-6">
+//                 {/* ID Issue Date Field */}
+//                 <FormField
+//                   control={form.control}
+//                   name="idIssueDate"
+//                   render={({ field }) => (
+//                     <FormItem className="flex flex-col">
+//                       <FormLabel className="text-neutral-900 dark:text-white">
+//                         Date of Issue <span className="text-red-500">*</span>
+//                       </FormLabel>
+//                       <Popover>
+//                         <PopoverTrigger asChild>
+//                           <Button
+//                             variant={"outline"}
+//                             disabled={!selectedIdType || isSubmitting}
+//                             className={cn(
+//                               "w-full h-12 justify-start text-left font-normal",
+//                               !field.value && "text-muted-foreground"
+//                             )}
+//                             aria-required="true"
+//                           >
+//                             <CalendarIcon className="mr-2 h-4 w-4" />
+//                             {field.value && isDateValid(field.value) ? (
+//                               format(field.value, "PPP")
+//                             ) : (
+//                               <span>Pick issue date</span>
+//                             )}
+//                           </Button>
+//                         </PopoverTrigger>
+//                         <PopoverContent
+//                           align="start"
+//                           className="sm:w-[450px] max-h-[calc(var(--radix-popover-content-available-height)_-_1rem)] w-auto p-0"
+//                         >
+//                           <div className="flex items-center justify-between gap-2 p-3 border-b">
+//                             <Select
+//                               value={
+//                                 datePickerMonths[issueCalendarDate.getMonth()]
+//                               }
+//                               onValueChange={handleIssueMonthChange}
+//                             >
+//                               <SelectTrigger className="w-36 h-8">
+//                                 <SelectValue placeholder="Month" />
+//                               </SelectTrigger>
+//                               <SelectContent className="max-h-60 overflow-y-auto">
+//                                 {datePickerMonths.map((month) => (
+//                                   <SelectItem key={month} value={month}>
+//                                     {month}
+//                                   </SelectItem>
+//                                 ))}
+//                               </SelectContent>
+//                             </Select>
+//                             <Select
+//                               value={issueCalendarDate.getFullYear().toString()}
+//                               onValueChange={handleIssueYearChange}
+//                             >
+//                               <SelectTrigger className="w-28 h-8">
+//                                 <SelectValue placeholder="Year" />
+//                               </SelectTrigger>
+//                               <SelectContent className="max-h-60 overflow-y-auto">
+//                                 {Array.from(
+//                                   { length: 71 },
+//                                   (_, i) => new Date().getFullYear() - i
+//                                 ).map((year) => (
+//                                   <SelectItem
+//                                     key={year}
+//                                     value={year.toString()}
+//                                   >
+//                                     {year}
+//                                   </SelectItem>
+//                                 ))}
+//                               </SelectContent>
+//                             </Select>
+//                           </div>
+//                           <Calendar
+//                             mode="single"
+//                             selected={
+//                               field.value && isDateValid(field.value)
+//                                 ? field.value
+//                                 : undefined
+//                             }
+//                             onSelect={(date) => {
+//                               field.onChange(date || undefined);
+//                               field.onBlur(); // Trigger validation after selection
+//                               if (date) {
+//                                 setIssueCalendarDate(date);
+//                               }
+//                             }}
+//                             month={issueCalendarDate}
+//                             onMonthChange={setIssueCalendarDate}
+//                             disabled={(date) =>
+//                               date > startOfDay(new Date()) ||
+//                               date < new Date("1950-01-01")
+//                             }
+//                             initialFocus
+//                           />
+//                         </PopoverContent>
+//                       </Popover>
+//                       <FormMessage />
+//                     </FormItem>
+//                   )}
+//                 />
+
+//                 {/* ID Expiry Date Field */}
+//                 <FormField
+//                   control={form.control}
+//                   name="idExpiryDate"
+//                   render={({ field }) => (
+//                     <FormItem className="flex flex-col">
+//                       <FormLabel className="text-neutral-900 dark:text-white">
+//                         Date of Expiry <span className="text-red-500">*</span>
+//                       </FormLabel>
+//                       <Popover>
+//                         <PopoverTrigger asChild>
+//                           <Button
+//                             variant={"outline"}
+//                             disabled={!selectedIdType || isSubmitting}
+//                             className={cn(
+//                               "w-full h-12 justify-start text-left font-normal",
+//                               !field.value && "text-muted-foreground"
+//                             )}
+//                             aria-required="true"
+//                           >
+//                             <CalendarIcon className="mr-2 h-4 w-4" />
+//                             {field.value && isDateValid(field.value) ? (
+//                               format(field.value, "PPP")
+//                             ) : (
+//                               <span>Pick expiry date</span>
+//                             )}
+//                           </Button>
+//                         </PopoverTrigger>
+//                         <PopoverContent
+//                           align="end"
+//                           className="sm:w-[450px] max-h-[calc(var(--radix-popover-content-available-height)_-_1rem)] w-auto p-0"
+//                         >
+//                           <div className="flex items-center justify-between gap-2 p-3 border-b">
+//                             <Select
+//                               value={
+//                                 datePickerMonths[expiryCalendarDate.getMonth()]
+//                               }
+//                               onValueChange={handleExpiryMonthChange}
+//                             >
+//                               <SelectTrigger className="w-36 h-8">
+//                                 <SelectValue placeholder="Month" />
+//                               </SelectTrigger>
+//                               <SelectContent className="max-h-60 overflow-y-auto">
+//                                 {datePickerMonths.map((month) => (
+//                                   <SelectItem key={month} value={month}>
+//                                     {month}
+//                                   </SelectItem>
+//                                 ))}
+//                               </SelectContent>
+//                             </Select>
+//                             <Select
+//                               value={expiryCalendarDate
+//                                 .getFullYear()
+//                                 .toString()}
+//                               onValueChange={handleExpiryYearChange}
+//                             >
+//                               <SelectTrigger className="w-28 h-8">
+//                                 <SelectValue placeholder="Year" />
+//                               </SelectTrigger>
+//                               <SelectContent className="max-h-60 overflow-y-auto">
+//                                 {Array.from(
+//                                   { length: 31 },
+//                                   (_, i) => new Date().getFullYear() + i
+//                                 ).map((year) => (
+//                                   <SelectItem
+//                                     key={year}
+//                                     value={year.toString()}
+//                                   >
+//                                     {year}
+//                                   </SelectItem>
+//                                 ))}
+//                               </SelectContent>
+//                             </Select>
+//                           </div>
+//                           <Calendar
+//                             mode="single"
+//                             selected={
+//                               field.value && isDateValid(field.value)
+//                                 ? field.value
+//                                 : undefined
+//                             }
+//                             onSelect={(date) => {
+//                               field.onChange(date || undefined);
+//                               field.onBlur(); // Trigger validation after selection
+//                               if (date) {
+//                                 setExpiryCalendarDate(date);
+//                               }
+//                             }}
+//                             month={expiryCalendarDate}
+//                             onMonthChange={setExpiryCalendarDate}
+//                             disabled={(date) =>
+//                               date < startOfDay(addDays(new Date(), 1))
+//                             }
+//                             initialFocus
+//                           />
+//                         </PopoverContent>
+//                       </Popover>
+//                       <FormDescription className="text-gray-500 dark:text-gray-300">
+//                         Your ID must not be expired.
+//                       </FormDescription>
+//                       <FormMessage />
+//                     </FormItem>
+//                   )}
+//                 />
+//               </div>
+//             </div>
+
+//             {/* Navigation Buttons */}
+//             <div className="flex flex-col sm:flex-row justify-between items-center pt-6 border-t mt-6 gap-4">
+//               <button
+//                 type="button"
+//                 className="inline-flex items-center justify-center bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
+//                 onClick={prevStep}
+//                 disabled={isSubmitting}
+//               >
+//                 <ArrowLeft className="mr-2 size-4.5" /> Back
+//               </button>
+//               <button
+//                 type="submit"
+//                 className=" inline-flex items-center justify-center bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+//                 disabled={
+//                   isSubmitting || !selectedIdType || !form.formState.isValid
+//                 }
+//               >
+//                 {isSubmitting ? (
+//                   // ----- Loading State -----
+//                   <>
+//                     <svg
+//                       className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+//                       viewBox="0 0 24 24"
+//                       fill="none"
+//                       xmlns="http://www.w3.org/2000/svg"
+//                       aria-hidden="true" // Hide decorative icon from screen readers
+//                     >
+//                       <path
+//                         d="M12 2V6"
+//                         stroke="currentColor"
+//                         strokeWidth="2"
+//                         strokeLinecap="round"
+//                         strokeLinejoin="round"
+//                       />
+//                       <path
+//                         d="M12 18V22"
+//                         stroke="currentColor"
+//                         strokeWidth="2"
+//                         strokeLinecap="round"
+//                         strokeLinejoin="round"
+//                       />
+//                       <path
+//                         d="M4.93 4.93L7.76 7.76"
+//                         stroke="currentColor"
+//                         strokeWidth="2"
+//                         strokeLinecap="round"
+//                         strokeLinejoin="round"
+//                       />
+//                       <path
+//                         d="M16.24 16.24L19.07 19.07"
+//                         stroke="currentColor"
+//                         strokeWidth="2"
+//                         strokeLinecap="round"
+//                         strokeLinejoin="round"
+//                       />
+//                       <path
+//                         d="M2 12H6"
+//                         stroke="currentColor"
+//                         strokeWidth="2"
+//                         strokeLinecap="round"
+//                         strokeLinejoin="round"
+//                       />
+//                       <path
+//                         d="M18 12H22"
+//                         stroke="currentColor"
+//                         strokeWidth="2"
+//                         strokeLinecap="round"
+//                         strokeLinejoin="round"
+//                       />
+//                       <path
+//                         d="M4.93 19.07L7.76 16.24"
+//                         stroke="currentColor"
+//                         strokeWidth="2"
+//                         strokeLinecap="round"
+//                         strokeLinejoin="round"
+//                       />
+//                       <path
+//                         d="M16.24 7.76L19.07 4.93"
+//                         stroke="currentColor"
+//                         strokeWidth="2"
+//                         strokeLinecap="round"
+//                         strokeLinejoin="round"
+//                       />
+//                     </svg>
+//                     <span>Continue</span>
+//                   </>
+//                 ) : (
+//                   // ----- End Loading State -----
+//                   // ----- Normal State -----
+//                   <>
+//                     <span>Continue</span>
+//                     <ArrowRight
+//                       className="ml-2 size-5"
+//                       aria-hidden="true"
+//                     />{" "}
+//                     {/* Use ml-2 for margin before the icon */}
+//                   </>
+//                   // ----- End Normal State -----
+//                 )}
+//               </button>
+//             </div>
+//           </form>
+//         </Form>
+//       </CardContent>
+//     </Card>
+//   );
+// }
+
+
+
 // frontend/src/app/kyc/identity/page.tsx
 "use client";
 
@@ -1560,7 +2390,7 @@ import {
 import { cn } from "@/lib/utils";
 
 // --- UI Components ---
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"; // Keep for PopoverTrigger asChild, but not for nav buttons
 import { Input } from "@/components/ui/input";
 import { Calendar } from "@/components/ui/calendar";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -1595,7 +2425,7 @@ import {
 } from "@/components/ui/select";
 import {
   Calendar as CalendarIcon,
-  Loader2,
+  Loader2, // This can be removed if the SVG is used directly
   Fingerprint,
   AlertTriangle,
   ArrowRight,
@@ -1635,8 +2465,8 @@ const identitySchema = z
         ctx.addIssue({
           code: z.ZodIssueCode.too_small,
           minimum: idNumberMinLength,
-          type: "string", // Required for too_small/string
-          inclusive: true, // Required for too_small
+          type: "string",
+          inclusive: true,
           message: `ID number must be at least ${idNumberMinLength} characters.`,
           path: ["idNumber"],
         });
@@ -1644,8 +2474,8 @@ const identitySchema = z
          ctx.addIssue({
           code: z.ZodIssueCode.too_big,
           maximum: idNumberMaxLength,
-          type: "string", // Required for too_big/string
-          inclusive: true, // Required for too_big
+          type: "string",
+          inclusive: true,
           message: `ID number cannot exceed ${idNumberMaxLength} characters.`,
           path: ["idNumber"],
         });
@@ -1654,7 +2484,6 @@ const identitySchema = z
       // --- ID Issue Date Validation ---
       if (!data.idIssueDate) {
         ctx.addIssue({
-          // invalid_date doesn't require extra props beyond message/path
           code: z.ZodIssueCode.invalid_date,
           message: "Issue date is required.",
           path: ["idIssueDate"],
@@ -1666,23 +2495,21 @@ const identitySchema = z
                 message: "Please enter a valid issue date.",
                 path: ["idIssueDate"],
             });
-         // ***** FIX HERE *****
          } else if (data.idIssueDate > todayStart) {
             ctx.addIssue({
                 code: z.ZodIssueCode.too_big,
-                type: "date", // Required for too_big/date
-                maximum: todayStart.getTime(), // Required for too_big/date (use timestamp)
-                inclusive: true, // Required for too_big/date (max date is inclusive)
+                type: "date",
+                maximum: todayStart.getTime(),
+                inclusive: true,
                 message: "Issue date cannot be in the future.",
                 path: ["idIssueDate"],
             });
-         // ***** FIX HERE *****
          } else if (data.idIssueDate < minIssueDate) {
             ctx.addIssue({
                 code: z.ZodIssueCode.too_small,
-                type: "date", // Required for too_small/date
-                minimum: minIssueDate.getTime(), // Required for too_small/date (use timestamp)
-                inclusive: true, // Required for too_small/date (min date is inclusive)
+                type: "date",
+                minimum: minIssueDate.getTime(),
+                inclusive: true,
                 message: "Issue date seems incorrect (before 1950).",
                 path: ["idIssueDate"],
             });
@@ -1703,13 +2530,12 @@ const identitySchema = z
                 message: "Please enter a valid expiry date.",
                 path: ["idExpiryDate"],
             });
-         // ***** FIX HERE *****
          } else if (data.idExpiryDate < minExpiryDate) {
             ctx.addIssue({
                 code: z.ZodIssueCode.too_small,
-                type: "date", // Required for too_small/date
-                minimum: minExpiryDate.getTime(), // Required for too_small/date (use timestamp)
-                inclusive: true, // Required for too_small/date (min date is inclusive)
+                type: "date",
+                minimum: minExpiryDate.getTime(),
+                inclusive: true,
                 message: "This ID appears to be expired or expires today.",
                 path: ["idExpiryDate"],
             });
@@ -1721,7 +2547,7 @@ const identitySchema = z
           data.idExpiryDate && isDateValid(data.idExpiryDate) &&
           data.idExpiryDate <= data.idIssueDate) {
          ctx.addIssue({
-            code: z.ZodIssueCode.custom, // custom is fine with just message/path
+            code: z.ZodIssueCode.custom,
             message: "Expiry date must be after the issue date.",
             path: ["idExpiryDate"],
          });
@@ -1755,12 +2581,22 @@ export default function KycIdentityPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
 
+  // State for calendar navigation (month/year view)
   const [issueCalendarDate, setIssueCalendarDate] = useState<Date>(
     subYears(new Date(), 5)
   );
   const [expiryCalendarDate, setExpiryCalendarDate] = useState<Date>(
     new Date()
   );
+
+  // State for popover open/close
+  const [issueDatePickerOpen, setIssueDatePickerOpen] = useState(false);
+  const [expiryDatePickerOpen, setExpiryDatePickerOpen] = useState(false);
+
+  // State for temporarily selected date in popover
+  const [tempIssueDate, setTempIssueDate] = useState<Date | undefined>(undefined);
+  const [tempExpiryDate, setTempExpiryDate] = useState<Date | undefined>(undefined);
+
 
   const form = useForm<IdentityFormData>({
     resolver: zodResolver(identitySchema),
@@ -1821,13 +2657,14 @@ export default function KycIdentityPage() {
     });
 
     if (defaultIdType) {
-        // Use a timeout to allow state update before triggering validation
-        // This can sometimes help if validation relies on watched values updated slightly later
         setTimeout(() => form.trigger(), 0);
     }
 
     setIssueCalendarDate(initialIssueDate || subYears(new Date(), 5));
     setExpiryCalendarDate(initialExpiryDate || new Date());
+    
+    setTempIssueDate(initialIssueDate);
+    setTempExpiryDate(initialExpiryDate);
 
     setIsPageLoading(false);
   }, [kycInitialized, backendStatus, kycData, form.reset, form.trigger]);
@@ -1837,7 +2674,6 @@ export default function KycIdentityPage() {
     (data: IdentityFormData) => {
       if (!data.idType || !data.idNumber || !data.idIssueDate || !data.idExpiryDate) {
           setFormError("Please fill in all required fields.");
-          setIsSubmitting(false);
           return;
       }
 
@@ -1853,6 +2689,7 @@ export default function KycIdentityPage() {
         nextStep();
       } catch (error: any) {
         setFormError(error.message || "Failed to save progress.");
+      } finally {
         setIsSubmitting(false);
       }
     },
@@ -1929,13 +2766,15 @@ export default function KycIdentityPage() {
       </CardHeader>
       <CardContent>
         {formError && (
-          <Alert className="bg-red-100 border-red-300 dark:bg-red-600/20 dark:border-red-700 rounded-lg p-4 mb-6">
-            <AlertTriangle className="h-5 w-5 flex-shrink-0 mt-0.5 text-red-700 dark:text-red-400" />
+          <Alert className="bg-red-50 dark:bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
+            <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+              <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+            </div>
             <div>
-              <AlertTitle className="font-medium tracking-normal text-red-700 dark:text-red-400 text-base">
+              <AlertTitle className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
                 Error
               </AlertTitle>
-              <AlertDescription className="text-red-600 dark:text-red-300">
+              <AlertDescription className="text-red-700 dark:text-red-300/90"> {/* Corrected typo, removed variant */}
                 {formError}
               </AlertDescription>
             </div>
@@ -1954,7 +2793,9 @@ export default function KycIdentityPage() {
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
-                      onValueChange={field.onChange}
+                      onValueChange={(value) => {
+                        field.onChange(value as IdType);
+                      }}
                       value={field.value ?? ""}
                       className="grid grid-cols-1 sm:grid-cols-2 gap-4"
                     >
@@ -1968,10 +2809,10 @@ export default function KycIdentityPage() {
                         </FormControl>
                         <FormLabel
                           htmlFor="passport-radio"
-                          className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors duration-200"
+                          className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors duration-200" // Reverted: removed min-h, text-center
                         >
                           <BookUser className="h-6 w-6 text-gray-500 dark:text-gray-300 mb-2" />
-                          <span className="font-semibold text-neutral-900 dark:text-white">
+                          <span className="font-semibold text-neutral-900 dark:text-white"> {/* Reverted: removed text-center */}
                             Passport
                           </span>
                           <div className="h-5 mt-1">
@@ -1991,10 +2832,10 @@ export default function KycIdentityPage() {
                         </FormControl>
                         <FormLabel
                           htmlFor="resident_permit-radio"
-                          className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors duration-200"
+                          className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors duration-200" // Reverted: removed min-h, text-center
                         >
                           <Contact className="h-6 w-6 text-gray-500 dark:text-gray-300 mb-2" />
-                          <span className="font-semibold text-neutral-900 dark:text-white">
+                          <span className="font-semibold text-neutral-900 dark:text-white"> {/* Reverted: removed text-center */}
                             Resident Permit / National ID
                           </span>
                           <div className="h-5 mt-1">
@@ -2061,9 +2902,21 @@ export default function KycIdentityPage() {
                       <FormLabel className="text-neutral-900 dark:text-white">
                         Date of Issue <span className="text-red-500">*</span>
                       </FormLabel>
-                      <Popover>
+                      <Popover
+                        open={issueDatePickerOpen}
+                        onOpenChange={(isOpen) => {
+                          setIssueDatePickerOpen(isOpen);
+                          if (isOpen) {
+                            setTempIssueDate(field.value); 
+                            if (field.value && isDateValid(field.value)) {
+                              setIssueCalendarDate(field.value); 
+                            }
+                          }
+                        }}
+                      >
                         <PopoverTrigger asChild>
-                          <Button
+                          {/* Using ShadCN Button for PopoverTrigger */}
+                          <Button 
                             variant={"outline"}
                             disabled={!selectedIdType || isSubmitting}
                             className={cn(
@@ -2082,7 +2935,7 @@ export default function KycIdentityPage() {
                         </PopoverTrigger>
                         <PopoverContent
                           align="start"
-                          className="sm:w-[450px] max-h-[calc(var(--radix-popover-content-available-height)_-_1rem)] w-auto p-0"
+                          className="sm:w-[450px] max-h-[calc(var(--radix-popover-content-available-height)_-_1rem)] w-auto p-0 overflow-y-auto"
                         >
                           <div className="flex items-center justify-between gap-2 p-3 border-b">
                             <Select
@@ -2091,10 +2944,10 @@ export default function KycIdentityPage() {
                               }
                               onValueChange={handleIssueMonthChange}
                             >
-                              <SelectTrigger className="w-36 h-8">
+                              <SelectTrigger className="w-36 h-8"> {/* Reverted: removed size="sm" */}
                                 <SelectValue placeholder="Month" />
                               </SelectTrigger>
-                              <SelectContent className="max-h-60 overflow-y-auto">
+                              <SelectContent className="max-h-60">
                                 {datePickerMonths.map((month) => (
                                   <SelectItem key={month} value={month}>
                                     {month}
@@ -2106,11 +2959,11 @@ export default function KycIdentityPage() {
                               value={issueCalendarDate.getFullYear().toString()}
                               onValueChange={handleIssueYearChange}
                             >
-                              <SelectTrigger className="w-28 h-8">
+                              <SelectTrigger className="w-28 h-8"> {/* Reverted: removed size="sm" */}
                                 <SelectValue placeholder="Year" />
                               </SelectTrigger>
-                              <SelectContent className="max-h-60 overflow-y-auto">
-                                {Array.from(
+                              <SelectContent className="max-h-60">
+                                {Array.from( // Reverted to original year generation
                                   { length: 71 },
                                   (_, i) => new Date().getFullYear() - i
                                 ).map((year) => (
@@ -2126,26 +2979,37 @@ export default function KycIdentityPage() {
                           </div>
                           <Calendar
                             mode="single"
-                            selected={
-                              field.value && isDateValid(field.value)
-                                ? field.value
-                                : undefined
-                            }
+                            selected={ tempIssueDate && isDateValid(tempIssueDate) ? tempIssueDate : undefined }
                             onSelect={(date) => {
-                              field.onChange(date || undefined);
-                              field.onBlur(); // Trigger validation after selection
-                              if (date) {
-                                setIssueCalendarDate(date);
-                              }
+                                const newSelectedDate = date || undefined;
+                                setTempIssueDate(newSelectedDate);
+                                if (newSelectedDate) {
+                                    setIssueCalendarDate(newSelectedDate); 
+                                }
                             }}
                             month={issueCalendarDate}
                             onMonthChange={setIssueCalendarDate}
                             disabled={(date) =>
-                              date > startOfDay(new Date()) ||
-                              date < new Date("1950-01-01")
+                              date > todayStart ||
+                              date < minIssueDate
                             }
                             initialFocus
                           />
+                          <div className="p-3 border-t">
+                            {/* Using ShadCN Button for Apply */}
+                            <Button 
+                                type="button"
+                                className="w-full bg-primary hover:bg-primaryhover text-neutral-900 rounded-full"
+                                size="sm" // Keep size sm for apply button within popover
+                                onClick={() => {
+                                    field.onChange(tempIssueDate);
+                                    field.onBlur(); 
+                                    setIssueDatePickerOpen(false);
+                                }}
+                            >
+                                Apply
+                            </Button>
+                          </div>
                         </PopoverContent>
                       </Popover>
                       <FormMessage />
@@ -2162,8 +3026,20 @@ export default function KycIdentityPage() {
                       <FormLabel className="text-neutral-900 dark:text-white">
                         Date of Expiry <span className="text-red-500">*</span>
                       </FormLabel>
-                      <Popover>
+                      <Popover
+                        open={expiryDatePickerOpen}
+                        onOpenChange={(isOpen) => {
+                          setExpiryDatePickerOpen(isOpen);
+                          if (isOpen) {
+                            setTempExpiryDate(field.value); 
+                            if (field.value && isDateValid(field.value)) {
+                              setExpiryCalendarDate(field.value);
+                            }
+                          }
+                        }}
+                      >
                         <PopoverTrigger asChild>
+                          {/* Using ShadCN Button for PopoverTrigger */}
                           <Button
                             variant={"outline"}
                             disabled={!selectedIdType || isSubmitting}
@@ -2183,7 +3059,7 @@ export default function KycIdentityPage() {
                         </PopoverTrigger>
                         <PopoverContent
                           align="end"
-                          className="sm:w-[450px] max-h-[calc(var(--radix-popover-content-available-height)_-_1rem)] w-auto p-0"
+                          className="sm:w-[450px] max-h-[calc(var(--radix-popover-content-available-height)_-_1rem)] w-auto p-0 overflow-y-auto"
                         >
                           <div className="flex items-center justify-between gap-2 p-3 border-b">
                             <Select
@@ -2192,10 +3068,10 @@ export default function KycIdentityPage() {
                               }
                               onValueChange={handleExpiryMonthChange}
                             >
-                              <SelectTrigger className="w-36 h-8">
+                              <SelectTrigger className="w-36 h-8"> {/* Reverted: removed size="sm" */}
                                 <SelectValue placeholder="Month" />
                               </SelectTrigger>
-                              <SelectContent className="max-h-60 overflow-y-auto">
+                              <SelectContent className="max-h-60">
                                 {datePickerMonths.map((month) => (
                                   <SelectItem key={month} value={month}>
                                     {month}
@@ -2209,13 +3085,13 @@ export default function KycIdentityPage() {
                                 .toString()}
                               onValueChange={handleExpiryYearChange}
                             >
-                              <SelectTrigger className="w-28 h-8">
+                              <SelectTrigger className="w-28 h-8"> {/* Reverted: removed size="sm" */}
                                 <SelectValue placeholder="Year" />
                               </SelectTrigger>
-                              <SelectContent className="max-h-60 overflow-y-auto">
+                              <SelectContent className="max-h-60">
                                 {Array.from(
-                                  { length: 31 },
-                                  (_, i) => new Date().getFullYear() + i
+                                  { length: 31 }, 
+                                  (_, i) => new Date().getFullYear() + i 
                                 ).map((year) => (
                                   <SelectItem
                                     key={year}
@@ -2229,25 +3105,36 @@ export default function KycIdentityPage() {
                           </div>
                           <Calendar
                             mode="single"
-                            selected={
-                              field.value && isDateValid(field.value)
-                                ? field.value
-                                : undefined
-                            }
+                            selected={ tempExpiryDate && isDateValid(tempExpiryDate) ? tempExpiryDate : undefined }
                             onSelect={(date) => {
-                              field.onChange(date || undefined);
-                              field.onBlur(); // Trigger validation after selection
-                              if (date) {
-                                setExpiryCalendarDate(date);
-                              }
+                                const newSelectedDate = date || undefined;
+                                setTempExpiryDate(newSelectedDate);
+                                if (newSelectedDate) {
+                                    setExpiryCalendarDate(newSelectedDate);
+                                }
                             }}
                             month={expiryCalendarDate}
                             onMonthChange={setExpiryCalendarDate}
                             disabled={(date) =>
-                              date < startOfDay(addDays(new Date(), 1))
+                              date < minExpiryDate
                             }
                             initialFocus
                           />
+                           <div className="p-3 border-t">
+                            {/* Using ShadCN Button for Apply */}
+                            <Button
+                                type="button"
+                                className="w-full bg-primary hover:bg-primaryhover text-neutral-900 rounded-full"
+                                size="sm" // Keep size sm for apply button within popover
+                                onClick={() => {
+                                    field.onChange(tempExpiryDate);
+                                    field.onBlur(); 
+                                    setExpiryDatePickerOpen(false);
+                                }}
+                            >
+                                Apply
+                            </Button>
+                          </div>
                         </PopoverContent>
                       </Popover>
                       <FormDescription className="text-gray-500 dark:text-gray-300">
@@ -2260,7 +3147,7 @@ export default function KycIdentityPage() {
               </div>
             </div>
 
-            {/* Navigation Buttons */}
+            {/* Navigation Buttons - Reverted to original <button> tags and classes */}
             <div className="flex flex-col sm:flex-row justify-between items-center pt-6 border-t mt-6 gap-4">
               <button
                 type="button"
@@ -2278,14 +3165,14 @@ export default function KycIdentityPage() {
                 }
               >
                 {isSubmitting ? (
-                  // ----- Loading State -----
+                  // ----- Loading State (Original SVG) -----
                   <>
                     <svg
                       className="h-5 w-5 text-neutral-900 animate-spin mr-2"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true" // Hide decorative icon from screen readers
+                      aria-hidden="true"
                     >
                       <path
                         d="M12 2V6"
@@ -2344,20 +3231,17 @@ export default function KycIdentityPage() {
                         strokeLinejoin="round"
                       />
                     </svg>
-                    <span>Continue</span>
+                    <span>Continue...</span>
                   </>
                 ) : (
-                  // ----- End Loading State -----
                   // ----- Normal State -----
                   <>
                     <span>Continue</span>
                     <ArrowRight
                       className="ml-2 size-5"
                       aria-hidden="true"
-                    />{" "}
-                    {/* Use ml-2 for margin before the icon */}
+                    />
                   </>
-                  // ----- End Normal State -----
                 )}
               </button>
             </div>

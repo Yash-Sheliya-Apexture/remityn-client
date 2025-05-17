@@ -1497,7 +1497,7 @@
 
 "use client";
 import React, { useState, ChangeEvent, useEffect, useCallback } from "react";
-import { FiSearch } from "react-icons/fi";
+import { FiAlertTriangle, FiSearch } from "react-icons/fi";
 import RecipientList from "@/app/dashboard/components/RecipientList"; // Adjust path if needed
 import { CiBank } from "react-icons/ci";
 import { FaCirclePlus } from "react-icons/fa6";
@@ -1709,11 +1709,12 @@ export default function RecipientsPage() {
   // --- Error State (Only show recipient fetch error for now) ---
   if (error) {
     return (
-      <section className="py-10">
-        <div className="container mx-auto text-center text-red-500 bg-red-100 dark:bg-red-900/30 p-4 rounded-md">
-          Error loading recipients: {error}
+      <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-4 flex items-center gap-3">
+        <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+          <FiAlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
         </div>
-      </section>
+        <p className="text-red-700 dark:text-red-300/90"> Error loading recipients: {error} </p>
+      </div>
     );
   }
 
@@ -1724,7 +1725,7 @@ export default function RecipientsPage() {
         <div className="Recipients-Page">
           {/* Header */}
           <div className="mb-6 flex items-center justify-between ">
-            <h1 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white">
+            <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white">
               Recipients
             </h1>
             {/* Add Button (Small Screens) */}
@@ -1780,12 +1781,12 @@ export default function RecipientsPage() {
           {/* Recipient List or "Add New" Prompt */}
           {/* Check if token exists before showing list/prompt */}
           {!token && !isAuthLoading ? (
-            <div className="text-center text-gray-500 dark:text-gray-400 mt-10">
+            <div className="text-center text-gray-500 dark:text-gray-300 mt-10">
                 Please log in to view or add recipients.
             </div>
           ) : filteredRecipients.length > 0 ? (
             // Display List
-            <div className="All-+Recipients">
+            <div className="All-Recipients">
               <h3 className="font-medium text-sm text-gray-500 dark:text-gray-300 mb-3 uppercase tracking-wide leading-8 border-b">
                 All Recipients
               </h3>

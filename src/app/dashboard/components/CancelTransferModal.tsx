@@ -279,11 +279,35 @@ const CancelTransferModal: React.FC<CancelTransferModalProps> = ({
     const typeText = transactionType === 'payment' ? 'Payment' : 'Transfer';
     const [isMobile, setIsMobile] = useState(false);
 
+    // --- Body Scroll Lock ---
     useEffect(() => {
-        const handleResize = () => setIsMobile(window.innerWidth < 640);
-        handleResize();
-        window.addEventListener("resize", handleResize);
-        return () => window.removeEventListener("resize", handleResize);
+        if (isOpen) {
+            document.body.classList.add("overflow-hidden");
+        } else {
+            document.body.classList.remove("overflow-hidden");
+        }
+        // Cleanup function to ensure the class is removed when the component unmounts
+        // or if the modal was closed by other means.
+        return () => {
+            document.body.classList.remove("overflow-hidden");
+        };
+    }, [isOpen]);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 640); // Using sm breakpoint
+        
+        // Check on mount and add listener
+        if (typeof window !== 'undefined') {
+            handleResize();
+            window.addEventListener("resize", handleResize);
+        }
+        
+        // Cleanup listener on unmount
+        return () => {
+            if (typeof window !== 'undefined') {
+                window.removeEventListener("resize", handleResize);
+            }
+        };
     }, []);
 
     const mobileVariants = {
@@ -308,11 +332,14 @@ const CancelTransferModal: React.FC<CancelTransferModalProps> = ({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 w-full h-full bg-black/50 dark:bg-white/30 z-80 flex sm:items-center items-end justify-center p-4" // Added padding and inset-0
+            className="fixed inset-0 w-full h-full bg-black/50 dark:bg-white/30 z-80 flex sm:items-center items-end justify-center" // Added padding and inset-0
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            onClick={onClose}
+            onClick={isSubmitting ? undefined : onClose} // Prevent close on backdrop click if submitting
+            aria-modal="true" // Added for accessibility
+            role="dialog"      // Added for accessibility
+            aria-labelledby="cancel-modal-title" // Added for accessibility
           >
             <motion.div
               className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl sm:p-8 p-4 w-full sm:max-w-lg relative shadow-xl" // Added shadow
@@ -327,6 +354,7 @@ const CancelTransferModal: React.FC<CancelTransferModalProps> = ({
                   className="p-3 bg-lightborder hover:bg-neutral-300 dark:bg-primarybox dark:hover:bg-secondarybox rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
                   onClick={onClose}
                   disabled={isSubmitting} // Disable close button while submitting?
+                  aria-label="Close cancellation modal" // Added aria-label
                 >
                   <IoClose
                     size={28}
@@ -335,7 +363,7 @@ const CancelTransferModal: React.FC<CancelTransferModalProps> = ({
                 </button>
               </div>
 
-              <h3 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white my-6">
+              <h3 id="cancel-modal-title" className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white my-6">
                 Cancel {typeText}
               </h3>
               <p className="text-gray dark:text-gray-300 font-medium mb-6">

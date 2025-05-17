@@ -1987,9 +1987,371 @@
 
 // export default CountryCard;
 
+// // No changes needed in this file. It correctly passes props and handles state.
+// "use client";
+// import React, { useRef, useState, useEffect } from "react";
+// import Image from "next/image";
+// import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+// import { useAuth } from "../../../contexts/AuthContext"; // Adjust path as needed
+// import axios from "axios";
+// import { useRouter } from "next/navigation";
+// import CurrencySelectorModal from "./CurrencySelectorModal"; // Adjust path as needed
+// import apiConfig from "../../../config/apiConfig"; // Adjust path as needed
+// import Link from "next/link";
+// import { GoPlus } from "react-icons/go";
+// import { Skeleton } from "@/components/ui/skeleton"; // Adjust the path to your Skeleton component
+// import { AnimatePresence, motion } from "framer-motion";
+
+// axios.defaults.baseURL = apiConfig.baseUrl;
+
+// // Define interfaces for better type safety
+// interface Currency {
+//   code: string;
+//   // Add other relevant currency properties if available, e.g., name, symbol
+// }
+
+// interface Account {
+//   _id: string;
+//   balance: string; // Assuming balance comes as a string from API based on parseFloat usage
+//   currency?: Currency | null; // Currency might be optional or null
+//   // Add other relevant account properties if available, e.g., userId
+// }
+
+// const CountryCard = () => {
+//   const [accounts, setAccounts] = useState<Account[]>([]); // Use the Account interface
+//   const containerRef = useRef<HTMLDivElement>(null);
+//   const [isHovering, setIsHovering] = useState(false);
+//   const { token } = useAuth();
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+//   const [isModalOpen, setIsModalOpen] = useState(false);
+//   const router = useRouter();
+//   const cardWidth = 272; // 264px card width + 8px gap (approximate)
+
+//   // --- State for scroll button visibility ---
+//   const [canScrollLeft, setCanScrollLeft] = useState(false);
+//   const [canScrollRight, setCanScrollRight] = useState(false); // Initialize to false
+
+//   // --- Function to check scroll state ---
+//   const checkScrollability = () => {
+//     const container = containerRef.current;
+//     if (container) {
+//       const scrollLeft = container.scrollLeft;
+//       const scrollWidth = container.scrollWidth;
+//       const clientWidth = container.clientWidth;
+//       const tolerance = 1; // Tolerance for floating point comparisons
+
+//       setCanScrollLeft(scrollLeft > tolerance);
+//       setCanScrollRight(scrollLeft + clientWidth < scrollWidth - tolerance);
+//     } else {
+//       // Default if container isn't ready
+//       setCanScrollLeft(false);
+//       setCanScrollRight(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     const fetchAccounts = async () => {
+//       setIsLoading(true);
+//       setError(null);
+//       try {
+//         const response = await axios.get<{ data: Account[] }>("/accounts", {
+//           headers: { Authorization: `Bearer ${token}` },
+//         });
+//         const fetchedAccounts =
+//           response.data?.data ??
+//           (Array.isArray(response.data) ? response.data : []);
+//         setAccounts(fetchedAccounts);
+//       } catch (err: unknown) {
+//         let errorMessage = "Failed to fetch accounts";
+//         if (axios.isAxiosError(err)) {
+//           errorMessage =
+//             err.response?.data?.message || err.message || errorMessage;
+//           if (err.response?.status === 401) {
+//             console.error("Unauthorized. Redirecting to login.");
+//             // Consider adding a small delay or notification before redirecting
+//             // router.push("/auth/login");
+//           }
+//         } else if (err instanceof Error) {
+//           errorMessage = err.message;
+//         }
+//         setError(errorMessage);
+//         console.error("Error fetching accounts:", err);
+//       } finally {
+//         setIsLoading(false); // Set loading false regardless of success or error
+//       }
+//     };
+
+//     if (token) {
+//       fetchAccounts();
+//     } else {
+//       console.log("No token found, skipping account fetch.");
+//       setIsLoading(false);
+//       // Optional: Redirect to login if no token and accounts are expected
+//       // router.push("/auth/login");
+//     }
+//   }, [token, router]); // Removed 'router' from dependency array unless redirection logic depends on it changing.
+
+//   // --- Effect to handle scroll checks ---
+//   useEffect(() => {
+//     const container = containerRef.current; // Capture ref value
+
+//     // Debounce resize handler
+//     let resizeTimer: NodeJS.Timeout;
+//     const debouncedCheckScroll = () => {
+//       clearTimeout(resizeTimer);
+//       resizeTimer = setTimeout(checkScrollability, 150); // Adjust delay as needed
+//     };
+
+//     // Initial check and add listeners if container exists
+//     if (container) {
+//       checkScrollability(); // Initial check
+//       container.addEventListener("scroll", checkScrollability, {
+//         passive: true,
+//       });
+//       window.addEventListener("resize", debouncedCheckScroll);
+
+//       // Cleanup function
+//       return () => {
+//         container.removeEventListener("scroll", checkScrollability);
+//         window.removeEventListener("resize", debouncedCheckScroll);
+//         clearTimeout(resizeTimer); // Clear timeout on cleanup
+//       };
+//     }
+//     // If container doesn't exist yet, the effect will re-run when it does,
+//     // or when isLoading/accounts change, triggering the check again.
+//   }, [isLoading, accounts]); // Rerun when loading state changes or accounts data updates
+
+//   const scrollLeft = () => {
+//     if (containerRef.current) {
+//       const scrollAmount = cardWidth * 1.5; // Adjust scroll distance as needed
+//       containerRef.current.scrollBy({
+//         left: -scrollAmount,
+//         behavior: "smooth",
+//       });
+//     }
+//   };
+
+//   const scrollRight = () => {
+//     if (containerRef.current) {
+//       const scrollAmount = cardWidth * 1.5; // Adjust scroll distance as needed
+//       containerRef.current.scrollBy({
+//         left: scrollAmount,
+//         behavior: "smooth",
+//       });
+//     }
+//   };
+
+//   const handleCurrencyAdded = (newAccount: Account) => {
+//     setAccounts((prevAccounts) => [...prevAccounts, newAccount]);
+//     setIsModalOpen(false);
+//     // Use setTimeout to allow the DOM to update before checking scroll
+//     // The useEffect listening to 'accounts' will also handle this,
+//     // but an immediate check after timeout can feel more responsive.
+//     setTimeout(checkScrollability, 100);
+//   };
+
+//   // --- Loading Skeleton ---
+//   if (isLoading) {
+//     return (
+//       <section className="Country-card">
+//         <div
+//           className="flex overflow-x-auto scroll-smooth scrollbar-hide gap-3 p-2"
+//           style={{
+//             scrollSnapType: "x mandatory",
+//             WebkitOverflowScrolling: "touch",
+//           }}
+//         >
+//           {Array(4)
+//             .fill(0)
+//             .map((_, index) => (
+//               <div
+//                 key={index}
+//                 className="w-64 shrink-0"
+//                 style={{ scrollSnapAlign: "start" }}
+//               >
+//                 <div className="p-6 bg-lightgray dark:bg-primarybox rounded-2xl flex flex-col justify-between h-[176px]">
+//                   <div className="flex items-center gap-4">
+//                     <Skeleton className="h-12 w-12 rounded-full bg-lightborder dark:bg-accent" />
+//                     <Skeleton className="h-5 w-24 rounded-md bg-lightborder dark:bg-accent" />
+//                   </div>
+//                   <div className="pt-16">
+//                     {/* Adjusted spacing */}
+//                     <Skeleton className="h-6 w-32 rounded-md bg-lightborder dark:bg-accent" />
+//                   </div>
+//                 </div>
+//               </div>
+//             ))}
+//           {/* Skeleton for Add Card */}
+//           <div className="w-64 shrink-0" style={{ scrollSnapAlign: "start" }}>
+//             <Skeleton className="p-6 h-[176px] bg-lightgray dark:bg-primarybox/70 rounded-2xl flex flex-col justify-center items-center border-2 border-dashed border-neutral-900 dark:border-neutral-300" />
+//           </div>
+//         </div>
+//       </section>
+//     );
+//   }
+
+//   // --- Error State ---
+//   if (error) {
+//     return (
+//       <section className="Country-card px-2 py-4">
+//         <div className="text-red-500 dark:text-red-400 text-lg bg-red-50 dark:bg-red-900/30 p-4 rounded-lg border border-red-200 dark:border-red-600/50">
+//           Error loading accounts: {error}
+//         </div>
+//       </section>
+//     );
+//   }
+
+//   // --- Main Content ---
+//   return (
+//     <section className="Country-card">
+//       <div
+//         onMouseEnter={() => setIsHovering(true)}
+//         onMouseLeave={() => setIsHovering(false)}
+//         className="relative z-0" // Ensure relative positioning for absolute buttons
+//       >
+//         {/* Scroll Buttons - Conditionally Rendered */}
+//         <AnimatePresence>
+//           {isHovering &&
+//             canScrollLeft && ( // Show only if hovering AND can scroll left
+//               <motion.button
+//                 key="scroll-left-button" // Add unique key for AnimatePresence
+//                 initial={{ opacity: 0, scale: 0.8, x: 10 }} // Animate from slightly right
+//                 animate={{ opacity: 1, scale: 1, x: 0 }}
+//                 exit={{ opacity: 0, scale: 0.8, x: 10 }}
+//                 transition={{ duration: 0.2 }}
+//                 onClick={scrollLeft}
+//                 className="absolute left-0 md:left-6 top-1/2 transform -translate-y-1/2 bg-primary shadow text-neutral-900 dark:text-background p-2 rounded-full sm:block hidden cursor-pointer z-20"
+//                 aria-label="Scroll left"
+//               >
+//                 <IoIosArrowBack size={22} />
+//               </motion.button>
+//             )}
+//         </AnimatePresence>
+//         <AnimatePresence>
+//           {isHovering &&
+//             canScrollRight && ( // Show only if hovering AND can scroll right
+//               <motion.button
+//                 key="scroll-right-button" // Add unique key for AnimatePresence
+//                 initial={{ opacity: 0, scale: 0.8, x: -10 }} // Animate from slightly left
+//                 animate={{ opacity: 1, scale: 1, x: 0 }}
+//                 exit={{ opacity: 0, scale: 0.8, x: -10 }}
+//                 transition={{ duration: 0.2 }}
+//                 onClick={scrollRight}
+//                 className="absolute right-0 md:right-6 top-1/2 transform -translate-y-1/2 bg-primary shadow text-neutral-900 dark:text-background p-2 rounded-full sm:block hidden cursor-pointer z-20"
+//                 aria-label="Scroll right"
+//               >
+//                 <IoIosArrowForward size={22} />
+//               </motion.button>
+//             )}
+//         </AnimatePresence>
+
+//         {/* Scrollable Content Area */}
+//         <div
+//           ref={containerRef}
+//           className="flex overflow-x-auto scroll-smooth scrollbar-hide gap-3 p-2"
+//           style={{
+//             scrollBehavior: "smooth",
+//             scrollSnapType: "x mandatory",
+//             WebkitOverflowScrolling: "touch",
+//           }}
+//         >
+//           {accounts.map((account) => (
+//             <Link
+//               key={account._id}
+//               href={`/dashboard/balances/${account._id}`}
+//               passHref
+//               className="w-64 shrink-0"
+//               style={{ scrollSnapAlign: "start" }}
+//               aria-label={`View balance for ${
+//                 account.currency?.code || "account"
+//               }`} // Accessibility
+//             >
+//               <div // Removed <a>, Link with passHref handles it
+//                 className="p-6 bg-lightgray dark:bg-primarybox hover:dark:bg-secondarybox rounded-2xl flex flex-col justify-between h-[176px] transition-all duration-150 ease-linear cursor-pointer hover:bg-neutral-200/70"
+//               >
+//                 <div className="flex items-center gap-4">
+//                   <Image
+//                     src={
+//                       account.currency?.code
+//                         ? `/assets/icon/${account.currency.code.toLowerCase()}.svg`
+//                         : "/assets/icon/default.svg"
+//                     }
+//                     alt={
+//                       account.currency?.code
+//                         ? `${account.currency.code} flag`
+//                         : "Default currency flag"
+//                     }
+//                     width={50}
+//                     height={50}
+//                     className="rounded-full object-contain"
+//                     onError={(e) => {
+//                       console.warn(
+//                         `Warning: Could not load image for ${
+//                           account?.currency?.code || "unknown currency"
+//                         }. Using default.`
+//                       );
+//                       (e.target as HTMLImageElement).src =
+//                         "/assets/icon/default.svg";
+//                     }}
+//                   />
+//                   <span className="text-neutral-900 dark:text-white text-xl font-semibold">
+//                     {account.currency?.code || "N/A"}
+//                   </span>
+//                 </div>
+//                 <div className="pt-12">
+//                   {/* Adjusted spacing */}
+//                   <span className="text-neutral-900 dark:text-white text-2xl font-semibold">
+//                     {account.balance != null &&
+//                     !isNaN(parseFloat(account.balance))
+//                       ? parseFloat(account.balance).toLocaleString(undefined, {
+//                           minimumFractionDigits: 2,
+//                           maximumFractionDigits: 2,
+//                         })
+//                       : "0.00"}
+//                   </span>
+//                 </div>
+//               </div>
+//             </Link>
+//           ))}
+
+//           {/* Add Currency Card */}
+//           <div
+//             onClick={() => setIsModalOpen(true)}
+//             className="p-6 bg-lightgray dark:bg-primarybox/70 hover:dark:bg-secondarybox rounded-2xl flex flex-col justify-between items-start w-64 shrink-0 cursor-pointer hover:bg-neutral-200/70 transition-all duration-150 ease-linear border-2 border-dashed border-neutral-900 dark:border-neutral-300 h-[176px] group" // Added group for hover effect on icon
+//             style={{ scrollSnapAlign: "start" }}
+//             role="button"
+//             tabIndex={0}
+//             onKeyPress={(e) => e.key === "Enter" && setIsModalOpen(true)}
+//             aria-label="Add another currency account"
+//           >
+//             <div className="rounded-full border-2 border-neutral-900 dark:border-white p-2 flex items-center justify-center mb-2 transition-transform duration-150 ease-in-out">
+//               <GoPlus size={30} className="text-neutral-900 dark:text-white" />
+//             </div>
+//             <span className="text-sm text-neutral-500 dark:text-white">
+//               Add another currency to your account.
+//             </span>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Modal */}
+//       <CurrencySelectorModal
+//         isOpen={isModalOpen}
+//         onClose={() => setIsModalOpen(false)}
+//         onCurrencyAdded={handleCurrencyAdded}
+//       />
+//     </section>
+//   );
+// };
+
+// export default CountryCard;
+
+
+
 // No changes needed in this file. It correctly passes props and handles state.
 "use client";
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 import { useAuth } from "../../../contexts/AuthContext"; // Adjust path as needed
@@ -2004,21 +2366,21 @@ import { AnimatePresence, motion } from "framer-motion";
 
 axios.defaults.baseURL = apiConfig.baseUrl;
 
-// Define interfaces for better type safety
 interface Currency {
   code: string;
-  // Add other relevant currency properties if available, e.g., name, symbol
 }
 
 interface Account {
   _id: string;
-  balance: string; // Assuming balance comes as a string from API based on parseFloat usage
-  currency?: Currency | null; // Currency might be optional or null
-  // Add other relevant account properties if available, e.g., userId
+  balance: string;
+  currency?: Currency | null;
 }
 
+const SCROLL_DEBOUNCE_DELAY = 150;
+const PROGRAMMATIC_SCROLL_CHECK_DELAY = 400; // ms, adjust if smooth scroll takes longer/shorter
+
 const CountryCard = () => {
-  const [accounts, setAccounts] = useState<Account[]>([]); // Use the Account interface
+  const [accounts, setAccounts] = useState<Account[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovering, setIsHovering] = useState(false);
   const { token } = useAuth();
@@ -2026,29 +2388,44 @@ const CountryCard = () => {
   const [error, setError] = useState<string | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const router = useRouter();
-  const cardWidth = 272; // 264px card width + 8px gap (approximate)
+  const cardWidth = 272; // Includes approximate gap
 
-  // --- State for scroll button visibility ---
   const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(false); // Initialize to false
+  const [canScrollRight, setCanScrollRight] = useState(false);
 
-  // --- Function to check scroll state ---
-  const checkScrollability = () => {
+  const checkScrollability = useCallback(() => {
     const container = containerRef.current;
     if (container) {
-      const scrollLeft = container.scrollLeft;
-      const scrollWidth = container.scrollWidth;
-      const clientWidth = container.clientWidth;
-      const tolerance = 1; // Tolerance for floating point comparisons
+      const scrollLeftVal = container.scrollLeft;
+      const scrollWidthVal = container.scrollWidth;
+      const clientWidthVal = container.clientWidth;
 
-      setCanScrollLeft(scrollLeft > tolerance);
-      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - tolerance);
+      // Round values to nearest integer to handle floating point inaccuracies
+      const roundedScrollLeft = Math.round(scrollLeftVal);
+      const roundedScrollWidth = Math.round(scrollWidthVal);
+      const roundedClientWidth = Math.round(clientWidthVal);
+
+      // Check if we can scroll left
+      // (i.e., if current rounded scroll position is greater than 0)
+      const newCanScrollLeft = roundedScrollLeft > 0;
+
+      // Check if we can scroll right
+      // (i.e., if current rounded scroll position is less than the maximum possible scroll)
+      const maxScrollLeft = roundedScrollWidth - roundedClientWidth;
+      const newCanScrollRight = roundedScrollLeft < maxScrollLeft;
+      
+      // console.log(
+      //   `checkScrollability: SL=${scrollLeftVal.toFixed(2)} (r${roundedScrollLeft}), SW=${scrollWidthVal.toFixed(2)} (r${roundedScrollWidth}), CW=${clientWidthVal.toFixed(2)} (r${roundedClientWidth}), MaxSL=${maxScrollLeft}, CanL=${newCanScrollLeft}, CanR=${newCanScrollRight}`
+      // );
+
+      setCanScrollLeft(prev => prev !== newCanScrollLeft ? newCanScrollLeft : prev);
+      setCanScrollRight(prev => prev !== newCanScrollRight ? newCanScrollRight : prev);
+
     } else {
-      // Default if container isn't ready
       setCanScrollLeft(false);
       setCanScrollRight(false);
     }
-  };
+  }, []); // setCanScrollLeft/Right are stable
 
   useEffect(() => {
     const fetchAccounts = async () => {
@@ -2067,18 +2444,13 @@ const CountryCard = () => {
         if (axios.isAxiosError(err)) {
           errorMessage =
             err.response?.data?.message || err.message || errorMessage;
-          if (err.response?.status === 401) {
-            console.error("Unauthorized. Redirecting to login.");
-            // Consider adding a small delay or notification before redirecting
-            // router.push("/auth/login");
-          }
         } else if (err instanceof Error) {
           errorMessage = err.message;
         }
         setError(errorMessage);
         console.error("Error fetching accounts:", err);
       } finally {
-        setIsLoading(false); // Set loading false regardless of success or error
+        setIsLoading(false);
       }
     };
 
@@ -2087,72 +2459,60 @@ const CountryCard = () => {
     } else {
       console.log("No token found, skipping account fetch.");
       setIsLoading(false);
-      // Optional: Redirect to login if no token and accounts are expected
-      // router.push("/auth/login");
     }
-  }, [token, router]); // Removed 'router' from dependency array unless redirection logic depends on it changing.
+  }, [token]);
 
-  // --- Effect to handle scroll checks ---
   useEffect(() => {
-    const container = containerRef.current; // Capture ref value
-
-    // Debounce resize handler
-    let resizeTimer: NodeJS.Timeout;
-    const debouncedCheckScroll = () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(checkScrollability, 150); // Adjust delay as needed
+    const container = containerRef.current;
+    let scrollDebounceTimer: NodeJS.Timeout;
+    const debouncedCheckScrollOnScroll = () => {
+      clearTimeout(scrollDebounceTimer);
+      scrollDebounceTimer = setTimeout(checkScrollability, SCROLL_DEBOUNCE_DELAY);
     };
 
-    // Initial check and add listeners if container exists
-    if (container) {
-      checkScrollability(); // Initial check
-      container.addEventListener("scroll", checkScrollability, {
-        passive: true,
-      });
-      window.addEventListener("resize", debouncedCheckScroll);
+    let resizeDebounceTimer: NodeJS.Timeout;
+    const debouncedCheckScrollOnResize = () => {
+      clearTimeout(resizeDebounceTimer);
+      resizeDebounceTimer = setTimeout(checkScrollability, SCROLL_DEBOUNCE_DELAY);
+    };
 
-      // Cleanup function
+    if (container) {
+      checkScrollability(); // Initial check, and when accounts/isLoading changes
+      
+      container.addEventListener("scroll", debouncedCheckScrollOnScroll, { passive: true });
+      window.addEventListener("resize", debouncedCheckScrollOnResize);
+
       return () => {
-        container.removeEventListener("scroll", checkScrollability);
-        window.removeEventListener("resize", debouncedCheckScroll);
-        clearTimeout(resizeTimer); // Clear timeout on cleanup
+        container.removeEventListener("scroll", debouncedCheckScrollOnScroll);
+        window.removeEventListener("resize", debouncedCheckScrollOnResize);
+        clearTimeout(scrollDebounceTimer);
+        clearTimeout(resizeDebounceTimer);
       };
     }
-    // If container doesn't exist yet, the effect will re-run when it does,
-    // or when isLoading/accounts change, triggering the check again.
-  }, [isLoading, accounts]); // Rerun when loading state changes or accounts data updates
+  }, [isLoading, accounts, checkScrollability]); // checkScrollability is memoized
 
-  const scrollLeft = () => {
+  const scrollGeneric = (direction: 'left' | 'right') => {
     if (containerRef.current) {
-      const scrollAmount = cardWidth * 1.5; // Adjust scroll distance as needed
+      const scrollAmount = cardWidth * 1.5; // Scroll by 1.5 card widths
       containerRef.current.scrollBy({
-        left: -scrollAmount,
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
         behavior: "smooth",
       });
+      setTimeout(checkScrollability, PROGRAMMATIC_SCROLL_CHECK_DELAY);
     }
   };
 
-  const scrollRight = () => {
-    if (containerRef.current) {
-      const scrollAmount = cardWidth * 1.5; // Adjust scroll distance as needed
-      containerRef.current.scrollBy({
-        left: scrollAmount,
-        behavior: "smooth",
-      });
-    }
-  };
+  const scrollLeft = () => scrollGeneric('left');
+  const scrollRight = () => scrollGeneric('right');
 
   const handleCurrencyAdded = (newAccount: Account) => {
     setAccounts((prevAccounts) => [...prevAccounts, newAccount]);
     setIsModalOpen(false);
-    // Use setTimeout to allow the DOM to update before checking scroll
-    // The useEffect listening to 'accounts' will also handle this,
-    // but an immediate check after timeout can feel more responsive.
-    setTimeout(checkScrollability, 100);
+    setTimeout(checkScrollability, 50); // Check after DOM update
   };
 
-  // --- Loading Skeleton ---
   if (isLoading) {
+    // Skeleton UI (unchanged)
     return (
       <section className="Country-card">
         <div
@@ -2176,13 +2536,11 @@ const CountryCard = () => {
                     <Skeleton className="h-5 w-24 rounded-md bg-lightborder dark:bg-accent" />
                   </div>
                   <div className="pt-16">
-                    {/* Adjusted spacing */}
                     <Skeleton className="h-6 w-32 rounded-md bg-lightborder dark:bg-accent" />
                   </div>
                 </div>
               </div>
             ))}
-          {/* Skeleton for Add Card */}
           <div className="w-64 shrink-0" style={{ scrollSnapAlign: "start" }}>
             <Skeleton className="p-6 h-[176px] bg-lightgray dark:bg-primarybox/70 rounded-2xl flex flex-col justify-center items-center border-2 border-dashed border-neutral-900 dark:border-neutral-300" />
           </div>
@@ -2191,8 +2549,8 @@ const CountryCard = () => {
     );
   }
 
-  // --- Error State ---
   if (error) {
+    // Error UI (unchanged)
     return (
       <section className="Country-card px-2 py-4">
         <div className="text-red-500 dark:text-red-400 text-lg bg-red-50 dark:bg-red-900/30 p-4 rounded-lg border border-red-200 dark:border-red-600/50">
@@ -2202,54 +2560,49 @@ const CountryCard = () => {
     );
   }
 
-  // --- Main Content ---
   return (
     <section className="Country-card">
       <div
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
-        className="relative z-0" // Ensure relative positioning for absolute buttons
+        className="relative z-0"
       >
-        {/* Scroll Buttons - Conditionally Rendered */}
         <AnimatePresence>
-          {isHovering &&
-            canScrollLeft && ( // Show only if hovering AND can scroll left
-              <motion.button
-                key="scroll-left-button" // Add unique key for AnimatePresence
-                initial={{ opacity: 0, scale: 0.8, x: 10 }} // Animate from slightly right
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                exit={{ opacity: 0, scale: 0.8, x: 10 }}
-                transition={{ duration: 0.2 }}
-                onClick={scrollLeft}
-                className="absolute left-0 md:left-6 top-1/2 transform -translate-y-1/2 bg-primary shadow text-neutral-900 dark:text-background p-2 rounded-full sm:block hidden cursor-pointer z-20"
-                aria-label="Scroll left"
-              >
-                <IoIosArrowBack size={22} />
-              </motion.button>
-            )}
+          {isHovering && canScrollLeft && (
+            <motion.button
+              key="scroll-left-button"
+              initial={{ opacity: 0, scale: 0.8, x: 10 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              exit={{ opacity: 0, scale: 0.8, x: 10 }}
+              transition={{ duration: 0.2 }}
+              onClick={scrollLeft}
+              className="absolute left-0 md:left-6 top-1/2 transform -translate-y-1/2 bg-primary shadow text-neutral-900 dark:text-background p-2 rounded-full sm:block hidden cursor-pointer z-20"
+              aria-label="Scroll left"
+            >
+              <IoIosArrowBack size={22} />
+            </motion.button>
+          )}
         </AnimatePresence>
         <AnimatePresence>
-          {isHovering &&
-            canScrollRight && ( // Show only if hovering AND can scroll right
-              <motion.button
-                key="scroll-right-button" // Add unique key for AnimatePresence
-                initial={{ opacity: 0, scale: 0.8, x: -10 }} // Animate from slightly left
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                exit={{ opacity: 0, scale: 0.8, x: -10 }}
-                transition={{ duration: 0.2 }}
-                onClick={scrollRight}
-                className="absolute right-0 md:right-6 top-1/2 transform -translate-y-1/2 bg-primary shadow text-neutral-900 dark:text-background p-2 rounded-full sm:block hidden cursor-pointer z-20"
-                aria-label="Scroll right"
-              >
-                <IoIosArrowForward size={22} />
-              </motion.button>
-            )}
+          {isHovering && canScrollRight && (
+            <motion.button
+              key="scroll-right-button"
+              initial={{ opacity: 0, scale: 0.8, x: -10 }}
+              animate={{ opacity: 1, scale: 1, x: 0 }}
+              exit={{ opacity: 0, scale: 0.8, x: -10 }}
+              transition={{ duration: 0.2 }}
+              onClick={scrollRight}
+              className="absolute right-0 md:right-6 top-1/2 transform -translate-y-1/2 bg-primary shadow text-neutral-900 dark:text-background p-2 rounded-full sm:block hidden cursor-pointer z-20"
+              aria-label="Scroll right"
+            >
+              <IoIosArrowForward size={22} />
+            </motion.button>
+          )}
         </AnimatePresence>
 
-        {/* Scrollable Content Area */}
         <div
           ref={containerRef}
-          className="flex overflow-x-auto scroll-smooth scrollbar-hide gap-3 p-2"
+          className="flex overflow-x-auto scroll-smooth scrollbar-hide gap-3"
           style={{
             scrollBehavior: "smooth",
             scrollSnapType: "x mandatory",
@@ -2265,11 +2618,9 @@ const CountryCard = () => {
               style={{ scrollSnapAlign: "start" }}
               aria-label={`View balance for ${
                 account.currency?.code || "account"
-              }`} // Accessibility
+              }`}
             >
-              <div // Removed <a>, Link with passHref handles it
-                className="p-6 bg-lightgray dark:bg-primarybox hover:dark:bg-secondarybox rounded-2xl flex flex-col justify-between h-[176px] transition-all duration-150 ease-linear cursor-pointer hover:bg-neutral-200/70"
-              >
+              <div className="p-6 bg-lightgray dark:bg-primarybox hover:dark:bg-secondarybox rounded-2xl flex flex-col justify-between h-[176px] transition-all duration-150 ease-linear cursor-pointer hover:bg-neutral-200/70">
                 <div className="flex items-center gap-4">
                   <Image
                     src={
@@ -2300,7 +2651,6 @@ const CountryCard = () => {
                   </span>
                 </div>
                 <div className="pt-12">
-                  {/* Adjusted spacing */}
                   <span className="text-neutral-900 dark:text-white text-2xl font-semibold">
                     {account.balance != null &&
                     !isNaN(parseFloat(account.balance))
@@ -2315,10 +2665,9 @@ const CountryCard = () => {
             </Link>
           ))}
 
-          {/* Add Currency Card */}
           <div
             onClick={() => setIsModalOpen(true)}
-            className="p-6 bg-lightgray dark:bg-primarybox/70 hover:dark:bg-secondarybox rounded-2xl flex flex-col justify-between items-start w-64 shrink-0 cursor-pointer hover:bg-neutral-200/70 transition-all duration-150 ease-linear border-2 border-dashed border-neutral-900 dark:border-neutral-300 h-[176px] group" // Added group for hover effect on icon
+            className="p-6 bg-lightgray dark:bg-primarybox/70 hover:dark:bg-secondarybox rounded-2xl flex flex-col justify-between items-start w-64 shrink-0 cursor-pointer hover:bg-neutral-200/70 transition-all duration-150 ease-linear border-2 border-dashed border-neutral-900 dark:border-neutral-300 h-[176px] group"
             style={{ scrollSnapAlign: "start" }}
             role="button"
             tabIndex={0}
@@ -2335,7 +2684,6 @@ const CountryCard = () => {
         </div>
       </div>
 
-      {/* Modal */}
       <CurrencySelectorModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}

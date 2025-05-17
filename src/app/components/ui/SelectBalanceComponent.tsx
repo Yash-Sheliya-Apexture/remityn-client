@@ -763,25 +763,28 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
   );
 
   return (
-    <section className="Select-Balance-Wrapper pt-5">
+    <section className="Select-Balance-Wrapper">
       <div className="All-Balance-Card">
         <h1 className="text-xl md:text-2xl lg:text-3xl capitalize font-semibold text-mainheading dark:text-white text-left md:text-center mb-4">
           {pageTitle}
         </h1>
 
         {error && !isLoading && (
-          <div className="text-center text-red-500 bg-red-100 dark:bg-red-900/30 p-4 rounded-md mb-6">
-            <p>Error loading balances: {error}</p>
+          <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg sm:p-10 p-4 flex flex-col items-center gap-3 mb-6">
+            <p className="font-medium text-center text-red-600 dark:text-red-400 text-base">Error loading balances: {error}</p>
             {!error.toLowerCase().includes("unauthorized") && (
-              <button
-                onClick={refetchBalances}
-                className="mt-2 px-4 py-1 bg-primary text-neutral-900 rounded hover:bg-primaryhover"
-              >
-                Retry
-              </button>
+              <div>
+                <button
+                  onClick={refetchBalances}
+                  className="font-medium inline-flex items-center justify-center px-6 py-2 rounded-3xl bg-primary text-neutral-900 hover:bg-primaryhover sm:w-auto w-full"
+                >
+                  Retry
+                </button>
+              </div>
+
             )}
             {error.toLowerCase().includes("unauthorized") && (
-              <p className="mt-2">
+              <p className="text-neutral-900 dark:text-white">
                 Please{" "}
                 <Link
                   href="/auth/login"

@@ -1762,6 +1762,7 @@ import {
 import { Check, ChevronsUpDown, Globe, Phone, Loader2 } from "lucide-react"; // Keep Icons + Loader2
 import { cn } from "@/lib/utils"; // For Shadcn class merging
 import { format, parseISO, isValid } from 'date-fns';
+import { FiAlertTriangle } from "react-icons/fi";
 
 // --- Zod Schema Definition (REVISED) ---
 // Only include fields that the user CAN edit
@@ -1978,11 +1979,20 @@ export default function ChangePersonalDetails() {
     // --- No User State ---
     if (!user) {
         return (
-            <section className="change-personal-details py-10">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center text-red-500">
-                    <p>Could not load user data. Please <Link href="/auth/login" className="underline">log in</Link> again.</p>
-                </div>
-            </section>
+          <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-4 flex items-center gap-3">
+            <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+              <FiAlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+            </div>
+           
+              <p className="text-red-700 dark:text-red-300/90">
+                Could not load user data. Please{" "}
+                <Link href="/auth/login" className="text-primary font-medium underline">
+                  log in
+                </Link>{" "}
+                again.
+              </p>
+            
+          </div>
         );
     }
 

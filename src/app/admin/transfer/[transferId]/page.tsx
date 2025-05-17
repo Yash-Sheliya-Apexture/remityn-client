@@ -3310,6 +3310,574 @@
 
 // export default AdminTransferDetailPage;
 
+
+
+// // Last latest code 
+// "use client";
+// import React, { useState, useEffect, useCallback } from "react";
+// import adminTransferService from "../../../services/admin/transfer"; // Adjust path
+// import adminCurrencyService from "../../../services/admin/currency"; // Adjust path
+// import { useAuth } from "../../../contexts/AuthContext"; // Adjust path
+// import { useParams, useRouter } from "next/navigation";
+// import { Skeleton } from "@/components/ui/skeleton";
+// import { Button } from "@/components/ui/button";
+// import { XCircle, RefreshCw, ArrowLeft, AlertCircle } from "lucide-react";
+// import Link from "next/link";
+// import { Toaster } from "@/components/ui/sonner";
+
+// // Import the new components
+// import TransferHeader from "../../components/transfers/TransferHeader"; // Adjust path
+// import TransferOverviewCard from "../../components/transfers/TransferOverviewCard"; // Adjust path
+// import TransferStatusSection from "../../components/transfers/TransferStatusSection"; // Adjust path
+// import TransferInfoCard from "../../components/transfers/TransferInfoCard"; // Adjust path
+// import SenderInfoCard from "../../components/transfers/SenderInfoCard"; // Adjust path
+// import RecipientInfoCard from "../../components/transfers/RecipientInfoCard"; // Adjust path
+// import TransactionDetailsCard from "../../components/transfers/TransactionDetailsCard"; // Adjust path
+
+// // --- Define Interfaces (Ideally move to a central types file) ---
+
+// // Basic User structure
+// interface User {
+//   _id: string;
+//   firstName?: string;
+//   lastName?: string;
+//   email?: string;
+//   // Add other relevant user fields
+// }
+
+// // Basic Recipient structure
+// interface Recipient {
+//   _id: string;
+//   name?: string;
+//   email?: string;
+//   accountNumber?: string;
+//   bankName?: string;
+//   // Add other relevant recipient fields
+// }
+
+// // Basic Currency structure (used for map and potentially TransactionDetailsCard)
+// interface Currency {
+//   _id: string; // Essential for map key
+//   name: string;
+//   code: string;
+//   symbol: string;
+//   flagImage?: string | null;
+// }
+
+// // CurrencyRef structure expected by TransferOverviewCard
+// interface CurrencyRef {
+//     _id?: string;
+//     code?: string | null;
+// }
+
+// // Transfer structure - Align with fetched data
+// interface Transfer {
+//   _id: string;
+//   user: User;
+//   recipient: Recipient;
+//   sourceCurrency: string; // Usually Currency ID as string
+//   targetCurrency: string; // Usually Currency ID as string
+//   sourceAmount: number;
+//   targetAmount: number;
+//   status: string;
+//   exchangeRate?: number;
+//   fee?: number;
+//   fees?: number; // Alternative naming for fee
+//   createdAt: string;
+//   updatedAt: string;
+//   reference?: string;
+//   paymentMethod?: string;
+//   transferPurpose?: string;
+//   // These might exist in API response, potentially pre-populated or just IDs
+//   sendAmount?: number | null; // Might be same as sourceAmount
+//   receiveAmount?: number | null; // Might be same as targetAmount
+//   sendCurrency?: string | { _id?: string; code: string; } | null; // Can be ID string or object
+//   receiveCurrency?: string | { _id?: string; code: string; } | null; // Can be ID string or object
+// }
+
+// // Params Type
+// interface AdminTransferDetailPageParams extends Record<string, string | string[]> {
+//   transferId: string;
+// }
+
+// // --- Loading Skeleton Component (Using divs and Tailwind) ---
+// const LoadingSkeleton = () => (
+//   <div className="container mx-auto px-4 py-8">
+//     {" "}
+//     {/* Container and padding */}
+//     {/* Header Skeleton */}
+//    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+//              <div>
+//                <Skeleton className="h-4 w-64 mb-3 rounded " /> {/* Breadcrumbs */}
+//                <Skeleton className="h-8 w-48 rounded " /> {/* Title */}
+//              </div>
+//              <Skeleton className="h-9 w-32 rounded-md " /> {/* Back Button */}
+//            </div>
+//     {/* Overview Card Skeleton (as div) */}
+//     <div className="bg-lightgray dark:bg-primarybox rounded-xl  sm:p-6 p-4 mb-8">
+//       {" "}
+//       {/* Mimic Card */}
+//       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+//         {/* Left Side Skeleton */}
+//         <div className="flex items-center gap-4">
+//           <Skeleton className="h-8 w-24 rounded-full" /> {/* Status Badge */}
+//           <div className="space-y-1.5">
+//             <Skeleton className="h-3 w-16 rounded" /> {/* Label */}
+//             <Skeleton className="h-4 w-32 rounded" /> {/* Value */}
+//           </div>
+//         </div>
+//         {/* Right Side Skeleton */}
+//         <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-6 mt-4 md:mt-0">
+//           <Skeleton className="h-14 w-40 rounded-lg" /> {/* Date Box */}
+//           <Skeleton className="h-14 w-44 rounded-lg" /> {/* Amount Box */}
+//         </div>
+//       </div>
+//     </div>
+
+//     {/* Main Grid Skeleton */}
+//     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+//       {" "}
+//       {/* Use correct gap */}
+//       {/* Left Column Skeleton */}
+//       <div className="lg:col-span-1 space-y-6">
+//         {/* TransferStatusSection Skeleton (as div) */}
+//         <div className="bg-white dark:bg-primarybox rounded-xl overflow-hidden">
+//           {" "}
+//           {/* Mimic Card */}
+//           {/* Mimic CardHeader */}
+//           <div className="bg-lightgray dark:bg-primarybox px-6 py-4">
+//             <Skeleton className="h-6 w-3/5 rounded" />
+//           </div>
+//           {/* Mimic CardContent */}
+//           <div className="sm:p-6 p-4 space-y-6">
+//             <div className="space-y-2">
+//               <Skeleton className="h-4 w-1/3 rounded" />
+//               <Skeleton className="h-8 w-28 rounded-full" /> {/* Status */}
+//             </div>
+//             <div className="space-y-3">
+//               <Skeleton className="h-4 w-1/4 rounded mb-3" />{" "}
+//               {/* Timeline Title */}
+//               <Skeleton className="h-10 w-full rounded" />{" "}
+//               {/* Timeline Item 1 */}
+//               <Skeleton className="h-10 w-full rounded" />{" "}
+//               {/* Timeline Item 2 */}
+//             </div>
+//             {/* Mimic Footer/Action area */}
+//             <div className="pt-4">
+//               <Skeleton className="h-4 w-1/3 rounded mb-3" />{" "}
+//               {/* Action title */}
+//               <Skeleton className="h-10 w-full rounded-md" /> {/* Dropdown */}
+//             </div>
+//           </div>
+//         </div>
+
+//         {/* TransferInfoCard Skeleton (as div) */}
+//         <div className="bg-white dark:bg-primarybox rounded-xl overflow-hidden">
+//           {" "}
+//           {/* Mimic Card */}
+//           {/* Mimic CardHeader */}
+//           <div className="bg-lightgray dark:bg-primarybox px-6 py-4">
+//             <Skeleton className="h-6 w-1/2 rounded" />
+//           </div>
+//           {/* Mimic CardContent */}
+//           <div className="sm:p-6 p-4 space-y-4">
+//             <Skeleton className="h-14 w-full rounded-lg" />
+//             <Skeleton className="h-14 w-full rounded-lg" />
+//             <Skeleton className="h-14 w-full rounded-lg" />
+//           </div>
+//         </div>
+//       </div>
+//       {/* Right Column Skeleton */}
+//       <div className="lg:col-span-2">
+//         {/* Wrapper div (mimics Card) */}
+//         <div className="rounded-xl bg-white dark:bg-primarybox overflow-hidden">
+//           {/* Mimic CardHeader */}
+//           <div className="bg-lightgray dark:bg-primarybox px-6 py-4">
+//             <Skeleton className="h-6 w-48 rounded" />{" "}
+//             {/* Detailed Info Title */}
+//           </div>
+//           {/* Mimic CardContent */}
+//           <div className="sm:p-6 p-4 space-y-8">
+//             {/* SenderInfoCard Skeleton (as div) */}
+//             <div>
+//               <Skeleton className="h-6 w-40 rounded-full mb-4" />{" "}
+//               {/* Title Badge */}
+//               {/* Inner container mimicking Card structure */}
+//               <div className="flex items-start sm:items-center rounded-xl border p-4 flex-col sm:flex-row">
+//                 <Skeleton className="size-12 sm:size-16 rounded-full flex-shrink-0 mb-3 sm:mb-0" />
+//                 <div className="ml-0 sm:ml-4 flex-grow w-full space-y-2">
+//                   <div className="flex justify-between items-center">
+//                     <Skeleton className="h-5 w-1/2 rounded" /> {/* Name */}
+//                     <Skeleton className="h-5 w-16 rounded-full" /> {/* Badge */}
+//                   </div>
+//                   <Skeleton className="h-4 w-3/4 rounded" /> {/* Email */}
+//                   <div className="mt-3 pt-3 flex gap-6">
+//                     <Skeleton className="h-10 w-1/2 rounded" /> {/* Detail 1 */}
+//                     <Skeleton className="h-10 w-1/2 rounded" /> {/* Detail 2 */}
+//                   </div>
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* RecipientInfoCard Skeleton (as div) */}
+//             <div>
+//               <Skeleton className="h-6 w-44 rounded-full mb-4" />{" "}
+//               {/* Title Badge */}
+//               {/* Inner container mimicking Card structure */}
+//               <div className="rounded-xl border p-4">
+//                 <div className="flex items-start sm:items-center mb-4 flex-col sm:flex-row">
+//                   <Skeleton className="size-12 sm:size-16 rounded-full flex-shrink-0 mb-3 sm:mb-0" />
+//                   <div className="ml-0 sm:ml-4 flex-grow w-full space-y-2">
+//                     <div className="flex justify-between items-center">
+//                       <Skeleton className="h-5 w-1/2 rounded" /> {/* Name */}
+//                       <Skeleton className="h-5 w-20 rounded-full" />{" "}
+//                       {/* Badge */}
+//                     </div>
+//                     <Skeleton className="h-4 w-full rounded" />{" "}
+//                     {/* Email/Nickname */}
+//                   </div>
+//                 </div>
+//                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 mt-2 pt-3">
+//                   <Skeleton className="h-12 w-full rounded" />{" "}
+//                   {/* Detail Item */}
+//                   <Skeleton className="h-12 w-full rounded" />{" "}
+//                   {/* Detail Item */}
+//                   <Skeleton className="h-12 w-full rounded" />{" "}
+//                   {/* Detail Item */}
+//                   <Skeleton className="h-12 w-full rounded" />{" "}
+//                   {/* Detail Item */}
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* TransactionDetailsCard Skeleton (as div) */}
+//             <div>
+//               <Skeleton className="h-6 w-48 rounded-full mb-4" />{" "}
+//               {/* Title Badge */}
+//               {/* Inner container mimicking Card structure */}
+//               <div className="rounded-xl border overflow-hidden">
+//                 {/* Mimic CardContent */}
+//                 <div className="sm:p-5 p-4">
+//                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+//                     <Skeleton className="h-20 w-full rounded-lg" />{" "}
+//                     {/* Sent Amount */}
+//                     <Skeleton className="h-20 w-full rounded-lg" />{" "}
+//                     {/* Received Amount */}
+//                   </div>
+//                 </div>  
+//                 {/* Mimic Divider Area */}
+//                 <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x border-y">
+//                   <div className="p-4">
+//                     <Skeleton className="h-10 w-full rounded" />
+//                   </div>{" "}
+//                   {/* Rate */}
+//                   <div className="p-4">
+//                     <Skeleton className="h-10 w-full rounded" />
+//                   </div>{" "}
+//                   {/* Fee */}
+//                 </div>
+//                 {/* Mimic CardFooter Area */}
+//                 <div className="p-4">
+//                   <Skeleton className="h-10 w-full rounded-lg" />{" "}
+//                   {/* Total Debit */}
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+// );
+
+// // --- Error Display Component ---
+// const ErrorDisplay = ({ error, onRetry }: { error: string | null, onRetry: () => void }) => (
+//     <div className="container mx-auto p-8">
+//       <div className="bg-white dark:bg-secondarybox shadow-sm rounded-xl p-8 text-center">
+//         <div className="mx-auto w-16 h-16 flex items-center justify-center rounded-full bg-rose-100 mb-6">
+//           <XCircle className="h-8 w-8 text-rose-600" />
+//         </div>
+//         <h2 className="text-2xl font-semibold mb-3 text-slate-900 dark:text-white">
+//           Unable to Load Transfer
+//         </h2>
+//         <p className="text-slate-600 dark:text-neutral-300 text-lg mb-6 max-w-lg mx-auto">
+//           {error || "The requested transfer details could not be found or accessed."}
+//         </p>
+//         <div className="flex flex-wrap justify-center gap-4">
+//           <Button onClick={onRetry} variant="default">
+//             <RefreshCw className="size-4 mr-2" />
+//             Retry
+//           </Button>
+//           <Button asChild variant="outline">
+//             <Link href="/admin/transfer">
+//               <ArrowLeft className="size-4 mr-2" />
+//               Back to Transfers
+//             </Link>
+//           </Button>
+//         </div>
+//       </div>
+//     </div>
+// );
+
+// // --- Access Restricted Component ---
+// const AccessRestrictedDisplay = () => (
+//      <div className="container mx-auto p-8">
+//         <div className="bg-white dark:bg-secondarybox shadow-sm rounded-xl p-8 text-center">
+//           <div className="mx-auto w-16 h-16 flex items-center justify-center rounded-full bg-amber-100 mb-6">
+//             <AlertCircle className="h-8 w-8 text-amber-600" />
+//           </div>
+//           <h2 className="text-2xl font-semibold mb-3 text-slate-900 dark:text-white">
+//             Access Restricted
+//           </h2>
+//           <p className="text-slate-600 dark:text-neutral-300 mb-6 max-w-lg mx-auto">
+//             This page requires administrator privileges. You do not have the
+//             necessary permissions to view this content.
+//           </p>
+//           <Button asChild variant="secondary">
+//             <Link href="/dashboard">
+//               <ArrowLeft className="size-4 mr-2" />
+//               Return to Dashboard
+//             </Link>
+//           </Button>
+//         </div>
+//       </div>
+// );
+
+
+// const AdminTransferDetailPage = () => {
+//   const params = useParams<AdminTransferDetailPageParams>();
+//   const { transferId } = params;
+//   const [transfer, setTransfer] = useState<Transfer | null>(null);
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+//   const { token, isAdmin, loading } = useAuth();
+//   const router = useRouter();
+//   const [currenciesMap, setCurrenciesMap] = useState<{ [key: string]: Currency }>({});
+
+//   const fetchData = useCallback(async () => {
+//     if (!token || !transferId) {
+//         console.log("FetchData aborted: Missing token or transferId");
+//         setIsLoading(false); // Ensure loading stops if aborted early
+//         return;
+//     }
+
+//     console.log(`Fetching data for transferId: ${transferId} with token...`);
+//     setIsLoading(true);
+//     setError(null);
+//     try {
+//       // Fetch both data concurrently
+//       const [transferData, currenciesData] = await Promise.all([
+//         adminTransferService.getAdminTransferById(transferId, token),
+//         adminCurrencyService.getAllCurrenciesAdmin(token), // Assume this returns an array of objects
+//       ]);
+
+//        console.log("Fetched Transfer Data:", transferData);
+//        console.log("Fetched Currencies Data:", currenciesData);
+
+//        // Set the transfer state - assuming transferData matches the Transfer interface
+//        setTransfer(transferData as Transfer); // Use assertion if confident in the shape
+
+//        // Build the currencies map
+//        const map: { [key: string]: Currency } = {};
+//        // Ensure currenciesData is an array before iterating
+//        if (Array.isArray(currenciesData)) {
+//             // FIX 1: Removed the `as Currency[]` assertion here.
+//             // Iterate directly over the fetched data.
+//             currenciesData.forEach((currency: any) => { // Use `any` or a broader type if service return type is uncertain
+//                 // Check if it's a valid object with an _id property
+//                 if (currency && typeof currency === 'object' && typeof currency._id === 'string') {
+//                     // Assume the object matches the local Currency interface structure
+//                     map[currency._id] = currency as Currency; // Assert here *after* check if needed
+//                 } else {
+//                     console.warn("Skipping invalid currency entry:", currency);
+//                 }
+//             });
+//        } else {
+//             console.warn("Currencies data received is not an array:", currenciesData);
+//        }
+//       setCurrenciesMap(map);
+//       console.log("Built Currencies Map:", map);
+
+//     } catch (err: unknown) {
+//       let errorMessage = "Failed to load transfer details.";
+//        // Improved error message extraction
+//        if (err instanceof Error) {
+//          errorMessage = err.message;
+//        }
+//        if (typeof err === 'object' && err !== null) {
+//            const potentialError = err as any;
+//            errorMessage = potentialError.response?.data?.message || potentialError.message || errorMessage;
+//        } else if (typeof err === 'string') {
+//            errorMessage = err;
+//        }
+
+//       setError(errorMessage);
+//       console.error("Error fetching transfer details:", errorMessage, err); // Log full error too
+//     } finally {
+//       setIsLoading(false);
+//       console.log("Fetching process finished.");
+//     }
+//   }, [token, transferId]); // Keep dependencies minimal
+
+
+//   useEffect(() => {
+//     if (loading) {
+//         console.log("useEffect waiting: Auth loading");
+//         return;
+//     }
+//     if (!token) {
+//         console.log("useEffect redirecting: No token found");
+//         // Ensure redirect happens only once if possible, maybe check if already redirecting
+//         router.push("/auth/login?redirect=/admin/transfer/" + transferId);
+//         return;
+//     }
+//     if (!isAdmin) {
+//       console.log("useEffect stopped: User is not admin, rendering access restricted.");
+//       setIsLoading(false); // Stop loading if access denied
+//       return;
+//     }
+//     // Only fetch if token and isAdmin are confirmed and not loading
+//     console.log("useEffect triggering fetchData");
+//     fetchData();
+//     // Add fetchData to dependency array as it's defined with useCallback
+//   }, [transferId, token, isAdmin, loading, router, fetchData]);
+
+
+//   const handleStatusUpdated = () => {
+//     console.log("Status updated, re-fetching data...");
+//     fetchData(); // Re-trigger fetch
+//   };
+
+//   // --- Render Logic ---
+
+//   if (loading) { // Check auth loading first
+//      console.log("Rendering: Loading Skeleton (Auth Check)");
+//     return <LoadingSkeleton />;
+//   }
+
+//   if (!isAdmin && !loading) { // Check isAdmin *after* auth loading is done
+//       console.log("Rendering: Access Restricted");
+//       return <AccessRestrictedDisplay />;
+//   }
+
+//   if (isLoading) { // Check data fetching loading state
+//      console.log("Rendering: Loading Skeleton (Data Fetch)");
+//     return <LoadingSkeleton />;
+//   }
+
+//   if (error) { // Check for errors after loading attempts
+//      console.log("Rendering: Error Display");
+//     return <ErrorDisplay error={error} onRetry={fetchData} />;
+//   }
+
+//   if (!transfer) { // Check if transfer data is available after loading and no error
+//      console.log("Rendering: Transfer Not Found (after loading/error checks)");
+//     return (
+//          <div className="container mx-auto p-8 text-center text-slate-600 dark:text-neutral-300">
+//             Transfer data not found or could not be loaded. Please try refreshing or check the transfer ID.
+//          </div>
+//      )
+//   }
+
+//   // --- FIX 2: Prepare data specifically for TransferOverviewCard ---
+//   // Define the structure TransferOverviewCard expects
+//   type TransferOverviewForCard = {
+//     _id?: string | null;
+//     status?: string | null | undefined;
+//     createdAt?: string | Date | null | undefined;
+//     sendAmount?: number | null;
+//     sendCurrency?: CurrencyRef | null; // Use CurrencyRef type defined earlier
+//   };
+
+//   // Helper function to resolve currency identifier (string ID or object) to CurrencyRef
+//   const getCurrencyRef = (
+//       currencyIdentifier: string | { _id?: string; code: string; } | null | undefined,
+//       map: { [key: string]: Currency }
+//   ): CurrencyRef | null => {
+//       if (!currencyIdentifier) return null;
+
+//       // If it's already an object with a code
+//       if (typeof currencyIdentifier === 'object' && currencyIdentifier !== null && typeof currencyIdentifier.code === 'string') {
+//           return { _id: currencyIdentifier._id, code: currencyIdentifier.code };
+//       }
+
+//       // If it's a string ID, look it up in the map
+//       if (typeof currencyIdentifier === 'string') {
+//           const foundCurrency = map[currencyIdentifier];
+//           // Return the expected structure if found, otherwise null
+//           return foundCurrency ? { _id: foundCurrency._id, code: foundCurrency.code } : null;
+//       }
+
+//       // Fallback if it's an object but doesn't have 'code' (shouldn't happen per Transfer type)
+//       if (typeof currencyIdentifier === 'object' && currencyIdentifier !== null) {
+//          return { _id: currencyIdentifier._id, code: null }; // Indicate missing code
+//       }
+
+//       return null; // Fallback for unexpected types
+//   };
+
+//   // Create the data object for the card, prioritizing sendAmount/sendCurrency if available
+//   const overviewData: TransferOverviewForCard = {
+//     _id: transfer._id,
+//     status: transfer.status,
+//     createdAt: transfer.createdAt,
+//     // Use sendAmount if present, otherwise fall back to sourceAmount
+//     sendAmount: transfer.sendAmount ?? transfer.sourceAmount,
+//     // Resolve sendCurrency if present, otherwise fall back to resolving sourceCurrency ID
+//     sendCurrency: getCurrencyRef(transfer.sendCurrency ?? transfer.sourceCurrency, currenciesMap),
+//   };
+//   // --- End of FIX 2 ---
+
+
+//   // --- Main Content Render ---
+//   console.log("Rendering: Main Content for Transfer ID:", transfer._id);
+//   return (
+//     <div className="min-h-screen bg-background">
+//       <Toaster richColors position="top-right" />
+//       <div className="container mx-auto px-4 py-5">
+//         <TransferHeader transferId={transfer._id} />
+
+//         {/* Pass the prepared overviewData */}
+//         <TransferOverviewCard transfer={overviewData} />
+
+//         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+//           {/* Left Column */}
+//           <div className="lg:col-span-1 space-y-6">
+//             <TransferStatusSection
+//               transfer={transfer}
+//               token={token!} // Token is guaranteed here due to checks above
+//               onStatusUpdated={handleStatusUpdated}
+//             />
+//             {/* TransferInfoCard might need similar treatment if its props are strict */}
+//             <TransferInfoCard transfer={transfer} />
+//           </div>
+
+//           {/* Right Column */}
+//           <div className="lg:col-span-2">
+//              <div className="rounded-xl bg-white dark:bg-primarybox overflow-hidden">
+//               <div className="bg-lightgray dark:bg-secondarybox px-6 py-4 border-b dark:border-b-neutral-700">
+//                 <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
+//                   Detailed Information
+//                 </h3>
+//               </div>
+//               <div className="sm:p-6 p-4 space-y-8">
+//                  <SenderInfoCard user={transfer.user} />
+//                  <RecipientInfoCard recipient={transfer.recipient} />
+//                  {/* TransactionDetailsCard receives the original transfer and the map for its own resolutions */}
+//                  <TransactionDetailsCard transfer={transfer} currenciesMap={currenciesMap} />
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default AdminTransferDetailPage;
+
+
+// frontend/src/app/admin/transfers/[transferId]/page.tsx
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
 import adminTransferService from "../../../services/admin/transfer"; // Adjust path
@@ -3320,7 +3888,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { XCircle, RefreshCw, ArrowLeft, AlertCircle } from "lucide-react";
 import Link from "next/link";
-import { Toaster } from "@/components/ui/sonner";
+
+// Import react-toastify
+import { ToastContainer, toast, Slide, ToastContainerProps, TypeOptions } from 'react-toastify'; // Ensured TypeOptions is here
+import 'react-toastify/dist/ReactToastify.css';
+
+// Import CustomToast (adjust path as per your project structure)
+import CustomToast, { CustomToastProps } from "../../../../app/components/CustomToast"; 
 
 // Import the new components
 import TransferHeader from "../../components/transfers/TransferHeader"; // Adjust path
@@ -3332,151 +3906,71 @@ import RecipientInfoCard from "../../components/transfers/RecipientInfoCard"; //
 import TransactionDetailsCard from "../../components/transfers/TransactionDetailsCard"; // Adjust path
 
 // --- Define Interfaces (Ideally move to a central types file) ---
-
-// Basic User structure
-interface User {
-  _id: string;
-  firstName?: string;
-  lastName?: string;
-  email?: string;
-  // Add other relevant user fields
-}
-
-// Basic Recipient structure
-interface Recipient {
-  _id: string;
-  name?: string;
-  email?: string;
-  accountNumber?: string;
-  bankName?: string;
-  // Add other relevant recipient fields
-}
-
-// Basic Currency structure (used for map and potentially TransactionDetailsCard)
-interface Currency {
-  _id: string; // Essential for map key
-  name: string;
-  code: string;
-  symbol: string;
-  flagImage?: string | null;
-}
-
-// CurrencyRef structure expected by TransferOverviewCard
-interface CurrencyRef {
-    _id?: string;
-    code?: string | null;
-}
-
-// Transfer structure - Align with fetched data
+interface User { _id: string; firstName?: string; lastName?: string; email?: string; }
+interface Recipient { _id: string; name?: string; email?: string; accountNumber?: string; bankName?: string; }
+interface Currency { _id: string; name: string; code: string; symbol: string; flagImage?: string | null; }
+interface CurrencyRef { _id?: string; code?: string | null; }
 interface Transfer {
-  _id: string;
-  user: User;
-  recipient: Recipient;
-  sourceCurrency: string; // Usually Currency ID as string
-  targetCurrency: string; // Usually Currency ID as string
-  sourceAmount: number;
-  targetAmount: number;
-  status: string;
-  exchangeRate?: number;
-  fee?: number;
-  fees?: number; // Alternative naming for fee
-  createdAt: string;
-  updatedAt: string;
-  reference?: string;
-  paymentMethod?: string;
-  transferPurpose?: string;
-  // These might exist in API response, potentially pre-populated or just IDs
-  sendAmount?: number | null; // Might be same as sourceAmount
-  receiveAmount?: number | null; // Might be same as targetAmount
-  sendCurrency?: string | { _id?: string; code: string; } | null; // Can be ID string or object
-  receiveCurrency?: string | { _id?: string; code: string; } | null; // Can be ID string or object
+  _id: string; user: User; recipient: Recipient; sourceCurrency: string; targetCurrency: string;
+  sourceAmount: number; targetAmount: number; status: string; exchangeRate?: number; fee?: number; fees?: number;
+  createdAt: string; updatedAt: string; reference?: string; paymentMethod?: string; transferPurpose?: string;
+  sendAmount?: number | null; receiveAmount?: number | null;
+  sendCurrency?: string | { _id?: string; code: string; } | null;
+  receiveCurrency?: string | { _id?: string; code: string; } | null;
 }
+interface AdminTransferDetailPageParams extends Record<string, string | string[]> { transferId: string; }
 
-// Params Type
-interface AdminTransferDetailPageParams extends Record<string, string | string[]> {
-  transferId: string;
-}
-
-// --- Loading Skeleton Component (Using divs and Tailwind) ---
-const LoadingSkeleton = () => (
+// --- Loading Skeleton Component ---
+const LoadingSkeleton = () => ( 
   <div className="container mx-auto px-4 py-8">
-    {" "}
-    {/* Container and padding */}
-    {/* Header Skeleton */}
    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
              <div>
-               <Skeleton className="h-4 w-64 mb-3 rounded " /> {/* Breadcrumbs */}
-               <Skeleton className="h-8 w-48 rounded " /> {/* Title */}
+               <Skeleton className="h-4 w-64 mb-3 rounded " /> 
+               <Skeleton className="h-8 w-48 rounded " /> 
              </div>
-             <Skeleton className="h-9 w-32 rounded-md " /> {/* Back Button */}
+             <Skeleton className="h-9 w-32 rounded-md " /> 
            </div>
-    {/* Overview Card Skeleton (as div) */}
     <div className="bg-lightgray dark:bg-primarybox rounded-xl  sm:p-6 p-4 mb-8">
-      {" "}
-      {/* Mimic Card */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        {/* Left Side Skeleton */}
         <div className="flex items-center gap-4">
-          <Skeleton className="h-8 w-24 rounded-full" /> {/* Status Badge */}
+          <Skeleton className="h-8 w-24 rounded-full" /> 
           <div className="space-y-1.5">
-            <Skeleton className="h-3 w-16 rounded" /> {/* Label */}
-            <Skeleton className="h-4 w-32 rounded" /> {/* Value */}
+            <Skeleton className="h-3 w-16 rounded" /> 
+            <Skeleton className="h-4 w-32 rounded" /> 
           </div>
         </div>
-        {/* Right Side Skeleton */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-6 mt-4 md:mt-0">
-          <Skeleton className="h-14 w-40 rounded-lg" /> {/* Date Box */}
-          <Skeleton className="h-14 w-44 rounded-lg" /> {/* Amount Box */}
+          <Skeleton className="h-14 w-40 rounded-lg" /> 
+          <Skeleton className="h-14 w-44 rounded-lg" /> 
         </div>
       </div>
     </div>
-
-    {/* Main Grid Skeleton */}
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-      {" "}
-      {/* Use correct gap */}
-      {/* Left Column Skeleton */}
       <div className="lg:col-span-1 space-y-6">
-        {/* TransferStatusSection Skeleton (as div) */}
         <div className="bg-white dark:bg-primarybox rounded-xl overflow-hidden">
-          {" "}
-          {/* Mimic Card */}
-          {/* Mimic CardHeader */}
           <div className="bg-lightgray dark:bg-primarybox px-6 py-4">
             <Skeleton className="h-6 w-3/5 rounded" />
           </div>
-          {/* Mimic CardContent */}
           <div className="sm:p-6 p-4 space-y-6">
             <div className="space-y-2">
               <Skeleton className="h-4 w-1/3 rounded" />
-              <Skeleton className="h-8 w-28 rounded-full" /> {/* Status */}
+              <Skeleton className="h-8 w-28 rounded-full" /> 
             </div>
             <div className="space-y-3">
-              <Skeleton className="h-4 w-1/4 rounded mb-3" />{" "}
-              {/* Timeline Title */}
-              <Skeleton className="h-10 w-full rounded" />{" "}
-              {/* Timeline Item 1 */}
-              <Skeleton className="h-10 w-full rounded" />{" "}
-              {/* Timeline Item 2 */}
+              <Skeleton className="h-4 w-1/4 rounded mb-3" />
+              <Skeleton className="h-10 w-full rounded" />
+              <Skeleton className="h-10 w-full rounded" />
             </div>
-            {/* Mimic Footer/Action area */}
             <div className="pt-4">
-              <Skeleton className="h-4 w-1/3 rounded mb-3" />{" "}
-              {/* Action title */}
-              <Skeleton className="h-10 w-full rounded-md" /> {/* Dropdown */}
+              <Skeleton className="h-4 w-1/3 rounded mb-3" />
+              <Skeleton className="h-10 w-full rounded-md" /> 
             </div>
           </div>
         </div>
-
-        {/* TransferInfoCard Skeleton (as div) */}
         <div className="bg-white dark:bg-primarybox rounded-xl overflow-hidden">
-          {" "}
-          {/* Mimic Card */}
-          {/* Mimic CardHeader */}
           <div className="bg-lightgray dark:bg-primarybox px-6 py-4">
             <Skeleton className="h-6 w-1/2 rounded" />
           </div>
-          {/* Mimic CardContent */}
           <div className="sm:p-6 p-4 space-y-4">
             <Skeleton className="h-14 w-full rounded-lg" />
             <Skeleton className="h-14 w-full rounded-lg" />
@@ -3484,100 +3978,64 @@ const LoadingSkeleton = () => (
           </div>
         </div>
       </div>
-      {/* Right Column Skeleton */}
       <div className="lg:col-span-2">
-        {/* Wrapper div (mimics Card) */}
         <div className="rounded-xl bg-white dark:bg-primarybox overflow-hidden">
-          {/* Mimic CardHeader */}
           <div className="bg-lightgray dark:bg-primarybox px-6 py-4">
-            <Skeleton className="h-6 w-48 rounded" />{" "}
-            {/* Detailed Info Title */}
+            <Skeleton className="h-6 w-48 rounded" />
           </div>
-          {/* Mimic CardContent */}
           <div className="sm:p-6 p-4 space-y-8">
-            {/* SenderInfoCard Skeleton (as div) */}
             <div>
-              <Skeleton className="h-6 w-40 rounded-full mb-4" />{" "}
-              {/* Title Badge */}
-              {/* Inner container mimicking Card structure */}
+              <Skeleton className="h-6 w-40 rounded-full mb-4" />
               <div className="flex items-start sm:items-center rounded-xl border p-4 flex-col sm:flex-row">
                 <Skeleton className="size-12 sm:size-16 rounded-full flex-shrink-0 mb-3 sm:mb-0" />
                 <div className="ml-0 sm:ml-4 flex-grow w-full space-y-2">
                   <div className="flex justify-between items-center">
-                    <Skeleton className="h-5 w-1/2 rounded" /> {/* Name */}
-                    <Skeleton className="h-5 w-16 rounded-full" /> {/* Badge */}
+                    <Skeleton className="h-5 w-1/2 rounded" /> 
+                    <Skeleton className="h-5 w-16 rounded-full" /> 
                   </div>
-                  <Skeleton className="h-4 w-3/4 rounded" /> {/* Email */}
+                  <Skeleton className="h-4 w-3/4 rounded" /> 
                   <div className="mt-3 pt-3 flex gap-6">
-                    <Skeleton className="h-10 w-1/2 rounded" /> {/* Detail 1 */}
-                    <Skeleton className="h-10 w-1/2 rounded" /> {/* Detail 2 */}
+                    <Skeleton className="h-10 w-1/2 rounded" /> 
+                    <Skeleton className="h-10 w-1/2 rounded" /> 
                   </div>
                 </div>
               </div>
             </div>
-
-            {/* RecipientInfoCard Skeleton (as div) */}
             <div>
-              <Skeleton className="h-6 w-44 rounded-full mb-4" />{" "}
-              {/* Title Badge */}
-              {/* Inner container mimicking Card structure */}
+              <Skeleton className="h-6 w-44 rounded-full mb-4" />
               <div className="rounded-xl border p-4">
                 <div className="flex items-start sm:items-center mb-4 flex-col sm:flex-row">
                   <Skeleton className="size-12 sm:size-16 rounded-full flex-shrink-0 mb-3 sm:mb-0" />
                   <div className="ml-0 sm:ml-4 flex-grow w-full space-y-2">
                     <div className="flex justify-between items-center">
-                      <Skeleton className="h-5 w-1/2 rounded" /> {/* Name */}
-                      <Skeleton className="h-5 w-20 rounded-full" />{" "}
-                      {/* Badge */}
+                      <Skeleton className="h-5 w-1/2 rounded" /> 
+                      <Skeleton className="h-5 w-20 rounded-full" />
                     </div>
-                    <Skeleton className="h-4 w-full rounded" />{" "}
-                    {/* Email/Nickname */}
+                    <Skeleton className="h-4 w-full rounded" />
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4 mt-2 pt-3">
-                  <Skeleton className="h-12 w-full rounded" />{" "}
-                  {/* Detail Item */}
-                  <Skeleton className="h-12 w-full rounded" />{" "}
-                  {/* Detail Item */}
-                  <Skeleton className="h-12 w-full rounded" />{" "}
-                  {/* Detail Item */}
-                  <Skeleton className="h-12 w-full rounded" />{" "}
-                  {/* Detail Item */}
+                  <Skeleton className="h-12 w-full rounded" />
+                  <Skeleton className="h-12 w-full rounded" />
+                  <Skeleton className="h-12 w-full rounded" />
+                  <Skeleton className="h-12 w-full rounded" />
                 </div>
               </div>
             </div>
-
-            {/* TransactionDetailsCard Skeleton (as div) */}
             <div>
-              <Skeleton className="h-6 w-48 rounded-full mb-4" />{" "}
-              {/* Title Badge */}
-              {/* Inner container mimicking Card structure */}
+              <Skeleton className="h-6 w-48 rounded-full mb-4" />
               <div className="rounded-xl border overflow-hidden">
-                {/* Mimic CardContent */}
                 <div className="sm:p-5 p-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                    <Skeleton className="h-20 w-full rounded-lg" />{" "}
-                    {/* Sent Amount */}
-                    <Skeleton className="h-20 w-full rounded-lg" />{" "}
-                    {/* Received Amount */}
+                    <Skeleton className="h-20 w-full rounded-lg" />
+                    <Skeleton className="h-20 w-full rounded-lg" />
                   </div>
                 </div>  
-                {/* Mimic Divider Area */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x border-y">
-                  <div className="p-4">
-                    <Skeleton className="h-10 w-full rounded" />
-                  </div>{" "}
-                  {/* Rate */}
-                  <div className="p-4">
-                    <Skeleton className="h-10 w-full rounded" />
-                  </div>{" "}
-                  {/* Fee */}
+                  <div className="p-4"> <Skeleton className="h-10 w-full rounded" /> </div>
+                  <div className="p-4"> <Skeleton className="h-10 w-full rounded" /> </div>
                 </div>
-                {/* Mimic CardFooter Area */}
-                <div className="p-4">
-                  <Skeleton className="h-10 w-full rounded-lg" />{" "}
-                  {/* Total Debit */}
-                </div>
+                <div className="p-4"> <Skeleton className="h-10 w-full rounded-lg" /> </div>
               </div>
             </div>
           </div>
@@ -3586,9 +4044,8 @@ const LoadingSkeleton = () => (
     </div>
   </div>
 );
-
 // --- Error Display Component ---
-const ErrorDisplay = ({ error, onRetry }: { error: string | null, onRetry: () => void }) => (
+const ErrorDisplay = ({ error, onRetry }: { error: string | null, onRetry: () => void }) => ( 
     <div className="container mx-auto p-8">
       <div className="bg-white dark:bg-secondarybox shadow-sm rounded-xl p-8 text-center">
         <div className="mx-auto w-16 h-16 flex items-center justify-center rounded-full bg-rose-100 mb-6">
@@ -3602,22 +4059,19 @@ const ErrorDisplay = ({ error, onRetry }: { error: string | null, onRetry: () =>
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <Button onClick={onRetry} variant="default">
-            <RefreshCw className="size-4 mr-2" />
-            Retry
+            <RefreshCw className="size-4 mr-2" /> Retry
           </Button>
           <Button asChild variant="outline">
-            <Link href="/admin/transfer">
-              <ArrowLeft className="size-4 mr-2" />
-              Back to Transfers
+            <Link href="/admin/transfers">
+              <ArrowLeft className="size-4 mr-2" /> Back to Transfers
             </Link>
           </Button>
         </div>
       </div>
     </div>
 );
-
 // --- Access Restricted Component ---
-const AccessRestrictedDisplay = () => (
+const AccessRestrictedDisplay = () => ( 
      <div className="container mx-auto p-8">
         <div className="bg-white dark:bg-secondarybox shadow-sm rounded-xl p-8 text-center">
           <div className="mx-auto w-16 h-16 flex items-center justify-center rounded-full bg-amber-100 mb-6">
@@ -3632,14 +4086,43 @@ const AccessRestrictedDisplay = () => (
           </p>
           <Button asChild variant="secondary">
             <Link href="/dashboard">
-              <ArrowLeft className="size-4 mr-2" />
-              Return to Dashboard
+              <ArrowLeft className="size-4 mr-2" /> Return to Dashboard
             </Link>
           </Button>
         </div>
       </div>
 );
 
+// Helper to map transfer status to Toast type
+const mapTransferStatusToToastType = (status: string): CustomToastProps['type'] => {
+    const lowerStatus = status.toLowerCase();
+    switch (lowerStatus) {
+        case "completed": return "success";
+        case "pending": case "processing": return "info"; 
+        case "canceled": case "cancelled": case "failed": return "error"; 
+        case "unknown": return "warning";
+        default: return "default";
+    }
+};
+
+// Helper to get currency reference for cards
+const getCurrencyRef = (
+    currencyIdentifier: string | { _id?: string; code: string; } | null | undefined,
+    map: { [key: string]: Currency }
+): CurrencyRef | null => {
+    if (!currencyIdentifier) return null;
+    if (typeof currencyIdentifier === 'object' && currencyIdentifier !== null && typeof currencyIdentifier.code === 'string') {
+        return { _id: currencyIdentifier._id, code: currencyIdentifier.code };
+    }
+    if (typeof currencyIdentifier === 'string') {
+        const foundCurrency = map[currencyIdentifier];
+        return foundCurrency ? { _id: foundCurrency._id, code: foundCurrency.code } : null;
+    }
+    if (typeof currencyIdentifier === 'object' && currencyIdentifier !== null) {
+       return { _id: (currencyIdentifier as any)._id, code: null }; 
+    }
+    return null;
+};
 
 const AdminTransferDetailPage = () => {
   const params = useParams<AdminTransferDetailPageParams>();
@@ -3647,226 +4130,169 @@ const AdminTransferDetailPage = () => {
   const [transfer, setTransfer] = useState<Transfer | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { token, isAdmin, loading } = useAuth();
+  const { token, isAdmin, loading: authLoading } = useAuth();
   const router = useRouter();
   const [currenciesMap, setCurrenciesMap] = useState<{ [key: string]: Currency }>({});
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const showToast = useCallback((
+    message: string,
+    type?: CustomToastProps['type']
+  ) => {
+    const effectiveType = type || 'default';
+    let progressClassName: string;
+
+    switch(effectiveType) {
+      case 'success':
+        progressClassName = "toast-progress-success";
+        break;
+      case 'error':
+        progressClassName = "toast-progress-error";
+        break;
+      case 'info':
+        progressClassName = "toast-progress-info";
+        break;
+      case 'warning':
+        progressClassName = "toast-progress-warning";
+        break;
+      case 'default':
+      default:
+        progressClassName = "toast-progress-default";
+        break;
+    }
+    
+    toast(<CustomToast message={message} type={effectiveType} />, {
+        progressClassName: progressClassName,
+        type: effectiveType as TypeOptions, // MODIFIED: Pass type to react-toastify
+        icon: false, // MODIFIED: Disable react-toastify's default icon
+    });
+  }, []);
 
   const fetchData = useCallback(async () => {
-    if (!token || !transferId) {
-        console.log("FetchData aborted: Missing token or transferId");
-        setIsLoading(false); // Ensure loading stops if aborted early
-        return;
-    }
-
-    console.log(`Fetching data for transferId: ${transferId} with token...`);
-    setIsLoading(true);
+    if (!token || !transferId) { setIsLoading(false); return; }
+    setIsLoading(true); 
     setError(null);
     try {
-      // Fetch both data concurrently
       const [transferData, currenciesData] = await Promise.all([
         adminTransferService.getAdminTransferById(transferId, token),
-        adminCurrencyService.getAllCurrenciesAdmin(token), // Assume this returns an array of objects
+        adminCurrencyService.getAllCurrenciesAdmin(token),
       ]);
-
-       console.log("Fetched Transfer Data:", transferData);
-       console.log("Fetched Currencies Data:", currenciesData);
-
-       // Set the transfer state - assuming transferData matches the Transfer interface
-       setTransfer(transferData as Transfer); // Use assertion if confident in the shape
-
-       // Build the currencies map
+       setTransfer(transferData as Transfer); 
        const map: { [key: string]: Currency } = {};
-       // Ensure currenciesData is an array before iterating
        if (Array.isArray(currenciesData)) {
-            // FIX 1: Removed the `as Currency[]` assertion here.
-            // Iterate directly over the fetched data.
-            currenciesData.forEach((currency: any) => { // Use `any` or a broader type if service return type is uncertain
-                // Check if it's a valid object with an _id property
+            currenciesData.forEach((currency: any) => { 
                 if (currency && typeof currency === 'object' && typeof currency._id === 'string') {
-                    // Assume the object matches the local Currency interface structure
-                    map[currency._id] = currency as Currency; // Assert here *after* check if needed
-                } else {
-                    console.warn("Skipping invalid currency entry:", currency);
+                    map[currency._id] = currency as Currency; 
                 }
             });
-       } else {
-            console.warn("Currencies data received is not an array:", currenciesData);
        }
       setCurrenciesMap(map);
-      console.log("Built Currencies Map:", map);
-
     } catch (err: unknown) {
       let errorMessage = "Failed to load transfer details.";
-       // Improved error message extraction
-       if (err instanceof Error) {
-         errorMessage = err.message;
-       }
+       if (err instanceof Error) errorMessage = err.message;
        if (typeof err === 'object' && err !== null) {
            const potentialError = err as any;
            errorMessage = potentialError.response?.data?.message || potentialError.message || errorMessage;
-       } else if (typeof err === 'string') {
-           errorMessage = err;
-       }
-
+       } else if (typeof err === 'string') errorMessage = err;
+      showToast(errorMessage, 'error');
       setError(errorMessage);
-      console.error("Error fetching transfer details:", errorMessage, err); // Log full error too
     } finally {
-      setIsLoading(false);
-      console.log("Fetching process finished.");
+      setIsLoading(false); 
     }
-  }, [token, transferId]); // Keep dependencies minimal
-
+  }, [token, transferId, showToast]); 
 
   useEffect(() => {
-    if (loading) {
-        console.log("useEffect waiting: Auth loading");
-        return;
-    }
-    if (!token) {
-        console.log("useEffect redirecting: No token found");
-        // Ensure redirect happens only once if possible, maybe check if already redirecting
-        router.push("/auth/login?redirect=/admin/transfer/" + transferId);
-        return;
-    }
-    if (!isAdmin) {
-      console.log("useEffect stopped: User is not admin, rendering access restricted.");
-      setIsLoading(false); // Stop loading if access denied
-      return;
-    }
-    // Only fetch if token and isAdmin are confirmed and not loading
-    console.log("useEffect triggering fetchData");
+    if (authLoading) return;
+    if (!token) { router.push("/auth/login?redirect=/admin/transfers/" + transferId); return; }
+    if (!isAdmin) { setIsLoading(false); return; }
     fetchData();
-    // Add fetchData to dependency array as it's defined with useCallback
-  }, [transferId, token, isAdmin, loading, router, fetchData]);
-
+  }, [transferId, token, isAdmin, authLoading, router, fetchData]);
 
   const handleStatusUpdated = () => {
-    console.log("Status updated, re-fetching data...");
-    fetchData(); // Re-trigger fetch
+    fetchData();
+    // Optionally, show a success toast after status update + refetch
+    // showToast("Transfer status refreshed.", "info"); 
   };
 
-  // --- Render Logic ---
+  const toastContainerProps: ToastContainerProps = {
+    position: "top-right", autoClose: 5000, hideProgressBar: false, newestOnTop: true,
+    closeOnClick: false, closeButton: false, rtl: false, pauseOnFocusLoss: true,
+    draggable: true, pauseOnHover: true, transition: Slide,
+    toastClassName: () => "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3",
+  };
 
-  if (loading) { // Check auth loading first
-     console.log("Rendering: Loading Skeleton (Auth Check)");
+  const getToastContainerStyle = (): React.CSSProperties & { [key: `--${string}`]: string | number } => {
+    const baseStyle = { zIndex: 99999 };
+    if (isMobile) return { ...baseStyle, top: "1rem", left: "1rem", right: "1rem", width: "auto" };
+    return { ...baseStyle, top: "0.75rem", right: "0.75rem", width: "320px" };
+  };
+
+  const overviewDataForCard = (() => {
+    if (!transfer) return null;
+    return {
+      _id: transfer._id, status: transfer.status, createdAt: transfer.createdAt,
+      sendAmount: transfer.sendAmount ?? transfer.sourceAmount,
+      sendCurrency: getCurrencyRef(transfer.sendCurrency ?? transfer.sourceCurrency, currenciesMap),
+    };
+  })();
+
+  if (authLoading) {
     return <LoadingSkeleton />;
   }
 
-  if (!isAdmin && !loading) { // Check isAdmin *after* auth loading is done
-      console.log("Rendering: Access Restricted");
-      return <AccessRestrictedDisplay />;
-  }
-
-  if (isLoading) { // Check data fetching loading state
-     console.log("Rendering: Loading Skeleton (Data Fetch)");
-    return <LoadingSkeleton />;
-  }
-
-  if (error) { // Check for errors after loading attempts
-     console.log("Rendering: Error Display");
-    return <ErrorDisplay error={error} onRetry={fetchData} />;
-  }
-
-  if (!transfer) { // Check if transfer data is available after loading and no error
-     console.log("Rendering: Transfer Not Found (after loading/error checks)");
-    return (
-         <div className="container mx-auto p-8 text-center text-slate-600 dark:text-neutral-300">
-            Transfer data not found or could not be loaded. Please try refreshing or check the transfer ID.
-         </div>
-     )
-  }
-
-  // --- FIX 2: Prepare data specifically for TransferOverviewCard ---
-  // Define the structure TransferOverviewCard expects
-  type TransferOverviewForCard = {
-    _id?: string | null;
-    status?: string | null | undefined;
-    createdAt?: string | Date | null | undefined;
-    sendAmount?: number | null;
-    sendCurrency?: CurrencyRef | null; // Use CurrencyRef type defined earlier
-  };
-
-  // Helper function to resolve currency identifier (string ID or object) to CurrencyRef
-  const getCurrencyRef = (
-      currencyIdentifier: string | { _id?: string; code: string; } | null | undefined,
-      map: { [key: string]: Currency }
-  ): CurrencyRef | null => {
-      if (!currencyIdentifier) return null;
-
-      // If it's already an object with a code
-      if (typeof currencyIdentifier === 'object' && currencyIdentifier !== null && typeof currencyIdentifier.code === 'string') {
-          return { _id: currencyIdentifier._id, code: currencyIdentifier.code };
-      }
-
-      // If it's a string ID, look it up in the map
-      if (typeof currencyIdentifier === 'string') {
-          const foundCurrency = map[currencyIdentifier];
-          // Return the expected structure if found, otherwise null
-          return foundCurrency ? { _id: foundCurrency._id, code: foundCurrency.code } : null;
-      }
-
-      // Fallback if it's an object but doesn't have 'code' (shouldn't happen per Transfer type)
-      if (typeof currencyIdentifier === 'object' && currencyIdentifier !== null) {
-         return { _id: currencyIdentifier._id, code: null }; // Indicate missing code
-      }
-
-      return null; // Fallback for unexpected types
-  };
-
-  // Create the data object for the card, prioritizing sendAmount/sendCurrency if available
-  const overviewData: TransferOverviewForCard = {
-    _id: transfer._id,
-    status: transfer.status,
-    createdAt: transfer.createdAt,
-    // Use sendAmount if present, otherwise fall back to sourceAmount
-    sendAmount: transfer.sendAmount ?? transfer.sourceAmount,
-    // Resolve sendCurrency if present, otherwise fall back to resolving sourceCurrency ID
-    sendCurrency: getCurrencyRef(transfer.sendCurrency ?? transfer.sourceCurrency, currenciesMap),
-  };
-  // --- End of FIX 2 ---
-
-
-  // --- Main Content Render ---
-  console.log("Rendering: Main Content for Transfer ID:", transfer._id);
   return (
     <div className="min-h-screen bg-background">
-      <Toaster richColors position="top-right" />
-      <div className="container mx-auto px-4 py-8">
-        <TransferHeader transferId={transfer._id} />
+      <ToastContainer {...toastContainerProps} style={getToastContainerStyle()} />
 
-        {/* Pass the prepared overviewData */}
-        <TransferOverviewCard transfer={overviewData} />
-
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column */}
-          <div className="lg:col-span-1 space-y-6">
-            <TransferStatusSection
-              transfer={transfer}
-              token={token!} // Token is guaranteed here due to checks above
-              onStatusUpdated={handleStatusUpdated}
-            />
-            {/* TransferInfoCard might need similar treatment if its props are strict */}
-            <TransferInfoCard transfer={transfer} />
-          </div>
-
-          {/* Right Column */}
-          <div className="lg:col-span-2">
-             <div className="rounded-xl bg-white dark:bg-primarybox overflow-hidden">
-              <div className="bg-lightgray dark:bg-secondarybox px-6 py-4 border-b dark:border-b-neutral-700">
-                <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
-                  Detailed Information
-                </h3>
-              </div>
-              <div className="sm:p-6 p-4 space-y-8">
-                 <SenderInfoCard user={transfer.user} />
-                 <RecipientInfoCard recipient={transfer.recipient} />
-                 {/* TransactionDetailsCard receives the original transfer and the map for its own resolutions */}
-                 <TransactionDetailsCard transfer={transfer} currenciesMap={currenciesMap} />
+      {!isAdmin ? (
+        <AccessRestrictedDisplay />
+      ) : isLoading ? (
+        <LoadingSkeleton /> 
+      ) : error && !transfer ? (
+        <div className="container mx-auto px-4 py-5">
+          <ErrorDisplay error={error} onRetry={fetchData} />
+        </div>
+      ) : !transfer ? (
+        <div className="container mx-auto p-8 text-center text-slate-600 dark:text-neutral-300">
+          Transfer data not found. Please try refreshing or check the transfer ID.
+        </div>
+      ) : (
+        <div className="container mx-auto px-4 py-5">
+          <TransferHeader transferId={transfer._id} />
+          {overviewDataForCard && <TransferOverviewCard transfer={overviewDataForCard} />}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-1 space-y-6">
+              <TransferStatusSection
+                transfer={transfer}
+                token={token!}
+                onStatusUpdated={handleStatusUpdated}
+                showToast={showToast} // Pass the updated showToast
+                mapStatusToToastType={mapTransferStatusToToastType}
+              />
+              <TransferInfoCard transfer={transfer} />
+            </div>
+            <div className="lg:col-span-2">
+              <div className="rounded-xl bg-white dark:bg-primarybox overflow-hidden">
+                <div className="bg-lightgray dark:bg-secondarybox px-6 py-4 border-b dark:border-b-neutral-700">
+                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Detailed Information</h3>
+                </div>
+                <div className="sm:p-6 p-4 space-y-8">
+                  <SenderInfoCard user={transfer.user} />
+                  <RecipientInfoCard recipient={transfer.recipient} />
+                  <TransactionDetailsCard transfer={transfer} currenciesMap={currenciesMap} />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

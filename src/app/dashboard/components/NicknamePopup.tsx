@@ -80,17 +80,36 @@ const NicknamePopup: React.FC<NicknamePopupProps> = ({
 }) => {
   const [isMobile, setIsMobile] = useState(false);
 
+  // --- Body Scroll Lock ---
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    // Cleanup function to ensure the class is removed when the component unmounts
+    // or if the modal was closed by other means.
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen]);
+
   useEffect(() => {
     const checkMobileScreen = () => {
-      setIsMobile(window.innerWidth < 640); // Define mobile breakpoint (768px as an example)
+      setIsMobile(window.innerWidth < 640); // Define mobile breakpoint (640px as an example)
     };
 
-    checkMobileScreen(); // Initial check on mount
+    // Check on mount and add listener
+    if (typeof window !== 'undefined') {
+        checkMobileScreen();
+        window.addEventListener('resize', checkMobileScreen);
+    }
 
-    window.addEventListener('resize', checkMobileScreen); // Add listener for resize
-
+    // Cleanup listener on unmount
     return () => {
-      window.removeEventListener('resize', checkMobileScreen); // Cleanup listener on unmount
+        if (typeof window !== 'undefined') {
+            window.removeEventListener('resize', checkMobileScreen);
+        }
     };
   }, []);
 
@@ -122,6 +141,10 @@ const NicknamePopup: React.FC<NicknamePopupProps> = ({
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
+          onClick={onClose} // Close modal on backdrop click
+          aria-modal="true" // Added for accessibility
+          role="dialog"      // Added for accessibility
+          aria-labelledby="nickname-popup-title" // Added for accessibility
         >
           <motion.div
             className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl sm:p-8 p-4 w-full sm:max-w-lg relative"
@@ -134,6 +157,8 @@ const NicknamePopup: React.FC<NicknamePopupProps> = ({
               <button
                 className="p-3 bg-lightborder hover:bg-neutral-300 dark:bg-primarybox dark:hover:bg-secondarybox rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
                 onClick={onClose}
+                aria-label="Close popup" // Generic aria-label
+
               >
                 <IoClose
                   size={28}
@@ -141,7 +166,7 @@ const NicknamePopup: React.FC<NicknamePopupProps> = ({
                 />
               </button>
             </div>
-            <h3 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white my-6">
+            <h3 id="nickname-popup-title" className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white my-6">
               {title}
             </h3>
             {description && (

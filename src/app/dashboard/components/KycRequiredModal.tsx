@@ -37,6 +37,20 @@ const KycRequiredModal: React.FC<KycRequiredModalProps> = ({
 
   const [isMobile, setIsMobile] = useState(false);
 
+  // --- Body Scroll Lock ---
+  useEffect(() => {
+    if (isOpen) {
+      document.body.classList.add("overflow-hidden");
+    } else {
+      document.body.classList.remove("overflow-hidden");
+    }
+    // Cleanup function to ensure the class is removed when the component unmounts
+    // or if the modal was closed by other means.
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+    };
+  }, [isOpen]);
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 640); // Example breakpoint, adjust as needed
@@ -61,6 +75,9 @@ const KycRequiredModal: React.FC<KycRequiredModalProps> = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose} // Close on overlay click
+          aria-modal="true" // Added for accessibility
+          role="dialog"      // Added for accessibility
+          aria-labelledby="kyc-required-modal-title" // Added for accessibility
         >
           <motion.div
             className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl sm:p-8 p-4 w-full sm:max-w-lg relative text-center" // Modal container styles
@@ -73,13 +90,13 @@ const KycRequiredModal: React.FC<KycRequiredModalProps> = ({
             {/* Close Button */}
             <div className="absolute sm:top-2 sm:right-2 top-1 right-1">
               <button
-                className="p-3 hover:bg-lightborder dark:hover:bg-secondarybox rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
+                className="p-3 bg-lightborder hover:bg-neutral-300 dark:bg-primarybox dark:hover:bg-secondarybox rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
                 onClick={onClose}
                 aria-label="Close modal"
               >
                 <IoClose
                   size={28}
-                  className="text-neutral-900 dark:text-white"
+                  className="text-neutral-900 dark:text-primary"
                 />
               </button>
             </div>
@@ -97,14 +114,14 @@ const KycRequiredModal: React.FC<KycRequiredModalProps> = ({
             </div>
 
             {/* Title */}
-            <h3 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white my-6">
+            <h3 id="kyc-required-modal-title" className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white my-6">
               KYC Verification Required
             </h3>
 
             {/* Description */}
             <p className="text-gray dark:text-gray-300 font-medium mb-6">
-              Please complete your KYC verification
-              first. This helps us keep your account secure.
+              Please complete your KYC verification first. This helps us keep
+              your account secure.
             </p>
 
             {/* Action Buttons */}

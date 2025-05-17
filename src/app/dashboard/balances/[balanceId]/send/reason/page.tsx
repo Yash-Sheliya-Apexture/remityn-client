@@ -837,6 +837,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 
 // Import the CustomDropdown component
 import CustomDropdown from "../../../../../admin/components/add-money/CustomDropdown"; // Adjust path as needed
+import { AlertTriangle } from "lucide-react";
 
 // Define an interface for the summary data stored in localStorage
 interface SendSummary {
@@ -942,20 +943,27 @@ const TransferReasonPage = () => {
 
   // Render error early if balanceId is fundamentally wrong (optional stricter check)
   if (typeof balanceId !== 'string') {
-      return <div className="container mx-auto max-w-lg p-4 lg:p-8 text-red-600">Error: Invalid page URL.</div>;
+      return (
+        <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-4 flex items-center gap-3">
+          <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+              <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+          </div>
+          <p className="text-red-700 dark:text-red-300/90"> Error: Invalid page URL. </p>
+        </div>
+      );
   }
 
   return (
-    <div className="TransferReason-Page pt-5">
+    <div className="TransferReason-Page">
       {/* Optional Header */}
       {/* <DashboardHeader title="Send Money" currentStep={2.5} totalSteps={steps.length} steps={steps} /> */}
 
       <div className="mx-auto lg:max-w-lg">
-        <h1 className="sm:text-3xl text-2xl font-bold text-mainheading dark:text-white mb-4">
+        <h1 className="lg:text-3xl md:text-2xl text-xl font-semibold text-mainheading dark:text-white mb-4">
           What's the reason for your transfer?
         </h1>
         {summary?.receiveCurrencyCode === "INR" && (
-          <p className="text-gray-500 dark:text-gray-300 sm:text-lg text-base mb-6">
+          <p className="text-gray-500 dark:text-gray-300 sm:text-lg text-sm mb-6">
             Please note that transfers to charities or NGOs in India may have
             restrictions.
           </p>

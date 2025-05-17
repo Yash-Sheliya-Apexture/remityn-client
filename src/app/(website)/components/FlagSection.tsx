@@ -708,7 +708,7 @@ const FlagSection = () => {
           >
             {/* Animated Title, Heading, Desc */}
             <motion.div // Animate the text block as one container
-              className="space-y-4 text-center md:text-left pl-6"
+              className="space-y-4 text-center md:text-left lg:pl-6 "
               variants={containerVariants} // Stagger the children (badge, h1, p)
               initial="hidden"
               whileInView="visible"

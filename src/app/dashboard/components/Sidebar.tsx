@@ -3067,6 +3067,775 @@
 
 // export default Sidebar;
 
+// "use client";
+// import React, { useEffect, useRef, useState, useCallback } from "react";
+// import { usePathname, useRouter } from "next/navigation";
+// import { motion, AnimatePresence } from "framer-motion";
+// import {
+//   FiCreditCard,
+//   FiUserPlus,
+//   FiSettings,
+//   FiPlus,
+//   FiUsers,
+// } from "react-icons/fi";
+// import { RiHomeLine, RiHistoryLine } from "react-icons/ri";
+// import { GrTransaction } from "react-icons/gr";
+// import { BsSend } from "react-icons/bs";
+// import { GoArrowUp } from "react-icons/go";
+// import { VscSignOut } from "react-icons/vsc";
+// import Image from "next/image";
+// import Link from "next/link";
+// import { useAuth } from "../../contexts/AuthContext"; // Adjust path if necessary
+// import { useBalances } from "../../hooks/useBalances"; // Adjust path if necessary
+// import { Skeleton } from "@/components/ui/skeleton"; // Adjust path if necessary
+// import { IoClose } from "react-icons/io5";
+// import { TbMoneybag } from "react-icons/tb";
+
+// // Props Interface
+// interface SidebarProps {
+//   sidebarOpen: boolean;
+//   toggleSidebar: () => void;
+// }
+
+// // Navigation Link Definition Interface
+// interface NavLinkDefinition {
+//   label: string;
+//   icon: keyof typeof icons;
+//   route: string | (() => string); // Can be a static string or a function returning a string
+//   id: string; // Unique identifier for the link
+// }
+
+// // Icon Mapping
+// const icons = {
+//   RiHomeLine,
+//   GrTransaction,
+//   BsSend,
+//   GoArrowUp,
+//   FiCreditCard,
+//   FiUserPlus,
+//   FiSettings,
+//   RiHistoryLine,
+//   FiPlus,
+//   FiUsers,
+//   TbMoneybag
+// };
+
+// // Breakpoints
+// const LG_BREAKPOINT = 1024;
+// const SM_BREAKPOINT = 640;
+
+// // Sidebar Component
+// const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
+//   const router = useRouter();
+//   const pathname = usePathname();
+//   const sidebarRef = useRef<HTMLDivElement>(null);
+//   const [isMobileView, setIsMobileView] = useState<boolean | null>(null);
+//   const [isSmallScreen, setIsSmallScreen] = useState<boolean | null>(null);
+//   const { logout, token } = useAuth(); // Get token
+//   const {
+//     balances,
+//     isLoading: isLoadingBalances,
+//     error: balancesError,
+//   } = useBalances(); // Fetch balances (hook ideally checks token internally)
+
+//   // --- State for Bottom Nav Action Menu ---
+//   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
+
+//   // --- Simple flag for authentication status ---
+//   const isAuthenticated = !!token;
+
+//   // --- Screen Size Detection ---
+//   useEffect(() => {
+//     const checkScreenSizes = () => {
+//       if (typeof window !== "undefined") {
+//         const currentWidth = window.innerWidth;
+//         setIsMobileView(currentWidth < LG_BREAKPOINT);
+//         const currentlySmall = currentWidth < SM_BREAKPOINT;
+//         setIsSmallScreen(currentlySmall);
+//         // Close action menu if screen resizes past the small breakpoint OR if sidebar opens (which hides bottom nav)
+//         if ((!currentlySmall || sidebarOpen) && isActionMenuOpen) {
+//           setIsActionMenuOpen(false);
+//         }
+//       }
+//     };
+//     checkScreenSizes(); // Initial check
+//     window.addEventListener("resize", checkScreenSizes);
+//     // Listen for sidebar state changes to close action menu if sidebar opens
+//     if (sidebarOpen && isActionMenuOpen) {
+//       setIsActionMenuOpen(false);
+//     }
+//     return () => window.removeEventListener("resize", checkScreenSizes);
+//   }, [isActionMenuOpen, sidebarOpen]); // Re-run if menu or sidebar state changes
+
+//   // --- Outside Click Handler (Mobile Sidebar) ---
+//   useEffect(() => {
+//     const handleClickOutside = (event: MouseEvent) => {
+//       // Close sidebar if clicking outside of it on mobile view
+//       if (
+//         sidebarRef.current &&
+//         !sidebarRef.current.contains(event.target as Node) &&
+//         sidebarOpen &&
+//         isMobileView === true
+//       ) {
+//         toggleSidebar();
+//       }
+//       // Note: Action menu closing is handled by backdrop click or item click
+//     };
+//     if (sidebarOpen && isMobileView === true) {
+//       document.addEventListener("mousedown", handleClickOutside);
+//     } else {
+//       document.removeEventListener("mousedown", handleClickOutside);
+//     }
+//     return () => document.removeEventListener("mousedown", handleClickOutside);
+//   }, [sidebarOpen, isMobileView, toggleSidebar]);
+
+//     // --- CORRECTED: Effect to control body scroll ---
+//     useEffect(() => {
+//       // Lock body scroll ONLY when the sidebar is open AND it's in mobile overlay mode (isMobileView === true)
+//       if (sidebarOpen && isMobileView === true) {
+//         document.body.style.overflow = "hidden";
+//       } else {
+//         // Restore body scroll in all other cases (sidebar closed, or not in mobile overlay mode)
+//         document.body.style.overflow = "";
+//       }
+
+//       // Cleanup function to restore scroll on component unmount,
+//       // especially if it unmounts while scroll is locked.
+//       return () => {
+//         document.body.style.overflow = "";
+//       };
+//     }, [sidebarOpen, isMobileView]); // Depend on sidebarOpen and isMobileView
+//     // --- END CORRECTED Effect ---
+
+//   // --- Dynamic Route Functions (Memoized with useCallback) ---
+//   const getAddMoneyRoute = useCallback((): string => {
+//     if (!isAuthenticated) return "/auth/login"; // Use isAuthenticated flag
+//     if (isLoadingBalances) return "#"; // Indicate loading, link will be disabled
+//     if (balancesError) return "/dashboard?error=balances"; // Or handle error appropriately
+//     // return balances && balances.length > 0
+//     //   ? "/dashboard/add-money/select-balance"
+//     //   : "/dashboard/add-balance";
+//     return "/dashboard/add-money/select-balance";
+
+//   }, [balances, isLoadingBalances, balancesError, isAuthenticated]); // Depend on isAuthenticated
+
+//   const getSendMoneyRoute = useCallback((): string => {
+//     if (!isAuthenticated) return "/auth/login"; // Use isAuthenticated flag
+//     if (isLoadingBalances) return "#"; // Indicate loading, link will be disabled
+//     if (balancesError) return "/dashboard?error=balances"; // Or handle error appropriately
+//     return "/dashboard/send/select-balance";
+//   }, [isLoadingBalances, balancesError, isAuthenticated]); // Depend on isAuthenticated
+
+//   // --- Sidebar Nav Link Definitions ---
+//   const navLinksData: NavLinkDefinition[] = [
+//     {
+//       id: "dashboard",
+//       label: "Dashboard",
+//       icon: "RiHomeLine",
+//       route: "/dashboard",
+//     },
+//     {
+//       id: "transactions",
+//       label: "Transactions",
+//       icon: "GrTransaction",
+//       route: "/dashboard/transactions",
+//     },
+//     {
+//       id: "send",
+//       label: "Send Money",
+//       icon: "BsSend",
+//       route: getSendMoneyRoute,
+//     }, // Use dynamic route function
+//     {
+//       id: "add-money",
+//       label: "Add Money",
+//       icon: "TbMoneybag",
+//       route: getAddMoneyRoute,
+//     }, // Use dynamic route function
+//     {
+//       id: "recipients",
+//       label: "Recipients",
+//       icon: "FiUserPlus",
+//       route: "/dashboard/recipients",
+//     },
+//     {
+//       id: "settings",
+//       label: "Settings",
+//       icon: "FiSettings",
+//       route: "/dashboard/your-account",
+//     },
+//   ];
+
+//   // --- Bottom Nav Data Definitions ---
+//   const standardBottomNavItems = [
+//     {
+//       label: "Home",
+//       icon: "RiHomeLine",
+//       route: "/dashboard",
+//       id: "bottom-home",
+//     },
+//     {
+//       label: "Activity",
+//       icon: "RiHistoryLine",
+//       route: "/dashboard/transactions",
+//       id: "bottom-activity",
+//     },
+//     // The middle FAB takes the place of an item here
+//     {
+//       label: "Recipients",
+//       icon: "FiUsers",
+//       route: "/dashboard/recipients",
+//       id: "bottom-recipients",
+//     },
+//     {
+//       label: "Settings",
+//       icon: "FiSettings",
+//       route: "/dashboard/your-account",
+//       id: "bottom-settings",
+//     },
+//   ];
+
+//   // --- Action Items for the Pop-up Menu ---
+//   const actionItems = [
+//     {
+//       id: "bottom-action-send", // Unique ID for disabling check
+//       label: "Send Money",
+//       icon: "BsSend",
+//       route: getSendMoneyRoute, // Use the function
+//       color: "bg-primary", // Example: Use primary theme color
+//     },
+//     {
+//       id: "bottom-action-add", // Unique ID for disabling check
+//       label: "Add Money",
+//       icon: "GoArrowUp",
+//       route: getAddMoneyRoute, // Use the function
+//       color: "bg-green-600", // Example: Use an accent color
+//     },
+//   ];
+
+//   // --- Logout Handler ---
+//   const handleLogout = () => {
+//     logout(); // This should update the token state provided by useAuth
+//     router.push("/auth/login");
+//     // Close sidebar if it was open on mobile during logout
+//     if (sidebarOpen && isMobileView) {
+//       toggleSidebar();
+//     }
+//   };
+
+//   // --- Render Logic Conditions ---
+//   // Full sidebar renders on large screens OR on mobile when the sidebar is explicitly open
+//   const renderFullSidebar =
+//     isMobileView === false || (isMobileView === true && sidebarOpen);
+//   // Bottom nav renders ONLY on small screens AND when the sidebar is closed
+//   const renderBottomNav = isSmallScreen === true && !sidebarOpen;
+
+//   // --- Helper Function to Resolve Routes ---
+//   const resolveRoute = (route: string | (() => string)): string => {
+//     return typeof route === "function" ? route() : route;
+//   };
+
+//   // --- Disabling Logic for Links/Buttons ---
+//   const isLinkDisabled = (
+//     id: string,
+//     dataSource: "sidebar" | "bottomNav" | "actionMenu" = "sidebar" // Default to sidebar
+//   ): boolean => {
+//     let linkDef: { route: string | (() => string) } | undefined;
+
+//     // Find the link definition based on the source
+//     if (dataSource === "sidebar") {
+//       linkDef = navLinksData.find((link) => link.id === id);
+//     } else if (dataSource === "bottomNav") {
+//       linkDef = standardBottomNavItems.find((link) => link.id === id);
+//     } else if (dataSource === "actionMenu") {
+//       linkDef = actionItems.find((link) => link.id === id);
+//     }
+
+//     if (!linkDef) return false; // Item not found, shouldn't be disabled
+
+//     // Resolve the route first to check for login requirement
+//     const finalRoute = resolveRoute(linkDef.route);
+
+//     // Check if the item specifically depends on balance loading state AND user is authenticated
+//     const dependsOnBalances = [
+//       "send",
+//       "add-money",
+//       "bottom-action-send",
+//       "bottom-action-add",
+//     ].includes(id);
+
+//     if (dependsOnBalances) {
+//         // Disable if not authenticated OR if authenticated but balances are loading
+//         if (!isAuthenticated || (isAuthenticated && isLoadingBalances)) {
+//             return true;
+//         }
+//     }
+
+//     // Disable if the resolved route indicates an issue (e.g., loading placeholder '#')
+//     // This handles the case where get...Route functions return '#' when loading
+//     return finalRoute === "#";
+//   };
+
+//   // --- Skeleton Component for Loading States ---
+//   const NavItemSkeleton = () => (
+//     <div className="relative w-full flex items-center gap-3 py-3 px-4 font-medium mb-3 text-neutral-400 dark:text-gray-600">
+//       <Skeleton className="w-6 h-6 rounded-full flex-shrink-0" />
+//       <Skeleton className="w-24 h-6 rounded" />
+//     </div>
+//   );
+
+//   // --- Hydration Guard ---
+//   // Prevent rendering potentially incorrect UI during SSR/hydration mismatch before screen size is known
+//   if (isMobileView === null || isSmallScreen === null) {
+//     return null; // Or a minimal loading state if preferred
+//   }
+
+//   // --- Component Return JSX ---
+//   return (
+//     <>
+//       {/* Backdrop for Mobile Sidebar (when open) */}
+//       <AnimatePresence>
+//         {sidebarOpen && isMobileView === true && (
+//           <motion.div
+//             key="sidebar-backdrop"
+//             initial={{ opacity: 0 }}
+//             animate={{ opacity: 1 }}
+//             exit={{ opacity: 0 }}
+//             transition={{ duration: 0.2 }}
+//             onClick={toggleSidebar} // Click backdrop to close sidebar
+//             className="fixed inset-0 bg-black/50 dark:bg-black/70 z-30 lg:hidden"
+//             aria-hidden="true"
+//           />
+//         )}
+//       </AnimatePresence>
+
+//       {/* Full Sidebar (Desktop or Mobile when open) */}
+//       <AnimatePresence>
+//         {renderFullSidebar && (
+//           <motion.div
+//             key="full-sidebar"
+//             ref={sidebarRef}
+//             className={`w-64 fixed lg:sticky bg-white dark:bg-background h-screen inset-y-0 left-0 ${
+//               isMobileView ? "z-40" : "lg:z-10" // Higher z-index on mobile to overlay content
+//             } flex flex-col shadow-lg lg:shadow-none`}
+//             // Animate sidebar sliding in/out on mobile
+//             initial={isMobileView ? { x: "-100%" } : { x: 0 }}
+//             animate={{ x: 0 }}
+//             exit={isMobileView ? { x: "-100%" } : { x: 0 }}
+//             transition={{ duration: 0.3, ease: "easeInOut" }}
+//           >
+//             {/* Sidebar Header */}
+//             <div className="flex-shrink-0 flex items-center justify-start px-4 lg:h-28 h-20 relative">
+//               <Link
+//                 href="/dashboard"
+//                 className="inline-block"
+//                 // Close sidebar if clicking logo on mobile
+//                 onClick={() => {
+//                   if (isMobileView && sidebarOpen) toggleSidebar();
+//                 }}
+//               >
+//                 <Image
+//                   src="/assets/images/wise-logo.svg" // Ensure this path is correct in your public folder
+//                   alt="Wise Logo"
+//                   width={120}
+//                   height={30}
+//                   priority // Load logo faster
+//                 />
+//               </Link>
+//               {/* Close button only on mobile */}
+//               {isMobileView && (
+//                 <button
+//                   onClick={toggleSidebar}
+//                   className="absolute top-1/2 right-3 -translate-y-1/2 lg:hidden bg-lightborder cursor-pointer hover:bg-neutral-300 dark:bg-primarybox dark:hover:bg-secondarybox z-10 p-2.5 rounded-full transition-colors duration-300 ease-in-out"
+//                   aria-label="Close sidebar"
+//                 >
+//                   <IoClose
+//                     size={26}
+//                     className="text-mainheading dark:text-primary"
+//                   />
+//                 </button>
+//               )}
+//             </div>
+
+//             {/* Scrollable Navigation Area */}
+//             <div className="p-2 flex-grow overflow-y-auto [&::-webkit-scrollbar-track]:rounded-3xl [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-3xl [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+//               <nav className="flex-grow">
+//                 {/* MODIFIED Condition: Show skeletons ONLY if authenticated AND loading */}
+//                 {isAuthenticated && isLoadingBalances ? (
+//                   <>
+//                     {/* Render skeletons based on navLinksData length */}
+//                     {navLinksData.map((item) => (
+//                       <NavItemSkeleton key={`${item.id}-skeleton`} />
+//                     ))}
+//                   </>
+//                 ) : (
+//                   // Render actual nav links (links will be disabled/redirect if needed based on auth status)
+//                   navLinksData.map((item) => {
+//                     const IconComponent = icons[item.icon];
+//                     const finalRoute = resolveRoute(item.route);
+//                     // isLinkDisabled checks token status indirectly via resolveRoute for relevant links
+//                     const isDisabled = isLinkDisabled(item.id, "sidebar");
+//                     // Determine active state based on current pathname AND authentication
+//                     const isActive =
+//                       isAuthenticated && // Link can only be active if authenticated
+//                       !isDisabled &&
+//                       (pathname === finalRoute ||
+//                         (finalRoute !== "/dashboard" &&
+//                           pathname.startsWith(finalRoute))); // Match sub-routes too
+
+//                     // Define sensitive links that require authentication
+//                     const requiresAuth = [
+//                       "transactions",
+//                       "send",
+//                       "add-money",
+//                       "recipients",
+//                       "settings",
+//                     ].includes(item.id);
+//                     const visuallyDisabled =
+//                       isDisabled || (requiresAuth && !isAuthenticated);
+
+//                     return (
+//                       <Link
+//                         key={item.id}
+//                         href={visuallyDisabled ? "#" : finalRoute} // Prevent navigation if disabled or needs auth
+//                         onClick={(e) => {
+//                           // Prevent default if visually disabled
+//                           if (visuallyDisabled) {
+//                             e.preventDefault();
+//                             // Optional: Redirect to login if requires auth and not logged in
+//                             if (requiresAuth && !isAuthenticated) {
+//                               router.push("/auth/login");
+//                             }
+//                             return;
+//                           }
+//                           // Close sidebar on mobile after navigation
+//                           if (isMobileView && sidebarOpen) {
+//                             toggleSidebar();
+//                           }
+//                         }}
+//                         className={`relative w-full flex items-center gap-3 py-3 px-6 font-medium rounded-full transition duration-200 mb-3
+//                           ${
+//                             isActive
+//                               ? "lg:bg-transparent dark:lg:bg-transparent bg-primary/60 text-neutral-900 dark:bg-primarybox dark:text-primary" // Active styles
+//                               : visuallyDisabled
+//                               ? "text-neutral-400 dark:text-gray-600 cursor-not-allowed opacity-60" // Disabled styles (loading or needs auth)
+//                               : "text-neutral-500 hover:text-neutral-900 dark:text-gray-300 dark:hover:text-primary" // Default hover styles
+//                           }
+//                         `}
+//                         aria-current={isActive ? "page" : undefined}
+//                         aria-disabled={visuallyDisabled}
+//                         tabIndex={visuallyDisabled ? -1 : 0} // Improve accessibility
+//                       >
+//                         {/* Animated indicator for active link */}
+//                         {isActive && (
+//                           <motion.div
+//                             layoutId="active-sidebar-indicator" // Shared layout ID for animation
+//                             className="absolute inset-0 rounded-full bg-primary dark:bg-primarybox"
+//                             initial={false}
+//                             transition={{
+//                               type: "spring",
+//                               stiffness: 300,
+//                               damping: 30,
+//                             }}
+//                           />
+//                         )}
+//                         {/* Render icon and label */}
+//                         {IconComponent && (
+//                           <IconComponent className="w-6 h-6 relative z-10 flex-shrink-0" />
+//                         )}
+//                         <span className="relative z-10 truncate">
+//                           {item.label}
+//                         </span>
+//                       </Link>
+//                     );
+//                   })
+//                 )}
+//               </nav>
+//               {/* Logout Button - Only show if authenticated */}
+//               {isAuthenticated && (
+//                 <>
+//                   {/* If authenticated AND loading balances, show skeleton */}
+//                   {isLoadingBalances ? (
+//                     <NavItemSkeleton key="logout-skeleton" />
+//                   ) : (
+//                     <button
+//                       onClick={handleLogout}
+//                       className="w-full flex items-center space-x-3 py-3 px-6 font-medium rounded-full transition duration-200 mb-2 cursor-pointer text-neutral-500 hover:text-neutral-900 dark:text-gray-300 dark:hover:text-primary"
+//                       // disabled={isLoadingBalances} // Optional: disable during loading
+//                     >
+//                       <VscSignOut className="w-6 h-6 flex-shrink-0" />
+//                       <span className="font-medium">Logout</span>
+//                     </button>
+//                   )}
+//                 </>
+//               )}
+//             </div>
+//           </motion.div>
+//         )}
+//       </AnimatePresence>
+
+//       {/* Backdrop for Action Menu (when open) */}
+//       <AnimatePresence>
+//         {isActionMenuOpen &&
+//           renderBottomNav && ( // Show only when menu is open AND bottom nav is visible
+//             <motion.div
+//               key="action-menu-backdrop"
+//               initial={{ opacity: 0 }}
+//               animate={{ opacity: 1 }}
+//               exit={{ opacity: 0 }}
+//               transition={{ duration: 0.2 }}
+//               onClick={() => setIsActionMenuOpen(false)} // Click backdrop to close menu
+//               className="fixed inset-0 bg-black/50 dark:bg-white/30 z-40 sm:hidden" // z-index below menu/fab, only on small screens
+//               aria-hidden="true"
+//             />
+//           )}
+//       </AnimatePresence>
+
+//       {/* Bottom Navigation Bar Container */}
+//       <AnimatePresence>
+//         {renderBottomNav && (
+//           <motion.div
+//             key="bottom-nav"
+//             initial={{ y: "100%" }} // Animate sliding up from bottom
+//             animate={{ y: 0 }}
+//             exit={{ y: "100%" }} // Animate sliding down
+//             transition={{ duration: 0.2, ease: "easeInOut" }}
+//             // z-index above backdrop, below action menu/fab pop-up
+//             className="sm:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-background border-t z-45 rounded-tl-3xl rounded-tr-3xl"
+//           >
+//             {/* Flex container for nav items + FAB space */}
+//             <div className="flex items-center justify-around h-16 relative">
+//               {standardBottomNavItems.slice(0, 2).map((item) => {
+//                 const IconComponent = icons[item.icon as keyof typeof icons];
+//                 const finalRoute = resolveRoute(item.route);
+//                 // Note: Bottom nav items 'home', 'activity', 'recipients', 'settings' might also need auth check
+//                 const requiresAuth = [
+//                   "bottom-activity",
+//                   "bottom-recipients",
+//                   "bottom-settings",
+//                 ].includes(item.id);
+//                 const isDisabled = isLinkDisabled(item.id, "bottomNav"); // Checks loading state for specific actions if applicable
+//                 const visuallyDisabled =
+//                   isDisabled || (requiresAuth && !isAuthenticated);
+//                 const isActive =
+//                   isAuthenticated && // Can only be active if authenticated
+//                   !visuallyDisabled &&
+//                   (pathname === finalRoute ||
+//                     (finalRoute !== "/dashboard" &&
+//                       pathname.startsWith(finalRoute)));
+
+//                 return (
+//                   <Link
+//                     key={item.id}
+//                     href={visuallyDisabled ? "#" : finalRoute}
+//                     onClick={(e) => {
+//                       if (visuallyDisabled) {
+//                         e.preventDefault();
+//                         if (requiresAuth && !isAuthenticated) {
+//                           router.push("/auth/login");
+//                         }
+//                         return;
+//                       }
+//                     }}
+//                     className={`flex relative flex-col items-center justify-center space-y-1 p-1 grow basis-0 h-full transition-colors duration-200 group ${
+//                       // Use basis-0 and grow for equal spacing
+//                       visuallyDisabled
+//                         ? "cursor-not-allowed opacity-50 pointer-events-none"
+//                         : ""
+//                     } ${
+//                       isActive
+//                         ? "text-primary dark:text-primary"
+//                         : "text-neutral-500 dark:text-gray-400 hover:text-neutral-800 dark:hover:text-gray-200"
+//                     }`}
+//                     aria-current={isActive ? "page" : undefined}
+//                     aria-disabled={visuallyDisabled}
+//                     tabIndex={visuallyDisabled ? -1 : 0}
+//                   >
+//                     <div className={`transition-colors`}>
+//                       {IconComponent && <IconComponent className="size-6" />}
+//                     </div>
+//                     <span
+//                       className={`text-[10px] font-medium transition-colors truncate ${
+//                         isActive
+//                           ? "text-primary dark:text-primary"
+//                           : "text-neutral-600 dark:text-gray-400 group-hover:text-neutral-800 dark:group-hover:text-gray-200"
+//                       }`}
+//                     >
+//                       {item.label}
+//                     </span>
+//                   </Link>
+//                 );
+//               })}
+//               {/* Center Action Button Container & Pop-up Menu */}
+//               <div className="relative flex justify-center grow basis-0 h-full">
+//                 <button
+//                   onClick={() => setIsActionMenuOpen(!isActionMenuOpen)} // Toggle menu state
+//                   aria-haspopup="true"
+//                   aria-expanded={isActionMenuOpen}
+//                   aria-controls="action-menu-popup" // Links button to the menu
+//                   aria-label="Open actions menu"
+//                   // Disable the FAB itself if the user is not logged in, as its actions require auth
+//                   disabled={!isAuthenticated}
+//                   className={`absolute -top-1/2 z-50 flex items-center bg-white dark:bg-background rounded-full ${
+//                     !isAuthenticated ? "opacity-50 cursor-not-allowed" : ""
+//                   }`} // Added border classes and disabled state
+//                 >
+//                   <div className="flex items-center justify-center w-15 h-15 rounded-full bg-primary transition-all duration-200 ease-out hover:bg-primary/90">
+//                     <BsSend className="size-6 text-neutral-900" />
+//                     {/* Changed icon and size */}
+//                   </div>
+//                 </button>
+//                 {/* Action Menu Pop-up - Only render if authenticated */}
+//                 <AnimatePresence>
+//                   {isAuthenticated &&
+//                     isActionMenuOpen && ( // Check authentication before rendering menu
+//                       <motion.div
+//                         id="action-menu-popup" // ID for aria-controls
+//                         // Animation: pop up from bottom, fade in, scale up
+//                         initial={{ y: 10, opacity: 0, scale: 0.9 }}
+//                         animate={{ y: -78, opacity: 1, scale: 1 }} // Position above the FAB
+//                         exit={{
+//                           y: 10,
+//                           opacity: 0,
+//                           scale: 0.9,
+//                           transition: { duration: 0.15 },
+//                         }}
+//                         transition={{
+//                           type: "spring",
+//                           stiffness: 350,
+//                           damping: 25,
+//                         }}
+//                         className="absolute bottom-12 bg-white dark:bg-background rounded-2xl p-3 z-48 flex flex-col gap-1 w-48" // Changed width class
+//                       >
+//                         {actionItems.map((action) => {
+//                           const IconComponent =
+//                             icons[action.icon as keyof typeof icons];
+//                           const finalRoute = resolveRoute(action.route);
+//                           // isLinkDisabled already checks for auth and loading status for these actions
+//                           const isDisabled = isLinkDisabled(
+//                             action.id,
+//                             "actionMenu"
+//                           );
+
+//                           return (
+//                             <Link
+//                               key={action.id}
+//                               href={isDisabled ? "#" : finalRoute}
+//                               onClick={(e) => {
+//                                 if (isDisabled) {
+//                                   e.preventDefault(); // Prevent navigation if disabled
+//                                   return;
+//                                 }
+//                                 setIsActionMenuOpen(false); // Close menu on click/tap
+//                               }}
+//                               className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors duration-150
+//                               ${
+//                                 isDisabled
+//                                   ? "text-neutral-400 dark:text-gray-600 cursor-not-allowed opacity-70" // Disabled styles
+//                                   : `text-neutral-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10` // Enabled styles
+//                               }`}
+//                               aria-disabled={isDisabled}
+//                               tabIndex={isDisabled ? -1 : 0}
+//                             >
+//                               {/* Icon with colored background circle */}
+//                               <div
+//                                 className={`p-2 rounded-md ${
+//                                   isDisabled
+//                                     ? "bg-gray-300 dark:bg-gray-700"
+//                                     : action.color
+//                                 }`}
+//                               >
+//                                 {IconComponent && (
+//                                   <IconComponent
+//                                     className={`size-5 ${
+//                                       isDisabled
+//                                         ? "text-gray-500"
+//                                         : "text-background"
+//                                     }`}
+//                                   />
+//                                 )}
+//                               </div>
+//                               <span className="text-sm font-medium">
+//                                 {action.label}
+//                               </span>
+//                             </Link>
+//                           );
+//                         })}
+//                       </motion.div>
+//                     )}
+//                 </AnimatePresence>
+//               </div>
+//               {standardBottomNavItems.slice(2).map((item) => {
+//                 const IconComponent = icons[item.icon as keyof typeof icons];
+//                 const finalRoute = resolveRoute(item.route);
+//                 // Note: Bottom nav items 'home', 'activity', 'recipients', 'settings' might also need auth check
+//                 const requiresAuth = [
+//                   "bottom-activity",
+//                   "bottom-recipients",
+//                   "bottom-settings",
+//                 ].includes(item.id);
+//                 const isDisabled = isLinkDisabled(item.id, "bottomNav"); // Checks loading state if applicable
+//                 const visuallyDisabled =
+//                   isDisabled || (requiresAuth && !isAuthenticated);
+//                 const isActive =
+//                   isAuthenticated && // Can only be active if authenticated
+//                   !visuallyDisabled &&
+//                   (pathname === finalRoute ||
+//                     (finalRoute !== "/dashboard" &&
+//                       pathname.startsWith(finalRoute)));
+
+//                 return (
+//                   <Link
+//                     key={item.id}
+//                     href={visuallyDisabled ? "#" : finalRoute}
+//                     onClick={(e) => {
+//                       if (visuallyDisabled) {
+//                         e.preventDefault();
+//                         if (requiresAuth && !isAuthenticated) {
+//                           router.push("/auth/login");
+//                         }
+//                         return;
+//                       }
+//                     }}
+//                     className={`flex relative flex-col items-center justify-center space-y-1 p-1 grow basis-0 h-full transition-colors duration-200 group ${
+//                       // Use basis-0 and grow for equal spacing
+//                       visuallyDisabled
+//                         ? "cursor-not-allowed opacity-50 pointer-events-none"
+//                         : ""
+//                     } ${
+//                       isActive
+//                         ? "text-primary dark:text-primary"
+//                         : "text-neutral-500 dark:text-gray-400 hover:text-neutral-800 dark:hover:text-gray-200"
+//                     }`}
+//                     aria-current={isActive ? "page" : undefined}
+//                     aria-disabled={visuallyDisabled}
+//                     tabIndex={visuallyDisabled ? -1 : 0}
+//                   >
+//                     <div className={`transition-colors`}>
+//                       {IconComponent && <IconComponent className="size-6" />}
+//                     </div>
+//                     <span
+//                       className={`text-[10px] font-medium transition-colors truncate ${
+//                         isActive
+//                           ? "text-primary dark:text-primary"
+//                           : "text-neutral-600 dark:text-gray-400 group-hover:text-neutral-800 dark:group-hover:text-gray-200"
+//                       }`}
+//                     >
+//                       {item.label}
+//                     </span>
+//                   </Link>
+//                 );
+//               })}
+//             </div>
+//           </motion.div>
+//         )}
+//       </AnimatePresence>
+//     </>
+//   );
+// };
+
+// export default Sidebar;
+
 "use client";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -3077,6 +3846,7 @@ import {
   FiSettings,
   FiPlus,
   FiUsers,
+  FiMessageSquare, // Chat icon
 } from "react-icons/fi";
 import { RiHomeLine, RiHistoryLine } from "react-icons/ri";
 import { GrTransaction } from "react-icons/gr";
@@ -3085,12 +3855,11 @@ import { GoArrowUp } from "react-icons/go";
 import { VscSignOut } from "react-icons/vsc";
 import Image from "next/image";
 import Link from "next/link";
-import { useAuth } from "../../contexts/AuthContext"; // Adjust path if necessary
-import { useBalances } from "../../hooks/useBalances"; // Adjust path if necessary
-import { Skeleton } from "@/components/ui/skeleton"; // Adjust path if necessary
+import { useAuth } from "../../contexts/AuthContext";
+import { useBalances } from "../../hooks/useBalances";
+import { Skeleton } from "@/components/ui/skeleton";
 import { IoClose } from "react-icons/io5";
 import { TbMoneybag } from "react-icons/tb";
-
 
 // Props Interface
 interface SidebarProps {
@@ -3098,15 +3867,7 @@ interface SidebarProps {
   toggleSidebar: () => void;
 }
 
-// Navigation Link Definition Interface
-interface NavLinkDefinition {
-  label: string;
-  icon: keyof typeof icons;
-  route: string | (() => string); // Can be a static string or a function returning a string
-  id: string; // Unique identifier for the link
-}
-
-// Icon Mapping
+// Icon Mapping - Define this before NavLinkDefinition and ActionListItem
 const icons = {
   RiHomeLine,
   GrTransaction,
@@ -3118,8 +3879,28 @@ const icons = {
   RiHistoryLine,
   FiPlus,
   FiUsers,
-  TbMoneybag
+  TbMoneybag,
+  FiMessageSquare,
 };
+
+// Navigation Link Definition Interface
+interface NavLinkDefinition {
+  label: string;
+  icon: keyof typeof icons;
+  id: string;
+  route?: string | (() => string); // Optional route
+  action?: () => void; // Optional action
+}
+
+// Type for items in the actionItems array (FAB pop-up)
+interface ActionListItem {
+  id: string;
+  label: string;
+  icon: keyof typeof icons;
+  route: () => string; // Route is mandatory here
+  color: string;
+  // No 'action' property here
+}
 
 // Breakpoints
 const LG_BREAKPOINT = 1024;
@@ -3132,20 +3913,42 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
   const [isMobileView, setIsMobileView] = useState<boolean | null>(null);
   const [isSmallScreen, setIsSmallScreen] = useState<boolean | null>(null);
-  const { logout, token } = useAuth(); // Get token
+  const { logout, token } = useAuth();
   const {
     balances,
     isLoading: isLoadingBalances,
     error: balancesError,
-  } = useBalances(); // Fetch balances (hook ideally checks token internally)
+  } = useBalances();
 
-  // --- State for Bottom Nav Action Menu ---
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
-
-  // --- Simple flag for authentication status ---
   const isAuthenticated = !!token;
 
-  // --- Screen Size Detection ---
+  const tawkToPropertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID;
+  const tawkToWidgetId = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID;
+  const isTawkToEnabled = !!(tawkToPropertyId && tawkToWidgetId);
+
+  const openTawkToChat = useCallback(() => {
+    if (window.Tawk_API) {
+      if (typeof window.Tawk_API.maximize === "function") {
+        window.Tawk_API.maximize();
+      } else if (typeof window.Tawk_API.toggle === "function") {
+        window.Tawk_API.toggle();
+      } else {
+        console.warn(
+          "Tawk_API.maximize() or Tawk_API.toggle() is not available."
+        );
+      }
+    } else {
+      console.warn("Tawk_API is not initialized. Cannot open chat.");
+    }
+    if (isMobileView && sidebarOpen) {
+      toggleSidebar();
+    }
+    if (isActionMenuOpen) {
+      setIsActionMenuOpen(false);
+    }
+  }, [isMobileView, sidebarOpen, toggleSidebar, isActionMenuOpen]);
+
   useEffect(() => {
     const checkScreenSizes = () => {
       if (typeof window !== "undefined") {
@@ -3153,25 +3956,21 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
         setIsMobileView(currentWidth < LG_BREAKPOINT);
         const currentlySmall = currentWidth < SM_BREAKPOINT;
         setIsSmallScreen(currentlySmall);
-        // Close action menu if screen resizes past the small breakpoint OR if sidebar opens (which hides bottom nav)
         if ((!currentlySmall || sidebarOpen) && isActionMenuOpen) {
           setIsActionMenuOpen(false);
         }
       }
     };
-    checkScreenSizes(); // Initial check
+    checkScreenSizes();
     window.addEventListener("resize", checkScreenSizes);
-    // Listen for sidebar state changes to close action menu if sidebar opens
     if (sidebarOpen && isActionMenuOpen) {
       setIsActionMenuOpen(false);
     }
     return () => window.removeEventListener("resize", checkScreenSizes);
-  }, [isActionMenuOpen, sidebarOpen]); // Re-run if menu or sidebar state changes
+  }, [isActionMenuOpen, sidebarOpen]);
 
-  // --- Outside Click Handler (Mobile Sidebar) ---
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // Close sidebar if clicking outside of it on mobile view
       if (
         sidebarRef.current &&
         !sidebarRef.current.contains(event.target as Node) &&
@@ -3180,7 +3979,6 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
       ) {
         toggleSidebar();
       }
-      // Note: Action menu closing is handled by backdrop click or item click
     };
     if (sidebarOpen && isMobileView === true) {
       document.addEventListener("mousedown", handleClickOutside);
@@ -3190,45 +3988,32 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [sidebarOpen, isMobileView, toggleSidebar]);
 
-    // --- CORRECTED: Effect to control body scroll ---
-    useEffect(() => {
-      // Lock body scroll ONLY when the sidebar is open AND it's in mobile overlay mode (isMobileView === true)
-      if (sidebarOpen && isMobileView === true) {
-        document.body.style.overflow = "hidden";
-      } else {
-        // Restore body scroll in all other cases (sidebar closed, or not in mobile overlay mode)
-        document.body.style.overflow = "";
-      }
-  
-      // Cleanup function to restore scroll on component unmount,
-      // especially if it unmounts while scroll is locked.
-      return () => {
-        document.body.style.overflow = "";
-      };
-    }, [sidebarOpen, isMobileView]); // Depend on sidebarOpen and isMobileView
-    // --- END CORRECTED Effect ---
+  useEffect(() => {
+    if (sidebarOpen && isMobileView === true) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [sidebarOpen, isMobileView]);
 
-  // --- Dynamic Route Functions (Memoized with useCallback) ---
   const getAddMoneyRoute = useCallback((): string => {
-    if (!isAuthenticated) return "/auth/login"; // Use isAuthenticated flag
-    if (isLoadingBalances) return "#"; // Indicate loading, link will be disabled
-    if (balancesError) return "/dashboard?error=balances"; // Or handle error appropriately
-    // return balances && balances.length > 0
-    //   ? "/dashboard/add-money/select-balance"
-    //   : "/dashboard/add-balance";
+    if (!isAuthenticated) return "/auth/login";
+    if (isLoadingBalances) return "#";
+    if (balancesError) return "/dashboard?error=balances";
     return "/dashboard/add-money/select-balance";
-
-  }, [balances, isLoadingBalances, balancesError, isAuthenticated]); // Depend on isAuthenticated
+  }, [isAuthenticated, isLoadingBalances, balancesError]);
 
   const getSendMoneyRoute = useCallback((): string => {
-    if (!isAuthenticated) return "/auth/login"; // Use isAuthenticated flag
-    if (isLoadingBalances) return "#"; // Indicate loading, link will be disabled
-    if (balancesError) return "/dashboard?error=balances"; // Or handle error appropriately
+    if (!isAuthenticated) return "/auth/login";
+    if (isLoadingBalances) return "#";
+    if (balancesError) return "/dashboard?error=balances";
     return "/dashboard/send/select-balance";
-  }, [isLoadingBalances, balancesError, isAuthenticated]); // Depend on isAuthenticated
+  }, [isAuthenticated, isLoadingBalances, balancesError]);
 
-  // --- Sidebar Nav Link Definitions ---
-  const navLinksData: NavLinkDefinition[] = [
+  const baseNavLinks: NavLinkDefinition[] = [
     {
       id: "dashboard",
       label: "Dashboard",
@@ -3246,13 +4031,13 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
       label: "Send Money",
       icon: "BsSend",
       route: getSendMoneyRoute,
-    }, // Use dynamic route function
+    },
     {
       id: "add-money",
       label: "Add Money",
       icon: "TbMoneybag",
       route: getAddMoneyRoute,
-    }, // Use dynamic route function
+    },
     {
       id: "recipients",
       label: "Recipients",
@@ -3267,117 +4052,168 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
     },
   ];
 
-  // --- Bottom Nav Data Definitions ---
-  const standardBottomNavItems = [
-    {
-      label: "Home",
-      icon: "RiHomeLine",
-      route: "/dashboard",
-      id: "bottom-home",
-    },
-    {
-      label: "Activity",
-      icon: "RiHistoryLine",
-      route: "/dashboard/transactions",
-      id: "bottom-activity",
-    },
-    // The middle FAB takes the place of an item here
-    {
-      label: "Recipients",
-      icon: "FiUsers",
-      route: "/dashboard/recipients",
-      id: "bottom-recipients",
-    },
-    {
-      label: "Settings",
-      icon: "FiSettings",
-      route: "/dashboard/your-account",
-      id: "bottom-settings",
-    },
-  ];
+  const navLinksData: NavLinkDefinition[] = [...baseNavLinks];
+  if (isTawkToEnabled) {
+    const settingsIndex = navLinksData.findIndex(
+      (link) => link.id === "settings"
+    );
+    if (settingsIndex !== -1) {
+      navLinksData.splice(settingsIndex, 0, {
+        id: "chat-with-us",
+        label: "Chat with Us",
+        icon: "FiMessageSquare",
+        action: openTawkToChat, // This item has an action, no route
+      });
+    } else {
+      navLinksData.push({
+        id: "chat-with-us",
+        label: "Chat with Us",
+        icon: "FiMessageSquare",
+        action: openTawkToChat,
+      });
+    }
+  }
 
-  // --- Action Items for the Pop-up Menu ---
-  const actionItems = [
+  const getStandardBottomNavItems = useCallback((): NavLinkDefinition[] => {
+    const items: NavLinkDefinition[] = [
+      {
+        label: "Home",
+        icon: "RiHomeLine",
+        route: "/dashboard",
+        id: "bottom-home",
+      },
+      {
+        label: "Activity",
+        icon: "RiHistoryLine",
+        route: "/dashboard/transactions",
+        id: "bottom-activity",
+      },
+      {
+        label: "Recipients",
+        icon: "FiUsers",
+        route: "/dashboard/recipients",
+        id: "bottom-recipients",
+      },
+    ];
+    if (isTawkToEnabled) {
+      // This item has an action, no route
+      items.push({
+        label: "Chat",
+        icon: "FiMessageSquare",
+        id: "bottom-chat",
+        action: openTawkToChat,
+      });
+    } else {
+      items.push({
+        label: "Settings",
+        icon: "FiSettings",
+        route: "/dashboard/your-account",
+        id: "bottom-settings",
+      });
+    }
+    return items;
+  }, [isTawkToEnabled, openTawkToChat]);
+
+  const standardBottomNavItems = getStandardBottomNavItems();
+
+  const actionItems: ActionListItem[] = [
     {
-      id: "bottom-action-send", // Unique ID for disabling check
+      id: "bottom-action-send",
       label: "Send Money",
       icon: "BsSend",
-      route: getSendMoneyRoute, // Use the function
-      color: "bg-primary", // Example: Use primary theme color
+      route: getSendMoneyRoute,
+      color: "bg-primary",
     },
     {
-      id: "bottom-action-add", // Unique ID for disabling check
+      id: "bottom-action-add",
       label: "Add Money",
       icon: "GoArrowUp",
-      route: getAddMoneyRoute, // Use the function
-      color: "bg-green-600", // Example: Use an accent color
+      route: getAddMoneyRoute,
+      color: "bg-green-600",
     },
   ];
 
-  // --- Logout Handler ---
   const handleLogout = () => {
-    logout(); // This should update the token state provided by useAuth
+    logout();
     router.push("/auth/login");
-    // Close sidebar if it was open on mobile during logout
     if (sidebarOpen && isMobileView) {
       toggleSidebar();
     }
   };
 
-  // --- Render Logic Conditions ---
-  // Full sidebar renders on large screens OR on mobile when the sidebar is explicitly open
   const renderFullSidebar =
     isMobileView === false || (isMobileView === true && sidebarOpen);
-  // Bottom nav renders ONLY on small screens AND when the sidebar is closed
   const renderBottomNav = isSmallScreen === true && !sidebarOpen;
 
-  // --- Helper Function to Resolve Routes ---
   const resolveRoute = (route: string | (() => string)): string => {
     return typeof route === "function" ? route() : route;
   };
 
-  // --- Disabling Logic for Links/Buttons ---
   const isLinkDisabled = (
     id: string,
-    dataSource: "sidebar" | "bottomNav" | "actionMenu" = "sidebar" // Default to sidebar
+    dataSource: "sidebar" | "bottomNav" | "actionMenu" = "sidebar"
   ): boolean => {
-    let linkDef: { route: string | (() => string) } | undefined;
+    let linkDef:
+      | Partial<NavLinkDefinition>
+      | Partial<ActionListItem>
+      | undefined;
 
-    // Find the link definition based on the source
     if (dataSource === "sidebar") {
       linkDef = navLinksData.find((link) => link.id === id);
     } else if (dataSource === "bottomNav") {
+      // standardBottomNavItems contains NavLinkDefinitions
       linkDef = standardBottomNavItems.find((link) => link.id === id);
     } else if (dataSource === "actionMenu") {
+      // actionItems contains ActionListItems
       linkDef = actionItems.find((link) => link.id === id);
     }
 
-    if (!linkDef) return false; // Item not found, shouldn't be disabled
+    if (!linkDef) return false;
 
-    // Resolve the route first to check for login requirement
-    const finalRoute = resolveRoute(linkDef.route);
-
-    // Check if the item specifically depends on balance loading state AND user is authenticated
-    const dependsOnBalances = [
-      "send",
-      "add-money",
-      "bottom-action-send",
-      "bottom-action-add",
-    ].includes(id);
-
-    if (dependsOnBalances) {
-        // Disable if not authenticated OR if authenticated but balances are loading
-        if (!isAuthenticated || (isAuthenticated && isLoadingBalances)) {
-            return true;
-        }
+    // Check for action-only items (these are always NavLinkDefinition types with 'action' and no 'route')
+    // ActionListItem does not have an 'action' property.
+    // We use 'in' to safely check property existence on the union type.
+    if (
+      "action" in linkDef &&
+      linkDef.action &&
+      !("route" in linkDef && linkDef.route)
+    ) {
+      // This block is for items like "Chat with Us" or "bottom-chat"
+      if (id === "chat-with-us" || id === "bottom-chat") {
+        return false; // These specific action items are not disabled by subsequent logic
+      }
+      // Potentially other action-only items could be handled here.
+      // For now, if it's an action-only item not specified above, it falls through.
+      // However, the current "chat" items are the only ones using this pattern.
     }
 
-    // Disable if the resolved route indicates an issue (e.g., loading placeholder '#')
-    // This handles the case where get...Route functions return '#' when loading
-    return finalRoute === "#";
+    // Check for route-based items (can be NavLinkDefinition with 'route' or ActionListItem)
+    if ("route" in linkDef && linkDef.route) {
+      // Type assertion: after the 'in' check and truthiness check, linkDef.route is guaranteed to be (string | (() => string))
+      const routeValue = linkDef.route as string | (() => string);
+      const finalRoute = resolveRoute(routeValue);
+
+      const dependsOnBalances = [
+        "send",
+        "add-money",
+        "bottom-action-send",
+        "bottom-action-add",
+      ].includes(id);
+
+      if (dependsOnBalances) {
+        if (!isAuthenticated || (isAuthenticated && isLoadingBalances)) {
+          return true; // Disabled due to auth/loading
+        }
+      }
+      if (finalRoute === "#") {
+        return true; // Disabled if route resolves to placeholder
+      }
+    }
+
+    // Default: if no specific disabling condition was met
+    return false;
   };
 
-  // --- Skeleton Component for Loading States ---
   const NavItemSkeleton = () => (
     <div className="relative w-full flex items-center gap-3 py-3 px-4 font-medium mb-3 text-neutral-400 dark:text-gray-600">
       <Skeleton className="w-6 h-6 rounded-full flex-shrink-0" />
@@ -3385,16 +4221,13 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
     </div>
   );
 
-  // --- Hydration Guard ---
-  // Prevent rendering potentially incorrect UI during SSR/hydration mismatch before screen size is known
   if (isMobileView === null || isSmallScreen === null) {
-    return null; // Or a minimal loading state if preferred
+    return null;
   }
 
-  // --- Component Return JSX ---
   return (
     <>
-      {/* Backdrop for Mobile Sidebar (when open) */}
+      {/* Backdrop for Mobile Sidebar */}
       <AnimatePresence>
         {sidebarOpen && isMobileView === true && (
           <motion.div
@@ -3403,23 +4236,22 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            onClick={toggleSidebar} // Click backdrop to close sidebar
+            onClick={toggleSidebar}
             className="fixed inset-0 bg-black/50 dark:bg-black/70 z-30 lg:hidden"
             aria-hidden="true"
           />
         )}
       </AnimatePresence>
 
-      {/* Full Sidebar (Desktop or Mobile when open) */}
+      {/* Full Sidebar */}
       <AnimatePresence>
         {renderFullSidebar && (
           <motion.div
             key="full-sidebar"
             ref={sidebarRef}
             className={`w-64 fixed lg:sticky bg-white dark:bg-background h-screen inset-y-0 left-0 ${
-              isMobileView ? "z-40" : "lg:z-10" // Higher z-index on mobile to overlay content
+              isMobileView ? "z-40" : "lg:z-10"
             } flex flex-col shadow-lg lg:shadow-none`}
-            // Animate sidebar sliding in/out on mobile
             initial={isMobileView ? { x: "-100%" } : { x: 0 }}
             animate={{ x: 0 }}
             exit={isMobileView ? { x: "-100%" } : { x: 0 }}
@@ -3430,20 +4262,18 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
               <Link
                 href="/dashboard"
                 className="inline-block"
-                // Close sidebar if clicking logo on mobile
                 onClick={() => {
                   if (isMobileView && sidebarOpen) toggleSidebar();
                 }}
               >
                 <Image
-                  src="/assets/images/wise-logo.svg" // Ensure this path is correct in your public folder
+                  src="/assets/images/wise-logo.svg"
                   alt="Wise Logo"
                   width={120}
                   height={30}
-                  priority // Load logo faster
+                  priority
                 />
               </Link>
-              {/* Close button only on mobile */}
               {isMobileView && (
                 <button
                   onClick={toggleSidebar}
@@ -3457,112 +4287,125 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                 </button>
               )}
             </div>
-
             {/* Scrollable Navigation Area */}
             <div className="p-2 flex-grow overflow-y-auto [&::-webkit-scrollbar-track]:rounded-3xl [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-3xl [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
               <nav className="flex-grow">
-                {/* MODIFIED Condition: Show skeletons ONLY if authenticated AND loading */}
                 {isAuthenticated && isLoadingBalances ? (
                   <>
-                    {/* Render skeletons based on navLinksData length */}
                     {navLinksData.map((item) => (
                       <NavItemSkeleton key={`${item.id}-skeleton`} />
                     ))}
                   </>
                 ) : (
-                  // Render actual nav links (links will be disabled/redirect if needed based on auth status)
                   navLinksData.map((item) => {
                     const IconComponent = icons[item.icon];
-                    const finalRoute = resolveRoute(item.route);
-                    // isLinkDisabled checks token status indirectly via resolveRoute for relevant links
-                    const isDisabled = isLinkDisabled(item.id, "sidebar");
-                    // Determine active state based on current pathname AND authentication
-                    const isActive =
-                      isAuthenticated && // Link can only be active if authenticated
-                      !isDisabled &&
-                      (pathname === finalRoute ||
-                        (finalRoute !== "/dashboard" &&
-                          pathname.startsWith(finalRoute))); // Match sub-routes too
-
-                    // Define sensitive links that require authentication
-                    const requiresAuth = [
-                      "transactions",
-                      "send",
-                      "add-money",
-                      "recipients",
-                      "settings",
-                    ].includes(item.id);
-                    const visuallyDisabled =
-                      isDisabled || (requiresAuth && !isAuthenticated);
-
-                    return (
-                      <Link
-                        key={item.id}
-                        href={visuallyDisabled ? "#" : finalRoute} // Prevent navigation if disabled or needs auth
-                        onClick={(e) => {
-                          // Prevent default if visually disabled
-                          if (visuallyDisabled) {
-                            e.preventDefault();
-                            // Optional: Redirect to login if requires auth and not logged in
-                            if (requiresAuth && !isAuthenticated) {
-                              router.push("/auth/login");
-                            }
-                            return;
-                          }
-                          // Close sidebar on mobile after navigation
-                          if (isMobileView && sidebarOpen) {
-                            toggleSidebar();
-                          }
-                        }}
-                        className={`relative w-full flex items-center gap-3 py-3 px-6 font-medium rounded-full transition duration-200 mb-3
-                          ${
-                            isActive
-                              ? "lg:bg-transparent dark:lg:bg-transparent bg-primary/60 text-neutral-900 dark:bg-primarybox dark:text-primary" // Active styles
-                              : visuallyDisabled
-                              ? "text-neutral-400 dark:text-gray-600 cursor-not-allowed opacity-60" // Disabled styles (loading or needs auth)
-                              : "text-neutral-500 hover:text-neutral-900 dark:text-gray-300 dark:hover:text-primary" // Default hover styles
-                          }
-                        `}
-                        aria-current={isActive ? "page" : undefined}
-                        aria-disabled={visuallyDisabled}
-                        tabIndex={visuallyDisabled ? -1 : 0} // Improve accessibility
-                      >
-                        {/* Animated indicator for active link */}
-                        {isActive && (
-                          <motion.div
-                            layoutId="active-sidebar-indicator" // Shared layout ID for animation
-                            className="absolute inset-0 rounded-full bg-primary dark:bg-primarybox"
-                            initial={false}
-                            transition={{
-                              type: "spring",
-                              stiffness: 300,
-                              damping: 30,
-                            }}
-                          />
-                        )}
-                        {/* Render icon and label */}
-                        {IconComponent && (
-                          <IconComponent className="w-6 h-6 relative z-10 flex-shrink-0" />
-                        )}
-                        <span className="relative z-10 truncate">
-                          {item.label}
-                        </span>
-                      </Link>
+                    const isDisabledByLogic = isLinkDisabled(
+                      item.id,
+                      "sidebar"
                     );
+
+                    if (item.action) {
+                      // This item is a NavLinkDefinition with an action
+                      const visuallyDisabled = isDisabledByLogic;
+                      return (
+                        <button
+                          key={item.id}
+                          onClick={() => {
+                            if (visuallyDisabled) return;
+                            item.action!(); // item.action is () => void here
+                          }}
+                          className={`relative w-full flex items-center gap-3 py-3 px-6 font-medium rounded-full transition duration-200 mb-3 cursor-pointer
+                            ${
+                              visuallyDisabled
+                                ? "text-neutral-400 dark:text-gray-600 cursor-not-allowed opacity-60"
+                                : "text-neutral-500 hover:text-neutral-900 dark:text-gray-300 dark:hover:text-primary"
+                            }
+                          `}
+                          disabled={visuallyDisabled}
+                          aria-disabled={visuallyDisabled}
+                          tabIndex={visuallyDisabled ? -1 : 0}
+                        >
+                          {IconComponent && (
+                            <IconComponent className="w-6 h-6 relative z-10 flex-shrink-0" />
+                          )}
+                          <span className="relative z-10 truncate">
+                            {item.label}
+                          </span>
+                        </button>
+                      );
+                    } else if (item.route) {
+                      // This item is a NavLinkDefinition with a route
+                      const finalRoute = resolveRoute(item.route);
+                      const isActive =
+                        isAuthenticated &&
+                        !isDisabledByLogic &&
+                        (pathname === finalRoute ||
+                          (finalRoute !== "/dashboard" &&
+                            pathname.startsWith(finalRoute)));
+
+                      const requiresAuth = !["dashboard"].includes(item.id);
+                      const visuallyDisabled =
+                        isDisabledByLogic || (requiresAuth && !isAuthenticated);
+
+                      return (
+                        <Link
+                          key={item.id}
+                          href={visuallyDisabled ? "#" : finalRoute}
+                          onClick={(e) => {
+                            if (visuallyDisabled) {
+                              e.preventDefault();
+                              if (requiresAuth && !isAuthenticated)
+                                router.push("/auth/login");
+                              return;
+                            }
+                            if (isMobileView && sidebarOpen) toggleSidebar();
+                          }}
+                          className={`relative w-full flex items-center gap-3 py-3 px-6 font-medium rounded-full transition duration-200 mb-3
+                            ${
+                              isActive
+                                ? "lg:bg-transparent dark:lg:bg-transparent bg-primary/60 text-neutral-900 dark:bg-primarybox dark:text-primary"
+                                : visuallyDisabled
+                                ? "text-neutral-400 dark:text-gray-600 cursor-not-allowed opacity-60"
+                                : "text-neutral-500 hover:text-neutral-900 dark:text-gray-300 dark:hover:text-primary"
+                            }
+                          `}
+                          aria-current={isActive ? "page" : undefined}
+                          aria-disabled={visuallyDisabled}
+                          tabIndex={visuallyDisabled ? -1 : 0}
+                        >
+                          {isActive && (
+                            <motion.div
+                              layoutId="active-sidebar-indicator"
+                              className="absolute inset-0 rounded-full bg-primary dark:bg-primarybox"
+                              initial={false}
+                              transition={{
+                                type: "spring",
+                                stiffness: 300,
+                                damping: 30,
+                              }}
+                            />
+                          )}
+                          {IconComponent && (
+                            <IconComponent className="w-6 h-6 relative z-10 flex-shrink-0" />
+                          )}
+                          <span className="relative z-10 truncate">
+                            {item.label}
+                          </span>
+                        </Link>
+                      );
+                    }
+                    return null;
                   })
                 )}
               </nav>
-              {/* Logout Button - Only show if authenticated */}
               {isAuthenticated && (
                 <>
-                  {/* If authenticated AND loading balances, show skeleton */}
                   {isLoadingBalances ? (
                     <NavItemSkeleton key="logout-skeleton" />
                   ) : (
                     <button
                       onClick={handleLogout}
                       className="w-full flex items-center space-x-3 py-3 px-6 font-medium rounded-full transition duration-200 mb-2 cursor-pointer text-neutral-500 hover:text-neutral-900 dark:text-gray-300 dark:hover:text-primary"
-                      // disabled={isLoadingBalances} // Optional: disable during loading
                     >
                       <VscSignOut className="w-6 h-6 flex-shrink-0" />
                       <span className="font-medium">Logout</span>
@@ -3575,21 +4418,20 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
         )}
       </AnimatePresence>
 
-      {/* Backdrop for Action Menu (when open) */}
+      {/* Backdrop for Action Menu */}
       <AnimatePresence>
-        {isActionMenuOpen &&
-          renderBottomNav && ( // Show only when menu is open AND bottom nav is visible
-            <motion.div
-              key="action-menu-backdrop"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => setIsActionMenuOpen(false)} // Click backdrop to close menu
-              className="fixed inset-0 bg-black/50 dark:bg-white/30 z-40 sm:hidden" // z-index below menu/fab, only on small screens
-              aria-hidden="true"
-            />
-          )}
+        {isActionMenuOpen && renderBottomNav && (
+          <motion.div
+            key="action-menu-backdrop"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={() => setIsActionMenuOpen(false)}
+            className="fixed inset-0 bg-black/50 dark:bg-white/30 z-40 sm:hidden"
+            aria-hidden="true"
+          />
+        )}
       </AnimatePresence>
 
       {/* Bottom Navigation Bar Container */}
@@ -3597,30 +4439,26 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
         {renderBottomNav && (
           <motion.div
             key="bottom-nav"
-            initial={{ y: "100%" }} // Animate sliding up from bottom
+            initial={{ y: "100%" }}
             animate={{ y: 0 }}
-            exit={{ y: "100%" }} // Animate sliding down
+            exit={{ y: "100%" }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            // z-index above backdrop, below action menu/fab pop-up
             className="sm:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-background border-t z-45 rounded-tl-3xl rounded-tr-3xl"
           >
-            {/* Flex container for nav items + FAB space */}
             <div className="flex items-center justify-around h-16 relative">
               {standardBottomNavItems.slice(0, 2).map((item) => {
-                const IconComponent = icons[item.icon as keyof typeof icons];
-                const finalRoute = resolveRoute(item.route);
-                // Note: Bottom nav items 'home', 'activity', 'recipients', 'settings' might also need auth check
-                const requiresAuth = [
-                  "bottom-activity",
-                  "bottom-recipients",
-                  "bottom-settings",
-                ].includes(item.id);
-                const isDisabled = isLinkDisabled(item.id, "bottomNav"); // Checks loading state for specific actions if applicable
+                // These are NavLinkDefinition
+                const IconComponent = icons[item.icon];
+                // item.route is optional, so provide a fallback for resolveRoute if it's undefined
+                const finalRoute = item.route ? resolveRoute(item.route) : "#";
+                const requiresAuth = ["bottom-activity"].includes(item.id);
+                const isDisabled = isLinkDisabled(item.id, "bottomNav");
                 const visuallyDisabled =
                   isDisabled || (requiresAuth && !isAuthenticated);
                 const isActive =
-                  isAuthenticated && // Can only be active if authenticated
+                  isAuthenticated &&
                   !visuallyDisabled &&
+                  item.route && // item must have a route to be active
                   (pathname === finalRoute ||
                     (finalRoute !== "/dashboard" &&
                       pathname.startsWith(finalRoute)));
@@ -3628,18 +4466,25 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                 return (
                   <Link
                     key={item.id}
-                    href={visuallyDisabled ? "#" : finalRoute}
+                    // Disable link if visually disabled or no valid route (e.g. item.route was undefined)
+                    href={
+                      visuallyDisabled || !item.route || finalRoute === "#"
+                        ? "#"
+                        : finalRoute
+                    }
                     onClick={(e) => {
-                      if (visuallyDisabled) {
+                      if (
+                        visuallyDisabled ||
+                        !item.route ||
+                        finalRoute === "#"
+                      ) {
                         e.preventDefault();
-                        if (requiresAuth && !isAuthenticated) {
+                        if (requiresAuth && !isAuthenticated)
                           router.push("/auth/login");
-                        }
                         return;
                       }
                     }}
                     className={`flex relative flex-col items-center justify-center space-y-1 p-1 grow basis-0 h-full transition-colors duration-200 group ${
-                      // Use basis-0 and grow for equal spacing
                       visuallyDisabled
                         ? "cursor-not-allowed opacity-50 pointer-events-none"
                         : ""
@@ -3667,165 +4512,206 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                   </Link>
                 );
               })}
-              {/* Center Action Button Container & Pop-up Menu */}
+
               <div className="relative flex justify-center grow basis-0 h-full">
+                {" "}
+                {/* FAB Container */}
                 <button
-                  onClick={() => setIsActionMenuOpen(!isActionMenuOpen)} // Toggle menu state
+                  onClick={() => setIsActionMenuOpen(!isActionMenuOpen)}
                   aria-haspopup="true"
                   aria-expanded={isActionMenuOpen}
-                  aria-controls="action-menu-popup" // Links button to the menu
+                  aria-controls="action-menu-popup"
                   aria-label="Open actions menu"
-                  // Disable the FAB itself if the user is not logged in, as its actions require auth
                   disabled={!isAuthenticated}
                   className={`absolute -top-1/2 z-50 flex items-center bg-white dark:bg-background rounded-full ${
                     !isAuthenticated ? "opacity-50 cursor-not-allowed" : ""
-                  }`} // Added border classes and disabled state
+                  }`}
                 >
                   <div className="flex items-center justify-center w-15 h-15 rounded-full bg-primary transition-all duration-200 ease-out hover:bg-primary/90">
                     <BsSend className="size-6 text-neutral-900" />
-                    {/* Changed icon and size */}
                   </div>
                 </button>
-                {/* Action Menu Pop-up - Only render if authenticated */}
                 <AnimatePresence>
-                  {isAuthenticated &&
-                    isActionMenuOpen && ( // Check authentication before rendering menu
-                      <motion.div
-                        id="action-menu-popup" // ID for aria-controls
-                        // Animation: pop up from bottom, fade in, scale up
-                        initial={{ y: 10, opacity: 0, scale: 0.9 }}
-                        animate={{ y: -78, opacity: 1, scale: 1 }} // Position above the FAB
-                        exit={{
-                          y: 10,
-                          opacity: 0,
-                          scale: 0.9,
-                          transition: { duration: 0.15 },
-                        }}
-                        transition={{
-                          type: "spring",
-                          stiffness: 350,
-                          damping: 25,
-                        }}
-                        className="absolute bottom-12 bg-white dark:bg-background rounded-2xl p-3 z-48 flex flex-col gap-1 w-48" // Changed width class
-                      >
-                        {actionItems.map((action) => {
-                          const IconComponent =
-                            icons[action.icon as keyof typeof icons];
-                          const finalRoute = resolveRoute(action.route);
-                          // isLinkDisabled already checks for auth and loading status for these actions
-                          const isDisabled = isLinkDisabled(
-                            action.id,
-                            "actionMenu"
-                          );
+                  {isAuthenticated && isActionMenuOpen && (
+                    <motion.div
+                      id="action-menu-popup"
+                      initial={{ y: 10, opacity: 0, scale: 0.9 }}
+                      animate={{ y: -78, opacity: 1, scale: 1 }}
+                      exit={{
+                        y: 10,
+                        opacity: 0,
+                        scale: 0.9,
+                        transition: { duration: 0.15 },
+                      }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 350,
+                        damping: 25,
+                      }}
+                      className="absolute bottom-12 bg-white dark:bg-background rounded-2xl p-3 z-48 flex flex-col gap-1 w-48"
+                    >
+                      {actionItems.map((action) => {
+                        // action is ActionListItem, has mandatory 'route'
+                        const IconComponent = icons[action.icon];
+                        const finalRoute = resolveRoute(action.route); // action.route is always defined here
+                        const isDisabled = isLinkDisabled(
+                          action.id,
+                          "actionMenu"
+                        );
 
-                          return (
-                            <Link
-                              key={action.id}
-                              href={isDisabled ? "#" : finalRoute}
-                              onClick={(e) => {
-                                if (isDisabled) {
-                                  e.preventDefault(); // Prevent navigation if disabled
-                                  return;
-                                }
-                                setIsActionMenuOpen(false); // Close menu on click/tap
-                              }}
-                              className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors duration-150
+                        return (
+                          <Link
+                            key={action.id}
+                            href={
+                              isDisabled || finalRoute === "#"
+                                ? "#"
+                                : finalRoute
+                            }
+                            onClick={(e) => {
+                              if (isDisabled || finalRoute === "#") {
+                                e.preventDefault();
+                                return;
+                              }
+                              setIsActionMenuOpen(false);
+                            }}
+                            className={`flex items-center gap-3 px-3 py-2 rounded-md transition-colors duration-150
                               ${
                                 isDisabled
-                                  ? "text-neutral-400 dark:text-gray-600 cursor-not-allowed opacity-70" // Disabled styles
-                                  : `text-neutral-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10` // Enabled styles
+                                  ? "text-neutral-400 dark:text-gray-600 cursor-not-allowed opacity-70"
+                                  : `text-neutral-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-white/10`
                               }`}
-                              aria-disabled={isDisabled}
-                              tabIndex={isDisabled ? -1 : 0}
+                            aria-disabled={isDisabled}
+                            tabIndex={isDisabled ? -1 : 0}
+                          >
+                            <div
+                              className={`p-2 rounded-md ${
+                                isDisabled
+                                  ? "bg-gray-300 dark:bg-gray-700"
+                                  : action.color
+                              }`}
                             >
-                              {/* Icon with colored background circle */}
-                              <div
-                                className={`p-2 rounded-md ${
-                                  isDisabled
-                                    ? "bg-gray-300 dark:bg-gray-700"
-                                    : action.color
-                                }`}
-                              >
-                                {IconComponent && (
-                                  <IconComponent
-                                    className={`size-5 ${
-                                      isDisabled
-                                        ? "text-gray-500"
-                                        : "text-background"
-                                    }`}
-                                  />
-                                )}
-                              </div>
-                              <span className="text-sm font-medium">
-                                {action.label}
-                              </span>
-                            </Link>
-                          );
-                        })}
-                      </motion.div>
-                    )}
+                              {IconComponent && (
+                                <IconComponent
+                                  className={`size-5 ${
+                                    isDisabled
+                                      ? "text-gray-500"
+                                      : "text-background"
+                                  }`}
+                                />
+                              )}
+                            </div>
+                            <span className="text-sm font-medium">
+                              {action.label}
+                            </span>
+                          </Link>
+                        );
+                      })}
+                    </motion.div>
+                  )}
                 </AnimatePresence>
               </div>
-              {standardBottomNavItems.slice(2).map((item) => {
-                const IconComponent = icons[item.icon as keyof typeof icons];
-                const finalRoute = resolveRoute(item.route);
-                // Note: Bottom nav items 'home', 'activity', 'recipients', 'settings' might also need auth check
-                const requiresAuth = [
-                  "bottom-activity",
-                  "bottom-recipients",
-                  "bottom-settings",
-                ].includes(item.id);
-                const isDisabled = isLinkDisabled(item.id, "bottomNav"); // Checks loading state if applicable
-                const visuallyDisabled =
-                  isDisabled || (requiresAuth && !isAuthenticated);
-                const isActive =
-                  isAuthenticated && // Can only be active if authenticated
-                  !visuallyDisabled &&
-                  (pathname === finalRoute ||
-                    (finalRoute !== "/dashboard" &&
-                      pathname.startsWith(finalRoute)));
 
-                return (
-                  <Link
-                    key={item.id}
-                    href={visuallyDisabled ? "#" : finalRoute}
-                    onClick={(e) => {
-                      if (visuallyDisabled) {
-                        e.preventDefault();
-                        if (requiresAuth && !isAuthenticated) {
-                          router.push("/auth/login");
-                        }
-                        return;
+              {standardBottomNavItems.slice(2).map((item) => {
+                // These are NavLinkDefinition
+                const IconComponent = icons[item.icon];
+                const isDisabled = isLinkDisabled(item.id, "bottomNav");
+                const commonItemClasses = `flex relative flex-col items-center justify-center space-y-1 p-1 grow basis-0 h-full transition-colors duration-200 group`;
+                const commonLabelClasses = `text-[10px] font-medium transition-colors truncate`;
+
+                if (item.action) {
+                  // Item has an action (e.g., bottom-chat)
+                  const visuallyDisabled = isDisabled;
+                  return (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        if (visuallyDisabled) return;
+                        item.action!(); // item.action is () => void
+                      }}
+                      className={`${commonItemClasses} ${
+                        visuallyDisabled
+                          ? "cursor-not-allowed opacity-50 pointer-events-none"
+                          : ""
+                      } ${
+                        // No active state for action buttons in bottom nav
+                        "text-neutral-500 dark:text-gray-400 hover:text-neutral-800 dark:hover:text-gray-200"
+                      }`}
+                      disabled={visuallyDisabled}
+                      aria-disabled={visuallyDisabled}
+                      tabIndex={visuallyDisabled ? -1 : 0}
+                      aria-label={item.label}
+                    >
+                      <div className={`transition-colors`}>
+                        {IconComponent && <IconComponent className="size-6" />}
+                      </div>
+                      <span
+                        className={`${commonLabelClasses} text-neutral-600 dark:text-gray-400 group-hover:text-neutral-800 dark:group-hover:text-gray-200`}
+                      >
+                        {item.label}
+                      </span>
+                    </button>
+                  );
+                } else if (item.route) {
+                  // Item has a route (e.g. bottom-recipients, bottom-settings)
+                  const finalRoute = resolveRoute(item.route); // item.route is (string | (() => string))
+                  const requiresAuth = [
+                    "bottom-recipients",
+                    "bottom-settings",
+                  ].includes(item.id);
+                  const visuallyDisabled =
+                    isDisabled || (requiresAuth && !isAuthenticated);
+                  const isActive =
+                    isAuthenticated &&
+                    !visuallyDisabled &&
+                    (pathname === finalRoute ||
+                      (finalRoute !== "/dashboard" &&
+                        pathname.startsWith(finalRoute)));
+
+                  return (
+                    <Link
+                      key={item.id}
+                      href={
+                        visuallyDisabled || finalRoute === "#"
+                          ? "#"
+                          : finalRoute
                       }
-                    }}
-                    className={`flex relative flex-col items-center justify-center space-y-1 p-1 grow basis-0 h-full transition-colors duration-200 group ${
-                      // Use basis-0 and grow for equal spacing
-                      visuallyDisabled
-                        ? "cursor-not-allowed opacity-50 pointer-events-none"
-                        : ""
-                    } ${
-                      isActive
-                        ? "text-primary dark:text-primary"
-                        : "text-neutral-500 dark:text-gray-400 hover:text-neutral-800 dark:hover:text-gray-200"
-                    }`}
-                    aria-current={isActive ? "page" : undefined}
-                    aria-disabled={visuallyDisabled}
-                    tabIndex={visuallyDisabled ? -1 : 0}
-                  >
-                    <div className={`transition-colors`}>
-                      {IconComponent && <IconComponent className="size-6" />}
-                    </div>
-                    <span
-                      className={`text-[10px] font-medium transition-colors truncate ${
+                      onClick={(e) => {
+                        if (visuallyDisabled || finalRoute === "#") {
+                          e.preventDefault();
+                          if (requiresAuth && !isAuthenticated)
+                            router.push("/auth/login");
+                          return;
+                        }
+                      }}
+                      className={`${commonItemClasses} ${
+                        visuallyDisabled
+                          ? "cursor-not-allowed opacity-50 pointer-events-none"
+                          : ""
+                      } ${
                         isActive
                           ? "text-primary dark:text-primary"
-                          : "text-neutral-600 dark:text-gray-400 group-hover:text-neutral-800 dark:group-hover:text-gray-200"
+                          : "text-neutral-500 dark:text-gray-400 hover:text-neutral-800 dark:hover:text-gray-200"
                       }`}
+                      aria-current={isActive ? "page" : undefined}
+                      aria-disabled={visuallyDisabled}
+                      tabIndex={visuallyDisabled ? -1 : 0}
                     >
-                      {item.label}
-                    </span>
-                  </Link>
-                );
+                      <div className={`transition-colors`}>
+                        {IconComponent && <IconComponent className="size-6" />}
+                      </div>
+                      <span
+                        className={`${commonLabelClasses} ${
+                          isActive
+                            ? "text-primary dark:text-primary"
+                            : "text-neutral-600 dark:text-gray-400 group-hover:text-neutral-800 dark:group-hover:text-gray-200"
+                        }`}
+                      >
+                        {item.label}
+                      </span>
+                    </Link>
+                  );
+                }
+                return null;
               })}
             </div>
           </motion.div>

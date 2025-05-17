@@ -102,12 +102,9 @@
 
 import React, { useState, useEffect } from "react";
 import {
-  Activity,
   Users,
-  Globe,
   TrendingUp,
   TrendingDown,
-  Settings,
   AlertCircle,
   CheckCircle, // For completed transfers icon if needed
 } from "lucide-react";
@@ -144,7 +141,7 @@ export default function StatsCards() {
   if (loading) {
     // Skeleton loader remains the same
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
@@ -156,7 +153,7 @@ export default function StatsCards() {
               <Skeleton className="h-5 rounded w-2/3"></Skeleton>
             </div>
             <div>
-              <Skeleton className="rounded-lg size-12"></Skeleton>
+              <Skeleton className="rounded-full size-12"></Skeleton>
             </div>
           </div>
         ))}
@@ -243,14 +240,15 @@ export default function StatsCards() {
   const completedTrendPrefix = completedChangeCount > 0 ? "+" : ""; // Negative sign inherent
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
       {/* Total Users Card */}
       <div className="dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
         <div className="flex justify-between items-start">
-          <div>
-            <p className="text-lg font-medium text-neutral-900 dark:text-white">
+          <div className="Admin-Card">
+            <p className="text-lg font-medium text-gray-500 dark:text-gray-300">
               Total Users
             </p>
+
             <h3 className="text-3xl font-bold text-neutral-900 dark:text-white mt-1">
               {stats?.totalUsers ?? "N/A"}
             </h3>
@@ -264,7 +262,7 @@ export default function StatsCards() {
               </span>
             </p>
           </div>
-          <div className="bg-blue-100 dark:bg-blue-600/20 p-3 rounded-lg">
+          <div className="bg-blue-100 dark:bg-blue-600/20 p-3 rounded-full">
             <Users className="size-6 text-blue-600 dark:text-blue-400" />
           </div>
         </div>
@@ -274,7 +272,7 @@ export default function StatsCards() {
       <div className="dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-lg font-medium text-neutral-900 dark:text-white">
+            <p className="text-lg font-medium text-gray-500 dark:text-gray-300">
               Today's Add Money
             </p>
             <h3 className="text-3xl font-bold text-neutral-900 dark:text-white mt-1">
@@ -292,7 +290,7 @@ export default function StatsCards() {
               </span>
             </p>
           </div>
-          <div className="bg-yellow-100 dark:bg-yellow-600/20 p-3 rounded-lg">
+          <div className="bg-yellow-100 dark:bg-yellow-600/20 p-3 rounded-full">
             <TbMoneybag className="size-6 text-yellow-600 dark:text-yellow-400" />
           </div>
         </div>
@@ -302,7 +300,7 @@ export default function StatsCards() {
       <div className="dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-lg font-medium text-neutral-900 dark:text-white">
+            <p className="text-lg font-medium text-gray-500 dark:text-gray-300">
               Today's Send Money
             </p>
             <h3 className="text-3xl font-bold text-neutral-900 dark:text-white mt-1">
@@ -320,7 +318,7 @@ export default function StatsCards() {
               </span>
             </p>
           </div>
-          <div className="bg-green-100 dark:bg-green-600/20 p-3 rounded-lg">
+          <div className="bg-green-100 dark:bg-green-600/20 p-3 rounded-full">
             <BsSend className="size-6 text-green-600 dark:text-green-400" />
           </div>
         </div>
@@ -330,7 +328,7 @@ export default function StatsCards() {
       <div className="dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-lg font-medium text-neutral-900 dark:text-white">
+            <p className="text-lg font-medium text-gray-500 dark:text-gray-300">
               Completed Transfers
             </p>
             <h3 className="text-3xl font-bold text-neutral-900 dark:text-white mt-1">
@@ -348,7 +346,7 @@ export default function StatsCards() {
               </span>
             </p>
           </div>
-          <div className="bg-purple-100 dark:bg-purple-600/20 p-3 rounded-lg">
+          <div className="bg-purple-100 dark:bg-purple-600/20 p-3 rounded-full">
             <BsCheck2Circle  className="size-6 text-purple-600 dark:text-purple-400" />
           </div>
         </div>

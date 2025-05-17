@@ -916,7 +916,7 @@ const TasksPage: React.FC = () => {
     <section className="Tasks-Wrapper">
       <div className="Tasks">
         {/* --- Heading --- */}
-        <h1 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white mb-4">
+        <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white mb-4">
           Tasks
         </h1>
 

@@ -7179,7 +7179,6 @@
 
 // export default TransactionsPage;
 
-
 // frontend/src/app/dashboard/transactions/page.tsx
 "use client";
 import React, { useState, useCallback, useEffect, useMemo } from "react";
@@ -7264,7 +7263,7 @@ function parseDateString(dateString: string | undefined): Date | null {
 // --- Transactions Page Skeleton ---
 const TransactionsPageSkeleton: React.FC = () => {
   return (
-    <section className="Transaction-Page pb-8 pt-5 md:pb-10">
+    <section className="Transaction-Page pb-8 md:pb-10">
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-8 sticky lg:top-28 top-20 z-10 bg-white dark:bg-background">
           <Skeleton className="md:h-12 h-8 md:w-64 w-40 rounded-md" />
@@ -7476,7 +7475,8 @@ const TransactionsPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (isClientMounted) { // Only fetch data if component is mounted and token might be available
+    if (isClientMounted) {
+      // Only fetch data if component is mounted and token might be available
       fetchData();
     }
   }, [fetchData, isClientMounted]); // Re-fetch if token changes (via fetchData dep) or on initial client mount
@@ -7769,15 +7769,19 @@ const TransactionsPage: React.FC = () => {
   // --- RENDER ---
   return (
     <>
-      <section className="Transaction-Wrapper pb-8 pt-5 md:pb-10">
+      <section className="Transaction-Wrapper">
         <div className="container mx-auto">
           {/* Header and Actions */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 sticky lg:top-28 top-20 z-10 bg-white dark:bg-background">
             <h1 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white">
               Transactions
             </h1>
+
             {/* Show actions if there's any data, or if filters/search are active, but not on critical error */}
-            {(allTransactions.length > 0 || userAccounts.length > 0 || filtersAreActive || searchIsActive) &&
+            {(allTransactions.length > 0 ||
+              userAccounts.length > 0 ||
+              filtersAreActive ||
+              searchIsActive) &&
               !error && ( // Ensure !error condition here
                 <TransactionActions
                   searchTerm={searchTerm}
@@ -7795,318 +7799,332 @@ const TransactionsPage: React.FC = () => {
           )}
 
           {/* Transaction List & Empty States - Render only if not loading and no error */}
-          {!isLoading && !error && ( // This outer check is technically redundant due to the main isLoading guard, but good for clarity
-            <div className="space-y-6">
-              {/* ---- Pending Section ---- */}
-              {pendingTransactions.length > 0 && (
-                <div className="Pending-Transaction-Lists">
-                  <h3 className="font-medium text-gray-700 dark:text-white mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
-                    Pending
-                  </h3>
-                  <div className="space-y-2">
-                    {pendingTransactions.map((transaction) => {
-                      const isAddMoney = transaction.type === "Add Money";
-                      const icon = isAddMoney ? (
-                        <LuPlus
-                          size={22}
-                          className="text-neutral-900 dark:text-white"
-                        />
-                      ) : (
-                        <GoArrowUp
-                          size={22}
-                          className="text-neutral-900 dark:text-white"
-                        />
-                      );
-                      const description = isAddMoney
-                        ? "Waiting for you money"
-                        : `Sending by you`;
-                      const amount = isAddMoney
-                        ? transaction.amountToAdd ?? 0
-                        : transaction.sendAmount ?? 0;
-                      const displayCurrencyCode = isAddMoney
-                        ? typeof transaction.balanceCurrency === "object"
-                          ? transaction.balanceCurrency?.code
-                          : ""
-                        : typeof transaction.sendCurrency === "object"
-                        ? transaction.sendCurrency?.code
-                        : "";
-                      const amountPrefix = isAddMoney ? "+ " : "- ";
-                      const name = isAddMoney
-                        ? `To your ${displayCurrencyCode || "..."} balance`
-                        : transaction.name || "Recipient";
+          {!isLoading &&
+            !error && ( // This outer check is technically redundant due to the main isLoading guard, but good for clarity
+              <div className="space-y-6">
+                {/* ---- Pending Section ---- */}
+                {pendingTransactions.length > 0 && (
+                  <div className="Pending-Transaction-Lists">
+                    <h3 className="font-medium text-gray-700 dark:text-white mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
+                      Pending
+                    </h3>
+                    <div className="space-y-2">
+                      {pendingTransactions.map((transaction) => {
+                        const isAddMoney = transaction.type === "Add Money";
+                        const icon = isAddMoney ? (
+                          <LuPlus
+                            size={22}
+                            className="text-neutral-900 dark:text-white"
+                          />
+                        ) : (
+                          <GoArrowUp
+                            size={22}
+                            className="text-neutral-900 dark:text-white"
+                          />
+                        );
+                        const description = isAddMoney
+                          ? "Waiting for you money"
+                          : `Sending by you`;
+                        const amount = isAddMoney
+                          ? transaction.amountToAdd ?? 0
+                          : transaction.sendAmount ?? 0;
+                        const displayCurrencyCode = isAddMoney
+                          ? typeof transaction.balanceCurrency === "object"
+                            ? transaction.balanceCurrency?.code
+                            : ""
+                          : typeof transaction.sendCurrency === "object"
+                          ? transaction.sendCurrency?.code
+                          : "";
+                        const amountPrefix = isAddMoney ? "+ " : "- ";
+                        const name = isAddMoney
+                          ? `To your ${displayCurrencyCode || "..."} balance`
+                          : transaction.name || "Recipient";
 
-                      return (
-                        <Link
-                          href={`/dashboard/transactions/${transaction._id}`}
-                          key={`pending-${transaction._id}`}
-                          className="block"
-                        >
-                          <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
-                            <div className="flex items-center sm:gap-4 gap-2">
-                              <div className="p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center flex-shrink-0">
-                                {icon}
-                              </div>
-                              <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
-                                <div className="text-wrap">
-                                  <h3 className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px">
-                                    {name}
-                                  </h3>
-                                  <p className="sm:text-sm text-13px text-gray-500 dark:text-gray-300 mt-1 ">
-                                    {description}
-                                  </p>
+                        return (
+                          <Link
+                            href={`/dashboard/transactions/${transaction._id}`}
+                            key={`pending-${transaction._id}`}
+                            className="block"
+                          >
+                            <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
+                              <div className="flex items-center sm:gap-4 gap-2">
+                                <div className="p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center flex-shrink-0">
+                                  {icon}
                                 </div>
-                                <div
-                                  className={`font-medium text-neutral-900 dark:text-white whitespace-nowrap shrink-0 sm:text-base text-15px`}
-                                >
-                                  {amountPrefix}
-                                  {amount.toLocaleString(undefined, {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                  })}{" "}
-                                  {displayCurrencyCode}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-              {/* ---- In Progress Section ---- */}
-              {inProgressTransactions.length > 0 && (
-                <div className="InProcess-Transaction-Lists">
-                  <h3 className="font-medium text-gray-700 dark:text-white mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
-                    In Progress
-                  </h3>
-                  <div className="space-y-2">
-                    {inProgressTransactions.map((transaction) => {
-                      const isAddMoney = transaction.type === "Add Money";
-                      const icon = isAddMoney ? (
-                        <LuPlus
-                          size={22}
-                          className="text-neutral-900 dark:text-white"
-                        />
-                      ) : (
-                        <GoArrowUp
-                          size={22}
-                          className="text-neutral-900 dark:text-white"
-                        />
-                      );
-                      const description = isAddMoney
-                        ? "Processing payment"
-                        : `Processing transfer`;
-                      const amount = isAddMoney
-                        ? transaction.amountToAdd ?? 0
-                        : transaction.sendAmount ?? 0;
-                      const displayCurrencyCode = isAddMoney
-                        ? typeof transaction.balanceCurrency === "object"
-                          ? transaction.balanceCurrency?.code
-                          : ""
-                        : typeof transaction.sendCurrency === "object"
-                        ? transaction.sendCurrency?.code
-                        : "";
-                      const amountPrefix = isAddMoney ? "+ " : "- ";
-                      const name = isAddMoney
-                        ? `To your ${displayCurrencyCode || "..."} balance`
-                        : transaction.name || "Recipient";
 
-                      return (
-                        <Link
-                          href={`/dashboard/transactions/${transaction._id}`}
-                          key={`progress-${transaction._id}`}
-                          className="block"
-                        >
-                          <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
-                            <div className="flex items-center sm:gap-4 gap-2">
-                              <div className="p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center flex-shrink-0">
-                                {icon}
-                              </div>
-                              <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
-                                <div className="text-wrap">
-                                  <h3 className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px">
-                                    {name}
-                                  </h3>
-                                  <p className="sm:text-sm text-13px text-gray-500 dark:text-gray-300 mt-1 ">
-                                    {description}
-                                  </p>
-                                </div>
-                                <div
-                                  className={`font-medium text-neutral-900 dark:text-white whitespace-nowrap shrink-0 sm:text-base text-15px`}
-                                >
-                                  {amountPrefix}
-                                  {amount.toLocaleString(undefined, {
-                                    minimumFractionDigits: 2,
-                                    maximumFractionDigits: 2,
-                                  })}{" "}
-                                  {displayCurrencyCode}
+                                <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
+                                  <div className="text-wrap">
+                                    <h3 className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px">
+                                      {name}
+                                    </h3>
+                                    <p className="sm:text-sm text-13px text-gray-500 dark:text-gray-300 mt-1 ">
+                                      {description}
+                                    </p>
+                                  </div>
+                                  <div
+                                    className={`font-medium text-neutral-900 dark:text-white whitespace-nowrap shrink-0 sm:text-base text-15px`}
+                                  >
+                                    {amountPrefix}
+                                    {amount.toLocaleString(undefined, {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    })}{" "}
+                                    {displayCurrencyCode}
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        </Link>
-                      );
-                    })}
+                          </Link>
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              )}
-              {/* ---- Processed Section (Grouped by Date) ---- */}
-              {Object.entries(groupedProcessedTransactions).length > 0 && (
-                <div className="space-y-4">
-                  {Object.entries(groupedProcessedTransactions).map(
-                    ([date, transactionsForDate]) => (
-                      <div key={date} className="Processed-Transaction-Lists">
-                        <h3 className="font-medium text-gray-700 dark:text-white mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
-                          {date}
-                        </h3>
-                        <div className="space-y-2">
-                          {transactionsForDate.map((transaction) => {
-                            const isAddMoney = transaction.type === "Add Money";
-                            const icon = isAddMoney ? (
-                              <LuPlus
-                                size={22}
-                                className="text-neutral-900 dark:text-white"
-                              />
-                            ) : (
-                              <GoArrowUp
-                                size={22}
-                                className="text-neutral-900 dark:text-white"
-                              />
-                            );
-                            const amount = isAddMoney
-                              ? transaction.amountToAdd ?? 0
-                              : transaction.sendAmount ?? 0;
-                            const displayCurrencyCode = isAddMoney
-                              ? typeof transaction.balanceCurrency === "object"
-                                ? transaction.balanceCurrency?.code
-                                : ""
-                              : typeof transaction.sendCurrency === "object"
-                              ? transaction.sendCurrency?.code
-                              : "";
-                            const amountPrefix = isAddMoney ? "+ " : "- ";
-                            const recipientName =
-                              transaction.name || "Recipient";
-                            const name = isAddMoney
-                              ? `Added to ${
-                                  displayCurrencyCode || "..."
-                                } balance`
-                              : recipientName;
+                )}
+                {/* ---- In Progress Section ---- */}
+                {inProgressTransactions.length > 0 && (
+                  <div className="InProcess-Transaction-Lists">
+                    <h3 className="font-medium text-gray-700 dark:text-white mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
+                      In Progress
+                    </h3>
+                    <div className="space-y-2">
+                      {inProgressTransactions.map((transaction) => {
+                        const isAddMoney = transaction.type === "Add Money";
+                        const icon = isAddMoney ? (
+                          <LuPlus
+                            size={22}
+                            className="text-neutral-900 dark:text-white"
+                          />
+                        ) : (
+                          <GoArrowUp
+                            size={22}
+                            className="text-neutral-900 dark:text-white"
+                          />
+                        );
+                        const description = isAddMoney
+                          ? "Processing payment"
+                          : `Processing transfer`;
+                        const amount = isAddMoney
+                          ? transaction.amountToAdd ?? 0
+                          : transaction.sendAmount ?? 0;
+                        const displayCurrencyCode = isAddMoney
+                          ? typeof transaction.balanceCurrency === "object"
+                            ? transaction.balanceCurrency?.code
+                            : ""
+                          : typeof transaction.sendCurrency === "object"
+                          ? transaction.sendCurrency?.code
+                          : "";
+                        const amountPrefix = isAddMoney ? "+ " : "- ";
+                        const name = isAddMoney
+                          ? `To your ${displayCurrencyCode || "..."} balance`
+                          : transaction.name || "Recipient";
 
-                            let description = "";
-                            let amountClass = "";
-                            switch (transaction.status) {
-                              case "completed":
-                                description = isAddMoney
-                                  ? "Added"
-                                  : `Sent by you`;
-                                amountClass = isAddMoney
-                                  ? "text-green-600 dark:text-green-500"
-                                  : "text-neutral-900 dark:text-white";
-                                break;
-                              case "canceled":
-                                description = "Cancelled";
-                                amountClass =
-                                  "text-red-600 line-through dark:text-red-500";
-                                break;
-                              case "failed":
-                                description = "Failed";
-                                amountClass =
-                                  "text-red-600 line-through dark:text-red-500";
-                                break;
-                              default:
-                                description = `Status: ${transaction.status}`;
-                                amountClass =
-                                  "text-gray-500 dark:text-gray-400";
-                            }
+                        return (
+                          <Link
+                            href={`/dashboard/transactions/${transaction._id}`}
+                            key={`progress-${transaction._id}`}
+                            className="block"
+                          >
+                            <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
+                              <div className="flex items-center sm:gap-4 gap-2">
+                                <div className="p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center flex-shrink-0">
+                                  {icon}
+                                </div>
+                                <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
+                                  <div className="text-wrap">
+                                    <h3 className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px">
+                                      {name}
+                                    </h3>
+                                    <p className="sm:text-sm text-13px text-gray-500 dark:text-gray-300 mt-1 ">
+                                      {description}
+                                    </p>
+                                  </div>
+                                  <div
+                                    className={`font-medium text-neutral-900 dark:text-white whitespace-nowrap shrink-0 sm:text-base text-15px`}
+                                  >
+                                    {amountPrefix}
+                                    {amount.toLocaleString(undefined, {
+                                      minimumFractionDigits: 2,
+                                      maximumFractionDigits: 2,
+                                    })}{" "}
+                                    {displayCurrencyCode}
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+                {/* ---- Processed Section (Grouped by Date) ---- */}
+                {Object.entries(groupedProcessedTransactions).length > 0 && (
+                  <div className="space-y-4">
+                    {Object.entries(groupedProcessedTransactions).map(
+                      ([date, transactionsForDate]) => (
+                        <div key={date} className="Processed-Transaction-Lists">
+                          <h3 className="font-medium text-gray-700 dark:text-white mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
+                            {date}
+                          </h3>
+                          <div className="space-y-2">
+                            {transactionsForDate.map((transaction) => {
+                              const isAddMoney =
+                                transaction.type === "Add Money";
+                              const icon = isAddMoney ? (
+                                <LuPlus
+                                  size={22}
+                                  className="text-neutral-900 dark:text-white"
+                                />
+                              ) : (
+                                <GoArrowUp
+                                  size={22}
+                                  className="text-neutral-900 dark:text-white"
+                                />
+                              );
+                              const amount = isAddMoney
+                                ? transaction.amountToAdd ?? 0
+                                : transaction.sendAmount ?? 0;
+                              const displayCurrencyCode = isAddMoney
+                                ? typeof transaction.balanceCurrency ===
+                                  "object"
+                                  ? transaction.balanceCurrency?.code
+                                  : ""
+                                : typeof transaction.sendCurrency === "object"
+                                ? transaction.sendCurrency?.code
+                                : "";
+                              const amountPrefix = isAddMoney ? "+ " : "- ";
+                              const recipientName =
+                                transaction.name || "Recipient";
+                              const name = isAddMoney
+                                ? `Added to ${
+                                    displayCurrencyCode || "..."
+                                  } balance`
+                                : recipientName;
 
-                            return (
-                              <Link
-                                href={`/dashboard/transactions/${transaction._id}`}
-                                key={`processed-${transaction._id}`}
-                                className="block"
-                              >
-                                <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
-                                  <div className="flex sm:items-center items-start sm:gap-4 gap-2">
-                                    <div className="p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center flex-shrink-0">
-                                      {icon}
-                                    </div>
-                                    <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
-                                      <div className="text-wrap">
-                                        <h3 className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px">
-                                          {name}
-                                        </h3>
-                                        <p className="sm:text-sm text-13px text-gray-500 dark:text-gray-300 mt-1">
-                                          {description}
-                                        </p>
+                              let description = "";
+                              let amountClass = "";
+                              switch (transaction.status) {
+                                case "completed":
+                                  description = isAddMoney
+                                    ? "Added"
+                                    : `Sent by you`;
+                                  amountClass = isAddMoney
+                                    ? "text-green-600 dark:text-green-500"
+                                    : "text-neutral-900 dark:text-white";
+                                  break;
+                                case "canceled":
+                                  description = "Cancelled";
+                                  amountClass =
+                                    "text-red-600 line-through dark:text-red-500";
+                                  break;
+                                case "failed":
+                                  description = "Failed";
+                                  amountClass =
+                                    "text-red-600 line-through dark:text-red-500";
+                                  break;
+                                default:
+                                  description = `Status: ${transaction.status}`;
+                                  amountClass =
+                                    "text-gray-500 dark:text-gray-400";
+                              }
+
+                              return (
+                                <Link
+                                  href={`/dashboard/transactions/${transaction._id}`}
+                                  key={`processed-${transaction._id}`}
+                                  className="block"
+                                >
+                                  <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
+                                    <div className="flex sm:items-center items-start sm:gap-4 gap-2">
+                                      <div className="p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center flex-shrink-0">
+                                        {icon}
                                       </div>
-                                      <div
-                                        className={`font-medium ${amountClass} shrink-0 whitespace-nowrap sm:text-base text-15px`}
-                                      >
-                                        {amountPrefix}
-                                        {amount.toLocaleString(undefined, {
-                                          minimumFractionDigits: 2,
-                                          maximumFractionDigits: 2,
-                                        })}{" "}
-                                        {displayCurrencyCode}
+                                      <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
+                                        <div className="text-wrap">
+                                          <h3 className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px">
+                                            {name}
+                                          </h3>
+                                          <p className="sm:text-sm text-13px text-gray-500 dark:text-gray-300 mt-1">
+                                            {description}
+                                          </p>
+                                        </div>
+                                        <div
+                                          className={`font-medium ${amountClass} shrink-0 whitespace-nowrap sm:text-base text-15px`}
+                                        >
+                                          {amountPrefix}
+                                          {amount.toLocaleString(undefined, {
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2,
+                                          })}{" "}
+                                          {displayCurrencyCode}
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
-                              </Link>
-                            );
-                          })}
+                                </Link>
+                              );
+                            })}
+                          </div>
                         </div>
-                      </div>
-                    )
-                  )}
-                </div>
-              )}
-              {/* ---- Empty State Logic ---- */}
-              {/* Case 1: No transactions *at all* (and not because of filters/search) */}
-              {allTransactions.length === 0 &&
-                filteredTransactions.length === 0 && // Ensure it's not just filters clearing the view
-                !filtersAreActive && !searchIsActive && ( // Explicitly check that no filters/search are active
-                <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
-                  <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
-                    <MdOutlineAccessTime className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
-                  </div>
-                  <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
-                    You haven't made any transactions yet.
-                  </h2>
-                  <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300 max-w-lg mx-auto">Once you start <strong className="text-primary">Adding</strong> or <strong className="text-primary">Sending</strong> money, your transactions will show up here.</p>
-                </div>
-              )}
-              {/* Case 2: Have transactions, but none match filter/search */}
-              {filteredTransactions.length === 0 &&
-                allTransactions.length > 0 && // Only show if there *are* transactions to filter from
-                (filtersAreActive || searchIsActive) && ( // Only show if filters or search are active
-                  <div className="text-center flex flex-col items-center text-lg px-4 text-gray-500 dark:text-gray-300 bg-lightgray py-8 dark:bg-white/5 rounded-lg mt-6">
-                    <ClipboardXIcon className="size-12 text-gray-400 dark:text-gray-500 mb-3" />
-                    <span>
-                      No transactions match your current{" "}
-                      {filtersAreActive && searchIsActive
-                        ? "filter and search criteria"
-                        : filtersAreActive
-                        ? "filter criteria"
-                        : "search criteria"}
-                      .
-                    </span>
-                    <Button
-                      onClick={clearAllAppliedFiltersAndSearch}
-                      className="mt-4 px-6 cursor-pointer lg:py-3 py-2.5 lg:text-base text-sm font-medium w-auto bg-primary text-neutral-900 rounded-full hover:bg-primaryhover transition-colors duration-500 ease-in-out"
-                    >
-                      Clear{" "}
-                      {filtersAreActive && searchIsActive
-                        ? "Filters & Search"
-                        : filtersAreActive
-                        ? "Filters"
-                        : "Search"}
-                    </Button>
+                      )
+                    )}
                   </div>
                 )}
-            </div>
-          )}
+                {/* ---- Empty State Logic ---- */}
+                {/* Case 1: No transactions *at all* (and not because of filters/search) */}
+                {allTransactions.length === 0 &&
+                  filteredTransactions.length === 0 && // Ensure it's not just filters clearing the view
+                  !filtersAreActive &&
+                  !searchIsActive && ( // Explicitly check that no filters/search are active
+                    <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+                      <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
+                        <MdOutlineAccessTime className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+                      </div>
+                      <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+                        You haven't made any transactions yet.
+                      </h2>
+                      <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+                        Once you start{" "}
+                        <strong className="text-primary">Adding</strong> or{" "}
+                        <strong className="text-primary">Sending</strong> money,
+                        your transactions will show up here.
+                      </p>
+                    </div>
+                  )}
+                {/* Case 2: Have transactions, but none match filter/search */}
+                {filteredTransactions.length === 0 &&
+                  allTransactions.length > 0 && // Only show if there *are* transactions to filter from
+                  (filtersAreActive || searchIsActive) && ( // Only show if filters or search are active
+                    <div className="text-center flex flex-col items-center text-lg px-4 space-y-4 bg-lightgray py-10 dark:bg-primarybox rounded-lg">
+                      <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full">
+                        <ClipboardXIcon className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+                      </div>
+
+                      <span className="text-gray-500 dark:text-gray-300"> 
+                        No transactions match your current{" "}
+                        {filtersAreActive && searchIsActive
+                          ? "filter and search criteria"
+                          : filtersAreActive
+                          ? "filter criteria"
+                          : "search criteria"}
+                        .
+                      </span>
+
+                      <Button
+                        onClick={clearAllAppliedFiltersAndSearch}
+                        className="px-6 cursor-pointer lg:py-3 py-2.5 lg:text-base text-sm font-medium w-auto bg-primary text-neutral-900 rounded-full hover:bg-primaryhover transition-colors duration-500 ease-in-out"
+                      >
+                        Clear{" "}
+                        {filtersAreActive && searchIsActive
+                          ? "Filters & Search"
+                          : filtersAreActive
+                          ? "Filters"
+                          : "Search"}
+                      </Button>
+                    </div>
+                  )}
+              </div>
+            )}
         </div>
       </section>
 

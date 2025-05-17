@@ -2250,8 +2250,8 @@ const TransactionList: React.FC<TransactionListProps> = ({
 
   if (error) {
      return (
-        <div className="text-center py-8 text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-4 rounded-md border border-red-200 dark:border-red-700/40">
-          <strong>Transaction Error:</strong> {error}
+        <div className="flex flex-col items-center gap-3 sm:p-10 p-4 text-red-700 dark:text-red-300/90 bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg text-center">
+          <strong className="text-red-600 dark:text-red-400">Transaction Error</strong> {error}
         </div>
       );
   }

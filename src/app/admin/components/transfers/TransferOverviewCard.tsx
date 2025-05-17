@@ -299,7 +299,7 @@ const TransferOverviewCard: React.FC<TransferOverviewCardProps> = ({
 
 
   return (
-    <div className="bg-lightgray dark:bg-primarybox rounded-xl sm:p-6 p-4 mb-8"> {/* Added shadow/border */}
+    <div className="bg-lightgray dark:bg-primarybox rounded-xl sm:p-6 p-4 mb-6"> {/* Added shadow/border */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         {/* Left Side: Status and ID */}
         <div className="flex sm:items-center gap-4 sm:flex-row flex-col">

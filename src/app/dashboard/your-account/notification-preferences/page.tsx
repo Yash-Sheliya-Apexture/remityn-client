@@ -704,7 +704,7 @@ function NotificationItem({ icon: IconComponent, label, checked, onChange, disab
     <div
       // Add onClick handler to the entire div
       onClick={handleItemClick}
-      className={`flex items-center gap-4 sm:p-4 p-2 rounded-2xl transition-all duration-75 ease-linear
+      className={`flex items-center gap-4 sm:p-4 p-2 rounded-2xl transition-all duration-75 ease-linear focus:outline-none
                   ${disabled
                      ? 'opacity-60 cursor-not-allowed bg-transparent' // Ensure no hover effect when disabled
                      : 'hover:bg-lightgray dark:hover:bg-primarybox cursor-pointer' // Style for enabled item

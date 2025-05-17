@@ -2001,6 +2001,7 @@ import { useAuth } from "../../../../contexts/AuthContext";
 import axios from "axios";
 import apiConfig from "../../../../config/apiConfig";
 import { Skeleton } from "@/components/ui/skeleton";
+import { FiAlertTriangle } from "react-icons/fi";
 
 axios.defaults.baseURL = apiConfig.baseUrl;
 
@@ -2264,7 +2265,7 @@ const AddMoneyPage = () => {
     // Show initial loading skeleton while balance currency is being fetched
     if (isLoading && !balanceCurrency) {
         return (
-            <div className="max-w-xl mx-auto p-4 lg:p-8">
+            <div className="max-w-xl mx-auto">
                 <Skeleton className="h-8 w-48 mb-8 mx-auto" />
                 <Skeleton className="h-12 w-full mb-2" />
                 <Skeleton className="h-16 w-full mb-4" />
@@ -2280,9 +2281,12 @@ const AddMoneyPage = () => {
     // Show fatal error if initial balance currency fetch failed
      if (error && !balanceCurrency && !isLoading) {
         return (
-            <div className="max-w-xl mx-auto p-4 lg:p-8 text-red-500 text-center">
-                Error: {error || "Could not load page details."}
+          <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-4 flex items-center gap-3">
+            <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
+              <FiAlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
             </div>
+            <p className="text-red-700 dark:text-red-300/90">Error: {error || "Could not load page details."}</p>
+          </div>
         );
     }
 
@@ -2311,207 +2315,239 @@ const AddMoneyPage = () => {
 
 
     return (
-        <div className="max-w-lg mx-auto pt-5">
-            <h2 className="lg:text-3xl md:text-2xl text-xl lg:text-center text-left capitalize font-semibold text-mainheading pb-4 dark:text-white">
-                Add Money to {balanceCurrency.code} Balance
-            </h2>
+      <div className="max-w-lg mx-auto">
+        <h2 className="lg:text-3xl md:text-2xl text-xl lg:text-center text-left capitalize font-semibold text-mainheading pb-4 dark:text-white">
+          Add Money to {balanceCurrency.code} Balance
+        </h2>
 
-            {/* Display calculation errors here */}
-             {error && (balanceCurrency || !isLoading) && // Show calculation error if balance loaded or initial load finished
-                 <div className="my-4 p-3 bg-red-700/20 text-red-700 border rounded-md">{error}</div>
-             }
-
-
-            <div>
-                <label
-                    htmlFor="amount"
-                    className="block lg:text-base text-sm font-medium text-mainheading dark:text-white"
-                >
-                    Amount to add
-                </label>
-                <div className="relative mt-1 rounded-md">
-                    <input
-                        type="number" // Using type="number" allows browser to handle numeric input keyboard on mobile
-                        step="0.01"
-                        min="0" // Allow 0 temporarily, validation checks for > 0
-                        name="amount"
-                        id="amount"
-                        className="block w-full text-xl rounded-xl ps-2 font-bold lg:h-18 h-16 py-3 pl-5 pr-28 border transition-all ease-linear duration-75 focus:outline-0 focus:border-[#5f5f5f] dark:bg-neutral-800 dark:text-white dark:border-neutral-700 dark:focus:border-neutral-600 no-spinners"
-                        placeholder="0.00"
-                        // Input value MUST be a string. Convert number state to string.
-                        // An empty string state correctly renders as empty input.
-                        value={String(amountToAdd)}
-                        onChange={handleAmountChange}
-                        required // HTML5 validation (client-side hint)
-                        aria-describedby="amount-currency"
-                    />
-                    <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none">
-                        <div id="amount-currency" className="px-2 flex items-center md:gap-4 gap-2">
-                            <span className="inline-block rounded-full overflow-hidden">
-                                <Image
-                                    src={`/assets/icon/${balanceCurrency.code.toLowerCase()}.svg`} // Assuming currency code is valid for asset path
-                                    alt={`${balanceCurrency.code} Flag`}
-                                    height={25}
-                                    width={25}
-                                    className="md:size-7 size-6"
-                                    unoptimized // Use unoptimized if src is local public path or if you handle optimization externally
-                                />
-                            </span>
-                            <span className="mr-2 text-neutral-900 dark:text-white font-bold md:text-xl text-lg">
-                                {balanceCurrency.code}
-                            </span>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="mt-4">
-                    <label className="block text-sm lg:text-base font-medium text-neutral-900 dark:text-white">
-                        Paying with
-                    </label>
-
-                    <div className="border rounded-xl ps-5 lg:py-4 py-3 flex items-center gap-4 mt-1 dark:border-neutral-700">
-                        <div className="p-2 bg-green-500/20 rounded-full inline-block">
-                            <AiFillBank className="md:size-7 size-6 text-green-500" />
-                        </div>
-                        <span className="text-neutral-900 dark:text-white font-semibold capitalize md:text-lg text-base">
-                            Bank transfer
-                        </span>
-                    </div>
-                </div>
-
-                {/* currency calculation */}
-                <div className="mt-4 border rounded-xl p-4 dark:border-neutral-700">
-                    <div className="py-2 flex justify-between text-sm text-gray">
-                        <dt className="text-gray-500 dark:text-gray-300 ">Currency to pay in</dt>
-                         <dd className="ml-6 text-gray-500 dark:text-gray-300 font-bold">
-                            {/* payInCurrencyCode is derived state */}
-                            {payInCurrencyCode}
-                         </dd>
-                    </div>
-                    <div className="py-2 flex justify-between text-sm text-gray">
-                        <dt className="text-gray-500 dark:text-gray-300 ">Bank transfer fee</dt>
-                        <dd className="ml-6 text-gray-500 dark:text-gray-300  font-medium">
-                            {isDetailsLoading ? <Skeleton className="h-4 w-16 inline-block" /> : `${calculatedBankTransferFee} ${payInCurrencyCode}`}
-                        </dd>
-                    </div>
-                    <div className="py-2 flex justify-between text-sm text-gray">
-                        <dt className="text-gray-500 dark:text-gray-300 ">Our fee</dt>
-                        <dd className="ml-6 text-gray-500 dark:text-gray-300 font-medium">
-                            {isDetailsLoading ? <Skeleton className="h-4 w-16 inline-block" /> : `${calculatedWiseFee} ${payInCurrencyCode}`}
-                        </dd>
-                    </div>
-                    <div className="py-2 flex justify-between text-sm text-gray">
-                        <dt className="text-neutral-900 dark:text-white font-medium">Total included fees</dt>
-                        <dd className="ml-6 text-neutral-900 dark:text-white font-bold">
-                            {isDetailsLoading ? <Skeleton className="h-4 w-16 inline-block" /> : `${totalFees} ${payInCurrencyCode}`}
-                        </dd>
-                    </div>
-
-                    <div className="py-3.5 flex justify-between text-sm text-gray border-t dark:border-neutral-700">
-                        <dt className="text-neutral-900 dark:text-white font-bold capitalize">
-                            Total you'll pay
-                        </dt>
-                        <dd className="ml-6 text-neutral-900 dark:text-white font-bold">
-                            {isDetailsLoading ? <Skeleton className="h-4 w-16 inline-block" /> : `${calculatedAmountToPay} ${payInCurrencyCode}`}
-                        </dd>
-                    </div>
-                </div>
-
-                {/* Continue button */}
-                <div className="mt-4">
-                    <button
-                        onClick={handleContinue}
-                        className={`flex items-center justify-center w-full bg-primary text-neutral-900 font-medium hover:bg-primaryhover space-x-3 py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear ${
-                            // Button is disabled if:
-                            isLoading || // Initial page load is in progress
-                            isDetailsLoading || // Calculation is in progress (debounce delay or API call)
-                            typeof amountToAdd !== 'number' || // amountToAdd is not a number (i.e., it's "")
-                            amountToAdd <= 0 || // amountToAdd is zero or negative
-                            !paymentSummary // Payment summary has not been successfully calculated yet
-                                ? "cursor-not-allowed opacity-50"
-                                : "cursor-pointer"
-                        }`}
-                        disabled={
-                            isLoading ||
-                            isDetailsLoading ||
-                            typeof amountToAdd !== 'number' ||
-                            amountToAdd <= 0 ||
-                            !paymentSummary
-                        }
-                    >
-                        {/* Show spinner only if submitting (isLoading is true after click) */}
-                        {isLoading ? (
-                           <>
-                             <svg
-                                className="h-5 w-5 text-neutral-900 animate-spin mr-2"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M12 2V6"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M12 18V22"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M4.93 4.93L7.76 7.76"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M16.24 16.24L19.07 19.07"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M2 12H6"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="18 12H22"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M4.93 19.07L7.76 16.24"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                                <path
-                                  d="M16.24 7.76L19.07 4.93"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                             <span>Processing</span>
-                           </>
-                        ) : ( 'Continue')}
-                    </button>
-                </div>
+        {/* Display calculation errors here */}
+        {error &&
+          (balanceCurrency || !isLoading) && ( // Show calculation error if balance loaded or initial load finished
+            <div className="my-4 p-3 bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg">
+              <p className="text-red-700 dark:text-red-300/90">{error}</p>
             </div>
+          )}
+
+        <div>
+          <label
+            htmlFor="amount"
+            className="block lg:text-base text-sm font-medium text-mainheading dark:text-white"
+          >
+            Amount to add
+          </label>
+
+          <div className="relative mt-1 rounded-md">
+            <input
+              type="number" // Using type="number" allows browser to handle numeric input keyboard on mobile
+              step="0.01"
+              min="0" // Allow 0 temporarily, validation checks for > 0
+              name="amount"
+              id="amount"
+              className="block w-full text-xl rounded-xl ps-2 font-bold lg:h-18 h-16 py-3 pl-5 pr-28 border transition-all ease-linear duration-75 focus:outline-0 focus:border-[#5f5f5f] dark:bg-neutral-800 dark:text-white dark:border-neutral-700 dark:focus:border-neutral-600 no-spinner"
+              placeholder="0.00"
+              // Input value MUST be a string. Convert number state to string.
+              // An empty string state correctly renders as empty input.
+              value={String(amountToAdd)}
+              onChange={handleAmountChange}
+              required // HTML5 validation (client-side hint)
+              aria-describedby="amount-currency"
+            />
+
+            <div className="absolute inset-y-0 right-0 flex items-center pointer-events-none">
+              <div
+                id="amount-currency"
+                className="px-2 flex items-center md:gap-4 gap-2"
+              >
+                <span className="inline-block rounded-full overflow-hidden">
+                  <Image
+                    src={`/assets/icon/${balanceCurrency.code.toLowerCase()}.svg`} // Assuming currency code is valid for asset path
+                    alt={`${balanceCurrency.code} Flag`}
+                    height={25}
+                    width={25}
+                    className="md:size-7 size-6"
+                    unoptimized // Use unoptimized if src is local public path or if you handle optimization externally
+                  />
+                </span>
+                <span className="mr-2 text-neutral-900 dark:text-white font-bold md:text-xl text-lg">
+                  {balanceCurrency.code}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <label className="block text-sm lg:text-base font-medium text-neutral-900 dark:text-white">
+              Paying with
+            </label>
+
+            <div className="border rounded-xl ps-5 lg:py-4 py-3 flex items-center gap-4 mt-1 dark:border-neutral-700">
+              <div className="p-2 bg-green-500/20 rounded-full inline-block">
+                <AiFillBank className="md:size-7 size-6 text-green-500" />
+              </div>
+              <span className="text-neutral-900 dark:text-white font-semibold capitalize md:text-lg text-base">
+                Bank transfer
+              </span>
+            </div>
+          </div>
+
+          {/* currency calculation */}
+          <div className="mt-4 border rounded-xl p-4 dark:border-neutral-700">
+            <div className="py-2 flex justify-between text-sm text-gray">
+              <dt className="text-gray-500 dark:text-gray-300 ">
+                Currency to pay in
+              </dt>
+              <dd className="ml-6 text-gray-500 dark:text-gray-300 font-bold">
+                {/* payInCurrencyCode is derived state */}
+                {payInCurrencyCode}
+              </dd>
+            </div>
+            <div className="py-2 flex justify-between text-sm text-gray">
+              <dt className="text-gray-500 dark:text-gray-300 ">
+                Bank transfer fee
+              </dt>
+              <dd className="ml-6 text-gray-500 dark:text-gray-300  font-medium">
+                {isDetailsLoading ? (
+                  <Skeleton className="h-4 w-16 inline-block" />
+                ) : (
+                  `${calculatedBankTransferFee} ${payInCurrencyCode}`
+                )}
+              </dd>
+            </div>
+            <div className="py-2 flex justify-between text-sm text-gray">
+              <dt className="text-gray-500 dark:text-gray-300 ">Our fee</dt>
+              <dd className="ml-6 text-gray-500 dark:text-gray-300 font-medium">
+                {isDetailsLoading ? (
+                  <Skeleton className="h-4 w-16 inline-block" />
+                ) : (
+                  `${calculatedWiseFee} ${payInCurrencyCode}`
+                )}
+              </dd>
+            </div>
+            <div className="py-2 flex justify-between text-sm text-gray">
+              <dt className="text-neutral-900 dark:text-white font-medium">
+                Total included fees
+              </dt>
+              <dd className="ml-6 text-neutral-900 dark:text-white font-bold">
+                {isDetailsLoading ? (
+                  <Skeleton className="h-4 w-16 inline-block" />
+                ) : (
+                  `${totalFees} ${payInCurrencyCode}`
+                )}
+              </dd>
+            </div>
+
+            <div className="py-3.5 flex justify-between text-sm text-gray border-t dark:border-neutral-700">
+              <dt className="text-neutral-900 dark:text-white font-bold capitalize">
+                Total you'll pay
+              </dt>
+              <dd className="ml-6 text-neutral-900 dark:text-white font-bold">
+                {isDetailsLoading ? (
+                  <Skeleton className="h-4 w-16 inline-block" />
+                ) : (
+                  `${calculatedAmountToPay} ${payInCurrencyCode}`
+                )}
+              </dd>
+            </div>
+          </div>
+
+          {/* Continue button */}
+          <div className="mt-4">
+            <button
+              onClick={handleContinue}
+              className={`flex items-center justify-center w-full bg-primary text-neutral-900 font-medium hover:bg-primaryhover space-x-3 py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear ${
+                // Button is disabled if:
+                isLoading || // Initial page load is in progress
+                isDetailsLoading || // Calculation is in progress (debounce delay or API call)
+                typeof amountToAdd !== "number" || // amountToAdd is not a number (i.e., it's "")
+                amountToAdd <= 0 || // amountToAdd is zero or negative
+                !paymentSummary // Payment summary has not been successfully calculated yet
+                  ? "cursor-not-allowed opacity-50"
+                  : "cursor-pointer"
+              }`}
+              disabled={
+                isLoading ||
+                isDetailsLoading ||
+                typeof amountToAdd !== "number" ||
+                amountToAdd <= 0 ||
+                !paymentSummary
+              }
+            >
+              {/* Show spinner only if submitting (isLoading is true after click) */}
+              {isLoading ? (
+                <>
+                  <svg
+                    className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    {/* paths... */}
+                    <path
+                      d="M12 2V6"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M12 18V22"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M4.93 4.93L7.76 7.76"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M16.24 16.24L19.07 19.07"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M2 12H6"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M18 12H22"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M4.93 19.07L7.76 16.24"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <path
+                      d="M16.24 7.76L19.07 4.93"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <span>Processing</span>
+                </>
+              ) : (
+                "Continue"
+              )}
+            </button>
+          </div>
         </div>
+      </div>
     );
 };
 

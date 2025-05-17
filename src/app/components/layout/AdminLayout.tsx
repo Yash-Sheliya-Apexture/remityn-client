@@ -324,7 +324,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
 
   return (
     <div className="admin-layout">
-    <div className="flex min-h-screen">
+    <div className="flex">
       {/* Left Sidebar */}
       <AdminSidebar
         isSidebarOpen={isSidebarOpen}

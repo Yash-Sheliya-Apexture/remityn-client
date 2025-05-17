@@ -132,9 +132,6 @@
 
 // export default UserProfile;
 
-
-
-
 // // frontend/src/components/UserProfileCombined.tsx
 // "use client";
 
@@ -282,10 +279,6 @@
 // };
 
 // export default UserProfile;
-
-
-
-
 
 // frontend/src/components/UserProfileCombined.tsx
 "use client";

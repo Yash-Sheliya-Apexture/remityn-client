@@ -296,12 +296,12 @@
 //     // Skeleton Loader state
 //     return (
 //       <div className="mb-8">
-//         <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-4 animate-pulse">
+//         <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-4">
 //           Transfer Insights
 //         </h3>
 //         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 //           {/* Skeleton for Transfer Volume */}
-//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[250px] animate-pulse">
+//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[250px]">
 //             <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
 //             <div className="h-40 bg-gray-100 dark:bg-gray-700/50 rounded-lg mb-4"></div>
 //             <div className="flex justify-between">
@@ -310,12 +310,12 @@
 //             </div>
 //           </div>
 //           {/* Skeleton for Popular Corridors (for 4 items) */}
-//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[280px] animate-pulse">
+//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[280px]">
 //             <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
 //             {[1,2,3,4].map(i => <div key={i} className="h-10 bg-gray-100 dark:bg-gray-700/50 rounded mb-2"></div>)}
 //           </div>
 //           {/* Skeleton for Currency Performance */}
-//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[250px] animate-pulse">
+//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[250px]">
 //             <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
 //             {[1,2,3].map(i => <div key={i} className="h-10 bg-gray-100 dark:bg-gray-700/50 rounded mb-2"></div>)}
 //           </div>
@@ -599,7 +599,7 @@
 //     // Update skeleton grid to match 2 cards if needed
 //     return (
 //       <div className="mb-8">
-//         <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-4 animate-pulse">
+//         <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-4">
 //           Transfer Insights
 //         </h3>
 //         {/* Adjust grid columns if you only have 2 cards now */}
@@ -607,7 +607,7 @@
 //           {" "}
 //           {/* Changed lg:grid-cols-3 to md:grid-cols-2 */}
 //           {/* Skeleton for Transfer Volume */}
-//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[250px] animate-pulse">
+//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[250px]">
 //             {/* ... skeleton content ... */}
 //             <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
 //             <div className="h-40 bg-gray-100 dark:bg-gray-700/50 rounded-lg mb-4"></div>
@@ -621,7 +621,7 @@
 //             </div>
 //           </div>
 //           {/* Skeleton for Popular Corridors */}
-//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[280px] animate-pulse">
+//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[280px]">
 //             {/* ... skeleton content ... */}
 //             <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
 //             {[1, 2, 3, 4].map((i) => (
@@ -873,14 +873,14 @@
 //     // Skeleton state representing both cards
 //     return (
 //       <div className="mb-8">
-//         <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-4 animate-pulse">
+//         <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-4">
 //           Transfer Insights & KYC
 //         </h3>
 
 //         {/* Grid for 2 items */}
 //         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 //           {/* Skeleton for Popular Corridors */}
-//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[280px] animate-pulse">
+//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[280px]">
 //             <div className="h-6 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
 //             {[1, 2, 3, 4].map((i) => (
 //               <div
@@ -893,7 +893,7 @@
 //             ))}
 //           </div>
 //           {/* Skeleton for KYC Card (5 items) */}
-//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[280px] animate-pulse">
+//           <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[280px]">
 //             <div className="flex justify-between items-center mb-4">
 //               <Skeleton className="h-6 w-3/5 rounded" />
 //               <Skeleton className="h-5 w-5 rounded-full" />
@@ -1118,7 +1118,7 @@ export default function TransferInsights() {
     // Skeleton state representing both cards
     return (
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-4 animate-pulse">
+        <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-4">
           Transfer Insights & KYC Status{" "}
           {/* Updated text to match success state */}
         </h3>
@@ -1126,7 +1126,7 @@ export default function TransferInsights() {
         {/* Grid for 2 items */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Skeleton for Popular Corridors */}
-          <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[322px] animate-pulse">
+          <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-auto">
             {/* Header: Title and Icon */}
             <div className="flex justify-between items-center mb-4">
               <Skeleton className="h-6 w-1/3 rounded" />{" "}
@@ -1207,12 +1207,15 @@ export default function TransferInsights() {
         {/* Popular Corridors Card */}
         <div className="dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
           <div className="flex justify-between items-center mb-4">
-            <h4 className="text-lg font-medium text-neutral-900 dark:text-white">
+            <h1 className="text-lg font-medium text-neutral-900 dark:text-white">
               Corridors (Last 90d)
-            </h4>
-            <FaPercentage  className="text-primary size-5" />
+            </h1>
+            <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
+              <FaPercentage className="size-6 text-mainheading dark:text-primary" />
+            </div>
           </div>
-          <div className="space-y-3">
+
+          <div className="space-y-4">
             {popularCorridors.length > 0 ? (
               popularCorridors.map((corridor, index) => {
                 const corridorColors = getIconColorStyle(

@@ -239,28 +239,26 @@ export const InboxMessageDetailView: React.FC<InboxMessageDetailViewProps> = ({
     <>
       <div className="border rounded-2xl overflow-hidden transition-all ease-linear duration-75 flex flex-col h-full">
         {/* Top Action Bar */}
-        <div className="flex items-center justify-between p-3  bg-primarybox sticky top-0 z-10">
+        <div className="flex items-center justify-between p-4 sm:px-6  bg-primarybox sticky top-0 z-10">
           <button
             onClick={onBack}
             aria-label="Back to inbox list"
-            className="p-2 bg-lightgray flex items-center cursor-pointer dark:bg-primarybox rounded-full sm:rounded-md"
+            className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white sm:px-4 sm:py-2 sm:h-auto h-8 sm:w-auto w-8 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
             disabled={isDeleting}
           >
-            <ChevronLeft  size={18} />
+            <ChevronLeft  size={20} />
             <span className="hidden sm:block text-sm">Back</span>
           </button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute bottom-3 right-3 size-8 rounded-full flex items-center bg-lightborder dark:bg-primarybox text-neutral-900 dark:text-white hover:bg-primary dark:hover:bg-secondarybox transition-all duration-75 ease-linear justify-center cursor-pointer"
+          <button
+            className="size-8 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white rounded-full transition-all duration-75 ease-linear flex justify-center items-center gap-2 cursor-pointer"
             onClick={handleOpenDeleteModal}
             aria-label="Delete message"
             disabled={isDeleting} // Disable button if delete is in progress
           >
             {/* Keep the icon consistent, spinner logic is inside the modal */}
             <Trash2 className="size-4" />
-          </Button>
+          </button>
         </div>
 
         {/* Message Header & Metadata */}
@@ -269,7 +267,7 @@ export const InboxMessageDetailView: React.FC<InboxMessageDetailViewProps> = ({
             {message.subject}
           </h1>
 
-          <div className="flex flex-col sm:flex-row sm:items-center sm:gap-6 text-xs sm:text-sm text-primary space-y-1 sm:space-y-0">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:gap-6 gap-2 text-sm text-primary space-y-1 sm:space-y-0">
             <div className="flex items-center">
               <UserRound
                 className="size-4 mr-1.5 flex-shrink-0"
@@ -304,10 +302,10 @@ export const InboxMessageDetailView: React.FC<InboxMessageDetailViewProps> = ({
         </div>
 
         {/* Separator */}
-        <Separator className="mx-4 sm:mx-6 my-2" />
+        {/* <Separator className="mx-4 sm:mx-6 my-2" /> */}
 
         {/* Message Body - Scrollable */}
-        <div className="px-4 pb-6 sm:px-6 sm:pb-8 flex-grow overflow-y-auto">
+        <div className="p-4 sm:px-6 flex-grow overflow-y-auto border-t ">
           <div className="text-sm sm:text-base text-foreground leading-relaxed message-body whitespace-pre-wrap break-words">
             {message.body}
           </div>

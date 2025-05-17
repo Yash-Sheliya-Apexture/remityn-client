@@ -4075,6 +4075,572 @@
 
 
 
+// "use client";
+// import React, {
+//   useState,
+//   useEffect,
+//   useCallback,
+//   useMemo,
+//   useRef,
+// } from "react";
+// import { useAuth } from "@/app/contexts/AuthContext"; // Ensure this path is correct, or use relative path if needed
+// import inboxService from "../../../services/inbox";
+// import type { InboxMessage, InboxListResponse } from "../../../services/inbox";
+// import { Separator } from "@/components/ui/separator";
+// import {
+//   Inbox,
+//   RefreshCw,
+//   Bell,
+//   AlertCircle,
+//   Loader2,
+// } from "lucide-react";
+// import { motion } from "framer-motion";
+
+// import { InboxSkeleton } from "../../components/inbox/InboxSkeleton";
+// import { InboxErrorState } from "../../components/inbox/InboxErrorState";
+// import { InboxMessageListItem } from "../../components/inbox/InboxMessageListItem";
+// import { InboxMessageDetailView } from "../../components/inbox/InboxMessageDetailView";
+// import Pagination from "../../components/Pagination";
+// import { GoDotFill } from "react-icons/go";
+// import { FaRegCommentDots } from "react-icons/fa";
+// import { Skeleton } from "@/components/ui/skeleton";
+// import { MdOutlineAccessTime } from "react-icons/md";
+
+// const MESSAGES_PER_PAGE = 10;
+
+// const InboxPage: React.FC = () => {
+//   // Destructure fetchUnreadInboxCount from useAuth
+//   const { user, loading: authLoading, fetchUnreadInboxCount } = useAuth();
+//   const [inboxData, setInboxData] = useState<InboxListResponse | null>(null);
+//   const [loading, setLoading] = useState<boolean>(true);
+//   const [actionLoading, setActionLoading] = useState<Record<string, boolean>>(
+//     {}
+//   );
+//   const [error, setError] = useState<string | null>(null);
+//   const [currentPage, setCurrentPage] = useState<number>(1);
+//   const [selectedMessage, setSelectedMessage] = useState<InboxMessage | null>(
+//     null
+//   );
+//   const isInitialLoad = useRef(true);
+//   const [listAnimationKey, setListAnimationKey] = useState(0);
+
+//   const fetchInbox = useCallback(
+//     async (page: number, isRefresh: boolean = false) => {
+//       setLoading(true);
+//       setError(null);
+
+//       try {
+//         const data = await inboxService.getMyMessages(page, MESSAGES_PER_PAGE);
+//         setInboxData(data);
+//         if (data.currentPage !== page) {
+//           setTimeout(() => setCurrentPage(data.currentPage), 0);
+//         }
+//         if (isRefresh) {
+//           setListAnimationKey((prev) => prev + 1);
+//         }
+//       } catch (err: any) {
+//         console.error("Failed to fetch inbox:", err);
+//         const errorMessage =
+//           err.response?.data?.message ||
+//           err.message ||
+//           "Could not load messages.";
+//         setError(errorMessage);
+//         setInboxData(null);
+//         setSelectedMessage(null);
+//       } finally {
+//         setLoading(false);
+//         if (isInitialLoad.current) {
+//           isInitialLoad.current = false;
+//         }
+//       }
+//     },
+//     []
+//   );
+
+//   useEffect(() => {
+//     if (authLoading) {
+//       if (!loading && isInitialLoad.current) setLoading(true);
+//       return;
+//     }
+
+//     if (user) {
+//       fetchInbox(currentPage, false);
+//     } else {
+//       setError("Please log in to view your inbox.");
+//       setLoading(false);
+//       setInboxData(null);
+//       setSelectedMessage(null);
+//       if (isInitialLoad.current) {
+//         isInitialLoad.current = false;
+//       }
+//     }
+//   }, [authLoading, user, currentPage, fetchInbox]);
+
+//   const handleActionStart = (messageId: string) => {
+//     setActionLoading((prev) => ({ ...prev, [messageId]: true }));
+//   };
+
+//   const handleActionEnd = (messageId: string) => {
+//     setActionLoading((prev) => {
+//       const newState = { ...prev };
+//       delete newState[messageId];
+//       return newState;
+//     });
+//   };
+
+//   const handleMarkRead = useCallback(
+//     async (message: InboxMessage) => {
+//       if (!message || message.isRead || actionLoading[message._id]) return;
+
+//       handleActionStart(message._id);
+//       const originalData = structuredClone(inboxData);
+//       const originalSelectedMessage = selectedMessage
+//         ? structuredClone(selectedMessage)
+//         : null;
+
+//       setInboxData((prev) => {
+//         if (!prev) return null;
+//         return {
+//           ...prev,
+//           messages: prev.messages.map((msg) =>
+//             msg._id === message._id ? { ...msg, isRead: true } : msg
+//           ),
+//         };
+//       });
+
+//       if (selectedMessage?._id === message._id) {
+//         setSelectedMessage((prev) => (prev ? { ...prev, isRead: true } : null));
+//       }
+
+//       try {
+//         await inboxService.markAsRead(message._id);
+//         // ---- MODIFICATION: Refresh global unread count ----
+//         if (fetchUnreadInboxCount) {
+//             await fetchUnreadInboxCount();
+//             console.log("InboxPage: Unread count refreshed after marking message as read.");
+//         }
+//         // ---- END MODIFICATION ----
+//       } catch (err) {
+//         console.error("Failed to mark as read:", err);
+//         setError("Failed to update message status. Please try refreshing.");
+//         setInboxData(originalData);
+//         setSelectedMessage(originalSelectedMessage);
+//       } finally {
+//         handleActionEnd(message._id);
+//       }
+//     },
+//     [inboxData, selectedMessage, actionLoading, fetchUnreadInboxCount] // Added fetchUnreadInboxCount
+//   );
+
+//   const handleDelete = useCallback(
+//     async (messageId: string) => {
+//       if (actionLoading[messageId]) return;
+
+//       handleActionStart(messageId);
+//       const originalData = structuredClone(inboxData);
+//       const originalSelectedMessage = selectedMessage
+//         ? structuredClone(selectedMessage)
+//         : null;
+//       const isDeletingSelected = selectedMessage?._id === messageId;
+
+//       // ---- MODIFICATION: Determine if the message was unread BEFORE optimistic update ----
+//       let wasMessageUnread = false;
+//       if (originalData) { // originalData might be null if inbox hasn't loaded
+//           const messageToDelete = originalData.messages.find(msg => msg._id === messageId);
+//           if (messageToDelete && !messageToDelete.isRead) {
+//               wasMessageUnread = true;
+//           }
+//       }
+//       // ---- END MODIFICATION ----
+
+//       let pageToNavigateTo = currentPage;
+//       let shouldRefetchCurrentPage = false;
+
+//       setInboxData((prev) => {
+//         if (!prev) return null;
+//         const messageIndex = prev.messages.findIndex(
+//           (msg) => msg._id === messageId
+//         );
+//         if (messageIndex === -1) return prev;
+
+//         const newMessages = prev.messages.filter(
+//           (msg) => msg._id !== messageId
+//         );
+//         const newTotalMessages = Math.max(0, prev.totalMessages - 1);
+//         const newTotalPages =
+//           Math.ceil(newTotalMessages / MESSAGES_PER_PAGE) || 1;
+
+//         if (
+//           newMessages.length === 0 &&
+//           prev.messages.length > 0 &&
+//           currentPage > 1 &&
+//           currentPage === prev.totalPages
+//         ) {
+//           pageToNavigateTo = Math.max(1, currentPage - 1);
+//         } else if (
+//           newMessages.length < MESSAGES_PER_PAGE &&
+//           newTotalMessages >
+//             newMessages.length + (currentPage - 1) * MESSAGES_PER_PAGE
+//         ) {
+//           shouldRefetchCurrentPage = true;
+//         }
+
+//         const optimisticCurrentPage =
+//           pageToNavigateTo !== currentPage
+//             ? pageToNavigateTo
+//             : prev.currentPage;
+
+//         return {
+//           ...prev,
+//           messages: newMessages,
+//           totalMessages: newTotalMessages,
+//           totalPages: newTotalPages,
+//           currentPage: optimisticCurrentPage,
+//         };
+//       });
+
+//       if (isDeletingSelected) {
+//         setSelectedMessage(null);
+//       }
+
+//       try {
+//         await inboxService.deleteMessage(messageId);
+
+//         // ---- MODIFICATION: Refresh global unread count if an unread message was deleted ----
+//         if (wasMessageUnread && fetchUnreadInboxCount) {
+//             await fetchUnreadInboxCount();
+//             console.log("InboxPage: Unread count refreshed after deleting an unread message.");
+//         }
+//         // ---- END MODIFICATION ----
+
+//         if (pageToNavigateTo !== currentPage) {
+//           setTimeout(() => setCurrentPage(pageToNavigateTo), 0);
+//         } else if (shouldRefetchCurrentPage) {
+//           setTimeout(() => fetchInbox(currentPage, false), 0);
+//         } else if (
+//           inboxData &&
+//           (inboxData.totalMessages - 1 === 0) && // Check previous totalMessages correctly
+//           currentPage === 1
+//         ) {
+//           // UI will update to empty state due to inboxData.totalMessages becoming 0
+//         }
+//       } catch (err: any) {
+//         console.error("Failed to delete message:", err);
+//         setError(
+//           err.response?.data?.message ||
+//             err.message ||
+//             "Failed to delete message. Please try refreshing."
+//         );
+//         setInboxData(originalData);
+//         if (isDeletingSelected) setSelectedMessage(originalSelectedMessage);
+//       } finally {
+//         handleActionEnd(messageId);
+//       }
+//     },
+//     [inboxData, selectedMessage, currentPage, actionLoading, fetchInbox, fetchUnreadInboxCount] // Added fetchUnreadInboxCount
+//   );
+
+//   const handleSelectMessage = useCallback(
+//     (message: InboxMessage) => {
+//       setSelectedMessage(message);
+//       if (!message.isRead) {
+//         // Add a small delay to allow detail view to render before marking as read,
+//         // or call handleMarkRead directly if immediate marking is preferred.
+//         setTimeout(() => handleMarkRead(message), 50);
+//       }
+//     },
+//     [handleMarkRead]
+//   );
+
+//   const handlePageChange = (newPage: number) => {
+//     if (
+//       loading ||
+//       newPage === currentPage ||
+//       newPage < 1 ||
+//       (inboxData && newPage > inboxData.totalPages)
+//     ) {
+//       return;
+//     }
+//     setSelectedMessage(null);
+//     setCurrentPage(newPage);
+//   };
+
+//   const handleRefresh = useCallback(() => {
+//     if (loading) return;
+//     setSelectedMessage(null);
+//     fetchInbox(currentPage, true);
+//   }, [loading, currentPage, fetchInbox]);
+
+//   const { unreadMessages, readMessages } = useMemo(() => {
+//     if (!inboxData?.messages) return { unreadMessages: [], readMessages: [] };
+//     const allMessages = inboxData.messages;
+//     const unread = allMessages.filter((msg) => !msg.isRead);
+//     const read = allMessages.filter((msg) => msg.isRead);
+//     return { unreadMessages: unread, readMessages: read };
+//   }, [inboxData?.messages]);
+
+//   const totalMessages = inboxData?.totalMessages ?? 0;
+//   const totalPages = inboxData?.totalPages ?? 1;
+//   const displayPage = inboxData?.currentPage ?? currentPage;
+
+//   const hasAnyMessagesOnPage =
+//     unreadMessages.length > 0 || readMessages.length > 0;
+//   const hasMessagesInTotal = totalMessages > 0;
+
+//   if (authLoading || (loading && isInitialLoad.current && !error)) {
+//     return <InboxSkeleton />;
+//   }
+
+//   if (!authLoading && !user) {
+//     return (
+//       <section className="Your-Inbox py-5 md:py-10">
+//         <div className="max-w-4xl mx-auto px-4 text-center">
+//           <Inbox className="size-16 mx-auto text-muted-foreground mb-4" />
+//           <h1 className="text-xl font-semibold text-mainheading dark:text-white mb-2">
+//             Access Denied
+//           </h1>
+//           <p className="text-muted-foreground">
+//             {error || "Please log in to view your inbox."}
+//           </p>
+//         </div>
+//       </section>
+//     );
+//   }
+
+//   return (
+//     <section className="Your-Inbox ">
+//       <div className="container mx-auto">
+//         <div className="flex flex-row justify-between items-start md:items-center gap-4 pb-8 sticky lg:top-28 top-20 z-10 bg-white dark:bg-background">
+//           <div className="flex items-center gap-3">
+//             <div className="bg-primary p-2 rounded-md">
+//               <Inbox className="text-neutral-900" size={28} />
+//             </div>
+//             <div>
+//               <h1 className="text-2xl md:text-3xl font-semibold text-nowrap text-mainheading dark:text-white">
+//                 Your Inbox
+//               </h1>
+//               {!loading && inboxData && hasMessagesInTotal && (
+//                 <div className="text-sm text-muted-foreground">
+//                   {unreadMessages.length > 0 ? (
+//                     <span className="flex items-center gap-1.5">
+//                       <span className="font-medium text-primary">
+//                         {unreadMessages.length} new
+//                       </span>
+//                       {readMessages.length > 0 && (
+//                         <>
+//                           <GoDotFill
+//                             size={8}
+//                             className="text-muted-foreground/50"
+//                           />
+//                           <span>{readMessages.length} read</span>
+//                         </>
+//                       )}
+//                     </span>
+//                   ) : readMessages.length > 0 ? (
+//                     `${readMessages.length} message${
+//                       readMessages.length !== 1 ? "s" : ""
+//                     } read`
+//                   ) : (
+//                     ""
+//                   )}
+//                 </div>
+//               )}
+//               {loading && !isInitialLoad.current && (
+//                 <div className="flex items-center gap-1">
+//                   <Skeleton className="h-4 w-12" />
+//                   <Skeleton className="p-1 rounded-full" />
+//                   <Skeleton className="h-4 w-12" />
+//                 </div>
+//               )}
+//             </div>
+//           </div>
+
+//           {!selectedMessage && (
+//             <>
+//               <button
+//                 onClick={handleRefresh}
+//                 disabled={loading}
+//                 className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-4 sm:px-8 py-3 h-[50px] w-auto rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
+//               >
+//                 <RefreshCw
+//                   className={`size-5 ${
+//                     loading && !isInitialLoad.current ? "animate-spin" : "" // Adjusted to only spin on non-initial loads
+//                   }`}
+//                 />
+//                 <span className="hidden sm:inline">Refresh</span>
+//               </button>
+//             </>
+//           )}
+//         </div>
+
+//         {error && !(loading && isInitialLoad.current) && (
+//           <div className="mb-6">
+//             <InboxErrorState error={error} onRetry={handleRefresh} />
+//           </div>
+//         )}
+
+//         <div className="relative">
+//           {selectedMessage ? (
+//             <InboxMessageDetailView
+//               message={selectedMessage}
+//               onBack={() => setSelectedMessage(null)}
+//               onDelete={handleDelete}
+//               isDeleting={!!actionLoading[selectedMessage._id]}
+//             />
+//           ) : (
+//             !error && (
+//               <>
+//                 <motion.div key={listAnimationKey}>
+//                   {!loading &&
+//                     !hasMessagesInTotal &&
+//                     !isInitialLoad.current && (
+//                       <motion.div // <-- MODIFIED: Added motion.div for animation
+//                         initial={{ opacity: 0, y: 20 }}
+//                         animate={{ opacity: 1, y: 0 }}
+//                         transition={{ duration: 0.4, delay: 0.1 }} // Sensible transition
+//                         className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center"
+//                       >
+//                         <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
+//                           <Inbox className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+//                         </div>
+//                         <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+//                           All Messages Clear!
+//                         </h2>
+//                         <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+//                           Your inbox is currently empty. New messages and
+//                           important updates will show up here as soon as they
+//                           arrive.
+//                         </p>
+//                       </motion.div>
+//                     )}
+
+//                   {hasMessagesInTotal && (
+//                     <div className="space-y-4">
+//                       {unreadMessages.length > 0 && (
+//                         <div className="space-y-4">
+//                           <div className="flex items-center gap-2 mb-4">
+//                             <div className="dark:bg-primarybox bg-primary p-2 rounded-md">
+//                               <Bell
+//                                 className="dark:text-white text-neutral-900"
+//                                 size={28}
+//                               />
+//                             </div>
+//                             <h2 className="text-xl font-medium dark:text-white text-mainheading">
+//                               New Messages
+//                               <span className="ml-2 text-xs font-semibold dark:bg-primary bg-lightborder dark:text-neutral-900 text-primary px-1.5 py-0.5 rounded-full inline-flex items-center justify-center min-w-[20px]">
+//                                 {unreadMessages.length}
+//                               </span>
+//                             </h2>
+//                           </div>
+
+//                           <div className="space-y-3">
+//                             {unreadMessages.map((message, index) => (
+//                               <motion.div
+//                                 key={message._id}
+//                                 initial={{ opacity: 0, y: 20 }}
+//                                 animate={{ opacity: 1, y: 0 }}
+//                                 transition={{
+//                                   delay: index * 0.05,
+//                                   duration: 0.4,
+//                                 }}
+//                               >
+//                                 <InboxMessageListItem
+//                                   message={message}
+//                                   onSelect={handleSelectMessage}
+//                                   onDelete={handleDelete}
+//                                   isDeleting={!!actionLoading[message._id]}
+//                                 />
+//                               </motion.div>
+//                             ))}
+//                           </div>
+//                         </div>
+//                       )}
+
+//                       {unreadMessages.length > 0 && readMessages.length > 0 && (
+//                         <Separator className="sm:my-8 my-5 bg-border/50" />
+//                       )}
+
+//                       {readMessages.length > 0 && (
+//                         <div className="space-y-4">
+//                           <div className="flex items-center gap-2 mb-4">
+//                             <div className="dark:bg-primarybox bg-primary p-2 rounded-md">
+//                               <FaRegCommentDots
+//                                 className="dark:text-white text-neutral-900"
+//                                 size={28}
+//                               />
+//                             </div >
+//                             <h2 className="text-xl font-medium dark:text-white text-mainheading">
+//                               Previous Messages
+//                               <span className="ml-2 text-xs font-semibold dark:bg-primary bg-lightborder dark:text-neutral-900 text-primary px-1.5 py-0.5 rounded-full inline-flex items-center justify-center min-w-[20px]">
+//                                 {readMessages.length}
+//                               </span>
+//                             </h2>
+//                           </div>
+//                           <div className="space-y-3">
+//                             {readMessages.map((message, index) => (
+//                               <motion.div
+//                                 key={message._id}
+//                                 initial={{ opacity: 0, y: 20 }}
+//                                 animate={{ opacity: 1, y: 0 }}
+//                                 transition={{
+//                                   delay: index * 0.05,
+//                                   duration: 0.4,
+//                                 }}
+//                               >
+//                                 <InboxMessageListItem
+//                                   message={message}
+//                                   onSelect={handleSelectMessage}
+//                                   onDelete={handleDelete}
+//                                   isDeleting={!!actionLoading[message._id]}
+//                                 />
+//                               </motion.div>
+//                             ))}
+//                           </div>
+//                         </div>
+//                       )}
+
+//                       {!loading &&
+//                         !error &&
+//                         !hasAnyMessagesOnPage &&
+//                         hasMessagesInTotal && (
+//                           <div className="text-center py-12 bg-muted/30 dark:bg-primarybox/50 rounded-lg border border-border/50 min-h-[200px] flex flex-col justify-center items-center">
+//                             <AlertCircle className="size-12 mx-auto text-muted-foreground mb-3" />
+//                             <p className="text-lg font-medium text-foreground mb-1">
+//                               No messages on this page
+//                             </p>
+//                             <p className="text-muted-foreground">
+//                               Try navigating to a different page or refreshing
+//                               your inbox.
+//                             </p>
+//                           </div>
+//                         )}
+//                     </div>
+//                   )}
+//                 </motion.div>
+//                 {!error && !isInitialLoad.current && totalPages > 1 && (
+//                   <div className="mt-8">
+//                     <Pagination
+//                       currentPage={displayPage}
+//                       totalPages={totalPages}
+//                       paginate={handlePageChange}
+//                       goToPreviousPage={() => handlePageChange(displayPage - 1)}
+//                       goToNextPage={() => handlePageChange(displayPage + 1)}
+//                     />
+//                   </div>
+//                 )}
+//               </>
+//             )
+//           )}
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default InboxPage;
+
+
+
 "use client";
 import React, {
   useState,
@@ -4109,7 +4675,6 @@ import { MdOutlineAccessTime } from "react-icons/md";
 const MESSAGES_PER_PAGE = 10;
 
 const InboxPage: React.FC = () => {
-  // Destructure fetchUnreadInboxCount from useAuth
   const { user, loading: authLoading, fetchUnreadInboxCount } = useAuth();
   const [inboxData, setInboxData] = useState<InboxListResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -4214,12 +4779,10 @@ const InboxPage: React.FC = () => {
 
       try {
         await inboxService.markAsRead(message._id);
-        // ---- MODIFICATION: Refresh global unread count ----
         if (fetchUnreadInboxCount) {
             await fetchUnreadInboxCount();
             console.log("InboxPage: Unread count refreshed after marking message as read.");
         }
-        // ---- END MODIFICATION ----
       } catch (err) {
         console.error("Failed to mark as read:", err);
         setError("Failed to update message status. Please try refreshing.");
@@ -4229,7 +4792,7 @@ const InboxPage: React.FC = () => {
         handleActionEnd(message._id);
       }
     },
-    [inboxData, selectedMessage, actionLoading, fetchUnreadInboxCount] // Added fetchUnreadInboxCount
+    [inboxData, selectedMessage, actionLoading, fetchUnreadInboxCount]
   );
 
   const handleDelete = useCallback(
@@ -4237,49 +4800,53 @@ const InboxPage: React.FC = () => {
       if (actionLoading[messageId]) return;
 
       handleActionStart(messageId);
-      const originalData = structuredClone(inboxData);
+      const originalData = structuredClone(inboxData); // State BEFORE this delete op's optimistic update
       const originalSelectedMessage = selectedMessage
         ? structuredClone(selectedMessage)
         : null;
       const isDeletingSelected = selectedMessage?._id === messageId;
 
-      // ---- MODIFICATION: Determine if the message was unread BEFORE optimistic update ----
       let wasMessageUnread = false;
-      if (originalData) { // originalData might be null if inbox hasn't loaded
+      if (originalData) { 
           const messageToDelete = originalData.messages.find(msg => msg._id === messageId);
           if (messageToDelete && !messageToDelete.isRead) {
               wasMessageUnread = true;
           }
       }
-      // ---- END MODIFICATION ----
 
       let pageToNavigateTo = currentPage;
       let shouldRefetchCurrentPage = false;
+      // This variable will store the total messages *after* the optimistic update.
+      let newTotalMessagesAfterOptimisticUpdate = originalData ? originalData.totalMessages -1 : 0;
+
 
       setInboxData((prev) => {
         if (!prev) return null;
         const messageIndex = prev.messages.findIndex(
           (msg) => msg._id === messageId
         );
-        if (messageIndex === -1) return prev;
+        if (messageIndex === -1) return prev; // Message not found, should not happen if UI is consistent
 
         const newMessages = prev.messages.filter(
           (msg) => msg._id !== messageId
         );
+        // `newTotalMessages` is local to this callback, correctly calculates the new total
         const newTotalMessages = Math.max(0, prev.totalMessages - 1);
+        newTotalMessagesAfterOptimisticUpdate = newTotalMessages; // Store for use after this callback
+
         const newTotalPages =
           Math.ceil(newTotalMessages / MESSAGES_PER_PAGE) || 1;
 
         if (
-          newMessages.length === 0 &&
-          prev.messages.length > 0 &&
-          currentPage > 1 &&
-          currentPage === prev.totalPages
+          newMessages.length === 0 && // Current page becomes empty
+          prev.messages.length > 0 && // But there were messages on it before
+          currentPage > 1 &&          // And it's not the first page
+          currentPage === prev.totalPages // And it was the last page
         ) {
           pageToNavigateTo = Math.max(1, currentPage - 1);
         } else if (
-          newMessages.length < MESSAGES_PER_PAGE &&
-          newTotalMessages >
+          newMessages.length < MESSAGES_PER_PAGE && // Page has space
+          newTotalMessages > // And there are more messages in total than currently shown after this delete on this page
             newMessages.length + (currentPage - 1) * MESSAGES_PER_PAGE
         ) {
           shouldRefetchCurrentPage = true;
@@ -4306,23 +4873,26 @@ const InboxPage: React.FC = () => {
       try {
         await inboxService.deleteMessage(messageId);
 
-        // ---- MODIFICATION: Refresh global unread count if an unread message was deleted ----
         if (wasMessageUnread && fetchUnreadInboxCount) {
             await fetchUnreadInboxCount();
             console.log("InboxPage: Unread count refreshed after deleting an unread message.");
         }
-        // ---- END MODIFICATION ----
 
         if (pageToNavigateTo !== currentPage) {
           setTimeout(() => setCurrentPage(pageToNavigateTo), 0);
         } else if (shouldRefetchCurrentPage) {
           setTimeout(() => fetchInbox(currentPage, false), 0);
         } else if (
-          inboxData &&
-          (inboxData.totalMessages - 1 === 0) && // Check previous totalMessages correctly
+          // ---- CORRECTION IS HERE ----
+          // Check if the inbox became empty (total messages is now 0)
+          // and we were on page 1.
+          // `originalData.totalMessages === 1` implies it will become 0 after this delete.
+          originalData && originalData.totalMessages === 1 &&
           currentPage === 1
+          // ---- END CORRECTION ----
         ) {
-          // UI will update to empty state due to inboxData.totalMessages becoming 0
+          // UI will update to empty state naturally due to inboxData.totalMessages becoming 0
+          // No explicit navigation or refetch needed for this case.
         }
       } catch (err: any) {
         console.error("Failed to delete message:", err);
@@ -4331,21 +4901,19 @@ const InboxPage: React.FC = () => {
             err.message ||
             "Failed to delete message. Please try refreshing."
         );
-        setInboxData(originalData);
-        if (isDeletingSelected) setSelectedMessage(originalSelectedMessage);
+        setInboxData(originalData); // Revert optimistic update
+        if (isDeletingSelected) setSelectedMessage(originalSelectedMessage); // Revert selected message
       } finally {
         handleActionEnd(messageId);
       }
     },
-    [inboxData, selectedMessage, currentPage, actionLoading, fetchInbox, fetchUnreadInboxCount] // Added fetchUnreadInboxCount
+    [inboxData, selectedMessage, currentPage, actionLoading, fetchInbox, fetchUnreadInboxCount]
   );
 
   const handleSelectMessage = useCallback(
     (message: InboxMessage) => {
       setSelectedMessage(message);
       if (!message.isRead) {
-        // Add a small delay to allow detail view to render before marking as read,
-        // or call handleMarkRead directly if immediate marking is preferred.
         setTimeout(() => handleMarkRead(message), 50);
       }
     },
@@ -4366,10 +4934,10 @@ const InboxPage: React.FC = () => {
   };
 
   const handleRefresh = useCallback(() => {
-    if (loading) return;
+    if (loading && !isInitialLoad.current) return; 
     setSelectedMessage(null);
     fetchInbox(currentPage, true);
-  }, [loading, currentPage, fetchInbox]);
+  }, [loading, currentPage, fetchInbox]); 
 
   const { unreadMessages, readMessages } = useMemo(() => {
     if (!inboxData?.messages) return { unreadMessages: [], readMessages: [] };
@@ -4459,12 +5027,12 @@ const InboxPage: React.FC = () => {
             <>
               <button
                 onClick={handleRefresh}
-                disabled={loading}
+                disabled={loading && !isInitialLoad.current} 
                 className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-4 sm:px-8 py-3 h-[50px] w-auto rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <RefreshCw
                   className={`size-5 ${
-                    loading && !isInitialLoad.current ? "animate-spin" : "" // Adjusted to only spin on non-initial loads
+                    loading && !isInitialLoad.current ? "animate-spin" : ""
                   }`}
                 />
                 <span className="hidden sm:inline">Refresh</span>
@@ -4490,32 +5058,27 @@ const InboxPage: React.FC = () => {
           ) : (
             !error && (
               <>
-                <motion.div key={listAnimationKey}>
-                  {!loading &&
-                    !hasMessagesInTotal &&
-                    !isInitialLoad.current && (
-                      <motion.div // <-- MODIFIED: Added motion.div for animation
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.4, delay: 0.1 }} // Sensible transition
-                        className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center"
-                      >
-                        <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
-                          <Inbox className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
-                        </div>
-                        <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
-                          All Messages Clear!
-                        </h2>
-                        <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
-                          Your inbox is currently empty. New messages and
-                          important updates will show up here as soon as they
-                          arrive.
-                        </p>
-                      </motion.div>
-                    )}
-
-                  {hasMessagesInTotal && (
-                    <div className="space-y-4">
+                {!isInitialLoad.current && !hasMessagesInTotal && (
+                  <div 
+                    className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center"
+                  >
+                    <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
+                      <Inbox className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+                    </div>
+                    <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+                      All Messages Clear!
+                    </h2>
+                    <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+                      Your inbox is currently empty. New messages and
+                      important updates will show up here as soon as they
+                      arrive.
+                    </p>
+                  </div>
+                )}
+                
+                {hasMessagesInTotal && (
+                  <motion.div key={listAnimationKey}>
+                    <div className="space-y-4"> 
                       {unreadMessages.length > 0 && (
                         <div className="space-y-4">
                           <div className="flex items-center gap-2 mb-4">
@@ -4599,10 +5162,9 @@ const InboxPage: React.FC = () => {
                         </div>
                       )}
 
-                      {!loading &&
-                        !error &&
+                      {!loading && 
                         !hasAnyMessagesOnPage &&
-                        hasMessagesInTotal && (
+                        (
                           <div className="text-center py-12 bg-muted/30 dark:bg-primarybox/50 rounded-lg border border-border/50 min-h-[200px] flex flex-col justify-center items-center">
                             <AlertCircle className="size-12 mx-auto text-muted-foreground mb-3" />
                             <p className="text-lg font-medium text-foreground mb-1">
@@ -4615,8 +5177,9 @@ const InboxPage: React.FC = () => {
                           </div>
                         )}
                     </div>
-                  )}
-                </motion.div>
+                  </motion.div>
+                )}
+                
                 {!error && !isInitialLoad.current && totalPages > 1 && (
                   <div className="mt-8">
                     <Pagination

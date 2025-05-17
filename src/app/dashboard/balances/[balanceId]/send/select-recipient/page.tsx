@@ -166,8 +166,6 @@
 //   );
 // }
 
-
-
 // // frontend/src/app/dashboard/balances/[balanceId]/send/select-recipient/page.tsx
 // "use client";
 // import React, { useState, ChangeEvent, useEffect } from "react";
@@ -372,7 +370,6 @@
 //     </section>
 //   );
 // }
-
 
 // // frontend/src/app/dashboard/balances/[balanceId]/send/select-recipient/page.tsx
 // "use client";
@@ -645,8 +642,6 @@
 //   );
 // }
 
-
-
 // frontend/src/app/dashboard/balances/[balanceId]/send/select-recipient/page.tsx
 "use client";
 import React, { useState, ChangeEvent, useEffect, Suspense } from "react"; // Added Suspense
@@ -661,6 +656,7 @@ import { MdCancel } from "react-icons/md";
 import { Skeleton } from "@/components/ui/skeleton";
 import Link from "next/link"; // Import Link
 import { LuPlus } from "react-icons/lu";
+import { BiSolidError } from "react-icons/bi";
 
 // Define Recipient type (ensure consistency with other files)
 interface Recipient {
@@ -682,7 +678,7 @@ const SelectRecipientContent = () => {
 
   // Validate and extract balanceId
   const balanceIdParam = params.balanceId;
-  const balanceId = typeof balanceIdParam === 'string' ? balanceIdParam : '';
+  const balanceId = typeof balanceIdParam === "string" ? balanceIdParam : "";
 
   const { token } = useAuth();
   const [recipients, setRecipients] = useState<Recipient[]>([]);
@@ -707,9 +703,9 @@ const SelectRecipientContent = () => {
   useEffect(() => {
     if (!isValidParam || !token) {
       if (isValidParam && !token) {
-          // If params are valid but token is missing, stop loading
-          // Redirect logic below will handle it
-          setLoadingRecipients(false);
+        // If params are valid but token is missing, stop loading
+        // Redirect logic below will handle it
+        setLoadingRecipients(false);
       }
       // If params invalid, error is already set, loading stopped above
       return;
@@ -722,16 +718,22 @@ const SelectRecipientContent = () => {
         // Fetch only recipients compatible with the balance currency?
         // This might require backend changes or filtering here.
         // For now, fetching all user recipients.
-        const data: Recipient[] = await recipientService.getUserRecipients(token);
+        const data: Recipient[] = await recipientService.getUserRecipients(
+          token
+        );
         setRecipients(data);
       } catch (err: unknown) {
         let errorMessage = "Failed to load recipients.";
         if (err instanceof Error) {
           errorMessage = err.message;
-        } else if (typeof err === 'string') {
+        } else if (typeof err === "string") {
           errorMessage = err;
-        } else if (typeof err === 'object' && err !== null && 'message' in err) {
-             errorMessage = String((err as { message: unknown }).message);
+        } else if (
+          typeof err === "object" &&
+          err !== null &&
+          "message" in err
+        ) {
+          errorMessage = String((err as { message: unknown }).message);
         }
         setError(errorMessage);
         console.error("Error fetching recipients:", err);
@@ -741,7 +743,6 @@ const SelectRecipientContent = () => {
     };
 
     fetchRecipients();
-
   }, [token, isValidParam]); // Depend on token and param validity
 
   const handleSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -754,7 +755,8 @@ const SelectRecipientContent = () => {
 
   // Filter recipients based on search term
   const filteredRecipients = recipients.filter((recipient) => {
-    const nameToSearch = recipient.nickname || recipient.accountHolderName || "";
+    const nameToSearch =
+      recipient.nickname || recipient.accountHolderName || "";
     // Optional: Search other fields like email or bank name
     // const emailToSearch = recipient.email || "";
     // const bankToSearch = recipient.bankName || "";
@@ -767,10 +769,12 @@ const SelectRecipientContent = () => {
   // Handle selecting an existing recipient
   const handleRecipientSelect = (recipientId: string) => {
     if (!balanceId) {
-        setError("Cannot proceed without a valid balance ID.");
-        return;
+      setError("Cannot proceed without a valid balance ID.");
+      return;
     }
-    console.log(`Selected recipient ${recipientId} for balance ${balanceId}. Navigating to amount.`);
+    console.log(
+      `Selected recipient ${recipientId} for balance ${balanceId}. Navigating to amount.`
+    );
     router.push(
       `/dashboard/balances/${balanceId}/send/amount?recipientId=${recipientId}`
     );
@@ -779,67 +783,106 @@ const SelectRecipientContent = () => {
   // Handle clicking the 'Add a recipient' button
   const handleAddRecipientClick = () => {
     if (!balanceId) {
-        setError("Cannot add recipient without a valid balance context.");
-        return;
+      setError("Cannot add recipient without a valid balance context.");
+      return;
     }
     // Construct the return URL to come back to *this* page after adding
     const returnUrl = `/dashboard/balances/${balanceId}/send/select-recipient`;
     console.log(`Navigating to add recipient, will return to: ${returnUrl}`);
     router.push(
-      `/dashboard/recipients/addrecipient?returnTo=${encodeURIComponent(returnUrl)}`
+      `/dashboard/recipients/addrecipient?returnTo=${encodeURIComponent(
+        returnUrl
+      )}`
     );
   };
 
   // --- Render Logic ---
 
   // Redirect to login if no token after loading checks
-   if (!loadingRecipients && !token && isValidParam) {
-     console.log("No auth token found on Select Recipient page, redirecting to login.");
-     router.replace("/auth/login");
-     return <div className="container mx-auto py-10 text-center">Redirecting to login...</div>;
-   }
+  if (!loadingRecipients && !token && isValidParam) {
+    console.log(
+      "No auth token found on Select Recipient page, redirecting to login."
+    );
+    router.replace("/auth/login");
+    return (
+      <div className="container mx-auto py-10 text-center">
+        Redirecting to login...
+      </div>
+    );
+  }
 
   // Handle loading state
   if (loadingRecipients) {
-     return (
-       <div className="container mx-auto py-10">
-         {/* Enhanced Skeleton */}
-         <Skeleton className="h-10 w-96 mb-6 rounded-full" />
-         <Skeleton className="h-12.5 w-full mb-6 rounded-full" />
-         <Skeleton className="h-20 w-full mb-4 rounded-2xl" />
-         <Skeleton className="h-6 w-24 mb-3 rounded-md" />
-         <div className="space-y-2">
-           {Array(3).fill(0).map((_, index) => (
-             <Skeleton key={index} className="h-20 w-full rounded-lg" />
-           ))}
-         </div>
-       </div>
-     );
+    return (
+      <>
+        {/* Enhanced Skeleton */}
+        <Skeleton className="h-10 sm:w-96 w-full mb-6 rounded-full" />
+        <Skeleton className="h-12.5 w-full mb-6 rounded-full" />
+        <Skeleton className="h-20 w-full mb-4 rounded-2xl" />
+        <Skeleton className="h-6 w-24 mb-3 rounded-md" />
+        <div className="space-y-2">
+          {Array(3)
+            .fill(0)
+            .map((_, index) => (
+              <Skeleton key={index} className="h-20 w-full rounded-lg" />
+            ))}
+        </div>
+      </>
+    );
   }
 
   // Handle errors (fetch errors or invalid param errors)
   if (error) {
     return (
-      <div className="container mx-auto py-10 text-red-500 text-center p-4 bg-red-100 dark:bg-red-900/30 rounded-md">
-          Error: {error}
-          <Link href="/dashboard/send/select-balance" className="ml-2 text-primary hover:underline">Start Over</Link>
+      <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[200px] flex flex-col justify-center items-center">
+        <div className="lg:size-16 size-14 flex items-center justify-center bg-red-600 dark:bg-transparent dark:bg-gradient-to-t dark:from-red-500 rounded-full mb-2">
+          <BiSolidError className="lg:size-8 size-6 mx-auto text-white dark:text-red-400" />
+        </div>
+
+        <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+          Error Encountered
+        </h2>
+        <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+          {error} {/* Display the specific error message */} {/* Add a space */}
+          Please{" "}
+          <Link
+            href="/dashboard/send/select-balance"
+            className="text-primary hover:underline font-medium" // Style the link
+          >
+            Start Over
+          </Link>
+        </p>
       </div>
     );
   }
 
   // Handle case where balanceId was invalid (redundant check, but safe)
   if (!isValidParam) {
-     return (
-       <div className="container mx-auto py-10 text-red-500 text-center p-4 bg-red-100 dark:bg-red-900/30 rounded-md">
-         Error: Invalid page parameters. Missing balance information.
-         <Link href="/dashboard/send/select-balance" className="ml-2 text-primary hover:underline">Select a Balance</Link>
-       </div>
-     );
+    return (
+      <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+        <div className="lg:size-16 size-14 flex items-center justify-center bg-red-600 dark:bg-transparent dark:bg-gradient-to-t dark:from-red-500 rounded-full mb-2">
+          <BiSolidError className="lg:size-8 size-6 mx-auto text-white dark:text-red-400" />
+        </div>
+        <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+          Invalid Page Parameters
+        </h2>
+        <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300 max-w-xl mx-auto">
+          This page couldn't load correctly because the required balance
+          information is missing. Please{""}
+          <Link
+            href="/dashboard/send/select-balance"
+            className="ml-2 text-primary hover:underline"
+          >
+            Select a Balance
+          </Link>
+        </p>
+      </div>
+    );
   }
 
   // --- Main Content Render ---
   return (
-    <section className="SelectRecipient-Page pt-5">
+    <section className="SelectRecipient-Page">
       <div className="container mx-auto">
         <h1 className="md:text-2xl text-xl lg:text-3xl font-semibold text-mainheading capitalize dark:text-white mb-4">
           Who are you sending money to?
@@ -885,7 +928,7 @@ const SelectRecipientContent = () => {
           <div className="size-12.5 rounded-full bg-green-600/20 flex items-center justify-center shrink-0">
             <LuPlus className="text-green-600" size={28} />
           </div>
-          
+
           <div className="ml-4 flex-grow">
             <h5 className="font-medium md:text-lg text-base text-mainheading dark:text-white">
               Add a new recipient
@@ -953,21 +996,21 @@ const SelectRecipientContent = () => {
       </div>
     </section>
   );
-}
+};
 
 // The Page component using Suspense
 export default function SelectRecipientPage() {
-    return (
-        // Suspense is needed for useParams and useSearchParams
-        <Suspense fallback={<PageLoadingSpinner />}>
-            <SelectRecipientContent />
-        </Suspense>
-    );
+  return (
+    // Suspense is needed for useParams and useSearchParams
+    <Suspense fallback={<PageLoadingSpinner />}>
+      <SelectRecipientContent />
+    </Suspense>
+  );
 }
 
 // Simple loading spinner for the whole page during Suspense fallback
 const PageLoadingSpinner = () => (
-    <div className="flex justify-center items-center min-h-[calc(100vh-200px)]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
-    </div>
+  <div className="flex justify-center items-center min-h-[calc(100vh-200px)]">
+    <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-primary"></div>
+  </div>
 );

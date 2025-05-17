@@ -115,7 +115,7 @@ export default function SecurityAndPrivacyPage() {
         <DashboardHeader title=" Security and privacy" />
 
         <div className="mt-8">
-          <h4 className="sm:text-2xl text-xl font-semibold text-mainheading dark:text-white mb-3">
+          <h4 className="lg:text-2xl text-xl font-semibold text-mainheading dark:text-white mb-3">
             Security
           </h4>
 
@@ -156,7 +156,7 @@ export default function SecurityAndPrivacyPage() {
         </div>
 
         <div className="mt-8">
-          <h4 className="sm:text-2xl text-xl font-semibold text-mainheading dark:text-white mb-3">
+          <h4 className="lg:text-2xl text-xl font-semibold text-mainheading dark:text-white mb-3">
             Privacy
           </h4>
 

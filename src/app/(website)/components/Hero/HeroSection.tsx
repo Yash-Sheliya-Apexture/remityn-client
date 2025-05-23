@@ -24222,15 +24222,10 @@ import { FaPiggyBank } from "react-icons/fa";
 import { TrendingUp } from "lucide-react";
 
 import CountryDropdown from "../../../components/ui/CountryDropdown";
-import HeroText from "./HeroText"; // Assuming HeroText component exists
 import { useAppContext } from "../../../contexts/WebsiteAppContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import exchangeRateService from "../../../services/exchangeRate";
 import currencyService, { Currency } from "../../../services/currency";
-
-// =============================================================================
-// TYPES & INTERFACES
-// =============================================================================
 
 interface ExchangeRates {
   [currencyCode: string]: number;
@@ -24899,7 +24894,7 @@ const HeroSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-primary-foreground rounded-3xl flex flex-col md:flex-row gap-4 xl:p-10 lg:p-6 p-4 z-2 relative">
+            <div className="bg-gradient-to-b from-primary-foreground to-transparent to-92% rounded-3xl flex flex-col md:flex-row gap-4 xl:p-10 lg:p-6 p-4 z-2 relative">
               {/* Left Panel - Amount Input and Rates */}
               <div className="w-full md:w-2/3">
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -24909,7 +24904,7 @@ const HeroSection: React.FC = () => {
                       You send
                     </label>
                     <div  className={`w-full border  rounded-xl flex items-center justify-between transition-all duration-150 ease-linear ${
-                      sendAmountError ? "border-red-600 " : "border-gray-600"
+                      sendAmountError ? "border-red-600 " : ""
                     }`}>
                       <input
                         id="sendAmountInput"
@@ -24985,7 +24980,7 @@ const HeroSection: React.FC = () => {
                                 : ""
                             }
                             readOnly
-                            className="block w-full h-full p-3 text-white dark:text-gray-300 md:text-2xl text-xl font-bold focus:outline-none bg-transparent rounded-l-xl placeholder-gray-500 dark:placeholder-gray-400 cursor-default"
+                            className="block w-full h-full p-3 text-white  md:text-2xl text-xl font-bold focus:outline-none bg-transparent rounded-l-xl placeholder-gray-500 cursor-default"
                             aria-label="Amount recipient gets"
                           />
                         </motion.div>
@@ -25073,7 +25068,7 @@ const HeroSection: React.FC = () => {
                   <label className="block text-gray-200 lg:text-base text-sm mb-1">
                     Paying with
                   </label>
-                  <div className="sm:p-4 p-3 sm:h-17 h-14 border border-gray-600 rounded-xl flex items-center justify-between text-white bg-primarybox">
+                  <div className="sm:p-4 p-3 sm:h-17 h-14 border rounded-xl flex items-center justify-between text-white bg-primarybox">
                     <div className="flex items-center gap-2">
                       <CiBank className=" w-5 h-5 md:w-6 md:h-6" />
                       <span className="font-medium md:text-base text-sm">Bank Transfer</span>
@@ -25086,7 +25081,7 @@ const HeroSection: React.FC = () => {
                   <label className="block text-gray-200 lg:text-base text-sm mb-1">
                     Fee breakdown
                   </label>
-                  <div className="space-y-2 sm:p-4 p-3 border border-gray-600 rounded-xl bg-primarybox">
+                  <div className="space-y-2 sm:p-4 p-3 border rounded-xl bg-primarybox">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-400 dark:text-gray-500 sm:text-base text-sm">Our fee</span>
                       <AnimatePresence mode="wait">
@@ -25116,7 +25111,7 @@ const HeroSection: React.FC = () => {
                       </span>
                     </div>
 
-                    <hr className="border-gray-500 my-2" />
+                    <hr className="border my-2" />
 
                     <div className="flex justify-between items-center">
                       <span className="text-white dark:text-white font-semibold">Total fees</span>

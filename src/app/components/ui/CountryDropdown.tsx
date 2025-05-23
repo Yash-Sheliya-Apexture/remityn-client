@@ -2939,7 +2939,7 @@
 "use client";
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import Image, { StaticImageData } from "next/image";
-import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { IoIosArrowDown } from "react-icons/io";
 import { BiSearch } from "react-icons/bi";
 import { GiCheckMark } from "react-icons/gi";
 import { Loader2 } from "lucide-react";
@@ -3170,7 +3170,7 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
             animate="visible"
             exit="hidden"
           >
-            <div className="sticky top-0  p-2 border-b z-10">
+            <div className="sticky top-0 border-b z-10">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <BiSearch className="lg:size-5 size-4 text-gray-400" />
@@ -3178,7 +3178,7 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                 <input
                   type="text"
                   placeholder="Type a currency / country"
-                  className="border text-mainheading dark:text-white text-sm rounded-lg focus:border-[#5f5f5f] focus:outline-none block w-full pl-10 px-4 py-3 bg-white dark:bg-background"
+                  className="text-white text-sm rounded-lg focus:outline-none block w-full pl-10 px-4 py-3 placeholder-gray-500 dark:placeholder-gray-400"
                   value={searchQuery}
                   onChange={handleSearchChange}
                   aria-label="Search Currencies"
@@ -3188,7 +3188,7 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
             </div>
 
             <div
-              className="p-2 pb-4 max-h-[310px] overflow-x-hidden overflow-y-auto sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox"
+              className="p-2 pb-4 max-h-[310px] overflow-x-hidden overflow-y-auto sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-primarybox sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-primarybox "
               role="listbox"
             >
               {isLoading && (
@@ -3210,9 +3210,9 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                         key={currency.code}
                         variants={listItemVariants}
                         onClick={() => handleCurrencyChange(currency.code)}
-                        className={`flex items-center justify-between p-3 rounded-md dark:hover:bg-white/10 hover:bg-lightgray cursor-pointer focus:outline-none focus:bg-gray-100 dark:focus:bg-white/10 ${
+                        className={`flex items-center justify-between p-3 rounded-lg hover:bg-primarybox cursor-pointer focus:outline-none focus:bg-gray-100 dark:focus:bg-white/10 ${
                           selectedCurrency === currency.code
-                            ? "dark:bg-white/10 bg-lightgray"
+                            ? " bg-primarybox"
                             : ""
                         }`}
                         role="option"
@@ -3225,7 +3225,7 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                           }
                         }}
                       >
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-3 w-full">
                           <Image
                             src={flagSrc}
                             alt={`${currency.code}-Flag`}
@@ -3238,18 +3238,15 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                                 defaultFlag.src;
                             }}
                           />
-                          <div className="flex flex-col">
-                            <span className="font-medium text-mainheading lg:text-base text-sm dark:text-white">
+                          <div className="flex justify-between w-full">
+                            <span className="font-medium text-mainheadingWhite lg:text-base text-sm">
                               {currency.code}
                             </span>
-                            <span className="text-gray-500 dark:text-gray-300 lg:text-sm text-[10px]">
+                            <span className="text-subheadingWhite lg:text-sm text-[10px]">
                               {currency.currencyName}
                             </span>
                           </div>
                         </div>
-                        {selectedCurrency === currency.code && (
-                          <GiCheckMark className="text-primary size-5" />
-                        )}
                       </motion.li>
                     );
                   })}

@@ -343,7 +343,7 @@ const SecuritySection = () => {
   return (
     // Apply whileInView to the main section to trigger animations
     <motion.section
-      className="Security-section md:py-10 py-5 bg-white dark:bg-background overflow-hidden" // Hide horizontal overflow during animation
+      className="Security-section md:py-10 py-5 overflow-hidden" // Hide horizontal overflow during animation
       id="security"
       initial="hidden"
       whileInView="visible"
@@ -359,31 +359,27 @@ const SecuritySection = () => {
             // Inherits initial/whileInView timing from parent section
           >
             <div className="space-y-4 text-center md:text-left">
-              <div className="inline-block px-4 py-1.5 bg-lightgray dark:bg-primarybox rounded-full">
-                <span className="text-neutral-900 dark:text-white font-medium text-sm capitalize">
-                  Built for safety. Trusted worldwide
+              <div className="inline-block">
+                <span className="text-subheadingWhite font-medium text-sm uppercase">
+                  <span className="text-subheadingWhite/30">[</span> Built for safety. Trusted worldwide <span className="text-subheadingWhite/30">]</span>
                 </span>
               </div>
 
-              <h1 className="text-3xl md:text-4xl xl:text-6xl font-black text-mainheading dark:text-white uppercase">
-                Secure Currency Exchange
-                <span className="text-primary"> You Can Trust </span>
-              </h1>
-
-              <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-                Experience fast, secure, and reliable currency exchange services
-                you can trust. With competitive exchange rates, no hidden fees,
-                and end-to-end encryption, your transactions are protected at
-                every step. Join thousands of satisfied customers who rely on us
-                for transparent service, real-time updates, and 24/7 support.
-                Your money, your way—safe, simple, and secure.
-              </p>
-              <div className="flex justify-center md:justify-start">
+              <div className="space-y-4 text-center md:text-left max-w-4xl mx-auto md:mx-0">
+                <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+                  Secure Currency Exchange{" "}
+                  <span className="text-primary">You Can Trust</span>
+                </h3>
+                <p className="text-lg md:text-xl text-subheadingWhite max-w-5xl">
+                  Exchange currency with confidence—fast, secure, and dependable. Enjoy competitive rates, zero hidden fees, and complete encryption for peace of mind at every step. Thousands trust us for our transparency, real-time tracking, and round-the-clock support. Your money, your rules—simple, safe, and always secure.
+                </p>
+              </div>
+              <div className="flex justify-center md:justify-start mt-8">
                 <Link
                   href="/faqs"
                   className="inline-block" // Added inline-block
                 >
-                  <button className="bg-primary hover:bg-primaryhover text-neutral-900 cursor-pointer font-medium py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
+                  <button className="bg-primary hover:bg-primaryhover text-neutral-900 cursor-pointer font-medium text-base lg:text-lg py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
                     How we keep your money safe
                   </button>
                 </Link>
@@ -403,74 +399,9 @@ const SecuritySection = () => {
                 alt="Padlock symbolizing security"
                 className="object-contain"
               />
-
-              
             </div>
-
-
           </motion.div>
         </div>
-
-        {/* Bottom Feature Cards Section */}
-        <motion.div
-          className="mt-10"
-          variants={featuresContainerVariants} // Apply container variants for staggering
-          // Inherits initial/whileInView timing from parent section
-        >
-          <div className="grid md:grid-cols-3 grid-cols-1 gap-6">
-            {/* Feature Card 1 */}
-            <motion.div
-              className="lg:space-y-3 space-y-2.5"
-              variants={featureCardVariants} // Apply individual card variants
-            >
-              <div className="lg:size-14 size-12 bg-lightgray dark:bg-primarybox dark:text-primary text-neutral-900 rounded-full flex items-center justify-center ">
-                <FaLock className="lg:size-8 size-6 text-neutral-900 dark:text-primary" aria-hidden="true" />
-              </div>
-              <div>
-                <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
-                  We use 256-bit encryption to protect your data and
-                  transactions — the same standard trusted by leading global
-                  banks. Your information stays confidential and secure at every
-                  step.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Feature Card 2 */}
-            <motion.div
-              className="lg:space-y-3 space-y-2.5"
-              variants={featureCardVariants} // Apply individual card variants
-            >
-              <div className="lg:size-14 size-12 bg-lightgray dark:bg-primarybox dark:text-primary text-neutral-900 rounded-full flex items-center justify-center ">
-                <FaShieldAlt className="lg:size-8 size-6 text-neutral-900 dark:text-primary" aria-hidden="true" />
-              </div>
-              <div>
-                <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
-                  Our intelligent monitoring systems track every transaction in
-                  real-time to instantly detect and stop suspicious activity —
-                  keeping you safe from fraud before it happens.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Feature Card 3 */}
-            <motion.div
-              className="lg:space-y-3 space-y-2.5"
-              variants={featureCardVariants} // Apply individual card variants
-            >
-              <div className="lg:size-14 size-12 bg-lightgray dark:bg-primarybox dark:text-primary text-neutral-900 rounded-full flex items-center justify-center">
-                <FaUniversity className="lg:size-8 size-6 text-neutral-900 dark:text-primary" aria-hidden="true" />
-              </div>
-              <div>
-                <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
-                  Your money is held with top-tier, FDIC-insured banking
-                  partners to ensure maximum protection and peace of mind — even
-                  in the rarest events.
-                </p>
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
       </div>
     </motion.section>
   );

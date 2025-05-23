@@ -4990,13 +4990,13 @@ const Header: React.FC = () => {
                     <>
                       <Link
                         href="/auth/register"
-                        className="border border-gray-600 hover:border-gray-500 px-4 sm:px-5 py-2 flex justify-center items-center rounded-full transition-colors ease-in-out duration-300 text-gray-300 hover:text-white cursor-pointer"
+                        className="border hover:border-stock-hover px-4 sm:px-5 py-2 flex justify-center items-center rounded-full transition-colors ease-in-out duration-300 text-gray-300 hover:text-white cursor-pointer"
                       >
                         Register
                       </Link>
                       <Link
                         href="/auth/login"
-                        className="bg-primary border border-primary hover:border-primaryhover px-4 sm:px-5 py-2 text-sm text-nowrap font-medium rounded-full hover:bg-primaryhover transition-colors ease-in-out duration-300 text-mainheading cursor-pointer h-10 flex items-center"
+                        className="bg-primary border border-primary hover:border-primaryhover px-4 sm:px-5 py-2 text-nowrap font-medium rounded-full hover:bg-primaryhover transition-colors ease-in-out duration-300 text-mainheading cursor-pointer h-10 flex items-center"
                       >
                         Log in
                       </Link>

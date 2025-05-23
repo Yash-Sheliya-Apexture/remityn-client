@@ -504,7 +504,7 @@ const HeroSection: React.FC = () => {
         >
           Start Your Free Trial
         </Link>
-        <p className="mt-8 text-sm sm:text-base text-gray-400 flex items-center justify-center">
+        <p className="mt-8 text-sm sm:text-base text-subheadingWhite flex items-center justify-center">
           <Globe size={16} className="mr-1.5 text-text-gray-400" />
           <span className="opacity-90">use and helping over </span> {" "}
           {/* Changed to   for consistent spacing */}

@@ -17,8 +17,9 @@ export default function Home() {
       <CalculetingSection />
 
       <HeroSection />
-      <ProtectionSection />
       <SecuritySection />
+      
+      <ProtectionSection />
       <SocialTrustSection />
       <FlagSection />
       <MissionSection />

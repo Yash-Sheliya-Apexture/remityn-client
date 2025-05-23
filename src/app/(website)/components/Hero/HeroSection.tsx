@@ -24959,7 +24959,7 @@ const HeroSection: React.FC = () => {
                     <label htmlFor="receiveAmountInput" className="block text-gray-200 lg:text-base text-sm mb-1">
                       Recipient gets
                     </label>
-                    <div className="w-full rounded-xl flex items-center justify-between sm:h-17 h-14 relative overflow-hidden border border-gray-600">
+                    <div className="w-full rounded-xl flex items-center justify-between sm:h-17 h-14 relative overflow-hidden border">
                       <AnimatePresence mode="wait">
                         <motion.div
                           key={`${calculation.receiveAmount}-${CONFIG.RECEIVE_CURRENCY}`}

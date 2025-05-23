@@ -388,7 +388,7 @@ const HeroSection: React.FC = () => {
       let dynamicSize = Math.min(widthBasedSize, heightBasedSize);
 
       // Apply clamps: a minimum size for small screens and a maximum for large screens
-      const minSize = 350; // Smallest size for mobile
+      const minSize = 260; // Smallest size for mobile
       const maxSize = 1500; // Largest size for desktop
 
       setCircleSize(Math.max(minSize, Math.min(dynamicSize, maxSize)));
@@ -427,25 +427,6 @@ const HeroSection: React.FC = () => {
           animation: spin-slow 40s linear infinite;
         }
       `}</style>
-
-      {/* Star Background */}
-      <div className="absolute inset-0 pointer-events-none opacity-80">
-        {Array.from({ length: 250 }).map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full bg-white/70"
-            style={{
-              width: `${Math.random() * 1 + 0.2}px`,
-              height: `${Math.random() * 1 + 0.2}px`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `twinkle ${
-                Math.random() * 8 + 6
-              }s infinite ease-in-out`,
-            }}
-          />
-        ))}
-      </div>
 
       {/* Container for the Static Full Circle and Rotating Highlights */}
       <div
@@ -506,13 +487,13 @@ const HeroSection: React.FC = () => {
           <FiSend size={18} className="mr-2 text-primary" />
           All Time Letters Rates
         </div>
-        <h1 className="text-4xl font-SatoshiVariable sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-white">
+        <h1 className="text-4xl font-SatoshiVariable sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
           Easy Global Money Exchange at{" "}
           <span className="text-primary font-SatoshiVariableItalic">
             0% Fees
           </span>
         </h1>
-        <p className="text-lg md:text-xl text-gray-400 mb-10 max-w-3xl px-2">
+        <p className="text-lg md:text-xl text-subheadingWhite mb-10 max-w-3xl px-2">
           Experience global money exchange with 0% fees and instant transfers.
           Our platform offers secure, transparent transactions with real-time
           exchange rates.

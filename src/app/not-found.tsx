@@ -254,7 +254,7 @@ const Error404Page: React.FC = () => {
       >
         {/* Inner container for layout and staggering */}
         <motion.div
-          className="overflow-hidden max-w-6xl w-full flex flex-col md:flex-row gap-10"
+          className="overflow-hidden max-w-6xl w-full flex flex-col md:flex-row md:gap-10 gap-0 "
           // Apply variants here to control stagger within this container
           initial="hidden"
           animate="visible"

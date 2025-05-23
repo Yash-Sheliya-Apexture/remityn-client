@@ -5221,7 +5221,7 @@ export default function SendAmountPage() {
                     <p className="font-bold text-neutral-900 dark:text-primary lg:text-base text-sm flex items-center gap-1">
                       <span>
                         Save up to {recipient.currency.code} {savingsAmount}{" "}
-                        with Wise
+                        with Remityn
                       </span>
                       <TrendingUp size={18} />
                     </p>

@@ -3930,24 +3930,26 @@ const LoadingSkeleton = () => (
              </div>
              <Skeleton className="h-9 w-32 rounded-md " /> 
            </div>
+
     <div className="bg-lightgray dark:bg-primarybox rounded-xl  sm:p-6 p-4 mb-8">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <Skeleton className="h-8 w-24 rounded-full" /> 
+          <Skeleton className="h-8 w-24 bg-lightborder dark:bg-secondarybox rounded-full" /> 
           <div className="space-y-1.5">
-            <Skeleton className="h-3 w-16 rounded" /> 
-            <Skeleton className="h-4 w-32 rounded" /> 
+            <Skeleton className="h-3 w-16 bg-lightborder dark:bg-secondarybox rounded" /> 
+            <Skeleton className="h-4 w-32 bg-lightborder dark:bg-secondarybox rounded" /> 
           </div>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-6 mt-4 md:mt-0">
-          <Skeleton className="h-14 w-40 rounded-lg" /> 
-          <Skeleton className="h-14 w-44 rounded-lg" /> 
+          <Skeleton className="h-14 sm:w-40 w-full bg-lightborder dark:bg-secondarybox rounded-lg" /> 
+          <Skeleton className="h-14 sm:w-44 w-full bg-lightborder dark:bg-secondarybox rounded-lg" /> 
         </div>
       </div>
     </div>
+
     <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
       <div className="lg:col-span-1 space-y-6">
-        <div className="bg-white dark:bg-primarybox rounded-xl overflow-hidden">
+        <div className="bg-white dark:bg-primarybox rounded-xl overflow-hidden border">
           <div className="bg-lightgray dark:bg-primarybox px-6 py-4">
             <Skeleton className="h-6 w-3/5 rounded" />
           </div>
@@ -3967,7 +3969,8 @@ const LoadingSkeleton = () => (
             </div>
           </div>
         </div>
-        <div className="bg-white dark:bg-primarybox rounded-xl overflow-hidden">
+
+        <div className="bg-white dark:bg-primarybox rounded-xl overflow-hidden border">
           <div className="bg-lightgray dark:bg-primarybox px-6 py-4">
             <Skeleton className="h-6 w-1/2 rounded" />
           </div>
@@ -3978,7 +3981,8 @@ const LoadingSkeleton = () => (
           </div>
         </div>
       </div>
-      <div className="lg:col-span-2">
+
+      <div className="lg:col-span-2 border rounded-2xl">
         <div className="rounded-xl bg-white dark:bg-primarybox overflow-hidden">
           <div className="bg-lightgray dark:bg-primarybox px-6 py-4">
             <Skeleton className="h-6 w-48 rounded" />
@@ -4229,7 +4233,7 @@ const AdminTransferDetailPage = () => {
   };
 
   const getToastContainerStyle = (): React.CSSProperties & { [key: `--${string}`]: string | number } => {
-    const baseStyle = { zIndex: 99999 };
+    const baseStyle = { zIndex: 30 };
     if (isMobile) return { ...baseStyle, top: "1rem", left: "1rem", right: "1rem", width: "auto" };
     return { ...baseStyle, top: "0.75rem", right: "0.75rem", width: "320px" };
   };
@@ -4279,7 +4283,7 @@ const AdminTransferDetailPage = () => {
               <TransferInfoCard transfer={transfer} />
             </div>
             <div className="lg:col-span-2">
-              <div className="rounded-xl bg-white dark:bg-primarybox overflow-hidden">
+              <div className="rounded-xl border bg-white dark:bg-primarybox overflow-hidden">
                 <div className="bg-lightgray dark:bg-secondarybox px-6 py-4 border-b dark:border-b-neutral-700">
                   <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Detailed Information</h3>
                 </div>

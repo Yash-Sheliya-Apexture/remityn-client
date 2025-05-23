@@ -132,6 +132,7 @@ import {
   FileText,
   MessageSquare,
   Activity,
+  ListChecks,
 } from "lucide-react";
 
 interface ActivityListProps {
@@ -221,7 +222,7 @@ const ActivityList: React.FC<ActivityListProps> = ({
         {[...Array(activitiesPerPage)].map((_, i) => (
           <div
             key={`skel-activity-${i}`}
-            className="flex  items-start bg-lightgray dark:bg-primarybox p-4 rounded-lg "
+            className="flex items-start bg-lightgray dark:bg-primarybox p-4 rounded-lg "
           >
             <Skeleton className="h-10 w-10 rounded-full mr-4 flex-shrink-0 bg-lightborder dark:bg-accent" />
             <div className="flex sm:flex-row flex-col justify-between w-full">
@@ -229,10 +230,18 @@ const ActivityList: React.FC<ActivityListProps> = ({
                 <Skeleton className="h-4 w-4/5 rounded-full bg-lightborder dark:bg-accent" />
                 <Skeleton className="h-3 w-2/5 rounded-full bg-lightborder dark:bg-accent" />
               </div>
-              <div className="space-y-1.5">
-                <Skeleton className="h-3 w-36  rounded-full flex-shrink-0 self-start mt-1 bg-lightborder dark:bg-accent" />
-                <Skeleton className="h-3 w-26 rounded-full flex-shrink-0 self-start mt-1 bg-lightborder dark:bg-accent" />
-              </div>
+              {isMobile && (
+                <div className="flex flex-col items-start gap-1 mt-1">
+                  <Skeleton className="h-3 w-36  rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
+                  <Skeleton className="h-3 w-26 rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
+                </div>
+              )}
+              {!isMobile && (
+                <div className="flex flex-col items-end gap-1">
+                  <Skeleton className="h-3 w-36  rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
+                  <Skeleton className="h-3 w-26 rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
+                </div>
+              )}
             </div>
           </div>
         ))}
@@ -242,14 +251,27 @@ const ActivityList: React.FC<ActivityListProps> = ({
 
   if (!activities || activities.length === 0) {
     return (
-      <div className="text-center py-16 text-gray-500 dark:text-gray-400">
-        <motion.p
+      <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center min-h-[300px] flex flex-col justify-center items-center">
+        <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
-          No activities found matching your criteria.
-        </motion.p>
+          <div className="flex justify-center items-center flex-col space-y-4">
+            <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
+              <ListChecks className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+            </div>
+
+            <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+              No Matches Found
+            </h2>
+
+            <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+            No Recent Activity found matching your criteria so you can  try again!.
+            </p>
+
+          </div>
+        </motion.div>
       </div>
     );
   }

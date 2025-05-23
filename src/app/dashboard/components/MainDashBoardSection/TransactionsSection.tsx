@@ -1971,7 +1971,7 @@ const TransactionsSection: React.FC = () => {
           <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white text-wrap">
             Recent Transactions
           </h1>
-          <div className="flex items-center justify-center cursor-pointer underline bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox px-4 py-1.5 rounded-full transition-all duration-75 ease-linear">
+          <div className="flex items-center justify-center cursor-pointer bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox px-4 py-1.5 rounded-full transition-all duration-75 ease-linear">
             <Link
               href="/dashboard/transactions"
               className=" text-neutral-900 dark:text-white text-xs font-semibold text-nowrap"

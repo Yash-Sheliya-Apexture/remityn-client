@@ -106,11 +106,11 @@ const HeroText = () => {
         </p>
 
         {/* Features */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-6 max-w-md mx-auto lg:mx-0">
+        <div className="grid grid-cols-2 gap-6 max-w-md mx-auto lg:mx-0">
           <div className="flex items-center gap-3">
             <div className="bg-lightgray dark:bg-primarybox p-2.5 rounded-full">
               <Globe
-                size={20}
+                size={24}
                 className="text-neutral-900 dark:text-primary"
               />
             </div>
@@ -121,7 +121,7 @@ const HeroText = () => {
           <div className="flex items-center gap-3">
             <div className="bg-lightgray dark:bg-primarybox p-2.5 rounded-full">
               <TrendingUp
-                size={20}
+                size={24}
                 className="text-neutral-900 dark:text-primary"
               />
             </div>
@@ -132,7 +132,7 @@ const HeroText = () => {
           <div className="flex items-center gap-3">
             <div className="bg-lightgray dark:bg-primarybox p-2.5 rounded-full">
               <Shield
-                size={20}
+                size={24}
                 className="text-neutral-900 dark:text-primary"
               />
             </div>
@@ -143,7 +143,7 @@ const HeroText = () => {
           <div className="flex items-center gap-3">
             <div className="bg-lightgray dark:bg-primarybox p-2.5 rounded-full">
               <Clock
-                size={20}
+                size={24}
                 className="text-neutral-900 dark:text-primary"
               />
             </div>

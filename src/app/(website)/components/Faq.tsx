@@ -1936,9 +1936,9 @@ interface FaqItemData {
 const faqData: FaqItemData[] = [
   {
     id: "1",
-    question: "What is Wise?",
+    question: "What is Remityn?",
     answer:
-      "Wise is a digital banking platform providing powerful APIs for real-time currency exchange, helping financial institutions and websites deliver secure, modern FX services",
+      "Remityn is a digital banking platform providing powerful APIs for real-time currency exchange, helping financial institutions and websites deliver secure, modern FX services",
   },
   {
     id: "2",
@@ -1948,21 +1948,21 @@ const faqData: FaqItemData[] = [
   },
   {
     id: "3",
-    question: "How fast are Wise transfers? ",
+    question: "How fast are Remityn transfers? ",
     answer:
-      "Wise transfers are typically processed within minutes, with most transactions completed the same day, depending on the currency and destination",
+      "Remityn transfers are typically processed within minutes, with most transactions completed the same day, depending on the currency and destination",
   },
   {
     id: "4",
-    question: "How much money can I transfer with Wise at once? ",
+    question: "How much money can I transfer with Remityn at once? ",
     answer:
-      "With Wise, transfer limits vary based on account type and verification level, but high-value transfers are supported with enhanced security and compliance checks",
+      "With Remityn, transfer limits vary based on account type and verification level, but high-value transfers are supported with enhanced security and compliance checks",
   },
   {
     id: "5",
-    question: "What security measures does Wise take to safeguard my money? ",
+    question: "What security measures does Remityn take to safeguard my money? ",
     answer:
-      "Wise uses advanced encryption, two-factor authentication, and strict regulatory compliance to ensure your money and personal data are always protected",
+      "Remityn uses advanced encryption, two-factor authentication, and strict regulatory compliance to ensure your money and personal data are always protected",
   },
 ];
 
@@ -2165,7 +2165,7 @@ const FaqSection: React.FC = () => {
                 <div className="flex gap-2">
                   {/* WhatsApp Button */}
                   <Link
-                    href="/WhatsApp" // Replace with your actual WhatsApp link/handler
+                    href="https://web.whatsapp.com/" // Replace with your actual WhatsApp link/handler
                     aria-label="Chat on WhatsApp"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -2175,9 +2175,10 @@ const FaqSection: React.FC = () => {
                       <span>WhatsApp</span>
                     </button>
                   </Link>
+
                   {/* Telegram Button */}
                   <Link
-                    href="/Telegram" // Replace with your actual Telegram link/handler
+                    href="/https://web.telegram.org/k/" // Replace with your actual Telegram link/handler
                     aria-label="Chat on Telegram"
                     target="_blank"
                     rel="noopener noreferrer"
@@ -2188,6 +2189,7 @@ const FaqSection: React.FC = () => {
                     </button>
                   </Link>
                 </div>
+                
                 {/* Read More FAQs Link */}
                 <Link
                   href="/faqs" // Link to your full FAQs page

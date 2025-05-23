@@ -2130,50 +2130,54 @@ export function VolumeChart({
       )}
     >
       <CardHeader className="flex-shrink-0 p-3">
-        <div className="flex flex-wrap items-center justify-between w-full gap-3">
-          <div className="flex gap-3">
-            <div className="flex justify-center items-center size-12 bg-primary dark:bg-primarybox rounded-full">
-              {icon}
+        <div className="flex lg:flex-row flex-col items-center justify-between w-full gap-3">
+          <div className="flex items-center justify-between gap-3 w-full">
+            <div className="flex gap-3">
+              <div className="flex justify-center items-center size-12 bg-primary dark:bg-primarybox rounded-full">
+                {icon}
+              </div>
+
+              <div>
+                <CardTitle className="text-lg font-semibold text-neutral-900 dark:text-white">
+                  {title}
+                </CardTitle>
+
+                <CardDescription className="text-xs text-gray-500 dark:text-gray-300 max-w-44">
+                  {description}
+                </CardDescription>
+              </div>
             </div>
-            
-            <div>
-              <CardTitle className="text-lg font-semibold text-neutral-900 dark:text-white">
-                {title}
-              </CardTitle>
 
-              <CardDescription className="text-xs text-gray-500 dark:text-gray-300 max-w-44">
-                {description}
-              </CardDescription>
-
+            <div className="flex font-medium">
+              {showRefreshButton && (
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={handleRefresh}
+                  disabled={loading}
+                  className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white size-10 rounded-full transition-all duration-75 ease-linear"
+                >
+                  <RefreshCw
+                    className={`size-4 ${loading ? "animate-spin" : ""}`}
+                  />
+                  <span className="sr-only"> Refresh</span>
+                </Button>
+              )}
             </div>
           </div>
-          
-          <div className="flex font-medium">
-            {showRefreshButton && (
-              <Button
-                variant="ghost"
-                size="icon"
-                onClick={handleRefresh}
-                disabled={loading}
-                className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white size-10 rounded-full transition-all duration-75 ease-linear"
-              >
-                <RefreshCw
-                  className={`size-4 ${loading ? "animate-spin" : ""}`}
-                />
-                <span className="sr-only"> Refresh</span>
-              </Button>
-            )}
-          </div>
 
-            <Tabs
-              value={timeRange}
-              onValueChange={(value) => setTimeRange(value as ChartRange)}
-            >
+          {/* Tabing */}
+          <Tabs
+            value={timeRange}
+            onValueChange={(value) => setTimeRange(value as ChartRange)}
+            className="w-full"
+          >
+            <div className="rounded-full overflow-hidden">
               <TabsList
                 className={cn(
-                  "relative flex items-center rounded-full py-5 px-1",
+                  "relative flex justify-normal items-center rounded-full p-1",
                   "bg-lightgray dark:bg-primarybox",
-                  "sm:w-auto w-full z-0"
+                  "w-full h-auto  whitespace-nowrap z-0 overflow-x-auto"
                 )}
               >
                 {timeRangeTabs.map((tab) => (
@@ -2181,17 +2185,18 @@ export function VolumeChart({
                     key={tab.id}
                     value={tab.id}
                     className={cn(
-                      "flex-1 relative text-xs sm:text-sm px-3 py-4 sm:p-4 font-medium rounded-full",
+                      "flex-1 relative text-xs sm:text-sm px-4 py-1.5 font-medium rounded-full",
                       "flex items-center justify-center",
                       "transition-colors duration-200 ease-linear focus:outline-none cursor-pointer",
-                      "focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none data-[state=active]:shadow-sm"
+                      "focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none",
+                      "data-[state=active]:text-neutral-900 border-none data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none"
                     )}
                     style={{ WebkitTapHighlightColor: "transparent" }}
                   >
                     {timeRange === tab.id && (
                       <motion.div
                         layoutId={`activeVolumeChartTabIndicator-${chartType}`}
-                        className="absolute inset-0 rounded-full bg-primary dark:bg-primarybox"
+                        className="absolute inset-0 rounded-full bg-primary"
                         transition={{
                           type: "spring",
                           stiffness: 300,
@@ -2212,7 +2217,8 @@ export function VolumeChart({
                   </TabsTrigger>
                 ))}
               </TabsList>
-            </Tabs>
+            </div>
+          </Tabs>
         </div>
       </CardHeader>
 
@@ -2232,14 +2238,12 @@ export function VolumeChart({
             >
               <Skeleton className="flex-grow w-full rounded-md" />
               <div className="flex justify-between w-full gap-1 pt-2">
-                {[...Array(timeRange === "by_currency" ? 5 : 8)].map(
-                  (_, i) => (
-                    <Skeleton
-                      key={i}
-                      className="h-5 w-12 sm:w-16 rounded-xl opacity-70"
-                    />
-                  )
-                )}
+                {[...Array(timeRange === "by_currency" ? 5 : 8)].map((_, i) => (
+                  <Skeleton
+                    key={i}
+                    className="h-5 w-12 sm:w-16 rounded-xl opacity-70"
+                  />
+                ))}
               </div>
             </div>
           </>
@@ -2264,7 +2268,9 @@ export function VolumeChart({
 
         {!loading && !error && chartData.length === 0 && (
           <div className="flex-grow flex justify-center items-center text-center text-muted-foreground p-4">
-            <p className="text-sm">No data available for the selected period.</p>
+            <p className="text-sm">
+              No data available for the selected period.
+            </p>
           </div>
         )}
 
@@ -2296,7 +2302,11 @@ export function VolumeChart({
                   data={chartData}
                   margin={{ left: -10, right: 10, top: 5, bottom: 0 }}
                   barGap={
-                    timeRange === "month" ? 2 : timeRange === "by_currency" ? 4 : 4
+                    timeRange === "month"
+                      ? 2
+                      : timeRange === "by_currency"
+                      ? 4
+                      : 4
                   }
                   barCategoryGap={
                     timeRange === "all" || timeRange === "by_currency"

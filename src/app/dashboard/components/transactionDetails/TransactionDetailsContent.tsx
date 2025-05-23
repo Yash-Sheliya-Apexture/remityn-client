@@ -546,7 +546,7 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
                 </dd>
               </div>
               <div className="flex justify-between items-center">
-                <dt className="text-gray-500 dark:text-gray-300">Wise Fee</dt>
+                <dt className="text-gray-500 dark:text-gray-300">Remityn Fee</dt>
                 <dd className="font-medium text-neutral-900 dark:text-white">
                   {formatCurrency(
                     paymentDetails.wiseFee,

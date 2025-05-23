@@ -366,7 +366,7 @@
 // //                             onChange={(e) => setFullName(e.target.value)}
 // //                         />
 // //                         {fullNameError && (
-// //                             <p className="flex text-red-600 dark:text-red-400 text-base items-center mt-0.5">
+// //                             <p className="flex text-red-600 text-base items-center mt-0.5">
 // //                                 <span className="mr-1">
 // //                                     <IoMdCloseCircle className="size-5" />
 // //                                 </span>
@@ -2787,7 +2787,7 @@
 //               variants={errorVariants}
 //             >
 //               <div className="flex bg-red-100 dark:bg-red-600/20 justify-center rounded-full items-center lg:size-12 size-10 shrink-0">
-//                 <FiX className="p-0.5 text-red-600 dark:text-red-400 lg:size-8 size-6" />
+//                 <FiX className="p-0.5 text-red-600 lg:size-8 size-6" />
 //               </div>
 
 //               <div className="inline-block">
@@ -2853,7 +2853,7 @@
 //               className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base" // Adjusted styling
 //             >
 //               Full Name{" "}
-//               <span className="text-red-600 dark:text-red-400">*</span>
+//               <span className="text-red-600">*</span>
 //             </label>
 //             <input
 //               type="text"
@@ -2896,7 +2896,7 @@
 //               className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
 //             >
 //               Email Address{" "}
-//               <span className="text-red-600 dark:text-red-400">*</span>
+//               <span className="text-red-600">*</span>
 //             </label>
 //             <input
 //               type="email"
@@ -2933,7 +2933,7 @@
 //               htmlFor="password"
 //               className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
 //             >
-//               Password <span className="text-red-600 dark:text-red-400">*</span>
+//               Password <span className="text-red-600">*</span>
 //             </label>
 //             <div className="relative">
 //               <input
@@ -2981,7 +2981,7 @@
 //               className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
 //             >
 //               Confirm Password{" "}
-//               <span className="text-red-600 dark:text-red-400">*</span>
+//               <span className="text-red-600">*</span>
 //             </label>
 //             <div className="relative">
 //               <input
@@ -3351,7 +3351,7 @@ export default function RegisterPage() {
                 variants={errorVariants} // Using error variants
               >
                 <div className="flex bg-red-100 dark:bg-red-600/20 justify-center rounded-full items-center lg:size-12 size-10 shrink-0">
-                  <FiX className="p-0.5 text-red-600 dark:text-red-400 lg:size-8 size-6" />
+                  <FiX className="p-0.5 text-red-600 lg:size-8 size-6" />
                 </div>
                 <div className="inline-block">
                   <span className="text-gray-500 dark:text-gray-300 max-w-60">
@@ -3417,7 +3417,7 @@ export default function RegisterPage() {
                 className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
               >
                 Full Name{" "}
-                <span className="text-red-600 dark:text-red-400">*</span>
+                <span className="text-red-600">*</span>
               </label>
               <input
                 type="text"
@@ -3460,7 +3460,7 @@ export default function RegisterPage() {
                 className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
               >
                 Your email address{" "}
-                <span className="text-red-600 dark:text-red-400">*</span>
+                <span className="text-red-600">*</span>
               </label>
               <input
                 type="email"
@@ -3502,7 +3502,7 @@ export default function RegisterPage() {
                 className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
               >
                 Password{" "}
-                <span className="text-red-600 dark:text-red-400">*</span>
+                <span className="text-red-600">*</span>
               </label>
               <div className="relative">
                 <input
@@ -3561,7 +3561,7 @@ export default function RegisterPage() {
                 className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
               >
                 Confirm Password{" "}
-                <span className="text-red-600 dark:text-red-400">*</span>
+                <span className="text-red-600">*</span>
               </label>
               <div className="relative">
                 <input

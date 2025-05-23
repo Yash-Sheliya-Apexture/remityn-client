@@ -436,7 +436,7 @@ const FeatureItem: React.FC<FeatureItemProps> = ({
           <h5 className="sm:text-xl text-lg font-medium dark:text-white text-neutral-900 capitalize">
             {title}
           </h5>
-          <p className="sm:text-base text-sm text-gray-500 dark:text-gray-300">
+          <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
             {description}
           </p>
         </div>

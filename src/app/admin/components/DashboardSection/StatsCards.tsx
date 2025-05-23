@@ -145,7 +145,7 @@ export default function StatsCards() {
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
-            className="bg-lightgray dark:bg-primarybox sm:p-6 p-4 rounded-xl border flex justify-between"
+            className="bg-white dark:bg-primarybox sm:p-6 p-4 rounded-xl border flex justify-between"
           >
             <div>
               <Skeleton className="h-7 rounded w-46 mb-2"></Skeleton>

@@ -50,7 +50,7 @@ const DeleteCurrencyModal: React.FC<DeleteCurrencyModalProps> = ({
           onClick={onClose} // Close modal when clicking on the backdrop
         >
           <motion.div
-            className="bg-white dark:bg-background sm:rounded-3xl rounded-none sm:p-8 p-4 w-full sm:max-w-xl relative"
+            className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl sm:p-8 p-4 w-full sm:max-w-xl relative"
             onClick={(e) => e.stopPropagation()} // Prevent click propagation to backdrop
             variants={modalVariants}
             initial="initial"
@@ -86,7 +86,7 @@ const DeleteCurrencyModal: React.FC<DeleteCurrencyModalProps> = ({
               </p>
             </div>
 
-            <div className="flex flex-row gap-3 mt-5">
+            <div className="flex flex-col sm:flex-row gap-3 mt-5">
               <button
                 onClick={onConfirm}
                 disabled={isSubmitting}

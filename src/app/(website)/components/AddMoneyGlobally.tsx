@@ -603,7 +603,7 @@ const AddMoneyGlobally: React.FC = () => {
 
   const handleButtonClick = () => {
     if (user) {
-      window.location.href = `/dashboard/add-money`;
+      window.location.href = `dashboard/add-money/select-balance`;
     } else {
       window.location.href = `/auth/register?intent=add`;
     }

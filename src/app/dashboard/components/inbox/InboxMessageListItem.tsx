@@ -644,7 +644,6 @@ export const InboxMessageListItem: React.FC<InboxMessageListItemProps> =
             {/* Message Info Section */}
             <div className="flex-grow overflow-hidden mr-10">
               {" "}
-              {/* Adjusted mr-10 to ensure space for pip if needed */}
               {/* Top Row: Badge, Sender & Time */}
               <div className="flex flex-col sm:flex-row justify-between sm:items-center sm:gap-2">
                 <div className="flex gap-2 items-center">
@@ -656,16 +655,15 @@ export const InboxMessageListItem: React.FC<InboxMessageListItemProps> =
                         ? "text-foreground dark:text-foreground"
                         : "text-muted-foreground dark:text-muted-foreground"
                     )}
-                    title={"Website Name"}
+                    title={"Remityn"}
                   >
                     {/* Using a placeholder for website name as per original */}
-                    [Website Name]
+                    <span>Remityn</span>
                   </p>
-
                 </div>
 
                 {/* Time */}
-                <div> 
+                <div>
                   <time
                     dateTime={message.sentAt}
                     className="text-gray-500 dark:text-gray-300 text-xs ml-auto flex-shrink-0 whitespace-nowrap"

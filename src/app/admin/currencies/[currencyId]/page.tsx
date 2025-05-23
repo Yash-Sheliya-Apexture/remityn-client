@@ -111,7 +111,7 @@
 //                     <textarea id="bankAddress" name="bankAddress" value={currency.bankAddress || ''} onChange={handleChange} className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"></textarea>
 //                 </div>
 //                 <div className="mb-4">
-//                     <label htmlFor="wiseFeePercentage" className="block text-gray-700 text-sm font-bold mb-2">Wise Fee Percentage</label>
+//                     <label htmlFor="wiseFeePercentage" className="block text-gray-700 text-sm font-bold mb-2">remityn Fee Percentage</label>
 //                     <input type="number" id="wiseFeePercentage" name="wiseFeePercentage" value={currency.wiseFeePercentage !== undefined ? currency.wiseFeePercentage : 0} onChange={handleChange} step="0.0001" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" />
 //                 </div>
 //                 <div className="mb-6">
@@ -379,10 +379,10 @@
 //               />
 //             </div>
 
-//             {/* Wise Fee Percentage */}
+//             {/* remityn Fee Percentage */}
 //             <div>
 //               <label className="block text-gray-700 font-semibold mb-2">
-//                 Wise Fee Percentage
+//                 remityn Fee Percentage
 //               </label>
 //               <input
 //                 type="number"
@@ -702,10 +702,10 @@
 //                 />
 //               </div>
 
-//               {/* Wise Fee Percentage */}
+//               {/* remityn Fee Percentage */}
 //               <div>
 //                 <label className="inline-block text-gray font-medium mb-2">
-//                   Wise Fee Percentage
+//                   remityn Fee Percentage
 //                 </label>
 //                 <input
 //                   type="number"
@@ -1040,10 +1040,10 @@
 //                   />
 //                 </div>
 
-//                 {/* Wise Fee Percentage */}
+//                 {/* remityn Fee Percentage */}
 //                 <div className="space-y-2">
 //                   <label className="block text-sm font-medium text-slate-700">
-//                     Wise Fee Percentage
+//                     remityn Fee Percentage
 //                   </label>
 //                   <div className="relative">
 //                     <input
@@ -1615,12 +1615,12 @@
 //                   {/* Fees */}
 //                   <div className={activeTab === "fees" ? "block" : "hidden"}>
 //                     <div className="space-y-6">
-//                       {/* Wise Fee Percentage */}
+//                       {/* remityn Fee Percentage */}
 //                       <div>
 //                         <div className="flex items-center mb-2">
 //                           <FaPercentage className="h-5 w-5 text-indigo-500 mr-2" />
 //                           <label className="block text-sm font-medium text-gray-700">
-//                             Wise Fee Percentage
+//                             remityn Fee Percentage
 //                           </label>
 //                         </div>
 //                         <div className="relative">
@@ -1638,7 +1638,7 @@
 //                           </div>
 //                         </div>
 //                         <p className="mt-1 text-xs text-gray-500">
-//                           The fee percentage charged by Wise for this currency
+//                           The fee percentage charged by remityn for this currency
 //                         </p>
 //                       </div>
 
@@ -3235,12 +3235,12 @@
 //                 </h2>
 //                 <div className="bg-white rounded-xl p-4 border border-gray-200">
 //                   <div className="space-y-6">
-//                     {/* Wise Fee Percentage */}
+//                     {/* remityn Fee Percentage */}
 //                     <div>
 //                       <div className="flex items-center mb-2">
 //                         <FaPercentage className="h-5 w-5 text-primary mr-2" />
 //                         <label className="block font-medium text-main">
-//                           Wise Fee Percentage
+//                           remityn Fee Percentage
 //                         </label>
 //                       </div>
 //                       <div className="relative">
@@ -3258,7 +3258,7 @@
 //                         </div>
 //                       </div>
 //                       <p className="mt-1 text-xs text-gray-500">
-//                         The fee percentage charged by Wise for this currency
+//                         The fee percentage charged by remityn for this currency
 //                       </p>
 //                     </div>
 
@@ -3536,7 +3536,7 @@
 //       payload.wiseFeePercentage !== null &&
 //       (isNaN(payload.wiseFeePercentage) || payload.wiseFeePercentage < 0)
 //     ) {
-//       setError("Wise Fee % must be non-negative.");
+//       setError("remityn Fee % must be non-negative.");
 //       setIsSubmitting(false);
 //       return;
 //     }
@@ -3911,14 +3911,14 @@
 //                 Fees & Custom Rate
 //               </h3>
 //               <div className="grid grid-cols-1 gap-x-6 gap-y-6 sm:grid-cols-6">
-//                 {/* Wise Fee Percentage */}
+//                 {/* remityn Fee Percentage */}
 //                 <div className="sm:col-span-2">
 //                   <label
 //                     htmlFor="wiseFeePercentage"
 //                     className="text-sm font-medium leading-6 text-gray-900 flex items-center gap-1.5"
 //                   >
 //
-//                     <Percent size={18} /> Wise Fee %
+//                     <Percent size={18} /> remityn Fee %
 //                   </label>
 //                   <div className="relative mt-1 rounded-md shadow-sm">
 //                     <input
@@ -4283,7 +4283,7 @@
 //       payload.wiseFeePercentage !== null &&
 //       (isNaN(payload.wiseFeePercentage) || payload.wiseFeePercentage < 0)
 //     ) {
-//       setError("Wise Fee % must be non-negative.");
+//       setError("remityn Fee % must be non-negative.");
 //       setIsSubmitting(false);
 //       return;
 //     }
@@ -4611,14 +4611,14 @@
 //               </h3>
 
 //               <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-//                 {/* Wise Fee Percentage */}
+//                 {/* remityn Fee Percentage */}
 //                 <div>
 //                   <label
 //                     htmlFor="wiseFeePercentage"
 //                     className="mb-2 flex items-center gap-1.5 font-medium text-gray"
 //                   >
 //                     <Percent size={18} className="text-primary" />
-//                     Wise Fee Percentage
+//                     remityn Fee Percentage
 //                   </label>
 //                   <div className="relative">
 //                     <input
@@ -4637,7 +4637,7 @@
 //                     </div>
 //                   </div>
 //                   <p className="mt-2 text-xs text-gray-500">
-//                     Applicable fee percentage for Wise transfers
+//                     Applicable fee percentage for remityn transfers
 //                   </p>
 //                 </div>
 
@@ -5100,7 +5100,7 @@
 //       payload.wiseFeePercentage !== null &&
 //       (isNaN(payload.wiseFeePercentage) || payload.wiseFeePercentage < 0)
 //     ) {
-//       toast.error("Wise Fee % must be non-negative.");
+//       toast.error("remityn Fee % must be non-negative.");
 //       setIsSubmitting(false);
 //       return;
 //     }
@@ -5432,14 +5432,14 @@
 //               </h3>
 
 //               <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-//                 {/* Wise Fee Percentage */}
+//                 {/* remityn Fee Percentage */}
 //                 <div>
 //                   <label
 //                     htmlFor="wiseFeePercentage"
 //                     className="mb-2 flex items-center gap-1.5 font-medium text-gray-500 dark:text-gray-300"
 //                   >
 //                     <Percent size={18} className="text-primary" />
-//                     Wise Fee Percentage
+//                     remityn Fee Percentage
 //                   </label>
 //                   <div className="relative">
 //                     <input
@@ -5458,7 +5458,7 @@
 //                     </div>
 //                   </div>
 //                   <p className="mt-2 text-xs text-gray-500 dark:text-gray-300">
-//                     Applicable fee percentage for Wise transfers
+//                     Applicable fee percentage for remityn transfers
 //                   </p>
 //                 </div>
 
@@ -5941,7 +5941,7 @@
 //       payload.wiseFeePercentage !== null &&
 //       (isNaN(payload.wiseFeePercentage) || payload.wiseFeePercentage < 0)
 //     ) {
-//       toast.error("Wise Fee % must be a non-negative number.");
+//       toast.error("remityn Fee % must be a non-negative number.");
 //       setIsSubmitting(false);
 //       return;
 //     }
@@ -6305,14 +6305,14 @@
 //               </h3>
 
 //               <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-//                 {/* Wise Fee Percentage */}
+//                 {/* remityn Fee Percentage */}
 //                 <div>
 //                   <label
 //                     htmlFor="wiseFeePercentage"
 //                     className="mb-2 flex items-center gap-1.5 font-medium text-gray-500 dark:text-gray-300"
 //                   >
 //                     <Percent size={18} className="text-primary" />
-//                     Wise Fee %
+//                     remityn Fee %
 //                   </label>
 //                   <div className="relative">
 //                     <input
@@ -6331,7 +6331,7 @@
 //                     </div>
 //                   </div>
 //                   <p className="mt-2 text-xs text-gray-500 dark:text-gray-300">
-//                     Percentage fee for Wise transfers (leave blank if none).
+//                     Percentage fee for remityn transfers (leave blank if none).
 //                   </p>
 //                 </div>
 
@@ -6869,7 +6869,7 @@
 //       const parsed = parseFloat(formState.wiseFeePercentage);
 //       // FIX 2 & 3 & 4: Validate parsed number before assignment
 //       if (isNaN(parsed) || parsed < 0) {
-//         toast.error("Wise Fee % must be a non-negative number.");
+//         toast.error("remityn Fee % must be a non-negative number.");
 //         setIsSubmitting(false);
 //         return;
 //       }
@@ -7305,14 +7305,14 @@
 //               </h3>
 
 //               <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-//                 {/* Wise Fee Percentage */}
+//                 {/* remityn Fee Percentage */}
 //                 <div>
 //                   <label
 //                     htmlFor="wiseFeePercentage"
 //                     className="mb-2 flex items-center gap-2 font-medium text-gray-500 dark:text-gray-300"
 //                   >
 //                     <Percent size={20} className="text-primary" />
-//                     Wise Fee %
+//                     remityn Fee %
 //                   </label>
 //                   <div className="relative">
 //                     <input
@@ -7333,7 +7333,7 @@
 //                     </div>
 //                   </div>
 //                   <p className="mt-2 text-xs text-gray-500 dark:text-gray-300">
-//                     Percentage fee for Wise transfers (leave blank if none).
+//                     Percentage fee for remityn transfers (leave blank if none).
 //                   </p>
 //                 </div>
 
@@ -7647,49 +7647,1132 @@
 
 // export default AdminEditCurrencyPage;
 
+// // Last code
+// // frontend/src/app/admin/currencies/[currencyId]/page.tsx
+// "use client";
+// import React, { useState, useEffect } from "react";
+// import { useParams, useRouter } from "next/navigation";
+// import axios, { AxiosError } from "axios"; // Import AxiosError
+// import { useAuth } from "../../../contexts/AuthContext"; // Corrected path
+// import { motion } from "framer-motion";
+// import apiConfig from "../../../config/apiConfig"; // Corrected path
+// import Link from "next/link";
+// import Image from "next/image"; // Import next/image
+// import {
+//   Loader2,
+//   Save,
+//   // Globe, // Icon for general tab, will use FaGlobe
+//   DollarSign,
+//   Building,
+//   Landmark,
+//   Hash,
+//   Percent,
+//   Image as ImageIcon, // Rename to avoid conflict
+//   RefreshCw,
+//   Lock,
+//   BarChart4,
+// } from "lucide-react";
+// import { FaArrowLeftLong, FaIdCard } from "react-icons/fa6";
+// import { FaGlobe, FaPercentage } from "react-icons/fa";
+// import { toast, ToastContainer } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import CurrencyEditHeader from "../../components/currencies/CurrencyEditHeader"; // Corrected path
+// import { Skeleton } from "@/components/ui/skeleton";
 
+// // Shadcn UI Components for Tabs
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+// import { cn } from "@/lib/utils"; // Import cn utility
+// import { AiOutlineCalendar } from "react-icons/ai";
+// import { MdUpdate } from "react-icons/md";
 
+// axios.defaults.baseURL = apiConfig.baseUrl;
+
+// // Interfaces remain the same
+// interface Currency {
+//   _id: string;
+//   code: string;
+//   currencyName: string;
+//   flagImage?: string | null;
+//   payeeName?: string | null;
+//   iban?: string | null;
+//   bicSwift?: string | null;
+//   bankAddress?: string | null;
+//   wiseFeePercentage?: number | null;
+//   bankTransferFee?: number | null;
+//   rateAdjustmentPercentage?: number | null;
+//   createdAt?: string;
+//   updatedAt?: string;
+// }
+
+// interface CurrencyFormState {
+//   code: string;
+//   currencyName: string;
+//   flagImage: string;
+//   payeeName: string;
+//   iban: string;
+//   bicSwift: string;
+//   bankAddress: string;
+//   wiseFeePercentage: string;
+//   bankTransferFee: string;
+//   rateAdjustmentPercentage: string;
+// }
+
+// // --- Helper to check for AxiosError ---
+// function isAxiosError(error: unknown): error is AxiosError {
+//   return axios.isAxiosError(error);
+// }
+
+// // Define a potential structure for API error responses
+// interface ApiErrorData {
+//   message?: string;
+//   error?: string;
+// }
+
+// // --- Loading Skeleton Component (remains the same) ---
+// const LoadingSkeleton = () => (
+//   <div className="container mx-auto px-4 py-5">
+//     <motion.div className="py-6">
+//       <div className="mx-auto max-w-5xl space-y-8">
+//         {" "}
+//         {/* Added space-y-8 */}
+//         {/* Header Skeleton */}
+//         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+//           <div>
+//             <Skeleton className="h-4 w-64 mb-3 rounded " /> {/* Breadcrumbs */}
+//             <Skeleton className="h-8 w-48 rounded " /> {/* Title */}
+//           </div>
+//           <Skeleton className="h-9 w-32 rounded-md " /> {/* Back Button */}
+//         </div>
+//         {/* Form Skeleton */}
+//         <div className="space-y-8">
+//           {/* Tabs Navigation Skeleton - Updated to match new style */}
+//           <div className="overflow-hidden mb-4">
+//             <div className="relative flex w-full h-full overflow-x-auto gap-3 whitespace-nowrap bg-lightborder dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
+//               <Skeleton className="h-9 flex-1 rounded-full" />
+//               <Skeleton className="h-9 flex-1 rounded-full" />
+//               <Skeleton className="h-9 flex-1 rounded-full" />
+//             </div>
+//           </div>
+
+//           {/* General Tab Content Skeleton (Default Visible) */}
+//           <div className="space-y-6">
+//             {/* General Info Section Skeleton */}
+//             <div className="rounded-xl bg-white dark:bg-background border lg:p-6 p-4">
+//               <Skeleton className="h-5 w-1/3 rounded mb-4 border-b border-transparent pb-2" />{" "}
+//               {/* Section Title */}
+//               <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+//                 {/* Code Skeleton */}
+//                 <div className="space-y-2">
+//                   <Skeleton className="h-4 w-1/4 rounded" />
+//                   <Skeleton className="h-12 w-full rounded-md" />
+//                 </div>
+//                 {/* Name Skeleton */}
+//                 <div className="space-y-2">
+//                   <Skeleton className="h-4 w-1/3 rounded" />
+//                   <Skeleton className="h-12 w-full rounded-md" />
+//                 </div>
+//                 {/* Flag Image Skeleton */}
+//                 <div className="md:col-span-2 space-y-2">
+//                   <Skeleton className="h-4 w-1/3 rounded" />
+//                   <Skeleton className="h-12 w-full rounded-md" />
+//                   <Skeleton className="h-3 w-3/4 rounded" /> {/* Help text */}
+//                 </div>
+//               </div>
+//             </div>
+
+//             {/* Metadata Section Skeleton */}
+//             <div className="rounded-xl bg-white dark:bg-background border">
+//               <Skeleton className="h-5 w-1/4 rounded m-4 lg:m-6 mb-0 border-b border-transparent pb-3" />{" "}
+//               {/* Section Title */}
+//               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:p-6 p-4">
+//                 <div className="space-y-2">
+//                   <Skeleton className="h-4 w-1/3 rounded" />
+//                   <Skeleton className="h-12 w-full rounded-md" />
+//                 </div>
+//                 <div className="space-y-2">
+//                   <Skeleton className="h-4 w-1/3 rounded" />
+//                   <Skeleton className="h-12 w-full rounded-md" />
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* Action Buttons Skeleton */}
+//           <div className="flex flex-col sm:flex-row justify-end gap-3 mt-8 pt-6 border-t">
+//             <Skeleton className="h-12 w-full sm:w-28 rounded-full" />
+//             <Skeleton className="h-12 w-full sm:w-36 rounded-full" />
+//           </div>
+//         </div>
+//       </div>
+//     </motion.div>
+//   </div>
+// );
+
+// // --- Tab Configuration ---
+// const TABS_CONFIG = [
+//   { value: "general", label: "General Info", icon: FaGlobe },
+//   { value: "bank", label: "Bank Details", icon: FaIdCard },
+//   { value: "fees", label: "Fees & Rates", icon: FaPercentage },
+// ];
+
+// const AdminEditCurrencyPage = () => {
+//   const params = useParams();
+//   const router = useRouter();
+//   const { currencyId } = params;
+//   const { token } = useAuth();
+
+//   const [currency, setCurrency] = useState<Currency | null>(null);
+//   const [formState, setFormState] = useState<CurrencyFormState | null>(null);
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const [activeTab, setActiveTab] = useState<"general" | "bank" | "fees">(
+//     "general"
+//   );
+//   const [formChanged, setFormChanged] = useState(false);
+//   const [flagImageError, setFlagImageError] = useState(false);
+
+//   // Animation variants
+//   const containerVariants = {
+//     hidden: { opacity: 0 },
+//     visible: {
+//       opacity: 1,
+//       transition: {
+//         staggerChildren: 0.1,
+//         delayChildren: 0.2,
+//       },
+//     },
+//   };
+
+//   const itemVariants = {
+//     hidden: { y: 20, opacity: 0 },
+//     visible: {
+//       y: 0,
+//       opacity: 1,
+//       transition: { type: "spring", stiffness: 100 },
+//     },
+//   };
+
+//   // Fetch Currency Data (remains the same)
+//   useEffect(() => {
+//     const fetchCurrency = async () => {
+//       if (!token || !currencyId) {
+//         setIsLoading(false);
+//         toast.error("Missing token or currency ID.");
+//         if (!token) router.push("/auth/login");
+//         return;
+//       }
+//       setIsLoading(true);
+//       try {
+//         const response = await axios.get<Currency>(
+//           `/admin/currencies/${currencyId}`,
+//           {
+//             headers: { Authorization: `Bearer ${token}` },
+//           }
+//         );
+//         setCurrency(response.data);
+//         setFormState({
+//           code: response.data.code || "",
+//           currencyName: response.data.currencyName || "",
+//           flagImage: response.data.flagImage || "",
+//           payeeName: response.data.payeeName || "",
+//           iban: response.data.iban || "",
+//           bicSwift: response.data.bicSwift || "",
+//           bankAddress: response.data.bankAddress || "",
+//           wiseFeePercentage: response.data.wiseFeePercentage?.toString() ?? "",
+//           bankTransferFee: response.data.bankTransferFee?.toString() ?? "",
+//           rateAdjustmentPercentage:
+//             response.data.rateAdjustmentPercentage?.toString() ?? "0",
+//         });
+//         setFlagImageError(false);
+//       } catch (err: unknown) {
+//         console.error("Fetch error:", err);
+//         if (isAxiosError(err)) {
+//           const errorData = err.response?.data as ApiErrorData | undefined;
+//           let message = "Failed to load currency details";
+//           if (errorData?.message) {
+//             message = errorData.message;
+//           } else if (errorData?.error) {
+//             message = errorData.error;
+//           } else if (err.response?.statusText) {
+//             message = `Error ${err.response.status}: ${err.response.statusText}`;
+//           }
+
+//           if (err.response?.status === 404) {
+//             toast.error("Currency not found.");
+//           } else if (
+//             err.response?.status === 401 ||
+//             err.response?.status === 403
+//           ) {
+//             toast.error("Unauthorized. Redirecting to login...");
+//             setTimeout(() => router.push("/auth/login"), 2000);
+//           } else {
+//             toast.error(message);
+//           }
+//         } else if (err instanceof Error) {
+//           toast.error(err.message || "An unexpected error occurred.");
+//         } else {
+//           toast.error("An unexpected error occurred.");
+//         }
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+
+//     fetchCurrency();
+//   }, [currencyId, token, router]);
+
+//   // Track form changes (remains the same)
+//   useEffect(() => {
+//     if (!currency || !formState) return;
+//     const currentWiseFee = currency.wiseFeePercentage?.toString() ?? "";
+//     const currentBankFee = currency.bankTransferFee?.toString() ?? "";
+//     const currentRateAdj = currency.rateAdjustmentPercentage?.toString() ?? "0";
+//     const isChanged =
+//       formState.currencyName !== (currency.currencyName || "") ||
+//       formState.flagImage !== (currency.flagImage || "") ||
+//       formState.payeeName !== (currency.payeeName || "") ||
+//       formState.iban !== (currency.iban || "") ||
+//       formState.bicSwift !== (currency.bicSwift || "") ||
+//       formState.bankAddress !== (currency.bankAddress || "") ||
+//       formState.wiseFeePercentage !== currentWiseFee ||
+//       formState.bankTransferFee !== currentBankFee ||
+//       formState.rateAdjustmentPercentage !== currentRateAdj;
+//     setFormChanged(isChanged);
+//   }, [currency, formState]);
+
+//   // Handle Input Changes (remains the same)
+//   const handleChange = (
+//     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+//   ) => {
+//     const { name, value } = e.target;
+//     setFormState((prev) => {
+//       if (!prev) return null;
+//       const newState = { ...prev, [name]: value };
+//       if (name === "flagImage") {
+//         setFlagImageError(false);
+//       }
+//       return newState;
+//     });
+//   };
+
+//   // Handle Form Submission (remains the same)
+//   const handleSubmit = async (event: React.FormEvent) => {
+//     event.preventDefault();
+//     if (!formState || !currencyId || !token) {
+//       toast.error("Form data or required parameters missing.");
+//       return;
+//     }
+//     setIsSubmitting(true);
+//     let wiseFee: number | null = null;
+//     if (formState.wiseFeePercentage.trim() !== "") {
+//       const parsed = parseFloat(formState.wiseFeePercentage);
+//       if (isNaN(parsed) || parsed < 0) {
+//         toast.error("remityn Fee % must be a non-negative number.");
+//         setIsSubmitting(false);
+//         return;
+//       }
+//       wiseFee = parsed;
+//     }
+//     let bankFee: number | null = null;
+//     if (formState.bankTransferFee.trim() !== "") {
+//       const parsed = parseFloat(formState.bankTransferFee);
+//       if (isNaN(parsed) || parsed < 0) {
+//         toast.error("Bank Fee must be a non-negative number.");
+//         setIsSubmitting(false);
+//         return;
+//       }
+//       bankFee = parsed;
+//     }
+//     let rateAdj: number = 0;
+//     if (formState.rateAdjustmentPercentage.trim() !== "") {
+//       const parsed = parseFloat(formState.rateAdjustmentPercentage);
+//       if (isNaN(parsed)) {
+//         toast.error("Rate Adjustment must be a valid number.");
+//         setIsSubmitting(false);
+//         return;
+//       }
+//       rateAdj = parsed;
+//     } else {
+//       rateAdj = 0;
+//     }
+//     const payload: Partial<Currency> = {
+//       currencyName: formState.currencyName.trim(),
+//       flagImage: formState.flagImage.trim() || null,
+//       payeeName: formState.payeeName.trim() || null,
+//       iban: formState.iban.trim() || null,
+//       bicSwift: formState.bicSwift.trim() || null,
+//       bankAddress: formState.bankAddress.trim() || null,
+//       wiseFeePercentage: wiseFee,
+//       bankTransferFee: bankFee,
+//       rateAdjustmentPercentage: rateAdj,
+//     };
+//     if (!payload.currencyName) {
+//       toast.error("Currency Name is required.");
+//       setIsSubmitting(false);
+//       return;
+//     }
+//     if (
+//       payload.flagImage &&
+//       !payload.flagImage.startsWith("/") &&
+//       !payload.flagImage.startsWith("http")
+//     ) {
+//       toast.error(
+//         "Flag Image Path must be a relative path starting with '/' or a full URL."
+//       );
+//       setIsSubmitting(false);
+//       return;
+//     }
+//     try {
+//       const response = await axios.put<Currency>(
+//         `/admin/currencies/${currencyId}`,
+//         payload,
+//         {
+//           headers: { Authorization: `Bearer ${token}` },
+//         }
+//       );
+//       setCurrency(response.data);
+//       setFormState({
+//         code: response.data.code || "",
+//         currencyName: response.data.currencyName || "",
+//         flagImage: response.data.flagImage || "",
+//         payeeName: response.data.payeeName || "",
+//         iban: response.data.iban || "",
+//         bicSwift: response.data.bicSwift || "",
+//         bankAddress: response.data.bankAddress || "",
+//         wiseFeePercentage: response.data.wiseFeePercentage?.toString() ?? "",
+//         bankTransferFee: response.data.bankTransferFee?.toString() ?? "",
+//         rateAdjustmentPercentage:
+//           response.data.rateAdjustmentPercentage?.toString() ?? "0",
+//       });
+//       toast.success("Currency updated successfully!");
+//       setFormChanged(false);
+//       setFlagImageError(false);
+//       setTimeout(() => {
+//         router.push("/admin/currencies");
+//       }, 1500);
+//     } catch (err: unknown) {
+//       console.error("Update error:", err);
+//       if (isAxiosError(err)) {
+//         const errorData = err.response?.data as ApiErrorData | undefined;
+//         let message = "Failed to update currency";
+//         if (errorData?.message) {
+//           message = errorData.message;
+//         } else if (errorData?.error) {
+//           message = errorData.error;
+//         } else if (err.response?.statusText) {
+//           message = `Error ${err.response.status}: ${err.response.statusText}`;
+//         }
+//         toast.error(message);
+//       } else if (err instanceof Error) {
+//         toast.error(
+//           err.message || "An unexpected error occurred during update."
+//         );
+//       } else {
+//         toast.error("An unexpected error occurred during update.");
+//       }
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   };
+
+//   // Reset form (remains the same)
+//   const handleReset = () => {
+//     if (!currency) return;
+//     setFormState({
+//       code: currency.code || "",
+//       currencyName: currency.currencyName || "",
+//       flagImage: currency.flagImage || "",
+//       payeeName: currency.payeeName || "",
+//       iban: currency.iban || "",
+//       bicSwift: currency.bicSwift || "",
+//       bankAddress: currency.bankAddress || "",
+//       wiseFeePercentage: currency.wiseFeePercentage?.toString() ?? "",
+//       bankTransferFee: currency.bankTransferFee?.toString() ?? "",
+//       rateAdjustmentPercentage:
+//         currency.rateAdjustmentPercentage?.toString() ?? "0",
+//     });
+//     setFlagImageError(false);
+//     setFormChanged(false);
+//     toast.info("Form reset to last saved values");
+//   };
+
+//   // --- Refactored Tab Content Rendering Functions ---
+//   const renderGeneralContent = () => {
+//     if (!formState) return null;
+//     return (
+//       <motion.div
+//         key="general-content"
+//         initial="hidden"
+//         animate="visible"
+//         variants={containerVariants}
+//         className="space-y-4"
+//       >
+//         <motion.div
+//           variants={itemVariants}
+//           className="rounded-xl bg-white dark:bg-background border shadow-sm"
+//         >
+//           <h3 className="border-b px-4 py-3 md:text-lg text-base font-medium text-neutral-900 dark:text-white">
+//             General Information
+//           </h3>
+
+//           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:p-6 p-4">
+//             <div>
+//               <label
+//                 htmlFor="code"
+//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//               >
+//                 <FaGlobe size={18} className="text-primary" />
+//                 Currency Code
+//                 <span className="text-red-600">*</span>
+//               </label>
+//               <div className="relative mt-1">
+//                 <input
+//                   type="text"
+//                   id="code"
+//                   value={formState.code}
+//                   readOnly
+//                   className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 w-full border cursor-not-allowed rounded-lg transition-all focus:outline-none ease-linear duration-75"
+//                 />
+//                 <span className="pointer-events-none absolute right-4.5 top-1/2 -translate-y-1/2 text-neutral-500 dark:text-gray-300">
+//                   <Lock size={18} />
+//                 </span>
+//               </div>
+//             </div>
+
+//             <div>
+//               <label
+//                 htmlFor="currencyName"
+//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//               >
+//                 <DollarSign size={18} className="text-primary" />
+//                 Currency Name <span className="text-red-600">*</span>
+//               </label>
+
+//               <input
+//                 type="text"
+//                 name="currencyName"
+//                 id="currencyName"
+//                 placeholder="e.g., Euro"
+//                 value={formState.currencyName}
+//                 onChange={handleChange}
+//                 required
+//                 className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 focus:border-[#5f5f5f] w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75"
+//               />
+//             </div>
+
+//             <div className="md:col-span-1">
+//               {/* Image input feild with logic */}
+//               <label
+//                 htmlFor="flagImage"
+//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//               >
+//                 <ImageIcon size={18} className="text-primary" />
+//                 Flag Image Path
+//                 <span className="text-red-600">*</span>
+//               </label>
+
+//               <div className="relative">
+//                 <input
+//                   type="text"
+//                   name="flagImage"
+//                   id="flagImage"
+//                   value={formState.flagImage}
+//                   onChange={handleChange}
+//                   placeholder="/assets/icon/flags/eur.png or https://..."
+//                   className="mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75"
+//                 />
+//                 {formState.flagImage && !flagImageError && (
+//                   <div className="absolute right-3 top-1/2 -translate-y-1/2 size-8 pointer-events-none">
+//                     <Image
+//                       src={formState.flagImage}
+//                       alt={`${formState.code || "Currency"} flag`}
+//                       fill
+//                       style={{ objectFit: "contain" }}
+//                       onError={() => setFlagImageError(true)}
+//                       unoptimized={formState.flagImage.startsWith("http")}
+//                     />
+//                   </div>
+//                 )}
+
+//                 {flagImageError && formState.flagImage && (
+//                   <div className="absolute right-3 top-1/2 -translate-y-1/2 text-red-600 font-medium text-xs">
+//                     Load Error
+//                   </div>
+//                 )}
+//               </div>
+
+//               <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
+//                 Relative path (e.g., /assets/icon/flags/eur.png) or full URL.
+//                 Must be accessible.
+//               </p>
+
+//               {flagImageError && (
+//                 <p className="mt-2 text-xs font-medium text-red-600">
+//                   Could not load the flag image. Check the path/URL.
+//                 </p>
+//               )}
+//             </div>
+//           </div>
+//         </motion.div>
+
+//         <motion.div
+//           variants={itemVariants}
+//           className="rounded-xl bg-white dark:bg-background border shadow-sm"
+//         >
+//           <h3 className="border-b px-4 py-3 md:text-lg text-base font-medium text-neutral-900 dark:text-white">
+//             Metadata
+//           </h3>
+
+//           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:p-6 p-4">
+//             <div className="space-y-2">
+//               <p className="font-medium text-gray-500 flex items-center gap-1 dark:text-gray-300">
+//                 <AiOutlineCalendar size={18} className="text-primary" />
+//                 Created At
+//               </p>
+
+//               <div className="rounded-md bg-lightgray dark:bg-primarybox py-3 px-4 text-neutral-900 dark:text-gray-300">
+//                 {currency?.createdAt
+//                   ? new Date(currency.createdAt).toLocaleString()
+//                   : "N/A"}
+//               </div>
+//             </div>
+
+//             <div className="space-y-2">
+//               <p className="font-medium text-gray-500 flex items-center gap-1 dark:text-gray-300">
+//                 <MdUpdate className="text-primary" size={18} />
+//                 Last Updated
+//               </p>
+
+//               <div className="rounded-md bg-lightgray dark:bg-primarybox py-3 px-4 text-neutral-900 dark:text-gray-300">
+//                 {currency?.updatedAt
+//                   ? new Date(currency.updatedAt).toLocaleString()
+//                   : "N/A"}
+//               </div>
+//             </div>
+//           </div>
+//         </motion.div>
+//       </motion.div>
+//     );
+//   };
+
+//   const renderBankContent = () => {
+//     if (!formState) return null;
+//     return (
+//       <motion.div
+//         key="bank-content"
+//         initial="hidden"
+//         animate="visible"
+//         variants={containerVariants}
+//         className="space-y-4"
+//       >
+//         <motion.div
+//           variants={itemVariants}
+//           className="rounded-xl bg-white dark:bg-background border shadow-sm"
+//         >
+//           <div className="border-b pb-2 px-4 py-3">
+//             <h3 className="md:text-lg text-base font-medium text-neutral-900 dark:text-white">
+//               Bank Details (Optional)
+//             </h3>
+
+//             <p className="text-sm text-gray-500 dark:text-gray-300">
+//               Provide these details if you need to store bank information
+//               associated with this currency.
+//             </p>
+//           </div>
+
+//           <div className="grid grid-cols-1 lg:p-6 p-4 gap-6">
+//             <div>
+//               <label
+//                 htmlFor="payeeName"
+//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//               >
+//                 <Building size={18} className="text-primary" />
+//                 Payee Name
+//                 <span className="text-red-600">*</span>
+//               </label>
+
+//               <input
+//                 type="text"
+//                 name="payeeName"
+//                 id="payeeName"
+//                 placeholder="Recipient's full name or company name"
+//                 value={formState.payeeName}
+//                 onChange={handleChange}
+//                 className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 w-full border focus:border-[#5f5f5f] rounded-lg transition-all focus:outline-none ease-linear duration-75"
+//               />
+//             </div>
+
+//             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+//               <div>
+//                 <label
+//                   htmlFor="iban"
+//                   className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//                 >
+//                   <Hash size={18} className="text-primary" />
+//                   IBAN
+//                   <span className="text-red-600">*</span>
+//                 </label>
+//                 <input
+//                   type="text"
+//                   name="iban"
+//                   id="iban"
+//                   placeholder="International Bank Account Number"
+//                   value={formState.iban}
+//                   onChange={handleChange}
+//                   className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 focus:border-[#5f5f5f] w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75"
+//                 />
+//               </div>
+//               <div>
+//                 <label
+//                   htmlFor="bicSwift"
+//                   className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//                 >
+//                   <Hash size={18} className="text-primary" />
+//                   BIC/SWIFT
+//                   <span className="text-red-600">*</span>
+//                 </label>
+//                 <input
+//                   type="text"
+//                   name="bicSwift"
+//                   id="bicSwift"
+//                   placeholder="Bank Identifier Code"
+//                   value={formState.bicSwift}
+//                   onChange={handleChange}
+//                   className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 focus:border-[#5f5f5f] w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75"
+//                 />
+//               </div>
+//             </div>
+
+//             <div>
+//               <label
+//                 htmlFor="bankAddress"
+//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//               >
+//                 <Landmark size={18} className="text-primary" />
+//                 Bank Address
+//                 <span className="text-red-600">*</span>
+//               </label>
+
+//               <div className="mt-2 overflow-y-auto rounded-lg">
+//                 <textarea
+//                   id="bankAddress"
+//                   name="bankAddress"
+//                   rows={3}
+//                   placeholder="Full address of the recipient's bank"
+//                   value={formState.bankAddress}
+//                   onChange={handleChange}
+//                   className="min-h-[100px] resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 bg-white dark:bg-background h-14 w-full transition-all border rounded-lg focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75"
+//                 ></textarea>
+//               </div>
+//             </div>
+//           </div>
+//         </motion.div>
+//       </motion.div>
+//     );
+//   };
+
+//   const renderFeesContent = () => {
+//     if (!formState) return null;
+//     return (
+//       <motion.div
+//         key="fees-content"
+//         initial="hidden"
+//         animate="visible"
+//         variants={containerVariants}
+//         className="space-y-4"
+//       >
+//         <motion.div
+//           variants={itemVariants}
+//           className="rounded-xl bg-white dark:bg-background border shadow-sm"
+//         >
+//           <h3 className="border-b px-4 py-3 md:text-lg text-base font-medium text-neutral-900 dark:text-white">
+//             Fees & Exchange Rate Settings (Optional)
+//           </h3>
+
+//           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:p-6 p-4">
+//             <div>
+//               <label
+//                 htmlFor="wiseFeePercentage"
+//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//               >
+//                 <Percent size={18} className="text-primary" />
+//                 remityn Fees <span className="text-red-600">*</span>
+//               </label>
+
+//               <div className="relative">
+//                 <input
+//                   type="number"
+//                   name="wiseFeePercentage"
+//                   id="wiseFeePercentage"
+//                   value={formState.wiseFeePercentage}
+//                   onChange={handleChange}
+//                   step="any"
+//                   min="0"
+//                   className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 w-full border focus:border-[#5f5f5f] rounded-lg transition-all focus:outline-none ease-linear duration-75 no-spinner"
+//                   placeholder="e.g., 0.5"
+//                 />
+//                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+//                   <span className="text-gray-500 dark:text-gray-300">%</span>
+//                 </div>
+//               </div>
+//               <p className="mt-2 text-sm text-gray-500  dark:text-gray-300">
+//                 Percentage fee for remityn transfers (leave blank if none).
+//               </p>
+//             </div>
+//             <div>
+//               <label
+//                 htmlFor="bankTransferFee"
+//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//               >
+//                 <DollarSign size={18} className="text-primary" />
+//                 Bank Transfer Fees
+//                 <span className="text-red-600">*</span>
+//               </label>
+//               <div className="relative">
+//                 <input
+//                   type="number"
+//                   name="bankTransferFee"
+//                   id="bankTransferFee"
+//                   value={formState.bankTransferFee}
+//                   onChange={handleChange}
+//                   step="any"
+//                   min="0"
+//                   className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 w-full border focus:border-[#5f5f5f] rounded-lg transition-all focus:outline-none ease-linear duration-75 no-spinner"
+//                   placeholder="e.g., 5.00"
+//                 />
+//                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+//                   <span className="text-gray-500 dark:text-gray-300 text-sm font-medium">
+//                     {formState.code || "CUR"}
+//                   </span>
+//                 </div>
+//               </div>
+//               <p className="mt-2 text-sm text-gray-500  dark:text-gray-300">
+//                 Fixed Fees in {formState.code || "currency"} (leave blank if
+//                 none).
+//               </p>
+//             </div>
+//             <div>
+//               <label
+//                 htmlFor="rateAdjustmentPercentage"
+//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//               >
+//                 <Percent size={18} className="text-primary" />
+//                 Our Adjustment <span className="text-red-600">*</span>
+//               </label>
+//               <div className="relative">
+//                 <input
+//                   type="number"
+//                   name="rateAdjustmentPercentage"
+//                   id="rateAdjustmentPercentage"
+//                   value={formState.rateAdjustmentPercentage}
+//                   onChange={handleChange}
+//                   step="any"
+//                   className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 w-full border focus:border-[#5f5f5f] rounded-lg transition-all focus:outline-none ease-linear duration-75 no-spinner"
+//                   placeholder="e.g., -0.5 or 1.2"
+//                 />
+//                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
+//                   <span className="text-gray-500 dark:text-gray-300">%</span>
+//                 </div>
+//               </div>
+//               <p className="mt-2 text-sm text-gray-500  dark:text-gray-300">
+//                 Adjustment vs market rate (default 0).
+//               </p>
+//             </div>
+//           </div>
+
+//           <div className="lg:p-6 p-4">
+//             <div className="rounded-md bg-lightgray dark:bg-background border overflow-hidden">
+
+//               <h4 className="px-4 py-3 md:text-lg text-base font-medium bg-lightborder border-b dark:bg-primarybox text-neutral-900 dark:text-white">
+//                 Exchange Rate Info
+//               </h4>
+
+//               <p className="px-4 py-3 text-sm text-gray-500 dark:text-gray-300">
+//                 The Our Adjustment % modifies the market exchange rate used in
+//                 calculations. A positive value (e.g., 1%) increases the rate,
+//                 making the foreign currency relatively cheaper. A negative value
+//                 (e.g., -0.5%) decreases the rate, making the foreign currency
+//                 relatively more expensive. Set to 0 (or leave blank) to use the
+//                 market rate directly.
+//               </p>
+//             </div>
+//           </div>
+//         </motion.div>
+//       </motion.div>
+//     );
+//   };
+
+//   // --- Main component render ---
+//   if (isLoading) {
+//     return (
+//       <div className=" bg-white dark:bg-background">
+//         <LoadingSkeleton />;
+//       </div>
+//     );
+//   }
+
+//   if (!isLoading && !currency && !formState) {
+//     return (
+//       <div className="container mx-auto px-4 py-5 relative">
+//         <CurrencyEditHeader currencyName="Error" currencyCode="XXX" />
+//         <div className="mt-5 text-center text-red-600 bg-red-600/10 border border-red-400 dark:border-red-600 p-4 rounded-lg">
+//           Failed to load currency details. Please check the ID or try again
+//           later.
+//           <Link
+//             href="/admin/currencies"
+//             className="mt-4 inline-block text-primary underline"
+//           >
+//             Back to Currencies
+//           </Link>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="py-5">
+//       <CurrencyEditHeader
+//         currencyName={currency?.currencyName || formState?.currencyName}
+//         currencyCode={currency?.code || formState?.code}
+//       />
+
+//       <div className="container mx-auto px-4 relative">
+//         <motion.div
+//           initial={{ opacity: 0 }}
+//           animate={{ opacity: 1 }}
+//           exit={{ opacity: 0 }}
+//           className="bg-white dark:bg-background"
+//         >
+
+//           <ToastContainer
+//             position="top-right"
+//             autoClose={3000}
+//             hideProgressBar={false}
+//             newestOnTop={false}
+//             closeOnClick
+//             rtl={false}
+//             pauseOnFocusLoss
+//             draggable
+//             pauseOnHover
+//             theme="colored"
+//           />
+
+//           <div className="mx-auto max-w-5xl">
+//             {!isLoading && formState && (
+//               <motion.form
+//                 onSubmit={handleSubmit}
+//                 className="space-y-8"
+//                 initial="hidden" // Moved initial animation props here if form itself should animate
+//                 animate="visible"
+//                 variants={containerVariants} // Use containerVariants for the form to stagger children
+//               >
+//                 {/* --- New Tabs Section --- */}
+//                 <Tabs
+//                   value={activeTab}
+//                   onValueChange={(value) =>
+//                     setActiveTab(value as "general" | "bank" | "fees")
+//                   }
+//                   className="w-full"
+//                 >
+//                   <motion.div
+//                     variants={itemVariants}
+//                     className="mb-4 rounded-full overflow-hidden"
+//                   >
+//                     {" "}
+//                     {/* itemVariant for the TabsList container */}
+//                     <TabsList className="relative z-0 flex w-full h-full whitespace-nowrap overflow-x-auto  dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
+//                       {TABS_CONFIG.map((tabInfo) => (
+//                         <TabsTrigger
+//                           key={tabInfo.value}
+//                           value={tabInfo.value}
+//                           className={cn(
+//                             "relative px-4 py-3 flex items-center justify-center gap-2 text-base shrink-0 min-w-max rounded-full text-neutral-900 dark:text-white data-[state=active]:text-neutral-900 dark:data-[state=active]:text-primary border-none data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none cursor-pointer transition-colors duration-150 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+//                           )}
+//                         >
+//                           {activeTab === tabInfo.value && (
+//                             <motion.div
+//                               layoutId="active-currency-tab-indicator" // Unique layoutId
+//                               className="absolute inset-0 -z-10 bg-primary dark:bg-secondarybox rounded-full shadow-sm"
+//                               transition={{ stiffness: 350, damping: 30 }}
+//                             />
+//                           )}
+//                           <tabInfo.icon className="size-5" />{" "}
+//                           <span className="truncate">{tabInfo.label}</span>
+//                         </TabsTrigger>
+//                       ))}
+//                     </TabsList>
+//                   </motion.div>
+
+//                   <TabsContent value="general">
+//                     {renderGeneralContent()}
+//                   </TabsContent>
+//                   <TabsContent value="bank">{renderBankContent()}</TabsContent>
+//                   <TabsContent value="fees">{renderFeesContent()}</TabsContent>
+//                 </Tabs>
+
+//                 {/* Action Buttons */}
+//                 <motion.div
+//                   variants={itemVariants} // itemVariant for the buttons container
+//                   className="flex flex-col sm:flex-row justify-end gap-3"
+//                 >
+//                   <button
+//                     type="button"
+//                     onClick={handleReset}
+//                     disabled={isSubmitting || !formChanged}
+//                     className="inline-flex items-center justify-center gap-2 cursor-pointer bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed font-medium rounded-full px-6 py-3 h-12 text-center w-full sm:w-auto transition-all duration-75 ease-linear group"
+//                   >
+//                     <RefreshCw
+//                       size={20}
+//                       className={`transition-transform duration-300 ${
+//                         formChanged && !isSubmitting
+//                           ? "group-hover:rotate-[-180deg]"
+//                           : ""
+//                       }`}
+//                     />
+//                     Reset
+//                   </button>
+
+//                   <button
+//                     type="submit"
+//                     disabled={isSubmitting || !formChanged}
+//                     className="inline-flex items-center justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 disabled:opacity-50 disabled:cursor-not-allowed font-medium rounded-full px-6 py-3 h-12 text-center w-full sm:w-auto transition-all duration-75 ease-linear"
+//                   >
+//                     {isSubmitting ? (
+//                       <>
+//                         <svg
+//                           className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+//                           viewBox="0 0 24 24"
+//                           fill="none"
+//                           xmlns="http://www.w3.org/2000/svg"
+//                         >
+//                           <path
+//                             d="M12 2V6"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />{" "}
+//                           <path
+//                             d="M12 18V22"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                           <path
+//                             d="M4.93 4.93L7.76 7.76"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                           <path
+//                             d="M16.24 16.24L19.07 19.07"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                           <path
+//                             d="M2 12H6"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                           <path
+//                             d="M18 12H22"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                           <path
+//                             d="M4.93 19.07L7.76 16.24"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                           <path
+//                             d="M16.24 7.76L19.07 4.93"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                         </svg>
+//                         <span>Saving...</span>
+//                       </>
+//                     ) : (
+//                       <>
+//                         <span>Save Changes</span>
+//                       </>
+//                     )}
+//                   </button>
+//                 </motion.div>
+//               </motion.form>
+//             )}
+//           </div>
+//         </motion.div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default AdminEditCurrencyPage;
 
 // frontend/src/app/admin/currencies/[currencyId]/page.tsx
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react"; // Added useCallback
 import { useParams, useRouter } from "next/navigation";
-import axios, { AxiosError } from "axios"; // Import AxiosError
-import { useAuth } from "../../../contexts/AuthContext"; // Corrected path
+import axios, { AxiosError } from "axios";
+import { useAuth } from "../../../contexts/AuthContext";
 import { motion } from "framer-motion";
-import apiConfig from "../../../config/apiConfig"; // Corrected path
+import apiConfig from "../../../config/apiConfig";
 import Link from "next/link";
-import Image from "next/image"; // Import next/image
+import Image from "next/image";
 import {
   Loader2,
   Save,
-  // Globe, // Icon for general tab, will use FaGlobe
   DollarSign,
   Building,
   Landmark,
   Hash,
   Percent,
-  Image as ImageIcon, // Rename to avoid conflict
+  Image as ImageIcon,
   RefreshCw,
   Lock,
   BarChart4,
 } from "lucide-react";
 import { FaArrowLeftLong, FaIdCard } from "react-icons/fa6";
 import { FaGlobe, FaPercentage } from "react-icons/fa";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import CurrencyEditHeader from "../../components/currencies/CurrencyEditHeader"; // Corrected path
-import { Skeleton } from "@/components/ui/skeleton";
 
-// Shadcn UI Components for Tabs
+// Import react-toastify components and CustomToast
+import {
+  ToastContainer,
+  toast as reactToastifyToast,
+  Slide,
+  ToastContainerProps,
+  TypeOptions,
+  ToastOptions,
+} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// **IMPORTANT**: Adjust this path to your CustomToast component
+import CustomToast, { CustomToastProps } from "../../../components/CustomToast";
+// Example if CustomToast is in frontend/src/app/components/CustomToast.tsx:
+// import CustomToast, { CustomToastProps } from "../../../../components/CustomToast";
+
+import CurrencyEditHeader from "../../components/currencies/CurrencyEditHeader";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { cn } from "@/lib/utils"; // Import cn utility
+import { cn } from "@/lib/utils";
 import { AiOutlineCalendar } from "react-icons/ai";
 import { MdUpdate } from "react-icons/md";
 
 axios.defaults.baseURL = apiConfig.baseUrl;
 
-// Interfaces remain the same
+// Interfaces
 interface Currency {
   _id: string;
   code: string;
@@ -7719,35 +8802,27 @@ interface CurrencyFormState {
   rateAdjustmentPercentage: string;
 }
 
-// --- Helper to check for AxiosError ---
 function isAxiosError(error: unknown): error is AxiosError {
   return axios.isAxiosError(error);
 }
 
-// Define a potential structure for API error responses
 interface ApiErrorData {
   message?: string;
   error?: string;
 }
 
-// --- Loading Skeleton Component (remains the same) ---
 const LoadingSkeleton = () => (
   <div className="container mx-auto px-4 py-5">
     <motion.div className="py-6">
       <div className="mx-auto max-w-5xl space-y-8">
-        {" "}
-        {/* Added space-y-8 */}
-        {/* Header Skeleton */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
           <div>
-            <Skeleton className="h-4 w-64 mb-3 rounded " /> {/* Breadcrumbs */}
-            <Skeleton className="h-8 w-48 rounded " /> {/* Title */}
+            <Skeleton className="h-4 w-64 mb-3 rounded " />
+            <Skeleton className="h-8 w-48 rounded " />
           </div>
-          <Skeleton className="h-9 w-32 rounded-md " /> {/* Back Button */}
+          <Skeleton className="h-9 w-32 rounded-md " />
         </div>
-        {/* Form Skeleton */}
         <div className="space-y-8">
-          {/* Tabs Navigation Skeleton - Updated to match new style */}
           <div className="overflow-hidden mb-4">
             <div className="relative flex w-full h-full overflow-x-auto gap-3 whitespace-nowrap bg-lightborder dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
               <Skeleton className="h-9 flex-1 rounded-full" />
@@ -7755,37 +8830,27 @@ const LoadingSkeleton = () => (
               <Skeleton className="h-9 flex-1 rounded-full" />
             </div>
           </div>
-
-          {/* General Tab Content Skeleton (Default Visible) */}
           <div className="space-y-6">
-            {/* General Info Section Skeleton */}
             <div className="rounded-xl bg-white dark:bg-background border lg:p-6 p-4">
-              <Skeleton className="h-5 w-1/3 rounded mb-4 border-b border-transparent pb-2" />{" "}
-              {/* Section Title */}
+              <Skeleton className="h-5 w-1/3 rounded mb-4 border-b border-transparent pb-2" />
               <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                {/* Code Skeleton */}
                 <div className="space-y-2">
                   <Skeleton className="h-4 w-1/4 rounded" />
                   <Skeleton className="h-12 w-full rounded-md" />
                 </div>
-                {/* Name Skeleton */}
                 <div className="space-y-2">
                   <Skeleton className="h-4 w-1/3 rounded" />
                   <Skeleton className="h-12 w-full rounded-md" />
                 </div>
-                {/* Flag Image Skeleton */}
                 <div className="md:col-span-2 space-y-2">
                   <Skeleton className="h-4 w-1/3 rounded" />
                   <Skeleton className="h-12 w-full rounded-md" />
-                  <Skeleton className="h-3 w-3/4 rounded" /> {/* Help text */}
+                  <Skeleton className="h-3 w-3/4 rounded" />
                 </div>
               </div>
             </div>
-
-            {/* Metadata Section Skeleton */}
             <div className="rounded-xl bg-white dark:bg-background border">
-              <Skeleton className="h-5 w-1/4 rounded m-4 lg:m-6 mb-0 border-b border-transparent pb-3" />{" "}
-              {/* Section Title */}
+              <Skeleton className="h-5 w-1/4 rounded m-4 lg:m-6 mb-0 border-b border-transparent pb-3" />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:p-6 p-4">
                 <div className="space-y-2">
                   <Skeleton className="h-4 w-1/3 rounded" />
@@ -7798,8 +8863,6 @@ const LoadingSkeleton = () => (
               </div>
             </div>
           </div>
-
-          {/* Action Buttons Skeleton */}
           <div className="flex flex-col sm:flex-row justify-end gap-3 mt-8 pt-6 border-t">
             <Skeleton className="h-12 w-full sm:w-28 rounded-full" />
             <Skeleton className="h-12 w-full sm:w-36 rounded-full" />
@@ -7810,7 +8873,6 @@ const LoadingSkeleton = () => (
   </div>
 );
 
-// --- Tab Configuration ---
 const TABS_CONFIG = [
   { value: "general", label: "General Info", icon: FaGlobe },
   { value: "bank", label: "Bank Details", icon: FaIdCard },
@@ -7832,16 +8894,98 @@ const AdminEditCurrencyPage = () => {
   );
   const [formChanged, setFormChanged] = useState(false);
   const [flagImageError, setFlagImageError] = useState(false);
+  const [isMobile, setIsMobile] = useState(false); // For ToastContainer
 
-  // Animation variants
+  // --- Mobile Detection Effect (for ToastContainer) ---
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // --- Custom Toast Invocation ---
+  const showToast = useCallback(
+    (
+      message: string,
+      type?: CustomToastProps["type"],
+      toastSpecificOptions?: Partial<ToastOptions>
+    ) => {
+      const effectiveType = type || "default";
+      let progressClassName: string;
+      switch (effectiveType) {
+        case "success":
+          progressClassName = "toast-progress-success";
+          break;
+        case "error":
+          progressClassName = "toast-progress-error";
+          break;
+        case "info":
+          progressClassName = "toast-progress-info";
+          break;
+        case "warning":
+          progressClassName = "toast-progress-warning";
+          break;
+        case "default":
+        default:
+          progressClassName = "toast-progress-default";
+          break;
+      }
+      reactToastifyToast(
+        <CustomToast message={message} type={effectiveType} />,
+        {
+          progressClassName: progressClassName,
+          type: effectiveType as TypeOptions,
+          icon: false,
+          ...toastSpecificOptions,
+        }
+      );
+    },
+    []
+  );
+
+  // --- ToastContainer Props and Style ---
+  const customToastContainerProps: ToastContainerProps = {
+    // Renamed to avoid conflict with react-toastify's ToastContainer import if used directly
+    position: "top-right",
+    autoClose: 5000, // Default autoClose, can be overridden by showToast
+    hideProgressBar: false,
+    newestOnTop: true,
+    closeOnClick: false, // Important: keep false if onClose actions are used
+    closeButton: false, // CustomToast handles its own close or relies on autoClose
+    rtl: false,
+    pauseOnFocusLoss: true,
+    draggable: true,
+    pauseOnHover: true,
+    transition: Slide,
+    toastClassName: () =>
+      "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3",
+  };
+
+  const getToastContainerStyle = (): React.CSSProperties & {
+    [key: `--${string}`]: string | number;
+  } => {
+    const baseStyle = { zIndex: 30 };
+    if (isMobile) {
+      return {
+        ...baseStyle,
+        top: "1rem",
+        left: "1rem",
+        right: "1rem",
+        width: "auto",
+      };
+    } else {
+      return { ...baseStyle, top: "0.75rem", right: "0.75rem", width: "320px" };
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
     },
   };
 
@@ -7854,12 +8998,11 @@ const AdminEditCurrencyPage = () => {
     },
   };
 
-  // Fetch Currency Data (remains the same)
   useEffect(() => {
     const fetchCurrency = async () => {
       if (!token || !currencyId) {
         setIsLoading(false);
-        toast.error("Missing token or currency ID.");
+        showToast("Missing token or currency ID.", "error");
         if (!token) router.push("/auth/login");
         return;
       }
@@ -7867,9 +9010,7 @@ const AdminEditCurrencyPage = () => {
       try {
         const response = await axios.get<Currency>(
           `/admin/currencies/${currencyId}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         setCurrency(response.data);
         setFormState({
@@ -7888,42 +9029,40 @@ const AdminEditCurrencyPage = () => {
         setFlagImageError(false);
       } catch (err: unknown) {
         console.error("Fetch error:", err);
+        let message = "Failed to load currency details";
         if (isAxiosError(err)) {
           const errorData = err.response?.data as ApiErrorData | undefined;
-          let message = "Failed to load currency details";
-          if (errorData?.message) {
-            message = errorData.message;
-          } else if (errorData?.error) {
-            message = errorData.error;
-          } else if (err.response?.statusText) {
+          if (errorData?.message) message = errorData.message;
+          else if (errorData?.error) message = errorData.error;
+          else if (err.response?.statusText)
             message = `Error ${err.response.status}: ${err.response.statusText}`;
-          }
 
-          if (err.response?.status === 404) {
-            toast.error("Currency not found.");
-          } else if (
+          if (err.response?.status === 404) message = "Currency not found.";
+          else if (
             err.response?.status === 401 ||
             err.response?.status === 403
           ) {
-            toast.error("Unauthorized. Redirecting to login...");
-            setTimeout(() => router.push("/auth/login"), 2000);
-          } else {
-            toast.error(message);
+            message = "Unauthorized. Redirecting to login...";
+            showToast(message, "error", {
+              onClose: () => router.push("/auth/login"),
+              autoClose: 2000,
+            });
+            // setLoading(false) will be handled in finally
+            // return here to prevent further execution if redirecting
+            setIsLoading(false); // Set loading false before returning
+            return;
           }
         } else if (err instanceof Error) {
-          toast.error(err.message || "An unexpected error occurred.");
-        } else {
-          toast.error("An unexpected error occurred.");
+          message = err.message || "An unexpected error occurred.";
         }
+        showToast(message, "error");
       } finally {
         setIsLoading(false);
       }
     };
-
     fetchCurrency();
-  }, [currencyId, token, router]);
+  }, [currencyId, token, router, showToast]); // Added showToast
 
-  // Track form changes (remains the same)
   useEffect(() => {
     if (!currency || !formState) return;
     const currentWiseFee = currency.wiseFeePercentage?.toString() ?? "";
@@ -7942,7 +9081,6 @@ const AdminEditCurrencyPage = () => {
     setFormChanged(isChanged);
   }, [currency, formState]);
 
-  // Handle Input Changes (remains the same)
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -7950,18 +9088,15 @@ const AdminEditCurrencyPage = () => {
     setFormState((prev) => {
       if (!prev) return null;
       const newState = { ...prev, [name]: value };
-      if (name === "flagImage") {
-        setFlagImageError(false);
-      }
+      if (name === "flagImage") setFlagImageError(false);
       return newState;
     });
   };
 
-  // Handle Form Submission (remains the same)
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     if (!formState || !currencyId || !token) {
-      toast.error("Form data or required parameters missing.");
+      showToast("Form data or required parameters missing.", "error");
       return;
     }
     setIsSubmitting(true);
@@ -7969,7 +9104,7 @@ const AdminEditCurrencyPage = () => {
     if (formState.wiseFeePercentage.trim() !== "") {
       const parsed = parseFloat(formState.wiseFeePercentage);
       if (isNaN(parsed) || parsed < 0) {
-        toast.error("Wise Fee % must be a non-negative number.");
+        showToast("remityn Fee % must be a non-negative number.", "error");
         setIsSubmitting(false);
         return;
       }
@@ -7979,7 +9114,7 @@ const AdminEditCurrencyPage = () => {
     if (formState.bankTransferFee.trim() !== "") {
       const parsed = parseFloat(formState.bankTransferFee);
       if (isNaN(parsed) || parsed < 0) {
-        toast.error("Bank Fee must be a non-negative number.");
+        showToast("Bank Fee must be a non-negative number.", "error");
         setIsSubmitting(false);
         return;
       }
@@ -7989,13 +9124,11 @@ const AdminEditCurrencyPage = () => {
     if (formState.rateAdjustmentPercentage.trim() !== "") {
       const parsed = parseFloat(formState.rateAdjustmentPercentage);
       if (isNaN(parsed)) {
-        toast.error("Rate Adjustment must be a valid number.");
+        showToast("Rate Adjustment must be a valid number.", "error");
         setIsSubmitting(false);
         return;
       }
       rateAdj = parsed;
-    } else {
-      rateAdj = 0;
     }
     const payload: Partial<Currency> = {
       currencyName: formState.currencyName.trim(),
@@ -8009,7 +9142,7 @@ const AdminEditCurrencyPage = () => {
       rateAdjustmentPercentage: rateAdj,
     };
     if (!payload.currencyName) {
-      toast.error("Currency Name is required.");
+      showToast("Currency Name is required.", "error");
       setIsSubmitting(false);
       return;
     }
@@ -8018,8 +9151,9 @@ const AdminEditCurrencyPage = () => {
       !payload.flagImage.startsWith("/") &&
       !payload.flagImage.startsWith("http")
     ) {
-      toast.error(
-        "Flag Image Path must be a relative path starting with '/' or a full URL."
+      showToast(
+        "Flag Image Path must be a relative path starting with '/' or a full URL.",
+        "error"
       );
       setIsSubmitting(false);
       return;
@@ -8028,9 +9162,7 @@ const AdminEditCurrencyPage = () => {
       const response = await axios.put<Currency>(
         `/admin/currencies/${currencyId}`,
         payload,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       setCurrency(response.data);
       setFormState({
@@ -8046,38 +9178,31 @@ const AdminEditCurrencyPage = () => {
         rateAdjustmentPercentage:
           response.data.rateAdjustmentPercentage?.toString() ?? "0",
       });
-      toast.success("Currency updated successfully!");
+      showToast("Currency updated successfully!", "success", {
+        onClose: () => router.push("/admin/currencies"),
+        autoClose: 1500, // Shorter autoClose before redirect
+      });
       setFormChanged(false);
       setFlagImageError(false);
-      setTimeout(() => {
-        router.push("/admin/currencies");
-      }, 1500);
+      // Navigation is handled by toast onClose
     } catch (err: unknown) {
       console.error("Update error:", err);
+      let message = "Failed to update currency";
       if (isAxiosError(err)) {
         const errorData = err.response?.data as ApiErrorData | undefined;
-        let message = "Failed to update currency";
-        if (errorData?.message) {
-          message = errorData.message;
-        } else if (errorData?.error) {
-          message = errorData.error;
-        } else if (err.response?.statusText) {
+        if (errorData?.message) message = errorData.message;
+        else if (errorData?.error) message = errorData.error;
+        else if (err.response?.statusText)
           message = `Error ${err.response.status}: ${err.response.statusText}`;
-        }
-        toast.error(message);
       } else if (err instanceof Error) {
-        toast.error(
-          err.message || "An unexpected error occurred during update."
-        );
-      } else {
-        toast.error("An unexpected error occurred during update.");
+        message = err.message || "An unexpected error occurred during update.";
       }
+      showToast(message, "error");
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Reset form (remains the same)
   const handleReset = () => {
     if (!currency) return;
     setFormState({
@@ -8095,10 +9220,9 @@ const AdminEditCurrencyPage = () => {
     });
     setFlagImageError(false);
     setFormChanged(false);
-    toast.info("Form reset to last saved values");
+    showToast("Form reset to last saved values", "info");
   };
 
-  // --- Refactored Tab Content Rendering Functions ---
   const renderGeneralContent = () => {
     if (!formState) return null;
     return (
@@ -8116,7 +9240,6 @@ const AdminEditCurrencyPage = () => {
           <h3 className="border-b px-4 py-3 md:text-lg text-base font-medium text-neutral-900 dark:text-white">
             General Information
           </h3>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:p-6 p-4">
             <div>
               <label
@@ -8124,8 +9247,7 @@ const AdminEditCurrencyPage = () => {
                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
               >
                 <FaGlobe size={18} className="text-primary" />
-                Currency Code
-                <span className="text-red-600">*</span>
+                Currency Code<span className="text-red-600">*</span>
               </label>
               <div className="relative mt-1">
                 <input
@@ -8140,7 +9262,6 @@ const AdminEditCurrencyPage = () => {
                 </span>
               </div>
             </div>
-
             <div>
               <label
                 htmlFor="currencyName"
@@ -8149,7 +9270,6 @@ const AdminEditCurrencyPage = () => {
                 <DollarSign size={18} className="text-primary" />
                 Currency Name <span className="text-red-600">*</span>
               </label>
-
               <input
                 type="text"
                 name="currencyName"
@@ -8161,18 +9281,14 @@ const AdminEditCurrencyPage = () => {
                 className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 focus:border-[#5f5f5f] w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75"
               />
             </div>
-
             <div className="md:col-span-1">
-              {/* Image input feild with logic */}
               <label
                 htmlFor="flagImage"
                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
               >
                 <ImageIcon size={18} className="text-primary" />
-                Flag Image Path
-                <span className="text-red-600">*</span>
+                Flag Image Path<span className="text-red-600">*</span>
               </label>
-
               <div className="relative">
                 <input
                   type="text"
@@ -8195,19 +9311,16 @@ const AdminEditCurrencyPage = () => {
                     />
                   </div>
                 )}
-
                 {flagImageError && formState.flagImage && (
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 text-red-600 font-medium text-xs">
                     Load Error
                   </div>
                 )}
               </div>
-
               <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
                 Relative path (e.g., /assets/icon/flags/eur.png) or full URL.
                 Must be accessible.
               </p>
-
               {flagImageError && (
                 <p className="mt-2 text-xs font-medium text-red-600">
                   Could not load the flag image. Check the path/URL.
@@ -8216,7 +9329,6 @@ const AdminEditCurrencyPage = () => {
             </div>
           </div>
         </motion.div>
-
         <motion.div
           variants={itemVariants}
           className="rounded-xl bg-white dark:bg-background border shadow-sm"
@@ -8224,27 +9336,23 @@ const AdminEditCurrencyPage = () => {
           <h3 className="border-b px-4 py-3 md:text-lg text-base font-medium text-neutral-900 dark:text-white">
             Metadata
           </h3>
-
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:p-6 p-4">
             <div className="space-y-2">
               <p className="font-medium text-gray-500 flex items-center gap-1 dark:text-gray-300">
                 <AiOutlineCalendar size={18} className="text-primary" />
                 Created At
               </p>
-
               <div className="rounded-md bg-lightgray dark:bg-primarybox py-3 px-4 text-neutral-900 dark:text-gray-300">
                 {currency?.createdAt
                   ? new Date(currency.createdAt).toLocaleString()
                   : "N/A"}
               </div>
             </div>
-
             <div className="space-y-2">
               <p className="font-medium text-gray-500 flex items-center gap-1 dark:text-gray-300">
                 <MdUpdate className="text-primary" size={18} />
                 Last Updated
               </p>
-
               <div className="rounded-md bg-lightgray dark:bg-primarybox py-3 px-4 text-neutral-900 dark:text-gray-300">
                 {currency?.updatedAt
                   ? new Date(currency.updatedAt).toLocaleString()
@@ -8275,13 +9383,11 @@ const AdminEditCurrencyPage = () => {
             <h3 className="md:text-lg text-base font-medium text-neutral-900 dark:text-white">
               Bank Details (Optional)
             </h3>
-
             <p className="text-sm text-gray-500 dark:text-gray-300">
               Provide these details if you need to store bank information
               associated with this currency.
             </p>
           </div>
-
           <div className="grid grid-cols-1 lg:p-6 p-4 gap-6">
             <div>
               <label
@@ -8289,10 +9395,9 @@ const AdminEditCurrencyPage = () => {
                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
               >
                 <Building size={18} className="text-primary" />
-                Payee Name
-                <span className="text-red-600">*</span>
+                Payee Name<span className="text-red-600">*</span>
               </label>
-
+              
               <input
                 type="text"
                 name="payeeName"
@@ -8303,7 +9408,6 @@ const AdminEditCurrencyPage = () => {
                 className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 w-full border focus:border-[#5f5f5f] rounded-lg transition-all focus:outline-none ease-linear duration-75"
               />
             </div>
-
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label
@@ -8311,8 +9415,7 @@ const AdminEditCurrencyPage = () => {
                   className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
                 >
                   <Hash size={18} className="text-primary" />
-                  IBAN
-                  <span className="text-red-600">*</span>
+                  IBAN<span className="text-red-600">*</span>
                 </label>
                 <input
                   type="text"
@@ -8330,8 +9433,7 @@ const AdminEditCurrencyPage = () => {
                   className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
                 >
                   <Hash size={18} className="text-primary" />
-                  BIC/SWIFT
-                  <span className="text-red-600">*</span>
+                  BIC/SWIFT<span className="text-red-600">*</span>
                 </label>
                 <input
                   type="text"
@@ -8344,17 +9446,14 @@ const AdminEditCurrencyPage = () => {
                 />
               </div>
             </div>
-
             <div>
               <label
                 htmlFor="bankAddress"
                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
               >
                 <Landmark size={18} className="text-primary" />
-                Bank Address
-                <span className="text-red-600">*</span>
+                Bank Address<span className="text-red-600">*</span>
               </label>
-
               <div className="mt-2 overflow-y-auto rounded-lg">
                 <textarea
                   id="bankAddress"
@@ -8390,7 +9489,6 @@ const AdminEditCurrencyPage = () => {
           <h3 className="border-b px-4 py-3 md:text-lg text-base font-medium text-neutral-900 dark:text-white">
             Fees & Exchange Rate Settings (Optional)
           </h3>
-
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:p-6 p-4">
             <div>
               <label
@@ -8398,9 +9496,8 @@ const AdminEditCurrencyPage = () => {
                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
               >
                 <Percent size={18} className="text-primary" />
-                Wise Fees <span className="text-red-600">*</span>
+                remityn Fees <span className="text-red-600">*</span>
               </label>
-
               <div className="relative">
                 <input
                   type="number"
@@ -8418,7 +9515,7 @@ const AdminEditCurrencyPage = () => {
                 </div>
               </div>
               <p className="mt-2 text-sm text-gray-500  dark:text-gray-300">
-                Percentage fee for Wise transfers (leave blank if none).
+                Percentage fee for remityn transfers (leave blank if none).
               </p>
             </div>
             <div>
@@ -8427,8 +9524,7 @@ const AdminEditCurrencyPage = () => {
                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
               >
                 <DollarSign size={18} className="text-primary" />
-                Bank Transfer Fees
-                <span className="text-red-600">*</span>
+                Bank Transfer Fees<span className="text-red-600">*</span>
               </label>
               <div className="relative">
                 <input
@@ -8481,14 +9577,11 @@ const AdminEditCurrencyPage = () => {
               </p>
             </div>
           </div>
-
           <div className="lg:p-6 p-4">
             <div className="rounded-md bg-lightgray dark:bg-background border overflow-hidden">
-
-              <h4 className="px-4 py-3 md:text-lg text-base font-medium bg-lightborder border-b dark:bg-primarybox text-neutral-900 dark:text-white">
+              <h4 className="px-4 py-3 md:text-lg text-base font-medium bg-lightborder  dark:bg-primarybox text-neutral-900 dark:text-white">
                 Exchange Rate Info
               </h4>
-
               <p className="px-4 py-3 text-sm text-gray-500 dark:text-gray-300">
                 The Our Adjustment % modifies the market exchange rate used in
                 calculations. A positive value (e.g., 1%) increases the rate,
@@ -8504,71 +9597,78 @@ const AdminEditCurrencyPage = () => {
     );
   };
 
-  // --- Main component render ---
   if (isLoading) {
     return (
-      <div className=" bg-white dark:bg-background">
-        <LoadingSkeleton />;
+      <div className="bg-white dark:bg-background relative">
+        {" "}
+        {/* Added relative for ToastContainer */}
+        <ToastContainer
+          {...customToastContainerProps}
+          style={getToastContainerStyle()}
+        />
+        <LoadingSkeleton />
       </div>
     );
   }
 
   if (!isLoading && !currency && !formState) {
+    // This case is usually hit if fetchCurrency failed critically
+    // showToast would have been called in fetchCurrency for specific errors
     return (
-      <div className="container mx-auto px-4 py-5 relative">
+      <div className="py-5 relative">
+        {" "}
+        {/* Added relative for ToastContainer */}
+        <ToastContainer
+          {...customToastContainerProps}
+          style={getToastContainerStyle()}
+        />
         <CurrencyEditHeader currencyName="Error" currencyCode="XXX" />
-        <div className="mt-5 text-center text-red-600 bg-red-600/10 border border-red-400 dark:border-red-600 p-4 rounded-lg">
-          Failed to load currency details. Please check the ID or try again
-          later.
-          <Link
-            href="/admin/currencies"
-            className="mt-4 inline-block text-primary underline"
-          >
-            Back to Currencies
-          </Link>
+        <div className="container mx-auto px-4">
+          <div className="mt-5 text-center text-red-600 bg-red-600/10 border border-red-400 dark:border-red-600 p-4 rounded-lg">
+            Failed to load currency details. Please check the ID or try again
+            later.
+            <Link
+              href="/admin/currencies"
+              className="mt-4 inline-block text-primary underline"
+            >
+              Back to Currencies
+            </Link>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="py-5">
-      <CurrencyEditHeader
-        currencyName={currency?.currencyName || formState?.currencyName}
-        currencyCode={currency?.code || formState?.code}
+    <div className="py-5 relative">
+      {" "}
+      {/* Added relative for ToastContainer */}
+      <ToastContainer
+        {...customToastContainerProps}
+        style={getToastContainerStyle()}
       />
-
-      <div className="container mx-auto px-4 relative">
+      <CurrencyEditHeader
+        currencyName={
+          currency?.currencyName || formState?.currencyName || "Loading..."
+        }
+        currencyCode={currency?.code || formState?.code || "..."}
+      />
+      <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="bg-white dark:bg-background"
         >
-          
-          <ToastContainer
-            position="top-right"
-            autoClose={3000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="colored"
-          />
-
           <div className="mx-auto max-w-5xl">
             {!isLoading && formState && (
               <motion.form
                 onSubmit={handleSubmit}
                 className="space-y-8"
-                initial="hidden" // Moved initial animation props here if form itself should animate
+                initial="hidden"
                 animate="visible"
-                variants={containerVariants} // Use containerVariants for the form to stagger children
+                variants={containerVariants}
               >
-                {/* --- New Tabs Section --- */}
                 <Tabs
                   value={activeTab}
                   onValueChange={(value) =>
@@ -8580,8 +9680,6 @@ const AdminEditCurrencyPage = () => {
                     variants={itemVariants}
                     className="mb-4 rounded-full overflow-hidden"
                   >
-                    {" "}
-                    {/* itemVariant for the TabsList container */}
                     <TabsList className="relative z-0 flex w-full h-full whitespace-nowrap overflow-x-auto  dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
                       {TABS_CONFIG.map((tabInfo) => (
                         <TabsTrigger
@@ -8593,7 +9691,7 @@ const AdminEditCurrencyPage = () => {
                         >
                           {activeTab === tabInfo.value && (
                             <motion.div
-                              layoutId="active-currency-tab-indicator" // Unique layoutId
+                              layoutId="active-currency-tab-indicator"
                               className="absolute inset-0 -z-10 bg-primary dark:bg-secondarybox rounded-full shadow-sm"
                               transition={{ stiffness: 350, damping: 30 }}
                             />
@@ -8604,17 +9702,14 @@ const AdminEditCurrencyPage = () => {
                       ))}
                     </TabsList>
                   </motion.div>
-
                   <TabsContent value="general">
                     {renderGeneralContent()}
                   </TabsContent>
                   <TabsContent value="bank">{renderBankContent()}</TabsContent>
                   <TabsContent value="fees">{renderFeesContent()}</TabsContent>
                 </Tabs>
-
-                {/* Action Buttons */}
                 <motion.div
-                  variants={itemVariants} // itemVariant for the buttons container
+                  variants={itemVariants}
                   className="flex flex-col sm:flex-row justify-end gap-3"
                 >
                   <button
@@ -8630,10 +9725,9 @@ const AdminEditCurrencyPage = () => {
                           ? "group-hover:rotate-[-180deg]"
                           : ""
                       }`}
-                    />
+                    />{" "}
                     Reset
                   </button>
-
                   <button
                     type="submit"
                     disabled={isSubmitting || !formChanged}
@@ -8653,7 +9747,7 @@ const AdminEditCurrencyPage = () => {
                             strokeWidth="2"
                             strokeLinecap="round"
                             strokeLinejoin="round"
-                          />{" "}
+                          />
                           <path
                             d="M12 18V22"
                             stroke="currentColor"

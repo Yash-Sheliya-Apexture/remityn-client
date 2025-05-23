@@ -4520,6 +4520,1374 @@
 
 // export default UserDetailPage;
 
+// // Last code
+// // frontend/src/app/admin/users/[userId]/page.tsx
+// "use client";
+
+// import React, { useState, useEffect, useCallback, useMemo } from "react";
+// import { useParams, useRouter } from "next/navigation";
+// import Link from "next/link";
+// import Image from "next/image";
+// import { motion } from "framer-motion"; // Import motion
+
+// // Service Imports
+// import userAdminService from "../../../services/admin/user.admin";
+// import type { AdminUserDetailResponse as OriginalAdminUserDetailResponse } from "../../../services/admin/user.admin";
+// import type { KycMobile, KycStatus } from "../../../services/kyc";
+// import type { Payment } from "@/types/payment"; // Assuming Payment type exists
+
+// // Auth Context
+// import { useAuth } from "../../../contexts/AuthContext";
+
+// // Shadcn UI Components
+// import {
+//   Card,
+//   CardContent,
+//   CardHeader,
+//   CardTitle,
+//   CardDescription,
+// } from "@/components/ui/card";
+// import { Badge } from "@/components/ui/badge";
+// import { Skeleton } from "@/components/ui/skeleton";
+// import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+// import { Button } from "@/components/ui/button";
+// import {
+//   Tooltip,
+//   TooltipContent,
+//   TooltipProvider,
+//   TooltipTrigger,
+// } from "@/components/ui/tooltip";
+// import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+// // Icons (Lucide React)
+// import {
+//   ArrowLeft,
+//   User,
+//   Mail,
+//   ShieldCheck,
+//   CalendarDays,
+//   ChevronRight,
+//   Phone,
+//   Briefcase,
+//   UserCheck,
+//   UserX,
+//   HelpCircle,
+//   BadgeDollarSign,
+//   Fingerprint,
+//   Globe,
+//   FileText,
+//   AlertCircle,
+//   Eye,
+//   Wallet,
+//   Send,
+//   Landmark,
+//   Clock,
+//   Copy,
+//   Check,
+//   MessageSquarePlus,
+//   IdCard,
+//   CloudUpload,
+//   CheckCircle,
+//   XCircle, // For the trigger button
+//   ArrowUpDown, // For sorting
+//   ArrowDownUp, // For sorting
+// } from "lucide-react";
+
+// // Utility & Toast
+// import { cn } from "@/lib/utils";
+// import { toast } from "sonner"; // For feedback
+
+// // --- Import the Send Message Modal ---
+// import SendMessageModal from "../../components/users/SendMessageModal"; // Adjust path if needed
+
+// // --- Define Local Transfer type used WITHIN UserDetailPage ---
+// interface Transfer {
+//   _id: string;
+//   user?: {
+//     _id?: string;
+//     fullName?: string;
+//     email?: string;
+//   };
+//   recipient?: {
+//     _id?: string;
+//     accountHolderName?: string;
+//   };
+//   sendAmount: string; // Will be parsed to number for sorting
+//   sendCurrency?: {
+//     code?: string;
+//   };
+//   status: string;
+//   createdAt: string; // ISO Date string
+// }
+
+// // --- Define Local State Type based on Service Response but with modified Transfer type ---
+// interface UserDetailState
+//   extends Omit<OriginalAdminUserDetailResponse, "transfers"> {
+//   transfers: Transfer[];
+//   payments: Payment[];
+// }
+
+// // --- Define Sortable Fields for TransactionTable ---
+// type TransactionSortableField =
+//   | "_id"
+//   | "recipient.accountHolderName" // Transfer only
+//   | "sendAmount" // Transfer only (maps to amount for sorting)
+//   | "amountToAdd" // Payment only (maps to amount for sorting)
+//   | "sendCurrency.code" // Transfer only
+//   | "payInCurrency.code" // Payment only
+//   | "status"
+//   | "createdAt";
+
+// // --- Helper Functions ---
+// const formatDate = (
+//   dateInput?: string | Date | null,
+//   includeTime = false
+// ): string => {
+//   if (!dateInput) return "N/A";
+//   try {
+//     const date = new Date(dateInput);
+//     if (isNaN(date.getTime())) return "Invalid Date";
+//     const options: Intl.DateTimeFormatOptions = {
+//       year: "numeric",
+//       month: "short",
+//       day: "numeric",
+//       ...(includeTime && { hour: "2-digit", minute: "2-digit", hour12: true }),
+//     };
+//     return date.toLocaleDateString("en-US", options);
+//   } catch (e) {
+//     return "Invalid Date";
+//   }
+// };
+
+// const formatMobile = (mobile?: KycMobile | null): string => {
+//   if (!mobile || !mobile.countryCode?.trim() || !mobile.number?.trim())
+//     return "N/A";
+//   return `${mobile.countryCode} ${mobile.number}`;
+// };
+
+// const getKycStatusConfig = (status?: KycStatus | null) => {
+//   const statusMap: Record<
+//     KycStatus | "unknown",
+//     { color: string; icon: React.ElementType; label: string }
+//   > = {
+//     verified: {
+//       color:
+//         "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
+//       icon: CheckCircle,
+//       label: "Verified",
+//     },
+//     rejected: {
+//       color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
+//       icon: XCircle,
+//       label: "Rejected",
+//     },
+//     pending: {
+//       color:
+//         "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
+//       icon: Clock,
+//       label: "Pending",
+//     },
+//     skipped: {
+//       color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
+//       icon: ArrowLeft,
+//       label: "Skipped",
+//     },
+//     not_started: {
+//       color: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",
+//       icon: HelpCircle,
+//       label: "Not Started",
+//     },
+//     unknown: {
+//       color: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",
+//       icon: AlertCircle,
+//       label: "Unknown",
+//     },
+//   };
+//   return statusMap[status || "not_started"] || statusMap.unknown;
+// };
+
+// const getTransactionStatusColorClasses = (status?: string | null): string => {
+//   switch (status?.toLowerCase()) {
+//     case "completed":
+//     case "credited":
+//       return "text-green-600 bg-green-100 dark:bg-green-600/20 dark:text-green-400";
+//     case "pending":
+//       return "text-yellow-600 bg-yellow-100 dark:bg-yellow-600/20 dark:text-yellow-400";
+//     case "processing":
+//     case "in progress":
+//       return "text-blue-600 bg-blue-100 dark:bg-blue-600/20 dark:text-blue-400";
+//     case "failed":
+//       return "text-rose-600 bg-rose-100 dark:bg-rose-600/20 dark:text-rose-400";
+//     case "canceled":
+//     case "cancelled":
+//       return "text-red-600 bg-red-100 dark:bg-red-600/20 dark:text-red-400";
+//     default:
+//       return "text-gray-600 bg-gray-100 dark:bg-gray-600/20 dark:text-gray-400";
+//   }
+// };
+
+// const getInitials = (name?: string | null): string => {
+//   if (!name) return "??";
+//   return name
+//     .split(" ")
+//     .map((part) => part[0])
+//     .filter(Boolean)
+//     .join("")
+//     .substring(0, 2)
+//     .toUpperCase();
+// };
+
+// const salaryDisplayMap: Record<string, string> = {
+//   "0-1000": "Below $10,000",
+//   "10000-50000": "$10,000 - $49,999",
+//   "50000-100000": "$50,000 - $99,999",
+//   "100000+": "$100,000 or more",
+// };
+
+// // Helper to safely get nested values
+// const getNestedValue = (obj: any, path: string): any => {
+//   if (!path) return obj;
+//   return path
+//     .split(".")
+//     .reduce(
+//       (acc, part) => (acc && acc[part] !== undefined ? acc[part] : undefined),
+//       obj
+//     );
+// };
+
+// // --- DetailItem Component ---
+// const DetailItem = ({
+//   label,
+//   value,
+//   icon: Icon,
+//   isImportant = false,
+//   className = "",
+// }: {
+//   label: string;
+//   value: React.ReactNode;
+//   icon?: React.ElementType;
+//   isImportant?: boolean;
+//   className?: string;
+// }) => (
+//   <div className={cn("py-2 space-y-2", className)}>
+//     <dt className="text-sm font-medium text-neutral-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+//       {Icon && <Icon className="flex-shrink-0 text-primary size-4" />}
+//       {label}
+//     </dt>
+//     <dd
+//       className={cn(
+//         "text-sm break-words text-gray-500 dark:text-gray-300",
+//         isImportant ? "font-semibold" : ""
+//       )}
+//     >
+//       {value || <span className="italic">N/A</span>}
+//     </dd>
+//   </div>
+// );
+
+// // --- Loading Skeleton Component ---
+// const LoadingSkeleton = () => (
+//   <div className="container mx-auto px-4 py-8">
+//     <div className="space-y-6 pb-10">
+//       {/* Header Skeleton */}
+//       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+//         <div>
+//           <Skeleton className="h-4 w-64 mb-3 rounded " /> {/* Breadcrumbs */}
+//           <Skeleton className="h-10 w-48 rounded " /> {/* Title */}
+//         </div>
+//         <div className="flex items-center gap-2">
+//           <Skeleton className="h-12 w-50 rounded-full" />
+//         </div>
+//       </div>
+//       {/* User Profile Card Skeleton */}
+//       <div className="border rounded-lg bg-card overflow-hidden">
+//         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
+//           <div className="flex items-center gap-4 flex-1">
+//             <Skeleton className="h-14 w-14 sm:h-16 sm:w-16 rounded-full flex-shrink-0 " />
+//             <div className="space-y-1.5 flex-1">
+//               <Skeleton className="h-6 w-3/4  rounded" />
+//               <Skeleton className="h-4 w-1/2  rounded" />
+//               <Skeleton className="h-5 w-20  rounded-md" />
+//             </div>
+//           </div>
+//           <div className="space-y-1 text-right flex-shrink-0">
+//             <Skeleton className="h-3 w-28  rounded" />
+//             <Skeleton className="h-3 w-24  rounded" />
+//             <Skeleton className="h-3 w-32  rounded" />
+//           </div>
+//         </div>
+//         <div className="p-4 sm:p-6">
+//           <Skeleton className="h-5 w-1/4  rounded mb-4" />
+//           <div className="flex flex-nowrap overflow-x-auto space-x-4 pb-2 sm:grid sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 sm:space-x-0 sm:pb-0 sm:overflow-x-visible">
+//             {[...Array(5)].map((_, i) => (
+//               <Skeleton
+//                 key={i}
+//                 className="flex-shrink-0 w-36 sm:w-auto h-24 rounded-lg"
+//               />
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Tabs Section Skeleton */}
+//       <div className="w-full">
+//         <div className="overflow-hidden mb-4">
+//           <div className="relative flex w-full h-full overflow-x-auto whitespace-nowrap gap-3 bg-lightborder dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
+//             <Skeleton className="h-9 flex-1 rounded-full" />
+//             <Skeleton className="h-9 flex-1 rounded-full" />
+//             <Skeleton className="h-9 flex-1 rounded-full" />
+//           </div>
+//         </div>
+//         <div className="space-y-4">
+//           <div className="border rounded-lg bg-card overflow-hidden">
+//             <div className="px-6 py-4 bg-lightgray dark:bg-primarybox">
+//               <div className="flex items-center justify-between">
+//                 <Skeleton className="h-6 w-40  rounded" />
+//                 <Skeleton className="h-7 w-24  rounded-full" />
+//               </div>
+//             </div>
+//             <div className="p-4 sm:p-6 space-y-4">
+//               <div>
+//                 <Skeleton className="h-4 w-32  rounded mb-3 border-b border-transparent pb-2" />
+//                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
+//                   {[...Array(6)].map((_, i) => (
+//                     <div key={`pd-skel-${i}`} className="py-2 space-y-2">
+//                       <Skeleton className="h-4 w-1/3  rounded" />
+//                       <Skeleton className="h-5 w-3/4  rounded" />
+//                     </div>
+//                   ))}
+//                 </div>
+//               </div>
+//               <div>
+//                 <Skeleton className="h-4 w-40  rounded mb-3 border-b border-transparent pb-2" />
+//                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
+//                   {[...Array(4)].map((_, i) => (
+//                     <div key={`id-skel-${i}`} className="py-2 space-y-2">
+//                       <Skeleton className="h-4 w-1/3  rounded" />
+//                       <Skeleton className="h-5 w-3/4  rounded" />
+//                     </div>
+//                   ))}
+//                 </div>
+//               </div>
+//               <div>
+//                 <Skeleton className="h-4 w-48  rounded mb-3 border-b border-transparent pb-2" />
+//                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
+//                   {[...Array(2)].map((_, i) => (
+//                     <div key={`upd-skel-${i}`} className="py-2 space-y-2">
+//                       <Skeleton className="h-4 w-1/3  rounded" />
+//                       <Skeleton className="h-5 w-3/4  rounded" />
+//                     </div>
+//                   ))}
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+
+//           <div className="border rounded-lg bg-card overflow-hidden">
+//             <div className="px-6 py-4 bg-lightgray dark:bg-primarybox">
+//               <Skeleton className="h-6 w-44 rounded" />
+//             </div>
+//             <div className="p-4 sm:p-6">
+//               <div className="flex md:flex-row flex-col gap-4">
+//                 <div className="border rounded-lg overflow-hidden md:w-1/2 w-full">
+//                   <div className="p-3">
+//                     <Skeleton className="h-4 w-1/3  rounded" />
+//                   </div>
+//                   <Skeleton className="aspect-video w-full rounded-none" />
+//                 </div>
+//                 <div className="border rounded-lg overflow-hidden md:w-1/2 w-full">
+//                   <div className="p-3">
+//                     <Skeleton className="h-4 w-1/3  rounded" />
+//                   </div>
+//                   <Skeleton className="aspect-video w-full rounded-none" />
+//                 </div>
+//               </div>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   </div>
+// );
+
+// // --- Error Display Component ---
+// const ErrorDisplay = ({
+//   error,
+//   onRetry,
+// }: {
+//   error: string | null;
+//   onRetry: () => void;
+// }) => (
+//   <Alert variant="destructive" className="mt-6">
+//     <AlertCircle className="h-4 w-4" />
+//     <AlertTitle>Error Loading User Details</AlertTitle>
+//     <AlertDescription>
+//       {error || "An unexpected error occurred."}
+//       <Button
+//         variant="destructive"
+//         size="sm"
+//         onClick={onRetry}
+//         className="mt-2 ml-auto block"
+//       >
+//         Retry
+//       </Button>
+//     </AlertDescription>
+//   </Alert>
+// );
+
+// // --- Transaction Table Component ---
+// interface TransactionTableProps {
+//   data: (Transfer | Payment)[];
+//   type: "transfer" | "payment";
+//   sortField: TransactionSortableField | null;
+//   sortDirection: "asc" | "desc";
+//   onSort: (field: TransactionSortableField) => void;
+// }
+
+// const TransactionTable: React.FC<TransactionTableProps> = ({
+//   data,
+//   type,
+//   sortField,
+//   sortDirection,
+//   onSort,
+// }) => {
+//   const isTransfer = (item: Transfer | Payment): item is Transfer =>
+//     type === "transfer";
+//   const [copiedId, setCopiedId] = useState<string | null>(null);
+
+//   const handleCopy = (idToCopy: string) => {
+//     navigator.clipboard.writeText(idToCopy).then(
+//       () => {
+//         setCopiedId(idToCopy);
+//         setTimeout(() => setCopiedId(null), 1500);
+//       },
+//       (err) => {
+//         console.error("Failed to copy ID: ", err);
+//         toast.error("Failed to copy ID");
+//       }
+//     );
+//   };
+
+//   const renderSortIcon = (field: TransactionSortableField) => {
+//     const baseIconClasses = "ml-1.5 transition-all ease-linear duration-75";
+//     const hoverRevealClasses =
+//       "opacity-0 group-hover:opacity-100 transition-opacity duration-150";
+
+//     if (sortField === field) {
+//       const activeClasses = `${baseIconClasses} ${hoverRevealClasses} group-hover:text-primary`;
+//       if (sortDirection === "asc") {
+//         return <ArrowUpDown size={16} className={activeClasses} />;
+//       } else {
+//         return <ArrowDownUp size={16} className={activeClasses} />;
+//       }
+//     }
+//     const inactiveClasses = `${baseIconClasses} ${hoverRevealClasses}`;
+//     return <ArrowDownUp size={16} className={inactiveClasses} />;
+//   };
+
+//   const headerCellClasses =
+//     "px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider whitespace-nowrap";
+//   const buttonClasses =
+//     "flex items-center gap-1 hover:text-primary uppercase group cursor-pointer";
+
+//   const columns: {
+//     key: TransactionSortableField;
+//     label: string;
+//     sortable: boolean;
+//     transferOnly?: boolean;
+//     paymentOnly?: boolean;
+//   }[] = [
+//     { key: "_id", label: "ID", sortable: true },
+//     {
+//       key: "recipient.accountHolderName",
+//       label: "Recipient",
+//       sortable: true,
+//       transferOnly: true,
+//     },
+//     {
+//       key: type === "transfer" ? "sendAmount" : "amountToAdd",
+//       label: "Amount",
+//       sortable: true,
+//     },
+//     {
+//       key: type === "transfer" ? "sendCurrency.code" : "payInCurrency.code",
+//       label: "Currency",
+//       sortable: true,
+//     },
+//     { key: "status", label: "Status", sortable: true },
+//     { key: "createdAt", label: "Date", sortable: true },
+//     { key: "details" as any, label: "Details", sortable: false }, // 'details' is not a real data field for sorting
+//   ];
+
+//   const numberOfDataColumns = columns
+//     .filter((col) => (type === "transfer" ? true : !col.transferOnly))
+//     .filter((col) => (type === "payment" ? true : !col.paymentOnly)).length;
+
+//   return (
+//     <div className="rounded-xl border overflow-hidden overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+//       <table className="min-w-full overflow-hidden">
+//         <thead className="bg-lightgray dark:bg-primarybox ">
+//           <tr>
+//             {columns.map((col) => {
+//               if (type === "payment" && col.transferOnly) return null;
+//               if (type === "transfer" && col.paymentOnly) return null;
+
+//               return (
+//                 <th key={col.key} className={headerCellClasses}>
+//                   {col.sortable ? (
+//                     <button
+//                       onClick={() => onSort(col.key)}
+//                       className={buttonClasses}
+//                     >
+//                       {col.label} {renderSortIcon(col.key)}
+//                     </button>
+//                   ) : (
+//                     <span className="uppercase">{col.label}</span>
+//                   )}
+//                 </th>
+//               );
+//             })}
+//           </tr>
+//         </thead>
+//         <tbody className="divide-y overflow-hidden">
+//           {!data || data.length === 0 ? (
+//             <tr>
+//               <td
+//                 colSpan={numberOfDataColumns}
+//                 className="px-6 py-10 text-center text-gray-500 dark:text-gray-300"
+//               >
+//                 No {type}s found.
+//               </td>
+//             </tr>
+//           ) : (
+//             data.slice(0, 5).map((item) => {
+//               const statusColorClasses = getTransactionStatusColorClasses(
+//                 item.status
+//               );
+//               const amountValue = isTransfer(item)
+//                 ? item.sendAmount
+//                 : String((item as Payment).amountToAdd ?? "0");
+//               const formattedAmount =
+//                 amountValue != null
+//                   ? Number(amountValue).toLocaleString(undefined, {
+//                       minimumFractionDigits: 2,
+//                       maximumFractionDigits: 2,
+//                     })
+//                   : "N/A";
+//               const currencyCode = isTransfer(item)
+//                 ? item.sendCurrency?.code
+//                 : (item as Payment).payInCurrency?.code;
+//               const recipientName = isTransfer(item)
+//                 ? item.recipient?.accountHolderName
+//                 : undefined;
+//               const detailLink =
+//                 type === "transfer"
+//                   ? `/admin/transfer/${item._id}`
+//                   : `/admin/add-money`;
+//               const isCopied = copiedId === item._id;
+
+//               return (
+//                 <tr key={item._id}>
+//                   {/* ID */}
+//                   <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
+//                     <div className="flex items-center gap-2">
+//                       <span className="underline decoration-dashed decoration-border cursor-default">
+//                         {item._id.substring(item._id.length - 6)}
+//                       </span>
+//                       <Tooltip>
+//                         <TooltipTrigger asChild>
+//                           <button
+//                             className={cn(
+//                               "h-5 w-5 p-0 text-muted-foreground hover:text-foreground transition-colors",
+//                               isCopied && "text-green-500 hover:text-green-600"
+//                             )}
+//                             onClick={() => handleCopy(item._id)}
+//                             aria-label={isCopied ? "Copied!" : "Copy ID"}
+//                           >
+//                             {isCopied ? (
+//                               <Check size={18} />
+//                             ) : (
+//                               <Copy size={18} />
+//                             )}
+//                           </button>
+//                         </TooltipTrigger>
+//                         <TooltipContent
+//                           side="bottom"
+//                           sideOffset={5}
+//                           className="bg-[#e4e4e4] dark:bg-secondarybox text-white p-2 px-3 rounded-2xl max-w-50 xl:max-w-lg"
+//                         >
+//                           <p>{isCopied ? "Copied!" : "Copy ID"}</p>
+//                         </TooltipContent>
+//                       </Tooltip>
+//                     </div>
+//                   </td>
+//                   {/* Recipient (Transfer only) */}
+//                   {type === "transfer" && (
+//                     <td className="px-4 py-3 whitespace-nowrap font-medium capitalize text-neutral-900 dark:text-white">
+//                       {recipientName || "N/A"}
+//                     </td>
+//                   )}
+//                   {/* Amount */}
+//                   <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
+//                     {formattedAmount}
+//                   </td>
+//                   {/* Currency */}
+//                   <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
+//                     {currencyCode || "N/A"}
+//                   </td>
+//                   {/* Status */}
+//                   <td className="px-4 py-3 whitespace-nowrap">
+//                     <span
+//                       className={cn(
+//                         "inline-flex justify-center items-center px-4 py-1 w-28 font-medium rounded-3xl capitalize",
+//                         statusColorClasses
+//                       )}
+//                     >
+//                       {item.status || "Unknown"}
+//                     </span>
+//                   </td>
+//                   {/* Date */}
+//                   <td className="px-6 py-3 whitespace-nowrap font-medium">
+//                     {formatDate(item.createdAt, true)}
+//                   </td>
+//                   {/* Details Button */}
+//                   <td className="px-6 py-3 whitespace-nowrap ">
+//                     <Button
+//                       asChild
+//                       className="inline-flex items-center group px-6 py-2 rounded-3xl space-x-1 transition-colors duration-300 font-medium bg-primary hover:bg-primaryhover dark:bg-primarybox hover:dark:bg-secondarybox text-neutral-900 dark:text-primary focus:outline-none"
+//                       title={`View ${type} details`}
+//                     >
+//                       <Link href={detailLink}>
+//                         <span>View Details</span>
+//                       </Link>
+//                     </Button>
+//                   </td>
+//                 </tr>
+//               );
+//             })
+//           )}
+//         </tbody>
+//       </table>
+//     </div>
+//   );
+// };
+
+// // --- Main Detail Page Component ---
+// const UserDetailPage: React.FC = () => {
+//   const params = useParams();
+//   const router = useRouter();
+//   const { token, isAdmin, loading: authLoading } = useAuth();
+//   const userId = params.userId as string;
+
+//   // Component State
+//   const [userData, setUserData] = useState<UserDetailState | null>(null);
+//   const [loading, setLoading] = useState<boolean>(true);
+//   const [error, setError] = useState<string | null>(null);
+//   const [activeTab, setActiveTab] = useState("kyc");
+
+//   // State for Send Message Modal
+//   const [isSendMessageModalOpen, setIsSendMessageModalOpen] = useState(false);
+//   const [messageSubject, setMessageSubject] = useState("");
+//   const [messageBody, setMessageBody] = useState("");
+//   const [isSendingMessage, setIsSendingMessage] = useState(false);
+//   const [sendMessageError, setSendMessageError] = useState<string | null>(null);
+
+//   // State for Transaction Table Sorting
+//   const [transferSortField, setTransferSortField] =
+//     useState<TransactionSortableField | null>("createdAt");
+//   const [transferSortDirection, setTransferSortDirection] = useState<
+//     "asc" | "desc"
+//   >("desc");
+//   const [paymentSortField, setPaymentSortField] =
+//     useState<TransactionSortableField | null>("createdAt");
+//   const [paymentSortDirection, setPaymentSortDirection] = useState<
+//     "asc" | "desc"
+//   >("desc");
+
+//   // Fetching Logic
+//   const fetchUserDetails = useCallback(async () => {
+//     if (!userId) {
+//       setError("User ID is missing from the URL.");
+//       setLoading(false);
+//       return;
+//     }
+//     setLoading(true);
+//     setError(null);
+//     try {
+//       const data: OriginalAdminUserDetailResponse =
+//         await userAdminService.getUserDetailsAdmin(userId);
+//       const processedData: UserDetailState = {
+//         ...data,
+//         transfers: (data.transfers || []).map((t) => ({
+//           ...t, // spread original transfer properties
+//           _id: t._id, // ensure _id is present
+//           sendAmount: String(t.sendAmount ?? "0"), // ensure sendAmount is string
+//           status: t.status || "unknown", // ensure status is present
+//           createdAt: t.createdAt || new Date(0).toISOString(), // ensure createdAt is present
+//         })),
+//         payments: (data.payments || []).map((p) => ({
+//           ...p, // spread original payment properties
+//           status: p.status || "unknown", // ensure status is present
+//           createdAt: p.createdAt || new Date(0).toISOString(), // ensure createdAt is present
+//         })),
+//       };
+//       setUserData(processedData);
+//     } catch (err: any) {
+//       console.error("Fetch user details error:", err);
+//       setError(
+//         err.response?.data?.message ||
+//           err.message ||
+//           "Failed to load user details."
+//       );
+//       setUserData(null);
+//     } finally {
+//       setLoading(false);
+//     }
+//   }, [userId]);
+
+//   // Effect for initial fetch and auth checks
+//   useEffect(() => {
+//     if (authLoading) return;
+//     if (!token) {
+//       router.push("/auth/login?message=login_required");
+//     } else if (!isAdmin) {
+//       setError("Access Denied: Administrator privileges required.");
+//       setLoading(false);
+//     } else {
+//       fetchUserDetails();
+//     }
+//   }, [token, isAdmin, authLoading, userId, router, fetchUserDetails]);
+
+//   // Function to handle sending the message
+//   const handleSendMessage = async () => {
+//     if (!userData || !messageSubject.trim() || !messageBody.trim()) {
+//       setSendMessageError("Subject and body cannot be empty.");
+//       return;
+//     }
+//     setIsSendingMessage(true);
+//     setSendMessageError(null);
+//     try {
+//       await userAdminService.sendMessageToUser(userData._id, {
+//         subject: messageSubject.trim(),
+//         body: messageBody.trim(),
+//       });
+//       toast.success("Message sent successfully!");
+//       setMessageSubject("");
+//       setMessageBody("");
+//       setIsSendMessageModalOpen(false);
+//     } catch (err: any) {
+//       console.error("Send message error:", err);
+//       const errorMsg =
+//         err.response?.data?.message || err.message || "Failed to send message.";
+//       setSendMessageError(errorMsg);
+//       toast.error("Failed to send message", { description: errorMsg });
+//     } finally {
+//       setIsSendingMessage(false);
+//     }
+//   };
+
+//   const clearSendError = () => {
+//     setSendMessageError(null);
+//   };
+
+//   // --- Sorting Logic for Transactions ---
+//   const handleTransactionSort = (
+//     field: TransactionSortableField,
+//     type: "transfer" | "payment"
+//   ) => {
+//     if (type === "transfer") {
+//       const newDirection =
+//         transferSortField === field && transferSortDirection === "asc"
+//           ? "desc"
+//           : "asc";
+//       setTransferSortField(field);
+//       setTransferSortDirection(newDirection);
+//     } else {
+//       // payment
+//       const newDirection =
+//         paymentSortField === field && paymentSortDirection === "asc"
+//           ? "desc"
+//           : "asc";
+//       setPaymentSortField(field);
+//       setPaymentSortDirection(newDirection);
+//     }
+//   };
+
+//   const sortedTransfers = useMemo(() => {
+//     if (!userData?.transfers) return [];
+//     const sortableTransfers = [...userData.transfers];
+//     if (transferSortField) {
+//       sortableTransfers.sort((a, b) => {
+//         const valA = getNestedValue(a, transferSortField);
+//         const valB = getNestedValue(b, transferSortField);
+
+//         let comparison = 0;
+//         if (transferSortField === "createdAt") {
+//           comparison = new Date(valA).getTime() - new Date(valB).getTime();
+//         } else if (transferSortField === "sendAmount") {
+//           comparison = parseFloat(valA) - parseFloat(valB);
+//         } else {
+//           // Default to string comparison
+//           comparison = String(valA ?? "")
+//             .toLowerCase()
+//             .localeCompare(String(valB ?? "").toLowerCase());
+//         }
+//         return transferSortDirection === "asc" ? comparison : -comparison;
+//       });
+//     }
+//     return sortableTransfers;
+//   }, [userData?.transfers, transferSortField, transferSortDirection]);
+
+//   const sortedPayments = useMemo(() => {
+//     if (!userData?.payments) return [];
+//     const sortablePayments = [...userData.payments];
+//     if (paymentSortField) {
+//       sortablePayments.sort((a, b) => {
+//         const valA = getNestedValue(a, paymentSortField);
+//         const valB = getNestedValue(b, paymentSortField);
+
+//         let comparison = 0;
+//         if (paymentSortField === "createdAt") {
+//           comparison = new Date(valA).getTime() - new Date(valB).getTime();
+//         } else if (paymentSortField === "amountToAdd") {
+//           comparison = (Number(valA) || 0) - (Number(valB) || 0);
+//         } else {
+//           // Default to string comparison
+//           comparison = String(valA ?? "")
+//             .toLowerCase()
+//             .localeCompare(String(valB ?? "").toLowerCase());
+//         }
+//         return paymentSortDirection === "asc" ? comparison : -comparison;
+//       });
+//     }
+//     return sortablePayments;
+//   }, [userData?.payments, paymentSortField, paymentSortDirection]);
+
+//   // --- Render Logic ---
+//   if (loading || authLoading) return <LoadingSkeleton />;
+
+//   if (error)
+//     return (
+//       <div className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
+//         <ErrorDisplay error={error} onRetry={fetchUserDetails} />
+//       </div>
+//     );
+//   if (!userData)
+//     return (
+//       <div className="min-h-screen bg-background p-4 sm:p-6 lg:p-8 text-center py-16 text-muted-foreground">
+//         User data not found.
+//       </div>
+//     );
+
+//   const { kyc, accounts } = userData; // transfers and payments are now sortedTransfers, sortedPayments
+//   const kycStatusConfig = getKycStatusConfig(kyc?.status);
+
+//   const tabs = [
+//     { value: "kyc", label: "KYC & Documents", icon: FileText },
+//     { value: "transfers", label: "Transfers (Send)", icon: Send },
+//     { value: "payments", label: "Payments (Add)", icon: Landmark },
+//   ];
+
+//   const containerVariants = {
+//     hidden: { opacity: 0 },
+//     visible: {
+//       opacity: 1,
+//       transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+//     },
+//   };
+//   const itemVariants = {
+//     hidden: { y: 20, opacity: 0 },
+//     visible: {
+//       y: 0,
+//       opacity: 1,
+//       transition: { type: "spring", stiffness: 100 },
+//     },
+//   };
+
+//   return (
+//     <TooltipProvider>
+//       {" "}
+//       {/* Added TooltipProvider here for TransactionTable tooltips */}
+//       <div className="container mx-auto px-4 py-8 relative">
+//         <div className="space-y-6 pb-10">
+//           {/* --- Header Section --- */}
+//           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+//             <div className="Heading">
+//               <div className="flex items-center text-sm text-gray-500 mb-2 flex-wrap">
+//                 <Link
+//                   href="/admin"
+//                   className="text-gray-500 hover:text-primary dark:text-gray-300 hover:dark:text-primary"
+//                 >
+//                   Admin
+//                 </Link>
+//                 <ChevronRight className="size-4 mx-1 flex-shrink-0 dark:text-white" />
+//                 <Link
+//                   href="/admin/users"
+//                   className="text-gray-500 hover:text-primary dark:text-gray-300 hover:dark:text-primary"
+//                 >
+//                   Users
+//                 </Link>
+//                 <ChevronRight className="size-4 mx-1 flex-shrink-0 dark:text-white" />
+//                 <span
+//                   className="text-neutral-900 dark:text-white truncate"
+//                   title={userId}
+//                 >
+//                   Details (
+//                   {userId ? `${userId.substring(0, 8)}...` : "Loading..."})
+//                 </span>
+//               </div>
+//               <h1 className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-white">
+//                 User Details
+//               </h1>
+//             </div>
+
+//             <div className="flex items-center gap-2 flex-wrap">
+//               <button
+//                 onClick={() => setIsSendMessageModalOpen(true)}
+//                 className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear"
+//               >
+//                 <MessageSquarePlus className="size-4 mr-1.5" /> Send Message
+//               </button>
+//             </div>
+//           </div>
+
+//           {/* --- User Profile Card --- */}
+//           <Card className="overflow-hidden border shadow-none">
+//             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
+//               <div className="flex items-center gap-4">
+//                 <Avatar className="h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0 bg-lightgray dark:bg-primarybox">
+//                   <AvatarFallback className="text-xl font-semibold text-neutral-900 dark:text-white">
+//                     {getInitials(userData.fullName)}
+//                   </AvatarFallback>
+//                 </Avatar>
+//                 <div className="space-y-0.5">
+//                   <CardTitle className="text-lg sm:text-xl text-neutral-900 dark:text-white">
+//                     {userData.fullName}
+//                   </CardTitle>
+//                   <CardDescription className="text-sm text-gray-500 dark:text-gray-300">
+//                     {userData.email}
+//                   </CardDescription>
+//                   <Badge
+//                     variant={
+//                       userData.role === "admin" ? "default" : "secondary"
+//                     }
+//                     className={cn(
+//                       "mt-1.5 text-xs capitalize px-3 py-2 rounded-full",
+//                       userData.role === "admin"
+//                         ? "bg-primary text-neutral-900"
+//                         : "bg-lightgray dark:bg-primarybox text-neutral-900 dark:text-white"
+//                     )}
+//                   >
+//                     {userData.role} Account
+//                   </Badge>
+//                 </div>
+//               </div>
+//               <div className="flex flex-col items-start sm:items-end gap-1 text-sm text-gray-500 dark:text-gray-300 flex-shrink-0">
+//                 <span className="flex items-center gap-1.5">
+//                   <CalendarDays className="h-4 w-4" /> Joined:{" "}
+//                   {formatDate(userData.createdAt)}
+//                 </span>
+//                 <span className="flex items-center gap-1.5">
+//                   <Clock className="h-4 w-4" /> Updated:{" "}
+//                   {formatDate(userData.updatedAt)}
+//                 </span>
+//                 <Tooltip>
+//                   <TooltipTrigger asChild>
+//                     <span className="cursor-help underline decoration-dotted decoration-border">
+//                       ID: {userData._id.substring(userData._id.length - 8)}
+//                     </span>
+//                   </TooltipTrigger>
+//                   <TooltipContent
+//                     side="bottom"
+//                     sideOffset={5}
+//                     className="bg-[#e4e4e4] dark:bg-secondarybox text-white p-2 px-3 sm:mr-5 mr-0 rounded-2xl max-w-60 xl:max-w-lg"
+//                   >
+//                     <p className="font-medium dark:text-white text-neutral-900 text-xs">
+//                       {userData._id}
+//                     </p>
+//                   </TooltipContent>
+//                 </Tooltip>
+//               </div>
+//             </CardHeader>
+//             {accounts && accounts.length > 0 && (
+//               <CardContent className="p-4 sm:p-6">
+//                 <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
+//                   <Wallet className="h-5 w-5 text-primary" /> Account Balances
+//                 </h3>
+//                 <div className="flex flex-nowrap overflow-x-auto space-x-4 pb-2 sm:grid sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 sm:space-x-0 sm:pb-0 sm:overflow-x-visible">
+//                   {accounts.map((acc) => (
+//                     <div
+//                       key={acc._id}
+//                       className="flex-shrink-0 w-36 sm:w-auto border rounded-lg p-4 hover:bg-lightgray dark:hover:bg-primarybox transition-all duration-75 ease-linear flex flex-col justify-between"
+//                     >
+//                       <div>
+//                         <div className="flex items-center justify-between mb-1">
+//                           <span className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
+//                             {acc.currency?.code || "N/A"}
+//                           </span>
+//                         </div>
+//                         <div className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight mb-1">
+//                           {acc.balance != null
+//                             ? acc.balance.toLocaleString(undefined, {
+//                                 minimumFractionDigits: 2,
+//                                 maximumFractionDigits: 2,
+//                               })
+//                             : "--.--"}
+//                         </div>
+//                       </div>
+//                     </div>
+//                   ))}
+//                 </div>
+//               </CardContent>
+//             )}
+//           </Card>
+
+//           {/* --- Tabs Section --- */}
+//           <Tabs
+//             defaultValue="kyc"
+//             value={activeTab}
+//             onValueChange={setActiveTab}
+//             className="w-full"
+//           >
+//             <div className="overflow-hidden mb-4 rounded-full z-0">
+//               <TabsList className="relative z-20 flex w-full h-full overflow-x-auto whitespace-nowrap dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
+//                 {tabs.map((tab) => (
+//                   <TabsTrigger
+//                     key={tab.value}
+//                     value={tab.value}
+//                     className={cn(
+//                       "relative px-4 py-3 flex items-center justify-center gap-2 text-base shrink-0 min-w-max rounded-full text-neutral-900 dark:text-white data-[state=active]:text-neutral-900 dark:data-[state=active]:text-primary border-none data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none cursor-pointer transition-colors duration-150 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+//                     )}
+//                   >
+//                     {activeTab === tab.value && (
+//                       <motion.div
+//                         layoutId="active-tab-indicator"
+//                         className="absolute inset-0 -z-10 bg-primary dark:bg-secondarybox rounded-full shadow-sm"
+//                         transition={{ stiffness: 350, damping: 30 }}
+//                       />
+//                     )}
+//                     <tab.icon className="size-5" />{" "}
+//                     <span className="truncate">{tab.label}</span>
+//                   </TabsTrigger>
+//                 ))}
+//               </TabsList>
+//             </div>
+
+//             {/* --- KYC Tab Content --- */}
+//             <TabsContent value="kyc">
+//               <motion.div
+//                 key="kyc-content"
+//                 variants={containerVariants}
+//                 initial="hidden"
+//                 animate="visible"
+//                 className="space-y-4"
+//               >
+//                 <motion.div variants={itemVariants}>
+//                   <Card className="border overflow-hidden mb-4 shadow-none">
+//                     <CardHeader className="px-6 py-4 bg-lightgray dark:bg-primarybox ">
+//                       <div className="flex items-center justify-between">
+//                         <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white ">
+//                           <FileText className="text-primary size-5" /> KYC
+//                           Information
+//                         </CardTitle>
+//                         <Badge
+//                           className={cn(
+//                             "px-4 py-2 text-sm flex items-center rounded-full gap-1.5",
+//                             kycStatusConfig.color
+//                           )}
+//                         >
+//                           <kycStatusConfig.icon className="h-4 w-4" />{" "}
+//                           {kycStatusConfig.label}
+//                         </Badge>
+//                       </div>
+//                       {kyc?.status === "rejected" && kyc.rejectionReason && (
+//                         <p className="text-xs text-destructive pt-2 mt-2 border-t border-destructive/20">
+//                           <span className="font-medium">Rejection Reason:</span>{" "}
+//                           {kyc.rejectionReason}
+//                         </p>
+//                       )}
+//                     </CardHeader>
+//                     <CardContent>
+//                       {kyc ? (
+//                         <>
+//                           <div className="p-4 sm:p-6">
+//                             <h4 className="border-b pb-2 mb-2 font-medium text-neutral-900 dark:text-white">
+//                               Personal Details
+//                             </h4>
+//                             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 sm:gap-6 gap-4">
+//                               <DetailItem
+//                                 label="First Name"
+//                                 value={kyc.firstName}
+//                                 icon={User}
+//                               />
+//                               <DetailItem
+//                                 label="Last Name"
+//                                 value={kyc.lastName}
+//                                 icon={User}
+//                               />
+//                               <DetailItem
+//                                 label="Date of Birth"
+//                                 value={formatDate(kyc.dateOfBirth)}
+//                                 icon={CalendarDays}
+//                               />
+//                               <DetailItem
+//                                 label="Mobile"
+//                                 value={formatMobile(kyc.mobile)}
+//                                 icon={Phone}
+//                               />
+//                               <DetailItem
+//                                 label="Nationality"
+//                                 value={kyc.nationality}
+//                                 icon={Globe}
+//                               />
+//                               <DetailItem
+//                                 label="Occupation"
+//                                 value={kyc.occupation}
+//                                 icon={Briefcase}
+//                               />
+//                               <DetailItem
+//                                 label="Salary Range"
+//                                 value={
+//                                   kyc.salaryRange
+//                                     ? salaryDisplayMap[kyc.salaryRange]
+//                                     : undefined
+//                                 }
+//                                 icon={BadgeDollarSign}
+//                               />
+//                             </div>
+//                           </div>
+//                           <div className="p-4 sm:p-6">
+//                             <h4 className="border-b pb-2 mb-2 text-neutral-900 dark:text-white">
+//                               Identification Details
+//                             </h4>
+//                             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
+//                               <DetailItem
+//                                 label="ID Type"
+//                                 value={
+//                                   <span className="capitalize">
+//                                     {" "}
+//                                     {kyc.idType?.replace("_", " ")}{" "}
+//                                   </span>
+//                                 }
+//                                 icon={Fingerprint}
+//                               />
+//                               <DetailItem
+//                                 label="ID Number"
+//                                 value={kyc.idNumber}
+//                                 icon={IdCard}
+//                               />
+//                               <DetailItem
+//                                 label="ID Issue Date"
+//                                 value={formatDate(kyc.idIssueDate)}
+//                                 icon={CalendarDays}
+//                               />
+//                               <DetailItem
+//                                 label="ID Expiry Date"
+//                                 value={formatDate(kyc.idExpiryDate)}
+//                                 icon={CalendarDays}
+//                               />
+//                             </div>
+//                           </div>
+//                           <div className="p-4 sm:p-6">
+//                             <h4 className="border-b pb-2 mb-2 text-neutral-900 dark:text-white">
+//                               Updating Information
+//                             </h4>
+//                             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
+//                               <DetailItem
+//                                 label="Submitted At"
+//                                 value={formatDate(kyc.submittedAt, true)}
+//                                 icon={Clock}
+//                               />
+//                               <DetailItem
+//                                 label="Last Updated"
+//                                 value={formatDate(kyc.lastUpdatedAt, true)}
+//                                 icon={Clock}
+//                               />
+//                             </div>
+//                           </div>
+//                         </>
+//                       ) : (
+//                         <p className="text-sm text-gray-500 dark:text-gray-300 italic py-4 text-center">
+//                           KYC details not submitted.
+//                         </p>
+//                       )}
+//                     </CardContent>
+//                   </Card>
+//                 </motion.div>
+//                 <motion.div variants={itemVariants}>
+//                   <Card className="border overflow-hidden mb-4 shadow-none">
+//                     <CardHeader className="px-6 py-4 bg-lightgray dark:bg-primarybox ">
+//                       <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white ">
+//                         <CloudUpload className="text-primary" /> Submitted
+//                         Documents
+//                       </CardTitle>
+//                     </CardHeader>
+//                     {kyc?.documents && kyc.documents.length > 0 ? (
+//                       <div className="p-4 sm:p-6">
+//                         <div className="flex md:flex-row flex-col gap-4">
+//                           {kyc.documents.map((doc) => (
+//                             <div
+//                               key={doc.public_id}
+//                               className="border rounded-lg overflow-hidden bg-muted/30 dark:bg-muted/20 md:w-1/2 w-full"
+//                             >
+//                               <div className="p-3 border-b text-neutral-900 dark:text-white">
+//                                 <h4 className="text-sm font-medium capitalize">
+//                                   {doc.docType.replace("_", " ")}
+//                                 </h4>
+//                               </div>
+//                               <div className="p-2 flex items-center justify-center aspect-video bg-white dark:bg-background overflow-hidden relative group">
+//                                 {doc.url ? (
+//                                   <>
+//                                     {doc.url.toLowerCase().endsWith(".pdf") ? (
+//                                       <div className="flex flex-col items-center justify-center text-center text-muted-foreground">
+//                                         <FileText className="h-12 w-12 mb-2" />
+//                                         <span className="text-xs">
+//                                           {" "}
+//                                           PDF Document{" "}
+//                                         </span>
+//                                       </div>
+//                                     ) : (
+//                                       <Image
+//                                         src={doc.url}
+//                                         alt={`${doc.docType} preview`}
+//                                         fill
+//                                         className="object-contain"
+//                                         unoptimized
+//                                       />
+//                                     )}
+//                                     <a
+//                                       href={doc.url}
+//                                       target="_blank"
+//                                       rel="noopener noreferrer"
+//                                       className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white transition-opacity cursor-pointer"
+//                                       aria-label={`View full ${doc.docType.replace(
+//                                         "_",
+//                                         " "
+//                                       )} document`}
+//                                     >
+//                                       <Eye className="h-6 w-6 mb-1" />{" "}
+//                                       <span className="text-xs font-medium">
+//                                         {" "}
+//                                         View Full Document{" "}
+//                                       </span>
+//                                     </a>
+//                                   </>
+//                                 ) : (
+//                                   <p className="text-xs text-muted-foreground italic">
+//                                     {" "}
+//                                     Document URL missing.{" "}
+//                                   </p>
+//                                 )}
+//                               </div>
+//                             </div>
+//                           ))}
+//                         </div>
+//                       </div>
+//                     ) : (
+//                       <CardContent className="p-4">
+//                         <p className="text-sm text-gray-500 dark:text-gray-300 italic text-center">
+//                           No documents submitted.
+//                         </p>
+//                       </CardContent>
+//                     )}
+//                   </Card>
+//                 </motion.div>
+//               </motion.div>
+//             </TabsContent>
+
+//             {/* --- Transfers Tab Content --- */}
+//             <TabsContent value="transfers">
+//               <motion.div
+//                 key="transfers-content"
+//                 variants={containerVariants}
+//                 initial="hidden"
+//                 animate="visible"
+//               >
+//                 <motion.div variants={itemVariants}>
+//                   <Card className="border-0 bg-transparent shadow-none overflow-hidden">
+//                     <CardHeader className="p-4 ">
+//                       <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white">
+//                         <Send className="h-5 w-5 text-primary" /> Recent
+//                         Transfers (Send Money)
+//                       </CardTitle>
+//                       <CardDescription className="text-sm mt-1 text-gray-500 dark:text-gray-300">
+//                         Last 5 transfers by this user.
+//                       </CardDescription>
+//                     </CardHeader>
+//                     <CardContent className="p-0">
+//                       <TransactionTable
+//                         data={sortedTransfers}
+//                         type="transfer"
+//                         sortField={transferSortField}
+//                         sortDirection={transferSortDirection}
+//                         onSort={(field) =>
+//                           handleTransactionSort(field, "transfer")
+//                         }
+//                       />
+//                     </CardContent>
+//                   </Card>
+//                 </motion.div>
+//               </motion.div>
+//             </TabsContent>
+
+//             {/* --- Payments Tab Content --- */}
+//             <TabsContent value="payments">
+//               <motion.div
+//                 key="payments-content"
+//                 variants={containerVariants}
+//                 initial="hidden"
+//                 animate="visible"
+//               >
+//                 <motion.div variants={itemVariants}>
+//                   <Card className="border-0 bg-transparent shadow-none overflow-hidden">
+//                     <CardHeader className="p-4">
+//                       <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white">
+//                         <Landmark className="h-5 w-5 text-primary" /> Recent
+//                         Payments (Add Money)
+//                       </CardTitle>
+//                       <CardDescription className="text-sm !mt-1 text-gray-500 dark:text-gray-300">
+//                         Last 5 payment attempts.
+//                       </CardDescription>
+//                     </CardHeader>
+//                     <CardContent className="p-0">
+//                       <TransactionTable
+//                         data={sortedPayments}
+//                         type="payment"
+//                         sortField={paymentSortField}
+//                         sortDirection={paymentSortDirection}
+//                         onSort={(field) =>
+//                           handleTransactionSort(field, "payment")
+//                         }
+//                       />
+//                     </CardContent>
+//                   </Card>
+//                 </motion.div>
+//               </motion.div>
+//             </TabsContent>
+//           </Tabs>
+//         </div>
+
+//         <SendMessageModal
+//           isOpen={isSendMessageModalOpen}
+//           setIsOpen={setIsSendMessageModalOpen}
+//           userName={userData?.fullName || "this user"}
+//           subject={messageSubject}
+//           setSubject={setMessageSubject}
+//           body={messageBody}
+//           setBody={setMessageBody}
+//           isSending={isSendingMessage}
+//           handleSend={handleSendMessage}
+//           sendError={sendMessageError}
+//           clearSendError={clearSendError}
+//         />
+//       </div>
+//     </TooltipProvider>
+//   );
+// };
+
+// export default UserDetailPage;
+
 // frontend/src/app/admin/users/[userId]/page.tsx
 "use client";
 
@@ -4527,13 +5895,13 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { motion } from "framer-motion"; // Import motion
+import { motion } from "framer-motion";
 
 // Service Imports
 import userAdminService from "../../../services/admin/user.admin";
 import type { AdminUserDetailResponse as OriginalAdminUserDetailResponse } from "../../../services/admin/user.admin";
 import type { KycMobile, KycStatus } from "../../../services/kyc";
-import type { Payment } from "@/types/payment"; // Assuming Payment type exists
+import type { Payment } from "@/types/payment";
 
 // Auth Context
 import { useAuth } from "../../../contexts/AuthContext";
@@ -4559,18 +5927,14 @@ import {
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-// Icons (Lucide React)
+// Icons
 import {
   ArrowLeft,
   User,
-  Mail,
-  ShieldCheck,
   CalendarDays,
   ChevronRight,
   Phone,
   Briefcase,
-  UserCheck,
-  UserX,
   HelpCircle,
   BadgeDollarSign,
   Fingerprint,
@@ -4588,57 +5952,55 @@ import {
   IdCard,
   CloudUpload,
   CheckCircle,
-  XCircle, // For the trigger button
-  ArrowUpDown, // For sorting
-  ArrowDownUp, // For sorting
+  XCircle,
+  ArrowUpDown,
+  ArrowDownUp,
+  ListChecks,
 } from "lucide-react";
 
 // Utility & Toast
 import { cn } from "@/lib/utils";
-import { toast } from "sonner"; // For feedback
 
-// --- Import the Send Message Modal ---
-import SendMessageModal from "../../components/users/SendMessageModal"; // Adjust path if needed
+// --- Import Custom Toast and react-toastify components ---
+import {
+  ToastContainer,
+  toast as reactToastifyToast,
+  Slide,
+  ToastContainerProps,
+  TypeOptions,
+  ToastOptions, // Ensure ToastOptions is imported
+} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import CustomToast, { CustomToastProps } from "../../../components/CustomToast";
 
-// --- Define Local Transfer type used WITHIN UserDetailPage ---
+import SendMessageModal from "../../components/users/SendMessageModal";
+
 interface Transfer {
   _id: string;
-  user?: {
-    _id?: string;
-    fullName?: string;
-    email?: string;
-  };
-  recipient?: {
-    _id?: string;
-    accountHolderName?: string;
-  };
-  sendAmount: string; // Will be parsed to number for sorting
-  sendCurrency?: {
-    code?: string;
-  };
+  user?: { _id?: string; fullName?: string; email?: string };
+  recipient?: { _id?: string; accountHolderName?: string };
+  sendAmount: string;
+  sendCurrency?: { code?: string };
   status: string;
-  createdAt: string; // ISO Date string
+  createdAt: string;
 }
 
-// --- Define Local State Type based on Service Response but with modified Transfer type ---
 interface UserDetailState
-  extends Omit<OriginalAdminUserDetailResponse, "transfers"> {
+  extends Omit<OriginalAdminUserDetailResponse, "transfers" | "payments"> {
   transfers: Transfer[];
   payments: Payment[];
 }
 
-// --- Define Sortable Fields for TransactionTable ---
 type TransactionSortableField =
   | "_id"
-  | "recipient.accountHolderName" // Transfer only
-  | "sendAmount" // Transfer only (maps to amount for sorting)
-  | "amountToAdd" // Payment only (maps to amount for sorting)
-  | "sendCurrency.code" // Transfer only
-  | "payInCurrency.code" // Payment only
+  | "recipient.accountHolderName"
+  | "sendAmount"
+  | "amountToAdd"
+  | "sendCurrency.code"
+  | "payInCurrency.code"
   | "status"
   | "createdAt";
 
-// --- Helper Functions ---
 const formatDate = (
   dateInput?: string | Date | null,
   includeTime = false
@@ -4658,13 +6020,11 @@ const formatDate = (
     return "Invalid Date";
   }
 };
-
 const formatMobile = (mobile?: KycMobile | null): string => {
   if (!mobile || !mobile.countryCode?.trim() || !mobile.number?.trim())
     return "N/A";
   return `${mobile.countryCode} ${mobile.number}`;
 };
-
 const getKycStatusConfig = (status?: KycStatus | null) => {
   const statusMap: Record<
     KycStatus | "unknown",
@@ -4705,7 +6065,6 @@ const getKycStatusConfig = (status?: KycStatus | null) => {
   };
   return statusMap[status || "not_started"] || statusMap.unknown;
 };
-
 const getTransactionStatusColorClasses = (status?: string | null): string => {
   switch (status?.toLowerCase()) {
     case "completed":
@@ -4725,7 +6084,6 @@ const getTransactionStatusColorClasses = (status?: string | null): string => {
       return "text-gray-600 bg-gray-100 dark:bg-gray-600/20 dark:text-gray-400";
   }
 };
-
 const getInitials = (name?: string | null): string => {
   if (!name) return "??";
   return name
@@ -4736,15 +6094,12 @@ const getInitials = (name?: string | null): string => {
     .substring(0, 2)
     .toUpperCase();
 };
-
 const salaryDisplayMap: Record<string, string> = {
   "0-1000": "Below $10,000",
   "10000-50000": "$10,000 - $49,999",
   "50000-100000": "$50,000 - $99,999",
   "100000+": "$100,000 or more",
 };
-
-// Helper to safely get nested values
 const getNestedValue = (obj: any, path: string): any => {
   if (!path) return obj;
   return path
@@ -4755,7 +6110,6 @@ const getNestedValue = (obj: any, path: string): any => {
     );
 };
 
-// --- DetailItem Component ---
 const DetailItem = ({
   label,
   value,
@@ -4785,21 +6139,18 @@ const DetailItem = ({
   </div>
 );
 
-// --- Loading Skeleton Component ---
 const LoadingSkeleton = () => (
   <div className="container mx-auto px-4 py-8">
     <div className="space-y-6 pb-10">
-      {/* Header Skeleton */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
         <div>
-          <Skeleton className="h-4 w-64 mb-3 rounded " /> {/* Breadcrumbs */}
-          <Skeleton className="h-10 w-48 rounded " /> {/* Title */}
+          <Skeleton className="h-4 w-64 mb-3 rounded " />
+          <Skeleton className="h-10 w-48 rounded " />
         </div>
         <div className="flex items-center gap-2">
           <Skeleton className="h-12 w-50 rounded-full" />
         </div>
       </div>
-      {/* User Profile Card Skeleton */}
       <div className="border rounded-lg bg-card overflow-hidden">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
           <div className="flex items-center gap-4 flex-1">
@@ -4828,8 +6179,6 @@ const LoadingSkeleton = () => (
           </div>
         </div>
       </div>
-
-      {/* Tabs Section Skeleton */}
       <div className="w-full">
         <div className="overflow-hidden mb-4">
           <div className="relative flex w-full h-full overflow-x-auto whitespace-nowrap gap-3 bg-lightborder dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
@@ -4882,7 +6231,6 @@ const LoadingSkeleton = () => (
               </div>
             </div>
           </div>
-
           <div className="border rounded-lg bg-card overflow-hidden">
             <div className="px-6 py-4 bg-lightgray dark:bg-primarybox">
               <Skeleton className="h-6 w-44 rounded" />
@@ -4910,7 +6258,6 @@ const LoadingSkeleton = () => (
   </div>
 );
 
-// --- Error Display Component ---
 const ErrorDisplay = ({
   error,
   onRetry,
@@ -4935,13 +6282,17 @@ const ErrorDisplay = ({
   </Alert>
 );
 
-// --- Transaction Table Component ---
 interface TransactionTableProps {
   data: (Transfer | Payment)[];
   type: "transfer" | "payment";
   sortField: TransactionSortableField | null;
   sortDirection: "asc" | "desc";
   onSort: (field: TransactionSortableField) => void;
+  showToast: (
+    message: string,
+    type?: CustomToastProps["type"],
+    options?: Partial<ToastOptions>
+  ) => void;
 }
 
 const TransactionTable: React.FC<TransactionTableProps> = ({
@@ -4950,6 +6301,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   sortField,
   sortDirection,
   onSort,
+  showToast,
 }) => {
   const isTransfer = (item: Transfer | Payment): item is Transfer =>
     type === "transfer";
@@ -4963,7 +6315,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
       },
       (err) => {
         console.error("Failed to copy ID: ", err);
-        toast.error("Failed to copy ID");
+        showToast("Failed to copy ID", "error");
       }
     );
   };
@@ -4972,17 +6324,20 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
     const baseIconClasses = "ml-1.5 transition-all ease-linear duration-75";
     const hoverRevealClasses =
       "opacity-0 group-hover:opacity-100 transition-opacity duration-150";
-
     if (sortField === field) {
       const activeClasses = `${baseIconClasses} ${hoverRevealClasses} group-hover:text-primary`;
-      if (sortDirection === "asc") {
-        return <ArrowUpDown size={16} className={activeClasses} />;
-      } else {
-        return <ArrowDownUp size={16} className={activeClasses} />;
-      }
+      return sortDirection === "asc" ? (
+        <ArrowUpDown size={18} className={activeClasses} />
+      ) : (
+        <ArrowDownUp size={18} className={activeClasses} />
+      );
     }
-    const inactiveClasses = `${baseIconClasses} ${hoverRevealClasses}`;
-    return <ArrowDownUp size={16} className={inactiveClasses} />;
+    return (
+      <ArrowDownUp
+        size={16}
+        className={`${baseIconClasses} ${hoverRevealClasses}`}
+      />
+    );
   };
 
   const headerCellClasses =
@@ -5016,9 +6371,8 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
     },
     { key: "status", label: "Status", sortable: true },
     { key: "createdAt", label: "Date", sortable: true },
-    { key: "details" as any, label: "Details", sortable: false }, // 'details' is not a real data field for sorting
+    { key: "details" as any, label: "Details", sortable: false },
   ];
-
   const numberOfDataColumns = columns
     .filter((col) => (type === "transfer" ? true : !col.transferOnly))
     .filter((col) => (type === "payment" ? true : !col.paymentOnly)).length;
@@ -5031,7 +6385,6 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
             {columns.map((col) => {
               if (type === "payment" && col.transferOnly) return null;
               if (type === "transfer" && col.paymentOnly) return null;
-
               return (
                 <th key={col.key} className={headerCellClasses}>
                   {col.sortable ? (
@@ -5085,10 +6438,8 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
                   ? `/admin/transfer/${item._id}`
                   : `/admin/add-money`;
               const isCopied = copiedId === item._id;
-
               return (
                 <tr key={item._id}>
-                  {/* ID */}
                   <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
                     <div className="flex items-center gap-2">
                       <span className="underline decoration-dashed decoration-border cursor-default">
@@ -5121,21 +6472,17 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
                       </Tooltip>
                     </div>
                   </td>
-                  {/* Recipient (Transfer only) */}
                   {type === "transfer" && (
                     <td className="px-4 py-3 whitespace-nowrap font-medium capitalize text-neutral-900 dark:text-white">
                       {recipientName || "N/A"}
                     </td>
                   )}
-                  {/* Amount */}
                   <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
                     {formattedAmount}
                   </td>
-                  {/* Currency */}
                   <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
                     {currencyCode || "N/A"}
                   </td>
-                  {/* Status */}
                   <td className="px-4 py-3 whitespace-nowrap">
                     <span
                       className={cn(
@@ -5146,11 +6493,9 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
                       {item.status || "Unknown"}
                     </span>
                   </td>
-                  {/* Date */}
                   <td className="px-6 py-3 whitespace-nowrap font-medium">
                     {formatDate(item.createdAt, true)}
                   </td>
-                  {/* Details Button */}
                   <td className="px-6 py-3 whitespace-nowrap ">
                     <Button
                       asChild
@@ -5172,27 +6517,24 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   );
 };
 
-// --- Main Detail Page Component ---
 const UserDetailPage: React.FC = () => {
   const params = useParams();
   const router = useRouter();
   const { token, isAdmin, loading: authLoading } = useAuth();
   const userId = params.userId as string;
 
-  // Component State
   const [userData, setUserData] = useState<UserDetailState | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState("kyc");
+  const [isMobile, setIsMobile] = useState(false);
 
-  // State for Send Message Modal
   const [isSendMessageModalOpen, setIsSendMessageModalOpen] = useState(false);
   const [messageSubject, setMessageSubject] = useState("");
   const [messageBody, setMessageBody] = useState("");
   const [isSendingMessage, setIsSendingMessage] = useState(false);
   const [sendMessageError, setSendMessageError] = useState<string | null>(null);
 
-  // State for Transaction Table Sorting
   const [transferSortField, setTransferSortField] =
     useState<TransactionSortableField | null>("createdAt");
   const [transferSortDirection, setTransferSortDirection] = useState<
@@ -5204,10 +6546,86 @@ const UserDetailPage: React.FC = () => {
     "asc" | "desc"
   >("desc");
 
-  // Fetching Logic
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const showToast = useCallback(
+    (
+      message: string,
+      type?: CustomToastProps["type"],
+      toastSpecificOptions?: Partial<ToastOptions> // Correctly typed parameter
+    ) => {
+      const effectiveType = type || "default";
+      let progressClassName: string;
+      switch (effectiveType) {
+        case "success":
+          progressClassName = "toast-progress-success";
+          break;
+        case "error":
+          progressClassName = "toast-progress-error";
+          break;
+        case "info":
+          progressClassName = "toast-progress-info";
+          break;
+        case "warning":
+          progressClassName = "toast-progress-warning";
+          break;
+        default:
+          progressClassName = "toast-progress-default";
+          break;
+      }
+      reactToastifyToast(
+        <CustomToast message={message} type={effectiveType} />,
+        {
+          progressClassName,
+          type: effectiveType as TypeOptions,
+          icon: false,
+          ...toastSpecificOptions, // Spread the options here
+        }
+      );
+    },
+    []
+  );
+
+  const customToastContainerProps: ToastContainerProps = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    newestOnTop: true,
+    closeOnClick: false,
+    closeButton: false,
+    rtl: false,
+    pauseOnFocusLoss: true,
+    draggable: true,
+    pauseOnHover: true,
+    transition: Slide,
+    toastClassName: () =>
+      "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3",
+  };
+
+  const getToastContainerStyle = (): React.CSSProperties & {
+    [key: `--${string}`]: string | number;
+  } => {
+    const baseStyle = { zIndex: 30 };
+    if (isMobile)
+      return {
+        ...baseStyle,
+        top: "1rem",
+        left: "1rem",
+        right: "1rem",
+        width: "auto",
+      };
+    return { ...baseStyle, top: "0.75rem", right: "0.75rem", width: "320px" };
+  };
+
   const fetchUserDetails = useCallback(async () => {
     if (!userId) {
       setError("User ID is missing from the URL.");
+      showToast("User ID is missing.", "error");
       setLoading(false);
       return;
     }
@@ -5219,46 +6637,54 @@ const UserDetailPage: React.FC = () => {
       const processedData: UserDetailState = {
         ...data,
         transfers: (data.transfers || []).map((t) => ({
-          ...t, // spread original transfer properties
-          _id: t._id, // ensure _id is present
-          sendAmount: String(t.sendAmount ?? "0"), // ensure sendAmount is string
-          status: t.status || "unknown", // ensure status is present
-          createdAt: t.createdAt || new Date(0).toISOString(), // ensure createdAt is present
+          ...t,
+          _id: t._id,
+          sendAmount: String(t.sendAmount ?? "0"),
+          status: t.status || "unknown",
+          createdAt: t.createdAt || new Date(0).toISOString(),
         })),
         payments: (data.payments || []).map((p) => ({
-          ...p, // spread original payment properties
-          status: p.status || "unknown", // ensure status is present
-          createdAt: p.createdAt || new Date(0).toISOString(), // ensure createdAt is present
+          ...p,
+          status: p.status || "unknown",
+          createdAt: p.createdAt || new Date(0).toISOString(),
         })),
       };
       setUserData(processedData);
     } catch (err: any) {
       console.error("Fetch user details error:", err);
-      setError(
+      const errorMsg =
         err.response?.data?.message ||
-          err.message ||
-          "Failed to load user details."
-      );
+        err.message ||
+        "Failed to load user details.";
+      setError(errorMsg);
+      showToast(errorMsg, "error");
       setUserData(null);
     } finally {
       setLoading(false);
     }
-  }, [userId]);
+  }, [userId, showToast]);
 
-  // Effect for initial fetch and auth checks
   useEffect(() => {
     if (authLoading) return;
     if (!token) {
       router.push("/auth/login?message=login_required");
     } else if (!isAdmin) {
       setError("Access Denied: Administrator privileges required.");
+      showToast("Access Denied.", "error");
       setLoading(false);
     } else {
       fetchUserDetails();
     }
-  }, [token, isAdmin, authLoading, userId, router, fetchUserDetails]);
+  }, [
+    token,
+    isAdmin,
+    authLoading,
+    userId,
+    router,
+    fetchUserDetails,
+    showToast,
+  ]);
 
-  // Function to handle sending the message
   const handleSendMessage = async () => {
     if (!userData || !messageSubject.trim() || !messageBody.trim()) {
       setSendMessageError("Subject and body cannot be empty.");
@@ -5271,7 +6697,7 @@ const UserDetailPage: React.FC = () => {
         subject: messageSubject.trim(),
         body: messageBody.trim(),
       });
-      toast.success("Message sent successfully!");
+      showToast("Message sent successfully!", "success");
       setMessageSubject("");
       setMessageBody("");
       setIsSendMessageModalOpen(false);
@@ -5280,17 +6706,15 @@ const UserDetailPage: React.FC = () => {
       const errorMsg =
         err.response?.data?.message || err.message || "Failed to send message.";
       setSendMessageError(errorMsg);
-      toast.error("Failed to send message", { description: errorMsg });
+      // Corrected: Pass errorMsg as the message for the toast
+      showToast(errorMsg, "error", { autoClose: 7000 });
     } finally {
       setIsSendingMessage(false);
     }
   };
 
-  const clearSendError = () => {
-    setSendMessageError(null);
-  };
+  const clearSendError = () => setSendMessageError(null);
 
-  // --- Sorting Logic for Transactions ---
   const handleTransactionSort = (
     field: TransactionSortableField,
     type: "transfer" | "payment"
@@ -5303,7 +6727,6 @@ const UserDetailPage: React.FC = () => {
       setTransferSortField(field);
       setTransferSortDirection(newDirection);
     } else {
-      // payment
       const newDirection =
         paymentSortField === field && paymentSortDirection === "asc"
           ? "desc"
@@ -5320,18 +6743,15 @@ const UserDetailPage: React.FC = () => {
       sortableTransfers.sort((a, b) => {
         const valA = getNestedValue(a, transferSortField);
         const valB = getNestedValue(b, transferSortField);
-
         let comparison = 0;
-        if (transferSortField === "createdAt") {
+        if (transferSortField === "createdAt")
           comparison = new Date(valA).getTime() - new Date(valB).getTime();
-        } else if (transferSortField === "sendAmount") {
+        else if (transferSortField === "sendAmount")
           comparison = parseFloat(valA) - parseFloat(valB);
-        } else {
-          // Default to string comparison
+        else
           comparison = String(valA ?? "")
             .toLowerCase()
             .localeCompare(String(valB ?? "").toLowerCase());
-        }
         return transferSortDirection === "asc" ? comparison : -comparison;
       });
     }
@@ -5345,49 +6765,63 @@ const UserDetailPage: React.FC = () => {
       sortablePayments.sort((a, b) => {
         const valA = getNestedValue(a, paymentSortField);
         const valB = getNestedValue(b, paymentSortField);
-
         let comparison = 0;
-        if (paymentSortField === "createdAt") {
+        if (paymentSortField === "createdAt")
           comparison = new Date(valA).getTime() - new Date(valB).getTime();
-        } else if (paymentSortField === "amountToAdd") {
+        else if (paymentSortField === "amountToAdd")
           comparison = (Number(valA) || 0) - (Number(valB) || 0);
-        } else {
-          // Default to string comparison
+        else
           comparison = String(valA ?? "")
             .toLowerCase()
             .localeCompare(String(valB ?? "").toLowerCase());
-        }
         return paymentSortDirection === "asc" ? comparison : -comparison;
       });
     }
     return sortablePayments;
   }, [userData?.payments, paymentSortField, paymentSortDirection]);
 
-  // --- Render Logic ---
-  if (loading || authLoading) return <LoadingSkeleton />;
-
-  if (error)
+  if (loading || authLoading) {
     return (
-      <div className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
+      <div className="relative min-h-screen bg-background">
+        <ToastContainer
+          {...customToastContainerProps}
+          style={getToastContainerStyle()}
+        />
+        <LoadingSkeleton />
+      </div>
+    );
+  }
+  if (error && !userData) {
+    return (
+      <div className="relative min-h-screen bg-background p-4 sm:p-6 lg:p-8">
+        <ToastContainer
+          {...customToastContainerProps}
+          style={getToastContainerStyle()}
+        />
         <ErrorDisplay error={error} onRetry={fetchUserDetails} />
       </div>
     );
-  if (!userData)
+  }
+  if (!userData) {
     return (
-      <div className="min-h-screen bg-background p-4 sm:p-6 lg:p-8 text-center py-16 text-muted-foreground">
-        User data not found.
+      <div className="relative min-h-screen bg-background p-4 sm:p-6 lg:p-8 text-center py-16 text-muted-foreground">
+        <ToastContainer
+          {...customToastContainerProps}
+          style={getToastContainerStyle()}
+        />
+        User data not found. This might be due to an earlier error or invalid
+        ID.
       </div>
     );
+  }
 
-  const { kyc, accounts } = userData; // transfers and payments are now sortedTransfers, sortedPayments
+  const { kyc, accounts } = userData;
   const kycStatusConfig = getKycStatusConfig(kyc?.status);
-
   const tabs = [
     { value: "kyc", label: "KYC & Documents", icon: FileText },
     { value: "transfers", label: "Transfers (Send)", icon: Send },
     { value: "payments", label: "Payments (Add)", icon: Landmark },
   ];
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -5406,11 +6840,12 @@ const UserDetailPage: React.FC = () => {
 
   return (
     <TooltipProvider>
-      {" "}
-      {/* Added TooltipProvider here for TransactionTable tooltips */}
       <div className="container mx-auto px-4 py-8 relative">
+        <ToastContainer
+          {...customToastContainerProps}
+          style={getToastContainerStyle()}
+        />
         <div className="space-y-6 pb-10">
-          {/* --- Header Section --- */}
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
             <div className="Heading">
               <div className="flex items-center text-sm text-gray-500 mb-2 flex-wrap">
@@ -5440,7 +6875,6 @@ const UserDetailPage: React.FC = () => {
                 User Details
               </h1>
             </div>
-
             <div className="flex items-center gap-2 flex-wrap">
               <button
                 onClick={() => setIsSendMessageModalOpen(true)}
@@ -5451,7 +6885,6 @@ const UserDetailPage: React.FC = () => {
             </div>
           </div>
 
-          {/* --- User Profile Card --- */}
           <Card className="overflow-hidden border shadow-none">
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
               <div className="flex items-center gap-4">
@@ -5541,8 +6974,6 @@ const UserDetailPage: React.FC = () => {
               </CardContent>
             )}
           </Card>
-
-          {/* --- Tabs Section --- */}
           <Tabs
             defaultValue="kyc"
             value={activeTab}
@@ -5562,7 +6993,7 @@ const UserDetailPage: React.FC = () => {
                     {activeTab === tab.value && (
                       <motion.div
                         layoutId="active-tab-indicator"
-                        className="absolute inset-0 -z-10 bg-primary dark:bg-secondarybox rounded-full shadow-sm"
+                        className="absolute inset-0 -z-10 bg-primary dark:bg-secondarybox rounded-full"
                         transition={{ stiffness: 350, damping: 30 }}
                       />
                     )}
@@ -5572,8 +7003,6 @@ const UserDetailPage: React.FC = () => {
                 ))}
               </TabsList>
             </div>
-
-            {/* --- KYC Tab Content --- */}
             <TabsContent value="kyc">
               <motion.div
                 key="kyc-content"
@@ -5722,6 +7151,7 @@ const UserDetailPage: React.FC = () => {
                         Documents
                       </CardTitle>
                     </CardHeader>
+
                     {kyc?.documents && kyc.documents.length > 0 ? (
                       <div className="p-4 sm:p-6">
                         <div className="flex md:flex-row flex-col gap-4">
@@ -5784,9 +7214,17 @@ const UserDetailPage: React.FC = () => {
                         </div>
                       </div>
                     ) : (
-                      <CardContent className="p-4">
-                        <p className="text-sm text-gray-500 dark:text-gray-300 italic text-center">
+                      <CardContent className="p-4 flex items-center justify-center flex-col space-y-4">
+                        <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
+                          <ListChecks className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+                        </div>
+
+                        <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
                           No documents submitted.
+                        </h2>
+
+                        <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+                          No files have been uploaded in Submitted Documents.
                         </p>
                       </CardContent>
                     )}
@@ -5794,8 +7232,6 @@ const UserDetailPage: React.FC = () => {
                 </motion.div>
               </motion.div>
             </TabsContent>
-
-            {/* --- Transfers Tab Content --- */}
             <TabsContent value="transfers">
               <motion.div
                 key="transfers-content"
@@ -5823,14 +7259,13 @@ const UserDetailPage: React.FC = () => {
                         onSort={(field) =>
                           handleTransactionSort(field, "transfer")
                         }
+                        showToast={showToast}
                       />
                     </CardContent>
                   </Card>
                 </motion.div>
               </motion.div>
             </TabsContent>
-
-            {/* --- Payments Tab Content --- */}
             <TabsContent value="payments">
               <motion.div
                 key="payments-content"
@@ -5858,6 +7293,7 @@ const UserDetailPage: React.FC = () => {
                         onSort={(field) =>
                           handleTransactionSort(field, "payment")
                         }
+                        showToast={showToast}
                       />
                     </CardContent>
                   </Card>
@@ -5886,3780 +7322,3 @@ const UserDetailPage: React.FC = () => {
 };
 
 export default UserDetailPage;
-
-// // frontend/src/app/admin/users/[userId]/page.tsx
-// "use client";
-
-// import React, { useState, useEffect, useCallback } from "react";
-// import { useParams, useRouter } from "next/navigation";
-// import Link from "next/link";
-// import Image from "next/image";
-// import { motion } from "framer-motion"; // Import motion
-
-// // Service Imports
-// import userAdminService from "../../../services/admin/user.admin";
-// import type { AdminUserDetailResponse as OriginalAdminUserDetailResponse } from "../../../services/admin/user.admin";
-// import type { KycMobile, KycStatus } from "../../../services/kyc";
-// import type { Payment } from "@/types/payment"; // Assuming Payment type exists
-
-// // Auth Context
-// import { useAuth } from "../../../contexts/AuthContext";
-
-// // Shadcn UI Components
-// import {
-//   Card,
-//   CardContent,
-//   CardHeader,
-//   CardTitle,
-//   CardDescription,
-// } from "@/components/ui/card";
-// import { Badge } from "@/components/ui/badge";
-// import { Skeleton } from "@/components/ui/skeleton";
-// import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-// import { Button } from "@/components/ui/button"; // Ensure Button is imported
-// import {
-//   Tooltip,
-//   TooltipContent,
-//   TooltipProvider,
-//   TooltipTrigger,
-// } from "@/components/ui/tooltip";
-// import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-// // Icons (Lucide React)
-// import {
-//   ArrowLeft,
-//   User,
-//   Mail,
-//   ShieldCheck,
-//   CalendarDays,
-//   ChevronRight,
-//   Phone,
-//   Briefcase,
-//   UserCheck,
-//   UserX,
-//   HelpCircle,
-//   BadgeDollarSign,
-//   Fingerprint,
-//   Globe,
-//   FileText,
-//   AlertCircle,
-//   Eye,
-//   Wallet,
-//   Send,
-//   Landmark,
-//   Clock,
-//   Copy,
-//   Check,
-//   MessageSquarePlus,
-//   IdCard, // Used for KYC button
-//   CloudUpload,
-//   CheckCircle,
-//   XCircle, // For the trigger button
-// } from "lucide-react";
-
-// // Utility & Toast
-// import { cn } from "@/lib/utils";
-// import { toast } from "sonner"; // For feedback
-
-// // --- Import the Send Message Modal ---
-// import SendMessageModal from "../../components/users/SendMessageModal"; // Adjust path if needed
-
-// // --- Define Local Transfer type used WITHIN UserDetailPage ---
-// // (Ensure this matches the structure returned by your backend or adapt as needed)
-// interface Transfer {
-//   _id: string;
-//   user?: {
-//     _id?: string;
-//     fullName?: string;
-//     email?: string;
-//   };
-//   recipient?: {
-//     _id?: string;
-//     accountHolderName?: string;
-//   };
-//   sendAmount: string; // Assuming string representation after processing
-//   sendCurrency?: {
-//     code?: string;
-//   };
-//   status: string;
-//   createdAt: string; // ISO Date string
-// }
-
-// // --- Define Local State Type based on Service Response but with modified Transfer type ---
-// interface UserDetailState
-//   extends Omit<OriginalAdminUserDetailResponse, "transfers"> {
-//   transfers: Transfer[];
-//   payments: Payment[]; // Assuming Payment type is already correct
-// }
-
-// // --- Helper Functions ---
-// const formatDate = (
-//   dateInput?: string | Date | null,
-//   includeTime = false
-// ): string => {
-//   if (!dateInput) return "N/A";
-//   try {
-//     const date = new Date(dateInput);
-//     if (isNaN(date.getTime())) return "Invalid Date";
-//     const options: Intl.DateTimeFormatOptions = {
-//       year: "numeric",
-//       month: "short",
-//       day: "numeric",
-//       ...(includeTime && { hour: "2-digit", minute: "2-digit", hour12: true }),
-//     };
-//     return date.toLocaleDateString("en-US", options);
-//   } catch (e) {
-//     return "Invalid Date";
-//   }
-// };
-
-// const formatMobile = (mobile?: KycMobile | null): string => {
-//   if (!mobile || !mobile.countryCode?.trim() || !mobile.number?.trim())
-//     return "N/A";
-//   return `${mobile.countryCode} ${mobile.number}`;
-// };
-
-// const getKycStatusConfig = (status?: KycStatus | null) => {
-//   const statusMap: Record<
-//     KycStatus | "unknown",
-//     { color: string; icon: React.ElementType; label: string }
-//   > = {
-//     verified: {
-//       color:
-//         "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
-//       icon: CheckCircle,
-//       label: "Verified",
-//     },
-//     rejected: {
-//       color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
-//       icon: XCircle,
-//       label: "Rejected",
-//     },
-//     pending: {
-//       color:
-//         "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
-//       icon: Clock,
-//       label: "Pending",
-//     },
-//     skipped: {
-//       color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
-//       icon: ArrowLeft,
-//       label: "Skipped", // Assuming ArrowLeft is appropriate
-//     },
-//     not_started: {
-//       color: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",
-//       icon: HelpCircle,
-//       label: "Not Started",
-//     },
-//     unknown: {
-//       color: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",
-//       icon: AlertCircle,
-//       label: "Unknown",
-//     },
-//   };
-//   return statusMap[status || "not_started"] || statusMap.unknown;
-// };
-
-// const getTransactionStatusColorClasses = (status?: string | null): string => {
-//   switch (status?.toLowerCase()) {
-//     case "completed":
-//     case "credited":
-//       return "text-green-600 bg-green-100 dark:bg-green-600/20 dark:text-green-400";
-//     case "pending":
-//       return "text-yellow-600 bg-yellow-100 dark:bg-yellow-600/20 dark:text-yellow-400";
-//     case "processing":
-//     case "in progress":
-//       return "text-blue-600 bg-blue-100 dark:bg-blue-600/20 dark:text-blue-400";
-//     case "failed":
-//       return "text-rose-600 bg-rose-100 dark:bg-rose-600/20 dark:text-rose-400";
-//     case "canceled":
-//     case "cancelled":
-//       return "text-red-600 bg-red-100 dark:bg-red-600/20 dark:text-red-400";
-//     default:
-//       return "text-gray-600 bg-gray-100 dark:bg-gray-600/20 dark:text-gray-400";
-//   }
-// };
-
-// const getInitials = (name?: string | null): string => {
-//   if (!name) return "??";
-//   return name
-//     .split(" ")
-//     .map((part) => part[0])
-//     .filter(Boolean)
-//     .join("")
-//     .substring(0, 2)
-//     .toUpperCase();
-// };
-
-// const salaryDisplayMap: Record<string, string> = {
-//   "0-1000": "Below $10,000", // Assuming these map to ranges like annual salary
-//   "10000-50000": "$10,000 - $49,999",
-//   "50000-100000": "$50,000 - $99,999",
-//   "100000+": "$100,000 or more",
-// };
-
-// // --- DetailItem Component ---
-// const DetailItem = ({
-//   label,
-//   value,
-//   icon: Icon,
-//   isImportant = false,
-//   className = "",
-// }: {
-//   label: string;
-//   value: React.ReactNode;
-//   icon?: React.ElementType;
-//   isImportant?: boolean;
-//   className?: string;
-// }) => (
-//   <div className={cn("py-2 space-y-2", className)}>
-//     <dt className="text-sm font-medium text-neutral-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
-//       {Icon && <Icon className="flex-shrink-0 text-primary size-4" />}
-//       {label}
-//     </dt>
-//     <dd
-//       className={cn(
-//         "text-sm break-words text-gray-500 dark:text-gray-300",
-//         isImportant ? "font-semibold" : ""
-//       )}
-//     >
-//       {value || <span className="italic">N/A</span>}
-//     </dd>
-//   </div>
-// );
-
-// // --- Loading Skeleton Component ---
-// const LoadingSkeleton = () => (
-//   <div className="container mx-auto px-4 py-8">
-//     <div className="space-y-6">
-//       {/* Header Skeleton */}
-//       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-//         <div>
-//           <Skeleton className="h-4 w-64 mb-3 rounded " /> {/* Breadcrumbs */}
-//           <Skeleton className="h-10 w-48 rounded " /> {/* Title */}
-//         </div>
-//         {/* Combined Actions Skeleton */}
-//         <div className="flex items-center gap-3">
-//           {" "}
-//           {/* Adjusted gap */}
-//           <Skeleton className="h-[50px] w-48 rounded-full" />{" "}
-//           {/* Send Message Button Skeleton */}
-//           <Skeleton className="h-[50px] w-48 rounded-full" />{" "}
-//           {/* Manage KYC Button Skeleton */}
-//         </div>
-//       </div>
-//       {/* User Profile Card Skeleton */}
-//       <div className="border rounded-lg bg-card overflow-hidden">
-//         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
-//           <div className="flex items-center gap-4 flex-1">
-//             <Skeleton className="h-14 w-14 sm:h-16 sm:w-16 rounded-full flex-shrink-0 " />
-//             <div className="space-y-1.5 flex-1">
-//               <Skeleton className="h-6 w-3/4  rounded" />{" "}
-//               <Skeleton className="h-4 w-1/2  rounded" />{" "}
-//               <Skeleton className="h-5 w-20  rounded-md" />
-//             </div>
-//           </div>
-//           <div className="space-y-1 text-right flex-shrink-0">
-//             <Skeleton className="h-3 w-28  rounded" />{" "}
-//             <Skeleton className="h-3 w-24  rounded" />{" "}
-//             <Skeleton className="h-3 w-32  rounded" />
-//           </div>
-//         </div>
-//         <div className="p-4 sm:p-6">
-//           <Skeleton className="h-5 w-1/4  rounded mb-4" />
-//           <div className="flex flex-nowrap overflow-x-auto space-x-4 pb-2 sm:grid sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 sm:space-x-0 sm:pb-0 sm:overflow-x-visible">
-//             {[...Array(5)].map((_, i) => (
-//               <Skeleton
-//                 key={i}
-//                 className="flex-shrink-0 w-36 sm:w-auto h-24 rounded-lg"
-//               />
-//             ))}
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Tabs Section Skeleton */}
-//       <div className="w-full">
-//         <div className="overflow-hidden mb-4">
-//           <div className="relative flex w-full h-full overflow-x-auto whitespace-nowrap gap-3 bg-lightborder dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
-//             <Skeleton className="h-9 flex-1 rounded-full" />
-//             <Skeleton className="h-9 flex-1 rounded-full" />
-//             <Skeleton className="h-9 flex-1 rounded-full" />
-//           </div>
-//         </div>
-//         <div className="space-y-4">
-//           <div className="border rounded-lg bg-card overflow-hidden">
-//             <div className="px-6 py-4 bg-lightgray dark:bg-primarybox">
-//               <div className="flex items-center justify-between">
-//                 <Skeleton className="h-6 w-40  rounded" />{" "}
-//                 <Skeleton className="h-7 w-24  rounded-full" />
-//               </div>
-//             </div>
-//             <div className="p-4 sm:p-6 space-y-4">
-//               <div>
-//                 <Skeleton className="h-4 w-32  rounded mb-3 border-b border-transparent pb-2" />
-//                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-//                   {[...Array(6)].map((_, i) => (
-//                     <div key={`pd-skel-${i}`} className="py-2 space-y-2">
-//                       <Skeleton className="h-4 w-1/3  rounded" />
-//                       <Skeleton className="h-5 w-3/4  rounded" />
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//               <div>
-//                 <Skeleton className="h-4 w-40  rounded mb-3 border-b border-transparent pb-2" />
-//                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-//                   {[...Array(4)].map((_, i) => (
-//                     <div key={`id-skel-${i}`} className="py-2 space-y-2">
-//                       <Skeleton className="h-4 w-1/3  rounded" />
-//                       <Skeleton className="h-5 w-3/4  rounded" />
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//               <div>
-//                 <Skeleton className="h-4 w-48  rounded mb-3 border-b border-transparent pb-2" />
-//                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-//                   {[...Array(2)].map((_, i) => (
-//                     <div key={`upd-skel-${i}`} className="py-2 space-y-2">
-//                       <Skeleton className="h-4 w-1/3  rounded" />
-//                       <Skeleton className="h-5 w-3/4  rounded" />
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           <div className="border rounded-lg bg-card overflow-hidden">
-//             <div className="px-6 py-4 bg-lightgray dark:bg-primarybox">
-//               <Skeleton className="h-6 w-44 rounded" />
-//             </div>
-//             <div className="p-4 sm:p-6">
-//               <div className="flex md:flex-row flex-col gap-4">
-//                 <div className="border rounded-lg overflow-hidden md:w-1/2 w-full">
-//                   <div className="p-3">
-//                     <Skeleton className="h-4 w-1/3  rounded" />
-//                   </div>
-//                   <Skeleton className="aspect-video w-full rounded-none" />
-//                 </div>
-//                 <div className="border rounded-lg overflow-hidden md:w-1/2 w-full">
-//                   <div className="p-3">
-//                     <Skeleton className="h-4 w-1/3  rounded" />
-//                   </div>
-//                   <Skeleton className="aspect-video w-full rounded-none" />
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-// );
-
-// // --- Error Display Component ---
-// const ErrorDisplay = ({
-//   error,
-//   onRetry,
-// }: {
-//   error: string | null;
-//   onRetry: () => void;
-// }) => (
-//   <Alert variant="destructive" className="mt-6">
-//     <AlertCircle className="h-4 w-4" />
-//     <AlertTitle>Error Loading User Details</AlertTitle>
-//     <AlertDescription>
-//       {error || "An unexpected error occurred."}
-//       <Button
-//         variant="destructive"
-//         size="sm"
-//         onClick={onRetry}
-//         className="mt-2 ml-auto block"
-//       >
-//         Retry
-//       </Button>
-//     </AlertDescription>
-//   </Alert>
-// );
-
-// // --- Transaction Table Component ---
-// const TransactionTable = ({
-//   data,
-//   type,
-// }: {
-//   data: (Transfer | Payment)[];
-//   type: "transfer" | "payment";
-// }) => {
-//   const isTransfer = (item: Transfer | Payment): item is Transfer =>
-//     type === "transfer";
-//   const [copiedId, setCopiedId] = useState<string | null>(null);
-
-//   const handleCopy = (idToCopy: string) => {
-//     navigator.clipboard.writeText(idToCopy).then(
-//       () => {
-//         setCopiedId(idToCopy);
-//         setTimeout(() => setCopiedId(null), 1500);
-//       },
-//       (err) => {
-//         console.error("Failed to copy ID: ", err);
-//         toast.error("Failed to copy ID");
-//       }
-//     );
-//   };
-
-//   const numberOfColumns = type === "transfer" ? 7 : 6; // Adjust based on columns
-
-//   return (
-//     <div className="rounded-xl border overflow-hidden overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
-//       <table className="min-w-full overflow-hidden">
-//         <thead className="bg-lightgray dark:bg-primarybox ">
-//           <tr className="border-b">
-//             <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//               ID
-//             </th>
-//             {type === "transfer" && (
-//               <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//                 Recipient
-//               </th>
-//             )}
-//             <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//               Amount
-//             </th>
-//             <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//               Currency
-//             </th>
-//             <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//               Status
-//             </th>
-//             <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//               Date
-//             </th>
-//             <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//               Details
-//             </th>
-//           </tr>
-//         </thead>
-//         <tbody className="divide-y overflow-hidden">
-//           {!data || data.length === 0 ? (
-//             <tr>
-//               <td
-//                 colSpan={numberOfColumns}
-//                 className="px-6 py-10 text-center text-gray-500 dark:text-gray-300"
-//               >
-//                 No {type}s found.
-//               </td>
-//             </tr>
-//           ) : (
-//             data.slice(0, 5).map((item) => {
-//               // Displaying only top 5
-//               const statusColorClasses = getTransactionStatusColorClasses(
-//                 item.status
-//               );
-//               const amountValue = isTransfer(item)
-//                 ? item.sendAmount
-//                 : String((item as Payment).amountToAdd ?? "0");
-//               const formattedAmount =
-//                 amountValue != null
-//                   ? Number(amountValue).toLocaleString(undefined, {
-//                       minimumFractionDigits: 2,
-//                       maximumFractionDigits: 2,
-//                     })
-//                   : "N/A";
-//               const currencyCode = isTransfer(item)
-//                 ? item.sendCurrency?.code
-//                 : (item as Payment).payInCurrency?.code;
-//               const recipientName = isTransfer(item)
-//                 ? item.recipient?.accountHolderName
-//                 : undefined;
-//               const detailLink =
-//                 type === "transfer"
-//                   ? `/admin/transfer/${item._id}`
-//                   : `/admin/add-money`; // Adapt payment link if needed
-//               const isCopied = copiedId === item._id;
-
-//               return (
-//                 <tr key={item._id}>
-//                   <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
-//                     <div className="flex items-center gap-2">
-//                       <span className="underline decoration-dashed decoration-border cursor-default">
-//                         {item._id.substring(item._id.length - 6)}
-//                       </span>
-//                       <Tooltip>
-//                         <TooltipTrigger asChild>
-//                           <button
-//                             className={cn(
-//                               "h-5 w-5 p-0 text-muted-foreground hover:text-foreground transition-colors",
-//                               isCopied && "text-green-500 hover:text-green-600"
-//                             )}
-//                             onClick={() => handleCopy(item._id)}
-//                             aria-label={isCopied ? "Copied!" : "Copy ID"}
-//                           >
-//                             {isCopied ? (
-//                               <Check size={18} />
-//                             ) : (
-//                               <Copy size={18} />
-//                             )}
-//                           </button>
-//                         </TooltipTrigger>
-
-//                         <TooltipContent
-//                           side="bottom"
-//                           sideOffset={5}
-//                           className="bg-[#e4e4e4] dark:bg-secondarybox text-white p-2 px-3 rounded-2xl max-w-50 xl:max-w-lg"
-//                         >
-//                           <p>{isCopied ? "Copied!" : "Copy ID"}</p>
-//                         </TooltipContent>
-//                       </Tooltip>
-//                     </div>
-//                   </td>
-//                   {type === "transfer" && (
-//                     <td className="px-4 py-3 whitespace-nowrap font-medium capitalize text-neutral-900 dark:text-white">
-//                       {recipientName || "N/A"}
-//                     </td>
-//                   )}
-//                   <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
-//                     {formattedAmount}
-//                   </td>
-//                   <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
-//                     {currencyCode || "N/A"}
-//                   </td>
-//                   <td className="px-4 py-3 whitespace-nowrap">
-//                     <span
-//                       className={cn(
-//                         "inline-flex justify-center items-center px-4 py-1 w-28 font-medium rounded-3xl capitalize",
-//                         statusColorClasses
-//                       )}
-//                     >
-//                       {item.status || "Unknown"}
-//                     </span>
-//                   </td>
-//                   <td className="px-6 py-3 whitespace-nowrap font-medium">
-//                     {formatDate(item.createdAt, true)}
-//                   </td>
-//                   <td className="px-6 py-3 whitespace-nowrap ">
-//                     <Button
-//                       asChild
-//                       className="inline-flex items-center group px-6 py-2 rounded-3xl space-x-1 transition-colors duration-300 font-medium bg-primary hover:bg-primaryhover dark:bg-primarybox hover:dark:bg-secondarybox text-neutral-900 dark:text-primary focus:outline-none"
-//                       title={`View ${type} details`}
-//                     >
-//                       <Link href={detailLink}>
-//                         <span>View Details</span>
-//                       </Link>
-//                     </Button>
-//                   </td>
-//                 </tr>
-//               );
-//             })
-//           )}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
-
-// // --- Main Detail Page Component ---
-// const UserDetailPage: React.FC = () => {
-//   const params = useParams();
-//   const router = useRouter();
-//   const { token, isAdmin, loading: authLoading } = useAuth();
-//   const userId = params.userId as string;
-
-//   // Component State
-//   const [userData, setUserData] = useState<UserDetailState | null>(null);
-//   const [loading, setLoading] = useState<boolean>(true);
-//   const [error, setError] = useState<string | null>(null);
-//   const [activeTab, setActiveTab] = useState("kyc");
-
-//   // State for Send Message Modal
-//   const [isSendMessageModalOpen, setIsSendMessageModalOpen] = useState(false);
-//   const [messageSubject, setMessageSubject] = useState("");
-//   const [messageBody, setMessageBody] = useState("");
-//   const [isSendingMessage, setIsSendingMessage] = useState(false);
-//   const [sendMessageError, setSendMessageError] = useState<string | null>(null);
-
-//   // Fetching Logic
-//   const fetchUserDetails = useCallback(async () => {
-//     if (!userId) {
-//       setError("User ID is missing from the URL.");
-//       setLoading(false);
-//       return;
-//     }
-//     setLoading(true);
-//     setError(null);
-//     try {
-//       const data: OriginalAdminUserDetailResponse =
-//         await userAdminService.getUserDetailsAdmin(userId);
-//       // Ensure transfers and payments are always arrays, even if null/undefined from API
-//       const processedData: UserDetailState = {
-//         ...data,
-//         transfers: (data.transfers || []).map((t) => ({
-//           _id: t._id,
-//           user: t.user,
-//           recipient: t.recipient,
-//           sendAmount: String(t.sendAmount ?? "0"),
-//           sendCurrency: t.sendCurrency,
-//           status: t.status,
-//           createdAt: t.createdAt,
-//         })),
-//         payments: (data.payments || []).map((p) => ({ ...p })), // Ensure payments array exists
-//       };
-//       setUserData(processedData);
-//     } catch (err: any) {
-//       console.error("Fetch user details error:", err);
-//       setError(
-//         err.response?.data?.message ||
-//           err.message ||
-//           "Failed to load user details."
-//       );
-//       setUserData(null);
-//     } finally {
-//       setLoading(false);
-//     }
-//   }, [userId]);
-
-//   // Effect for initial fetch and auth checks
-//   useEffect(() => {
-//     if (authLoading) return;
-//     if (!token) {
-//       router.push("/auth/login?message=login_required");
-//     } else if (!isAdmin) {
-//       setError("Access Denied: Administrator privileges required.");
-//       setLoading(false);
-//     } else {
-//       fetchUserDetails();
-//     }
-//   }, [token, isAdmin, authLoading, userId, router, fetchUserDetails]);
-
-//   // Function to handle sending the message
-//   const handleSendMessage = async () => {
-//     if (!userData || !messageSubject.trim() || !messageBody.trim()) {
-//       setSendMessageError("Subject and body cannot be empty.");
-//       return;
-//     }
-//     setIsSendingMessage(true);
-//     setSendMessageError(null); // Clear previous errors on new attempt
-//     try {
-//       await userAdminService.sendMessageToUser(userData._id, {
-//         subject: messageSubject.trim(),
-//         body: messageBody.trim(),
-//       });
-//       toast.success("Message sent successfully!");
-//       setMessageSubject(""); // Reset form
-//       setMessageBody("");
-//       setIsSendMessageModalOpen(false); // Close modal on success
-//     } catch (err: any) {
-//       console.error("Send message error:", err);
-//       const errorMsg =
-//         err.response?.data?.message || err.message || "Failed to send message.";
-//       setSendMessageError(errorMsg); // Set error to display in modal
-//       toast.error("Failed to send message", { description: errorMsg });
-//     } finally {
-//       setIsSendingMessage(false);
-//     }
-//   };
-
-//   // Function to clear the send error state (passed to modal)
-//   const clearSendError = () => {
-//     setSendMessageError(null);
-//   };
-
-//   // --- Render Logic ---
-//   if (loading || authLoading) return <LoadingSkeleton />;
-
-//   if (error)
-//     return (
-//       <div className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
-//         <ErrorDisplay error={error} onRetry={fetchUserDetails} />
-//       </div>
-//     );
-//   if (!userData)
-//     return (
-//       <div className="min-h-screen bg-background p-4 sm:p-6 lg:p-8 text-center py-16 text-muted-foreground">
-//         User data not found.
-//       </div>
-//     );
-
-//   // Destructure data for easier access
-//   const { kyc, accounts, transfers, payments } = userData;
-//   const kycStatusConfig = getKycStatusConfig(kyc?.status);
-//   const showKycManagementButton =
-//     kyc &&
-//     (kyc.status === "verified" ||
-//       kyc.status === "rejected" ||
-//       kyc.status === "pending");
-
-//   // Tabs definition (for dynamic rendering and motion)
-//   const tabs = [
-//     { value: "kyc", label: "KYC & Documents", icon: FileText },
-//     { value: "transfers", label: "Transfers (Send)", icon: Send },
-//     { value: "payments", label: "Payments (Add)", icon: Landmark },
-//   ];
-
-//   // Framer Motion Variants
-//   const containerVariants = {
-//     hidden: { opacity: 0 },
-//     visible: {
-//       opacity: 1,
-//       transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-//     },
-//   };
-//   const itemVariants = {
-//     hidden: { y: 20, opacity: 0 },
-//     visible: {
-//       y: 0,
-//       opacity: 1,
-//       transition: { type: "spring", stiffness: 100 },
-//     },
-//   };
-
-//   return (
-//     <div className="container mx-auto px-4 py-5 relative">
-//       <div className="space-y-6">
-//         {/* --- Header Section --- */}
-//         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-//           <div className="Heading">
-//             <div className="flex items-center text-sm text-gray-500 mb-2 flex-wrap">
-//               <Link
-//                 href="/admin"
-//                 className="text-gray-500 hover:text-primary dark:text-gray-300 hover:dark:text-primary"
-//               >
-//                 Admin
-//               </Link>
-//               <ChevronRight className="size-4 mx-1 flex-shrink-0 dark:text-white" />
-//               <Link
-//                 href="/admin/users"
-//                 className="text-gray-500 hover:text-primary dark:text-gray-300 hover:dark:text-primary"
-//               >
-//                 Users
-//               </Link>
-//               <ChevronRight className="size-4 mx-1 flex-shrink-0 dark:text-white" />
-//               <span
-//                 className="text-neutral-900 dark:text-white truncate"
-//                 title={userId}
-//               >
-//                 Details (
-//                 {userId ? `${userId.substring(0, 8)}...` : "Loading..."})
-//               </span>
-//             </div>
-//             <h1 className="lg:text-3xl text-2xl font-medium text-mainheading dark:text-primary">
-//               User Details
-//             </h1>
-//           </div>
-
-//           {/* --- Action Buttons Area --- */}
-//           <div className="flex items-center gap-3 flex-wrap">
-//             {/* Send Message Button */}
-//             <button
-//               onClick={() => setIsSendMessageModalOpen(true)}
-//               className="flex items-center justify-center gap-1.5 bg-lightgray cursor-pointer hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear text-base font-medium border-transparent dark:border-transparent hover:border-gray-300 dark:hover:border-gray-600"
-//             >
-//               <MessageSquarePlus className="size-5 mr-1.5" /> Send Message
-//             </button>
-
-//             {/* Manage KYC Button */}
-//             {showKycManagementButton && (
-//               <button className="flex items-center justify-center gap-1.5 bg-primary cursor-pointer text-neutral-900 hover:bg-primaryhover dark:bg-primary dark:text-neutral-900 dark:hover:bg-primaryhover px-8 py-3 h-[50px] sm:w-auto w-full rounded-full transition-all duration-75 ease-linear text-base font-medium">
-//                 <IdCard className="size-5 mr-1.5" />
-//                 <Link href={`/admin/kyc-management/${userId}`}>Manage KYC</Link>
-//               </button>
-//             )}
-//           </div>
-//         </div>
-
-//         {/* --- User Profile Card --- */}
-//         <Card className="overflow-hidden border shadow-none">
-//           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
-//             <div className="flex items-center gap-4">
-//               <Avatar className="h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0 bg-lightgray dark:bg-primarybox">
-//                 <AvatarFallback className="text-xl font-semibold text-neutral-900 dark:text-white">
-//                   {getInitials(userData.fullName)}
-//                 </AvatarFallback>
-//               </Avatar>
-
-//               <div className="space-y-0.5">
-//                 <CardTitle className="text-lg sm:text-xl text-neutral-900 dark:text-white">
-//                   {userData.fullName}
-//                 </CardTitle>
-
-//                 <CardDescription className="text-sm text-gray-500 dark:text-gray-300">
-//                   {userData.email}
-//                 </CardDescription>
-
-//                 <Badge
-//                   variant={userData.role === "admin" ? "default" : "secondary"}
-//                   className={cn(
-//                     "mt-1.5 text-xs capitalize px-3 py-2 rounded-full",
-//                     userData.role === "admin"
-//                       ? "bg-primary text-neutral-900"
-//                       : "bg-lightgray dark:bg-primarybox text-neutral-900 dark:text-white"
-//                   )}
-//                 >
-//                   {userData.role} Account
-//                 </Badge>
-//               </div>
-//             </div>
-
-//             <div className="flex flex-col items-start sm:items-end gap-1 text-sm text-gray-500 dark:text-gray-300 flex-shrink-0">
-//               <span className="flex items-center gap-1.5">
-//                 <CalendarDays className="h-4 w-4" /> Joined:{" "}
-//                 {formatDate(userData.createdAt)}
-//               </span>
-//               <span className="flex items-center gap-1.5">
-//                 <Clock className="h-4 w-4" /> Updated:{" "}
-//                 {formatDate(userData.updatedAt)}
-//               </span>
-
-//               {/* Tooltip Design For ID: */}
-//               <Tooltip>
-//                 <TooltipTrigger asChild>
-//                   <span className="cursor-help underline decoration-dotted decoration-border">
-//                     ID: {userData._id.substring(userData._id.length - 8)}
-//                   </span>
-//                 </TooltipTrigger>
-
-//                 <TooltipContent
-//                   side="bottom"
-//                   sideOffset={5}
-//                   className="bg-[#e4e4e4] dark:bg-secondarybox text-white p-2 px-3 sm:mr-5 mr-0 rounded-2xl max-w-60 xl:max-w-lg"
-//                 >
-//                   <p className="font-medium dark:text-white text-neutral-900 text-xs">
-//                     {userData._id}
-//                   </p>
-//                 </TooltipContent>
-//               </Tooltip>
-//             </div>
-//           </CardHeader>
-
-//           {accounts && accounts.length > 0 && (
-//             <CardContent className="p-4 sm:p-6">
-//               <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
-//                 <Wallet className="h-5 w-5 text-primary" /> Account Balances
-//               </h3>
-//               <div className="flex flex-nowrap overflow-x-auto space-x-4 pb-2 sm:grid sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 sm:space-x-0 sm:pb-0 sm:overflow-x-visible">
-//                 {accounts.map((acc) => (
-//                   <div
-//                     key={acc._id}
-//                     className="flex-shrink-0 w-36 sm:w-auto border rounded-lg p-4 hover:bg-lightgray dark:hover:bg-primarybox transition-all duration-75 ease-linear flex flex-col justify-between"
-//                   >
-//                     <div>
-//                       <div className="flex items-center justify-between mb-1">
-//                         <span className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
-//                           {acc.currency?.code || "N/A"}
-//                         </span>
-//                       </div>
-//                       <div className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight mb-1">
-//                         {acc.balance != null
-//                           ? acc.balance.toLocaleString(undefined, {
-//                               minimumFractionDigits: 2,
-//                               maximumFractionDigits: 2,
-//                             })
-//                           : "--.--"}
-//                       </div>
-//                     </div>
-//                   </div>
-//                 ))}
-//               </div>
-//             </CardContent>
-//           )}
-//         </Card>
-
-//         {/* --- Tabs Section --- */}
-//         <Tabs
-//           defaultValue="kyc"
-//           value={activeTab}
-//           onValueChange={setActiveTab}
-//           className="w-full"
-//         >
-//           <div className="overflow-hidden mb-4 rounded-full">
-//             <TabsList className="relative z-0 flex w-full h-full overflow-x-auto whitespace-nowrap dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
-//               {tabs.map((tab) => (
-//                 <TabsTrigger
-//                   key={tab.value}
-//                   value={tab.value}
-//                   className={cn(
-//                     "relative px-4 py-3 flex items-center justify-center gap-2 text-base shrink-0 min-w-max rounded-full text-neutral-900 dark:text-white data-[state=active]:text-neutral-900 dark:data-[state=active]:text-primary border-none data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none cursor-pointer transition-colors duration-150 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-//                   )}
-//                 >
-//                   {activeTab === tab.value && (
-//                     <motion.div
-//                       layoutId="active-tab-indicator"
-//                       className="absolute inset-0 -z-10 bg-primary dark:bg-secondarybox rounded-full shadow-sm"
-//                       transition={{ stiffness: 350, damping: 30 }}
-//                     />
-//                   )}
-//                   <tab.icon className="size-5" />{" "}
-//                   <span className="truncate">{tab.label}</span>
-//                 </TabsTrigger>
-//               ))}
-//             </TabsList>
-//           </div>
-
-//           {/* --- KYC Tab Content --- */}
-//           <TabsContent value="kyc">
-//             <motion.div
-//               key="kyc-content"
-//               variants={containerVariants}
-//               initial="hidden"
-//               animate="visible"
-//               className="space-y-4"
-//             >
-//               <motion.div variants={itemVariants}>
-//                 <Card className="border overflow-hidden mb-4 shadow-none">
-//                   <CardHeader className="px-6 py-4 bg-lightgray dark:bg-primarybox ">
-//                     <div className="flex items-center justify-between">
-//                       <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white ">
-//                         <FileText className="text-primary size-5" /> KYC
-//                         Information
-//                       </CardTitle>
-
-//                       <Badge
-//                         className={cn(
-//                           "px-4 py-2 text-sm flex items-center rounded-full gap-1.5",
-//                           kycStatusConfig.color
-//                         )}
-//                       >
-//                         <kycStatusConfig.icon className="h-4 w-4" />{" "}
-//                         {kycStatusConfig.label}
-//                       </Badge>
-//                     </div>
-
-//                     {kyc?.status === "rejected" && kyc.rejectionReason && (
-//                       <p className="text-xs text-destructive pt-2 mt-2 border-t border-destructive/20">
-//                         <span className="font-medium">Rejection Reason:</span>{" "}
-//                         {kyc.rejectionReason}
-//                       </p>
-//                     )}
-//                   </CardHeader>
-//                   <CardContent>
-//                     {kyc ? (
-//                       <>
-//                         <div className="p-4 sm:p-6">
-//                           <h4 className="border-b pb-2 mb-2 font-medium text-neutral-900 dark:text-white">
-//                             Personal Details
-//                           </h4>
-//                           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 sm:gap-6 gap-4">
-//                             <DetailItem
-//                               label="First Name"
-//                               value={kyc.firstName}
-//                               icon={User}
-//                             />
-//                             <DetailItem
-//                               label="Last Name"
-//                               value={kyc.lastName}
-//                               icon={User}
-//                             />
-//                             <DetailItem
-//                               label="Date of Birth"
-//                               value={formatDate(kyc.dateOfBirth)}
-//                               icon={CalendarDays}
-//                             />
-//                             <DetailItem
-//                               label="Mobile"
-//                               value={formatMobile(kyc.mobile)}
-//                               icon={Phone}
-//                             />
-//                             <DetailItem
-//                               label="Nationality"
-//                               value={kyc.nationality}
-//                               icon={Globe}
-//                             />
-//                             <DetailItem
-//                               label="Occupation"
-//                               value={kyc.occupation}
-//                               icon={Briefcase}
-//                             />
-//                             <DetailItem
-//                               label="Salary Range"
-//                               value={
-//                                 kyc.salaryRange
-//                                   ? salaryDisplayMap[kyc.salaryRange]
-//                                   : undefined
-//                               }
-//                               icon={BadgeDollarSign}
-//                             />
-//                           </div>
-//                         </div>
-//                         <div className="p-4 sm:p-6">
-//                           <h4 className="border-b pb-2 mb-2 text-neutral-900 dark:text-white">
-//                             Identification Details
-//                           </h4>
-//                           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-//                             <DetailItem
-//                               label="ID Type"
-//                               value={
-//                                 <span className="capitalize">
-//                                   {kyc.idType?.replace("_", " ")}
-//                                 </span>
-//                               }
-//                               icon={Fingerprint}
-//                             />
-//                             <DetailItem
-//                               label="ID Number"
-//                               value={kyc.idNumber}
-//                               icon={IdCard}
-//                             />
-//                             <DetailItem
-//                               label="ID Issue Date"
-//                               value={formatDate(kyc.idIssueDate)}
-//                               icon={CalendarDays}
-//                             />
-//                             <DetailItem
-//                               label="ID Expiry Date"
-//                               value={formatDate(kyc.idExpiryDate)}
-//                               icon={CalendarDays}
-//                             />
-//                           </div>
-//                         </div>
-//                         <div className="p-4 sm:p-6">
-//                           <h4 className="border-b pb-2 mb-2 text-neutral-900 dark:text-white">
-//                             Updating Information
-//                           </h4>
-//                           <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-//                             <DetailItem
-//                               label="Submitted At"
-//                               value={formatDate(kyc.submittedAt, true)}
-//                               icon={Clock}
-//                             />
-//                             <DetailItem
-//                               label="Last Updated"
-//                               value={formatDate(kyc.lastUpdatedAt, true)}
-//                               icon={Clock}
-//                             />
-//                           </div>
-//                         </div>
-//                       </>
-//                     ) : (
-//                       <p className="text-sm text-gray-500 dark:text-gray-300 italic py-4 text-center">
-//                         KYC details not submitted.
-//                       </p>
-//                     )}
-//                   </CardContent>
-//                 </Card>
-//               </motion.div>
-//               <motion.div variants={itemVariants}>
-//                 <Card className="border overflow-hidden mb-4 shadow-none">
-//                   <CardHeader className="px-6 py-4 bg-lightgray dark:bg-primarybox ">
-//                     <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white ">
-//                       <CloudUpload className="text-primary" /> Submitted
-//                       Documents
-//                     </CardTitle>
-//                   </CardHeader>
-
-//                   {kyc?.documents && kyc.documents.length > 0 ? (
-//                     <div className="p-4 sm:p-6">
-//                       <div className="flex md:flex-row flex-col gap-4">
-//                         {kyc.documents.map((doc) => (
-//                           <div
-//                             key={doc.public_id}
-//                             className="border rounded-lg overflow-hidden bg-muted/30 dark:bg-muted/20 md:w-1/2 w-full"
-//                           >
-//                             <div className="p-3 border-b text-neutral-900 dark:text-white">
-//                               <h4 className="text-sm font-medium capitalize">
-//                                 {doc.docType.replace("_", " ")}
-//                               </h4>
-//                             </div>
-//                             <div className="p-2 flex items-center justify-center aspect-video bg-white dark:bg-background overflow-hidden relative group">
-//                               {doc.url ? (
-//                                 <>
-//                                   {doc.url.toLowerCase().endsWith(".pdf") ? (
-//                                     <div className="flex flex-col items-center justify-center text-center text-muted-foreground">
-//                                       <FileText className="h-12 w-12 mb-2" />
-//                                       <span className="text-xs">
-//                                         PDF Document
-//                                       </span>
-//                                     </div>
-//                                   ) : (
-//                                     <Image
-//                                       src={doc.url}
-//                                       alt={`${doc.docType} preview`}
-//                                       fill
-//                                       className="object-contain"
-//                                       unoptimized
-//                                     />
-//                                   )}
-//                                   <a
-//                                     href={doc.url}
-//                                     target="_blank"
-//                                     rel="noopener noreferrer"
-//                                     className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white transition-opacity cursor-pointer"
-//                                     aria-label={`View full ${doc.docType.replace(
-//                                       "_",
-//                                       " "
-//                                     )} document`}
-//                                   >
-//                                     <Eye className="h-6 w-6 mb-1" />{" "}
-//                                     <span className="text-xs font-medium">
-//                                       View Full
-//                                     </span>
-//                                   </a>
-//                                 </>
-//                               ) : (
-//                                 <p className="text-xs text-muted-foreground italic">
-//                                   Document URL missing.
-//                                 </p>
-//                               )}
-//                             </div>
-//                           </div>
-//                         ))}
-//                       </div>
-//                     </div>
-//                   ) : (
-//                     <CardContent className="p-4">
-//                       <p className="text-sm text-gray-500 dark:text-gray-300 italic text-center">
-//                         No documents submitted.
-//                       </p>
-//                     </CardContent>
-//                   )}
-//                 </Card>
-//               </motion.div>
-//             </motion.div>
-//           </TabsContent>
-
-//           {/* --- Transfers Tab Content --- */}
-//           <TabsContent value="transfers">
-//             <motion.div
-//               key="transfers-content"
-//               variants={containerVariants}
-//               initial="hidden"
-//               animate="visible"
-//             >
-//               <motion.div variants={itemVariants}>
-//                 <Card className="border-0 bg-transparent shadow-none overflow-hidden">
-//                   <CardHeader className="p-4 ">
-//                     <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white">
-//                       <Send className="h-5 w-5 text-primary" /> Recent Transfers
-//                       (Send Money)
-//                     </CardTitle>
-//                     <CardDescription className="text-sm mt-1 text-gray-500 dark:text-gray-300">
-//                       Last 5 transfers by this user.
-//                     </CardDescription>
-//                   </CardHeader>
-//                   {/* Pass transfers array, ensuring it's never null/undefined */}
-//                   <CardContent className="p-0">
-//                     <TransactionTable data={transfers ?? []} type="transfer" />
-//                   </CardContent>
-//                 </Card>
-//               </motion.div>
-//             </motion.div>
-//           </TabsContent>
-
-//           {/* --- Payments Tab Content --- */}
-//           <TabsContent value="payments">
-//             <motion.div
-//               key="payments-content"
-//               variants={containerVariants}
-//               initial="hidden"
-//               animate="visible"
-//             >
-//               <motion.div variants={itemVariants}>
-//                 <Card className="border-0 bg-transparent shadow-none overflow-hidden">
-//                   <CardHeader className="p-4">
-//                     <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white">
-//                       <Landmark className="h-5 w-5 text-primary" /> Recent
-//                       Payments (Add Money)
-//                     </CardTitle>
-//                     <CardDescription className="text-sm !mt-1 text-gray-500 dark:text-gray-300">
-//                       Last 5 payment attempts.
-//                     </CardDescription>
-//                   </CardHeader>
-//                   {/* Pass payments array, ensuring it's never null/undefined */}
-//                   <CardContent className="p-0">
-//                     <TransactionTable data={payments ?? []} type="payment" />
-//                   </CardContent>
-//                 </Card>
-//               </motion.div>
-//             </motion.div>
-//           </TabsContent>
-//         </Tabs>
-//       </div>
-
-//       {/* --- Render the SendMessageModal --- */}
-//       {/* Placed outside the main layout flow as it uses fixed positioning */}
-//       <SendMessageModal
-//         isOpen={isSendMessageModalOpen}
-//         setIsOpen={setIsSendMessageModalOpen}
-//         userName={userData?.fullName || "this user"} // Pass user name safely
-//         subject={messageSubject}
-//         setSubject={setMessageSubject}
-//         body={messageBody}
-//         setBody={setMessageBody}
-//         isSending={isSendingMessage}
-//         handleSend={handleSendMessage} // Pass the send handler function
-//         sendError={sendMessageError} // Pass the error state
-//         clearSendError={clearSendError} // Pass the error clearing function
-//       />
-//     </div>
-//   );
-// };
-
-// export default UserDetailPage;
-
-// "use client";
-
-// import React, { useState, useEffect, useCallback } from "react";
-// import { useParams, useRouter } from "next/navigation";
-// import Link from "next/link";
-// import Image from "next/image";
-// import { motion } from "framer-motion"; // Import motion
-
-// // Service Imports
-// import userAdminService from "../../../services/admin/user.admin";
-// import type { AdminUserDetailResponse as OriginalAdminUserDetailResponse } from "../../../services/admin/user.admin";
-// import type { KycMobile, KycStatus } from "../../../services/kyc";
-// import type { Payment } from "@/types/payment"; // Assuming Payment type exists
-
-// // Auth Context
-// import { useAuth } from "../../../contexts/AuthContext";
-
-// // Shadcn UI Components
-// import {
-//   Card,
-//   CardContent,
-//   CardHeader,
-//   CardTitle,
-//   CardDescription,
-// } from "@/components/ui/card";
-// import { Badge } from "@/components/ui/badge";
-// import { Skeleton } from "@/components/ui/skeleton";
-// import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-// import { Button } from "@/components/ui/button"; // Ensure Button is imported
-// import {
-//   Tooltip,
-//   TooltipContent,
-//   TooltipProvider,
-//   TooltipTrigger,
-// } from "@/components/ui/tooltip";
-// import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-// // Icons (Lucide React)
-// import {
-//   ArrowLeft,
-//   User,
-//   Mail,
-//   ShieldCheck,
-//   CalendarDays,
-//   ChevronRight,
-//   Phone,
-//   Briefcase,
-//   UserCheck,
-//   UserX,
-//   HelpCircle,
-//   BadgeDollarSign,
-//   Fingerprint,
-//   Globe,
-//   FileText,
-//   AlertCircle,
-//   Eye,
-//   Wallet,
-//   Send,
-//   Landmark,
-//   Clock,
-//   Copy,
-//   Check,
-//   MessageSquarePlus,
-//   IdCard, // Used for KYC button
-//   CloudUpload,
-//   CheckCircle,
-//   XCircle, // For the trigger button
-// } from "lucide-react";
-
-// // Utility & Toast
-// import { cn } from "@/lib/utils";
-// import { toast } from "sonner"; // For feedback
-
-// // --- Import the Send Message Modal ---
-// import SendMessageModal from "../../components/users/SendMessageModal"; // Adjust path if needed
-
-// // --- Define Local Transfer type used WITHIN UserDetailPage ---
-// // (Ensure this matches the structure returned by your backend or adapt as needed)
-// interface Transfer {
-//   _id: string;
-//   user?: {
-//     _id?: string;
-//     fullName?: string;
-//     email?: string;
-//   };
-//   recipient?: {
-//     _id?: string;
-//     accountHolderName?: string;
-//   };
-//   sendAmount: string; // Assuming string representation after processing
-//   sendCurrency?: {
-//     code?: string;
-//   };
-//   status: string;
-//   createdAt: string; // ISO Date string
-// }
-
-// // --- Define Local State Type based on Service Response but with modified Transfer type ---
-// interface UserDetailState
-//   extends Omit<OriginalAdminUserDetailResponse, "transfers"> {
-//   transfers: Transfer[];
-//   payments: Payment[]; // Assuming Payment type is already correct
-// }
-
-// // --- Helper Functions ---
-// const formatDate = (
-//   dateInput?: string | Date | null,
-//   includeTime = false
-// ): string => {
-//   if (!dateInput) return "N/A";
-//   try {
-//     const date = new Date(dateInput);
-//     if (isNaN(date.getTime())) return "Invalid Date";
-//     const options: Intl.DateTimeFormatOptions = {
-//       year: "numeric",
-//       month: "short",
-//       day: "numeric",
-//       ...(includeTime && { hour: "2-digit", minute: "2-digit", hour12: true }),
-//     };
-//     return date.toLocaleDateString("en-US", options);
-//   } catch (e) {
-//     return "Invalid Date";
-//   }
-// };
-
-// const formatMobile = (mobile?: KycMobile | null): string => {
-//   if (!mobile || !mobile.countryCode?.trim() || !mobile.number?.trim())
-//     return "N/A";
-//   return `${mobile.countryCode} ${mobile.number}`;
-// };
-
-// const getKycStatusConfig = (status?: KycStatus | null) => {
-//   const statusMap: Record<
-//     KycStatus | "unknown",
-//     { color: string; icon: React.ElementType; label: string }
-//   > = {
-//     verified: {
-//       color:
-//         "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
-//       icon: CheckCircle,
-//       label: "Verified",
-//     },
-//     rejected: {
-//       color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
-//       icon: XCircle,
-//       label: "Rejected",
-//     },
-//     pending: {
-//       color:
-//         "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
-//       icon: Clock,
-//       label: "Pending",
-//     },
-//     skipped: {
-//       color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
-//       icon: ArrowLeft,
-//       label: "Skipped", // Assuming ArrowLeft is appropriate
-//     },
-//     not_started: {
-//       color: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",
-//       icon: HelpCircle,
-//       label: "Not Started",
-//     },
-//     unknown: {
-//       color: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",
-//       icon: AlertCircle,
-//       label: "Unknown",
-//     },
-//   };
-//   return statusMap[status || "not_started"] || statusMap.unknown;
-// };
-
-// const getTransactionStatusColorClasses = (status?: string | null): string => {
-//   switch (status?.toLowerCase()) {
-//     case "completed":
-//     case "credited":
-//       return "text-green-600 bg-green-100 dark:bg-green-600/20 dark:text-green-400";
-//     case "pending":
-//       return "text-yellow-600 bg-yellow-100 dark:bg-yellow-600/20 dark:text-yellow-400";
-//     case "processing":
-//     case "in progress":
-//       return "text-blue-600 bg-blue-100 dark:bg-blue-600/20 dark:text-blue-400";
-//     case "failed":
-//       return "text-rose-600 bg-rose-100 dark:bg-rose-600/20 dark:text-rose-400";
-//     case "canceled":
-//     case "cancelled":
-//       return "text-red-600 bg-red-100 dark:bg-red-600/20 dark:text-red-400";
-//     default:
-//       return "text-gray-600 bg-gray-100 dark:bg-gray-600/20 dark:text-gray-400";
-//   }
-// };
-
-// const getInitials = (name?: string | null): string => {
-//   if (!name) return "??";
-//   return name
-//     .split(" ")
-//     .map((part) => part[0])
-//     .filter(Boolean)
-//     .join("")
-//     .substring(0, 2)
-//     .toUpperCase();
-// };
-
-// const salaryDisplayMap: Record<string, string> = {
-//   "0-1000": "Below $10,000", // Assuming these map to ranges like annual salary
-//   "10000-50000": "$10,000 - $49,999",
-//   "50000-100000": "$50,000 - $99,999",
-//   "100000+": "$100,000 or more",
-// };
-
-// // --- DetailItem Component ---
-// const DetailItem = ({
-//   label,
-//   value,
-//   icon: Icon,
-//   isImportant = false,
-//   className = "",
-// }: {
-//   label: string;
-//   value: React.ReactNode;
-//   icon?: React.ElementType;
-//   isImportant?: boolean;
-//   className?: string;
-// }) => (
-//   <div className={cn("py-2 space-y-2", className)}>
-//     <dt className="text-sm font-medium text-neutral-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
-//       {Icon && <Icon className="flex-shrink-0 text-primary size-4" />}
-//       {label}
-//     </dt>
-//     <dd
-//       className={cn(
-//         "text-sm break-words text-gray-500 dark:text-gray-300",
-//         isImportant ? "font-semibold" : ""
-//       )}
-//     >
-//       {value || <span className="italic">N/A</span>}
-//     </dd>
-//   </div>
-// );
-
-// // --- Loading Skeleton Component ---
-// const LoadingSkeleton = () => (
-//   <div className="container mx-auto px-4 py-8">
-//     <div className="space-y-6">
-//       {/* Header Skeleton */}
-//       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-//         <div>
-//           <Skeleton className="h-4 w-64 mb-3 rounded " /> {/* Breadcrumbs */}
-//           <Skeleton className="h-10 w-48 rounded " /> {/* Title */}
-//         </div>
-//         {/* Combined Actions Skeleton */}
-//         <div className="flex items-center gap-3">
-//           {" "}
-//           {/* Adjusted gap */}
-//           <Skeleton className="h-[50px] w-48 rounded-full" />{" "}
-//           {/* Send Message Button Skeleton */}
-//           <Skeleton className="h-[50px] w-48 rounded-full" />{" "}
-//           {/* Manage KYC Button Skeleton */}
-//         </div>
-//       </div>
-//       {/* User Profile Card Skeleton */}
-//       <div className="border rounded-lg bg-card overflow-hidden">
-//         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
-//           <div className="flex items-center gap-4 flex-1">
-//             <Skeleton className="h-14 w-14 sm:h-16 sm:w-16 rounded-full flex-shrink-0 " />
-//             <div className="space-y-1.5 flex-1">
-//               <Skeleton className="h-6 w-3/4  rounded" />{" "}
-//               <Skeleton className="h-4 w-1/2  rounded" />{" "}
-//               <Skeleton className="h-5 w-20  rounded-md" />
-//             </div>
-//           </div>
-//           <div className="space-y-1 text-right flex-shrink-0">
-//             <Skeleton className="h-3 w-28  rounded" />{" "}
-//             <Skeleton className="h-3 w-24  rounded" />{" "}
-//             <Skeleton className="h-3 w-32  rounded" />
-//           </div>
-//         </div>
-//         <div className="p-4 sm:p-6">
-//           <Skeleton className="h-5 w-1/4  rounded mb-4" />
-//           <div className="flex flex-nowrap overflow-x-auto space-x-4 pb-2 sm:grid sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 sm:space-x-0 sm:pb-0 sm:overflow-x-visible">
-//             {[...Array(5)].map((_, i) => (
-//               <Skeleton
-//                 key={i}
-//                 className="flex-shrink-0 w-36 sm:w-auto h-24 rounded-lg"
-//               />
-//             ))}
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Tabs Section Skeleton */}
-//       <div className="w-full">
-//         <div className="overflow-hidden mb-4">
-//           <div className="relative flex w-full h-full overflow-x-auto whitespace-nowrap gap-3 bg-lightborder dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
-//             <Skeleton className="h-9 flex-1 rounded-full" />
-//             <Skeleton className="h-9 flex-1 rounded-full" />
-//             <Skeleton className="h-9 flex-1 rounded-full" />
-//           </div>
-//         </div>
-//         <div className="space-y-4">
-//           <div className="border rounded-lg bg-card overflow-hidden">
-//             <div className="px-6 py-4 bg-lightgray dark:bg-primarybox">
-//               <div className="flex items-center justify-between">
-//                 <Skeleton className="h-6 w-40  rounded" />{" "}
-//                 <Skeleton className="h-7 w-24  rounded-full" />
-//               </div>
-//             </div>
-//             <div className="p-4 sm:p-6 space-y-4">
-//               <div>
-//                 <Skeleton className="h-4 w-32  rounded mb-3 border-b border-transparent pb-2" />
-//                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-//                   {[...Array(6)].map((_, i) => (
-//                     <div key={`pd-skel-${i}`} className="py-2 space-y-2">
-//                       <Skeleton className="h-4 w-1/3  rounded" />
-//                       <Skeleton className="h-5 w-3/4  rounded" />
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//               <div>
-//                 <Skeleton className="h-4 w-40  rounded mb-3 border-b border-transparent pb-2" />
-//                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-//                   {[...Array(4)].map((_, i) => (
-//                     <div key={`id-skel-${i}`} className="py-2 space-y-2">
-//                       <Skeleton className="h-4 w-1/3  rounded" />
-//                       <Skeleton className="h-5 w-3/4  rounded" />
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//               <div>
-//                 <Skeleton className="h-4 w-48  rounded mb-3 border-b border-transparent pb-2" />
-//                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-//                   {[...Array(2)].map((_, i) => (
-//                     <div key={`upd-skel-${i}`} className="py-2 space-y-2">
-//                       <Skeleton className="h-4 w-1/3  rounded" />
-//                       <Skeleton className="h-5 w-3/4  rounded" />
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-
-//           <div className="border rounded-lg bg-card overflow-hidden">
-//             <div className="px-6 py-4 bg-lightgray dark:bg-primarybox">
-//               <Skeleton className="h-6 w-44 rounded" />
-//             </div>
-//             <div className="p-4 sm:p-6">
-//               <div className="flex md:flex-row flex-col gap-4">
-//                 <div className="border rounded-lg overflow-hidden md:w-1/2 w-full">
-//                   <div className="p-3">
-//                     <Skeleton className="h-4 w-1/3  rounded" />
-//                   </div>
-//                   <Skeleton className="aspect-video w-full rounded-none" />
-//                 </div>
-//                 <div className="border rounded-lg overflow-hidden md:w-1/2 w-full">
-//                   <div className="p-3">
-//                     <Skeleton className="h-4 w-1/3  rounded" />
-//                   </div>
-//                   <Skeleton className="aspect-video w-full rounded-none" />
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-// );
-
-// // --- Error Display Component ---
-// const ErrorDisplay = ({
-//   error,
-//   onRetry,
-// }: {
-//   error: string | null;
-//   onRetry: () => void;
-// }) => (
-//   <Alert variant="destructive" className="mt-6">
-//     <AlertCircle className="h-4 w-4" />
-//     <AlertTitle>Error Loading User Details</AlertTitle>
-//     <AlertDescription>
-//       {error || "An unexpected error occurred."}
-//       <Button
-//         variant="destructive"
-//         size="sm"
-//         onClick={onRetry}
-//         className="mt-2 ml-auto block"
-//       >
-//         Retry
-//       </Button>
-//     </AlertDescription>
-//   </Alert>
-// );
-
-// // --- Transaction Table Component ---
-// const TransactionTable = ({
-//   data,
-//   type,
-// }: {
-//   data: (Transfer | Payment)[];
-//   type: "transfer" | "payment";
-// }) => {
-//   const isTransfer = (item: Transfer | Payment): item is Transfer =>
-//     type === "transfer";
-//   const [copiedId, setCopiedId] = useState<string | null>(null);
-
-//   const handleCopy = (idToCopy: string) => {
-//     navigator.clipboard.writeText(idToCopy).then(
-//       () => {
-//         setCopiedId(idToCopy);
-//         setTimeout(() => setCopiedId(null), 1500);
-//       },
-//       (err) => {
-//         console.error("Failed to copy ID: ", err);
-//         toast.error("Failed to copy ID");
-//       }
-//     );
-//   };
-
-//   const numberOfColumns = type === "transfer" ? 7 : 6; // Adjust based on columns
-
-//   return (
-//     <div className="rounded-xl border overflow-hidden overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
-//       <table className="min-w-full overflow-hidden">
-//         <thead className="bg-lightgray dark:bg-primarybox ">
-//           <tr className="border-b">
-//             <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//               ID
-//             </th>
-//             {type === "transfer" && (
-//               <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//                 Recipient
-//               </th>
-//             )}
-//             <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//               Amount
-//             </th>
-//             <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//               Currency
-//             </th>
-//             <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//               Status
-//             </th>
-//             <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//               Date
-//             </th>
-//             <th className="px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase">
-//               Details
-//             </th>
-//           </tr>
-//         </thead>
-//         <tbody className="divide-y overflow-hidden">
-//           {!data || data.length === 0 ? (
-//             <tr>
-//               <td
-//                 colSpan={numberOfColumns}
-//                 className="px-6 py-10 text-center text-gray-500 dark:text-gray-300"
-//               >
-//                 No {type}s found.
-//               </td>
-//             </tr>
-//           ) : (
-//             data.slice(0, 5).map((item) => {
-//               // Displaying only top 5
-//               const statusColorClasses = getTransactionStatusColorClasses(
-//                 item.status
-//               );
-//               const amountValue = isTransfer(item)
-//                 ? item.sendAmount
-//                 : String((item as Payment).amountToAdd ?? "0");
-//               const formattedAmount =
-//                 amountValue != null
-//                   ? Number(amountValue).toLocaleString(undefined, {
-//                       minimumFractionDigits: 2,
-//                       maximumFractionDigits: 2,
-//                     })
-//                   : "N/A";
-//               const currencyCode = isTransfer(item)
-//                 ? item.sendCurrency?.code
-//                 : (item as Payment).payInCurrency?.code;
-//               const recipientName = isTransfer(item)
-//                 ? item.recipient?.accountHolderName
-//                 : undefined;
-//               const detailLink =
-//                 type === "transfer"
-//                   ? `/admin/transfer/${item._id}`
-//                   : `/admin/add-money`; // Adapt payment link if needed
-//               const isCopied = copiedId === item._id;
-
-//               return (
-//                 <tr key={item._id}>
-//                   <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
-//                     <div className="flex items-center gap-2">
-//                       <span className="underline decoration-dashed decoration-border cursor-default">
-//                         {item._id.substring(item._id.length - 6)}
-//                       </span>
-//                       <Tooltip>
-//                         <TooltipTrigger asChild>
-//                           <button
-//                             className={cn(
-//                               "h-5 w-5 p-0 text-muted-foreground hover:text-foreground transition-colors",
-//                               isCopied && "text-green-500 hover:text-green-600"
-//                             )}
-//                             onClick={() => handleCopy(item._id)}
-//                             aria-label={isCopied ? "Copied!" : "Copy ID"}
-//                           >
-//                             {isCopied ? (
-//                               <Check size={18} />
-//                             ) : (
-//                               <Copy size={18} />
-//                             )}
-//                           </button>
-//                         </TooltipTrigger>
-
-//                         <TooltipContent
-//                           side="bottom"
-//                           sideOffset={5}
-//                           className="bg-[#e4e4e4] dark:bg-secondarybox text-white p-2 px-3 rounded-2xl max-w-50 xl:max-w-lg"
-//                         >
-//                           <p>{isCopied ? "Copied!" : "Copy ID"}</p>
-//                         </TooltipContent>
-//                       </Tooltip>
-//                     </div>
-//                   </td>
-//                   {type === "transfer" && (
-//                     <td className="px-4 py-3 whitespace-nowrap font-medium capitalize text-neutral-900 dark:text-white">
-//                       {recipientName || "N/A"}
-//                     </td>
-//                   )}
-//                   <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
-//                     {formattedAmount}
-//                   </td>
-//                   <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
-//                     {currencyCode || "N/A"}
-//                   </td>
-//                   <td className="px-4 py-3 whitespace-nowrap">
-//                     <span
-//                       className={cn(
-//                         "inline-flex justify-center items-center px-4 py-1 w-28 font-medium rounded-3xl capitalize",
-//                         statusColorClasses
-//                       )}
-//                     >
-//                       {item.status || "Unknown"}
-//                     </span>
-//                   </td>
-//                   <td className="px-6 py-3 whitespace-nowrap font-medium">
-//                     {formatDate(item.createdAt, true)}
-//                   </td>
-//                   <td className="px-6 py-3 whitespace-nowrap ">
-//                     <Button
-//                       asChild
-//                       className="inline-flex items-center group px-6 py-2 rounded-3xl space-x-1 transition-colors duration-300 font-medium bg-primary hover:bg-primaryhover dark:bg-primarybox hover:dark:bg-secondarybox text-neutral-900 dark:text-primary focus:outline-none"
-//                       title={`View ${type} details`}
-//                     >
-//                       <Link href={detailLink}>
-//                         <span>View Details</span>
-//                       </Link>
-//                     </Button>
-//                   </td>
-//                 </tr>
-//               );
-//             })
-//           )}
-//         </tbody>
-//       </table>
-//     </div>
-//   );
-// };
-
-// // --- Main Detail Page Component ---
-// const UserDetailPage: React.FC = () => {
-//   const params = useParams();
-//   const router = useRouter();
-//   const { token, isAdmin, loading: authLoading } = useAuth();
-//   const userId = params.userId as string;
-
-//   // Component State
-//   const [userData, setUserData] = useState<UserDetailState | null>(null);
-//   const [loading, setLoading] = useState<boolean>(true);
-//   const [error, setError] = useState<string | null>(null);
-//   const [activeTab, setActiveTab] = useState("kyc");
-
-//   // State for Send Message Modal
-//   const [isSendMessageModalOpen, setIsSendMessageModalOpen] = useState(false);
-//   const [messageSubject, setMessageSubject] = useState("");
-//   const [messageBody, setMessageBody] = useState("");
-//   const [isSendingMessage, setIsSendingMessage] = useState(false);
-//   const [sendMessageError, setSendMessageError] = useState<string | null>(null);
-
-//   // --- START: Background Scroll Lock Logic ---
-//   useEffect(() => {
-//     if (isSendMessageModalOpen) {
-//       document.body.style.overflow = "hidden";
-//     } else {
-//       document.body.style.overflow = ""; // Or 'auto' if that's your default
-//     }
-//     // Cleanup function to ensure scroll is restored if component unmounts while modal is open
-//     return () => {
-//       document.body.style.overflow = ""; // Or 'auto'
-//     };
-//   }, [isSendMessageModalOpen]);
-//   // --- END: Background Scroll Lock Logic ---
-
-//   // Fetching Logic
-//   const fetchUserDetails = useCallback(async () => {
-//     if (!userId) {
-//       setError("User ID is missing from the URL.");
-//       setLoading(false);
-//       return;
-//     }
-//     setLoading(true);
-//     setError(null);
-//     try {
-//       const data: OriginalAdminUserDetailResponse =
-//         await userAdminService.getUserDetailsAdmin(userId);
-//       // Ensure transfers and payments are always arrays, even if null/undefined from API
-//       const processedData: UserDetailState = {
-//         ...data,
-//         transfers: (data.transfers || []).map((t) => ({
-//           _id: t._id,
-//           user: t.user,
-//           recipient: t.recipient,
-//           sendAmount: String(t.sendAmount ?? "0"),
-//           sendCurrency: t.sendCurrency,
-//           status: t.status,
-//           createdAt: t.createdAt,
-//         })),
-//         payments: (data.payments || []).map((p) => ({ ...p })), // Ensure payments array exists
-//       };
-//       setUserData(processedData);
-//     } catch (err: any) {
-//       console.error("Fetch user details error:", err);
-//       setError(
-//         err.response?.data?.message ||
-//           err.message ||
-//           "Failed to load user details."
-//       );
-//       setUserData(null);
-//     } finally {
-//       setLoading(false);
-//     }
-//   }, [userId]);
-
-//   // Effect for initial fetch and auth checks
-//   useEffect(() => {
-//     if (authLoading) return;
-//     if (!token) {
-//       router.push("/auth/login?message=login_required");
-//     } else if (!isAdmin) {
-//       setError("Access Denied: Administrator privileges required.");
-//       setLoading(false);
-//     } else {
-//       fetchUserDetails();
-//     }
-//   }, [token, isAdmin, authLoading, userId, router, fetchUserDetails]);
-
-//   // Function to handle sending the message
-//   const handleSendMessage = async () => {
-//     if (!userData || !messageSubject.trim() || !messageBody.trim()) {
-//       setSendMessageError("Subject and body cannot be empty.");
-//       return;
-//     }
-//     setIsSendingMessage(true);
-//     setSendMessageError(null); // Clear previous errors on new attempt
-//     try {
-//       await userAdminService.sendMessageToUser(userData._id, {
-//         subject: messageSubject.trim(),
-//         body: messageBody.trim(),
-//       });
-//       toast.success("Message sent successfully!");
-//       setMessageSubject(""); // Reset form
-//       setMessageBody("");
-//       setIsSendMessageModalOpen(false); // Close modal on success
-//     } catch (err: any) {
-//       console.error("Send message error:", err);
-//       const errorMsg =
-//         err.response?.data?.message || err.message || "Failed to send message.";
-//       setSendMessageError(errorMsg); // Set error to display in modal
-//       toast.error("Failed to send message", { description: errorMsg });
-//     } finally {
-//       setIsSendingMessage(false);
-//     }
-//   };
-
-//   // Function to clear the send error state (passed to modal)
-//   const clearSendError = () => {
-//     setSendMessageError(null);
-//   };
-
-//   // --- Render Logic ---
-//   if (loading || authLoading) return <LoadingSkeleton />;
-
-//   if (error)
-//     return (
-//       <div className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
-//         <ErrorDisplay error={error} onRetry={fetchUserDetails} />
-//       </div>
-//     );
-//   if (!userData)
-//     return (
-//       <div className="min-h-screen bg-background p-4 sm:p-6 lg:p-8 text-center py-16 text-muted-foreground">
-//         User data not found.
-//       </div>
-//     );
-
-//   // Destructure data for easier access
-//   const { kyc, accounts, transfers, payments } = userData;
-//   const kycStatusConfig = getKycStatusConfig(kyc?.status);
-//   const showKycManagementButton =
-//     kyc &&
-//     (kyc.status === "verified" ||
-//       kyc.status === "rejected" ||
-//       kyc.status === "pending");
-
-//   // Tabs definition (for dynamic rendering and motion)
-//   const tabs = [
-//     { value: "kyc", label: "KYC & Documents", icon: FileText },
-//     { value: "transfers", label: "Transfers (Send)", icon: Send },
-//     { value: "payments", label: "Payments (Add)", icon: Landmark },
-//   ];
-
-//   // Framer Motion Variants
-//   const containerVariants = {
-//     hidden: { opacity: 0 },
-//     visible: {
-//       opacity: 1,
-//       transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-//     },
-//   };
-//   const itemVariants = {
-//     hidden: { y: 20, opacity: 0 },
-//     visible: {
-//       y: 0,
-//       opacity: 1,
-//       transition: { type: "spring", stiffness: 100 },
-//     },
-//   };
-
-//   return (
-//     <TooltipProvider>
-//       {" "}
-//       {/* Added TooltipProvider here to wrap all tooltips */}
-//       <div className="container mx-auto px-4 py-5 relative">
-//         <div className="space-y-6">
-//           {/* --- Header Section --- */}
-//           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-//             <div className="Heading">
-//               <div className="flex items-center text-sm text-gray-500 mb-2 flex-wrap">
-//                 <Link
-//                   href="/admin"
-//                   className="text-gray-500 hover:text-primary dark:text-gray-300 hover:dark:text-primary"
-//                 >
-//                   Admin
-//                 </Link>
-//                 <ChevronRight className="size-4 mx-1 flex-shrink-0 dark:text-white" />
-//                 <Link
-//                   href="/admin/users"
-//                   className="text-gray-500 hover:text-primary dark:text-gray-300 hover:dark:text-primary"
-//                 >
-//                   Users
-//                 </Link>
-//                 <ChevronRight className="size-4 mx-1 flex-shrink-0 dark:text-white" />
-//                 <span
-//                   className="text-neutral-900 dark:text-white truncate"
-//                   title={userId}
-//                 >
-//                   Details (
-//                   {userId ? `${userId.substring(0, 8)}...` : "Loading..."})
-//                 </span>
-//               </div>
-//               <h1 className="lg:text-3xl text-2xl font-medium text-mainheading dark:text-primary">
-//                 User Details
-//               </h1>
-//             </div>
-
-//             {/* --- Action Buttons Area --- */}
-//             <div className="flex items-center gap-3 flex-wrap">
-//               {/* Send Message Button */}
-//               <button
-//                 onClick={() => setIsSendMessageModalOpen(true)}
-//                 className="flex items-center justify-center gap-1.5 bg-lightgray cursor-pointer hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear text-base font-medium border-transparent dark:border-transparent hover:border-gray-300 dark:hover:border-gray-600"
-//               >
-//                 <MessageSquarePlus className="size-5 mr-1.5" /> Send Message
-//               </button>
-
-//               {/* Manage KYC Button */}
-//               {showKycManagementButton && (
-//                 <Button
-//                   asChild
-//                   className="flex items-center justify-center gap-1.5 bg-primary cursor-pointer text-neutral-900 hover:bg-primaryhover dark:bg-primary dark:text-neutral-900 dark:hover:bg-primaryhover px-8 py-3 h-[50px] sm:w-auto w-full rounded-full transition-all duration-75 ease-linear text-base font-medium"
-//                 >
-//                   <Link href={`/admin/kyc-management/${userId}`}>
-//                     <IdCard className="size-5 mr-1.5" />
-//                     Manage KYC
-//                   </Link>
-//                 </Button>
-//               )}
-//             </div>
-//           </div>
-
-//           {/* --- User Profile Card --- */}
-//           <Card className="overflow-hidden border shadow-none">
-//             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
-//               <div className="flex items-center gap-4">
-//                 <Avatar className="h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0 bg-lightgray dark:bg-primarybox">
-//                   <AvatarFallback className="text-xl font-semibold text-neutral-900 dark:text-white">
-//                     {getInitials(userData.fullName)}
-//                   </AvatarFallback>
-//                 </Avatar>
-
-//                 <div className="space-y-0.5">
-//                   <CardTitle className="text-lg sm:text-xl text-neutral-900 dark:text-white">
-//                     {userData.fullName}
-//                   </CardTitle>
-
-//                   <CardDescription className="text-sm text-gray-500 dark:text-gray-300">
-//                     {userData.email}
-//                   </CardDescription>
-
-//                   <Badge
-//                     variant={
-//                       userData.role === "admin" ? "default" : "secondary"
-//                     }
-//                     className={cn(
-//                       "mt-1.5 text-xs capitalize px-3 py-2 rounded-full",
-//                       userData.role === "admin"
-//                         ? "bg-primary text-neutral-900"
-//                         : "bg-lightgray dark:bg-primarybox text-neutral-900 dark:text-white"
-//                     )}
-//                   >
-//                     {userData.role} Account
-//                   </Badge>
-//                 </div>
-//               </div>
-
-//               <div className="flex flex-col items-start sm:items-end space-y-0.5   text-sm text-gray-500 dark:text-gray-300 flex-shrink-0">
-
-//                 <span className="flex items-center gap-1.5">
-//                   <CalendarDays className="size-4 text-primary" /> Joined:{" "}
-//                   {formatDate(userData.createdAt)}
-//                 </span>
-
-//                 <span className="flex items-center gap-1.5">
-//                   <Clock className="size-4 text-primary" /> Updated:{" "}
-//                   {formatDate(userData.updatedAt)}
-//                 </span>
-
-//                 {/* Tooltip Design For ID: */}
-//                 <Tooltip>
-//                   <TooltipTrigger asChild>
-//                     <span className="cursor-help underline decoration-dotted decoration-border">
-//                       ID: {userData._id.substring(userData._id.length - 8)}
-//                     </span>
-//                   </TooltipTrigger>
-
-//                   <TooltipContent
-//                     side="bottom"
-//                     sideOffset={5}
-//                     className="bg-[#e4e4e4] dark:bg-secondarybox text-white p-2 px-3 sm:mr-5 mr-0 rounded-2xl max-w-60 xl:max-w-lg"
-//                   >
-//                     <p className="font-medium dark:text-white text-neutral-900 text-xs">
-//                       {userData._id}
-//                     </p>
-//                   </TooltipContent>
-//                 </Tooltip>
-//               </div>
-//             </CardHeader>
-
-//             {accounts && accounts.length > 0 && (
-//               <CardContent className="p-4 sm:p-6">
-//                 <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
-//                   <Wallet className="h-5 w-5 text-primary" /> Account Balances
-//                 </h3>
-//                 <div className="flex flex-nowrap overflow-x-auto space-x-4 pb-2 sm:grid sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 sm:space-x-0 sm:pb-0 sm:overflow-x-visible">
-//                   {accounts.map((acc) => (
-//                     <div
-//                       key={acc._id}
-//                       className="flex-shrink-0 w-36 sm:w-auto border rounded-lg p-4 hover:bg-lightgray dark:hover:bg-primarybox transition-all duration-75 ease-linear flex flex-col justify-between"
-//                     >
-//                       <div>
-//                         <div className="flex items-center justify-between mb-1">
-//                           <span className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
-//                             {acc.currency?.code || "N/A"}
-//                           </span>
-//                         </div>
-//                         <div className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight mb-1">
-//                           {acc.balance != null
-//                             ? acc.balance.toLocaleString(undefined, {
-//                                 minimumFractionDigits: 2,
-//                                 maximumFractionDigits: 2,
-//                               })
-//                             : "--.--"}
-//                         </div>
-//                       </div>
-//                     </div>
-//                   ))}
-//                 </div>
-//               </CardContent>
-//             )}
-//           </Card>
-
-//           {/* --- Tabs Section --- */}
-//           <Tabs
-//             defaultValue="kyc"
-//             value={activeTab}
-//             onValueChange={setActiveTab}
-//             className="w-full"
-//           >
-//             <div className="overflow-hidden mb-4 rounded-full">
-//               <TabsList className="relative z-0 flex w-full h-full overflow-x-auto whitespace-nowrap dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
-//                 {tabs.map((tab) => (
-//                   <TabsTrigger
-//                     key={tab.value}
-//                     value={tab.value}
-//                     className={cn(
-//                       "relative px-4 py-3 flex items-center justify-center gap-2 text-base shrink-0 min-w-max rounded-full text-neutral-900 dark:text-white data-[state=active]:text-neutral-900 dark:data-[state=active]:text-primary border-none data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none cursor-pointer transition-colors duration-150 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-//                     )}
-//                   >
-//                     {activeTab === tab.value && (
-//                       <motion.div
-//                         layoutId="active-tab-indicator"
-//                         className="absolute inset-0 -z-10 bg-primary dark:bg-secondarybox rounded-full shadow-sm"
-//                         transition={{ stiffness: 350, damping: 30 }}
-//                       />
-//                     )}
-//                     <tab.icon className="size-5" />{" "}
-//                     <span className="truncate">{tab.label}</span>
-//                   </TabsTrigger>
-//                 ))}
-//               </TabsList>
-//             </div>
-
-//             {/* --- KYC Tab Content --- */}
-//             <TabsContent value="kyc">
-//               <motion.div
-//                 key="kyc-content"
-//                 variants={containerVariants}
-//                 initial="hidden"
-//                 animate="visible"
-//                 className="space-y-4"
-//               >
-//                 <motion.div variants={itemVariants}>
-//                   <Card className="border overflow-hidden mb-4 shadow-none">
-//                     <CardHeader className="px-6 py-4 bg-lightgray dark:bg-primarybox ">
-//                       <div className="flex items-center justify-between">
-//                         <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white ">
-//                           <FileText className="text-primary size-5" /> KYC
-//                           Information
-//                         </CardTitle>
-
-//                         <Badge
-//                           className={cn(
-//                             "px-4 py-2 text-sm flex items-center rounded-full gap-1.5",
-//                             kycStatusConfig.color
-//                           )}
-//                         >
-//                           <kycStatusConfig.icon className="h-4 w-4" />{" "}
-//                           {kycStatusConfig.label}
-//                         </Badge>
-//                       </div>
-
-//                       {kyc?.status === "rejected" && kyc.rejectionReason && (
-//                         <p className="text-xs text-destructive pt-2 mt-2 border-t border-destructive/20">
-//                           <span className="font-medium">Rejection Reason:</span>{" "}
-//                           {kyc.rejectionReason}
-//                         </p>
-//                       )}
-//                     </CardHeader>
-//                     <CardContent>
-//                       {kyc ? (
-//                         <>
-//                           <div className="p-4 sm:p-6">
-//                             <h4 className="border-b pb-2 mb-2 font-medium text-neutral-900 dark:text-white">
-//                               Personal Details
-//                             </h4>
-//                             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 sm:gap-6 gap-4">
-//                               <DetailItem
-//                                 label="First Name"
-//                                 value={kyc.firstName}
-//                                 icon={User}
-//                               />
-//                               <DetailItem
-//                                 label="Last Name"
-//                                 value={kyc.lastName}
-//                                 icon={User}
-//                               />
-//                               <DetailItem
-//                                 label="Date of Birth"
-//                                 value={formatDate(kyc.dateOfBirth)}
-//                                 icon={CalendarDays}
-//                               />
-//                               <DetailItem
-//                                 label="Mobile"
-//                                 value={formatMobile(kyc.mobile)}
-//                                 icon={Phone}
-//                               />
-//                               <DetailItem
-//                                 label="Nationality"
-//                                 value={kyc.nationality}
-//                                 icon={Globe}
-//                               />
-//                               <DetailItem
-//                                 label="Occupation"
-//                                 value={kyc.occupation}
-//                                 icon={Briefcase}
-//                               />
-//                               <DetailItem
-//                                 label="Salary Range"
-//                                 value={
-//                                   kyc.salaryRange
-//                                     ? salaryDisplayMap[kyc.salaryRange]
-//                                     : undefined
-//                                 }
-//                                 icon={BadgeDollarSign}
-//                               />
-//                             </div>
-//                           </div>
-//                           <div className="p-4 sm:p-6">
-//                             <h4 className="border-b pb-2 mb-2 text-neutral-900 dark:text-white">
-//                               Identification Details
-//                             </h4>
-//                             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-//                               <DetailItem
-//                                 label="ID Type"
-//                                 value={
-//                                   <span className="capitalize">
-//                                     {kyc.idType?.replace("_", " ")}
-//                                   </span>
-//                                 }
-//                                 icon={Fingerprint}
-//                               />
-//                               <DetailItem
-//                                 label="ID Number"
-//                                 value={kyc.idNumber}
-//                                 icon={IdCard}
-//                               />
-//                               <DetailItem
-//                                 label="ID Issue Date"
-//                                 value={formatDate(kyc.idIssueDate)}
-//                                 icon={CalendarDays}
-//                               />
-//                               <DetailItem
-//                                 label="ID Expiry Date"
-//                                 value={formatDate(kyc.idExpiryDate)}
-//                                 icon={CalendarDays}
-//                               />
-//                             </div>
-//                           </div>
-//                           <div className="p-4 sm:p-6">
-//                             <h4 className="border-b pb-2 mb-2 text-neutral-900 dark:text-white">
-//                               Updating Information
-//                             </h4>
-//                             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-//                               <DetailItem
-//                                 label="Submitted At"
-//                                 value={formatDate(kyc.submittedAt, true)}
-//                                 icon={Clock}
-//                               />
-//                               <DetailItem
-//                                 label="Last Updated"
-//                                 value={formatDate(kyc.lastUpdatedAt, true)}
-//                                 icon={Clock}
-//                               />
-//                             </div>
-//                           </div>
-//                         </>
-//                       ) : (
-//                         <p className="text-sm text-gray-500 dark:text-gray-300 italic py-4 text-center">
-//                           KYC details not submitted.
-//                         </p>
-//                       )}
-//                     </CardContent>
-//                   </Card>
-//                 </motion.div>
-//                 <motion.div variants={itemVariants}>
-//                   <Card className="border overflow-hidden mb-4 shadow-none">
-//                     <CardHeader className="px-6 py-4 bg-lightgray dark:bg-primarybox ">
-//                       <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white ">
-//                         <CloudUpload className="text-primary" /> Submitted
-//                         Documents
-//                       </CardTitle>
-//                     </CardHeader>
-
-//                     {kyc?.documents && kyc.documents.length > 0 ? (
-//                       <div className="p-4 sm:p-6">
-//                         <div className="flex md:flex-row flex-col gap-4">
-//                           {kyc.documents.map((doc) => (
-//                             <div
-//                               key={doc.public_id}
-//                               className="border rounded-lg overflow-hidden bg-muted/30 dark:bg-muted/20 md:w-1/2 w-full"
-//                             >
-//                               <div className="p-3 border-b text-neutral-900 dark:text-white">
-//                                 <h4 className="text-sm font-medium capitalize">
-//                                   {doc.docType.replace("_", " ")}
-//                                 </h4>
-//                               </div>
-//                               <div className="p-2 flex items-center justify-center aspect-video bg-white dark:bg-background overflow-hidden relative group">
-//                                 {doc.url ? (
-//                                   <>
-//                                     {doc.url.toLowerCase().endsWith(".pdf") ? (
-//                                       <div className="flex flex-col items-center justify-center text-center text-muted-foreground">
-//                                         <FileText className="h-12 w-12 mb-2" />
-//                                         <span className="text-xs">
-//                                           PDF Document
-//                                         </span>
-//                                       </div>
-//                                     ) : (
-//                                       <Image
-//                                         src={doc.url}
-//                                         alt={`${doc.docType} preview`}
-//                                         fill
-//                                         className="object-contain"
-//                                         unoptimized
-//                                       />
-//                                     )}
-//                                     <a
-//                                       href={doc.url}
-//                                       target="_blank"
-//                                       rel="noopener noreferrer"
-//                                       className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white transition-opacity cursor-pointer"
-//                                       aria-label={`View full ${doc.docType.replace(
-//                                         "_",
-//                                         " "
-//                                       )} document`}
-//                                     >
-//                                       <Eye className="h-6 w-6 mb-1" />{" "}
-//                                       <span className="text-xs font-medium">
-//                                         View Full
-//                                       </span>
-//                                     </a>
-//                                   </>
-//                                 ) : (
-//                                   <p className="text-xs text-muted-foreground italic">
-//                                     Document URL missing.
-//                                   </p>
-//                                 )}
-//                               </div>
-//                             </div>
-//                           ))}
-//                         </div>
-//                       </div>
-//                     ) : (
-//                       <CardContent className="p-4">
-//                         <p className="text-sm text-gray-500 dark:text-gray-300 italic text-center">
-//                           No documents submitted.
-//                         </p>
-//                       </CardContent>
-//                     )}
-//                   </Card>
-//                 </motion.div>
-//               </motion.div>
-//             </TabsContent>
-
-//             {/* --- Transfers Tab Content --- */}
-//             <TabsContent value="transfers">
-//               <motion.div
-//                 key="transfers-content"
-//                 variants={containerVariants}
-//                 initial="hidden"
-//                 animate="visible"
-//               >
-//                 <motion.div variants={itemVariants}>
-//                   <Card className="border-0 bg-transparent shadow-none overflow-hidden">
-//                     <CardHeader className="p-4 ">
-//                       <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white">
-//                         <Send className="h-5 w-5 text-primary" /> Recent
-//                         Transfers (Send Money)
-//                       </CardTitle>
-//                       <CardDescription className="text-sm mt-1 text-gray-500 dark:text-gray-300">
-//                         Last 5 transfers by this user.
-//                       </CardDescription>
-//                     </CardHeader>
-//                     {/* Pass transfers array, ensuring it's never null/undefined */}
-//                     <CardContent className="p-0">
-//                       <TransactionTable
-//                         data={transfers ?? []}
-//                         type="transfer"
-//                       />
-//                     </CardContent>
-//                   </Card>
-//                 </motion.div>
-//               </motion.div>
-//             </TabsContent>
-
-//             {/* --- Payments Tab Content --- */}
-//             <TabsContent value="payments">
-//               <motion.div
-//                 key="payments-content"
-//                 variants={containerVariants}
-//                 initial="hidden"
-//                 animate="visible"
-//               >
-//                 <motion.div variants={itemVariants}>
-//                   <Card className="border-0 bg-transparent shadow-none overflow-hidden">
-//                     <CardHeader className="p-4">
-//                       <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white">
-//                         <Landmark className="h-5 w-5 text-primary" /> Recent
-//                         Payments (Add Money)
-//                       </CardTitle>
-//                       <CardDescription className="text-sm !mt-1 text-gray-500 dark:text-gray-300">
-//                         Last 5 payment attempts.
-//                       </CardDescription>
-//                     </CardHeader>
-//                     {/* Pass payments array, ensuring it's never null/undefined */}
-//                     <CardContent className="p-0">
-//                       <TransactionTable data={payments ?? []} type="payment" />
-//                     </CardContent>
-//                   </Card>
-//                 </motion.div>
-//               </motion.div>
-//             </TabsContent>
-//           </Tabs>
-//         </div>
-
-//         {/* --- Render the SendMessageModal --- */}
-//         {/* Placed outside the main layout flow as it uses fixed positioning */}
-//         <SendMessageModal
-//           isOpen={isSendMessageModalOpen}
-//           setIsOpen={setIsSendMessageModalOpen}
-//           userName={userData?.fullName || "this user"} // Pass user name safely
-//           subject={messageSubject}
-//           setSubject={setMessageSubject}
-//           body={messageBody}
-//           setBody={setMessageBody}
-//           isSending={isSendingMessage}
-//           handleSend={handleSendMessage} // Pass the send handler function
-//           sendError={sendMessageError} // Pass the error state
-//           clearSendError={clearSendError} // Pass the error clearing function
-//         />
-//       </div>
-//     </TooltipProvider>
-//   );
-// };
-
-// export default UserDetailPage;
-
-// // frontend/src/app/admin/users/[userId]/page.tsx
-// "use client";
-
-// import React, { useState, useEffect, useCallback, useMemo } from "react";
-// import { useParams, useRouter } from "next/navigation";
-// import Link from "next/link";
-// import Image from "next/image";
-// import { motion } from "framer-motion";
-
-// // Service Imports
-// import userAdminService from "../../../services/admin/user.admin";
-// import type { AdminUserDetailResponse as OriginalAdminUserDetailResponse } from "../../../services/admin/user.admin";
-// import type { KycMobile, KycStatus } from "../../../services/kyc";
-// import type { Payment } from "@/types/payment";
-
-// // Auth Context
-// import { useAuth } from "../../../contexts/AuthContext";
-
-// // Shadcn UI Components
-// import {
-//   Card,
-//   CardContent,
-//   CardHeader,
-//   CardTitle,
-//   CardDescription,
-// } from "@/components/ui/card";
-// import { Badge } from "@/components/ui/badge";
-// import { Skeleton } from "@/components/ui/skeleton";
-// import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-// import { Button } from "@/components/ui/button";
-// import {
-//   Tooltip,
-//   TooltipContent,
-//   TooltipProvider,
-//   TooltipTrigger,
-// } from "@/components/ui/tooltip";
-// import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-// import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-// // Icons (Lucide React)
-// import {
-//   ArrowLeft,
-//   User,
-//   Mail,
-//   ShieldCheck,
-//   CalendarDays,
-//   ChevronRight,
-//   Phone,
-//   Briefcase,
-//   UserCheck,
-//   UserX,
-//   HelpCircle,
-//   BadgeDollarSign,
-//   Fingerprint,
-//   Globe,
-//   FileText,
-//   AlertCircle,
-//   Eye,
-//   Wallet,
-//   Send,
-//   Landmark,
-//   Clock,
-//   Copy,
-//   Check,
-//   MessageSquarePlus,
-//   IdCard,
-//   CloudUpload,
-//   CheckCircle,
-//   XCircle,
-//   ArrowDownUp, // For sort icons
-//   ArrowUpDown, // For sort icons
-// } from "lucide-react";
-
-// // Utility & Toast
-// import { cn } from "@/lib/utils";
-// import { toast } from "sonner";
-
-// // --- Import the Send Message Modal ---
-// import SendMessageModal from "../../components/users/SendMessageModal"; // Adjust path if needed
-
-// // --- Define Local Transfer type used WITHIN UserDetailPage ---
-// interface Transfer {
-//   _id: string;
-//   user?: {
-//     _id?: string;
-//     fullName?: string;
-//     email?: string;
-//   };
-//   recipient?: {
-//     _id?: string;
-//     accountHolderName?: string;
-//   };
-//   sendAmount: string;
-//   sendCurrency?: {
-//     code?: string;
-//   };
-//   status: string;
-//   createdAt: string;
-// }
-
-// // --- Define Local State Type based on Service Response but with modified Transfer type ---
-// interface UserDetailState
-//   extends Omit<OriginalAdminUserDetailResponse, "transfers" | "payments"> {
-//   transfers: Transfer[];
-//   payments: Payment[];
-// }
-
-// // --- Helper Functions ---
-// const formatDate = (
-//   dateInput?: string | Date | null,
-//   includeTime = false
-// ): string => {
-//   if (!dateInput) return "N/A";
-//   try {
-//     const date = new Date(dateInput);
-//     if (isNaN(date.getTime())) return "Invalid Date";
-//     const options: Intl.DateTimeFormatOptions = {
-//       year: "numeric",
-//       month: "short",
-//       day: "numeric",
-//       timeZone: "UTC",
-//       ...(includeTime && { hour: "2-digit", minute: "2-digit", hour12: true }),
-//     };
-//     return date.toLocaleDateString("en-GB", options);
-//   } catch (e) {
-//     return "Invalid Date";
-//   }
-// };
-
-// const formatMobile = (mobile?: KycMobile | null): string => {
-//   if (!mobile || (!mobile.countryCode?.trim() && !mobile.number?.trim()))
-//     return "N/A";
-//   const cc = mobile.countryCode?.trim() || "";
-//   const num = mobile.number?.trim() || "";
-//   if (!cc && !num) return "N/A";
-//   if (!cc) return num;
-//   if (!num) return cc;
-//   const formattedCC = cc.startsWith("+") ? cc : `+${cc}`;
-//   return `${formattedCC} ${num}`;
-// };
-
-// const getKycStatusConfig = (status?: KycStatus | null) => {
-//   const statusMap: Record<
-//     KycStatus | "unknown",
-//     { color: string; icon: React.ElementType; label: string }
-//   > = {
-//     verified: {
-//       color:
-//         "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
-//       icon: CheckCircle,
-//       label: "Verified",
-//     },
-//     rejected: {
-//       color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
-//       icon: XCircle,
-//       label: "Rejected",
-//     },
-//     pending: {
-//       color:
-//         "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
-//       icon: Clock,
-//       label: "Pending",
-//     },
-//     skipped: {
-//       color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
-//       icon: ArrowLeft,
-//       label: "Skipped",
-//     },
-//     not_started: {
-//       color: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",
-//       icon: HelpCircle,
-//       label: "Not Started",
-//     },
-//     unknown: {
-//       color: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",
-//       icon: AlertCircle,
-//       label: "Unknown",
-//     },
-//   };
-//   return statusMap[status || "not_started"] || statusMap.unknown;
-// };
-
-// const getTransactionStatusColorClasses = (status?: string | null): string => {
-//   switch (status?.toLowerCase()) {
-//     case "completed":
-//     case "credited":
-//       return "text-green-600 bg-green-100 dark:bg-green-600/20 dark:text-green-400";
-//     case "pending":
-//       return "text-yellow-600 bg-yellow-100 dark:bg-yellow-600/20 dark:text-yellow-400";
-//     case "processing":
-//     case "in progress":
-//       return "text-blue-600 bg-blue-100 dark:bg-blue-600/20 dark:text-blue-400";
-//     case "failed":
-//       return "text-rose-600 bg-rose-100 dark:bg-rose-600/20 dark:text-rose-400";
-//     case "canceled":
-//     case "cancelled":
-//       return "text-red-600 bg-red-100 dark:bg-red-600/20 dark:text-red-400";
-//     default:
-//       return "text-gray-600 bg-gray-100 dark:bg-gray-600/20 dark:text-gray-400";
-//   }
-// };
-
-// const getInitials = (name?: string | null): string => {
-//   if (!name) return "??";
-//   return name
-//     .split(" ")
-//     .map((part) => part[0])
-//     .filter(Boolean)
-//     .join("")
-//     .substring(0, 2)
-//     .toUpperCase();
-// };
-
-// const salaryDisplayMap: Record<string, string> = {
-//   "0-1000": "Below $10,000",
-//   "10000-50000": "$10,000 - $49,999",
-//   "50000-100000": "$50,000 - $99,999",
-//   "100000+": "$100,000 or more",
-// };
-
-// const DetailItem = ({
-//   label,
-//   value,
-//   icon: Icon,
-//   isImportant = false,
-//   className = "",
-// }: {
-//   label: string;
-//   value: React.ReactNode;
-//   icon?: React.ElementType;
-//   isImportant?: boolean;
-//   className?: string;
-// }) => (
-//   <div className={cn("py-2 space-y-2", className)}>
-//     <dt className="text-sm font-medium text-neutral-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
-//       {Icon && <Icon className="flex-shrink-0 text-primary size-4" />}
-//       {label}
-//     </dt>
-//     <dd
-//       className={cn(
-//         "text-sm break-words text-gray-500 dark:text-gray-300",
-//         isImportant ? "font-semibold" : ""
-//       )}
-//     >
-//       {value || <span className="italic">N/A</span>}
-//     </dd>
-//   </div>
-// );
-
-// const LoadingSkeleton = () => (
-//   <div className="container mx-auto px-4 py-8">
-//     <div className="space-y-6">
-//       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-//         <div>
-//           <Skeleton className="h-4 w-64 mb-3 rounded " />
-//           <Skeleton className="h-10 w-48 rounded " />
-//         </div>
-//         <div className="flex items-center gap-3">
-//           <Skeleton className="h-[50px] w-48 rounded-full" />
-//           <Skeleton className="h-[50px] w-48 rounded-full" />
-//         </div>
-//       </div>
-//       <div className="border rounded-lg bg-card overflow-hidden">
-//         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
-//           <div className="flex items-center gap-4 flex-1">
-//             <Skeleton className="h-14 w-14 sm:h-16 sm:w-16 rounded-full flex-shrink-0 " />
-//             <div className="space-y-1.5 flex-1">
-//               <Skeleton className="h-6 w-3/4 rounded" />
-//               <Skeleton className="h-4 w-1/2 rounded" />
-//               <Skeleton className="h-5 w-20 rounded-md" />
-//             </div>
-//           </div>
-//           <div className="space-y-1 text-right flex-shrink-0">
-//             <Skeleton className="h-3 w-28 rounded" />
-//             <Skeleton className="h-3 w-24 rounded" />
-//             <Skeleton className="h-3 w-32 rounded" />
-//           </div>
-//         </div>
-//         <div className="p-4 sm:p-6">
-//           <Skeleton className="h-5 w-1/4 rounded mb-4" />
-//           <div className="flex flex-nowrap overflow-x-auto space-x-4 pb-2 sm:grid sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 sm:space-x-0 sm:pb-0 sm:overflow-x-visible">
-//             {[...Array(5)].map((_, i) => (
-//               <Skeleton
-//                 key={i}
-//                 className="flex-shrink-0 w-36 sm:w-auto h-24 rounded-lg"
-//               />
-//             ))}
-//           </div>
-//         </div>
-//       </div>
-//       <div className="w-full">
-//         <div className="overflow-hidden mb-4">
-//           <div className="relative flex w-full h-full overflow-x-auto whitespace-nowrap gap-3 bg-lightborder dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
-//             <Skeleton className="h-9 flex-1 rounded-full" />
-//             <Skeleton className="h-9 flex-1 rounded-full" />
-//             <Skeleton className="h-9 flex-1 rounded-full" />
-//           </div>
-//         </div>
-//         <div className="space-y-4">
-//           <div className="border rounded-lg bg-card overflow-hidden">
-//             <div className="px-6 py-4 bg-lightgray dark:bg-primarybox">
-//               <div className="flex items-center justify-between">
-//                 <Skeleton className="h-6 w-40 rounded" />
-//                 <Skeleton className="h-7 w-24 rounded-full" />
-//               </div>
-//             </div>
-//             <div className="p-4 sm:p-6 space-y-4">
-//               <div>
-//                 <Skeleton className="h-4 w-32 rounded mb-3 border-b border-transparent pb-2" />
-//                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-//                   {[...Array(6)].map((_, i) => (
-//                     <div key={`pd-skel-${i}`} className="py-2 space-y-2">
-//                       <Skeleton className="h-4 w-1/3 rounded" />
-//                       <Skeleton className="h-5 w-3/4 rounded" />
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//               <div>
-//                 <Skeleton className="h-4 w-40 rounded mb-3 border-b border-transparent pb-2" />
-//                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-//                   {[...Array(4)].map((_, i) => (
-//                     <div key={`id-skel-${i}`} className="py-2 space-y-2">
-//                       <Skeleton className="h-4 w-1/3 rounded" />
-//                       <Skeleton className="h-5 w-3/4 rounded" />
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//               <div>
-//                 <Skeleton className="h-4 w-48 rounded mb-3 border-b border-transparent pb-2" />
-//                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
-//                   {[...Array(2)].map((_, i) => (
-//                     <div key={`upd-skel-${i}`} className="py-2 space-y-2">
-//                       <Skeleton className="h-4 w-1/3 rounded" />
-//                       <Skeleton className="h-5 w-3/4 rounded" />
-//                     </div>
-//                   ))}
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//           <div className="border rounded-lg bg-card overflow-hidden">
-//             <div className="px-6 py-4 bg-lightgray dark:bg-primarybox">
-//               <Skeleton className="h-6 w-44 rounded" />
-//             </div>
-//             <div className="p-4 sm:p-6">
-//               <div className="flex md:flex-row flex-col gap-4">
-//                 <div className="border rounded-lg overflow-hidden md:w-1/2 w-full">
-//                   <div className="p-3">
-//                     <Skeleton className="h-4 w-1/3 rounded" />
-//                   </div>
-//                   <Skeleton className="aspect-video w-full rounded-none" />
-//                 </div>
-//                 <div className="border rounded-lg overflow-hidden md:w-1/2 w-full">
-//                   <div className="p-3">
-//                     <Skeleton className="h-4 w-1/3 rounded" />
-//                   </div>
-//                   <Skeleton className="aspect-video w-full rounded-none" />
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   </div>
-// );
-
-// const ErrorDisplay = ({
-//   error,
-//   onRetry,
-// }: {
-//   error: string | null;
-//   onRetry: () => void;
-// }) => (
-//   <Alert variant="destructive" className="mt-6">
-//     <AlertCircle className="h-4 w-4" />
-//     <AlertTitle>Error Loading User Details</AlertTitle>
-//     <AlertDescription>
-//       {error || "An unexpected error occurred."}
-//       <Button
-//         variant="destructive"
-//         size="sm"
-//         onClick={onRetry}
-//         className="mt-2 ml-auto block"
-//       >
-//         Retry
-//       </Button>
-//     </AlertDescription>
-//   </Alert>
-// );
-
-// // --- Transaction Table Header Component (Inlined) ---
-// export type TransactionSortField =
-//   | "_id"
-//   | "recipient.accountHolderName"
-//   | "sendAmount"
-//   | "amountToAdd"
-//   | "status"
-//   | "createdAt";
-
-// interface TransactionTableHeaderProps {
-//   toggleSort: (field: TransactionSortField) => void;
-//   sortField: TransactionSortField | null;
-//   sortDirection: "asc" | "desc";
-//   type: "transfer" | "payment";
-// }
-
-// const TransactionTableHeader: React.FC<TransactionTableHeaderProps> = ({
-//   toggleSort,
-//   sortField,
-//   sortDirection,
-//   type,
-// }) => {
-//   const renderSortIcon = (field: TransactionSortField) => {
-//     if (sortField === field) {
-//       return sortDirection === "asc" ? (
-//         <ArrowUpDown size={18} className="ml-1.5 text-primary" />
-//       ) : (
-//         <ArrowDownUp size={18} className="ml-1.5 text-primary" />
-//       );
-//     }
-//     return (
-//       <ArrowUpDown
-//         size={18}
-//         className="ml-1.5 opacity-0 group-hover:opacity-100 transition-opacity"
-//       />
-//     );
-//   };
-
-//   const headerCellClasses =
-//     "px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider uppercase";
-//   const buttonClasses =
-//     "flex items-center gap-1 hover:text-primary group cursor-pointer";
-
-//   return (
-//     <thead className="bg-lightgray dark:bg-primarybox">
-//       <tr className="border-b ">
-//         <th className={headerCellClasses}>
-//           <button onClick={() => toggleSort("_id")} className={buttonClasses}>
-//             ID {renderSortIcon("_id")}
-//           </button>
-//         </th>
-//         {type === "transfer" && (
-//           <th className={headerCellClasses}>
-//             <button
-//               onClick={() => toggleSort("recipient.accountHolderName")}
-//               className={buttonClasses}
-//             >
-//               RECIPIENT {renderSortIcon("recipient.accountHolderName")}
-//             </button>
-//           </th>
-//         )}
-//         <th className={headerCellClasses}>
-//           <button
-//             onClick={() =>
-//               toggleSort(type === "transfer" ? "sendAmount" : "amountToAdd")
-//             }
-//             className={buttonClasses}
-//           >
-//             AMOUNT{" "}
-//             {renderSortIcon(type === "transfer" ? "sendAmount" : "amountToAdd")}
-//           </button>
-//         </th>
-//         <th className={`${headerCellClasses}`}>Currency</th>
-//         <th className={headerCellClasses}>
-//           <button
-//             onClick={() => toggleSort("status")}
-//             className={buttonClasses}
-//           >
-//             STATUS
-//             {renderSortIcon("status")}
-//           </button>
-//         </th>
-//         <th className={headerCellClasses}>
-//           <button
-//             onClick={() => toggleSort("createdAt")}
-//             className={buttonClasses}
-//           >
-//             DATE {renderSortIcon("createdAt")}
-//           </button>
-//         </th>
-//         <th className={`${headerCellClasses}`}>Details</th>
-//       </tr>
-//     </thead>
-//   );
-// };
-
-// // --- Transaction Table Component (Modified for Sorting) ---
-// const TransactionTable = ({
-//   data,
-//   type,
-// }: {
-//   data: (Transfer | Payment)[];
-//   type: "transfer" | "payment";
-// }) => {
-//   const isTransfer = (item: Transfer | Payment): item is Transfer =>
-//     type === "transfer";
-//   const [copiedId, setCopiedId] = useState<string | null>(null);
-
-//   const [sortField, setSortField] = useState<TransactionSortField | null>(null);
-//   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
-
-//   const toggleSort = (field: TransactionSortField) => {
-//     if (sortField === field) {
-//       setSortDirection(sortDirection === "asc" ? "desc" : "asc");
-//     } else {
-//       setSortField(field);
-//       setSortDirection("asc");
-//     }
-//   };
-
-//   const sortedData = useMemo(() => {
-//     if (!sortField) return data;
-//     return [...data].sort((a, b) => {
-//       let valA: any;
-//       let valB: any;
-//       const getNestedValue = (obj: any, path: string) =>
-//         path.split(".").reduce((acc, part) => acc && acc[part], obj);
-//       valA = getNestedValue(a, sortField);
-//       valB = getNestedValue(b, sortField);
-//       if (sortField === "sendAmount" || sortField === "amountToAdd") {
-//         valA = parseFloat(String(valA)) || 0;
-//         valB = parseFloat(String(valB)) || 0;
-//       } else if (sortField === "createdAt") {
-//         valA = new Date(valA).getTime();
-//         valB = new Date(valB).getTime();
-//       } else {
-//         valA = String(valA ?? "").toLowerCase();
-//         valB = String(valB ?? "").toLowerCase();
-//       }
-//       if (valA < valB) return sortDirection === "asc" ? -1 : 1;
-//       if (valA > valB) return sortDirection === "asc" ? 1 : -1;
-//       return 0;
-//     });
-//   }, [data, sortField, sortDirection]);
-
-//   const handleCopy = (idToCopy: string) => {
-//     navigator.clipboard.writeText(idToCopy).then(
-//       () => {
-//         setCopiedId(idToCopy);
-//         toast.success("ID Copied!");
-//         setTimeout(() => setCopiedId(null), 1500);
-//       },
-//       (err) => {
-//         console.error("Failed to copy ID: ", err);
-//         toast.error("Failed to copy ID");
-//       }
-//     );
-//   };
-
-//   const numberOfColumns = type === "transfer" ? 7 : 6;
-
-//   return (
-//     <div className="rounded-xl border  overflow-hidden">
-//       <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
-//         <table className="min-w-full">
-
-//           <TransactionTableHeader
-//             toggleSort={toggleSort}
-//             sortField={sortField}
-//             sortDirection={sortDirection}
-//             type={type}
-//           />
-//           <tbody className="divide-y divide-gray-200 dark:divide-neutral-700">
-//             {!sortedData || sortedData.length === 0 ? (
-//               <tr>
-//                 <td
-//                   colSpan={numberOfColumns}
-//                   className="px-6 py-10 text-center text-gray-500 dark:text-gray-300"
-//                 >
-//                   No {type}s found.
-//                 </td>
-//               </tr>
-//             ) : (
-//               sortedData.slice(0, 5).map((item, index) => {
-//                 const statusColorClasses = getTransactionStatusColorClasses(
-//                   item.status
-//                 );
-//                 const amountValue = isTransfer(item)
-//                   ? item.sendAmount
-//                   : String((item as Payment).amountToAdd ?? "0");
-//                 const formattedAmount =
-//                   amountValue != null
-//                     ? Number(amountValue).toLocaleString(undefined, {
-//                         minimumFractionDigits: 2,
-//                         maximumFractionDigits: 2,
-//                       })
-//                     : "N/A";
-//                 const currencyCode = isTransfer(item)
-//                   ? item.sendCurrency?.code
-//                   : (item as Payment).payInCurrency?.code;
-//                 const recipientName = isTransfer(item)
-//                   ? item.recipient?.accountHolderName
-//                   : undefined;
-//                 const detailLink =
-//                   type === "transfer"
-//                     ? `/admin/transfer/${item._id}`
-//                     : `/admin/add-money?paymentId=${item._id}`;
-//                 const isCopied = copiedId === item._id;
-
-//                 return (
-//                   <motion.tr
-//                     key={item._id}
-//                     initial={{ opacity: 0, y: 10 }}
-//                     animate={{ opacity: 1, y: 0 }}
-//                     transition={{
-//                       delay: index * 0.03,
-//                       type: "spring",
-//                       stiffness: 120,
-//                     }}
-//                   >
-//                     <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white ">
-//                       <div className="flex items-center gap-2">
-//                         <Tooltip>
-//                           <TooltipTrigger asChild>
-//                             <span className="underline decoration-dashed decoration-border dark:decoration-neutral-600 cursor-text">
-//                               {item._id.substring(item._id.length - 6)}
-//                             </span>
-//                           </TooltipTrigger>
-//                           <TooltipContent
-//                             side="bottom"
-//                             sideOffset={5}
-//                             className="bg-[#e4e4e4] dark:bg-secondarybox dark:text-white text-mainheading  p-2 px-3 rounded-2xl max-w-60 xl:max-w-lg "
-//                           >
-//                             <p className="">{item._id}</p>
-//                           </TooltipContent>
-//                         </Tooltip>
-//                         <Tooltip>
-//                           <TooltipTrigger asChild>
-//                             <button
-//                               className={cn(
-//                                 "p-1 rounded-md text-muted-foreground hover:text-foreground transition-colors focus-visible:outline-none cursor-pointer",
-//                                 isCopied &&
-//                                   "text-green-500 hover:text-green-600"
-//                               )}
-//                               onClick={() => handleCopy(item._id)}
-//                               aria-label={isCopied ? "Copied!" : "Copy ID"}
-//                             >
-//                               {isCopied ? (
-//                                 <Check size={16} />
-//                               ) : (
-//                                 <Copy size={16} />
-//                               )}
-//                             </button>
-//                           </TooltipTrigger>
-//                           <TooltipContent
-//                             side="bottom"
-//                             sideOffset={5}
-//                             className="bg-[#e4e4e4] dark:bg-secondarybox dark:text-white text-mainheading p-2 px-3 rounded-2xl max-w-60 xl:max-w-lg"
-//                           >
-//                             <p>{isCopied ? "Copied!" : "Copy ID"}</p>
-//                           </TooltipContent>
-//                         </Tooltip>
-//                       </div>
-//                     </td>
-//                     {type === "transfer" && (
-//                       <td className="px-4 py-3 whitespace-nowrap font-medium capitalize text-neutral-900 dark:text-white">
-//                         {recipientName || (
-//                           <span className="italic text-gray-500 dark:text-gray-400">
-//                             N/A
-//                           </span>
-//                         )}
-//                       </td>
-//                     )}
-//                     <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
-//                       {formattedAmount}
-//                     </td>
-//                     <td className="px-4 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
-//                       {currencyCode || (
-//                         <span className="italic text-gray-500 dark:text-gray-400">
-//                           N/A
-//                         </span>
-//                       )}
-//                     </td>
-//                     <td className="px-4 py-3 whitespace-nowrap">
-//                       <span
-//                         className={cn(
-//                           "inline-flex justify-center items-center px-4 py-1 min-w-[112px] font-medium rounded-3xl capitalize",
-//                           statusColorClasses
-//                         )}
-//                       >
-//                         {item.status || "Unknown"}
-//                       </span>
-//                     </td>
-//                     <td className="px-6 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
-//                       {formatDate(item.createdAt, true)}
-//                     </td>
-//                     <td className="px-6 py-3 whitespace-nowrap">
-//                       <Button
-//                         asChild
-//                         size="sm"
-//                         className="inline-flex items-center group px-4 py-1.5 h-9 rounded-3xl space-x-1 transition-colors duration-300 font-medium bg-primary hover:bg-primaryhover dark:bg-primarybox hover:dark:bg-secondarybox text-neutral-900 dark:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 dark:focus-visible:ring-offset-background"
-//                         title={`View ${type} details`}
-//                       >
-//                         <Link href={detailLink}>
-//                           <span>View Details</span>
-//                         </Link>
-//                       </Button>
-//                     </td>
-//                   </motion.tr>
-//                 );
-//               })
-//             )}
-//           </tbody>
-//         </table>
-//       </div>
-//     </div>
-//   );
-// };
-
-// // --- Main Detail Page Component ---
-// const UserDetailPage: React.FC = () => {
-//   const params = useParams();
-//   const router = useRouter();
-//   const { token, isAdmin, loading: authLoading } = useAuth();
-//   const userId = params.userId as string;
-
-//   const [userData, setUserData] = useState<UserDetailState | null>(null);
-//   const [loading, setLoading] = useState<boolean>(true);
-//   const [error, setError] = useState<string | null>(null);
-//   const [activeTab, setActiveTab] = useState("kyc");
-
-//   const [isSendMessageModalOpen, setIsSendMessageModalOpen] = useState(false);
-//   const [messageSubject, setMessageSubject] = useState("");
-//   const [messageBody, setMessageBody] = useState("");
-//   const [isSendingMessage, setIsSendingMessage] = useState(false);
-//   const [sendMessageError, setSendMessageError] = useState<string | null>(null);
-
-//   useEffect(() => {
-//     if (isSendMessageModalOpen) {
-//       document.body.style.overflow = "hidden";
-//     } else {
-//       document.body.style.overflow = "";
-//     }
-//     return () => {
-//       document.body.style.overflow = "";
-//     };
-//   }, [isSendMessageModalOpen]);
-
-//   const fetchUserDetails = useCallback(async () => {
-//     if (!userId) {
-//       setError("User ID is missing from the URL.");
-//       setLoading(false);
-//       return;
-//     }
-//     setLoading(true);
-//     setError(null);
-//     try {
-//       const data: OriginalAdminUserDetailResponse =
-//         await userAdminService.getUserDetailsAdmin(userId);
-//       const processedData: UserDetailState = {
-//         ...data,
-//         transfers: (data.transfers || []).map((t) => ({
-//           ...t,
-//           sendAmount: String(t.sendAmount ?? "0"),
-//         })),
-//         payments: data.payments || [],
-//       };
-//       setUserData(processedData);
-//     } catch (err: any) {
-//       console.error("Fetch user details error:", err);
-//       setError(
-//         err.response?.data?.message ||
-//           err.message ||
-//           "Failed to load user details."
-//       );
-//       setUserData(null);
-//     } finally {
-//       setLoading(false);
-//     }
-//   }, [userId]);
-
-//   useEffect(() => {
-//     if (authLoading) return;
-//     if (!token) router.push("/auth/login?message=login_required");
-//     else if (!isAdmin) {
-//       setError("Access Denied: Administrator privileges required.");
-//       setLoading(false);
-//     } else fetchUserDetails();
-//   }, [token, isAdmin, authLoading, userId, router, fetchUserDetails]);
-
-//   const handleSendMessage = async () => {
-//     if (!userData || !messageSubject.trim() || !messageBody.trim()) {
-//       setSendMessageError("Subject and body cannot be empty.");
-//       return;
-//     }
-//     setIsSendingMessage(true);
-//     setSendMessageError(null);
-//     try {
-//       await userAdminService.sendMessageToUser(userData._id, {
-//         subject: messageSubject.trim(),
-//         body: messageBody.trim(),
-//       });
-//       toast.success("Message sent successfully!");
-//       setMessageSubject("");
-//       setMessageBody("");
-//       setIsSendMessageModalOpen(false);
-//     } catch (err: any) {
-//       console.error("Send message error:", err);
-//       const errorMsg =
-//         err.response?.data?.message || err.message || "Failed to send message.";
-//       setSendMessageError(errorMsg);
-//       toast.error("Failed to send message", { description: errorMsg });
-//     } finally {
-//       setIsSendingMessage(false);
-//     }
-//   };
-
-//   const clearSendError = () => setSendMessageError(null);
-
-//   if (loading || authLoading) return <LoadingSkeleton />;
-//   if (error)
-//     return (
-//       <div className="min-h-screen bg-background p-4 sm:p-6 lg:p-8">
-//         <ErrorDisplay error={error} onRetry={fetchUserDetails} />
-//       </div>
-//     );
-//   if (!userData)
-//     return (
-//       <div className="min-h-screen bg-background p-4 sm:p-6 lg:p-8 text-center py-16 text-muted-foreground">
-//         User data not found.
-//       </div>
-//     );
-
-//   const { kyc, accounts, transfers, payments } = userData;
-//   const kycStatusConfig = getKycStatusConfig(kyc?.status);
-//   const showKycManagementButton =
-//     kyc &&
-//     (kyc.status === "verified" ||
-//       kyc.status === "rejected" ||
-//       kyc.status === "pending");
-
-//   const tabsData = [
-//     { value: "kyc", label: "KYC & Documents", icon: FileText },
-//     { value: "transfers", label: "Transfers (Send)", icon: Send },
-//     { value: "payments", label: "Payments (Add)", icon: Landmark },
-//   ];
-
-//   const containerVariants = {
-//     hidden: { opacity: 0 },
-//     visible: {
-//       opacity: 1,
-//       transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-//     },
-//   };
-//   const itemVariants = {
-//     hidden: { y: 20, opacity: 0 },
-//     visible: {
-//       y: 0,
-//       opacity: 1,
-//       transition: { type: "spring", stiffness: 100 },
-//     },
-//   };
-
-//   return (
-//     <TooltipProvider>
-//       <div className="container mx-auto px-4 py-5 relative">
-//         <div className="space-y-6">
-//           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-5 gap-4">
-//             <div className="Heading">
-//               <div className="flex items-center text-sm text-gray-500 dark:text-gray-300 mb-2 flex-wrap">
-//                 <Link
-//                   href="/admin"
-//                   className="hover:text-primary dark:hover:text-primary"
-//                 >
-//                   Admin
-//                 </Link>
-//                 <ChevronRight className="size-4 mx-1 flex-shrink-0 text-gray-500 dark:text-gray-300" />
-//                 <Link
-//                   href="/admin/users"
-//                   className="hover:text-primary dark:hover:text-primary"
-//                 >
-//                   Users
-//                 </Link>
-//                 <ChevronRight className="size-4 mx-1 flex-shrink-0 text-gray-500 dark:text-gray-300" />
-//                 <span
-//                   className="text-neutral-900 dark:text-white truncate"
-//                   title={userId}
-//                 >
-//                   Details (
-//                   {userId ? `${userId.substring(0, 8)}...` : "Loading..."})
-//                 </span>
-
-//               </div>
-//               <h1 className="lg:text-3xl text-2xl font-medium text-mainheading dark:text-primary">
-//                 User Details
-//               </h1>
-//             </div>
-//             <div className="flex items-center gap-3 flex-wrap">
-//               <button
-//                 onClick={() => setIsSendMessageModalOpen(true)}
-//                 className="flex items-center justify-center gap-1.5 bg-lightgray cursor-pointer hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear text-base font-medium"
-//               >
-//                 <MessageSquarePlus className="size-5 mr-1.5" /> Send Message
-//               </button>
-//               {showKycManagementButton && (
-//                 <Button
-//                   asChild
-//                   className="flex items-center justify-center gap-1.5 bg-primary cursor-pointer text-neutral-900 hover:bg-primaryhover dark:bg-primary dark:text-neutral-900 dark:hover:bg-primaryhover px-8 py-3 h-[50px] sm:w-auto w-full rounded-full transition-all duration-75 ease-linear text-base font-medium"
-//                 >
-//                   <Link href={`/admin/kyc-management/${userId}`}>
-//                     <IdCard className="size-5 mr-1.5" /> Manage KYC
-//                   </Link>
-//                 </Button>
-//               )}
-//             </div>
-//           </div>
-
-//           <Card className="overflow-hidden border shadow-none">
-//             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b ">
-//               <div className="flex items-center gap-4">
-//                 <Avatar className="h-14 w-14 sm:h-16 sm:w-16 flex-shrink-0 bg-lightgray dark:bg-primarybox">
-//                   <AvatarFallback className="text-xl font-semibold text-neutral-900 dark:text-white">
-//                     {getInitials(userData.fullName)}
-//                   </AvatarFallback>
-//                 </Avatar>
-//                 <div className="space-y-0.5">
-//                   <CardTitle className="text-lg sm:text-xl text-neutral-900 dark:text-white">
-//                     {userData.fullName}
-//                   </CardTitle>
-//                   <CardDescription className="text-sm text-gray-500 dark:text-gray-300">
-//                     {userData.email}
-//                   </CardDescription>
-
-//                   <Badge
-//                     variant={
-//                       userData.role === "admin" ? "default" : "secondary"
-//                     }
-//                     className={cn(
-//                       "mt-1.5 text-xs capitalize px-3 py-2 rounded-full",
-//                       userData.role === "admin"
-//                         ? "bg-primary text-neutral-900"
-//                         : "bg-lightgray dark:bg-primarybox text-neutral-900 dark:text-white"
-//                     )}
-//                   >
-//                     {userData.role} Account
-//                   </Badge>
-//                 </div>
-//               </div>
-//               <div className="flex flex-col items-start sm:items-end space-y-0.5 text-sm text-gray-500 dark:text-gray-300 flex-shrink-0">
-//                 <span className="flex items-center gap-1.5">
-//                   <CalendarDays className="size-4 text-primary" /> Joined:{" "}
-//                   {formatDate(userData.createdAt)}
-//                 </span>
-//                 <span className="flex items-center gap-1.5">
-//                   <Clock className="size-4 text-primary" /> Updated:{" "}
-//                   {formatDate(userData.updatedAt)}
-//                 </span>
-//                 <Tooltip>
-//                   <TooltipTrigger asChild>
-//                     <span className="cursor-help underline decoration-dotted decoration-border dark:decoration-neutral-600">
-//                       ID: {userData._id.substring(userData._id.length - 8)}
-//                     </span>
-//                   </TooltipTrigger>
-//                   <TooltipContent
-//                     side="bottom"
-//                     sideOffset={5}
-//                     className="bg-[#e4e4e4] dark:bg-secondarybox text-white p-2 px-3 rounded-2xl max-w-60 xl:max-w-lg"
-//                   >
-//                     <p className="font-medium dark:text-white text-neutral-900 text-xs">{userData._id}</p>
-//                   </TooltipContent>
-//                 </Tooltip>
-//               </div>
-//             </CardHeader>
-//             {accounts && accounts.length > 0 && (
-//               <CardContent className="p-4 sm:p-6">
-//                 <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-4 flex items-center gap-2">
-//                   <Wallet className="h-5 w-5 text-primary" /> Account Balances
-//                 </h3>
-//                 <div className="flex flex-nowrap overflow-x-auto space-x-4 pb-2 sm:grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:space-x-0 sm:pb-0 sm:overflow-x-visible gap-4">
-//                   {accounts.map((acc) => (
-//                     <div
-//                       key={acc._id}
-//                       className="flex-shrink-0 w-40 sm:w-auto border  rounded-lg p-4 hover:bg-lightgray dark:hover:bg-primarybox transition-all duration-75 ease-linear flex flex-col justify-between"
-//                     >
-//                       <div>
-//                         <div className="flex items-center justify-between mb-1">
-//                           <span className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-300">
-//                             {acc.currency?.code || "N/A"}
-//                           </span>
-//                         </div>
-//                         <div className="text-xl sm:text-2xl font-bold text-neutral-900 dark:text-white tracking-tight mb-1">
-//                           {acc.balance != null
-//                             ? acc.balance.toLocaleString(undefined, {
-//                                 minimumFractionDigits: 2,
-//                                 maximumFractionDigits: 2,
-//                               })
-//                             : "--.--"}
-//                         </div>
-//                       </div>
-//                     </div>
-//                   ))}
-//                 </div>
-//               </CardContent>
-//             )}
-//           </Card>
-
-//           {/* User-Tabs */}
-//           <Tabs
-//             defaultValue="kyc"
-//             value={activeTab}
-//             onValueChange={setActiveTab}
-//             className="w-full"
-//           >
-//             <div className="overflow-hidden mb-4 rounded-full">
-//               <TabsList className="relative z-0 flex w-full h-full overflow-x-auto whitespace-nowrap bg-lightborder dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
-//                 {tabsData.map((tab) => (
-//                   <TabsTrigger
-//                     key={tab.value}
-//                     value={tab.value}
-//                     className={cn(
-//                       "relative px-4 py-3 flex items-center justify-center gap-2 text-base shrink-0 min-w-max rounded-full text-neutral-900 dark:text-white data-[state=active]:text-neutral-900 dark:data-[state=active]:text-primary border-none data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none cursor-pointer transition-colors duration-150 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-//                     )}
-//                   >
-//                     {activeTab === tab.value && (
-//                       <motion.div
-//                         layoutId="active-tab-indicator"
-//                         className="absolute inset-0 -z-10 bg-primary dark:bg-secondarybox rounded-full shadow-sm"
-//                         transition={{
-//                           type: "spring",
-//                           stiffness: 350,
-//                           damping: 30,
-//                         }}
-//                       />
-//                     )}
-//                     <tab.icon className="size-5" />{" "}
-//                     <span className="truncate">{tab.label}</span>
-//                   </TabsTrigger>
-//                 ))}
-//               </TabsList>
-//             </div>
-
-//             <TabsContent value="kyc">
-//               <motion.div
-//                 key="kyc-content"
-//                 variants={containerVariants}
-//                 initial="hidden"
-//                 animate="visible"
-//                 className="space-y-4"
-//               >
-//                 <motion.div variants={itemVariants}>
-//                   <Card className="border  overflow-hidden mb-4 shadow-none">
-//                     <CardHeader className="px-6 py-4 bg-lightgray dark:bg-primarybox border-b ">
-//                       <div className="flex items-center justify-between">
-//                         <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white ">
-//                           <FileText className="text-primary size-5" /> KYC
-//                           Information
-//                         </CardTitle>
-//                         <Badge
-//                           className={cn(
-//                             "px-4 py-2 text-sm flex items-center rounded-full gap-1.5",
-//                             kycStatusConfig.color
-//                           )}
-//                         >
-//                           <kycStatusConfig.icon className="h-4 w-4" />{" "}
-//                           {kycStatusConfig.label}
-//                         </Badge>
-//                       </div>
-//                       {kyc?.status === "rejected" && kyc.rejectionReason && (
-//                         <p className="text-xs text-destructive pt-2 mt-2 border-t border-destructive/20 dark:border-destructive/30">
-//                           <span className="font-medium">Rejection Reason:</span>{" "}
-//                           {kyc.rejectionReason}
-//                         </p>
-//                       )}
-//                     </CardHeader>
-//                     <CardContent>
-//                       {kyc ? (
-//                         <>
-//                           <div className="p-4 sm:p-6">
-//                             <h4 className="border-b  pb-2 mb-3 font-medium text-neutral-900 dark:text-white">
-//                               Personal Details
-//                             </h4>
-//                             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 sm:gap-x-6 sm:gap-y-4 gap-3">
-//                               <DetailItem
-//                                 label="First Name"
-//                                 value={kyc.firstName}
-//                                 icon={User}
-//                               />
-//                               <DetailItem
-//                                 label="Last Name"
-//                                 value={kyc.lastName}
-//                                 icon={User}
-//                               />
-//                               <DetailItem
-//                                 label="Date of Birth"
-//                                 value={formatDate(kyc.dateOfBirth)}
-//                                 icon={CalendarDays}
-//                               />
-//                               <DetailItem
-//                                 label="Mobile"
-//                                 value={formatMobile(kyc.mobile)}
-//                                 icon={Phone}
-//                               />
-//                               <DetailItem
-//                                 label="Nationality"
-//                                 value={kyc.nationality}
-//                                 icon={Globe}
-//                               />
-//                               <DetailItem
-//                                 label="Occupation"
-//                                 value={kyc.occupation}
-//                                 icon={Briefcase}
-//                               />
-//                               <DetailItem
-//                                 label="Salary Range"
-//                                 value={
-//                                   kyc.salaryRange
-//                                     ? salaryDisplayMap[kyc.salaryRange]
-//                                     : undefined
-//                                 }
-//                                 icon={BadgeDollarSign}
-//                               />
-//                             </div>
-//                           </div>
-//                           <div className="p-4 sm:p-6">
-//                             <h4 className="border-b  pb-2 mb-3 font-medium text-neutral-900 dark:text-white">
-//                               Identification Details
-//                             </h4>
-//                             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 sm:gap-x-6 sm:gap-y-4 gap-3">
-//                               <DetailItem
-//                                 label="ID Type"
-//                                 value={
-//                                   <span className="capitalize">
-//                                     {kyc.idType?.replace("_", " ")}
-//                                   </span>
-//                                 }
-//                                 icon={Fingerprint}
-//                               />
-//                               <DetailItem
-//                                 label="ID Number"
-//                                 value={kyc.idNumber}
-//                                 icon={IdCard}
-//                               />
-//                               <DetailItem
-//                                 label="ID Issue Date"
-//                                 value={formatDate(kyc.idIssueDate)}
-//                                 icon={CalendarDays}
-//                               />
-//                               <DetailItem
-//                                 label="ID Expiry Date"
-//                                 value={formatDate(kyc.idExpiryDate)}
-//                                 icon={CalendarDays}
-//                               />
-//                             </div>
-//                           </div>
-//                           <div className="p-4 sm:p-6">
-//                             <h4 className="border-b  pb-2 mb-3 font-medium text-neutral-900 dark:text-white">
-//                               Timestamps
-//                             </h4>
-//                             <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 sm:gap-x-6 sm:gap-y-4 gap-3">
-//                               <DetailItem
-//                                 label="Submitted At"
-//                                 value={formatDate(kyc.submittedAt, true)}
-//                                 icon={Clock}
-//                               />
-//                               <DetailItem
-//                                 label="Last Updated"
-//                                 value={formatDate(kyc.lastUpdatedAt, true)}
-//                                 icon={Clock}
-//                               />
-//                             </div>
-//                           </div>
-//                         </>
-//                       ) : (
-//                         <p className="text-sm text-gray-500 dark:text-gray-300 italic py-6 text-center">
-//                           KYC details not submitted.
-//                         </p>
-//                       )}
-//                     </CardContent>
-//                   </Card>
-//                 </motion.div>
-//                 <motion.div variants={itemVariants}>
-//                   <Card className="border  overflow-hidden mb-4 shadow-none">
-//                     <CardHeader className="px-6 py-4 bg-lightgray dark:bg-primarybox border-b ">
-//                       <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white ">
-//                         <CloudUpload className="text-primary size-5" />{" "}
-//                         Submitted Documents
-//                       </CardTitle>
-//                     </CardHeader>
-//                     {kyc?.documents && kyc.documents.length > 0 ? (
-//                       <div className="p-4 sm:p-6">
-//                         <div className="grid md:grid-cols-2 gap-4">
-//                           {kyc.documents.map((doc) => (
-//                             <div
-//                               key={doc.public_id}
-//                               className="border  rounded-lg overflow-hidden bg-muted/30 dark:bg-muted/20"
-//                             >
-//                               <div className="p-3 border-b  text-neutral-900 dark:text-white">
-//                                 <h4 className="text-sm font-medium capitalize">
-//                                   {doc.docType.replace("_", " ")}
-//                                 </h4>
-//                               </div>
-//                               <div className="p-2 flex items-center justify-center aspect-video bg-white dark:bg-background overflow-hidden relative group">
-//                                 {doc.url ? (
-//                                   <>
-//                                     {doc.url.toLowerCase().endsWith(".pdf") ? (
-//                                       <div className="flex flex-col items-center justify-center text-center text-muted-foreground">
-//                                         <FileText className="h-12 w-12 mb-2" />
-//                                         <span className="text-xs">
-//                                           PDF Document
-//                                         </span>
-//                                       </div>
-//                                     ) : (
-//                                       <Image
-//                                         src={doc.url}
-//                                         alt={`${doc.docType} preview`}
-//                                         fill
-//                                         className="object-contain"
-//                                         unoptimized
-//                                       />
-//                                     )}
-//                                     <a
-//                                       href={doc.url}
-//                                       target="_blank"
-//                                       rel="noopener noreferrer"
-//                                       className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 flex flex-col items-center justify-center text-white transition-opacity cursor-pointer"
-//                                       aria-label={`View full ${doc.docType.replace(
-//                                         "_",
-//                                         " "
-//                                       )} document`}
-//                                     >
-//                                       <Eye className="h-6 w-6 mb-1" />{" "}
-//                                       <span className="text-xs font-medium">
-//                                         View Full
-//                                       </span>
-//                                     </a>
-//                                   </>
-//                                 ) : (
-//                                   <p className="text-xs text-muted-foreground italic">
-//                                     Document URL missing.
-//                                   </p>
-//                                 )}
-//                               </div>
-//                             </div>
-//                           ))}
-//                         </div>
-//                       </div>
-//                     ) : (
-//                       <CardContent className="p-6">
-//                         <p className="text-sm text-gray-500 dark:text-gray-300 italic text-center">
-//                           No documents submitted.
-//                         </p>
-//                       </CardContent>
-//                     )}
-//                   </Card>
-//                 </motion.div>
-//               </motion.div>
-//             </TabsContent>
-
-//             <TabsContent value="transfers">
-//               <motion.div
-//                 key="transfers-content"
-//                 variants={containerVariants}
-//                 initial="hidden"
-//                 animate="visible"
-//               >
-//                 <motion.div variants={itemVariants}>
-//                   <Card className="border-0 bg-transparent shadow-none overflow-hidden">
-//                     <CardHeader className="p-4 sm:px-0">
-//                       <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white">
-//                         <Send className="h-5 w-5 text-primary" /> Recent
-//                         Transfers (Send Money)
-//                       </CardTitle>
-//                       <CardDescription className="text-sm mt-1 text-gray-500 dark:text-gray-300">
-//                         Last 5 transfers by this user.
-//                       </CardDescription>
-//                     </CardHeader>
-//                     <CardContent className="p-0">
-//                       <TransactionTable
-//                         data={transfers ?? []}
-//                         type="transfer"
-//                       />
-//                     </CardContent>
-//                   </Card>
-//                 </motion.div>
-//               </motion.div>
-//             </TabsContent>
-
-//             <TabsContent value="payments">
-//               <motion.div
-//                 key="payments-content"
-//                 variants={containerVariants}
-//                 initial="hidden"
-//                 animate="visible"
-//               >
-//                 <motion.div variants={itemVariants}>
-//                   <Card className="border-0 bg-transparent shadow-none overflow-hidden">
-//                     <CardHeader className="p-4 sm:px-0">
-//                       <CardTitle className="text-lg font-semibold flex items-center gap-2 text-neutral-900 dark:text-white">
-//                         <Landmark className="h-5 w-5 text-primary" /> Recent
-//                         Payments (Add Money)
-//                       </CardTitle>
-//                       <CardDescription className="text-sm !mt-1 text-gray-500 dark:text-gray-300">
-//                         Last 5 payment attempts.
-//                       </CardDescription>
-//                     </CardHeader>
-//                     <CardContent className="p-0">
-//                       <TransactionTable data={payments ?? []} type="payment" />
-//                     </CardContent>
-//                   </Card>
-//                 </motion.div>
-//               </motion.div>
-//             </TabsContent>
-//           </Tabs>
-//         </div>
-
-//         <SendMessageModal
-//           isOpen={isSendMessageModalOpen}
-//           setIsOpen={setIsSendMessageModalOpen}
-//           userName={userData?.fullName || "this user"}
-//           subject={messageSubject}
-//           setSubject={setMessageSubject}
-//           body={messageBody}
-//           setBody={setMessageBody}
-//           isSending={isSendingMessage}
-//           handleSend={handleSendMessage}
-//           sendError={sendMessageError}
-//           clearSendError={clearSendError}
-//         />
-//       </div>
-//     </TooltipProvider>
-//   );
-// };
-
-// export default UserDetailPage;

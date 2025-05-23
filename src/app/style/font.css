@@ -193,9 +193,27 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'SatoshiVariable';
+    src: url('/fonts/Satoshi-Variable.ttf') format('truetype');
+    /* font-weight: 400; */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SatoshiVariableItalic';
+    src: url('/fonts/Satoshi-VariableItalic.ttf') format('truetype');
+    /* font-weight: 400; */
+    font-style: italic;
+}
+
+
 /* --- Theme Variable Definition --- */
 :root {
     --font-Montserrat: "Montserrat";
     --font-Outfit: "Outfit";
     --font-Inter: "Inter";
+    --font-SatoshiVariable: "SatoshiVariable";
+    --font-SatoshiVariableItalic: "SatoshiVariableItalic";
+
 }

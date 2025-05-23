@@ -1307,26 +1307,18 @@ export default function ChangePassword() {
         <DashboardHeader title="Change Password" />
 
         <div className="space-y-4 w-full lg:max-w-lg mt-8">
-          {" "}
           {/* Added mt-8 */}
           {/* Informational Message */}
           <div className="bg-lightgray dark:bg-primarybox rounded-xl p-4 flex items-start gap-4 ">
             <div className="p-3 bg-yellow-400 rounded-full flex-shrink-0">
               <BsExclamationLg size={24} className="text-main" />
             </div>
-            <div className="flex flex-col gap-3">
-              <p className="text-gray-500 dark:text-gray-300">
-                We will never send you a temporary password by phone, email or
-                text message. When changing your password, always use something
-                that’s only known by you.
-              </p>
-              <Link
-                href="#"
-                className="text-neutral-900 dark:text-white w-fit font-semibold relative after:content-[''] after:block after:w-full after:h-px after:rounded-full after:bg-neutral-900 dark:after:bg-white after:mt-1"
-              >
-                Learn how to keep your account safe
-              </Link>
-            </div>
+
+            <p className="text-gray-500 dark:text-gray-300">
+              We will never send you a temporary password by phone, email or
+              text message. When changing your password, always use something
+              that’s only known by you.
+            </p>
           </div>
           {/* --- Messages Area --- */}
           <div className="space-y-3">
@@ -1474,15 +1466,15 @@ export default function ChangePassword() {
                   {/* Password Valid Message */}
                   {/* Only show if requirements met and initial message hidden */}
                   {showSortedMessage && !showPasswordMessage && (
-                      <div className="bg-green-50 dark:bg-green-900/25 border border-green-500 rounded-lg p-3 flex items-center gap-3">
-                        <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-green-600/20">
-                          <LuCheck className="text-green-600 dark:text-green-500 size-5 sm:size-6 flex-shrink-0" />
-                        </div>
-                        <p className="text-green-700 dark:text-green-300/90">
-                          That’s your new password sorted.
-                        </p>
+                    <div className="bg-green-50 dark:bg-green-900/25 border border-green-500 rounded-lg p-3 flex items-center gap-3">
+                      <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-green-600/20">
+                        <LuCheck className="text-green-600 dark:text-green-500 size-5 sm:size-6 flex-shrink-0" />
                       </div>
-                    )}
+                      <p className="text-green-700 dark:text-green-300/90">
+                        That’s your new password sorted.
+                      </p>
+                    </div>
+                  )}
                 </div>
               )}
 

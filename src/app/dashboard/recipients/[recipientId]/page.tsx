@@ -2111,6 +2111,514 @@
 // export default RecipientDetailsPage;
 
 
+// // frontend/src/app/dashboard/recipients/[recipientId]/page.tsx
+// "use client";
+// import React, { useState, useEffect } from "react";
+// import { useParams, useRouter } from "next/navigation";
+// import Image from "next/image";
+// import NicknamePopup from "@/app/dashboard/components/NicknamePopup";
+// import { useAuth } from "../../../contexts/AuthContext";
+// import recipientService from "../../../services/recipient";
+// import DashboardHeader from "../../../components/layout/DashboardHeader"; // Assuming this is the correct path
+// import DeleteRecipientModal from "@/app/dashboard/components/DeleteRecipientModal";
+// import Link from "next/link";
+// import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton
+// import { AlertCircle, AlertTriangle, ReceiptText, ReceiptTextIcon } from "lucide-react";
+
+// // Define the structure for the Currency object
+// interface Currency {
+//   _id: string; // Add _id if it exists in your API response
+//   code: string;
+//   name?: string; // Optional name
+//   flagImage?: string; // Optional flag image path
+// }
+
+// // Define the structure for the Recipient object
+// interface Recipient {
+//   _id: string; // Use _id consistently if that's what your API uses
+//   accountHolderName: string;
+//   nickname?: string | null;
+//   accountType: string;
+//   ifscCode: string; // Assuming these fields exist based on usage below
+//   accountNumber: string;
+//   email?: string | null;
+//   bankName?: string | null;
+//   address?: string | null;
+//   currency: Currency;
+//   // Add any other relevant properties returned by the API
+// }
+
+
+// interface RecipientDetailsPageProps {
+//   // No explicit props needed if using useParams
+// }
+
+// const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
+//   const params = useParams();
+//   // Ensure recipientId is treated as a string. Handle potential undefined/array.
+//   const recipientId = typeof params.recipientId === 'string' ? params.recipientId : '';
+//   const { token } = useAuth();
+//   const router = useRouter();
+
+//   const [currentRecipient, setCurrentRecipient] = useState<Recipient | null>(null);
+//   const [isNicknamePopupOpen, setIsNicknamePopupOpen] = useState(false);
+//   const [nicknameInput, setNicknameInput] = useState("");
+//   const [loadingRecipient, setLoadingRecipient] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+//   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+//   useEffect(() => {
+//     const fetchRecipientDetails = async () => {
+//       if (!token || !recipientId) {
+//          setLoadingRecipient(false);
+//          if (!recipientId) {
+//              setError("Invalid or missing Recipient ID.");
+//              console.error("Recipient ID is missing or invalid:", params.recipientId);
+//          } else {
+//              // No token case - might redirect later or rely on AuthProvider context
+//              setError("Authentication required.");
+//              // Potentially redirect to login if preferred: router.replace('/auth/login');
+//          }
+//          return;
+//       }
+
+//       setLoadingRecipient(true);
+//       setError(null);
+//       try {
+//         // Use recipientId directly here
+//         const data: Recipient = await recipientService.getRecipientById(recipientId, token);
+//         // Ensure API response includes _id if you use it elsewhere
+//         // If API uses 'id', map it: const mappedData = { ...data, _id: data.id };
+//         setCurrentRecipient(data);
+//         setNicknameInput(data.nickname || "");
+//       } catch (err: unknown) {
+//         let errorMessage = "Failed to load recipient details.";
+//         if (err instanceof Error) {
+//           errorMessage = err.message;
+//         } else if (typeof err === 'string') {
+//           errorMessage = err;
+//         } else if (typeof err === 'object' && err !== null && 'message' in err) {
+//             errorMessage = String((err as { message: unknown }).message);
+//         }
+//         setError(errorMessage);
+//         console.error("Error fetching recipient details:", err);
+//       } finally {
+//         setLoadingRecipient(false);
+//       }
+//     };
+
+//     fetchRecipientDetails();
+//   // Add params.recipientId to dependency array to refetch if the ID changes client-side
+//   }, [token, recipientId, params.recipientId, router]);
+
+//   // Handle invalid ID more explicitly after attempting fetch or validation
+//   if (!recipientId && !loadingRecipient) {
+//        return (
+//         <div className="RecipientDetailsPage py-10">
+//           <DashboardHeader title="Recipients" />
+//           <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+//             <div className="lg:size-16 size-14 flex items-center justify-center bg-red-600 dark:bg-transparent dark:bg-gradient-to-t dark:from-red-600 rounded-full mb-2">
+//             <AlertTriangle className="lg:size-8 size-6 mx-auto text-white dark:text-red-400" />
+//           </div>
+//           <p className="lg:text-xl text-lg text-gray-500 dark:text-gray-300 max-w-lg mx-auto">Error: Invalid or missing Recipient ID provided in the URL.</p>
+            
+//             <Link href="/dashboard/recipients" className="text-primary hover:underline">Go back to Recipients</Link>
+//           </div>
+//         </div>
+//       );
+//   }
+
+
+//   if (loadingRecipient) {
+//     return (
+//       <div className="RecipientDetailsPage py-10">
+//         <Skeleton className="h-8 w-48 rounded-md mb-6" />
+        
+//             {/* Enhanced Skeleton Loading State */}
+//             <div className="flex flex-col mb-8 space-y-4">
+//                 <Skeleton className="w-20 h-20 rounded-full" />
+//                 <Skeleton className="h-8 w-48 sm:w-64 rounded-md" />
+//                 <div className="flex items-center gap-4">
+//                     <Skeleton className="w-32 h-10 rounded-full" />
+//                     <Skeleton className="w-32 h-10 rounded-full" />
+//                 </div>
+//             </div>
+//              <Skeleton className="h-8 w-32 mb-6 rounded-md" />
+//              <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6 mb-8">
+//                 {Array(6).fill(0).map((_, i) => (
+//                     <div key={i}>
+//                         <Skeleton className="h-4 w-24 mb-2 rounded-md"/>
+//                         <Skeleton className="h-5 w-40 rounded-md"/>
+//                     </div>
+//                 ))}
+//              </div>
+        
+//       </div>
+//     );
+//   }
+
+//   if (error || !currentRecipient) {
+//     return (
+//       <div className="RecipientDetailsPage py-10">
+//         <DashboardHeader title="Recipients" />
+//         <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+//           <div className="lg:size-16 size-14 flex items-center justify-center bg-red-600 dark:bg-transparent dark:bg-gradient-to-t dark:from-red-600 rounded-full mb-2">
+//             <ReceiptText className="lg:size-8 size-6 mx-auto text-white dark:text-red-400" />
+//           </div>
+//           <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+//             Error loading recipient
+//           </h2>
+//           <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+//             {error || "Recipient not found."}{" "}
+//             <Link
+//               href="/dashboard/recipients"
+//               className="text-primary hover:underline"
+//             >
+//               Go back to Recipients
+//             </Link>
+//           </p>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   // --- Helper Functions ---
+//   const getInitials = (accountHolderName: string | undefined | null): string => {
+//     const name = (accountHolderName || "").trim();
+//     if (!name) return "?";
+
+//     const nameParts = name.toUpperCase().split(" ").filter(part => part.length > 0);
+//     if (nameParts.length === 0) return "?";
+
+//     let initials = nameParts[0][0];
+//     if (nameParts.length > 1) {
+//       initials += nameParts[nameParts.length - 1][0];
+//     } else if (nameParts[0].length > 1) {
+//         initials += nameParts[0][1];
+//     }
+//     return initials;
+//   };
+
+//   const handleAddNicknameClick = () => {
+//     setNicknameInput(currentRecipient?.nickname || "");
+//     setIsNicknamePopupOpen(true);
+//   };
+
+//   const handleCloseNicknamePopup = () => {
+//     setIsNicknamePopupOpen(false);
+//   };
+
+//   const handleSaveNickname = async () => {
+//     if (!token || !recipientId || !currentRecipient) {
+//         setError("Cannot save nickname. Missing required information.");
+//         return;
+//     }
+
+//     // Basic validation example (can be more complex)
+//     if (nicknameInput.trim().length > 40) {
+//         setError("Nickname cannot exceed 40 characters.");
+//         // Optionally keep the popup open
+//         return;
+//     }
+
+//     setIsNicknamePopupOpen(false);
+//     // Consider a specific loading state for the nickname save action
+//     // setLoadingNickname(true);
+//     try {
+//       const updatedRecipient: Recipient = await recipientService.updateRecipient(
+//         recipientId, // Use the validated recipientId
+//         { nickname: nicknameInput.trim() || null },
+//         token
+//       );
+//       setCurrentRecipient(updatedRecipient);
+//       // Keep nicknameInput as the saved value
+//     } catch (err: unknown) {
+//       let errorMessage = "Failed to update nickname.";
+//        if (err instanceof Error) {
+//           errorMessage = err.message;
+//         } else if (typeof err === 'string') {
+//           errorMessage = err;
+//         } else if (typeof err === 'object' && err !== null && 'message' in err) {
+//              errorMessage = String((err as { message: unknown }).message);
+//         }
+//       setError(errorMessage);
+//       console.error("Error updating nickname:", err);
+//       setIsNicknamePopupOpen(true); // Re-open popup on error
+//     } finally {
+//         // setLoadingNickname(false);
+//     }
+//   };
+
+//   const handleDeleteRecipientClick = () => {
+//     setIsDeleteModalOpen(true);
+//   };
+
+//   const handleCancelDeleteRecipient = () => {
+//     setIsDeleteModalOpen(false);
+//   };
+
+//   const handleConfirmDeleteRecipient = async () => {
+//     if (!token || !recipientId) {
+//         setError("Cannot delete recipient. Missing required information.");
+//         setIsDeleteModalOpen(false);
+//         return;
+//     }
+//     setIsDeleteModalOpen(false);
+//     setLoadingRecipient(true); // Use main loading state or a specific delete loading state
+//     setError(null);
+//     try {
+//       await recipientService.deleteRecipient(recipientId, token);
+//       // Optional: Add a success message/toast
+//       // toast.success("Recipient deleted successfully!");
+//       router.push("/dashboard/recipients");
+//     } catch (err: unknown) {
+//       let errorMessage = "Failed to delete recipient.";
+//       if (err instanceof Error) {
+//           errorMessage = err.message;
+//         } else if (typeof err === 'string') {
+//           errorMessage = err;
+//         } else if (typeof err === 'object' && err !== null && 'message' in err) {
+//              errorMessage = String((err as { message: unknown }).message);
+//         }
+//       setError(errorMessage);
+//       console.error("Error deleting recipient:", err);
+//       setLoadingRecipient(false); // Turn off loading only on error
+//     }
+//   };
+
+//   // Use nickname if available, otherwise fall back to account holder name
+//   const displayName = currentRecipient.nickname || currentRecipient.accountHolderName;
+//   const initials = getInitials(displayName); // Use display name for initials
+
+//   // --- Render ---
+//   return (
+//     <section className="Recipient-Details-Page">
+//       <DashboardHeader title="Recipients"/>
+//       <div className="">
+//         {/* Profile Section */}
+//         <div className="flex flex-col mb-8 space-y-4">
+//           <div className="relative w-20 h-20 rounded-full bg-lightborder dark:bg-secondarybox flex items-center justify-center">
+//             <span className="font-bold text-2xl text-neutral-900 dark:text-white">
+//               {initials} {/* Use calculated initials */}
+//             </span>
+//             {/* Conditional Flag Display - Robust check */}
+//             {currentRecipient.currency?.code && (
+//               <div className="absolute bottom-1 right-0 w-6 h-6 rounded-full overflow-hidden border border-white dark:border-gray-800">
+//                 <Image
+//                   src={currentRecipient.currency.flagImage || `/assets/icon/${currentRecipient.currency.code.toLowerCase()}.svg`}
+//                   alt={`${currentRecipient.currency.code} flag`}
+//                   width={24}
+//                   height={24}
+//                   unoptimized // Consider if optimization is needed based on source
+//                   onError={(e) => {
+//                     console.error(`Error loading flag for ${currentRecipient.currency.code}:`, e.currentTarget.src);
+//                     e.currentTarget.src = "/assets/icon/default.svg"; // Fallback image
+//                     e.currentTarget.alt = "Default flag";
+//                   }}
+//                 />
+//               </div>
+//             )}
+//           </div>
+//           <h2 className="sm:text-[26px] text-xl font-semibold text-mainheading dark:text-white break-words">
+//             {displayName} {/* Use calculated displayName */}
+//           </h2>
+//           <div className="flex items-center gap-4">
+//             {/* === MODIFIED LINK FOR SEND BUTTON === */}
+//             <Link
+//               href={recipientId ? `/dashboard/send/select-balance?recipientId=${recipientId}` : '#'} // Add recipientId as query param
+//               onClick={(e) => !recipientId && e.preventDefault()} // Prevent navigation if recipientId is somehow missing
+//               className={`font-medium bg-primary text-neutral-900 rounded-full sm:w-32 w-full h-10 flex items-center justify-center cursor-pointer hover:bg-primaryhover transition-colors duration-200 ${!recipientId ? 'opacity-50 cursor-not-allowed' : ''}`} // Disable visually if no ID
+//               aria-disabled={!recipientId}
+//             >
+//               Send
+//             </Link>
+//             {/* === END MODIFIED LINK === */}
+//             <button
+//               className="font-medium bg-red-600 text-white rounded-full sm:w-32 w-full h-10 flex items-center justify-center cursor-pointer hover:bg-red-700 transition-colors duration-200"
+//               onClick={handleDeleteRecipientClick}
+//               disabled={loadingRecipient} // Disable during loading/deleting
+//             >
+//               Delete
+//             </button>
+//           </div>
+//         </div>
+
+//         {/* Account Details Section */}
+//         <div className="Account-Details">
+//           <h3 className="font-medium text-gray-500 dark:text-gray-300 mb-3 tracking-wide leading-8 border-b">
+//             Account Details
+//           </h3>
+//           <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6 mb-8">
+//             {/* Account Holder Name */}
+//             <div>
+//               <label className="block font-semibold text-neutral-900 dark:text-white">
+//                 Account holder name
+//               </label>
+//               <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//                 {currentRecipient.accountHolderName}
+//               </p>
+//             </div>
+//             {/* Nickname */}
+//             <div>
+//               <label className="block font-semibold text-neutral-900 dark:text-white">
+//                 Nickname
+//               </label>
+//               <div className="flex items-center gap-4 mt-1">
+//                 {currentRecipient.nickname ? (
+//                   <div className="flex items-center gap-2 flex-wrap">
+//                     <p className="text-sm text-gray-500 dark:text-gray-300 break-words">
+//                       {currentRecipient.nickname}
+//                     </p>
+//                     <button
+//                       className="cursor-pointer text-sm underline font-medium text-primary hover:text-primaryhover transition-all duration-75 ease-linear whitespace-nowrap"
+//                       onClick={handleAddNicknameClick}
+//                       aria-label="Edit nickname"
+//                     >
+//                       Edit
+//                     </button>
+//                   </div>
+//                 ) : (
+//                   <button
+//                     className="cursor-pointer text-sm underline font-medium text-primary"
+//                     onClick={handleAddNicknameClick}
+//                     aria-label="Add nickname"
+//                   >
+//                     Add Nickname
+//                   </button>
+//                 )}
+//               </div>
+//             </div>
+//             {/* Account Type */}
+//             <div>
+//               <label className="block font-semibold text-neutral-900 dark:text-white">
+//                 Account type
+//               </label>
+//               <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//                 {currentRecipient.accountType || "N/A"} {/* Handle potential missing value */}
+//               </p>
+//             </div>
+//             {/* IFSC Code */}
+//             <div>
+//               <label className="block font-semibold text-neutral-900 dark:text-white">
+//                 IFSC code
+//               </label>
+//               <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//                 {currentRecipient.ifscCode || "N/A"} {/* Handle potential missing value */}
+//               </p>
+//             </div>
+//             {/* Account Number */}
+//             <div>
+//               <label className="block font-semibold text-neutral-900 dark:text-white">
+//                 Account number
+//               </label>
+//               <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//                 {currentRecipient.accountNumber || "N/A"} {/* Handle potential missing value */}
+//               </p>
+//             </div>
+//             {/* Email (Optional) */}
+//             {currentRecipient.email && (
+//               <div>
+//                 <label className="block font-semibold text-neutral-900 dark:text-white">
+//                   Email (Optional)
+//                 </label>
+//                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//                   {currentRecipient.email}
+//                 </p>
+//               </div>
+//             )}
+//             {/* Bank Name (Optional) */}
+//             {currentRecipient.bankName && (
+//               <div>
+//                 <label className="block font-semibold text-neutral-900 dark:text-white">
+//                   Bank name
+//                 </label>
+//                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//                   {currentRecipient.bankName}
+//                 </p>
+//               </div>
+//             )}
+//             {/* Address (Optional) */}
+//             {currentRecipient.address && (
+//               <div className="sm:col-span-2">
+//                 <label className="block font-semibold text-neutral-900 dark:text-white">
+//                   Address
+//                 </label>
+//                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//                   {currentRecipient.address}
+//                 </p>
+//               </div>
+//             )}
+//           </div>
+//         </div>
+
+//         {/* Nickname Popup Component */}
+//         <NicknamePopup
+//           isOpen={isNicknamePopupOpen}
+//           onClose={handleCloseNicknamePopup}
+//           title={currentRecipient.nickname ? "Edit nickname" : "Add nickname"}
+//           description={
+//             currentRecipient.nickname
+//               ? "Update the nickname for this account."
+//               : "Add a nickname so you can easily find this account."
+//           }
+//         >
+//           <div className="mb-4">
+//             <label
+//               htmlFor="nickname"
+//               className="block font-semibold text-neutral-900 dark:text-white"
+//             >
+//               Account nickname (Optional)
+//             </label>
+//             <input
+//               type="text"
+//               id="nickname"
+//               className="mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all ease-linear duration-75 focus:outline-none focus:border-[#5f5f5f]"
+//               placeholder="E.g., Savings, John Doe USD"
+//               maxLength={40}
+//               value={nicknameInput}
+//               onChange={(e) => {
+//                 setNicknameInput(e.target.value);
+//                 // Clear error instantly when user types
+//                 if (error?.toLowerCase().includes('nickname')) setError(null);
+//               }}
+//               aria-describedby="nickname-char-count nickname-error"
+//             />
+//             <p
+//               id="nickname-char-count"
+//               className="mt-2 text-gray-500 dark:text-gray-300 font-semibold text-xs"
+//             >
+//               {nicknameInput.length}/40 characters
+//             </p>
+//             {/* Display nickname-specific errors here */}
+//             {error?.toLowerCase().includes('nickname') && (
+//                 <p id="nickname-error" className="mt-1 text-red-500 text-xs">{error}</p>
+//             )}
+//           </div>
+//           <button
+//             className="inline-flex justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed font-medium rounded-full px-8 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear"
+//             onClick={handleSaveNickname}
+//             // Disable save if nickname hasn't changed or during loading
+//             disabled={loadingRecipient || nicknameInput === (currentRecipient.nickname || "")}
+//           >
+//             Save
+//           </button>
+//         </NicknamePopup>
+
+//         {/* Delete Recipient Modal */}
+//         <DeleteRecipientModal
+//           isOpen={isDeleteModalOpen}
+//           onClose={handleCancelDeleteRecipient}
+//           recipientName={displayName} // Use display name for consistency
+//           onConfirmDelete={handleConfirmDeleteRecipient}
+//         />
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default RecipientDetailsPage;
+
+
 // frontend/src/app/dashboard/recipients/[recipientId]/page.tsx
 "use client";
 import React, { useState, useEffect } from "react";

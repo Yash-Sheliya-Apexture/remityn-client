@@ -4237,7 +4237,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={toggleSidebar}
-            className="fixed inset-0 bg-black/50 dark:bg-black/70 z-30 lg:hidden"
+            className="fixed inset-0 bg-black/50 dark:bg-black/70 z-40 lg:hidden"
             aria-hidden="true"
           />
         )}
@@ -4261,17 +4261,34 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
             <div className="flex-shrink-0 flex items-center justify-start px-4 lg:h-28 h-20 relative">
               <Link
                 href="/dashboard"
+                className="dark:inline-block"
+                onClick={() => {
+                  if (isMobileView && sidebarOpen) toggleSidebar();
+                }}
+              >
+                <Image
+                  src="/assets/images/dark_logo.svg"
+                  alt="Wise Logo"
+                  width={160}
+                  height={50}
+                  priority
+                  className=" hidden dark:block"
+                />
+              </Link>
+              <Link
+                href="/dashboard"
                 className="inline-block"
                 onClick={() => {
                   if (isMobileView && sidebarOpen) toggleSidebar();
                 }}
               >
                 <Image
-                  src="/assets/images/wise-logo.svg"
+                  src="/assets/images/white_logo.svg"
                   alt="Wise Logo"
-                  width={120}
-                  height={30}
+                  width={160}
+                  height={50}
                   priority
+                  className=" dark:hidden block"
                 />
               </Link>
               {isMobileView && (
@@ -4288,7 +4305,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
               )}
             </div>
             {/* Scrollable Navigation Area */}
-            <div className="p-2 flex-grow overflow-y-auto [&::-webkit-scrollbar-track]:rounded-3xl [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-3xl [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+            <div className="p-2 flex-grow overflow-y-auto sm:[&::-webkit-scrollbar]:w-3 sm:[&::-webkit-scrollbar]:h-3  sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
               <nav className="flex-grow">
                 {isAuthenticated && isLoadingBalances ? (
                   <>

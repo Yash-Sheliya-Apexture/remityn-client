@@ -727,7 +727,7 @@ const FlagSection = () => {
                 className="text-3xl md:text-4xl xl:text-6xl font-black text-mainheading dark:text-white uppercase"
               >
                 Send Money to{" "}
-                <span className="text-primary"> INDIA With Wise</span>
+                <span className="text-primary"> INDIA With Remityn</span>
               </motion.h1>
               <motion.p
                 variants={itemVariants}
@@ -740,6 +740,7 @@ const FlagSection = () => {
                 rates.
               </motion.p>
             </motion.div>
+
             {/* Benefits Grid Container - Animate this container */}
             <div className="pt-5 md:pt-10">
               <motion.div // Wrap the grid itself to orchestrate its children
@@ -777,7 +778,7 @@ const FlagSection = () => {
                       <h3 className="text-xl lg:text-xl font-bold mb-2 text-neutral-900 dark:text-white">
                         {benefit.title}
                       </h3>
-                      <p className="sm:text-base text-sm text-gray-500 dark:text-gray-300">
+                      <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
                         {benefit.description}
                       </p>
                     </motion.div>

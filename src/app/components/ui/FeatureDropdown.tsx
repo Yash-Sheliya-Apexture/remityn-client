@@ -1078,7 +1078,213 @@
 
 
 
-// components/FeatureDropdown/FeatureDropdown.tsx
+// // components/FeatureDropdown/FeatureDropdown.tsx
+// "use client";
+// import React, { useState, useRef, useEffect } from "react";
+// import Link from "next/link";
+// import {
+//   IoIosArrowForward,
+//   IoIosArrowDown,
+//   IoIosArrowUp,
+// } from "react-icons/io"; // Added Down/Up arrows
+// import { motion, AnimatePresence } from "framer-motion";
+
+// interface FeatureDropdownProps {
+//   buttonText: string;
+//   buttonClassName?: string;
+//   dropdownClassName?: string;
+//   linkClassName?: string;
+//   topContentClassName?: string;
+//   onLinkClick?: () => void; // Callback when any link inside is clicked
+//   // --- Mobile specific props ---
+//   isMobile?: boolean;
+//   isOpen?: boolean; // Controlled state for mobile
+//   toggleDropdown?: () => void; // Function to toggle the controlled state
+//   // --- Data ---
+//   links: { href: string; text: string }[];
+//   topContent?: React.ReactNode;
+//   isActive?: boolean;
+// }
+
+// const FeatureDropdown: React.FC<FeatureDropdownProps> = ({
+//   buttonText,
+//   buttonClassName,
+//   dropdownClassName,
+//   linkClassName,
+//   topContentClassName,
+//   onLinkClick,
+//   isMobile = false,
+//   isOpen = false, // Default to false if not provided
+//   toggleDropdown, // Can be undefined for desktop
+//   links,
+//   topContent,
+// }) => {
+//   const [internalIsOpen, setInternalIsOpen] = useState(false);
+//   const dropdownRef = useRef<HTMLDivElement>(null);
+
+//   // Determine which state and toggle function to use
+//   const myIsOpen = isMobile ? isOpen : internalIsOpen;
+//   const myToggleDropdown = isMobile
+//     ? toggleDropdown
+//     : () => setInternalIsOpen(!internalIsOpen);
+
+//   // Handle closing dropdown on outside click (for desktop)
+//   useEffect(() => {
+//     const handleClickOutside = (event: MouseEvent) => {
+//       if (
+//         !isMobile && // Only apply for desktop
+//         dropdownRef.current &&
+//         !dropdownRef.current.contains(event.target as Node)
+//       ) {
+//         setInternalIsOpen(false);
+//       }
+//     };
+
+//     if (myIsOpen && !isMobile) {
+//       document.addEventListener("mousedown", handleClickOutside);
+//     }
+
+//     return () => {
+//       document.removeEventListener("mousedown", handleClickOutside);
+//     };
+//   }, [myIsOpen, isMobile]); // Add isMobile dependency
+
+//   const dropdownVariants = {
+//     open: {
+//       opacity: 1,
+//       y: 0,
+//       display: "block",
+//       transition: { type: "tween", duration: 0.2 },
+//     },
+//     closed: {
+//       opacity: 0,
+//       y: -10,
+//       transition: { type: "tween", duration: 0.2 },
+//       transitionEnd: { display: "none" },
+//     },
+//   };
+
+//   const mobileDropdownVariants = {
+//     open: {
+//       opacity: 1,
+//       height: "auto", // Animate height
+//       display: "block", // Ensure it's block for layout
+//       marginTop: "8px", // Add some space when open
+//       transition: { type: "tween", duration: 0.3, ease: "easeInOut" }, // Smoother animation
+//     },
+//     closed: {
+//       opacity: 0,
+//       height: 0, // Animate height to 0
+//       marginTop: "0px",
+//       transition: { type: "tween", duration: 0.3, ease: "easeInOut" },
+//       transitionEnd: { display: "none" }, // Hide completely after animation
+//     },
+//   };
+
+//   const dropdownContent = (
+//     <div className="block">
+//       {/* Top Content (Optional) */}
+//       {topContent && (
+//         <div
+//           className={`p-4 flex flex-col rounded-t-lg justify-start bg-white dark:bg-background ${
+//             // Use neutral for background consistency
+//             topContentClassName || ""
+//           }`}
+//         >
+//           {topContent}
+//         </div>
+//       )}
+
+//       {/* Links */}
+//       <div
+//         className={`flex flex-col gap-4 dark:bg-background bg-white ${
+//           isMobile ? "pb-4" : "p-4"
+//         }`}
+//       >
+//         {links.map((link, index) => (
+//           <div key={index} className="w-fit">
+//             <Link
+//               href={link.href}
+//               passHref
+//               className={`group relative inline-flex items-center gap-1 text-sm text-neutral-900 dark:text-white font-medium cursor-pointer ${
+//                 linkClassName || ""
+//               }`}
+//               onClick={() => {
+//                 if (!isMobile) {
+//                   setInternalIsOpen(false); // Close desktop dropdown on link click
+//                 }
+//                 onLinkClick?.(); // Call parent callback (e.g., close mobile menu)
+//               }}
+//             >
+//               <p>{link.text}</p>
+//               <IoIosArrowForward
+//                 size={18} // Slightly smaller
+//                 className="opacity-100 translate-x-0 transition-all duration-300 group-hover:translate-x-2" // Adjust hover effect
+//               />
+//               {/* Underline effect (optional) */}
+//               <span className="absolute left-0 lg:-bottom-1 -bottom-0.5 w-0 h-[2px] bg-neutral-900 dark:bg-primary transition-all duration-300 group-hover:w-full"></span>
+//             </Link>
+//           </div>
+//         ))}
+//       </div>
+//     </div>
+//   );
+
+//   return (
+//     <div className={`relative ${isMobile ? "w-full" : ""}`} ref={dropdownRef}>
+//       <div onClick={myToggleDropdown}>
+//         <button
+//           // Added flex, items-center, gap-1 for icon alignment
+//           className={`flex items-center justify-between cursor-pointer ${
+//             isMobile ? "w-full" : ""
+//           } ${buttonClassName || ""}`}
+//         >
+//           {buttonText}
+
+//           {isMobile && ( // <-- Condition now wraps the entire div
+//             <div className="">
+//               {myIsOpen ? (
+//                 <IoIosArrowUp size={24} />
+//               ) : (
+//                 <IoIosArrowDown size={24} />
+//               )}
+//             </div>
+//           )}
+//         </button>
+//       </div>
+
+//       <AnimatePresence>
+//         {myIsOpen && (
+//           <motion.div
+//             // Key prop can help framer-motion differentiate elements if needed
+//             key={buttonText}
+//             variants={isMobile ? mobileDropdownVariants : dropdownVariants}
+//             initial="closed"
+//             animate="open"
+//             exit="closed"
+//             // Apply styles based on mobile/desktop
+//             className={
+//               isMobile
+//                 ? `overflow-hidden pl-8 pt-1` // Mobile: relative positioning, controlled by parent layout, pl for indent
+//                 : `absolute left-0 lg:right-auto top-14 w-64 border rounded-2xl overflow-hidden z-50 ${
+//                     // Desktop: absolute, wider, specific positioning
+//                     dropdownClassName || ""
+//                   }`
+//             }
+//           >
+//             {/* Render content only when needed, helps with animation */}
+//             {dropdownContent}
+//           </motion.div>
+//         )}
+//       </AnimatePresence>
+//     </div>
+//   );
+// };
+
+// export default FeatureDropdown;
+
+
+// frontend/src/app/components/ui/FeatureDropdown.tsx
 "use client";
 import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
@@ -1086,193 +1292,183 @@ import {
   IoIosArrowForward,
   IoIosArrowDown,
   IoIosArrowUp,
-} from "react-icons/io"; // Added Down/Up arrows
+} from "react-icons/io";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 interface FeatureDropdownProps {
   buttonText: string;
-  buttonClassName?: string;
+  buttonClassName?: string; // Base classes for the button, active state will be appended
   dropdownClassName?: string;
   linkClassName?: string;
   topContentClassName?: string;
-  onLinkClick?: () => void; // Callback when any link inside is clicked
-  // --- Mobile specific props ---
+  onLinkClick?: () => void;
   isMobile?: boolean;
-  isOpen?: boolean; // Controlled state for mobile
-  toggleDropdown?: () => void; // Function to toggle the controlled state
-  // --- Data ---
+  isOpen?: boolean;
+  toggleDropdown?: () => void;
   links: { href: string; text: string }[];
   topContent?: React.ReactNode;
-  isActive?: boolean;
+  isActive?: boolean; // <<<< ADDED THIS PROP for the button's active state
 }
 
 const FeatureDropdown: React.FC<FeatureDropdownProps> = ({
   buttonText,
-  buttonClassName,
+  buttonClassName, // This will be the base class for the button
   dropdownClassName,
   linkClassName,
   topContentClassName,
   onLinkClick,
   isMobile = false,
-  isOpen = false, // Default to false if not provided
-  toggleDropdown, // Can be undefined for desktop
+  isOpen = false,
+  toggleDropdown,
   links,
   topContent,
+  isActive, // <<<< DESTRUCTURED THE PROP
 }) => {
   const [internalIsOpen, setInternalIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
-  // Determine which state and toggle function to use
   const myIsOpen = isMobile ? isOpen : internalIsOpen;
   const myToggleDropdown = isMobile
     ? toggleDropdown
     : () => setInternalIsOpen(!internalIsOpen);
 
-  // Handle closing dropdown on outside click (for desktop)
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
-        !isMobile && // Only apply for desktop
+        !isMobile &&
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setInternalIsOpen(false);
       }
     };
-
     if (myIsOpen && !isMobile) {
       document.addEventListener("mousedown", handleClickOutside);
     }
-
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [myIsOpen, isMobile]); // Add isMobile dependency
+  }, [myIsOpen, isMobile]);
 
   const dropdownVariants = {
-    open: {
-      opacity: 1,
-      y: 0,
-      display: "block",
-      transition: { type: "tween", duration: 0.2 },
-    },
-    closed: {
-      opacity: 0,
-      y: -10,
-      transition: { type: "tween", duration: 0.2 },
-      transitionEnd: { display: "none" },
-    },
+    open: { opacity: 1, y: 0, display: "block", transition: { type: "tween", duration: 0.2 } },
+    closed: { opacity: 0, y: -10, transition: { type: "tween", duration: 0.2 }, transitionEnd: { display: "none" } },
   };
 
   const mobileDropdownVariants = {
-    open: {
-      opacity: 1,
-      height: "auto", // Animate height
-      display: "block", // Ensure it's block for layout
-      marginTop: "8px", // Add some space when open
-      transition: { type: "tween", duration: 0.3, ease: "easeInOut" }, // Smoother animation
-    },
-    closed: {
-      opacity: 0,
-      height: 0, // Animate height to 0
-      marginTop: "0px",
-      transition: { type: "tween", duration: 0.3, ease: "easeInOut" },
-      transitionEnd: { display: "none" }, // Hide completely after animation
-    },
+    open: { opacity: 1, height: "auto", display: "block", marginTop: "8px", transition: { type: "tween", duration: 0.3, ease: "easeInOut" } },
+    closed: { opacity: 0, height: 0, marginTop: "0px", transition: { type: "tween", duration: 0.3, ease: "easeInOut" }, transitionEnd: { display: "none" } },
   };
 
+  const getLinkDropdownClasses = (href: string): string => {
+    const base = `group relative inline-flex items-center gap-1 text-sm font-medium cursor-pointer ${linkClassName || ""}`;
+    const activeLinkColor = "text-primary"; // Active color for link text
+    const inactiveLinkColor = "text-neutral-900 dark:text-white";
+    const isLinkActive = pathname?.startsWith(href);
+    return `${base} ${isLinkActive ? activeLinkColor : inactiveLinkColor}`;
+  };
+  
   const dropdownContent = (
     <div className="block">
-      {/* Top Content (Optional) */}
       {topContent && (
         <div
           className={`p-4 flex flex-col rounded-t-lg justify-start bg-white dark:bg-background ${
-            // Use neutral for background consistency
             topContentClassName || ""
           }`}
         >
           {topContent}
         </div>
       )}
-
-      {/* Links */}
       <div
         className={`flex flex-col gap-4 dark:bg-background bg-white ${
           isMobile ? "pb-4" : "p-4"
         }`}
       >
-        {links.map((link, index) => (
-          <div key={index} className="w-fit">
-            <Link
-              href={link.href}
-              passHref
-              className={`group relative inline-flex items-center gap-1 text-sm text-neutral-900 dark:text-white font-medium cursor-pointer ${
-                linkClassName || ""
-              }`}
-              onClick={() => {
-                if (!isMobile) {
-                  setInternalIsOpen(false); // Close desktop dropdown on link click
-                }
-                onLinkClick?.(); // Call parent callback (e.g., close mobile menu)
-              }}
-            >
-              <p>{link.text}</p>
-              <IoIosArrowForward
-                size={18} // Slightly smaller
-                className="opacity-100 translate-x-0 transition-all duration-300 group-hover:translate-x-2" // Adjust hover effect
-              />
-              {/* Underline effect (optional) */}
-              <span className="absolute left-0 lg:-bottom-1 -bottom-0.5 w-0 h-[2px] bg-neutral-900 dark:bg-primary transition-all duration-300 group-hover:w-full"></span>
-            </Link>
-          </div>
-        ))}
+        {links.map((link, index) => {
+          const isLinkActive = pathname?.startsWith(link.href);
+          return (
+            <div key={index} className="w-fit">
+              <Link
+                href={link.href}
+                passHref
+                className={getLinkDropdownClasses(link.href)}
+                onClick={() => {
+                  if (!isMobile) {
+                    setInternalIsOpen(false);
+                  }
+                  onLinkClick?.();
+                }}
+              >
+                <p>{link.text}</p>
+                <IoIosArrowForward
+                  size={18}
+                  className={cn(
+                    "opacity-100 translate-x-0 transition-all duration-300 group-hover:translate-x-2",
+                    isLinkActive && "text-primary dark:text-primary" 
+                  )}
+                />
+                <span
+                  className={cn(
+                    "absolute left-0 lg:-bottom-1 -bottom-0.5 h-[2px] transition-all duration-300",
+                    isLinkActive
+                      ? "w-full bg-primary dark:bg-primary" 
+                      : "w-0 group-hover:w-full bg-neutral-900 dark:bg-primary" 
+                  )}
+                ></span>
+              </Link>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
 
+  // Combine the base buttonClassName with conditional active styles
+  // The parent (Header or MobileMenu) will pass its calculated active/inactive classes as buttonClassName.
+  // So, no need to recalculate active state for the button here if the parent handles it.
+  // If the parent *doesn't* handle it, you would use the `isActive` prop here.
+  // For now, assuming parent provides the full className including active state.
+
   return (
     <div className={`relative ${isMobile ? "w-full" : ""}`} ref={dropdownRef}>
-      <div onClick={myToggleDropdown}>
-        <button
-          // Added flex, items-center, gap-1 for icon alignment
-          className={`flex items-center justify-between cursor-pointer ${
-            isMobile ? "w-full" : ""
-          } ${buttonClassName || ""}`}
-        >
-          {buttonText}
-
-          {isMobile && ( // <-- Condition now wraps the entire div
-            <div className="">
-              {myIsOpen ? (
-                <IoIosArrowUp size={24} />
-              ) : (
-                <IoIosArrowDown size={24} />
-              )}
-            </div>
-          )}
-        </button>
-      </div>
-
+      <button // Changed from div to button for better accessibility if it acts like one
+        onClick={myToggleDropdown}
+        className={`flex items-center justify-between cursor-pointer ${
+          isMobile ? "w-full" : ""
+        } ${buttonClassName || ""}`} // Use the passed buttonClassName directly
+        aria-expanded={myIsOpen}
+        aria-haspopup="true"
+      >
+        {buttonText}
+        {isMobile && (
+          <div>
+            {myIsOpen ? (
+              <IoIosArrowUp size={24} />
+            ) : (
+              <IoIosArrowDown size={24} />
+            )}
+          </div>
+        )}
+      </button>
       <AnimatePresence>
         {myIsOpen && (
           <motion.div
-            // Key prop can help framer-motion differentiate elements if needed
             key={buttonText}
             variants={isMobile ? mobileDropdownVariants : dropdownVariants}
             initial="closed"
             animate="open"
             exit="closed"
-            // Apply styles based on mobile/desktop
             className={
               isMobile
-                ? `overflow-hidden pl-8 pt-1` // Mobile: relative positioning, controlled by parent layout, pl for indent
+                ? `overflow-hidden pl-8 pt-1`
                 : `absolute left-0 lg:right-auto top-14 w-64 border rounded-2xl overflow-hidden z-50 ${
-                    // Desktop: absolute, wider, specific positioning
                     dropdownClassName || ""
                   }`
             }
           >
-            {/* Render content only when needed, helps with animation */}
             {dropdownContent}
           </motion.div>
         )}

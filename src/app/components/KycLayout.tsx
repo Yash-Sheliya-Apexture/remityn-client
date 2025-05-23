@@ -257,13 +257,14 @@ const KycLayoutComponent: React.FC<KycLayoutProps> = ({ children }) => {
     return (
         <div className="flex flex-col min-h-screen bg-white dark:bg-background">
             <KycHeader />
-            <main className="flex-grow container mx-auto px-4 py-8 md:py-12 flex flex-col items-center">
+            <main className="flex-grow container mx-auto px-4 py-5 md:py-10 flex flex-col items-center">
                 {/* Show stepper only if KYC context is initialized and on a form step */}
                 {showStepper && (
                     <div className="w-full max-w-3xl ">
                         <KycStepper />
                     </div>
                 )}
+
                 {/* AnimatePresence helps with page transitions within the layout */}
                 <AnimatePresence mode="wait">
                     <motion.div

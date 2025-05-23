@@ -1732,7 +1732,7 @@ const FileInput: React.FC<FileInputProps> = ({
         className="text-sm text-neutral-900 dark:text-white font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center"
       >
         {label} {/* Add red asterisk if required */}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && <span className="text-red-600 ml-1">*</span>}
       </label>
       {file ? (
         // Display when file is selected
@@ -1991,7 +1991,7 @@ export default function KycUploadPage() {
           Upload clear images or PDFs of your selected 
           <span className="font-semibold">{idTypeDisplayName}</span>. Ensure all
           text and photo are readable. Fields marked with{" "}
-          <span className="text-red-500">*</span> are required.
+          <span className="text-red-600">*</span> are required.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">

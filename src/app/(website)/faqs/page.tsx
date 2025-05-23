@@ -1232,48 +1232,48 @@ interface FAQSectionData {
 // --- Data remains the same ---
 const faqSections: FAQSectionData[] = [
   {
-    title: "About Wise",
+    title: "About Remityn",
     items: [
       {
-        id: "whatIsWise", // This ID will be the default open item
-        question: "What is Wise? ",
+        id: "whatIsRemityn", // This ID will be the default open item
+        question: "What is Remityn? ",
         answer:
-          "wise is a digital banking platform providing powerful APIs for real-time currency exchange, helping financial institutions and websites deliver secure, modern FX services",
+          "Remityn is a digital banking platform providing powerful APIs for real-time currency exchange, helping financial institutions and websites deliver secure, modern FX services",
       },
       {
         id: "whereOperate",
-        question: "Where does Wise operate?",
+        question: "Where does Remityn operate?",
         answer:
-          "Wise operates in more than USD, AED, AUD, CAD, EUR, INR, allowing you to send, spend and receive money internationally with free fees and real exchange rates. If you visit them,",
+          "Remityn operates in more than USD, AED, AUD, CAD, EUR, INR, allowing you to send, spend and receive money internationally with free fees and real exchange rates. If you visit them,",
       },
     ],
   },
   {
-    title: "Using Wise",
+    title: "Using Remityn",
     items: [
       {
         id: "transferTime",
-        question: "How long does a transfer take with Wise?",
+        question: "How long does a transfer take with Remityn?",
         answer:
-          "Transfer times with Wise vary by destination, but most transfers arrive within minutes to 1–2 business days, depending on the currency and payment method.",
+          "Transfer times with Remityn vary by destination, but most transfers arrive within minutes to 1–2 business days, depending on the currency and payment method.",
       },
       {
         id: "transferAmount",
-        question: "How much money can be transferred at once with Wise?",
+        question: "How much money can be transferred at once with Remityn?",
         answer:
-          "Wise lets you transfer large amounts of money, but the exact limits depend on the currency and the countries involved. Personal account limits may vary, typically ranging from a few thousand to hundreds of thousands, depending on the payment method, regulatory requirements, and destination.",
+          "Remityn lets you transfer large amounts of money, but the exact limits depend on the currency and the countries involved. Personal account limits may vary, typically ranging from a few thousand to hundreds of thousands, depending on the payment method, regulatory requirements, and destination.",
       },
       {
         id: "transferSecurity",
-        question: "How does Wise ensure the security of my transfers?",
+        question: "How does Remityn ensure the security of my transfers?",
         answer:
-          "Wise uses advanced security measures like encryption, two-factor authentication, and strict regulatory compliance to keep your money and data safe throughout every transfer.",
+          "Remityn uses advanced security measures like encryption, two-factor authentication, and strict regulatory compliance to keep your money and data safe throughout every transfer.",
       },
       {
         id: "trackTransfer",
-        question: "How do I track my Wise transfer?",
+        question: "How do I track my Remityn transfer?",
         answer:
-          "You can easily track your Wise transfer in real time through the Wise app or website, with updates provided at every step until the money reaches its destination.",
+          "You can easily track your Remityn transfer in real time through the Remityn app or website, with updates provided at every step until the money reaches its destination.",
       },
     ],
   },
@@ -1282,21 +1282,21 @@ const faqSections: FAQSectionData[] = [
     items: [
       {
         id: "howSafe",
-        question: "How safe is Wise?",
+        question: "How safe is Remityn?",
         answer:
-          "Wise is fully regulated by financial authorities around the world and uses bank-level encryption, making it a safe and trusted platform for sending and receiving money globally.",
+          "Remityn is fully regulated by financial authorities around the world and uses bank-level encryption, making it a safe and trusted platform for sending and receiving money globally.",
       },
       {
         id: "fraudsters",
         question: "How do I stay away from fraudsters?",
         answer:
-          "To avoid fraud, always double-check recipient details, beware of unexpected messages or requests, and never share your Wise login or security codes. Wise will never ask for sensitive info via email or phone.",
+          "To avoid fraud, always double-check recipient details, beware of unexpected messages or requests, and never share your Remityn login or security codes. Remityn will never ask for sensitive info via email or phone.",
       },
       {
         id: "affiliatedBank",
-        question: "Is Wise affiliated with any bank?",
+        question: "Is Remityn affiliated with any bank?",
         answer:
-          "Wise is not a bank, but it is regulated like one. It operates independently while partnering with licensed financial institutions and holding customer funds in safeguarded accounts for maximum security.",
+          "Remityn is not a bank, but it is regulated like one. It operates independently while partnering with licensed financial institutions and holding customer funds in safeguarded accounts for maximum security.",
       },
     ],
   },
@@ -1307,7 +1307,7 @@ const faqSections: FAQSectionData[] = [
         id: "whatRemittance",
         question: "What is remittance?",
         answer:
-          "Remittance refers to the transfer of money, typically by a foreign worker, back to their home country to support family members or friends. It’s a key part of global financial systems and is often done via money transfer services like Wise.",
+          "Remittance refers to the transfer of money, typically by a foreign worker, back to their home country to support family members or friends. It’s a key part of global financial systems and is often done via money transfer services like Remityn.",
       },
       {
         id: "remittanceImpact",
@@ -1319,7 +1319,7 @@ const faqSections: FAQSectionData[] = [
         id: "remittanceParticipants",
         question: "Who participates in a remittance transaction?",
         answer:
-          "A remittance transaction typically involves three key participants: the sender (who sends the money), the recipient (who receives the funds), and the service provider (such as Wise, which facilitates the transfer). The sender and recipient can be in different countries, while the service provider ensures the safe and timely transfer of funds.",
+          "A remittance transaction typically involves three key participants: the sender (who sends the money), the recipient (who receives the funds), and the service provider (such as Remityn, which facilitates the transfer). The sender and recipient can be in different countries, while the service provider ensures the safe and timely transfer of funds.",
       },
     ],
   },
@@ -1328,21 +1328,21 @@ const faqSections: FAQSectionData[] = [
     items: [
       {
         id: "deleteAccount",
-        question: "How do I delete my Wise account?",
+        question: "How do I delete my Remityn account?",
         answer:
-          'To delete your Wise account, simply log in to your account, go to the "Settings" section, and follow the prompts to close your account. Make sure all transactions are completed, and there are no pending balances before proceeding. For security reasons, Wise may ask you to verify your identity.',
+          'To delete your Remityn account, simply log in to your account, go to the "Settings" section, and follow the prompts to close your account. Make sure all transactions are completed, and there are no pending balances before proceeding. For security reasons, Remityn may ask you to verify your identity.',
       },
       {
         id: "transactionReceipt",
         question: "Do I get a receipt for my transactions?",
         answer:
-          'Yes, Wise provides a receipt for every transaction. You can easily view and download your receipts directly from your account under the "Transaction History" section, which includes all the details like the amount sent, fees, and exchange rate.',
+          'Yes, Remityn provides a receipt for every transaction. You can easily view and download your receipts directly from your account under the "Transaction History" section, which includes all the details like the amount sent, fees, and exchange rate.',
       },
       {
         id: "verificationDocuments",
         question: "What documents are required for verification?",
         answer:
-          "To verify your account with Wise, you may need to provide a government-issued ID (like a passport or Permanent Residency ID) and proof of address (such as a utility bill or bank statement). These documents help ensure the security of your account and comply with financial regulations.",
+          "To verify your account with Remityn, you may need to provide a government-issued ID (like a passport or Permanent Residency ID) and proof of address (such as a utility bill or bank statement). These documents help ensure the security of your account and comply with financial regulations.",
       },
     ],
   },
@@ -1463,7 +1463,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
             initial="initial"
             animate="animate"
             exit="exit"
-            className="overflow-hidden lg:text-lg text-sm text-gray-500 dark:text-gray-300"
+            className="overflow-hidden lg:text-lg text-base text-gray-500 dark:text-gray-300"
           >
             <p className="pt-0 pb-4 md:px-5 px-4">{item.answer}</p>
           </motion.div>

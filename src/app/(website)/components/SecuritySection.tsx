@@ -427,7 +427,7 @@ const SecuritySection = () => {
                 <FaLock className="lg:size-8 size-6 text-neutral-900 dark:text-primary" aria-hidden="true" />
               </div>
               <div>
-                <p className="sm:text-base text-sm text-gray-500 dark:text-gray-300">
+                <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
                   We use 256-bit encryption to protect your data and
                   transactions — the same standard trusted by leading global
                   banks. Your information stays confidential and secure at every
@@ -445,7 +445,7 @@ const SecuritySection = () => {
                 <FaShieldAlt className="lg:size-8 size-6 text-neutral-900 dark:text-primary" aria-hidden="true" />
               </div>
               <div>
-                <p className="sm:text-base text-sm text-gray-500 dark:text-gray-300">
+                <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
                   Our intelligent monitoring systems track every transaction in
                   real-time to instantly detect and stop suspicious activity —
                   keeping you safe from fraud before it happens.
@@ -462,7 +462,7 @@ const SecuritySection = () => {
                 <FaUniversity className="lg:size-8 size-6 text-neutral-900 dark:text-primary" aria-hidden="true" />
               </div>
               <div>
-                <p className="sm:text-base text-sm text-gray-500 dark:text-gray-300">
+                <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
                   Your money is held with top-tier, FDIC-insured banking
                   partners to ensure maximum protection and peace of mind — even
                   in the rarest events.

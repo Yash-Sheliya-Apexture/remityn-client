@@ -1959,7 +1959,7 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
       <div className="py-5">
         <div className="flex items-start sm:items-center justify-between mb-6 gap-4">
           <div className="Broadcast-History">
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-3">
               <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
                 <FaBroadcastTower className="size-6 text-mainheading dark:text-primary" />
               </div>
@@ -1999,27 +1999,28 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
                   />
                   <tbody className="divide-y overflow-hidden">
                     {batches.length === 0 ? (
-                      <td
-                        colSpan={numberOfColumns}
-                        className="text-center space-y-3 w-full text-gray-500 py-10 dark:text-gray-300"
-                      >
-                        <div className="flex justify-center items-center">
-                          <span className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
-                            <ListChecks className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
-                          </span>
-                        </div>
+                      <tr>
+                        <td
+                          colSpan={numberOfColumns}
+                          className="text-center space-y-3 w-full text-gray-500 py-10 dark:text-gray-300"
+                        >
+                          <div className="flex justify-center items-center">
+                            <span className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
+                              <ListChecks className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+                            </span>
+                          </div>
 
-                        <p className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
-                          No Past Broadcasts
-                        </p>
-                        
-                        <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
-                          It looks like there are no past broadcasts to display
-                          at the moment. Once a broadcast is sent, it will
-                          appear here.
-                        </p>
+                          <p className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+                            No Past Broadcasts
+                          </p>
 
-                      </td>
+                          <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+                            It looks like there are no past broadcasts to
+                            display at the moment. Once a broadcast is sent, it
+                            will appear here.
+                          </p>
+                        </td>
+                      </tr>
                     ) : (
                       batches.map((batch, index) => {
                         const isDeletingThis =

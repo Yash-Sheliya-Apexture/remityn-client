@@ -178,14 +178,14 @@ const AccountSettings: React.FC = () => {
               description="Change your security and privacy settings."
               href="your-account/security-and-privacy"
             />
-            <MenuItem
+            {/* <MenuItem
               icon={
                 <FaRegBell className="size-6 text-neutral-900 dark:text-white" />
               }
               label="Notifications"
               description="Customise how you get updates."
               href="your-account/notification-preferences"
-            />
+            /> */}
             <MenuItem
               icon={
                 <FiUser className="size-6 text-neutral-900 dark:text-white" />

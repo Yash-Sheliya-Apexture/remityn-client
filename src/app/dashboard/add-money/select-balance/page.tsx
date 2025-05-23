@@ -634,6 +634,230 @@
 
 // export default AddMoneySelectBalancePage;
 
+// // Last code
+// // frontend/src/app/dashboard/add-money/select-balance/page.tsx
+// "use client";
+
+// import React, { useEffect, useCallback, useState } from "react";
+// import { useRouter } from "next/navigation";
+// import { useBalances } from "../../../hooks/useBalances"; // Adjust path as needed
+// import { useAuth } from "../../../contexts/AuthContext"; // Adjust path & ensure it provides user object
+// import SelectBalanceComponent from "../../../components/ui/SelectBalanceComponent"; // Adjust path as needed
+// // Import both the component and the type definition
+// import CurrencySelectorModal, { AddedAccountInfo } from "../../components/MainDashBoardSection/CurrencySelectorModal"; // Adjust path as needed & IMPORT AddedAccountInfo
+// import KycRequiredModal from "@/app/dashboard/components/KycRequiredModal"; // Adjust path as needed
+// // import LoadingSpinner from '@/components/ui/LoadingSpinner'; // Optional: if needed for other async ops
+
+// // --- Interfaces ---
+// // REMOVED: The NewAccount interface defined here seems to match the *API response* structure,
+// // but the CurrencySelectorModal explicitly passes the *mapped* AddedAccountInfo
+// // to the onCurrencyAdded prop. So, this type is not needed here.
+// // interface NewAccount {
+// //   // From CurrencySelectorModal
+// //   _id: string;
+// //   userId: string;
+// //   currencyCode: string;
+// //   balance: string;
+// //   createdAt: string;
+// //   updatedAt: string;
+// // }
+// // NOTE: We don't need to redefine AuthUser/AuthContextType here if useAuth provides typed context.
+// // AuthContext itself exports the necessary types.
+
+// const AddMoneySelectBalancePage = () => {
+//   const router = useRouter();
+//   const {
+//     balances,
+//     isLoading: isBalancesLoading,
+//     error,
+//     refetchBalances,
+//   } = useBalances();
+//   // Get user and auth loading status from context
+//   const { token, user, loading: isAuthLoading } = useAuth();
+
+//   // --- State for Modals ---
+//   const [isCurrencyModalOpen, setIsCurrencyModalOpen] = useState(false);
+//   const [isKycModalOpen, setIsKycModalOpen] = useState(false);
+
+//   // --- Determine KYC Status ---
+//   // Check only after auth is loaded and user exists
+//   const isKycVerified = !isAuthLoading && user?.kyc.status === "verified";
+
+//   // --- Redirect Logic ---
+//   useEffect(() => {
+//     // Redirect ONLY after initial auth loading is complete
+//     if (!isAuthLoading && !token) {
+//       console.log(
+//         "Add Money: No token after auth check, redirecting to login."
+//       );
+//       router.replace("/auth/login");
+//     }
+//   }, [token, isAuthLoading, router]);
+
+//   // --- KYC Modal Actions ---
+//   const handleOpenKycModal = useCallback(() => setIsKycModalOpen(true), []);
+//   const handleCloseKycModal = useCallback(() => setIsKycModalOpen(false), []);
+//   const handleStartVerification = useCallback(() => {
+//     router.push("/kyc/start"); // Ensure this is the correct path
+//     handleCloseKycModal();
+//   }, [router, handleCloseKycModal]);
+
+//   // --- Selection Handler for EXISTING balances (with KYC Check) ---
+//   const handleSelectBalanceForAddMoney = useCallback(
+//     (balanceId: string) => {
+//       if (isAuthLoading) {
+//         console.log("Select Balance (Add Money): Waiting for auth...");
+//         return;
+//       }
+//       if (!isKycVerified) {
+//         console.log(
+//           "Select Balance (Add Money): KYC not verified. Showing KYC modal."
+//         );
+//         handleOpenKycModal();
+//         return;
+//       }
+//       console.log(
+//         "Select Balance (Add Money): KYC verified. Navigating to add money page for balance:",
+//         balanceId
+//       );
+//       router.push(`/dashboard/balances/${balanceId}/add-money`);
+//     },
+//     [router, isKycVerified, isAuthLoading, handleOpenKycModal]
+//   );
+
+//   // --- Handler for clicking "Add New Balance" card/link (with KYC Check) ---
+//   const handleAddBalanceClick = useCallback(() => {
+//     if (isAuthLoading) {
+//       console.log("Add Balance Click: Waiting for auth...");
+//       return;
+//     }
+//     if (!isKycVerified) {
+//       console.log(
+//         "Add Balance Click: KYC not verified. Showing KYC modal instead of currency selector."
+//       );
+//       handleOpenKycModal();
+//       return;
+//     }
+//     console.log(
+//       "Add Balance Click: KYC verified. Opening currency selector modal."
+//     );
+//     setIsCurrencyModalOpen(true);
+//   }, [isKycVerified, isAuthLoading, handleOpenKycModal]);
+
+//   // --- Currency Selector Modal Control Functions ---
+//   const handleCloseCurrencyModal = useCallback(() => {
+//     setIsCurrencyModalOpen(false);
+//   }, []);
+
+//   // FIX: Change the expected type from NewAccount to AddedAccountInfo
+//   const handleCurrencyAdded = useCallback(
+//     (newAccountInfo: AddedAccountInfo) => { // Use the correct type received from the modal
+//       console.log("New currency account added:", newAccountInfo);
+//       // You can now use newAccountInfo._id, newAccountInfo.balance, etc.
+//       handleCloseCurrencyModal();
+//       refetchBalances();
+//     },
+//     [handleCloseCurrencyModal, refetchBalances]
+//   );
+
+//   // --- Effect to handle body scroll based on modal state using inline styles ---
+//   useEffect(() => {
+//     // Store the original overflow style
+//     const originalOverflow = document.body.style.overflow;
+
+//     // Check if *either* modal is open
+//     const isAnyModalOpen = isCurrencyModalOpen || isKycModalOpen;
+
+//     if (isAnyModalOpen) {
+//       // Apply 'hidden' to prevent scrolling
+//       document.body.style.overflow = 'hidden';
+//       // console.log("Modal open, setting body overflow: hidden"); // Optional logging
+//     } else {
+//       // Restore the original overflow style only if it was changed by this effect
+//       // (This check prevents overriding other potential overflow settings)
+//       if (document.body.style.overflow === 'hidden') {
+//          document.body.style.overflow = originalOverflow || ''; // Use original or reset if none
+//         // console.log("Modals closed, restoring body overflow:", originalOverflow || 'default'); // Optional logging
+//       }
+//     }
+
+//     // --- Cleanup function ---
+//     // This runs when the component unmounts OR before the effect runs again.
+//     // It ensures the style is reset if the component is destroyed while a modal is open.
+//     return () => {
+//        // Only restore if we actually set it to hidden
+//        if (document.body.style.overflow === 'hidden') {
+//          document.body.style.overflow = originalOverflow || ''; // Use original or reset
+//          // console.log("Effect cleanup: Restoring body overflow:", originalOverflow || 'default'); // Optional logging
+//        }
+//     };
+//     // We include originalOverflow in dependencies technically, but since it's read
+//     // *before* the effect logic, it doesn't cause re-runs itself. The core dependencies
+//     // that trigger the effect are the modal states.
+//   }, [isCurrencyModalOpen, isKycModalOpen]); // Re-run effect when modal states change
+
+
+//   // Combined loading state
+//   const isLoading = isBalancesLoading || isAuthLoading;
+
+//   // --- Render ---
+//   return (
+//     <>
+//       {/* The main content area */}
+//       <main className="Add-Money">
+//         <SelectBalanceComponent
+//           balances={balances}
+//           isLoading={isLoading}
+//           error={error}
+//           refetchBalances={refetchBalances}
+//           onSelectBalance={handleSelectBalanceForAddMoney}
+//           allowAddBalance={true}
+//           onAddBalanceClick={handleAddBalanceClick}
+//           pageTitle="Select a Balance to Add Money"
+//           noBalancePrimaryMessage={
+//             isLoading
+//               ? "Loading balances..."
+//               : !user
+//               ? "Login required to manage balances."
+//               : isKycVerified
+//               ? "You don't have any currency balances yet."
+//               : "Complete KYC verification to add balances and funds."
+//           }
+//           noBalanceSecondaryMessage={
+//             isLoading
+//               ? ""
+//               : !user
+//               ? ""
+//               : isKycVerified
+//               ? "Create your first balance to add money"
+//               : "Start KYC verification now"
+//           }
+//           addBalanceLinkText="Add New Balance"
+//           tokenExists={!!token}
+//         />
+//       </main> {/* End of main content */}
+
+//         {/* Currency Selector Modal */}
+//         <CurrencySelectorModal
+//           isOpen={isCurrencyModalOpen}
+//           onClose={handleCloseCurrencyModal}
+//           onCurrencyAdded={handleCurrencyAdded} // This prop expects AddedAccountInfo
+//         />
+
+//       {/* KYC Required Modal */}
+//       {/* Modal itself should handle its own internal scrolling if needed */}
+//       <KycRequiredModal
+//         isOpen={isKycModalOpen}
+//         onClose={handleCloseKycModal}
+//         onStartVerification={handleStartVerification}
+//       />
+//     </>
+//   );
+// };
+
+// export default AddMoneySelectBalancePage;
+
+
 
 // frontend/src/app/dashboard/add-money/select-balance/page.tsx
 "use client";
@@ -647,22 +871,6 @@ import SelectBalanceComponent from "../../../components/ui/SelectBalanceComponen
 import CurrencySelectorModal, { AddedAccountInfo } from "../../components/MainDashBoardSection/CurrencySelectorModal"; // Adjust path as needed & IMPORT AddedAccountInfo
 import KycRequiredModal from "@/app/dashboard/components/KycRequiredModal"; // Adjust path as needed
 // import LoadingSpinner from '@/components/ui/LoadingSpinner'; // Optional: if needed for other async ops
-
-// --- Interfaces ---
-// REMOVED: The NewAccount interface defined here seems to match the *API response* structure,
-// but the CurrencySelectorModal explicitly passes the *mapped* AddedAccountInfo
-// to the onCurrencyAdded prop. So, this type is not needed here.
-// interface NewAccount {
-//   // From CurrencySelectorModal
-//   _id: string;
-//   userId: string;
-//   currencyCode: string;
-//   balance: string;
-//   createdAt: string;
-//   updatedAt: string;
-// }
-// NOTE: We don't need to redefine AuthUser/AuthContextType here if useAuth provides typed context.
-// AuthContext itself exports the necessary types.
 
 const AddMoneySelectBalancePage = () => {
   const router = useRouter();
@@ -725,35 +933,29 @@ const AddMoneySelectBalancePage = () => {
     [router, isKycVerified, isAuthLoading, handleOpenKycModal]
   );
 
-  // --- Handler for clicking "Add New Balance" card/link (with KYC Check) ---
+  // --- Handler for clicking "Add New Balance" card/link (KYC check REMOVED for this action) ---
   const handleAddBalanceClick = useCallback(() => {
     if (isAuthLoading) {
       console.log("Add Balance Click: Waiting for auth...");
       return;
     }
-    if (!isKycVerified) {
-      console.log(
-        "Add Balance Click: KYC not verified. Showing KYC modal instead of currency selector."
-      );
-      handleOpenKycModal();
-      return;
-    }
+    // If !isAuthLoading, it implies token/user status is determined.
+    // If !token, the useEffect would have redirected. So token should exist if we reach here.
+    // No KYC check here - directly open currency selector.
     console.log(
-      "Add Balance Click: KYC verified. Opening currency selector modal."
+      "Add Balance Click: Opening currency selector modal."
     );
     setIsCurrencyModalOpen(true);
-  }, [isKycVerified, isAuthLoading, handleOpenKycModal]);
+  }, [isAuthLoading]); // Dependencies updated
 
   // --- Currency Selector Modal Control Functions ---
   const handleCloseCurrencyModal = useCallback(() => {
     setIsCurrencyModalOpen(false);
   }, []);
 
-  // FIX: Change the expected type from NewAccount to AddedAccountInfo
   const handleCurrencyAdded = useCallback(
-    (newAccountInfo: AddedAccountInfo) => { // Use the correct type received from the modal
+    (newAccountInfo: AddedAccountInfo) => {
       console.log("New currency account added:", newAccountInfo);
-      // You can now use newAccountInfo._id, newAccountInfo.balance, etc.
       handleCloseCurrencyModal();
       refetchBalances();
     },
@@ -762,39 +964,22 @@ const AddMoneySelectBalancePage = () => {
 
   // --- Effect to handle body scroll based on modal state using inline styles ---
   useEffect(() => {
-    // Store the original overflow style
     const originalOverflow = document.body.style.overflow;
-
-    // Check if *either* modal is open
     const isAnyModalOpen = isCurrencyModalOpen || isKycModalOpen;
 
     if (isAnyModalOpen) {
-      // Apply 'hidden' to prevent scrolling
       document.body.style.overflow = 'hidden';
-      // console.log("Modal open, setting body overflow: hidden"); // Optional logging
     } else {
-      // Restore the original overflow style only if it was changed by this effect
-      // (This check prevents overriding other potential overflow settings)
       if (document.body.style.overflow === 'hidden') {
-         document.body.style.overflow = originalOverflow || ''; // Use original or reset if none
-        // console.log("Modals closed, restoring body overflow:", originalOverflow || 'default'); // Optional logging
+         document.body.style.overflow = originalOverflow || '';
       }
     }
-
-    // --- Cleanup function ---
-    // This runs when the component unmounts OR before the effect runs again.
-    // It ensures the style is reset if the component is destroyed while a modal is open.
     return () => {
-       // Only restore if we actually set it to hidden
        if (document.body.style.overflow === 'hidden') {
-         document.body.style.overflow = originalOverflow || ''; // Use original or reset
-         // console.log("Effect cleanup: Restoring body overflow:", originalOverflow || 'default'); // Optional logging
+         document.body.style.overflow = originalOverflow || '';
        }
     };
-    // We include originalOverflow in dependencies technically, but since it's read
-    // *before* the effect logic, it doesn't cause re-runs itself. The core dependencies
-    // that trigger the effect are the modal states.
-  }, [isCurrencyModalOpen, isKycModalOpen]); // Re-run effect when modal states change
+  }, [isCurrencyModalOpen, isKycModalOpen]);
 
 
   // Combined loading state
@@ -815,24 +1000,22 @@ const AddMoneySelectBalancePage = () => {
           onAddBalanceClick={handleAddBalanceClick}
           pageTitle="Select a Balance to Add Money"
           noBalancePrimaryMessage={
-            isLoading
-              ? "Loading balances..."
-              : !user
-              ? "Login required to manage balances."
-              : isKycVerified
-              ? "You don't have any currency balances yet."
-              : "Complete KYC verification to add balances and funds."
+            isLoading // Covers balances loading or auth loading
+              ? "Loading..."
+              // The following applies if !isLoading.
+              // Auth state (user, isKycVerified) is resolved.
+              // SelectBalanceComponent renders this block if balances.length === 0 and tokenExists.
+              : !isKycVerified
+              ? "Add your first currency balance. KYC verification will be needed to add funds."
+              : "You don't have any currency balances yet."
           }
           noBalanceSecondaryMessage={
             isLoading
               ? ""
-              : !user
-              ? ""
-              : isKycVerified
-              ? "Create your first balance to add money"
-              : "Start KYC verification now"
+              // The following applies if !isLoading and balances.length === 0 and tokenExists
+              : "Add New Balance" // This text will be used for the button
           }
-          addBalanceLinkText="Add New Balance"
+          addBalanceLinkText="Add New Balance" // This text is for the "+" card when balances exist
           tokenExists={!!token}
         />
       </main> {/* End of main content */}
@@ -841,11 +1024,10 @@ const AddMoneySelectBalancePage = () => {
         <CurrencySelectorModal
           isOpen={isCurrencyModalOpen}
           onClose={handleCloseCurrencyModal}
-          onCurrencyAdded={handleCurrencyAdded} // This prop expects AddedAccountInfo
+          onCurrencyAdded={handleCurrencyAdded}
         />
 
       {/* KYC Required Modal */}
-      {/* Modal itself should handle its own internal scrolling if needed */}
       <KycRequiredModal
         isOpen={isKycModalOpen}
         onClose={handleCloseKycModal}

@@ -163,7 +163,7 @@ const TransactionUpdateActions: React.FC<TransactionUpdateActionsProps> = ({
           </h3>
           <p className="text-sm text-gray-500 dark:text-gray-300 mb-4">
             Find bank details in the{" "}
-            <button onClick={onSwitchToDetailsTab} className="text-primary hover:underline font-medium">Details tab</button>.
+            <button onClick={onSwitchToDetailsTab} className="text-primary hover:underline font-medium cursor-pointer">Details tab</button>.
             Once transferred, click below.
           </p>
           {/* Error specific to Confirm Payment */}

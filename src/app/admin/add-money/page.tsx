@@ -5743,7 +5743,6 @@
 //           )}
 //         </AnimatePresence>
 
-        
 //         <AnimatePresence>
 //           {error && (
 //             <motion.div
@@ -5957,7 +5956,6 @@
 //     </div>
 //   );
 // };
-
 
 // // Helper function to parse date string (dd-MM-yyyy) to Date object
 // function parseDateString(dateString: string): Date | null {
@@ -6471,8 +6469,7 @@
 
 // export default AdminPaymentsPage;
 
-
-// // Latest code 
+// // Latest code
 // // frontend/src/app/admin/payments/page.tsx
 // "use client";
 // import React, { useState, useEffect, useCallback, useMemo } from "react";
@@ -6555,7 +6552,6 @@
 //     </div>
 //   );
 // };
-
 
 // // Helper function to parse date string (dd-MM-yyyy) to Date object
 // function parseDateString(dateString: string): Date | null {
@@ -6658,7 +6654,6 @@
 //       window.removeEventListener('resize', handleResize);
 //     };
 //   }, []);
-
 
 //   const fetchPayments = useCallback(async () => {
 //     setLoadingPayments(true);
@@ -6985,12 +6980,11 @@
 //     }
 //   };
 
-
 //   return (
 //     <div className="container mx-auto px-4 py-5 relative">
 //       <ToastContainer
 //         {...toastContainerProps}
-//         style={getToastContainerStyle()} 
+//         style={getToastContainerStyle()}
 //       />
 //       <div className="space-y-6">
 //         <div className="flex sm:flex-row flex-col justify-between items-center ">
@@ -7117,8 +7111,6 @@
 
 // export default AdminPaymentsPage;
 
-
-
 // // frontend/src/app/admin/payments/page.tsx
 // "use client";
 // import React, { useState, useEffect, useCallback, useMemo } from "react";
@@ -7141,7 +7133,7 @@
 // import PaymentEditModal from "../components/add-money/PaymentEditModal"; // Adjust path if needed
 // import Pagination from "../components/Pagination"; // Adjust path if needed
 // // Assuming this path is correct for your project structure
-// import CustomToast, { CustomToastProps } from "../../../app/components/CustomToast"; 
+// import CustomToast, { CustomToastProps } from "../../../app/components/CustomToast";
 
 // // Import Shared Types
 // import { Payment } from "../../../types/payment"; // Adjust path as needed
@@ -7199,18 +7191,17 @@
 //             return "success";
 //         case "pending":
 //         case "in progress":
-//             return "info"; 
+//             return "info";
 //         case "canceled": // Both "canceled" and "cancelled" will be handled
 //         case "cancelled":
 //         case "failed":
-//             return "error"; 
+//             return "error";
 //         case "unknown":
 //             return "warning"; // Or 'default'
 //         default:
 //             return "default";
 //     }
 // };
-
 
 // const AdminPaymentsPage: React.FC = () => {
 //   // --- Core States ---
@@ -7306,7 +7297,6 @@
 //     };
 //   }, []);
 
-
 //   const fetchPayments = useCallback(async () => {
 //     setLoadingPayments(true);
 //     setIsRefreshing(true);
@@ -7534,11 +7524,11 @@
 //             : p
 //         )
 //       );
-      
+
 //       const toastTypeForStatus = mapPaymentStatusToToastType(newStatus);
 //       showToast(
 //         `Payment status updated to "${newStatus}" successfully!`,
-//         toastTypeForStatus 
+//         toastTypeForStatus
 //       );
 
 //       setIsEditModalOpen(false);
@@ -7600,47 +7590,46 @@
 //   const toastContainerProps: ToastContainerProps = {
 //     position: "top-right",
 //     autoClose: 5000,
-//     hideProgressBar: false, 
+//     hideProgressBar: false,
 //     newestOnTop: true,
 //     closeOnClick: false,
-//     closeButton: false, 
+//     closeButton: false,
 //     rtl: false,
 //     pauseOnFocusLoss: true,
 //     draggable: true,
 //     pauseOnHover: true,
 //     transition: Slide,
-//     toastClassName: () => "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3", 
+//     toastClassName: () => "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3",
 //   };
 
 //   const getToastContainerStyle = (): React.CSSProperties & { [key: `--${string}`]: string | number } => {
-//     const baseStyle = { 
+//     const baseStyle = {
 //       zIndex: 99999,
 //     };
 
 //     if (isMobile) {
 //       return {
 //         ...baseStyle,
-//         top: "1rem",    
-//         left: "1rem",   
-//         right: "1rem",  
-//         width: "auto",  
+//         top: "1rem",
+//         left: "1rem",
+//         right: "1rem",
+//         width: "auto",
 //       };
-//     } else { 
+//     } else {
 //       return {
 //         ...baseStyle,
-//         top: "0.75rem", 
+//         top: "0.75rem",
 //         right: "0.75rem",
-//         width: "320px", 
+//         width: "320px",
 //       };
 //     }
 //   };
-
 
 //   return (
 //     <div className="container mx-auto px-4 py-5 relative">
 //       <ToastContainer
 //         {...toastContainerProps}
-//         style={getToastContainerStyle()} 
+//         style={getToastContainerStyle()}
 //       />
 //       <div className="space-y-6">
 //         <div className="flex sm:flex-row flex-col justify-between items-center ">
@@ -7744,7 +7733,7 @@
 //         editLoading={editLoading}
 //         handleSaveEdit={handleSaveEdit}
 //         statusOptions={statusOptions.filter(
-//           (s) => s !== "all" && s !== "unknown" 
+//           (s) => s !== "all" && s !== "unknown"
 //         )}
 //       />
 
@@ -7767,7 +7756,7 @@
 
 // export default AdminPaymentsPage;
 
-// // New Latest code 
+// // New Latest code
 // // frontend/src/app/admin/payments/page.tsx
 // "use client";
 // import React, { useState, useEffect, useCallback, useMemo } from "react";
@@ -7790,7 +7779,7 @@
 // import PaymentEditModal from "../components/add-money/PaymentEditModal"; // Adjust path if needed
 // import Pagination from "../components/Pagination"; // Adjust path if needed
 // // Assuming this path is correct for your project structure
-// import CustomToast, { CustomToastProps } from "../../../app/components/CustomToast"; 
+// import CustomToast, { CustomToastProps } from "../../../app/components/CustomToast";
 
 // // Import Shared Types
 // import { Payment } from "../../../types/payment"; // Adjust path as needed
@@ -7848,18 +7837,17 @@
 //             return "success";
 //         case "pending":
 //         case "in progress":
-//             return "info"; 
+//             return "info";
 //         case "canceled": // Both "canceled" and "cancelled" will be handled
 //         case "cancelled":
 //         case "failed":
-//             return "error"; 
+//             return "error";
 //         case "unknown":
 //             return "warning"; // Or 'default'
 //         default:
 //             return "default";
 //     }
 // };
-
 
 // const AdminPaymentsPage: React.FC = () => {
 //   // --- Core States ---
@@ -7931,7 +7919,7 @@
 //         progressClassName = "toast-progress-default";
 //         break;
 //     }
-    
+
 //     // The `type` option for react-toastify itself could also be set here
 //     // if you want its built-in themes to align, e.g. type: effectiveType as TypeOptions
 //     // However, CustomToast already handles its appearance, and we're styling the progress bar.
@@ -7956,7 +7944,6 @@
 //       window.removeEventListener('resize', handleResize);
 //     };
 //   }, []);
-
 
 //   const fetchPayments = useCallback(async () => {
 //     setLoadingPayments(true);
@@ -8185,11 +8172,11 @@
 //             : p
 //         )
 //       );
-      
+
 //       const toastTypeForStatus = mapPaymentStatusToToastType(newStatus);
 //       showToast(
 //         `Payment status updated to "${newStatus}" successfully!`,
-//         toastTypeForStatus 
+//         toastTypeForStatus
 //       );
 
 //       setIsEditModalOpen(false);
@@ -8251,47 +8238,46 @@
 //   const toastContainerProps: ToastContainerProps = {
 //     position: "top-right",
 //     autoClose: 5000,
-//     hideProgressBar: false, 
+//     hideProgressBar: false,
 //     newestOnTop: true,
 //     closeOnClick: false,
-//     closeButton: false, 
+//     closeButton: false,
 //     rtl: false,
 //     pauseOnFocusLoss: true,
 //     draggable: true,
 //     pauseOnHover: true,
 //     transition: Slide,
-//     toastClassName: () => "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3", 
+//     toastClassName: () => "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3",
 //   };
 
 //   const getToastContainerStyle = (): React.CSSProperties & { [key: `--${string}`]: string | number } => {
-//     const baseStyle = { 
+//     const baseStyle = {
 //       zIndex: 99999,
 //     };
 
 //     if (isMobile) {
 //       return {
 //         ...baseStyle,
-//         top: "1rem",    
-//         left: "1rem",   
-//         right: "1rem",  
-//         width: "auto",  
+//         top: "1rem",
+//         left: "1rem",
+//         right: "1rem",
+//         width: "auto",
 //       };
-//     } else { 
+//     } else {
 //       return {
 //         ...baseStyle,
-//         top: "0.75rem", 
+//         top: "0.75rem",
 //         right: "0.75rem",
-//         width: "320px", 
+//         width: "320px",
 //       };
 //     }
 //   };
-
 
 //   return (
 //     <div className="container mx-auto px-4 py-5 relative">
 //       <ToastContainer
 //         {...toastContainerProps}
-//         style={getToastContainerStyle()} 
+//         style={getToastContainerStyle()}
 //       />
 //       <div className="space-y-6">
 //         <div className="flex sm:flex-row flex-col justify-between items-center ">
@@ -8395,7 +8381,7 @@
 //         editLoading={editLoading}
 //         handleSaveEdit={handleSaveEdit}
 //         statusOptions={statusOptions.filter(
-//           (s) => s !== "all" && s !== "unknown" 
+//           (s) => s !== "all" && s !== "unknown"
 //         )}
 //       />
 
@@ -8418,22 +8404,23 @@
 
 // export default AdminPaymentsPage;
 
-
-
 // frontend/src/app/admin/payments/page.tsx
 "use client";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "../../contexts/AuthContext"; // Adjust path if needed
 import axios, { AxiosError } from "axios";
 import apiConfig from "../../config/apiConfig"; // Adjust path if needed
-import {
-    Filter,
-    RefreshCw,
-} from "lucide-react";
+import { Filter, RefreshCw } from "lucide-react";
 
 // Import react-toastify
-import { ToastContainer, toast, Slide, ToastContainerProps, TypeOptions } from 'react-toastify'; // Added TypeOptions
-import 'react-toastify/dist/ReactToastify.css';
+import {
+  ToastContainer,
+  toast,
+  Slide,
+  ToastContainerProps,
+  TypeOptions,
+} from "react-toastify"; // Added TypeOptions
+import "react-toastify/dist/ReactToastify.css";
 
 // Import components
 import PaymentTable from "../components/add-money/PaymentTable"; // Adjust path if needed
@@ -8442,7 +8429,9 @@ import GenericFilters, { FiltersState } from "../components/GenericFilters"; // 
 import PaymentEditModal from "../components/add-money/PaymentEditModal"; // Adjust path if needed
 import Pagination from "../components/Pagination"; // Adjust path if needed
 // Assuming this path is correct for your project structure
-import CustomToast, { CustomToastProps } from "../../../app/components/CustomToast"; 
+import CustomToast, {
+  CustomToastProps,
+} from "../../../app/components/CustomToast";
 
 // Import Shared Types
 import { Payment } from "../../../types/payment"; // Adjust path as needed
@@ -8495,25 +8484,26 @@ function parseDateString(dateString: string): Date | null {
 }
 
 // Helper to map payment status to Toast type for icon and progress bar logic
-const mapPaymentStatusToToastType = (status: string): CustomToastProps['type'] => {
-    const lowerStatus = status.toLowerCase();
-    switch (lowerStatus) {
-        case "completed":
-            return "success";
-        case "pending":
-        case "in progress":
-            return "info"; 
-        case "canceled": // Both "canceled" and "cancelled" will be handled
-        case "cancelled":
-        case "failed":
-            return "error"; 
-        case "unknown":
-            return "warning"; // Or 'default'
-        default:
-            return "default";
-    }
+const mapPaymentStatusToToastType = (
+  status: string
+): CustomToastProps["type"] => {
+  const lowerStatus = status.toLowerCase();
+  switch (lowerStatus) {
+    case "completed":
+      return "success";
+    case "pending":
+    case "in progress":
+      return "info";
+    case "canceled": // Both "canceled" and "cancelled" will be handled
+    case "cancelled":
+    case "failed":
+      return "error";
+    case "unknown":
+      return "warning"; // Or 'default'
+    default:
+      return "default";
+  }
 };
-
 
 const AdminPaymentsPage: React.FC = () => {
   // --- Core States ---
@@ -8543,7 +8533,9 @@ const AdminPaymentsPage: React.FC = () => {
   const [editLoading, setEditLoading] = useState<boolean>(false);
 
   // --- Sorting State ---
-  const [sortField, setSortField] = useState<PaymentSortField | null>("createdAt");
+  const [sortField, setSortField] = useState<PaymentSortField | null>(
+    "createdAt"
+  );
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
 
   // --- Pagination State ---
@@ -8552,49 +8544,57 @@ const AdminPaymentsPage: React.FC = () => {
   const pageSizeOptions: number[] = [10, 25, 50];
 
   const statusOptions: string[] = useMemo(() => {
-    return ["all", "pending", "in progress", "completed", "canceled", "failed", "unknown"];
+    return [
+      "all",
+      "pending",
+      "in progress",
+      "completed",
+      "canceled",
+      "failed",
+      "unknown",
+    ];
   }, []);
 
   // --- Custom Toast Invocation ---
-  const showToast = useCallback((
-    message: string,
-    type?: CustomToastProps['type']
-  ) => {
-    const effectiveType = type || 'default';
-    let progressClassName: string;
-    // Map CustomToastProps['type'] to react-toastify's TypeOptions for consistency if needed,
-    // though for progressClassName we are defining custom classes.
-    // The `type` prop for CustomToast primarily drives its internal icon and color.
-    // react-toastify also has a `type` option which can set default styling if not overridden.
+  const showToast = useCallback(
+    (message: string, type?: CustomToastProps["type"]) => {
+      const effectiveType = type || "default";
+      let progressClassName: string;
+      // Map CustomToastProps['type'] to react-toastify's TypeOptions for consistency if needed,
+      // though for progressClassName we are defining custom classes.
+      // The `type` prop for CustomToast primarily drives its internal icon and color.
+      // react-toastify also has a `type` option which can set default styling if not overridden.
 
-    switch(effectiveType) {
-      case 'success':
-        progressClassName = "toast-progress-success";
-        break;
-      case 'error':
-        progressClassName = "toast-progress-error";
-        break;
-      case 'info':
-        progressClassName = "toast-progress-info";
-        break;
-      case 'warning':
-        progressClassName = "toast-progress-warning";
-        break;
-      case 'default':
-      default:
-        progressClassName = "toast-progress-default";
-        break;
-    }
-    
-    // The `type` option for react-toastify itself could also be set here
-    // if you want its built-in themes to align, e.g. type: effectiveType as TypeOptions
-    // However, CustomToast already handles its appearance, and we're styling the progress bar.
-    toast(<CustomToast message={message} type={effectiveType} />, {
-      progressClassName: progressClassName,
-      type: effectiveType as TypeOptions,
-      icon: false, // MODIFIED: Pass type to react-toastify
-    });
-  }, []);
+      switch (effectiveType) {
+        case "success":
+          progressClassName = "toast-progress-success";
+          break;
+        case "error":
+          progressClassName = "toast-progress-error";
+          break;
+        case "info":
+          progressClassName = "toast-progress-info";
+          break;
+        case "warning":
+          progressClassName = "toast-progress-warning";
+          break;
+        case "default":
+        default:
+          progressClassName = "toast-progress-default";
+          break;
+      }
+
+      // The `type` option for react-toastify itself could also be set here
+      // if you want its built-in themes to align, e.g. type: effectiveType as TypeOptions
+      // However, CustomToast already handles its appearance, and we're styling the progress bar.
+      toast(<CustomToast message={message} type={effectiveType} />, {
+        progressClassName: progressClassName,
+        type: effectiveType as TypeOptions,
+        icon: false, // MODIFIED: Pass type to react-toastify
+      });
+    },
+    []
+  );
 
   // --- Mobile Detection State ---
   const [isMobile, setIsMobile] = useState(false);
@@ -8605,13 +8605,12 @@ const AdminPaymentsPage: React.FC = () => {
     };
 
     handleResize();
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
-
 
   const fetchPayments = useCallback(async () => {
     setLoadingPayments(true);
@@ -8636,10 +8635,24 @@ const AdminPaymentsPage: React.FC = () => {
           ...p,
           _id: String(p._id ?? ""),
           amountToAdd: String(p.amountToAdd ?? ""),
-          status: p.status && statusOptions.includes(p.status) ? p.status : "unknown",
+          status:
+            p.status && statusOptions.includes(p.status) ? p.status : "unknown",
           createdAt: p.createdAt || new Date(0).toISOString(),
-          user: p.user && typeof p.user === "object" ? { ...p.user, fullName: String(p.user.fullName ?? "N/A"), email: String(p.user.email ?? "N/A"), } : { fullName: "N/A", email: "N/A" },
-          payInCurrency: p.payInCurrency && typeof p.payInCurrency === "object" ? { ...p.payInCurrency, code: String(p.payInCurrency.code ?? "N/A"), } : { code: "N/A" },
+          user:
+            p.user && typeof p.user === "object"
+              ? {
+                  ...p.user,
+                  fullName: String(p.user.fullName ?? "N/A"),
+                  email: String(p.user.email ?? "N/A"),
+                }
+              : { fullName: "N/A", email: "N/A" },
+          payInCurrency:
+            p.payInCurrency && typeof p.payInCurrency === "object"
+              ? {
+                  ...p.payInCurrency,
+                  code: String(p.payInCurrency.code ?? "N/A"),
+                }
+              : { code: "N/A" },
           referenceCode: String(p.referenceCode ?? ""),
         }));
       setPayments(validatedData);
@@ -8647,11 +8660,14 @@ const AdminPaymentsPage: React.FC = () => {
       let errorMessage = "Failed to load payments";
       if (axios.isAxiosError(err)) {
         const axiosError = err as AxiosError<ApiErrorResponse>;
-        errorMessage = axiosError.response?.data?.message || axiosError.message || errorMessage;
+        errorMessage =
+          axiosError.response?.data?.message ||
+          axiosError.message ||
+          errorMessage;
       } else if (err instanceof Error) {
         errorMessage = err.message;
       }
-      showToast(errorMessage, 'error');
+      showToast(errorMessage, "error");
       setPayments([]);
       console.error("Error fetching payments:", err);
     } finally {
@@ -8664,7 +8680,7 @@ const AdminPaymentsPage: React.FC = () => {
     if (token) {
       fetchPayments();
     } else {
-      showToast("Authentication token not found. Please log in.", 'error');
+      showToast("Authentication token not found. Please log in.", "error");
       setLoadingPayments(false);
       setPayments([]);
     }
@@ -8715,7 +8731,9 @@ const AdminPaymentsPage: React.FC = () => {
         try {
           const paymentDate = new Date(payment.createdAt);
           return !isNaN(paymentDate.getTime()) && paymentDate >= fromDateObj;
-        } catch { return false; }
+        } catch {
+          return false;
+        }
       });
     }
     if (toDateObj) {
@@ -8724,7 +8742,9 @@ const AdminPaymentsPage: React.FC = () => {
         try {
           const paymentDate = new Date(payment.createdAt);
           return !isNaN(paymentDate.getTime()) && paymentDate <= toDateObj;
-        } catch { return false; }
+        } catch {
+          return false;
+        }
       });
     }
     if (sortField) {
@@ -8735,12 +8755,34 @@ const AdminPaymentsPage: React.FC = () => {
           path.split(".").reduce((acc, part) => acc && acc[part], obj);
 
         switch (sortField) {
-          case "user": valueA = a.user?.fullName?.toLowerCase() || ""; valueB = b.user?.fullName?.toLowerCase() || ""; break;
-          case "amount": valueA = parseFloat(a.amountToAdd) || 0; valueB = parseFloat(b.amountToAdd) || 0; break;
-          case "createdAt": valueA = a.createdAt ? new Date(a.createdAt).getTime() : 0; valueB = b.createdAt ? new Date(b.createdAt).getTime() : 0; if (isNaN(valueA)) valueA = 0; if (isNaN(valueB)) valueB = 0; break;
-          case "_id": valueA = (a._id ?? "").toLowerCase(); valueB = (b._id ?? "").toLowerCase(); break;
-          case "status": valueA = (a.status ?? "").toLowerCase(); valueB = (b.status ?? "").toLowerCase(); break;
-          default: valueA = getSafeValue(a, sortField); valueB = getSafeValue(b, sortField); if (typeof valueA === "string") valueA = valueA.toLowerCase(); if (typeof valueB === "string") valueB = valueB.toLowerCase(); break;
+          case "user":
+            valueA = a.user?.fullName?.toLowerCase() || "";
+            valueB = b.user?.fullName?.toLowerCase() || "";
+            break;
+          case "amount":
+            valueA = parseFloat(a.amountToAdd) || 0;
+            valueB = parseFloat(b.amountToAdd) || 0;
+            break;
+          case "createdAt":
+            valueA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+            valueB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+            if (isNaN(valueA)) valueA = 0;
+            if (isNaN(valueB)) valueB = 0;
+            break;
+          case "_id":
+            valueA = (a._id ?? "").toLowerCase();
+            valueB = (b._id ?? "").toLowerCase();
+            break;
+          case "status":
+            valueA = (a.status ?? "").toLowerCase();
+            valueB = (b.status ?? "").toLowerCase();
+            break;
+          default:
+            valueA = getSafeValue(a, sortField);
+            valueB = getSafeValue(b, sortField);
+            if (typeof valueA === "string") valueA = valueA.toLowerCase();
+            if (typeof valueB === "string") valueB = valueB.toLowerCase();
+            break;
         }
         let comparison = 0;
         if (valueA < valueB) comparison = -1;
@@ -8750,8 +8792,16 @@ const AdminPaymentsPage: React.FC = () => {
     }
     setFilteredPayments(results);
   }, [
-    payments, searchTerm, statusFilter, fromDate, toDate,
-    paymentIdFilter, amountFilter, currencyFilter, sortField, sortDirection,
+    payments,
+    searchTerm,
+    statusFilter,
+    fromDate,
+    toDate,
+    paymentIdFilter,
+    amountFilter,
+    currencyFilter,
+    sortField,
+    sortDirection,
   ]);
 
   useEffect(() => {
@@ -8760,8 +8810,15 @@ const AdminPaymentsPage: React.FC = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
-    searchTerm, statusFilter, fromDate, toDate, paymentIdFilter,
-    amountFilter, currencyFilter, sortField, sortDirection,
+    searchTerm,
+    statusFilter,
+    fromDate,
+    toDate,
+    paymentIdFilter,
+    amountFilter,
+    currencyFilter,
+    sortField,
+    sortDirection,
   ]);
 
   const handleApplyFilters = useCallback((filters: FiltersState) => {
@@ -8798,12 +8855,19 @@ const AdminPaymentsPage: React.FC = () => {
 
   const getStatusColor = (status: string): string => {
     switch (status?.toLowerCase()) {
-      case "completed": return "text-green-600 bg-green-100 dark:bg-green-600/20 dark:text-green-400";
-      case "pending": return "text-yellow-600 bg-yellow-100 dark:bg-yellow-600/20 dark:text-yellow-400";
-      case "in progress": return "text-blue-600 bg-blue-100 dark:bg-blue-600/20 dark:text-blue-400";
-      case "canceled": case "cancelled": return "text-red-600 bg-red-100 dark:bg-red-600/20 dark:text-red-400";
-      case "failed": return "text-rose-600 bg-rose-100 dark:bg-rose-600/20 dark:text-rose-400";
-      default: return "text-gray-600 bg-gray-100 dark:bg-gray-600/20 dark:text-gray-400";
+      case "completed":
+        return "text-green-600 bg-green-100 dark:bg-green-600/20 dark:text-green-400";
+      case "pending":
+        return "text-yellow-600 bg-yellow-100 dark:bg-yellow-600/20 dark:text-yellow-400";
+      case "in progress":
+        return "text-blue-600 bg-blue-100 dark:bg-blue-600/20 dark:text-blue-400";
+      case "canceled":
+      case "cancelled":
+        return "text-red-600 bg-red-100 dark:bg-red-600/20 dark:text-red-400";
+      case "failed":
+        return "text-rose-600 bg-rose-100 dark:bg-rose-600/20 dark:text-rose-400";
+      default:
+        return "text-gray-600 bg-gray-100 dark:bg-gray-600/20 dark:text-gray-400";
     }
   };
 
@@ -8835,16 +8899,14 @@ const AdminPaymentsPage: React.FC = () => {
       );
       setPayments((prevPayments) =>
         prevPayments.map((p) =>
-          p._id === selectedPaymentForEdit._id
-            ? { ...p, status: newStatus }
-            : p
+          p._id === selectedPaymentForEdit._id ? { ...p, status: newStatus } : p
         )
       );
-      
+
       const toastTypeForStatus = mapPaymentStatusToToastType(newStatus);
       showToast(
         `Payment status updated to "${newStatus}" successfully!`,
-        toastTypeForStatus 
+        toastTypeForStatus
       );
 
       setIsEditModalOpen(false);
@@ -8852,11 +8914,12 @@ const AdminPaymentsPage: React.FC = () => {
     } catch (err: unknown) {
       let errorMessage = "Failed to update payment status";
       if (axios.isAxiosError(err)) {
-        errorMessage = (err.response?.data as ApiErrorResponse)?.message || err.message;
+        errorMessage =
+          (err.response?.data as ApiErrorResponse)?.message || err.message;
       } else if (err instanceof Error) {
         errorMessage = err.message;
       }
-      showToast(errorMessage, 'error');
+      showToast(errorMessage, "error");
       console.error("Error updating payment status:", err);
     } finally {
       setEditLoading(false);
@@ -8887,88 +8950,98 @@ const AdminPaymentsPage: React.FC = () => {
   const paginate = (pageNumber: number) => {
     if (pageNumber >= 1 && pageNumber <= totalPages) setCurrentPage(pageNumber);
     else if (pageNumber < 1 && totalPages > 0) setCurrentPage(1);
-    else if (pageNumber > totalPages && totalPages > 0) setCurrentPage(totalPages);
+    else if (pageNumber > totalPages && totalPages > 0)
+      setCurrentPage(totalPages);
   };
   const goToPreviousPage = () => paginate(currentPage - 1);
   const goToNextPage = () => paginate(currentPage + 1);
 
   const currentFilterState: FiltersState = useMemo(
     () => ({
-      searchTerm, fromDate, toDate, statusFilter,
-      currencyFilter, idFilter: paymentIdFilter, amountFilter,
+      searchTerm,
+      fromDate,
+      toDate,
+      statusFilter,
+      currencyFilter,
+      idFilter: paymentIdFilter,
+      amountFilter,
     }),
     [
-      searchTerm, fromDate, toDate, statusFilter,
-      currencyFilter, paymentIdFilter, amountFilter,
+      searchTerm,
+      fromDate,
+      toDate,
+      statusFilter,
+      currencyFilter,
+      paymentIdFilter,
+      amountFilter,
     ]
   );
 
   const toastContainerProps: ToastContainerProps = {
     position: "top-right",
     autoClose: 5000,
-    hideProgressBar: false, 
+    hideProgressBar: false,
     newestOnTop: true,
     closeOnClick: false,
-    closeButton: false, 
+    closeButton: false,
     rtl: false,
     pauseOnFocusLoss: true,
     draggable: true,
     pauseOnHover: true,
     transition: Slide,
-    toastClassName: () => "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3", 
+    toastClassName: () =>
+      "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3",
   };
 
-  const getToastContainerStyle = (): React.CSSProperties & { [key: `--${string}`]: string | number } => {
-    const baseStyle = { 
-      zIndex: 99999,
+  const getToastContainerStyle = (): React.CSSProperties & {
+    [key: `--${string}`]: string | number;
+  } => {
+    const baseStyle = {
+      zIndex: 30,
     };
 
     if (isMobile) {
       return {
         ...baseStyle,
-        top: "1rem",    
-        left: "1rem",   
-        right: "1rem",  
-        width: "auto",  
+        top: "1rem",
+        left: "1rem",
+        right: "1rem",
+        width: "auto",
       };
-    } else { 
+    } else {
       return {
         ...baseStyle,
-        top: "0.75rem", 
+        top: "0.75rem",
         right: "0.75rem",
-        width: "320px", 
+        width: "320px",
       };
     }
   };
-
 
   return (
     <div className="container mx-auto px-4 py-5 relative">
       <ToastContainer
         {...toastContainerProps}
-        style={getToastContainerStyle()} 
+        style={getToastContainerStyle()}
       />
       <div className="space-y-6">
-        <div className="flex sm:flex-row flex-col justify-between items-center ">
-
-     <div className="Add-Money">
-              <div className="flex flex-wrap items-center gap-3">
-                <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-                  <TbMoneybag className="size-6 text-mainheading dark:text-primary" />
-                </div>
-
-                <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
-                  Add-Money Management
-                </h1>
-
+        <div className="flex sm:flex-row flex-col justify-between items-center gap-3">
+          <div className="Add-Money">
+            <div className="flex items-center gap-3">
+              <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
+                <TbMoneybag className="size-6 text-mainheading dark:text-primary" />
               </div>
 
-              <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
-                Track and manage all incoming payments, statuses, and user
-              transactions in real time with full control and visibility.
-              </p>
+              <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+                Add-Money Management
+              </h1>
             </div>
 
+            <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+              Track and manage all incoming payments, statuses, and user
+              transactions in real time with full control and visibility.
+            </p>
+          </div>
 
           <div className="flex items-center gap-3 justify-end sm:w-auto w-full">
             <button
@@ -9061,7 +9134,7 @@ const AdminPaymentsPage: React.FC = () => {
         editLoading={editLoading}
         handleSaveEdit={handleSaveEdit}
         statusOptions={statusOptions.filter(
-          (s) => s !== "all" && s !== "unknown" 
+          (s) => s !== "all" && s !== "unknown"
         )}
       />
 

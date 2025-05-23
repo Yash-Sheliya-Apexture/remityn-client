@@ -129,9 +129,6 @@
 
 // export default AuthHeader;
 
-
-
-
 // components/AuthHeader.tsx
 "use client"; // Keep this directive
 
@@ -147,23 +144,21 @@ const AuthHeader: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="text-xl font-semibold text-primary">
-            {/* Mobile Logo: Visible by default, hidden on medium screens and up */}
             <Image
-              src="/assets/images/wise-logo2.svg" // Mobile logo path
-              width={35} // Mobile logo size
-              height={35} // Mobile logo size
-              alt="Wise Logo (Mobile)"
-              className="block md:hidden" // Show on small screens, hide on medium+
-            />
-
-            {/* Desktop Logo: Hidden by default, visible on medium screens and up */}
-            <Image
-              src="/assets/images/wise-logo.svg" // Desktop logo path
+              src="/assets/images/white_logo.svg"
               alt="Wise Logo"
-              width={100} // Desktop logo size
-              height={24} // Desktop logo size
-              priority // Keep priority if it's important LCP element
-              className="hidden md:block md:w-26 h-auto" // Hide on small screens, show on medium+ (keep existing md:w-26)
+              width={160}
+              height={50}
+              priority
+              className="w-40 h-auto dark:hidden block"
+            />
+            <Image
+              src="/assets/images/dark_logo.svg"
+              alt="Wise Logo"
+              width={160}
+              height={50}
+              priority
+              className="w-40 h-auto dark:block hidden"
             />
           </Link>
 

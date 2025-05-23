@@ -76,7 +76,7 @@ const AccountTypeDropdown: React.FC<AccountTypeDropdownProps> = ({ value, onChan
       <AnimatePresence initial={false} > {/* AnimatePresence to handle mount/unmount animations */}
         {isOpen && ( // Conditionally render dropdown only when isOpen is true
           <motion.div
-            className="absolute z-0 mt-0.5 w-full rounded-xl shadow-lg bg-white dark:bg-background border"
+            className="absolute z-10 mt-0.5 w-full rounded-xl shadow-lg bg-white dark:bg-background border"
             variants={dropdownVariants}
             initial="closed"
             animate="open"

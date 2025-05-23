@@ -212,7 +212,7 @@ const RateDisplay: React.FC<RateDisplayProps> = ({ rateContext, apiError }) => {
                 <TooltipContent
                   side="bottom"
                   sideOffset={5}
-                  className="bg-[#e4e4e4] dark:bg-secondarybox text-white p-2 px-3 rounded-2xl max-w-60 xl:max-w-lg" // Copied styling
+                  className="bg-[#e4e4e4] dark:bg-secondarybox text-white p-2 px-3 rounded-2xl max-w-60" // Copied styling
                 >
                   <p className="font-medium dark:text-white text-neutral-900 text-xs">
                     {" "}
@@ -237,14 +237,14 @@ const RateDisplay: React.FC<RateDisplayProps> = ({ rateContext, apiError }) => {
                 <TooltipContent
                   side="bottom"
                   sideOffset={5}
-                  className="bg-[#e4e4e4] dark:bg-secondarybox text-white p-2 px-3 rounded-2xl max-w-50 xl:max-w-lg" // Copied styling
+                  className="bg-[#e4e4e4] dark:bg-secondarybox text-white p-2 px-3 rounded-2xl max-w-47" // Copied styling
                 >
                   <p className="font-medium dark:text-white text-neutral-900 text-xs">
                     {" "}
                     {/* Copied styling */}
                     Current mid-market rate. For comparison purposes only.
                   </p>
-                </TooltipContent>
+                </TooltipContent> 
               </Tooltip>
             )}
           </>

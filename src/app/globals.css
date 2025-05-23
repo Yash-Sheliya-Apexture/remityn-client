@@ -17,6 +17,24 @@ body {
   --font-SatoshiVariable: var(--font-SatoshiVariable);
   --font-SatoshiVariableItalic: var(--font-SatoshiVariableItalic);
 
+  /* Background Color Start*/
+  --color-primary: #66e8fa;
+  --color-primaryhover: #9cf0fc;
+  /* aacho */
+  --color-primarybox: #39424780;
+  /* ghato */
+  --color-primary-foreground: #2e3539;
+  /* Background color End */
+
+  /* Text Color Start*/
+  --color-mainheadingWhite: #d5e1e7;
+  --color-mainheading: #22282a;
+  --color-subheadingWhite: #b1c5ce;
+  --color-subheading: #394247;
+  /* Text Color End*/
+
+  --color-stock-hover: #6a7282;
+
 
   --color-main: #0e0f0c;
   --color-lightgreen: #9fe870;
@@ -24,10 +42,6 @@ body {
   --color-gray: #454745;
   --color-green: #163300;
   /* Background-Color */
-  --color-primary: #66e8fa;
-  --color-primarybox: #39424780;
-  
-  --color-primaryboxhover: #2d2d2d;
   --color-primaryboxdubal: #394247cc;
 
   /* Text-color */
@@ -39,13 +53,14 @@ body {
   --color-border-hover: #5f6f77b3;
 
   /* Border-Color */
+  --border: oklch(0.4461 0.0298 257.68);
+
+
   --color-lightborder: #e3e3e3;
 
-  --color-mainheading: #171717;
-  --color-subheading: #171717;
   --color-secondarybox: #525252;
   /* Background-color Hover-Button */
-  --color-primaryhover: #9cf0fc;
+
   --color-dark-text: #22282a;
 
   --color-dropdowncolor: #2e2e2e;
@@ -86,28 +101,39 @@ body {
 }
 
 :root {
-  --radius: 0.625rem;
+  /* Background Color Start*/
   --background: oklch(0.2717 0.0093 219.82);
+  --primary: oklch(0.8651 0.1162 207.69);
+  --primarybox: oklch(0.4025 0.0252 215.64 / 36.08%);
+  --primaryboxdubal: oklch(0.3728 0.0147 232.08 / 80%);
+  --primary-foreground: oklch(0.3239 0.0119 232.79);
+  /* Background Color End*/
+
+  /* Text Color Start*/
+  --mainheadingWhite: oklch(0.9024 0.0153 228.98);
+  --mainheading: oklch(0.2717 0.0093 219.82);
+  --subheadingWhite: oklch(0.8111 0.0253 226.55);
+  --subheading: oklch(0.3728 0.0147 232.08);
+  /* Text Color End*/
+
+
+  --secondary: oklch(23.9% 0.0463 227.39);
+  --secondarybox: oklch(0.44 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+
+  --radius: 0.625rem;
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.8651 0.1162 207.69);
-  --primarybox: oklch(0.4025 0.0252 215.64 / 36.08%);
-  --primaryboxdubal: oklch(0.3728 0.0147 232.08 / 80%);
-  --primary-foreground: oklch(0.3239 0.0119 232.79);
 
-  --secondary: oklch(23.9% 0.0463 227.39);
-  --secondarybox: oklch(0.44 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent: oklch(0.97 0 0);
   /* --accent-foreground: oklch(0.205 0 0); */
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.3728 0.0147 232.08);
-  --stock-hover: oklch(0.5313 0.023 229.4 / 70.2%);
+  --border: oklch(0.4461 0.0298 257.68);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
   --sidebar: oklch(0.985 0 0);
@@ -118,50 +144,22 @@ body {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --chart-1: 220 80% 60%; /* Blueish */
-  --chart-2: 150 70% 45%; /* Greenish */
-  --chart-3: 40 90% 55%;  /* Orange/Yellow */
-  --chart-4: 300 75% 60%; /* Purple/Magenta */
-  --chart-5: 0 70% 50%;   /* Reddish */
-  --chart-6: 180 60% 40%; /* Cyan/Teal */
-  --chart-7: 260 70% 65%; /* Indigo */
-  --chart-8: 60 85% 50%;  /* Bright Yellow */
-}
-
-.dark {
-  --background: oklch(0.2717 0.0093 219.82);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.8651 0.1162 207.69);
-  --color-primaryhover: oklch(0.9056 0.0829 207.23);
-  --primarybox: oklch(0.3728 0.0147 232.08 / 30.2%);
-  --primaryboxdubal: oklch(0.3728 0.0147 232.08 / 80%);
-
-  --secondarybox: oklch(0.44 0 0);
-
-  --primary-foreground: oklch(0.3239 0.0119 232.79);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(0.3728 0.0147 232.08);
-  --border-hover: oklch(0.5313 0.023 229.4 / 70.2%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --chart-1: 220 80% 60%;
+  /* Blueish */
+  --chart-2: 150 70% 45%;
+  /* Greenish */
+  --chart-3: 40 90% 55%;
+  /* Orange/Yellow */
+  --chart-4: 300 75% 60%;
+  /* Purple/Magenta */
+  --chart-5: 0 70% 50%;
+  /* Reddish */
+  --chart-6: 180 60% 40%;
+  /* Cyan/Teal */
+  --chart-7: 260 70% 65%;
+  /* Indigo */
+  --chart-8: 60 85% 50%;
+  /* Bright Yellow */
 }
 
 @theme inline {
@@ -212,7 +210,7 @@ body {
   }
 }
 
-.your-account-page-active .widget-visible{
+.your-account-page-active .widget-visible {
   position: absolute !important;
 
 }
@@ -327,21 +325,26 @@ button:focus {
 /* Add to your global CSS file (e.g., globals.css) if not already present */
 
 .toast-progress-success {
-  background: #22c55e !important; /* Corresponds to green-500 */
+  background: #22c55e !important;
+  /* Corresponds to green-500 */
 }
 
 .toast-progress-error {
-  background: #ef4444 !important; /* Corresponds to red-500 */
+  background: #ef4444 !important;
+  /* Corresponds to red-500 */
 }
 
 .toast-progress-info {
-  background: #3b82f6 !important; /* Corresponds to blue-500 */
+  background: #3b82f6 !important;
+  /* Corresponds to blue-500 */
 }
 
 .toast-progress-warning {
-  background: #eab308 !important; /* Corresponds to yellow-500 */
+  background: #eab308 !important;
+  /* Corresponds to yellow-500 */
 }
 
 .toast-progress-default {
-  background: #6b7280 !important; /* Corresponds to gray-500 */
+  background: #6b7280 !important;
+  /* Corresponds to gray-500 */
 }

@@ -20,9 +20,6 @@ import AllReviewsPage from "../components/Review";
 
 const ReviewsDisplayPage = () => {
   return (
-    // The original page.tsx had a <section className="Reviews-Main"> wrapper.
-    // You can add it back here if needed, or if AllReviewsPage itself is that section.
-    // For now, just rendering the component which has its own <section>.
     <AllReviewsPage />
   );
 };

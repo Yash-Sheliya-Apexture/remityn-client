@@ -578,15 +578,15 @@ const GettingStartedSteps = () => {
               key={index} // Key must be on the motion component
               variants={cardVariants} // Apply card animation variants
             >
-              <div className="bg-lightgray dark:bg-primarybox rounded-2xl lg:p-6 p-4 border border-lightgray dark:border-primarybox">
-                <div className="flex flex-col lg:items-center lg:text-center text-left space-y-4 h-full">
+              <div className="bg-lightgray dark:bg-primarybox rounded-2xl lg:p-6 p-4 border border-lightgray dark:border-primarybox h-full">
+                <div className="flex flex-col lg:items-center lg:text-center text-left space-y-4">
                   <div className="lg:size-14 size-12 rounded-full bg-secondarybox dark:bg-primarybox flex items-center justify-center">
                     {method.icon}
                   </div>
                   <h3 className="sm:text-xl text-lg font-medium dark:text-white text-neutral-900 capitalize">
                     {method.title}
                   </h3>
-                  <p className="sm:text-base text-sm text-gray-500 dark:text-gray-300">
+                  <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
                     {method.description}
                   </p>
                 </div>

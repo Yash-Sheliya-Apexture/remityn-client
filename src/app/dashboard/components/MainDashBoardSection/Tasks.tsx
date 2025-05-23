@@ -998,7 +998,7 @@ const TasksPage: React.FC = () => {
                             </div>
                             <MdErrorOutline
                               size={20}
-                              className="absolute top-8 -right-1 text-orange-500 bg-white dark:bg-gray-800 rounded-full p-0.5 shadow" // Adjusted background for dark mode visibility
+                              className="absolute top-8 -right-1 text-orange-500 bg-white dark:bg-gray-800 rounded-full p-0.5" // Adjusted background for dark mode visibility
                             />
                           </div>
                           {/* Details & Action */}

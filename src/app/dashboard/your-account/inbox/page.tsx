@@ -4670,7 +4670,6 @@ import Pagination from "../../components/Pagination";
 import { GoDotFill } from "react-icons/go";
 import { FaRegCommentDots } from "react-icons/fa";
 import { Skeleton } from "@/components/ui/skeleton";
-import { MdOutlineAccessTime } from "react-icons/md";
 
 const MESSAGES_PER_PAGE = 10;
 
@@ -4980,13 +4979,11 @@ const InboxPage: React.FC = () => {
       <div className="container mx-auto">
         <div className="flex flex-row justify-between items-start md:items-center gap-4 pb-8 sticky lg:top-28 top-20 z-10 bg-white dark:bg-background">
           <div className="flex items-center gap-3">
-            <div className="bg-primary p-2 rounded-md">
-              <Inbox className="text-neutral-900" size={28} />
-            </div>
             <div>
               <h1 className="text-2xl md:text-3xl font-semibold text-nowrap text-mainheading dark:text-white">
                 Your Inbox
               </h1>
+              
               {!loading && inboxData && hasMessagesInTotal && (
                 <div className="text-sm text-muted-foreground">
                   {unreadMessages.length > 0 ? (
@@ -4998,7 +4995,7 @@ const InboxPage: React.FC = () => {
                         <>
                           <GoDotFill
                             size={8}
-                            className="text-muted-foreground/50"
+                            className="text-gray"
                           />
                           <span>{readMessages.length} read</span>
                         </>
@@ -5088,9 +5085,10 @@ const InboxPage: React.FC = () => {
                                 size={28}
                               />
                             </div>
+
                             <h2 className="text-xl font-medium dark:text-white text-mainheading">
                               New Messages
-                              <span className="ml-2 text-xs font-semibold dark:bg-primary bg-lightborder dark:text-neutral-900 text-primary px-1.5 py-0.5 rounded-full inline-flex items-center justify-center min-w-[20px]">
+                              <span className="ml-2 text-xs font-semibold dark:bg-primary bg-lightborder text-neutral-900 px-1.5 py-0.5 rounded-full inline-flex items-center justify-center min-w-[20px]">
                                 {unreadMessages.length}
                               </span>
                             </h2>
@@ -5131,10 +5129,11 @@ const InboxPage: React.FC = () => {
                                 className="dark:text-white text-neutral-900"
                                 size={28}
                               />
-                            </div >
+                            </div>
+                            
                             <h2 className="text-xl font-medium dark:text-white text-mainheading">
                               Previous Messages
-                              <span className="ml-2 text-xs font-semibold dark:bg-primary bg-lightborder dark:text-neutral-900 text-primary px-1.5 py-0.5 rounded-full inline-flex items-center justify-center min-w-[20px]">
+                              <span className="ml-2 text-xs font-semibold dark:bg-primary bg-lightborder text-neutral-900 px-1.5 py-0.5 rounded-full inline-flex items-center justify-center min-w-[20px]">
                                 {readMessages.length}
                               </span>
                             </h2>

@@ -267,7 +267,7 @@ const ProtectionSection = () => {
             <h3 className="sm:text-xl text-lg font-medium dark:text-white text-neutral-900 capitalize">
               Real-Time Exchange Rates
             </h3>
-            <p className="sm:text-base text-sm text-gray-500 dark:text-gray-300">
+            <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
               Get the most accurate and up-to-date exchange rates sourced from
               global financial markets.
             </p>
@@ -284,7 +284,7 @@ const ProtectionSection = () => {
             <h3 className="sm:text-xl text-lg font-medium dark:text-white text-neutral-900 capitalize">
               Multi-Currency Support
             </h3>
-            <p className="sm:text-base text-sm text-gray-500 dark:text-gray-300">
+            <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
               Exchange between dozens of global currencies including USD, EUR,
               GBP, JPY, INR, and more.
             </p>
@@ -301,7 +301,7 @@ const ProtectionSection = () => {
             <h3 className="sm:text-xl text-lg font-medium dark:text-white text-neutral-900 capitalize">
               Fast Processing
             </h3>
-            <p className="sm:text-base text-sm text-gray-500 dark:text-gray-300">
+            <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
               Instant conversions with real-time confirmation — no more waiting
               hours for currency updates.
             </p>
@@ -318,7 +318,7 @@ const ProtectionSection = () => {
             <h3 className="sm:text-xl text-lg font-medium dark:text-white text-neutral-900 capitalize">
               24/7 Customer Support
             </h3>
-            <p className="sm:text-base text-sm text-gray-500 dark:text-gray-300">
+            <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
               Round-the-clock support to help you with your currency-related
               queries and transactions.
             </p>

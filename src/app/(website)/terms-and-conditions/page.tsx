@@ -25,10 +25,10 @@ const sections: TermSection[] = [
     content: (
       <>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          By accessing or using the Wise platform, users are deemed to have
+          By accessing or using the Remityn platform, users are deemed to have
           read, understood, and agreed to be bound by our terms and conditions,
           along with all applicable policies. This forms a legally binding
-          agreement between the user and Wise, operated by apexture Limited.
+          agreement between the user and Remityn, operated by apexture Limited.
         </p>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
           To access certain services on our platform, users are required to
@@ -40,7 +40,7 @@ const sections: TermSection[] = [
         </p>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
           If any information provided is found to be false, misleading,
-          incomplete, or in violation of applicable laws or our terms, Wise
+          incomplete, or in violation of applicable laws or our terms, Remityn
           reserves the right to suspend or terminate your account and restrict
           access to our services without notice.
         </p>
@@ -59,7 +59,7 @@ const sections: TermSection[] = [
     content: (
       <div className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
         <p>
-          At Wise, protecting your personal data is a top priority. You have
+          At Remityn, protecting your personal data is a top priority. You have
           full control over your registration information and may update or
           correct it at any time through the "User Account" section of our
           website. Should you wish to delete your user data or your entire
@@ -69,7 +69,7 @@ const sections: TermSection[] = [
         <p>
           {" "}
           We strongly advise all users to take appropriate steps to keep their
-          account credentials—such as login ID and password—secure. Wise will
+          account credentials—such as login ID and password—secure. Remityn will
           not be held responsible for any loss or damage arising from your
           failure to safeguard this information. If you suspect that your
           password has been compromised or is being misused, you must notify us
@@ -83,11 +83,11 @@ const sections: TermSection[] = [
           <li>Is illegal or harmful in any way</li>
         </ul>
         <p>
-          Wise reserves the right to remove any such content and, if necessary,
+          Remityn reserves the right to remove any such content and, if necessary,
           terminate the associated account without notice.
         </p>
         <p>
-          In the event of disputes over account ownership, Wise will act as the
+          In the event of disputes over account ownership, Remityn will act as the
           sole arbitrator. Our decisions in such matters will be final and
           binding on all involved parties.
         </p>
@@ -99,7 +99,7 @@ const sections: TermSection[] = [
     title: "Representations and warranties of user",
     content: (
       <div className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-        By using the Wise platform, the user represents and warrants the
+        By using the Remityn platform, the user represents and warrants the
         following:
         <br />
         <ul className="list-inside list-disc lg:text-lg text-sm my-2 ml-4">
@@ -111,13 +111,13 @@ const sections: TermSection[] = [
           <li>
             TAccuracy of Information: The user agrees to provide accurate and
             truthful information during the Know Your Customer (KYC)
-            verification process and will hold Wise harmless from any
+            verification process and will hold Remityn harmless from any
             liabilities arising due to any discrepancies or inaccuracies in the
             documents submitted for verification.
           </li>
           <li>
             Cooperation: The user agrees to cooperate fully and promptly with
-            Wise to allow for the smooth processing of transactions and
+            Remityn to allow for the smooth processing of transactions and
             verification requirements, ensuring all necessary actions are taken
             in a timely manner.
           </li>
@@ -131,7 +131,7 @@ const sections: TermSection[] = [
     content: (
       <>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          By accessing and using the Wise platform, you agree not to use any
+          By accessing and using the Remityn platform, you agree not to use any
           method other than the provided interface to access our services,
           unless otherwise explicitly agreed in a separate contract. You are
           prohibited from using any automated methods or bots to access or
@@ -170,7 +170,7 @@ const sections: TermSection[] = [
       <>
         {/* Changed p to div for block children */}
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          When you register on the Wise platform, you may be allowed to create
+          When you register on the Remityn platform, you may be allowed to create
           multiple accounts, including sub-accounts. These accounts,
           collectively referred to as "your" account, must adhere to the limits
           set by the platform. You are prohibited from creating anonymous
@@ -303,7 +303,7 @@ const TermsAndConditionsPage: React.FC = () => {
           </h2>
 
           <p className="max-w-5xl text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-            Welcome to Wise, your trusted platform for secure and efficient
+            Welcome to Remityn, your trusted platform for secure and efficient
             currency exchange services. These Terms and Conditions outline the
             rules and guidelines that govern your use of our services, ensuring
             a seamless and secure experience while managing your transactions.

@@ -205,11 +205,11 @@ const WhyChooseUs: React.FC = () => {
         >
           <h1 className="text-3xl md:text-4xl xl:text-6xl font-black text-mainheading dark:text-white uppercase">
             Find out why 
-            <span className="text-primary">millions choose Apexture</span>
+            <span className="text-primary">millions choose Remityn</span>
           </h1>
 
           <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300">
-            For over 10 years, Apexture Corporation Inc. customers have been
+            For over 10 years, Remityn Corporation Inc. customers have been
             trusting us to manage and send international money transfers. It's
             what we do.
           </p>
@@ -240,7 +240,7 @@ const WhyChooseUs: React.FC = () => {
                 {feature.title}
               </h3>
               {/* Description */}
-              <p className="sm:text-base text-sm text-gray-500 dark:text-gray-300">
+              <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
                 {feature.description}
               </p>
             </motion.div>

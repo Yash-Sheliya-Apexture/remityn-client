@@ -2760,7 +2760,7 @@ export default function KycIdentityPage() {
         </CardTitle>
         <CardDescription className="text-gray-500 dark:text-gray-300">
           Select the ID type and enter details exactly as shown on the document.
-          Fields marked with <span className="text-red-500">*</span> are
+          Fields marked with <span className="text-red-600">*</span> are
           required once an ID type is selected.
         </CardDescription>
       </CardHeader>
@@ -2789,7 +2789,7 @@ export default function KycIdentityPage() {
               render={({ field }) => (
                 <FormItem className="space-y-4">
                   <FormLabel className="text-base font-medium text-neutral-900 dark:text-white">
-                    Select ID Type <span className="text-red-500">*</span>
+                    Select ID Type <span className="text-red-600">*</span>
                   </FormLabel>
                   <FormControl>
                     <RadioGroup
@@ -2872,7 +2872,7 @@ export default function KycIdentityPage() {
                       {selectedIdType === "passport"
                         ? "Passport Number"
                         : "Permit / ID Number"}{" "}
-                      <span className="text-red-500">*</span>
+                      <span className="text-red-600">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -2900,7 +2900,7 @@ export default function KycIdentityPage() {
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
                       <FormLabel className="text-neutral-900 dark:text-white">
-                        Date of Issue <span className="text-red-500">*</span>
+                        Date of Issue <span className="text-red-600">*</span>
                       </FormLabel>
                       <Popover
                         open={issueDatePickerOpen}
@@ -2935,7 +2935,7 @@ export default function KycIdentityPage() {
                         </PopoverTrigger>
                         <PopoverContent
                           align="start"
-                          className="sm:w-[450px] max-h-[calc(var(--radix-popover-content-available-height)_-_1rem)] w-auto p-0 overflow-y-auto"
+                          className="sm:w-[450px] max-h-[calc(var(--radix-popover-content-available-height)_-_1rem)] w-auto p-0 overflow-y-auto "
                         >
                           <div className="flex items-center justify-between gap-2 p-3 border-b">
                             <Select
@@ -3165,7 +3165,6 @@ export default function KycIdentityPage() {
                 }
               >
                 {isSubmitting ? (
-                  // ----- Loading State (Original SVG) -----
                   <>
                     <svg
                       className="h-5 w-5 text-neutral-900 animate-spin mr-2"

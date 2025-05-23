@@ -5524,6 +5524,881 @@
 
 // export default KycUserDetailPage;
 
+// // last code
+// // frontend/src/app/admin/kyc-management/[userId]/page.tsx
+// "use client";
+
+// import React, { useState, useEffect, useCallback } from "react";
+// import { useParams, useRouter } from "next/navigation";
+// import Link from "next/link";
+// import Image from "next/image";
+// import kycAdminService from "@/app/services/admin/kyc.admin";
+// import type {
+//   AdminKycUserResponse,
+//   KycDetails,
+//   SalaryRange,
+// } from "@/app/services/admin/kyc.admin";
+// import KycDetailHeader from "@/app/admin/components/kyc/KycDetailHeader";
+// import KycRejectModal from "@/app/components/KycRejectModal";
+// import KycApproveModal from "@/app/components/KycApproveModal";
+
+// // Icons
+// import {
+//   ArrowLeft,
+//   ExternalLink,
+//   CheckCircle,
+//   XCircle,
+//   Clock,
+//   AlertCircle,
+//   FileText,
+//   User,
+//   CalendarDays,
+//   Phone,
+//   Mail,
+//   Briefcase,
+//   BadgeDollarSign,
+//   Fingerprint,
+//   Eye,
+//   Globe,
+//   Info,
+//   Image as ImageIcon,
+//   RefreshCw,
+//   IdCard,
+// } from "lucide-react";
+// import { cn } from "@/lib/utils";
+// import { Button } from "@/components/ui/button";
+// import {
+//   Card,
+//   CardContent,
+//   CardHeader,
+//   CardTitle,
+//   CardDescription,
+//   CardFooter,
+// } from "@/components/ui/card";
+// import { Badge } from "@/components/ui/badge";
+// import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+// import { Skeleton } from "@/components/ui/skeleton";
+
+// // --- Helper Functions ---
+// const formatDate = (
+//   dateInput?: string | Date | null,
+//   includeTime = false
+// ): string => {
+//   if (!dateInput) return "N/A";
+//   try {
+//     const date = new Date(dateInput);
+//     if (isNaN(date.getTime())) {
+//       console.warn("formatDate received invalid dateInput:", dateInput);
+//       return "Invalid Date";
+//     }
+//     const options: Intl.DateTimeFormatOptions = {
+//       year: "numeric",
+//       month: "long",
+//       day: "numeric",
+//       ...(includeTime && { hour: "2-digit", minute: "2-digit", hour12: true }),
+//     };
+//     return date.toLocaleDateString("en-US", options);
+//   } catch (e) {
+//     console.error("Error formatting date:", e, "Input:", dateInput);
+//     return "Invalid Date";
+//   }
+// };
+
+// const formatMobile = (mobile?: KycDetails["mobile"]): string => {
+//   if (!mobile || !mobile.countryCode?.trim() || !mobile.number?.trim())
+//     return "N/A";
+//   return `${mobile.countryCode} ${mobile.number}`;
+// };
+
+// const salaryDisplayMap: Record<SalaryRange, string> = {
+//   "0-1000": "Below $10,000",
+//   "10000-50000": "$10,000 - $49,999",
+//   "50000-100000": "$50,000 - $99,999",
+//   "100000+": "$100,000 or more",
+// };
+
+// const getStatusConfig = (status?: string) => {
+//   const statusMap = {
+//     verified: {
+//       color:
+//         "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
+//       icon: CheckCircle,
+//       label: "Verified",
+//     },
+//     rejected: {
+//       color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
+//       icon: XCircle,
+//       label: "Rejected",
+//     },
+//     pending: {
+//       color:
+//         "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
+//       icon: Clock,
+//       label: "Pending",
+//     },
+//     skipped: {
+//       color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
+//       icon: ArrowLeft,
+//       label: "Skipped",
+//     },
+//     default: {
+//       color: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",
+//       icon: AlertCircle,
+//       label: "Not Started",
+//     },
+//   };
+//   return statusMap[status as keyof typeof statusMap] || statusMap.default;
+// };
+
+// const getInitials = (name?: string): string => {
+//   if (!name) return "??";
+//   return name
+//     .split(" ")
+//     .map((part) => part[0])
+//     .join("")
+//     .substring(0, 2)
+//     .toUpperCase();
+// };
+
+// // --- DetailItem Component ---
+// const DetailItem = ({
+//   label,
+//   value,
+//   icon: Icon,
+//   isImportant = false,
+// }: {
+//   label: string;
+//   value: React.ReactNode;
+//   icon?: React.ElementType;
+//   isImportant?: boolean;
+// }) => (
+//   <div className="py-2 space-y-2">
+//     <dt className="text-sm font-medium text-neutral-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+//       {Icon && <Icon className="flex-shrink-0 text-primary size-4" />} {label}
+//     </dt>
+//     <dd
+//       className={cn(
+//         "text-sm break-words text-gray-500 dark:text-gray-300",
+//         isImportant ? "font-semibold" : ""
+//       )}
+//     >
+//       {value || <span className="italic">Not Provided</span>}
+//     </dd>
+//   </div>
+// );
+
+// // --- Main Detail Page Component ---
+// const KycUserDetailPage: React.FC = () => {
+//   const params = useParams();
+//   const router = useRouter();
+//   const userId = params.userId as string;
+
+//   const [userData, setUserData] = useState<AdminKycUserResponse | null>(null);
+//   const [isLoading, setIsLoading] = useState<boolean>(true);
+//   const [error, setError] = useState<string | null>(null);
+//   const [actionError, setActionError] = useState<string | null>(null);
+//   const [isProcessingAction, setIsProcessingAction] = useState<
+//     false | "approve" | "reject"
+//   >(false);
+//   const [showRejectionModal, setShowRejectionModal] = useState<boolean>(false);
+//   const [showApprovalModal, setShowApprovalModal] = useState<boolean>(false);
+//   const [rejectionReasonForModal, setRejectionReasonForModal] =
+//     useState<string>("");
+//   const [isMobile, setIsMobile] = useState(false);
+
+//   // --- Responsive Check ---
+//   useEffect(() => {
+//     const handleResize = () => {
+//       setIsMobile(window.innerWidth < 640);
+//     };
+//     if (typeof window !== "undefined") {
+//       handleResize();
+//       window.addEventListener("resize", handleResize);
+//       return () => window.removeEventListener("resize", handleResize);
+//     }
+//   }, []);
+
+//   // --- Fetching Logic ---
+//   const fetchUserDetails = useCallback(async () => {
+//     if (!userId) {
+//       setError("User ID is missing from the URL.");
+//       setIsLoading(false);
+//       return;
+//     }
+//     if (!userData) {
+//       setIsLoading(true);
+//     }
+//     setError(null);
+//     setActionError(null);
+//     try {
+//       const data = await kycAdminService.getKycDetailsAdmin(userId);
+//       setUserData(data);
+//     } catch (err: any) {
+//       console.error("Error fetching user details:", err);
+//       setError(
+//         err.message || "An unknown error occurred while fetching user details."
+//       );
+//       setUserData(null);
+//     } finally {
+//       setIsLoading(false);
+//     }
+//   }, [userId, userData]);
+
+//   useEffect(() => {
+//     fetchUserDetails();
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, [userId]);
+
+//   // --- Prevent body scroll when modal is open ---
+//   useEffect(() => {
+//     const body = document.body;
+//     const originalOverflow = body.style.overflow;
+
+//     if (showRejectionModal || showApprovalModal) {
+//       body.style.overflow = "hidden";
+//     } else {
+//       body.style.overflow = originalOverflow; // Restore original or set to default
+//     }
+
+//     return () => {
+//       // Ensure scroll is restored if component unmounts while modal is open
+//       body.style.overflow = originalOverflow;
+//     };
+//   }, [showRejectionModal, showApprovalModal]);
+
+//   // --- Action Handlers ---
+//   const openRejectModal = () => {
+//     setRejectionReasonForModal("");
+//     setActionError(null);
+//     setShowRejectionModal(true);
+//   };
+
+//   const submitRejection = async (reason: string) => {
+//     if (
+//       !userId ||
+//       !userData ||
+//       userData.kyc?.status !== "pending" ||
+//       isProcessingAction
+//     )
+//       return;
+
+//     setIsProcessingAction("reject");
+//     setActionError(null);
+//     try {
+//       await kycAdminService.updateKycStatusAdmin(userId, {
+//         status: "rejected",
+//         rejectionReason: reason,
+//       });
+//       setShowRejectionModal(false);
+//       await fetchUserDetails();
+//     } catch (err: any) {
+//       setActionError(err.message || "Failed to reject KYC status.");
+//     } finally {
+//       setIsProcessingAction(false);
+//     }
+//   };
+
+//   const openApproveModal = () => {
+//     setActionError(null);
+//     setShowApprovalModal(true);
+//   };
+
+//   const submitApproval = async () => {
+//     if (
+//       !userId ||
+//       !userData ||
+//       userData.kyc?.status !== "pending" ||
+//       isProcessingAction
+//     )
+//       return;
+
+//     setIsProcessingAction("approve");
+//     setActionError(null);
+//     try {
+//       await kycAdminService.updateKycStatusAdmin(userId, {
+//         status: "verified",
+//       });
+//       setShowApprovalModal(false);
+//       await fetchUserDetails();
+//     } catch (err: any) {
+//       setActionError(err.message || "Failed to approve KYC status.");
+//     } finally {
+//       setIsProcessingAction(false);
+//     }
+//   };
+
+//   // --- Render Functions ---
+//   const renderLoading = () => (
+//     <div className="space-y-8">
+//       <Card className="shadow-none overflow-hidden">
+//         <CardHeader className="flex sm:flex-row flex-col sm:items-center items-start justify-between sm:p-6 p-4 gap-4">
+//           <div className="flex sm:flex-row flex-col sm:items-center gap-4 flex-1">
+//             <Skeleton className="h-16 w-16 rounded-full flex-shrink-0" />
+//             <div className="flex-1 space-y-2">
+//               <Skeleton className="h-6 w-1/2 rounded" />
+//               <Skeleton className="h-4 w-3/4 rounded" />
+//             </div>
+//           </div>
+//           <Skeleton className="h-8 w-24 rounded-full" />
+//         </CardHeader>
+//         <CardContent className="sm:p-6 p-4">
+//           <div className="flex md:flex-row flex-col justify-between md:items-center gap-4">
+//             <Skeleton className="h-5 w-48 rounded" />
+//             <Skeleton className="h-5 w-48 rounded" />
+//           </div>
+//         </CardContent>
+//         <div className="flex justify-end items-center p-4 border-t gap-3">
+//           <Skeleton className="h-12 w-52 rounded-full" />
+//           <Skeleton className="h-12 w-52 rounded-full" />
+//         </div>
+//       </Card>
+
+//       <div className="flex xl:flex-row flex-col justify-between gap-6 mt-6">
+//         <div className="w-full xl:w-2/3 flex flex-col gap-6">
+//           <Card className="shadow-none gap-0 overflow-hidden">
+//             <CardHeader className="bg-lightgray dark:bg-primarybox px-5 py-4 h-[70]">
+//               <Skeleton className="h-6 w-48 rounded" />
+//             </CardHeader>
+//             <CardContent className="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 sm:gap-6 gap-4">
+//               {[...Array(6)].map((_, i) => (
+//                 <div key={`personal-skel-${i}`} className="py-2 space-y-2">
+//                   <Skeleton className="h-3 w-1/4 rounded" />
+//                   <Skeleton className="h-5 w-3/4 rounded" />
+//                 </div>
+//               ))}
+//             </CardContent>
+//           </Card>
+
+//           <Card className="shadow-none gap-0 overflow-hidden">
+//             <CardHeader className="bg-lightgray dark:bg-primarybox px-5 py-4 h-[70px]">
+//               <Skeleton className="h-6 w-56 rounded" />
+//             </CardHeader>
+//             <CardContent className="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 sm:gap-6 gap-4">
+//               {[...Array(4)].map((_, i) => (
+//                 <div key={`id-skel-${i}`} className="py-2 space-y-2">
+//                   <Skeleton className="h-3 w-1/4 rounded" />
+//                   <Skeleton className="h-5 w-3/4 rounded" />
+//                 </div>
+//               ))}
+//             </CardContent>
+//           </Card>
+//         </div>
+
+//         <Card className="shadow-none w-full xl:w-1/3 h-fit gap-0 overflow-hidden">
+//           <CardHeader className="bg-lightgray dark:bg-primarybox px-5 py-4">
+//             <Skeleton className="h-6 w-40 rounded mb-2" />
+//             <Skeleton className="h-4 w-full rounded" />
+//           </CardHeader>
+//           <CardContent className="p-4 sm:p-6">
+//             <div className="flex xl:flex-col sm:flex-row flex-col gap-4">
+//               {[...Array(2)].map((_, i) => (
+//                 <Card
+//                   key={`doc-skel-${i}`}
+//                   className="border overflow-hidden w-full"
+//                 >
+//                   <CardHeader className="p-3">
+//                     <Skeleton className="h-4 w-1/3 rounded" />
+//                   </CardHeader>
+//                   <div className="aspect-[16/10] relative bg-muted flex items-center justify-center">
+//                     <ImageIcon className="h-12 w-12 text-muted-foreground/30" />
+//                   </div>
+//                   <CardFooter className="p-2">
+//                     <Skeleton className="h-6 w-3/4 mx-auto rounded" />
+//                   </CardFooter>
+//                 </Card>
+//               ))}
+//             </div>
+//           </CardContent>
+//         </Card>
+//       </div>
+//     </div>
+//   );
+
+//   const renderErrorDisplay = (
+//     message: string | null,
+//     isActionErrorType = false,
+//     isModalError = false
+//   ) => {
+//     if (!message) return null;
+//     return (
+//       <div
+//         className={cn(
+//           "border-l-4 p-4 rounded-md mb-6",
+//           isModalError
+//             ? "border-destructive bg-destructive/10"
+//             : isActionErrorType
+//             ? "border-destructive bg-destructive/10"
+//             : "border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20"
+//         )}
+//         role="alert"
+//       >
+//         <div className="flex items-center">
+//           <AlertCircle
+//             className={cn(
+//               "h-5 w-5 mr-3 flex-shrink-0",
+//               isActionErrorType || isModalError
+//                 ? "text-destructive"
+//                 : "text-yellow-600 dark:text-yellow-400"
+//             )}
+//           />
+//           <div>
+//             <p
+//               className={cn(
+//                 "text-sm font-medium",
+//                 isActionErrorType || isModalError
+//                   ? "text-destructive/90 dark:text-red-300"
+//                   : "text-yellow-700 dark:text-yellow-300"
+//               )}
+//             >
+//               {isActionErrorType || isModalError ? "Action Error" : "Error"}
+//             </p>
+//             <p
+//               className={cn(
+//                 "text-sm",
+//                 isActionErrorType || isModalError
+//                   ? "text-destructive/80 dark:text-red-400"
+//                   : "text-yellow-600 dark:text-yellow-400"
+//               )}
+//             >
+//               {message}
+//             </p>
+//             {!isActionErrorType &&
+//               !isModalError &&
+//               (message.includes("fetching") || message.includes("details")) && (
+//                 <button
+//                   onClick={fetchUserDetails}
+//                   className="mt-2 text-sm font-medium text-yellow-700 dark:text-yellow-300 hover:underline flex items-center gap-1"
+//                   disabled={isLoading || isProcessingAction !== false}
+//                 >
+//                   <RefreshCw
+//                     className={cn(
+//                       "h-3 w-3",
+//                       (isLoading || isProcessingAction !== false) &&
+//                         "animate-spin"
+//                     )}
+//                   />{" "}
+//                   Retry Fetch
+//                 </button>
+//               )}
+//           </div>
+//         </div>
+//       </div>
+//     );
+//   };
+
+//   // --- Main Render Logic ---
+//   if (isLoading && !userData) {
+//     return (
+//       <div className="min-h-screen bg-white dark:bg-background">
+//         <div className="container mx-auto px-4 py-8">
+//           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+//             <div>
+//               <Skeleton className="h-4 w-64 mb-3 rounded " />
+//               <Skeleton className="h-8 w-48 rounded " />
+//             </div>
+//             <Skeleton className="h-9 w-32 rounded-md " />
+//           </div>
+//           {renderLoading()}
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   if (error) {
+//     return (
+//       <div className="min-h-screen bg-white dark:bg-background">
+//         <div className="container mx-auto px-4 py-8">
+//           <Link
+//             href="/admin/kyc-management"
+//             className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline transition-colors mb-6"
+//           >
+//             <ArrowLeft className="h-4 w-4" />
+//             Back to KYC Management
+//           </Link>
+//           {renderErrorDisplay(error)}
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   if (!userData) {
+//     return (
+//       <div className="min-h-screen bg-white dark:bg-background">
+//         <div className="container mx-auto px-4 py-8 text-center">
+//           <Link
+//             href="/admin/kyc-management"
+//             className="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline transition-colors mb-6"
+//           >
+//             <ArrowLeft className="h-4 w-4" />
+//             Back to KYC Management
+//           </Link>
+//           <p className="py-16 text-muted-foreground">
+//             User data could not be loaded or user not found.
+//           </p>
+//         </div>
+//       </div>
+//     );
+//   }
+
+//   const { kyc } = userData;
+//   const canTakeAction = kyc?.status === "pending";
+//   const statusConfig = getStatusConfig(kyc?.status);
+
+//   return (
+//     <div className="min-h-screen bg-white dark:bg-background">
+
+//       <KycRejectModal
+//         isOpen={showRejectionModal}
+//         onClose={() => setShowRejectionModal(false)}
+//         onSubmit={submitRejection}
+//         isProcessing={isProcessingAction === "reject"}
+//         processingError={isProcessingAction === "reject" ? actionError : null}
+//         initialReason={rejectionReasonForModal}
+//         isMobileView={isMobile}
+//       />
+
+//       <KycApproveModal
+//         isOpen={showApprovalModal}
+//         onClose={() => setShowApprovalModal(false)}
+//         onSubmit={submitApproval}
+//         isProcessing={isProcessingAction === "approve"}
+//         processingError={isProcessingAction === "approve" ? actionError : null}
+//         isMobileView={isMobile}
+//       />
+
+//       <div className="container mx-auto px-4 py-5">
+//         <KycDetailHeader userId={userId} />
+
+//         <Card className="overflow-hidden border shadow-none">
+//           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
+//             <div className="flex items-center gap-4">
+//               <Avatar className="size-14 sm:size-16 flex-shrink-0 bg-lightgray dark:bg-primarybox">
+//                 <AvatarFallback
+//                   className={cn(
+//                     "text-xl font-semibold text-neutral-900 dark:text-white",
+//                     statusConfig.color
+//                   )}
+//                 >
+//                   {getInitials(userData.fullName)}
+//                 </AvatarFallback>
+//               </Avatar>
+
+//               <div className="flex-1 space-y-2">
+//                 <CardTitle className="text-xl text-neutral-900 dark:text-white">
+//                   {userData.fullName || "Unnamed User"}
+//                 </CardTitle>
+
+//                 <CardDescription className="flex flex-wrap flex-row items-center gap-3 text-sm text-gray-500 dark:text-gray-300">
+//                   <span className="flex items-center gap-2">
+//                     <Mail className="text-primary size-5" /> {userData.email}
+//                   </span>
+
+//                   {kyc?.mobile && (
+//                     <span className="flex items-center gap-2">
+//                       <Phone className="text-primary size-5" />
+//                       {formatMobile(kyc?.mobile)}
+//                     </span>
+//                   )}
+//                 </CardDescription>
+//               </div>
+//             </div>
+
+//             <Badge
+//               className={cn(
+//                 "px-4 py-2 text-sm flex items-center rounded-full gap-1.5",
+//                 statusConfig.color
+//               )}
+//             >
+//               <statusConfig.icon className="h-4 w-4" /> {statusConfig.label}
+//             </Badge>
+//           </CardHeader>
+
+//           <CardContent className="sm:p-6 p-4">
+//             <div className="flex md:flex-row flex-col justify-between md:items-center gap-4 md:text-base text-sm text-gray-500 dark:text-gray-300">
+//               {kyc?.submittedAt && (
+//                 <span className="flex items-center gap-2">
+//                   <Clock className="size-5 text-primary" /> Submitted:{" "}
+//                   {formatDate(kyc.submittedAt, true)}
+//                 </span>
+//               )}
+
+//               {kyc?.verifiedAt && (
+//                 <span className="flex items-center gap-2 text-green-600 dark:text-green-400">
+//                   <CheckCircle className="size-5" /> Verified:{" "}
+//                   {formatDate(kyc.verifiedAt, true)}
+//                 </span>
+//               )}
+
+//               {kyc?.rejectedAt && (
+//                 <span className="flex items-center gap-2 text-red-600 dark:text-red-400">
+//                   <XCircle className="size-5" /> Rejected:{" "}
+//                   {formatDate(kyc.rejectedAt, true)}
+//                 </span>
+//               )}
+//             </div>
+//           </CardContent>
+
+//           {canTakeAction && (
+//             <CardFooter className="border-t sm:p-6 p-4">
+//               <div className="flex sm:flex-row flex-col gap-3 w-full sm:justify-end">
+//                 <button
+//                   onClick={openRejectModal}
+//                   disabled={!!isProcessingAction}
+//                   className="text-base bg-red-600 gap-2 text-white hover:bg-red-700 font-medium rounded-full px-6 py-3 h-12.5 flex justify-center items-center transition-all duration-75 ease-linear cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+//                 >
+//                   <XCircle className="size-5"/>
+//                   Reject Application
+//                 </button>
+
+//                 <Button
+//                   onClick={openApproveModal}
+//                   disabled={!!isProcessingAction}
+//                   className="text-base bg-primary text-neutral-900 hover:bg-primaryhover dark:bg-primary dark:hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 flex justify-center items-center disabled:opacity-60 disabled:cursor-not-allowed"
+//                 >
+//                   <CheckCircle className="size-5"/>
+//                   Approve Application
+//                 </Button>
+
+//               </div>
+//             </CardFooter>
+//           )}
+
+//           {actionError &&
+//             !showRejectionModal &&
+//             !showApprovalModal &&
+//             isProcessingAction === false && (
+//               <div className="px-4 sm:px-6 pb-4">
+//                 {renderErrorDisplay(actionError, true)}
+//               </div>
+//             )}
+//         </Card>
+
+//         <div className="flex xl:flex-row flex-col justify-between gap-6 mt-6">
+//           <div className="w-full xl:w-2/3 flex flex-col gap-6">
+//             {kyc?.status === "rejected" && kyc.rejectionReason && (
+//               <Card className="border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-900/10">
+//                 <CardHeader className="p-4">
+//                   <CardTitle className="text-base flex items-center gap-1.5 text-red-700 dark:text-red-400">
+//                     <AlertCircle className="h-5 w-5" /> Rejection Reason
+//                   </CardTitle>
+//                 </CardHeader>
+//                 <CardContent className="p-4 pt-0">
+//                   <p className="text-sm text-red-600 dark:text-red-300 font-normal">
+//                     {kyc.rejectionReason}
+//                   </p>
+//                 </CardContent>
+//               </Card>
+//             )}
+
+//             <Card className="shadow-none gap-0 overflow-hidden">
+//               <CardHeader className="inline-flex items-center w-full bg-lightgray dark:bg-primarybox px-5 py-4 h-[70px]">
+//                 <CardTitle className="text-lg flex items-center gap-2">
+//                   <IdCard className="size-5 text-primary" /> Personal
+//                   Information
+//                 </CardTitle>
+//               </CardHeader>
+
+//               <CardContent className="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 sm:gap-6 gap-4">
+//                 <DetailItem
+//                   label="Full Name"
+//                   value={userData.fullName}
+//                   isImportant={true}
+//                   icon={User}
+//                 />
+//                 <DetailItem
+//                   label="Email Address"
+//                   value={userData.email}
+//                   icon={Mail}
+//                   isImportant={true}
+//                 />
+//                 <DetailItem
+//                   label="Date of Birth"
+//                   value={formatDate(kyc?.dateOfBirth)}
+//                   icon={CalendarDays}
+//                 />
+//                 <DetailItem
+//                   label="Mobile Number"
+//                   value={formatMobile(kyc?.mobile)}
+//                   icon={Phone}
+//                 />
+//                 <DetailItem
+//                   label="Nationality"
+//                   value={kyc?.nationality}
+//                   icon={Globe}
+//                 />
+//                 <DetailItem
+//                   label="Occupation"
+//                   value={kyc?.occupation}
+//                   icon={Briefcase}
+//                 />
+//                 <DetailItem
+//                   label="Salary Range"
+//                   value={
+//                     kyc?.salaryRange
+//                       ? salaryDisplayMap[kyc.salaryRange]
+//                       : undefined
+//                   }
+//                   icon={BadgeDollarSign}
+//                 />
+//               </CardContent>
+//             </Card>
+
+//             <Card className="shadow-none gap-0 overflow-hidden">
+//               <CardHeader className="inline-flex items-center w-full bg-lightgray dark:bg-primarybox px-5 py-4  h-[70px]">
+//                 <CardTitle className="text-lg flex items-center gap-2">
+//                   <Fingerprint className="size-5 text-primary" /> Identity
+//                   Document Details
+//                 </CardTitle>
+//               </CardHeader>
+//               <CardContent className="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 sm:gap-6 gap-4">
+//                 <DetailItem
+//                   label="ID Type"
+//                   value={
+//                     <span className="capitalize">
+//                       {kyc?.idType?.replace("_", " ")}
+//                     </span>
+//                   }
+//                   isImportant={true}
+//                   icon={IdCard}
+//                 />
+//                 <DetailItem
+//                   label="ID Number"
+//                   value={kyc?.idNumber}
+//                   isImportant={true}
+//                   icon={
+//                     Phone
+//                   } /* Should this be a different icon? like Fingerprint or IdCard? */
+//                 />
+//                 <DetailItem
+//                   label="Date of Issue"
+//                   value={formatDate(kyc?.idIssueDate)}
+//                   icon={CalendarDays}
+//                 />
+//                 <DetailItem
+//                   label="Date of Expiry"
+//                   value={formatDate(kyc?.idExpiryDate)}
+//                   icon={CalendarDays}
+//                 />
+//               </CardContent>
+//             </Card>
+//           </div>
+
+//           <Card className="shadow-none w-full xl:w-1/3 h-fit gap-0 overflow-hidden">
+//             <CardHeader className="bg-lightgray dark:bg-primarybox px-5 py-4">
+//               <CardTitle className="text-lg flex items-center gap-2">
+//                 <FileText className="size-5 text-primary" /> Submitted Documents
+//               </CardTitle>
+
+//               <CardDescription className="text-gray-500 dark:text-gray-300 pt-1">
+//                 Review identification documents submitted by the user
+//               </CardDescription>
+
+//             </CardHeader>
+//             <CardContent className="p-4 sm:p-6">
+//               {kyc?.documents && kyc.documents.length > 0 ? (
+//                 <div className="flex xl:flex-col sm:flex-row flex-col gap-4">
+//                   {kyc.documents.map((doc) => (
+//                     <Card
+//                       key={doc.public_id}
+//                       className="overflow-hidden w-full bg-muted/30 dark:bg-muted/20"
+//                     >
+//                       <CardHeader className="p-3">
+//                         <CardTitle className="text-sm capitalize flex items-center gap-1.5">
+//                           {doc.docType === "id_front" ? "ID Front" : "ID Back"}
+//                         </CardTitle>
+//                       </CardHeader>
+//                       {doc.url && !doc.url.toLowerCase().endsWith(".pdf") ? (
+//                         <div className="aspect-[16/10] relative group bg-white dark:bg-background">
+//                           <Image
+//                             src={doc.url}
+//                             alt={`${doc.docType} preview`}
+//                             fill
+//                             className="object-contain p-1"
+//                             unoptimized
+//                           />
+//                           <Link
+//                             href={doc.url}
+//                             target="_blank"
+//                             rel="noopener noreferrer"
+//                             className="absolute inset-0 bg-black/50 opacity-0 flex-col group-hover:opacity-100 flex items-center justify-center transition-opacity duration-200 text-white"
+//                             aria-label={`View full ${
+//                               doc.docType === "id_front"
+//                                 ? "ID Front"
+//                                 : "ID Back"
+//                             } document`}
+//                           >
+//                             <Eye className="size-5 mb-1" />
+//                             <span className="text-xs font-medium">
+//                               View Full
+//                             </span>
+//                           </Link>
+//                         </div>
+//                       ) : (
+//                         <CardContent className="flex items-center justify-center py-8">
+//                           <Link
+//                             href={doc.url || "#"}
+//                             target="_blank"
+//                             rel="noopener noreferrer"
+//                             className={cn(
+//                               "flex flex-col items-center text-muted-foreground hover:text-primary transition-colors",
+//                               !doc.url && "pointer-events-none opacity-50"
+//                             )}
+//                             aria-label={`View ${
+//                               doc.docType === "id_front"
+//                                 ? "ID Front"
+//                                 : "ID Back"
+//                             } document`}
+//                           >
+//                             <FileText className="h-12 w-12 mb-2" />
+//                             <span className="text-xs font-medium flex items-center">
+//                               View PDF
+//                               <ExternalLink className="h-3 w-3 ml-1 opacity-70 inline-block" />
+//                             </span>
+//                           </Link>
+//                         </CardContent>
+//                       )}
+//                       <CardFooter className="p-2">
+//                         <Link
+//                           href={doc.url || "#"}
+//                           target="_blank"
+//                           rel="noopener noreferrer"
+//                           className={cn(
+//                             "w-full",
+//                             !doc.url && "pointer-events-none opacity-50"
+//                           )}
+//                         >
+//                           <Button
+//                             variant="link"
+//                             size="sm"
+//                             className="w-full text-xs justify-center items-center gap-1 text-primary"
+//                             disabled={!doc.url}
+//                           >
+//                             View Full Document{" "}
+//                             <ExternalLink className="size-3.5" />
+//                           </Button>
+//                         </Link>
+//                       </CardFooter>
+//                     </Card>
+//                   ))}
+//                 </div>
+//               ) : (
+//                 <div className="text-center py-8 px-4 border border-dashed rounded-lg">
+//                   <Info className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
+//                   <p className="text-sm text-muted-foreground">
+//                     No documents submitted.
+//                   </p>
+//                 </div>
+//               )}
+//             </CardContent>
+//           </Card>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default KycUserDetailPage;
+
 // frontend/src/app/admin/kyc-management/[userId]/page.tsx
 "use client";
 
@@ -5538,8 +6413,8 @@ import type {
   SalaryRange,
 } from "@/app/services/admin/kyc.admin";
 import KycDetailHeader from "@/app/admin/components/kyc/KycDetailHeader";
-import KycRejectModal from "@/app/components/KycRejectModal";
-import KycApproveModal from "@/app/components/KycApproveModal";
+import KycRejectModal from "@/app/components/KycRejectModal"; // Assuming correct path from /admin/kyc-management/[userId]/
+import KycApproveModal from "@/app/components/KycApproveModal"; // Assuming correct path
 
 // Icons
 import {
@@ -5578,7 +6453,22 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 
-// --- Helper Functions ---
+// --- Import Custom Toast and react-toastify components ---
+import {
+  ToastContainer,
+  toast as reactToastifyToast,
+  Slide,
+  ToastContainerProps,
+  TypeOptions,
+  ToastOptions,
+} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// **IMPORTANT**: Adjust this path if your CustomToast component is elsewhere
+import CustomToast, { CustomToastProps } from "../../../components/CustomToast";
+// Example: if CustomToast.tsx is in frontend/src/app/components/
+// import CustomToast, { CustomToastProps } from "../../../components/CustomToast";
+
+// --- Helper Functions (Keep as is) ---
 const formatDate = (
   dateInput?: string | Date | null,
   includeTime = false
@@ -5602,20 +6492,17 @@ const formatDate = (
     return "Invalid Date";
   }
 };
-
 const formatMobile = (mobile?: KycDetails["mobile"]): string => {
   if (!mobile || !mobile.countryCode?.trim() || !mobile.number?.trim())
     return "N/A";
   return `${mobile.countryCode} ${mobile.number}`;
 };
-
 const salaryDisplayMap: Record<SalaryRange, string> = {
   "0-1000": "Below $10,000",
   "10000-50000": "$10,000 - $49,999",
   "50000-100000": "$50,000 - $99,999",
   "100000+": "$100,000 or more",
 };
-
 const getStatusConfig = (status?: string) => {
   const statusMap = {
     verified: {
@@ -5648,7 +6535,6 @@ const getStatusConfig = (status?: string) => {
   };
   return statusMap[status as keyof typeof statusMap] || statusMap.default;
 };
-
 const getInitials = (name?: string): string => {
   if (!name) return "??";
   return name
@@ -5659,7 +6545,7 @@ const getInitials = (name?: string): string => {
     .toUpperCase();
 };
 
-// --- DetailItem Component ---
+// --- DetailItem Component (Keep as is) ---
 const DetailItem = ({
   label,
   value,
@@ -5673,7 +6559,8 @@ const DetailItem = ({
 }) => (
   <div className="py-2 space-y-2">
     <dt className="text-sm font-medium text-neutral-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
-      {Icon && <Icon className="flex-shrink-0 text-primary size-4" />} {label}
+      {" "}
+      {Icon && <Icon className="flex-shrink-0 text-primary size-4" />} {label}{" "}
     </dt>
     <dd
       className={cn(
@@ -5681,7 +6568,8 @@ const DetailItem = ({
         isImportant ? "font-semibold" : ""
       )}
     >
-      {value || <span className="italic">Not Provided</span>}
+      {" "}
+      {value || <span className="italic">Not Provided</span>}{" "}
     </dd>
   </div>
 );
@@ -5694,8 +6582,8 @@ const KycUserDetailPage: React.FC = () => {
 
   const [userData, setUserData] = useState<AdminKycUserResponse | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [actionError, setActionError] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null); // For page load errors
+  const [actionError, setActionError] = useState<string | null>(null); // For modal action errors
   const [isProcessingAction, setIsProcessingAction] = useState<
     false | "approve" | "reject"
   >(false);
@@ -5703,13 +6591,11 @@ const KycUserDetailPage: React.FC = () => {
   const [showApprovalModal, setShowApprovalModal] = useState<boolean>(false);
   const [rejectionReasonForModal, setRejectionReasonForModal] =
     useState<string>("");
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(false); // For ToastContainer
 
-  // --- Responsive Check ---
+  // --- Mobile Detection Effect (for ToastContainer & Modals) ---
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
     if (typeof window !== "undefined") {
       handleResize();
       window.addEventListener("resize", handleResize);
@@ -5717,50 +6603,119 @@ const KycUserDetailPage: React.FC = () => {
     }
   }, []);
 
-  // --- Fetching Logic ---
-  const fetchUserDetails = useCallback(async () => {
-    if (!userId) {
-      setError("User ID is missing from the URL.");
-      setIsLoading(false);
-      return;
-    }
-    if (!userData) {
-      setIsLoading(true);
-    }
-    setError(null);
-    setActionError(null);
-    try {
-      const data = await kycAdminService.getKycDetailsAdmin(userId);
-      setUserData(data);
-    } catch (err: any) {
-      console.error("Error fetching user details:", err);
-      setError(
-        err.message || "An unknown error occurred while fetching user details."
+  // --- Custom Toast Invocation ---
+  const showToast = useCallback(
+    (
+      message: string,
+      type?: CustomToastProps["type"],
+      toastSpecificOptions?: Partial<ToastOptions>
+    ) => {
+      const effectiveType = type || "default";
+      let progressClassName: string;
+      switch (effectiveType) {
+        case "success":
+          progressClassName = "toast-progress-success";
+          break;
+        case "error":
+          progressClassName = "toast-progress-error";
+          break;
+        case "info":
+          progressClassName = "toast-progress-info";
+          break;
+        case "warning":
+          progressClassName = "toast-progress-warning";
+          break;
+        default:
+          progressClassName = "toast-progress-default";
+          break;
+      }
+      reactToastifyToast(
+        <CustomToast message={message} type={effectiveType} />,
+        {
+          progressClassName,
+          type: effectiveType as TypeOptions,
+          icon: false,
+          ...toastSpecificOptions,
+        }
       );
-      setUserData(null);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [userId, userData]);
+    },
+    []
+  );
+
+  // --- ToastContainer Props and Style ---
+  const customToastContainerProps: ToastContainerProps = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    newestOnTop: true,
+    closeOnClick: false,
+    closeButton: false,
+    rtl: false,
+    pauseOnFocusLoss: true,
+    draggable: true,
+    pauseOnHover: true,
+    transition: Slide,
+    toastClassName: () =>
+      "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3",
+  };
+
+  const getToastContainerStyle = (): React.CSSProperties & {
+    [key: `--${string}`]: string | number;
+  } => {
+    const baseStyle = { zIndex: 30 };
+    if (isMobile)
+      return {
+        ...baseStyle,
+        top: "1rem",
+        left: "1rem",
+        right: "1rem",
+        width: "auto",
+      };
+    return { ...baseStyle, top: "0.75rem", right: "0.75rem", width: "320px" };
+  };
+
+  // --- Fetching Logic ---
+  const fetchUserDetails = useCallback(
+    async (showLoadingIndicator = true) => {
+      if (!userId) {
+        setError("User ID is missing from the URL.");
+        showToast("User ID is missing from the URL.", "error");
+        setIsLoading(false);
+        return;
+      }
+      if (showLoadingIndicator || !userData) setIsLoading(true); // Show loading if explicitly asked or no data yet
+
+      setError(null);
+      setActionError(null);
+      try {
+        const data = await kycAdminService.getKycDetailsAdmin(userId);
+        setUserData(data);
+      } catch (err: any) {
+        console.error("Error fetching user details:", err);
+        const errorMsg =
+          err.message ||
+          "An unknown error occurred while fetching user details.";
+        setError(errorMsg);
+        showToast(errorMsg, "error");
+        setUserData(null);
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [userId, showToast, userData]
+  ); // Added showToast and userData to dependencies
 
   useEffect(() => {
     fetchUserDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId]);
+  }, [userId]); // Initial fetch only on userId change, fetchUserDetails will handle its own deps
 
-  // --- Prevent body scroll when modal is open ---
   useEffect(() => {
     const body = document.body;
     const originalOverflow = body.style.overflow;
-
-    if (showRejectionModal || showApprovalModal) {
-      body.style.overflow = "hidden";
-    } else {
-      body.style.overflow = originalOverflow; // Restore original or set to default
-    }
-
+    if (showRejectionModal || showApprovalModal) body.style.overflow = "hidden";
+    else body.style.overflow = originalOverflow;
     return () => {
-      // Ensure scroll is restored if component unmounts while modal is open
       body.style.overflow = originalOverflow;
     };
   }, [showRejectionModal, showApprovalModal]);
@@ -5780,7 +6735,6 @@ const KycUserDetailPage: React.FC = () => {
       isProcessingAction
     )
       return;
-
     setIsProcessingAction("reject");
     setActionError(null);
     try {
@@ -5788,10 +6742,13 @@ const KycUserDetailPage: React.FC = () => {
         status: "rejected",
         rejectionReason: reason,
       });
+      showToast("KYC application rejected.", "success"); // SUCCESS TOAST
       setShowRejectionModal(false);
-      await fetchUserDetails();
+      await fetchUserDetails(false); // Fetch without full page loading indicator
     } catch (err: any) {
-      setActionError(err.message || "Failed to reject KYC status.");
+      const errorMsg = err.message || "Failed to reject KYC status.";
+      setActionError(errorMsg); // For modal display
+      showToast(errorMsg, "error"); // For page level display
     } finally {
       setIsProcessingAction(false);
     }
@@ -5810,17 +6767,19 @@ const KycUserDetailPage: React.FC = () => {
       isProcessingAction
     )
       return;
-
     setIsProcessingAction("approve");
     setActionError(null);
     try {
       await kycAdminService.updateKycStatusAdmin(userId, {
         status: "verified",
       });
+      showToast("KYC application approved successfully!", "success"); // SUCCESS TOAST
       setShowApprovalModal(false);
-      await fetchUserDetails();
+      await fetchUserDetails(false); // Fetch without full page loading indicator
     } catch (err: any) {
-      setActionError(err.message || "Failed to approve KYC status.");
+      const errorMsg = err.message || "Failed to approve KYC status.";
+      setActionError(errorMsg); // For modal display
+      showToast(errorMsg, "error"); // For page level display
     } finally {
       setIsProcessingAction(false);
     }
@@ -5828,6 +6787,7 @@ const KycUserDetailPage: React.FC = () => {
 
   // --- Render Functions ---
   const renderLoading = () => (
+    /* Skeleton remains the same */
     <div className="space-y-8">
       <Card className="shadow-none overflow-hidden">
         <CardHeader className="flex sm:flex-row flex-col sm:items-center items-start justify-between sm:p-6 p-4 gap-4">
@@ -5851,7 +6811,6 @@ const KycUserDetailPage: React.FC = () => {
           <Skeleton className="h-12 w-52 rounded-full" />
         </div>
       </Card>
-
       <div className="flex xl:flex-row flex-col justify-between gap-6 mt-6">
         <div className="w-full xl:w-2/3 flex flex-col gap-6">
           <Card className="shadow-none gap-0 overflow-hidden">
@@ -5867,7 +6826,6 @@ const KycUserDetailPage: React.FC = () => {
               ))}
             </CardContent>
           </Card>
-
           <Card className="shadow-none gap-0 overflow-hidden">
             <CardHeader className="bg-lightgray dark:bg-primarybox px-5 py-4 h-[70px]">
               <Skeleton className="h-6 w-56 rounded" />
@@ -5882,7 +6840,6 @@ const KycUserDetailPage: React.FC = () => {
             </CardContent>
           </Card>
         </div>
-
         <Card className="shadow-none w-full xl:w-1/3 h-fit gap-0 overflow-hidden">
           <CardHeader className="bg-lightgray dark:bg-primarybox px-5 py-4">
             <Skeleton className="h-6 w-40 rounded mb-2" />
@@ -5918,6 +6875,7 @@ const KycUserDetailPage: React.FC = () => {
     isActionErrorType = false,
     isModalError = false
   ) => {
+    /* Remains the same */
     if (!message) return null;
     return (
       <div
@@ -5965,7 +6923,7 @@ const KycUserDetailPage: React.FC = () => {
               !isModalError &&
               (message.includes("fetching") || message.includes("details")) && (
                 <button
-                  onClick={fetchUserDetails}
+                  onClick={() => fetchUserDetails()}
                   className="mt-2 text-sm font-medium text-yellow-700 dark:text-yellow-300 hover:underline flex items-center gap-1"
                   disabled={isLoading || isProcessingAction !== false}
                 >
@@ -5988,7 +6946,11 @@ const KycUserDetailPage: React.FC = () => {
   // --- Main Render Logic ---
   if (isLoading && !userData) {
     return (
-      <div className="min-h-screen bg-white dark:bg-background">
+      <div className="min-h-screen bg-white dark:bg-background relative">
+        <ToastContainer
+          {...customToastContainerProps}
+          style={getToastContainerStyle()}
+        />
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
             <div>
@@ -6003,9 +6965,14 @@ const KycUserDetailPage: React.FC = () => {
     );
   }
 
-  if (error) {
+  if (error && !isLoading) {
+    // Show error if loading is complete and error exists
     return (
-      <div className="min-h-screen bg-white dark:bg-background">
+      <div className="min-h-screen bg-white dark:bg-background relative">
+        <ToastContainer
+          {...customToastContainerProps}
+          style={getToastContainerStyle()}
+        />
         <div className="container mx-auto px-4 py-8">
           <Link
             href="/admin/kyc-management"
@@ -6020,9 +6987,14 @@ const KycUserDetailPage: React.FC = () => {
     );
   }
 
-  if (!userData) {
+  if (!userData && !isLoading) {
+    // If no data and not loading (implies an earlier error or user not found)
     return (
-      <div className="min-h-screen bg-white dark:bg-background">
+      <div className="min-h-screen bg-white dark:bg-background relative">
+        <ToastContainer
+          {...customToastContainerProps}
+          style={getToastContainerStyle()}
+        />
         <div className="container mx-auto px-4 py-8 text-center">
           <Link
             href="/admin/kyc-management"
@@ -6039,13 +7011,30 @@ const KycUserDetailPage: React.FC = () => {
     );
   }
 
+  // Fallback if userData is somehow still null after checks (should ideally not be hit)
+  if (!userData)
+    return (
+      <div className="min-h-screen bg-white dark:bg-background relative">
+        <ToastContainer
+          {...customToastContainerProps}
+          style={getToastContainerStyle()}
+        />
+        <div className="container mx-auto px-4 py-8 text-center">
+          Loading or unexpected state...
+        </div>
+      </div>
+    );
+
   const { kyc } = userData;
   const canTakeAction = kyc?.status === "pending";
   const statusConfig = getStatusConfig(kyc?.status);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-background">
-      
+    <div className="min-h-screen bg-white dark:bg-background relative">
+      <ToastContainer
+        {...customToastContainerProps}
+        style={getToastContainerStyle()}
+      />
       <KycRejectModal
         isOpen={showRejectionModal}
         onClose={() => setShowRejectionModal(false)}
@@ -6055,7 +7044,6 @@ const KycUserDetailPage: React.FC = () => {
         initialReason={rejectionReasonForModal}
         isMobileView={isMobile}
       />
-      
       <KycApproveModal
         isOpen={showApprovalModal}
         onClose={() => setShowApprovalModal(false)}
@@ -6067,7 +7055,6 @@ const KycUserDetailPage: React.FC = () => {
 
       <div className="container mx-auto px-4 py-5">
         <KycDetailHeader userId={userId} />
-
         <Card className="overflow-hidden border shadow-none">
           <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
             <div className="flex items-center gap-4">
@@ -6081,17 +7068,14 @@ const KycUserDetailPage: React.FC = () => {
                   {getInitials(userData.fullName)}
                 </AvatarFallback>
               </Avatar>
-
               <div className="flex-1 space-y-2">
-                <CardTitle className="text-xl text-neutral-900 dark:text-white">  
+                <CardTitle className="text-xl text-neutral-900 dark:text-white">
                   {userData.fullName || "Unnamed User"}
                 </CardTitle>
-
                 <CardDescription className="flex flex-wrap flex-row items-center gap-3 text-sm text-gray-500 dark:text-gray-300">
                   <span className="flex items-center gap-2">
                     <Mail className="text-primary size-5" /> {userData.email}
                   </span>
-
                   {kyc?.mobile && (
                     <span className="flex items-center gap-2">
                       <Phone className="text-primary size-5" />
@@ -6101,7 +7085,6 @@ const KycUserDetailPage: React.FC = () => {
                 </CardDescription>
               </div>
             </div>
-
             <Badge
               className={cn(
                 "px-4 py-2 text-sm flex items-center rounded-full gap-1.5",
@@ -6111,7 +7094,6 @@ const KycUserDetailPage: React.FC = () => {
               <statusConfig.icon className="h-4 w-4" /> {statusConfig.label}
             </Badge>
           </CardHeader>
-
           <CardContent className="sm:p-6 p-4">
             <div className="flex md:flex-row flex-col justify-between md:items-center gap-4 md:text-base text-sm text-gray-500 dark:text-gray-300">
               {kyc?.submittedAt && (
@@ -6120,14 +7102,12 @@ const KycUserDetailPage: React.FC = () => {
                   {formatDate(kyc.submittedAt, true)}
                 </span>
               )}
-
               {kyc?.verifiedAt && (
                 <span className="flex items-center gap-2 text-green-600 dark:text-green-400">
                   <CheckCircle className="size-5" /> Verified:{" "}
                   {formatDate(kyc.verifiedAt, true)}
                 </span>
               )}
-
               {kyc?.rejectedAt && (
                 <span className="flex items-center gap-2 text-red-600 dark:text-red-400">
                   <XCircle className="size-5" /> Rejected:{" "}
@@ -6136,7 +7116,6 @@ const KycUserDetailPage: React.FC = () => {
               )}
             </div>
           </CardContent>
-
           {canTakeAction && (
             <CardFooter className="border-t sm:p-6 p-4">
               <div className="flex sm:flex-row flex-col gap-3 w-full sm:justify-end">
@@ -6145,23 +7124,20 @@ const KycUserDetailPage: React.FC = () => {
                   disabled={!!isProcessingAction}
                   className="text-base bg-red-600 gap-2 text-white hover:bg-red-700 font-medium rounded-full px-6 py-3 h-12.5 flex justify-center items-center transition-all duration-75 ease-linear cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <XCircle className="size-5"/>
+                  <XCircle className="size-5" />
                   Reject Application
                 </button>
-
                 <Button
                   onClick={openApproveModal}
                   disabled={!!isProcessingAction}
                   className="text-base bg-primary text-neutral-900 hover:bg-primaryhover dark:bg-primary dark:hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 flex justify-center items-center disabled:opacity-60 disabled:cursor-not-allowed"
                 >
-                  <CheckCircle className="size-5"/>
+                  <CheckCircle className="size-5" />
                   Approve Application
                 </Button>
-
               </div>
             </CardFooter>
           )}
-
           {actionError &&
             !showRejectionModal &&
             !showApprovalModal &&
@@ -6171,7 +7147,6 @@ const KycUserDetailPage: React.FC = () => {
               </div>
             )}
         </Card>
-
         <div className="flex xl:flex-row flex-col justify-between gap-6 mt-6">
           <div className="w-full xl:w-2/3 flex flex-col gap-6">
             {kyc?.status === "rejected" && kyc.rejectionReason && (
@@ -6188,7 +7163,6 @@ const KycUserDetailPage: React.FC = () => {
                 </CardContent>
               </Card>
             )}
-
             <Card className="shadow-none gap-0 overflow-hidden">
               <CardHeader className="inline-flex items-center w-full bg-lightgray dark:bg-primarybox px-5 py-4 h-[70px]">
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -6196,7 +7170,6 @@ const KycUserDetailPage: React.FC = () => {
                   Information
                 </CardTitle>
               </CardHeader>
-
               <CardContent className="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 sm:gap-6 gap-4">
                 <DetailItem
                   label="Full Name"
@@ -6241,7 +7214,6 @@ const KycUserDetailPage: React.FC = () => {
                 />
               </CardContent>
             </Card>
-
             <Card className="shadow-none gap-0 overflow-hidden">
               <CardHeader className="inline-flex items-center w-full bg-lightgray dark:bg-primarybox px-5 py-4  h-[70px]">
                 <CardTitle className="text-lg flex items-center gap-2">
@@ -6264,9 +7236,7 @@ const KycUserDetailPage: React.FC = () => {
                   label="ID Number"
                   value={kyc?.idNumber}
                   isImportant={true}
-                  icon={
-                    Phone
-                  } /* Should this be a different icon? like Fingerprint or IdCard? */
+                  icon={IdCard}
                 />
                 <DetailItem
                   label="Date of Issue"
@@ -6281,17 +7251,14 @@ const KycUserDetailPage: React.FC = () => {
               </CardContent>
             </Card>
           </div>
-
           <Card className="shadow-none w-full xl:w-1/3 h-fit gap-0 overflow-hidden">
             <CardHeader className="bg-lightgray dark:bg-primarybox px-5 py-4">
               <CardTitle className="text-lg flex items-center gap-2">
                 <FileText className="size-5 text-primary" /> Submitted Documents
               </CardTitle>
-
               <CardDescription className="text-gray-500 dark:text-gray-300 pt-1">
                 Review identification documents submitted by the user
               </CardDescription>
-
             </CardHeader>
             <CardContent className="p-4 sm:p-6">
               {kyc?.documents && kyc.documents.length > 0 ? (

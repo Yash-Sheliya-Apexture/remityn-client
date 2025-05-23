@@ -2241,7 +2241,6 @@
 
 // export default CurrencyDropdown;
 
-
 // // app/components/ui/CountryDropdown.tsx
 // "use client";
 // import React, { useState, useRef, useEffect, useMemo } from "react";
@@ -2571,8 +2570,370 @@
 
 // export default CurrencyDropdown;
 
+// // app/components/ui/CountryDropdown.tsx
+// "use client";
+// import React, { useState, useRef, useEffect, useMemo } from "react";
+// import Image, { StaticImageData } from "next/image";
+// import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+// import { BiSearch } from "react-icons/bi";
+// import { GiCheckMark } from "react-icons/gi";
+// import { Loader2 } from "lucide-react";
+// import { motion, AnimatePresence } from "framer-motion"; // Import motion and AnimatePresence
 
+// import currencyService, { Currency } from "../../services/currency"; // Adjust path as needed
+// import defaultFlag from "../../../../public/assets/icon/inr.svg"; // Adjust path if needed
 
+// interface CurrencyDropdownProps {
+//   selectedCurrency: string;
+//   onCurrencyChange: (currencyCode: string) => void;
+//   disabled?: boolean;
+// }
+
+// // --- Animation Variants ---
+
+// // For the main dropdown container (Slide down + Fade)
+// const dropdownContainerVariants = {
+//   hidden: {
+//     opacity: 0,
+//     y: -15, // Start slightly above
+//     height: 0, // Start collapsed
+//     transition: {
+//       duration: 0.25,
+//       ease: [0.4, 0, 0.2, 1], // Smooth ease-out-quint
+//       when: "afterChildren", // Animate container *after* children exit (if any)
+//       staggerChildren: 0.03, // Faster stagger on exit
+//       staggerDirection: -1, // Stagger exit in reverse
+//     },
+//   },
+//   visible: {
+//     opacity: 1,
+//     y: 0,
+//     height: "auto", // Animate to auto height
+//     transition: {
+//       duration: 0.3,
+//       ease: [0.4, 0, 0.2, 1], // Smooth ease-out-quint
+//       when: "beforeChildren", // Animate container *before* children enter
+//       staggerChildren: 0.05, // Stagger children entering
+//     },
+//   },
+// };
+
+// // For individual list items (Slide from left + Fade)
+// const listItemVariants = {
+//   hidden: {
+//     opacity: 0,
+//     x: -20, // Start slightly to the left
+//   },
+//   visible: {
+//     opacity: 1,
+//     x: 0,
+//     transition: {
+//       duration: 0.3,
+//       ease: "easeOut",
+//     },
+//   },
+//   exit: {
+//     // Optional: subtle exit animation for items
+//     opacity: 0,
+//     x: -10,
+//     transition: {
+//       duration: 0.15,
+//       ease: "easeIn",
+//     },
+//   },
+// };
+
+// const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
+//   selectedCurrency,
+//   onCurrencyChange,
+//   disabled = false,
+// }) => {
+//   const [isOpen, setIsOpen] = useState(false);
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const dropdownRef = useRef<HTMLDivElement>(null);
+//   const [availableCurrencies, setAvailableCurrencies] = useState<Currency[]>(
+//     []
+//   );
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+
+//   useEffect(() => {
+//     const fetchCurrencies = async () => {
+//       setIsLoading(true);
+//       setError(null);
+//       try {
+//         const currencies = await currencyService.getAllCurrencies(false);
+//         setAvailableCurrencies(currencies);
+//       } catch (err: any) {
+//         console.error("Error fetching currencies for dropdown:", err);
+//         setError(err.message || "Failed to load currencies");
+//       } finally {
+//         setIsLoading(false);
+//       }
+//     };
+//     fetchCurrencies();
+//   }, []);
+
+//   const toggleDropdown = () => {
+//     if (!disabled && !isLoading) {
+//       setIsOpen(!isOpen);
+//     }
+//   };
+
+//   const handleCurrencyChange = (currencyCode: string) => {
+//     onCurrencyChange(currencyCode);
+//     setIsOpen(false);
+//     setSearchQuery("");
+//   };
+
+//   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+//     setSearchQuery(event.target.value);
+//   };
+
+//   const filteredCurrencies = useMemo(() => {
+//     return availableCurrencies
+//       .filter((currency) => currency.code !== "INR") // Exclude INR if needed
+//       .filter(
+//         (currency) =>
+//           currency.currencyName
+//             .toLowerCase()
+//             .includes(searchQuery.toLowerCase()) ||
+//           currency.code.toLowerCase().includes(searchQuery.toLowerCase())
+//       )
+//       .sort((a, b) => a.code.localeCompare(b.code));
+//   }, [availableCurrencies, searchQuery]);
+
+//   useEffect(() => {
+//     const handleClickOutside = (event: MouseEvent) => {
+//       if (
+//         dropdownRef.current &&
+//         !dropdownRef.current.contains(event.target as Node)
+//       ) {
+//         setIsOpen(false);
+//       }
+//     };
+//     if (isOpen) {
+//       document.addEventListener("mousedown", handleClickOutside);
+//     }
+//     return () => {
+//       document.removeEventListener("mousedown", handleClickOutside);
+//     };
+//   }, [isOpen]);
+
+//   const selectedCurrencyData = useMemo(() => {
+//     return availableCurrencies.find((c) => c.code === selectedCurrency);
+//   }, [selectedCurrency, availableCurrencies]);
+
+//   const getFlagSrc = (
+//     currency: Currency | undefined
+//   ): StaticImageData | string => {
+//     if (currency?.flagImage) {
+//       if (
+//         currency.flagImage.startsWith("http") ||
+//         currency.flagImage.startsWith("/")
+//       ) {
+//         return currency.flagImage;
+//       } else {
+//         return `/assets/icon/${currency.flagImage}`;
+//       } // Adjust path if needed
+//     }
+//     return defaultFlag;
+//   };
+
+//   const isExternalUrl = (src: string | StaticImageData): src is string => {
+//     return (
+//       typeof src === "string" && (src.startsWith("http") || src.startsWith("/"))
+//     );
+//   };
+
+//   return (
+//     <div className="relative" ref={dropdownRef}>
+//       <button
+//         type="button"
+//         className={`flex items-center justify-between gap-2 px-3 h-full cursor-pointer ${
+//           disabled || isLoading ? "opacity-50 cursor-not-allowed" : ""
+//         }`}
+//         onClick={toggleDropdown}
+//         aria-haspopup="listbox"
+//         aria-expanded={isOpen}
+//         disabled={disabled || isLoading}
+//       >
+//         {isLoading ? (
+//           <Loader2 className="size-5 animate-spin mx-auto text-primary" />
+//         ) : (
+//           <>
+//             <div className="flex items-center gap-2">
+//               <Image
+//                 src={getFlagSrc(selectedCurrencyData)}
+//                 alt={`${selectedCurrency || "flag"}-Flag`}
+//                 width={24}
+//                 height={24}
+//                 className="rounded-full flex-shrink-0"
+//                 unoptimized={isExternalUrl(getFlagSrc(selectedCurrencyData))}
+//                 onError={(e) => {
+//                   (e.target as HTMLImageElement).src = defaultFlag.src;
+//                 }}
+//               />
+//               <p className="text-mainheading dark:text-white lg:text-base text-sm font-semibold">
+//                 {selectedCurrency || "Select"}
+//               </p>
+//             </div>
+//             {/* Animate Arrow Rotation */}
+//             <motion.div
+//               animate={{ rotate: isOpen ? 180 : 0 }}
+//               transition={{ duration: 0.3 }}
+//             >
+//               <IoIosArrowDown
+//                 size={20}
+//                 className="text-mainheading size-4 dark:text-white flex-shrink-0"
+//               />
+//             </motion.div>
+//           </>
+//         )}
+//       </button>
+//       {/* Wrap the dropdown content with AnimatePresence */}
+//       <AnimatePresence>
+//         {isOpen && (
+//           // Add motion.div for container animation
+//           <motion.div
+//             key="dropdown-content"
+//             className="absolute z-50 lg:w-[400px] w-72 max-w-[90vw] top-14 -right-5 sm:right-0 bg-white dark:bg-background rounded-lg border shadow-lg overflow-hidden"
+//             // Origin for potential scale transforms, though we primarily use y here
+//             style={{ transformOrigin: "top center" }}
+//             variants={dropdownContainerVariants}
+//             initial="hidden"
+//             animate="visible"
+//             exit="hidden" // Use hidden state for exit to reverse entrance
+//           >
+//             {/* Search Input (Static within the animated container) */}
+//             <div className="sticky top-0 bg-white dark:bg-background p-2 border-b z-10">
+//               <div className="relative">
+//                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+//                   {" "}
+//                   <BiSearch className="lg:size-5 size-4 text-gray-400" />{" "}
+//                 </div>
+//                 <input
+//                   type="text"
+//                   placeholder="Type a currency / country"
+//                   className="border text-mainheading dark:text-white text-sm rounded-lg focus:outline-none block w-full pl-10 px-4 py-3 bg-white dark:bg-background"
+//                   value={searchQuery}
+//                   onChange={handleSearchChange}
+//                   aria-label="Search Currencies"
+//                   autoFocus
+//                 />
+//               </div>
+//             </div>
+
+//             {/* Scrollable List */}
+//             <div
+//               className="p-2 pb-4 max-h-[310px] overflow-x-hidden overflow-y-auto sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox"
+//               role="listbox"
+//             >
+//               {/* Loading State */}
+//               {isLoading && (
+//                 <div className="flex justify-center items-center py-10">
+//                   {" "}
+//                   <Loader2 className="h-8 w-8 animate-spin text-primary" />{" "}
+//                 </div>
+//               )}
+//               {/* Error State */}
+//               {!isLoading && error && (
+//                 <div className="p-3 text-center text-red-600">
+//                   {" "}
+//                   Error: {error}{" "}
+//                 </div>
+//               )}
+//               {/* Currency List */}
+//               {!isLoading && !error && filteredCurrencies.length > 0 && (
+//                 <ul className="space-y-1">
+//                   {" "}
+//                   {/* Slightly reduced spacing */}
+//                   {filteredCurrencies.map((currency) => {
+//                     const flagSrc = getFlagSrc(currency);
+//                     return (
+//                       // Wrap each list item with motion.li for staggered animation
+//                       <motion.li
+//                         key={currency.code}
+//                         variants={listItemVariants}
+//                         // initial, animate, exit will be handled by the parent's stagger
+//                         onClick={() => handleCurrencyChange(currency.code)}
+//                         className={`flex items-center justify-between p-3 rounded-md dark:hover:bg-white/10 hover:bg-lightgray cursor-pointer focus:outline-none focus:bg-gray-100 dark:focus:bg-white/10 ${
+//                           selectedCurrency === currency.code
+//                             ? "dark:bg-white/10 bg-lightgray"
+//                             : ""
+//                         }`} // Improved dark focus/selection
+//                         role="option"
+//                         aria-selected={selectedCurrency === currency.code}
+//                         tabIndex={0}
+//                         onKeyDown={(e) => {
+//                           if (e.key === "Enter" || e.key === " ") {
+//                             e.preventDefault();
+//                             handleCurrencyChange(currency.code);
+//                           }
+//                         }}
+//                       >
+//                         <div className="flex items-center gap-3">
+//                           <Image
+//                             src={flagSrc}
+//                             alt={`${currency.code}-Flag`}
+//                             width={32}
+//                             height={32}
+//                             className="size-8 rounded-full"
+//                             unoptimized={isExternalUrl(flagSrc)}
+//                             onError={(e) => {
+//                               (e.target as HTMLImageElement).src =
+//                                 defaultFlag.src;
+//                             }}
+//                           />
+//                           <div className="flex flex-col">
+//                             {" "}
+//                             <span className="font-medium text-mainheading lg:text-base text-sm dark:text-white">
+//                               {currency.code}
+//                             </span>{" "}
+//                             <span className="text-gray-500 dark:text-gray-300 lg:text-sm text-[10px]">
+//                               {" "}
+//                               {currency.currencyName}{" "}
+//                             </span>{" "}
+//                           </div>
+//                         </div>
+//                         {selectedCurrency === currency.code && (
+//                           <GiCheckMark className="text-primary size-5" />
+//                         )}
+//                       </motion.li> // End motion.li
+//                     );
+//                   })}
+//                 </ul>
+//               )}
+//               {/* No Results */}
+//               {!isLoading &&
+//                 !error &&
+//                 filteredCurrencies.length === 0 &&
+//                 searchQuery && (
+//                   <div className="p-3 text-center text-gray-500 dark:text-gray-300">
+//                     {" "}
+//                     No currencies found for "{searchQuery}"{" "}
+//                   </div>
+//                 )}
+//               {/* No Currencies Loaded */}
+//               {!isLoading &&
+//                 !error &&
+//                 availableCurrencies.length === 0 &&
+//                 !searchQuery && (
+//                   <div className="p-3 text-center text-gray-500 dark:text-gray-300">
+//                     {" "}
+//                     No currencies available.{" "}
+//                   </div>
+//                 )}
+//             </div>
+//           </motion.div> // End motion.div for dropdown content
+//         )}
+//       </AnimatePresence>{" "}
+//       {/* End AnimatePresence */}
+//     </div>
+//   );
+// };
+
+// export default CurrencyDropdown;
 
 // app/components/ui/CountryDropdown.tsx
 "use client";
@@ -2738,8 +3099,12 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
       ) {
         return currency.flagImage;
       } else {
-        return `/assets/icon/${currency.flagImage}`;
-      } // Adjust path if needed
+        // Assuming your flags are in public/assets/icon/flags/{currency.flagImage}
+        // And currency.flagImage is something like "eur.svg" or "usd.png"
+        // Adjust this path if your structure is different.
+        // For example, if flagImage is 'flags/eur.svg', then just use `${currency.flagImage}`
+        return `/assets/icon/flags/${currency.flagImage}`; // Example adjustment
+      }
     }
     return defaultFlag;
   };
@@ -2754,7 +3119,7 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
     <div className="relative" ref={dropdownRef}>
       <button
         type="button"
-        className={`flex items-center justify-between gap-2 px-3 h-full cursor-pointer ${
+        className={`flex items-center justify-between gap-2 px-3 cursor-pointer ${
           disabled || isLoading ? "opacity-50 cursor-not-allowed" : ""
         }`}
         onClick={toggleDropdown}
@@ -2770,102 +3135,86 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
               <Image
                 src={getFlagSrc(selectedCurrencyData)}
                 alt={`${selectedCurrency || "flag"}-Flag`}
-                width={24}
-                height={24}
+                width={30}
+                height={30}
                 className="rounded-full flex-shrink-0"
                 unoptimized={isExternalUrl(getFlagSrc(selectedCurrencyData))}
                 onError={(e) => {
                   (e.target as HTMLImageElement).src = defaultFlag.src;
                 }}
               />
-              <p className="text-mainheading dark:text-white lg:text-base text-sm font-semibold">
+              <p className="text-white lg:text-base text-sm font-semibold">
                 {selectedCurrency || "Select"}
               </p>
             </div>
-            {/* Animate Arrow Rotation */}
             <motion.div
               animate={{ rotate: isOpen ? 180 : 0 }}
               transition={{ duration: 0.3 }}
             >
               <IoIosArrowDown
                 size={20}
-                className="text-mainheading size-4 dark:text-white flex-shrink-0"
+                className="size-5 text-white flex-shrink-0"
               />
             </motion.div>
           </>
         )}
       </button>
-      {/* Wrap the dropdown content with AnimatePresence */}
       <AnimatePresence>
         {isOpen && (
-          // Add motion.div for container animation
           <motion.div
             key="dropdown-content"
-            className="absolute z-50 lg:w-[400px] w-72 max-w-[90vw] top-14 -right-5 sm:right-0 bg-white dark:bg-background rounded-lg border shadow-lg overflow-hidden"
-            // Origin for potential scale transforms, though we primarily use y here
+            className="absolute z-50 lg:w-[400px] w-72 max-w-[90vw] top-14 -right-5 sm:right-0 bg-primary-foreground rounded-lg border shadow-lg overflow-hidden"
             style={{ transformOrigin: "top center" }}
             variants={dropdownContainerVariants}
             initial="hidden"
             animate="visible"
-            exit="hidden" // Use hidden state for exit to reverse entrance
+            exit="hidden"
           >
-            {/* Search Input (Static within the animated container) */}
-            <div className="sticky top-0 bg-white dark:bg-background p-2 border-b z-10">
+            <div className="sticky top-0  p-2 border-b z-10">
               <div className="relative">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  {" "}
-                  <BiSearch className="lg:size-5 size-4 text-gray-400" />{" "}
+                  <BiSearch className="lg:size-5 size-4 text-gray-400" />
                 </div>
                 <input
                   type="text"
                   placeholder="Type a currency / country"
-                  className="border text-mainheading dark:text-white text-sm rounded-lg focus:outline-none block w-full pl-10 px-4 py-3 bg-white dark:bg-background"
+                  className="border text-mainheading dark:text-white text-sm rounded-lg focus:border-[#5f5f5f] focus:outline-none block w-full pl-10 px-4 py-3 bg-white dark:bg-background"
                   value={searchQuery}
                   onChange={handleSearchChange}
                   aria-label="Search Currencies"
-                  autoFocus
+                  // autoFocus attribute removed from here
                 />
               </div>
             </div>
 
-            {/* Scrollable List */}
             <div
-              className="p-2 pb-4 max-h-[310px] overflow-x-hidden overflow-y-auto [&::-webkit-scrollbar]:w-3 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox"
+              className="p-2 pb-4 max-h-[310px] overflow-x-hidden overflow-y-auto sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox"
               role="listbox"
             >
-              {/* Loading State */}
               {isLoading && (
                 <div className="flex justify-center items-center py-10">
-                  {" "}
-                  <Loader2 className="h-8 w-8 animate-spin text-primary" />{" "}
+                  <Loader2 className="h-8 w-8 animate-spin text-primary" />
                 </div>
               )}
-              {/* Error State */}
               {!isLoading && error && (
                 <div className="p-3 text-center text-red-600">
-                  {" "}
-                  Error: {error}{" "}
+                  Error: {error}
                 </div>
               )}
-              {/* Currency List */}
               {!isLoading && !error && filteredCurrencies.length > 0 && (
                 <ul className="space-y-1">
-                  {" "}
-                  {/* Slightly reduced spacing */}
                   {filteredCurrencies.map((currency) => {
                     const flagSrc = getFlagSrc(currency);
                     return (
-                      // Wrap each list item with motion.li for staggered animation
                       <motion.li
                         key={currency.code}
                         variants={listItemVariants}
-                        // initial, animate, exit will be handled by the parent's stagger
                         onClick={() => handleCurrencyChange(currency.code)}
                         className={`flex items-center justify-between p-3 rounded-md dark:hover:bg-white/10 hover:bg-lightgray cursor-pointer focus:outline-none focus:bg-gray-100 dark:focus:bg-white/10 ${
                           selectedCurrency === currency.code
                             ? "dark:bg-white/10 bg-lightgray"
                             : ""
-                        }`} // Improved dark focus/selection
+                        }`}
                         role="option"
                         aria-selected={selectedCurrency === currency.code}
                         tabIndex={0}
@@ -2890,49 +3239,42 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                             }}
                           />
                           <div className="flex flex-col">
-                            {" "}
                             <span className="font-medium text-mainheading lg:text-base text-sm dark:text-white">
                               {currency.code}
-                            </span>{" "}
+                            </span>
                             <span className="text-gray-500 dark:text-gray-300 lg:text-sm text-[10px]">
-                              {" "}
-                              {currency.currencyName}{" "}
-                            </span>{" "}
+                              {currency.currencyName}
+                            </span>
                           </div>
                         </div>
                         {selectedCurrency === currency.code && (
                           <GiCheckMark className="text-primary size-5" />
                         )}
-                      </motion.li> // End motion.li
+                      </motion.li>
                     );
                   })}
                 </ul>
               )}
-              {/* No Results */}
               {!isLoading &&
                 !error &&
                 filteredCurrencies.length === 0 &&
                 searchQuery && (
                   <div className="p-3 text-center text-gray-500 dark:text-gray-300">
-                    {" "}
-                    No currencies found for "{searchQuery}"{" "}
+                    No currencies found for "{searchQuery}"
                   </div>
                 )}
-              {/* No Currencies Loaded */}
               {!isLoading &&
                 !error &&
                 availableCurrencies.length === 0 &&
                 !searchQuery && (
                   <div className="p-3 text-center text-gray-500 dark:text-gray-300">
-                    {" "}
-                    No currencies available.{" "}
+                    No currencies available.
                   </div>
                 )}
             </div>
-          </motion.div> // End motion.div for dropdown content
+          </motion.div>
         )}
-      </AnimatePresence>{" "}
-      {/* End AnimatePresence */}
+      </AnimatePresence>
     </div>
   );
 };

@@ -2371,6 +2371,698 @@
 
 // export default AdminInboxPage;
 
+// // frontend/src/app/admin/inbox/page.tsx
+// "use client";
+
+// import React, { useState, useEffect, useCallback, useMemo } from "react";
+// import { useRouter } from "next/navigation";
+// import { motion, AnimatePresence } from "framer-motion";
+
+// // Auth & Services
+// import { useAuth } from "@/app/contexts/AuthContext";
+// import inboxAdminService, {
+//   AdminUpdatePayload,
+// } from "../../../services/admin/inbox";
+// import type { AdminInboxMessage } from "../../../services/admin/inbox";
+
+// // Custom Components
+// import GenericFilters, {
+//   FiltersState as GenericFiltersState,
+// } from "../../components/GenericFilters";
+// import EditMessageModal from "../../components/message/inbox/EditMessageModal";
+// import DeleteConfirmationModal from "../../components/message/inbox/DeleteConfirmationModal";
+// import InboxTable from "../../components/message/inbox/InboxTable";
+// import { InboxSortField } from "../../components/message/inbox/InboxTableHeader";
+// import Pagination from "../../components/Pagination";
+
+// // Icons
+// import {
+//   MessageSquare,
+//   RefreshCw,
+//   Check,
+//   X as XIcon,
+//   Filter,
+//   Inbox,
+// } from "lucide-react";
+// import { FaInbox } from "react-icons/fa";
+
+// const ITEMS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
+
+// interface InboxPageFiltersState {
+//   searchTerm: string;
+//   senderInput: string;
+//   fromDate: string; // Expects dd-MM-yyyy from DateInput via GenericFilters
+//   toDate: string; // Expects dd-MM-yyyy from DateInput via GenericFilters
+//   statusFilter: string;
+// }
+
+// // Helper function to parse date string (dd-MM-yyyy)
+// function parseDateString(dateString: string): Date | null {
+//   if (!dateString) return null;
+//   const parts = dateString.split("-");
+//   if (parts.length === 3) {
+//     // Lenient parsing: Allow single/double digits for day/month
+//     if (
+//       !/^\d{1,2}$/.test(parts[0]) ||
+//       !/^\d{1,2}$/.test(parts[1]) ||
+//       !/^\d{4}$/.test(parts[2])
+//     ) {
+//       console.warn("Invalid date parts format:", parts, "Expected dd-MM-yyyy");
+//       return null;
+//     }
+//     const day = parseInt(parts[0], 10);
+//     const month = parseInt(parts[1], 10) - 1; // JS months are 0-indexed
+//     const year = parseInt(parts[2], 10);
+
+//     // Basic range checks
+//     if (
+//       day < 1 ||
+//       day > 31 ||
+//       month < 0 ||
+//       month > 11 ||
+//       year < 1900 ||
+//       year > 3000
+//     ) {
+//       console.warn("Date components out of range:", {
+//         day,
+//         month: month + 1,
+//         year,
+//       });
+//       return null;
+//     }
+//     // Use UTC to avoid timezone issues if dates are stored/compared in UTC
+//     const date = new Date(Date.UTC(year, month, day));
+//     // Verify the date wasn't adjusted due to invalid day/month combo (e.g., Feb 30th)
+//     if (
+//       date.getUTCFullYear() === year &&
+//       date.getUTCMonth() === month &&
+//       date.getUTCDate() === day
+//     ) {
+//       return date;
+//     } else {
+//       console.warn(
+//         "Date validation failed after construction (e.g., invalid day for month):",
+//         dateString
+//       );
+//       return null;
+//     }
+//   }
+//   console.warn(
+//     "Could not parse date string (expected dd-MM-yyyy):",
+//     dateString
+//   );
+//   return null;
+// }
+
+// const AdminInboxPage: React.FC = () => {
+//   const router = useRouter();
+//   const { token, isAdmin, loading: authLoading } = useAuth();
+
+//   const [allMessages, setAllMessages] = useState<AdminInboxMessage[]>([]);
+//   const [displayedMessages, setDisplayedMessages] = useState<
+//     AdminInboxMessage[]
+//   >([]);
+
+//   const [totalMessagesCount, setTotalMessagesCount] = useState<number>(0);
+//   const [totalPages, setTotalPages] = useState<number>(0);
+
+//   const [loadingMessages, setLoadingMessages] = useState<boolean>(true);
+//   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+//   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+//   const [currentPage, setCurrentPage] = useState<number>(1);
+//   const [itemsPerPage, setItemsPerPage] = useState<number>(
+//     ITEMS_PER_PAGE_OPTIONS[0]
+//   );
+
+//   const [deletingId, setDeletingId] = useState<string | null>(null);
+//   const [showDeleteConfirm, setShowDeleteConfirm] =
+//     useState<AdminInboxMessage | null>(null);
+
+//   const [editingMessage, setEditingMessage] =
+//     useState<AdminInboxMessage | null>(null);
+//   const [showEditDialog, setShowEditDialog] = useState<boolean>(false);
+//   const [updatingId, setUpdatingId] = useState<string | null>(null);
+
+//   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+
+//   const [sortField, setSortField] = useState<InboxSortField | null>("sentAt");
+//   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
+
+//   const [showFilterModal, setShowFilterModal] = useState<boolean>(false);
+//   const [filters, setFilters] = useState<InboxPageFiltersState>({
+//     searchTerm: "",
+//     senderInput: "",
+//     fromDate: "",
+//     toDate: "",
+//     statusFilter: "all",
+//   });
+
+//   const statusOptionsForFilter = useMemo(() => ["all", "read", "unread"], []);
+//   const currencyOptionsForFilter = useMemo(() => ["all"], []);
+
+//   const fetchInboxMessages = useCallback(async () => {
+//     if (authLoading) return;
+//     if (!token) {
+//       router.push("/auth/login?message=login_required");
+//       return;
+//     }
+//     if (!isAdmin) {
+//       setErrorMessage("Access Denied: Administrator privileges required.");
+//       setLoadingMessages(false);
+//       return;
+//     }
+
+//     setLoadingMessages(true);
+//     setIsRefreshing(true);
+//     setErrorMessage(null);
+//     try {
+//       const data = await inboxAdminService.getAllMessagesAdmin(1, 10000);
+
+//       if (data.messages.length > 0 && data.messages[0].body === undefined) {
+//         console.warn(
+//           "Warning: Message 'body' is not being fetched. Editing will not work correctly."
+//         );
+//       }
+//       setAllMessages(data.messages);
+//     } catch (err: any) {
+//       console.error("Fetch admin inbox error:", err);
+//       setErrorMessage(err.message || "Failed to load inbox messages.");
+//       setAllMessages([]);
+//       setTotalMessagesCount(0);
+//     } finally {
+//       setLoadingMessages(false);
+//       setIsRefreshing(false);
+//     }
+//   }, [token, isAdmin, authLoading, router]);
+
+//   useEffect(() => {
+//     fetchInboxMessages();
+//   }, [fetchInboxMessages]);
+
+//   useEffect(() => {
+//     let processedMessages = [...allMessages];
+
+//     // 1. Apply Filters
+//     if (filters.searchTerm) {
+//       const term = filters.searchTerm.toLowerCase();
+//       processedMessages = processedMessages.filter(
+//         (msg) =>
+//           msg.userId?._id.toLowerCase().includes(term) ||
+//           (msg.userId?.fullName &&
+//             msg.userId.fullName.toLowerCase().includes(term)) ||
+//           (msg.userId?.email && msg.userId.email.toLowerCase().includes(term))
+//       );
+//     }
+
+//     if (filters.senderInput) {
+//       const senderTerm = filters.senderInput.toLowerCase();
+//       processedMessages = processedMessages.filter(
+//         (msg) => msg.sender && msg.sender.toLowerCase().includes(senderTerm)
+//       );
+//     }
+
+//     if (filters.statusFilter && filters.statusFilter !== "all") {
+//       const isReadStatus = filters.statusFilter === "read";
+//       processedMessages = processedMessages.filter(
+//         (msg) => msg.isRead === isReadStatus
+//       );
+//     }
+
+//     // Date Filtering using the new logic
+//     const fromDateObj = parseDateString(filters.fromDate);
+//     const toDateObj = parseDateString(filters.toDate);
+
+//     if (fromDateObj) {
+//       fromDateObj.setUTCHours(0, 0, 0, 0); // Start of the day in UTC
+//       processedMessages = processedMessages.filter((msg) => {
+//         if (!msg.sentAt) return false;
+//         try {
+//           const messageDate = new Date(msg.sentAt); // Assuming sentAt is a valid ISO string or Date object
+//           // Compare timestamps for accuracy
+//           return (
+//             !isNaN(messageDate.getTime()) &&
+//             messageDate.getTime() >= fromDateObj.getTime()
+//           );
+//         } catch {
+//           return false;
+//         }
+//       });
+//     }
+//     if (toDateObj) {
+//       toDateObj.setUTCHours(23, 59, 59, 999); // End of the day in UTC
+//       processedMessages = processedMessages.filter((msg) => {
+//         if (!msg.sentAt) return false;
+//         try {
+//           const messageDate = new Date(msg.sentAt); // Assuming sentAt is a valid ISO string or Date object
+//           // Compare timestamps
+//           return (
+//             !isNaN(messageDate.getTime()) &&
+//             messageDate.getTime() <= toDateObj.getTime()
+//           );
+//         } catch {
+//           return false;
+//         }
+//       });
+//     }
+
+//     // 2. Apply Sorting
+//     if (sortField) {
+//       processedMessages.sort((a, b) => {
+//         let valA: any;
+//         let valB: any;
+//         switch (sortField) {
+//           case "status":
+//             valA = a.isRead;
+//             valB = b.isRead;
+//             break;
+//           case "recipient":
+//             valA = (a.userId?.fullName || a.userId?.email || "").toLowerCase();
+//             valB = (b.userId?.fullName || b.userId?.email || "").toLowerCase();
+//             break;
+//           case "sender":
+//             valA = (a.sender || "").toLowerCase();
+//             valB = (b.sender || "").toLowerCase();
+//             break;
+//           case "subject":
+//             valA = (a.subject || "").toLowerCase();
+//             valB = (b.subject || "").toLowerCase();
+//             break;
+//           case "sentAt":
+//             valA = a.sentAt ? new Date(a.sentAt).getTime() : 0;
+//             valB = b.sentAt ? new Date(b.sentAt).getTime() : 0;
+//             break;
+//           default:
+//             return 0;
+//         }
+//         if (valA < valB) return sortDirection === "asc" ? -1 : 1;
+//         if (valA > valB) return sortDirection === "asc" ? 1 : -1;
+//         return 0;
+//       });
+//     }
+
+//     setTotalMessagesCount(processedMessages.length);
+//     const newTotalPages = Math.ceil(processedMessages.length / itemsPerPage);
+//     setTotalPages(newTotalPages);
+
+//     let newCurrentPage = currentPage;
+//     if (newCurrentPage > newTotalPages && newTotalPages > 0) {
+//       newCurrentPage = newTotalPages;
+//     } else if (newCurrentPage <= 0 && newTotalPages > 0) {
+//       newCurrentPage = 1;
+//     } else if (newTotalPages === 0) {
+//       newCurrentPage = 1;
+//     }
+//     if (
+//       currentPage !== newCurrentPage &&
+//       !(currentPage === 1 && newTotalPages === 0)
+//     ) {
+//       setCurrentPage(newCurrentPage);
+//     }
+
+//     const startIndex = (newCurrentPage - 1) * itemsPerPage;
+//     const endIndex = startIndex + itemsPerPage;
+//     setDisplayedMessages(processedMessages.slice(startIndex, endIndex));
+//   }, [
+//     allMessages,
+//     filters,
+//     sortField,
+//     sortDirection,
+//     currentPage,
+//     itemsPerPage,
+//   ]);
+
+//   const displayMessage = (type: "success" | "error", message: string) => {
+//     if (type === "success") setSuccessMessage(message);
+//     else setErrorMessage(message);
+//     setTimeout(() => {
+//       setSuccessMessage(null);
+//       setErrorMessage(null);
+//     }, 5000);
+//   };
+
+//   const goToPage = (newPage: number) => {
+//     if (newPage > 0 && newPage !== currentPage && newPage <= totalPages) {
+//       setCurrentPage(newPage);
+//     } else if (newPage < 1 && totalPages > 0) {
+//       setCurrentPage(1);
+//     } else if (newPage > totalPages && totalPages > 0) {
+//       setCurrentPage(totalPages);
+//     }
+//   };
+//   const paginate = (pageNumber: number) => goToPage(pageNumber);
+//   const goToPreviousPage = () => goToPage(currentPage - 1);
+//   const goToNextPage = () => goToPage(currentPage + 1);
+
+//   const handleRefresh = () => {
+//     if (!loadingMessages && !isRefreshing) {
+//       fetchInboxMessages();
+//     }
+//   };
+
+//   const handlePageSizeChange = (size: number) => {
+//     setItemsPerPage(size);
+//     setCurrentPage(1);
+//   };
+
+//   const toggleInboxSort = (field: InboxSortField) => {
+//     const newDirection =
+//       sortField === field && sortDirection === "asc" ? "desc" : "asc";
+//     setSortField(field);
+//     setSortDirection(newDirection);
+//     setCurrentPage(1);
+//   };
+
+//   const handleApplyInboxFilters = useCallback(
+//     (newGenericFilters: GenericFiltersState) => {
+//       setFilters({
+//         searchTerm: newGenericFilters.searchTerm,
+//         senderInput: newGenericFilters.recipientFilter || "",
+//         fromDate: newGenericFilters.fromDate, // fromDate from GenericFilters (expected as dd-MM-yyyy)
+//         toDate: newGenericFilters.toDate, // toDate from GenericFilters (expected as dd-MM-yyyy)
+//         statusFilter: newGenericFilters.statusFilter,
+//       });
+//       setCurrentPage(1);
+//     },
+//     []
+//   );
+
+//   const handleClearInboxFilters = useCallback(() => {
+//     setFilters({
+//       searchTerm: "",
+//       senderInput: "",
+//       fromDate: "",
+//       toDate: "",
+//       statusFilter: "all",
+//     });
+//     setCurrentPage(1);
+//   }, []);
+
+//   const openDeleteConfirmation = (message: AdminInboxMessage) =>
+//     setShowDeleteConfirm(message);
+//   const closeDeleteConfirmation = () => setShowDeleteConfirm(null);
+
+//   const handleDeleteMessage = async () => {
+//     if (!showDeleteConfirm) return;
+//     const messageIdToDelete = showDeleteConfirm._id;
+//     setDeletingId(messageIdToDelete);
+//     closeDeleteConfirmation();
+//     try {
+//       await inboxAdminService.deleteMessageAdmin(messageIdToDelete);
+//       displayMessage(
+//         "success",
+//         `Message (${messageIdToDelete.slice(-6)}) deleted successfully.`
+//       );
+
+//       const updatedAllMessages = allMessages.filter(
+//         (msg) => msg._id !== messageIdToDelete
+//       );
+//       setAllMessages(updatedAllMessages);
+//     } catch (err: any) {
+//       console.error("Delete message error:", err);
+//       displayMessage("error", `Failed to delete message: ${err.message}`);
+//     } finally {
+//       setDeletingId(null);
+//     }
+//   };
+
+//   const openEditDialog = (message: AdminInboxMessage) => {
+//     setEditingMessage(message);
+//     setShowEditDialog(true);
+//   };
+//   const closeEditDialog = () => {
+//     setShowEditDialog(false);
+//     setEditingMessage(null);
+//     setUpdatingId(null);
+//   };
+
+//   const handleSaveMessageUpdate = async (
+//     id: string,
+//     subject: string,
+//     body: string
+//   ) => {
+//     if (!editingMessage || updatingId) return;
+//     setUpdatingId(editingMessage._id);
+//     try {
+//       const payload: AdminUpdatePayload = { subject, body };
+//       if (!payload.subject || !payload.body) {
+//         displayMessage("error", "Subject and body cannot be empty.");
+//         setUpdatingId(null);
+//         return;
+//       }
+//       const updatedMsg = await inboxAdminService.updateMessageAdmin(
+//         editingMessage._id,
+//         payload
+//       );
+//       displayMessage(
+//         "success",
+//         `Message (${editingMessage._id.slice(-6)}) updated successfully.`
+//       );
+
+//       setAllMessages((prev) =>
+//         prev.map((msg) =>
+//           msg._id === id ? { ...msg, ...payload, ...updatedMsg } : msg
+//         )
+//       );
+
+//       closeEditDialog();
+//     } catch (err: any) {
+//       console.error("Update message error:", err);
+//       displayMessage("error", `Failed to update message: ${err.message}`);
+//       setUpdatingId(null);
+//     }
+//   };
+
+//   const initialGenericFilters: GenericFiltersState = useMemo(
+//     () => ({
+//       searchTerm: filters.searchTerm,
+//       fromDate: filters.fromDate,
+//       toDate: filters.toDate,
+//       statusFilter: filters.statusFilter,
+//       currencyFilter: "all",
+//       idFilter: "",
+//       amountFilter: "",
+//       recipientFilter: filters.senderInput,
+//     }),
+//     [filters]
+//   );
+
+//   return (
+//     <div className="container mx-auto px-4 py-5 relative">
+//       <div className="space-y-6">
+//         {/* Header */}
+
+//         <div className="flex flex-wrap justify-between items-center gap-4">
+//           <div className="inbox-massage">
+//             <div className="flex flex-wrap items-center gap-3">
+//               <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
+//                 <FaInbox className="size-6 text-mainheading dark:text-primary" />
+//               </div>
+
+//               <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+//                 Admin Inbox
+//               </h1>
+//             </div>
+
+//             <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+//               Admin Inbox: View and manage all messages sent to users. Track
+//               message status, details, and perform actions like editing.
+//             </p>
+//           </div>
+
+//           <div className="flex items-center gap-3 justify-end sm:w-auto w-full">
+//             <button
+//               onClick={() => setShowFilterModal(true)}
+//               className="flex items-center justify-center cursor-pointer gap-2 bg-primary text-neutral-900 font-medium text-base px-6 sm:px-8 py-3 h-12.5 sm:w-auto w-full rounded-full hover:bg-primaryhover transition-all duration-75 ease-linear"
+//             >
+//               <Filter size={18} />
+//               Filters
+//             </button>
+//             <button
+//               onClick={handleRefresh}
+//               disabled={isRefreshing || loadingMessages}
+//               className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-6 sm:px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
+//               title="Refresh inbox data"
+//             >
+//               <RefreshCw
+//                 className={`size-5 ${isRefreshing ? "animate-spin" : ""}`}
+//               />
+//               <span>Refresh</span>
+//             </button>
+//           </div>
+//         </div>
+
+//         {/* Success/Error Messages */}
+//         <AnimatePresence>
+//           {successMessage && (
+//             <motion.div
+//               initial={{ opacity: 0, y: -10 }}
+//               animate={{ opacity: 1, y: 0 }}
+//               exit={{ opacity: 0, y: -10 }}
+//               className="p-3 rounded-md bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700/50 flex justify-between items-center"
+//             >
+//               <div className="flex items-center gap-2">
+//                 <Check
+//                   className="text-green-600 dark:text-green-400"
+//                   size={18}
+//                 />
+//                 <p className="text-sm font-medium text-green-800 dark:text-green-300">
+//                   {successMessage}
+//                 </p>
+//               </div>
+//               <button
+//                 onClick={() => setSuccessMessage(null)}
+//                 className="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-200"
+//               >
+//                 <XIcon size={18} />
+//               </button>
+//             </motion.div>
+//           )}
+//         </AnimatePresence>
+
+//         <AnimatePresence>
+//           {errorMessage && (
+//             <motion.div
+//               initial={{ opacity: 0, y: -10 }}
+//               animate={{ opacity: 1, y: 0 }}
+//               exit={{ opacity: 0, y: -10 }}
+//               className="p-3 rounded-md bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700/50 flex justify-between items-center"
+//             >
+//               <div className="flex items-center gap-2">
+//                 <XIcon className="text-red-600 dark:text-red-400" size={18} />
+//                 <p className="text-sm font-medium text-red-800 dark:text-red-300">
+//                   {errorMessage}
+//                 </p>
+//               </div>
+//               <button
+//                 onClick={() => setErrorMessage(null)}
+//                 className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200"
+//               >
+//                 <XIcon size={18} />
+//               </button>
+//             </motion.div>
+//           )}
+//         </AnimatePresence>
+
+//         {/* Pagination and Page Size Controls */}
+//         <div className="flex flex-wrap justify-between items-center gap-4 mb-4">
+//           <div className="flex items-center gap-2">
+//             <label
+//               htmlFor="itemsPerPage"
+//               className="text-sm font-medium text-gray-500 dark:text-gray-300 whitespace-nowrap"
+//             >
+//               Show:
+//             </label>
+//             <select
+//               id="itemsPerPage"
+//               value={itemsPerPage}
+//               onChange={(e) => handlePageSizeChange(Number(e.target.value))}
+//               className="block w-auto pl-3 pr-8 py-2 text-sm border rounded-md focus:outline-none bg-white dark:bg-primarybox dark:text-white cursor-pointer"
+//               disabled={loadingMessages || isRefreshing}
+//             >
+//               {ITEMS_PER_PAGE_OPTIONS.map((size) => (
+//                 <option
+//                   key={size}
+//                   value={size}
+//                   className="dark:bg-dropdowncolor cursor-pointer"
+//                 >
+//                   {size}
+//                 </option>
+//               ))}
+//             </select>
+//             <span className="text-sm font-medium text-gray-500 dark:text-gray-300 whitespace-nowrap">
+//               entries
+//             </span>
+//           </div>
+//           <p className="text-sm text-gray-500 dark:text-gray-300">
+//             Showing{" "}
+//             {displayedMessages.length > 0
+//               ? (currentPage - 1) * itemsPerPage + 1
+//               : 0}
+//             - {Math.min(currentPage * itemsPerPage, totalMessagesCount)} of{" "}
+//             {totalMessagesCount} results
+//             {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
+//           </p>
+//         </div>
+
+//         {/* Inbox Table */}
+//         <InboxTable
+//           messages={displayedMessages}
+//           loading={
+//             (loadingMessages &&
+//               allMessages.length === 0 &&
+//               !filters.searchTerm &&
+//               !filters.senderInput &&
+//               !filters.fromDate &&
+//               !filters.toDate &&
+//               filters.statusFilter === "all") ||
+//             isRefreshing
+//           }
+//           onEdit={openEditDialog}
+//           onDelete={openDeleteConfirmation}
+//           deletingId={deletingId}
+//           updatingId={updatingId}
+//           itemsPerPage={itemsPerPage}
+//           toggleSort={toggleInboxSort}
+//           sortField={sortField}
+//           sortDirection={sortDirection}
+//         />
+
+//         {/* Pagination */}
+//         {totalPages > 1 && !loadingMessages && displayedMessages.length > 0 && (
+//           <Pagination
+//             currentPage={currentPage}
+//             totalPages={totalPages}
+//             paginate={paginate}
+//             goToPreviousPage={goToPreviousPage}
+//             goToNextPage={goToNextPage}
+//           />
+//         )}
+//       </div>
+
+//       <GenericFilters
+//         showFilterModal={showFilterModal}
+//         setShowFilterModal={setShowFilterModal}
+//         initialFilters={initialGenericFilters}
+//         onApplyFilters={handleApplyInboxFilters}
+//         onClearFilters={handleClearInboxFilters}
+//         currencyOptions={currencyOptionsForFilter}
+//         statusOptions={statusOptionsForFilter}
+//         searchTermPlaceholder="Search User ID or Name..."
+//         recipientFilterLabel="Sender"
+//         recipientFilterPlaceholder="Filter by Sender Name"
+//         statusFilterLabel="Status"
+//         dateFilterLabel="Date Range (DD-MM-YYYY)" // Updated label for clarity
+//         showRecipientFilter={true}
+//         showIdFilter={false}
+//         showAmountFilter={false}
+//         showCurrencyFilter={false}
+//         showStatusFilter={true}
+//         showDateFilter={true}
+//         allStatusesLabel="All Statuses"
+//         allCurrenciesLabel="All Currencies"
+//       />
+
+//       <EditMessageModal
+//         isOpen={showEditDialog}
+//         onClose={closeEditDialog}
+//         message={editingMessage}
+//         onSave={handleSaveMessageUpdate}
+//         isLoading={!!updatingId}
+//       />
+
+//       <DeleteConfirmationModal
+//         isOpen={!!showDeleteConfirm}
+//         onClose={closeDeleteConfirmation}
+//         message={showDeleteConfirm}
+//         onConfirm={handleDeleteMessage}
+//         isLoading={!!deletingId}
+//       />
+//     </div>
+//   );
+// };
+
+// export default AdminInboxPage;
+
 // frontend/src/app/admin/inbox/page.tsx
 "use client";
 
@@ -2406,22 +3098,35 @@ import {
 } from "lucide-react";
 import { FaInbox } from "react-icons/fa";
 
+// --- Import Custom Toast and react-toastify components ---
+import {
+  ToastContainer,
+  toast as reactToastifyToast,
+  Slide,
+  ToastContainerProps,
+  TypeOptions,
+  ToastOptions,
+} from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+// **IMPORTANT**: Adjust this path if your CustomToast component is elsewhere
+import CustomToast, { CustomToastProps } from "../../../components/CustomToast";
+// Example path: if CustomToast is in frontend/src/app/components/CustomToast.tsx
+// import CustomToast, { CustomToastProps } from "../../components/CustomToast";
+
 const ITEMS_PER_PAGE_OPTIONS = [10, 25, 50, 100];
 
 interface InboxPageFiltersState {
   searchTerm: string;
   senderInput: string;
-  fromDate: string; // Expects dd-MM-yyyy from DateInput via GenericFilters
-  toDate: string; // Expects dd-MM-yyyy from DateInput via GenericFilters
+  fromDate: string;
+  toDate: string;
   statusFilter: string;
 }
 
-// Helper function to parse date string (dd-MM-yyyy)
 function parseDateString(dateString: string): Date | null {
   if (!dateString) return null;
   const parts = dateString.split("-");
   if (parts.length === 3) {
-    // Lenient parsing: Allow single/double digits for day/month
     if (
       !/^\d{1,2}$/.test(parts[0]) ||
       !/^\d{1,2}$/.test(parts[1]) ||
@@ -2431,10 +3136,8 @@ function parseDateString(dateString: string): Date | null {
       return null;
     }
     const day = parseInt(parts[0], 10);
-    const month = parseInt(parts[1], 10) - 1; // JS months are 0-indexed
+    const month = parseInt(parts[1], 10) - 1;
     const year = parseInt(parts[2], 10);
-
-    // Basic range checks
     if (
       day < 1 ||
       day > 31 ||
@@ -2450,20 +3153,15 @@ function parseDateString(dateString: string): Date | null {
       });
       return null;
     }
-    // Use UTC to avoid timezone issues if dates are stored/compared in UTC
     const date = new Date(Date.UTC(year, month, day));
-    // Verify the date wasn't adjusted due to invalid day/month combo (e.g., Feb 30th)
     if (
       date.getUTCFullYear() === year &&
       date.getUTCMonth() === month &&
       date.getUTCDate() === day
-    ) {
+    )
       return date;
-    } else {
-      console.warn(
-        "Date validation failed after construction (e.g., invalid day for month):",
-        dateString
-      );
+    else {
+      console.warn("Date validation failed after construction:", dateString);
       return null;
     }
   }
@@ -2482,32 +3180,24 @@ const AdminInboxPage: React.FC = () => {
   const [displayedMessages, setDisplayedMessages] = useState<
     AdminInboxMessage[]
   >([]);
-
   const [totalMessagesCount, setTotalMessagesCount] = useState<number>(0);
   const [totalPages, setTotalPages] = useState<number>(0);
-
   const [loadingMessages, setLoadingMessages] = useState<boolean>(true);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [pageLevelError, setPageLevelError] = useState<string | null>(null); // For persistent page errors
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [itemsPerPage, setItemsPerPage] = useState<number>(
     ITEMS_PER_PAGE_OPTIONS[0]
   );
-
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] =
     useState<AdminInboxMessage | null>(null);
-
   const [editingMessage, setEditingMessage] =
     useState<AdminInboxMessage | null>(null);
   const [showEditDialog, setShowEditDialog] = useState<boolean>(false);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
-
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
-
   const [sortField, setSortField] = useState<InboxSortField | null>("sentAt");
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("desc");
-
   const [showFilterModal, setShowFilterModal] = useState<boolean>(false);
   const [filters, setFilters] = useState<InboxPageFiltersState>({
     searchTerm: "",
@@ -2516,28 +3206,108 @@ const AdminInboxPage: React.FC = () => {
     toDate: "",
     statusFilter: "all",
   });
+  const [isMobile, setIsMobile] = useState(false); // For ToastContainer
 
   const statusOptionsForFilter = useMemo(() => ["all", "read", "unread"], []);
-  const currencyOptionsForFilter = useMemo(() => ["all"], []);
+  const currencyOptionsForFilter = useMemo(() => ["all"], []); // Not used but kept for GenericFilters compatibility
+
+  // --- Mobile Detection Effect (for ToastContainer) ---
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 640);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // --- Custom Toast Invocation ---
+  const showToast = useCallback(
+    (
+      message: string,
+      type?: CustomToastProps["type"],
+      toastSpecificOptions?: Partial<ToastOptions>
+    ) => {
+      const effectiveType = type || "default";
+      let progressClassName: string;
+      switch (effectiveType) {
+        case "success":
+          progressClassName = "toast-progress-success";
+          break;
+        case "error":
+          progressClassName = "toast-progress-error";
+          break;
+        case "info":
+          progressClassName = "toast-progress-info";
+          break;
+        case "warning":
+          progressClassName = "toast-progress-warning";
+          break;
+        default:
+          progressClassName = "toast-progress-default";
+          break;
+      }
+      reactToastifyToast(
+        <CustomToast message={message} type={effectiveType} />,
+        {
+          progressClassName,
+          type: effectiveType as TypeOptions,
+          icon: false,
+          ...toastSpecificOptions,
+        }
+      );
+    },
+    []
+  );
+
+  // --- ToastContainer Props and Style ---
+  const customToastContainerProps: ToastContainerProps = {
+    position: "top-right",
+    autoClose: 5000,
+    hideProgressBar: false,
+    newestOnTop: true,
+    closeOnClick: false,
+    closeButton: false,
+    rtl: false,
+    pauseOnFocusLoss: true,
+    draggable: true,
+    pauseOnHover: true,
+    transition: Slide,
+    toastClassName: () =>
+      "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3",
+  };
+
+  const getToastContainerStyle = (): React.CSSProperties & {
+    [key: `--${string}`]: string | number;
+  } => {
+    const baseStyle = { zIndex: 30 };
+    if (isMobile)
+      return {
+        ...baseStyle,
+        top: "1rem",
+        left: "1rem",
+        right: "1rem",
+        width: "auto",
+      };
+    return { ...baseStyle, top: "0.75rem", right: "0.75rem", width: "320px" };
+  };
 
   const fetchInboxMessages = useCallback(async () => {
     if (authLoading) return;
     if (!token) {
+      // showToast("Login required", 'warning', { onClose: () => router.push("/auth/login?message=login_required") });
       router.push("/auth/login?message=login_required");
       return;
     }
     if (!isAdmin) {
-      setErrorMessage("Access Denied: Administrator privileges required.");
+      setPageLevelError("Access Denied: Administrator privileges required.");
+      showToast("Access Denied.", "error");
       setLoadingMessages(false);
       return;
     }
-
     setLoadingMessages(true);
     setIsRefreshing(true);
-    setErrorMessage(null);
+    setPageLevelError(null);
     try {
-      const data = await inboxAdminService.getAllMessagesAdmin(1, 10000);
-
+      const data = await inboxAdminService.getAllMessagesAdmin(1, 10000); // Fetch all for client-side processing
       if (data.messages.length > 0 && data.messages[0].body === undefined) {
         console.warn(
           "Warning: Message 'body' is not being fetched. Editing will not work correctly."
@@ -2546,14 +3316,16 @@ const AdminInboxPage: React.FC = () => {
       setAllMessages(data.messages);
     } catch (err: any) {
       console.error("Fetch admin inbox error:", err);
-      setErrorMessage(err.message || "Failed to load inbox messages.");
+      const errorMsg = err.message || "Failed to load inbox messages.";
+      setPageLevelError(errorMsg);
+      showToast(errorMsg, "error");
       setAllMessages([]);
       setTotalMessagesCount(0);
     } finally {
       setLoadingMessages(false);
       setIsRefreshing(false);
     }
-  }, [token, isAdmin, authLoading, router]);
+  }, [token, isAdmin, authLoading, router, showToast]); // Added showToast
 
   useEffect(() => {
     fetchInboxMessages();
@@ -2561,8 +3333,6 @@ const AdminInboxPage: React.FC = () => {
 
   useEffect(() => {
     let processedMessages = [...allMessages];
-
-    // 1. Apply Filters
     if (filters.searchTerm) {
       const term = filters.searchTerm.toLowerCase();
       processedMessages = processedMessages.filter(
@@ -2573,63 +3343,47 @@ const AdminInboxPage: React.FC = () => {
           (msg.userId?.email && msg.userId.email.toLowerCase().includes(term))
       );
     }
-
     if (filters.senderInput) {
       const senderTerm = filters.senderInput.toLowerCase();
       processedMessages = processedMessages.filter(
         (msg) => msg.sender && msg.sender.toLowerCase().includes(senderTerm)
       );
     }
-
     if (filters.statusFilter && filters.statusFilter !== "all") {
       const isReadStatus = filters.statusFilter === "read";
       processedMessages = processedMessages.filter(
         (msg) => msg.isRead === isReadStatus
       );
     }
-
-    // Date Filtering using the new logic
     const fromDateObj = parseDateString(filters.fromDate);
     const toDateObj = parseDateString(filters.toDate);
-
     if (fromDateObj) {
-      fromDateObj.setUTCHours(0, 0, 0, 0); // Start of the day in UTC
+      fromDateObj.setUTCHours(0, 0, 0, 0);
       processedMessages = processedMessages.filter((msg) => {
         if (!msg.sentAt) return false;
         try {
-          const messageDate = new Date(msg.sentAt); // Assuming sentAt is a valid ISO string or Date object
-          // Compare timestamps for accuracy
-          return (
-            !isNaN(messageDate.getTime()) &&
-            messageDate.getTime() >= fromDateObj.getTime()
-          );
+          const d = new Date(msg.sentAt);
+          return !isNaN(d.getTime()) && d.getTime() >= fromDateObj.getTime();
         } catch {
           return false;
         }
       });
     }
     if (toDateObj) {
-      toDateObj.setUTCHours(23, 59, 59, 999); // End of the day in UTC
+      toDateObj.setUTCHours(23, 59, 59, 999);
       processedMessages = processedMessages.filter((msg) => {
         if (!msg.sentAt) return false;
         try {
-          const messageDate = new Date(msg.sentAt); // Assuming sentAt is a valid ISO string or Date object
-          // Compare timestamps
-          return (
-            !isNaN(messageDate.getTime()) &&
-            messageDate.getTime() <= toDateObj.getTime()
-          );
+          const d = new Date(msg.sentAt);
+          return !isNaN(d.getTime()) && d.getTime() <= toDateObj.getTime();
         } catch {
           return false;
         }
       });
     }
-
-    // 2. Apply Sorting
     if (sortField) {
       processedMessages.sort((a, b) => {
-        let valA: any;
-        let valB: any;
+        let valA: any, valB: any;
         switch (sortField) {
           case "status":
             valA = a.isRead;
@@ -2659,26 +3413,19 @@ const AdminInboxPage: React.FC = () => {
         return 0;
       });
     }
-
     setTotalMessagesCount(processedMessages.length);
     const newTotalPages = Math.ceil(processedMessages.length / itemsPerPage);
     setTotalPages(newTotalPages);
-
     let newCurrentPage = currentPage;
-    if (newCurrentPage > newTotalPages && newTotalPages > 0) {
+    if (newCurrentPage > newTotalPages && newTotalPages > 0)
       newCurrentPage = newTotalPages;
-    } else if (newCurrentPage <= 0 && newTotalPages > 0) {
-      newCurrentPage = 1;
-    } else if (newTotalPages === 0) {
-      newCurrentPage = 1;
-    }
+    else if (newCurrentPage <= 0 && newTotalPages > 0) newCurrentPage = 1;
+    else if (newTotalPages === 0) newCurrentPage = 1;
     if (
       currentPage !== newCurrentPage &&
       !(currentPage === 1 && newTotalPages === 0)
-    ) {
+    )
       setCurrentPage(newCurrentPage);
-    }
-
     const startIndex = (newCurrentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     setDisplayedMessages(processedMessages.slice(startIndex, endIndex));
@@ -2691,39 +3438,22 @@ const AdminInboxPage: React.FC = () => {
     itemsPerPage,
   ]);
 
-  const displayMessage = (type: "success" | "error", message: string) => {
-    if (type === "success") setSuccessMessage(message);
-    else setErrorMessage(message);
-    setTimeout(() => {
-      setSuccessMessage(null);
-      setErrorMessage(null);
-    }, 5000);
-  };
-
   const goToPage = (newPage: number) => {
-    if (newPage > 0 && newPage !== currentPage && newPage <= totalPages) {
+    if (newPage > 0 && newPage !== currentPage && newPage <= totalPages)
       setCurrentPage(newPage);
-    } else if (newPage < 1 && totalPages > 0) {
-      setCurrentPage(1);
-    } else if (newPage > totalPages && totalPages > 0) {
-      setCurrentPage(totalPages);
-    }
+    else if (newPage < 1 && totalPages > 0) setCurrentPage(1);
+    else if (newPage > totalPages && totalPages > 0) setCurrentPage(totalPages);
   };
   const paginate = (pageNumber: number) => goToPage(pageNumber);
   const goToPreviousPage = () => goToPage(currentPage - 1);
   const goToNextPage = () => goToPage(currentPage + 1);
-
   const handleRefresh = () => {
-    if (!loadingMessages && !isRefreshing) {
-      fetchInboxMessages();
-    }
+    if (!loadingMessages && !isRefreshing) fetchInboxMessages();
   };
-
   const handlePageSizeChange = (size: number) => {
     setItemsPerPage(size);
     setCurrentPage(1);
   };
-
   const toggleInboxSort = (field: InboxSortField) => {
     const newDirection =
       sortField === field && sortDirection === "asc" ? "desc" : "asc";
@@ -2731,21 +3461,19 @@ const AdminInboxPage: React.FC = () => {
     setSortDirection(newDirection);
     setCurrentPage(1);
   };
-
   const handleApplyInboxFilters = useCallback(
     (newGenericFilters: GenericFiltersState) => {
       setFilters({
         searchTerm: newGenericFilters.searchTerm,
         senderInput: newGenericFilters.recipientFilter || "",
-        fromDate: newGenericFilters.fromDate, // fromDate from GenericFilters (expected as dd-MM-yyyy)
-        toDate: newGenericFilters.toDate, // toDate from GenericFilters (expected as dd-MM-yyyy)
+        fromDate: newGenericFilters.fromDate,
+        toDate: newGenericFilters.toDate,
         statusFilter: newGenericFilters.statusFilter,
       });
       setCurrentPage(1);
     },
     []
   );
-
   const handleClearInboxFilters = useCallback(() => {
     setFilters({
       searchTerm: "",
@@ -2756,7 +3484,6 @@ const AdminInboxPage: React.FC = () => {
     });
     setCurrentPage(1);
   }, []);
-
   const openDeleteConfirmation = (message: AdminInboxMessage) =>
     setShowDeleteConfirm(message);
   const closeDeleteConfirmation = () => setShowDeleteConfirm(null);
@@ -2768,18 +3495,17 @@ const AdminInboxPage: React.FC = () => {
     closeDeleteConfirmation();
     try {
       await inboxAdminService.deleteMessageAdmin(messageIdToDelete);
-      displayMessage(
-        "success",
-        `Message (${messageIdToDelete.slice(-6)}) deleted successfully.`
+      showToast(
+        `Message (${messageIdToDelete.slice(-6)}) deleted successfully.`,
+        "success"
       );
-
       const updatedAllMessages = allMessages.filter(
         (msg) => msg._id !== messageIdToDelete
       );
       setAllMessages(updatedAllMessages);
     } catch (err: any) {
       console.error("Delete message error:", err);
-      displayMessage("error", `Failed to delete message: ${err.message}`);
+      showToast(`Failed to delete message: ${err.message}`, "error");
     } finally {
       setDeletingId(null);
     }
@@ -2805,7 +3531,7 @@ const AdminInboxPage: React.FC = () => {
     try {
       const payload: AdminUpdatePayload = { subject, body };
       if (!payload.subject || !payload.body) {
-        displayMessage("error", "Subject and body cannot be empty.");
+        showToast("Subject and body cannot be empty.", "error");
         setUpdatingId(null);
         return;
       }
@@ -2813,22 +3539,20 @@ const AdminInboxPage: React.FC = () => {
         editingMessage._id,
         payload
       );
-      displayMessage(
-        "success",
-        `Message (${editingMessage._id.slice(-6)}) updated successfully.`
+      showToast(
+        `Message (${editingMessage._id.slice(-6)}) updated successfully.`,
+        "success"
       );
-
       setAllMessages((prev) =>
         prev.map((msg) =>
           msg._id === id ? { ...msg, ...payload, ...updatedMsg } : msg
         )
       );
-
       closeEditDialog();
     } catch (err: any) {
       console.error("Update message error:", err);
-      displayMessage("error", `Failed to update message: ${err.message}`);
-      setUpdatingId(null);
+      showToast(`Failed to update message: ${err.message}`, "error");
+      setUpdatingId(null); // Ensure updatingId is reset even on error
     }
   };
 
@@ -2848,27 +3572,26 @@ const AdminInboxPage: React.FC = () => {
 
   return (
     <div className="container mx-auto px-4 py-5 relative">
+      <ToastContainer
+        {...customToastContainerProps}
+        style={getToastContainerStyle()}
+      />
       <div className="space-y-6">
-        {/* Header */}
-
         <div className="flex flex-wrap justify-between items-center gap-4">
           <div className="inbox-massage">
-            <div className="flex flex-wrap items-center gap-3">
+            <div className="flex items-center gap-3">
               <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
                 <FaInbox className="size-6 text-mainheading dark:text-primary" />
               </div>
-
               <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
                 Admin Inbox
               </h1>
             </div>
-
             <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
               Admin Inbox: View and manage all messages sent to users. Track
               message status, details, and perform actions like editing.
             </p>
           </div>
-
           <div className="flex items-center gap-3 justify-end sm:w-auto w-full">
             <button
               onClick={() => setShowFilterModal(true)}
@@ -2891,36 +3614,9 @@ const AdminInboxPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Success/Error Messages */}
+        {/* Page Level Error Display for critical load errors */}
         <AnimatePresence>
-          {successMessage && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="p-3 rounded-md bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700/50 flex justify-between items-center"
-            >
-              <div className="flex items-center gap-2">
-                <Check
-                  className="text-green-600 dark:text-green-400"
-                  size={18}
-                />
-                <p className="text-sm font-medium text-green-800 dark:text-green-300">
-                  {successMessage}
-                </p>
-              </div>
-              <button
-                onClick={() => setSuccessMessage(null)}
-                className="text-green-600 dark:text-green-400 hover:text-green-800 dark:hover:text-green-200"
-              >
-                <XIcon size={18} />
-              </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        
-        <AnimatePresence>
-          {errorMessage && (
+          {pageLevelError && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -2930,11 +3626,11 @@ const AdminInboxPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <XIcon className="text-red-600 dark:text-red-400" size={18} />
                 <p className="text-sm font-medium text-red-800 dark:text-red-300">
-                  {errorMessage}
+                  {pageLevelError}
                 </p>
               </div>
               <button
-                onClick={() => setErrorMessage(null)}
+                onClick={() => setPageLevelError(null)}
                 className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200"
               >
                 <XIcon size={18} />
@@ -2943,7 +3639,6 @@ const AdminInboxPage: React.FC = () => {
           )}
         </AnimatePresence>
 
-        {/* Pagination and Page Size Controls */}
         <div className="flex flex-wrap justify-between items-center gap-4 mb-4">
           <div className="flex items-center gap-2">
             <label
@@ -2978,13 +3673,12 @@ const AdminInboxPage: React.FC = () => {
             {displayedMessages.length > 0
               ? (currentPage - 1) * itemsPerPage + 1
               : 0}
-            - {Math.min(currentPage * itemsPerPage, totalMessagesCount)} of{" "}
+            -{Math.min(currentPage * itemsPerPage, totalMessagesCount)} of{" "}
             {totalMessagesCount} results
             {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
           </p>
         </div>
 
-        {/* Inbox Table */}
         <InboxTable
           messages={displayedMessages}
           loading={
@@ -3007,7 +3701,6 @@ const AdminInboxPage: React.FC = () => {
           sortDirection={sortDirection}
         />
 
-        {/* Pagination */}
         {totalPages > 1 && !loadingMessages && displayedMessages.length > 0 && (
           <Pagination
             currentPage={currentPage}
@@ -3031,7 +3724,7 @@ const AdminInboxPage: React.FC = () => {
         recipientFilterLabel="Sender"
         recipientFilterPlaceholder="Filter by Sender Name"
         statusFilterLabel="Status"
-        dateFilterLabel="Date Range (DD-MM-YYYY)" // Updated label for clarity
+        dateFilterLabel="Date Range (DD-MM-YYYY)"
         showRecipientFilter={true}
         showIdFilter={false}
         showAmountFilter={false}
@@ -3041,7 +3734,6 @@ const AdminInboxPage: React.FC = () => {
         allStatusesLabel="All Statuses"
         allCurrenciesLabel="All Currencies"
       />
-
       <EditMessageModal
         isOpen={showEditDialog}
         onClose={closeEditDialog}
@@ -3049,7 +3741,6 @@ const AdminInboxPage: React.FC = () => {
         onSave={handleSaveMessageUpdate}
         isLoading={!!updatingId}
       />
-
       <DeleteConfirmationModal
         isOpen={!!showDeleteConfirm}
         onClose={closeDeleteConfirmation}

@@ -1845,7 +1845,7 @@ export default function RecipientsPage() {
                     </div>
                   </div>
                   <div className="flex-shrink-0">
-                    <IoIosArrowForward className="h-5 w-5 text-neutral-600 dark:text-gray-400" />
+                    <IoIosArrowForward className="size-5 text-neutral-900 dark:text-white" />
                   </div>
                 </div>
               </div>

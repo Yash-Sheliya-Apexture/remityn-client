@@ -1206,7 +1206,7 @@ interface DetailItemProps {
   isMissing?: boolean;
   className?: string;
 }
-const DetailItem: React.FC<DetailItemProps> = ({
+const   DetailItem: React.FC<DetailItemProps> = ({
   label,
   value,
   icon: Icon,
@@ -1513,10 +1513,11 @@ export default function KycReviewPage() {
         </CardTitle>
         <CardDescription className="text-gray-500 dark:text-gray-300">
           Please carefully review all details. Click{" "}
-          <Edit className="inline h-3 w-3 mx-1 text-muted-foreground" /> to make
+          <Edit className="inline size-3.5 mx-1 text-primary" /> to make
           corrections.
         </CardDescription>
       </CardHeader>
+
       <CardContent className="space-y-6">
         {/* Display combined error */}
         {displayError && (
@@ -1625,6 +1626,7 @@ export default function KycReviewPage() {
               />
             </AccordionContent>
           </AccordionItem>
+
           {/* Identity Document Section */}
           <AccordionItem
             value="identity"
@@ -1664,6 +1666,7 @@ export default function KycReviewPage() {
               />
             </AccordionContent>
           </AccordionItem>
+
           {/* Uploaded Documents Section */}
           <AccordionItem
             value="documents"
@@ -1672,7 +1675,8 @@ export default function KycReviewPage() {
             <AccordionTrigger className="text-base font-semibold text-neutral-900 dark:text-white hover:no-underline px-4 py-3 bg-accent items-center [&[data-state=open]>svg]:rotate-180 rounded-none cursor-pointer">
               Uploaded Documents
             </AccordionTrigger>
-            <AccordionContent className="px-4 pt-0 pb-0">
+
+            <AccordionContent className="px-4 pt-0 pb-0 border">
               <DetailItem
                 label={`Front of ${idTypeDisplayName}`}
                 value={<FileDisplay file={fileState.idFrontFile} />}
@@ -1694,6 +1698,7 @@ export default function KycReviewPage() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+
 
         {/* Navigation / Submission Buttons */}
         <div className="flex flex-col sm:flex-row justify-between items-center pt-6 border-t mt-6 gap-4">

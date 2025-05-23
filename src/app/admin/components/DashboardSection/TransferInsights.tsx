@@ -1126,7 +1126,7 @@ export default function TransferInsights() {
         {/* Grid for 2 items */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Skeleton for Popular Corridors */}
-          <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-auto">
+          <div className="bg-white dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
             {/* Header: Title and Icon */}
             <div className="flex justify-between items-center mb-4">
               <Skeleton className="h-6 w-1/3 rounded" />{" "}
@@ -1163,8 +1163,9 @@ export default function TransferInsights() {
               )}
             </div>
           </div>
+          
           {/* Skeleton for KYC Card (5 items) - This remains as is */}
-          <div className="bg-white dark:bg-white/5 sm:p-6 p-4 rounded-xl shadow-sm border h-[280px]">
+          <div className="bg-white dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
             <div className="flex justify-between items-center mb-4">
               <Skeleton className="h-6 w-3/5 rounded" />
               <Skeleton className="h-5 w-5 rounded-full" />
@@ -1178,6 +1179,7 @@ export default function TransferInsights() {
             </div>
             <Skeleton className="h-5 w-1/3 rounded mt-6" />
           </div>
+          
         </div>
       </div>
     );

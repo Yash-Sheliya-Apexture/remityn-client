@@ -1768,7 +1768,1166 @@
 
 // export default CurrencySelectorModal;
 
+// // frontend/components/dashboard/components/MainDashBoardSection/CurrencySelectorModal.tsx
+// "use client";
+// import React, {
+//   useState,
+//   useEffect,
+//   useRef,
+//   useMemo,
+//   useCallback,
+// } from "react";
+// import axios, { AxiosError } from "axios";
+// import { motion, AnimatePresence } from "framer-motion";
+// import { useAuth } from "../../../contexts/AuthContext";
+// import apiConfig from "../../../config/apiConfig";
+// import Image from "next/image";
+// import { FiSearch } from "react-icons/fi";
+// import { MdCancel } from "react-icons/md";
+// import { FaExclamationCircle } from "react-icons/fa";
+// import { cn } from "@/lib/utils";
+// import { IoClose } from "react-icons/io5";
 
+// axios.defaults.baseURL = apiConfig.baseUrl;
+
+// // --- Interfaces ---
+// interface CurrencyOption {
+//   code: string;
+//   currencyName?: string;
+//   flagImage?: string; // Make sure your API provides this or adjust logic
+// }
+
+// // Interface representing the successful response from POST /accounts
+// interface NewAccountResponse {
+//   _id: string;
+//   userId: string;
+//   // Use the nested structure if your API returns it like this
+//   currency: {
+//     code: string;
+//     // other currency fields if present
+//   };
+//   balance: string; // Typically string from API
+//   createdAt: string;
+//   updatedAt: string;
+// }
+
+// // Interface expected by the CountryCard's onCurrencyAdded handler
+// // Map the API response to this structure if they differ
+// export interface AddedAccountInfo {
+//   // <--- ADD 'export' HERE
+//   _id: string;
+//   balance: string;
+//   currency?: { code: string } | null; // Match CountryCard's Account interface
+// }
+// interface ApiErrorResponse {
+//   message?: string;
+// }
+
+// interface CurrencySelectorModalProps {
+//   isOpen: boolean;
+//   onClose: () => void;
+//   onCurrencyAdded: (newAccount: AddedAccountInfo) => void; // Use the mapped interface
+// }
+
+// // --- Framer Motion Variants ---
+// const mobileContentVariants = {
+//   initial: { y: "100%", opacity: 0 }, // Start from bottom
+//   animate: {
+//     y: 0,
+//     opacity: 1,
+//     transition: { type: "spring", stiffness: 100, damping: 20 },
+//   },
+//   exit: { y: "100%", opacity: 0, transition: { duration: 0.2 } },
+// };
+
+// const desktopContentVariants = {
+//   initial: { y: -30, opacity: 0, scale: 0.95 },
+//   animate: {
+//     y: 0,
+//     opacity: 1,
+//     scale: 1,
+//     transition: { type: "spring", stiffness: 100, damping: 15 },
+//   },
+//   exit: { y: -30, opacity: 0, scale: 0.95 },
+// };
+
+// // --- Component ---
+// const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
+//   isOpen,
+//   onClose,
+//   onCurrencyAdded,
+// }) => {
+//   const [currencies, setCurrencies] = useState<CurrencyOption[]>([]);
+//   const [selectedCurrencyCode, setSelectedCurrencyCode] = useState<string>("");
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [isFetching, setIsFetching] = useState(false); // For initial currency list fetch
+//   const [isAdding, setIsAdding] = useState(false); // For adding currency API call
+//   const [error, setError] = useState<string | null>(null);
+//   const [isMobile, setIsMobile] = useState(false);
+//   const { token } = useAuth();
+//   const modalContentRef = useRef<HTMLDivElement>(null);
+//   const searchInputRef = useRef<HTMLInputElement>(null); // Ref for the search input
+
+//   // --- Hooks ---
+
+//   // Body Scroll Lock
+//   useEffect(() => {
+//     if (isOpen) {
+//       document.body.classList.add("overflow-hidden");
+//     } else {
+//       document.body.classList.remove("overflow-hidden");
+//     }
+//     return () => {
+//       document.body.classList.remove("overflow-hidden");
+//     };
+//   }, [isOpen]);
+
+//   // Detect mobile view
+//   useEffect(() => {
+//     const checkMobile = () => setIsMobile(window.innerWidth < 640);
+//     checkMobile();
+//     window.addEventListener("resize", checkMobile);
+//     return () => window.removeEventListener("resize", checkMobile);
+//   }, []);
+
+//   // Fetch currencies when modal opens
+//   useEffect(() => {
+//     const fetchCurrencies = async () => {
+//       setIsFetching(true);
+//       setError(null);
+//       setCurrencies([]); // Clear previous results
+//       try {
+//         // Ensure your API endpoint '/currencies' and response structure match this.
+//         // Example: [{ "code": "USD", "currencyName": "US Dollar", "flagImage": "/path/to/usd.svg" }, ...]
+//         const response = await axios.get<CurrencyOption[]>("/currencies");
+//         // Filter out INR if necessary (ideally backend handles this)
+//         const availableCurrencies = response.data.filter(
+//           (currency) => currency.code !== "INR" // Example filter
+//         );
+//         setCurrencies(availableCurrencies);
+//       } catch (err) {
+//         let message = "Failed to load currencies";
+//         if (axios.isAxiosError<ApiErrorResponse>(err)) {
+//           message = err.response?.data?.message || err.message || message;
+//         } else if (err instanceof Error) {
+//           message = err.message;
+//         }
+//         setError(message);
+//         console.error("Error fetching currencies:", err);
+//       } finally {
+//         setIsFetching(false);
+//       }
+//     };
+
+//     if (isOpen) {
+//       // Reset state for fresh modal opening
+//       setSelectedCurrencyCode("");
+//       setSearchQuery("");
+//       setError(null);
+//       setIsAdding(false);
+//       fetchCurrencies();
+
+//       // ---- FOCUS LOGIC ----
+//       // Use setTimeout to ensure the element is rendered and animations might have started
+//       const timer = setTimeout(() => {
+//         searchInputRef.current?.focus();
+//       }, 100); // Adjust delay if needed (e.g., 50-150ms)
+
+//       return () => clearTimeout(timer); // Cleanup timeout if modal closes quickly
+//       // ---- END FOCUS LOGIC ----
+//     } else {
+//       // Optional: Clear currencies when closing to free memory if list is huge
+//       // setCurrencies([]);
+//     }
+//   }, [isOpen]); // Dependency only on isOpen
+
+//   // Close modal on Escape key
+//   useEffect(() => {
+//     if (!isOpen) return;
+//     const handleKeyDown = (event: KeyboardEvent) => {
+//       if (event.key === "Escape") {
+//         onClose();
+//       }
+//     };
+//     document.addEventListener("keydown", handleKeyDown);
+//     return () => document.removeEventListener("keydown", handleKeyDown);
+//   }, [isOpen, onClose]);
+
+//   // --- Memoized Values ---
+
+//   // Memoize filtered currencies
+//   const filteredCurrencies = useMemo(() => {
+//     const query = searchQuery.toLowerCase().trim();
+//     if (!query) return currencies; // Return all if search is empty
+//     return currencies.filter(
+//       (currency) =>
+//         currency.code.toLowerCase().includes(query) ||
+//         (currency.currencyName &&
+//           currency.currencyName.toLowerCase().includes(query))
+//     );
+//   }, [currencies, searchQuery]);
+
+//   // Determine Framer Motion variants based on screen size
+//   const modalVariants = isMobile
+//     ? mobileContentVariants
+//     : desktopContentVariants;
+
+//   // --- Event Handlers ---
+
+//   const handleCurrencySelect = useCallback((code: string) => {
+//     if (code !== "INR") {
+//       setSelectedCurrencyCode(code);
+//       setError(null); // Clear errors on selection
+//     }
+//   }, []);
+
+//   const handleConfirm = useCallback(async () => {
+//     if (!selectedCurrencyCode || selectedCurrencyCode === "INR") {
+//       setError("Please select a valid currency.");
+//       return;
+//     }
+
+//     setIsAdding(true);
+//     setError(null);
+
+//     try {
+//       // Ensure your POST /accounts endpoint and response structure match this.
+//       // Example response: { "_id": "...", "userId": "...", "currency": { "code": "USD" }, "balance": "0.00", ... }
+//       const response = await axios.post<NewAccountResponse>(
+//         "/accounts",
+//         { currencyCode: selectedCurrencyCode },
+//         { headers: { Authorization: `Bearer ${token}` } }
+//       );
+
+//       // Map the successful API response to the structure expected by CountryCard
+//       const addedAccountInfo: AddedAccountInfo = {
+//         _id: response.data._id,
+//         balance: response.data.balance,
+//         currency: response.data.currency
+//           ? { code: response.data.currency.code }
+//           : null,
+//       };
+
+//       onCurrencyAdded(addedAccountInfo); // Pass the mapped data
+//       onClose(); // Close modal on success
+//     } catch (err) {
+//       let message = "Failed to add currency account";
+//       if (axios.isAxiosError<ApiErrorResponse>(err)) {
+//         if (err.response?.status === 409) {
+//           // Conflict error
+//           message =
+//             err.response?.data?.message ||
+//             `You already have an account with ${selectedCurrencyCode}.`;
+//         } else {
+//           message = err.response?.data?.message || err.message || message;
+//         }
+//       } else if (err instanceof Error) {
+//         message = err.message;
+//       }
+//       setError(message);
+//       console.error("Error adding currency account:", err);
+//     } finally {
+//       setIsAdding(false); // Reset adding state regardless of outcome
+//     }
+//   }, [selectedCurrencyCode, token, onCurrencyAdded, onClose]);
+
+//   const clearSearchTerm = useCallback(() => {
+//     setSearchQuery("");
+//     searchInputRef.current?.focus(); // Re-focus after clearing
+//   }, []);
+
+//   // --- Render Logic Helper ---
+
+//   const renderContent = () => {
+//     // 1. Initial Fetch Loading State
+//     if (isFetching) {
+//       return (
+//         <div className="flex-grow flex items-center justify-center py-4 min-h-[100px]">
+//           {" "}
+//           {/* Added min-height */}
+//           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+//         </div>
+//       );
+//     }
+
+//     // 2. Fetch Error State
+//     // Display fetch error prominently if it occurs before list rendering
+//     if (!isFetching && error && currencies.length === 0) {
+//       return (
+//         <div className="flex-grow flex flex-col items-center justify-center text-center py-4 min-h-[100px]">
+//           <div className="size-10 rounded-full flex items-center justify-center bg-red-600/20">
+//             <FaExclamationCircle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+//           </div>
+//           <p className="text-red-500 font-medium">
+//             {error || "Could not load currencies."}
+//           </p>
+//         </div>
+//       );
+//     }
+
+//     // 3. Fetch Success but No Currencies Available
+//     if (!isFetching && !error && currencies.length === 0) {
+//       return (
+//         <div className="flex-grow flex items-center justify-center text-center py-4 min-h-[100px]">
+//           <p className="text-gray-700 dark:text-gray-300">
+//             No available currencies to add at this time.
+//           </p>
+//         </div>
+//       );
+//     }
+
+//     // 4. Currencies Loaded, Display List or No Search Results
+//     return (
+//       <div
+//         className="flex-grow overflow-y-auto scrollbar-hide space-y-2 mb-3 pr-1 min-h-[150px]" // Added min-height, pr-1 to prevent scrollbar overlap
+//       >
+//         {filteredCurrencies.length > 0
+//           ? filteredCurrencies.map((currency) => (
+//               <div
+//                 key={currency.code}
+//                 className={cn(
+//                   "block hover:bg-lightgray dark:hover:bg-primarybox p-3 sm:p-4 rounded-2xl transition-colors duration-150 ease-in-out cursor-pointer focus:outline-none", // Added focus styles
+//                   selectedCurrencyCode === currency.code &&
+//                     "bg-lightgray dark:bg-primarybox" // Enhanced selection indicator with ring
+//                 )}
+//                 onClick={() => handleCurrencySelect(currency.code)}
+//                 role="button"
+//                 tabIndex={0} // Make it focusable
+//                 onKeyDown={(e) =>
+//                   e.key === "Enter" || e.key === " "
+//                     ? handleCurrencySelect(currency.code)
+//                     : null
+//                 }
+//                 aria-pressed={selectedCurrencyCode === currency.code}
+//               >
+//                 <div className="flex items-center gap-3 sm:gap-4">
+//                   {/* Use provided flagImage or fallback */}
+//                   {currency.flagImage ? (
+//                     <Image
+//                       src={currency.flagImage.trim()} // Use the flagImage from API data
+//                       alt={`${currency.currencyName || currency.code} flag`}
+//                       width={40}
+//                       height={40}
+//                       onError={(e) => {
+//                         console.warn(
+//                           // Use warn for non-critical image load errors
+//                           `Warning: Could not load image for ${currency.code}: ${currency.flagImage}. Hiding image.`
+//                         );
+//                         (e.target as HTMLImageElement).style.display = "none"; // Hide broken image icon
+//                       }}
+//                       className="rounded-full object-cover flex-shrink-0 w-[40px] h-[40px] bg-gray-200 dark:bg-gray-700" // Added fallback bg
+//                       unoptimized={currency.flagImage.includes("flagcdn.com")} // Example for external source
+//                     />
+//                   ) : (
+//                     // Fallback display if no flagImage provided
+//                     <div className="w-[40px] h-[40px] rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-300 text-xs font-medium flex-shrink-0">
+//                       {currency.code.substring(0, 3)}
+//                     </div>
+//                   )}
+//                   <div className="flex flex-col overflow-hidden">
+//                     <span className="font-medium text-neutral-900 dark:text-white text-sm md:text-base truncate">
+//                       {currency.code}
+//                     </span>
+//                     {currency.currencyName && (
+//                       <span className="text-xs md:text-sm text-gray-700 dark:text-gray-300 truncate">
+//                         {currency.currencyName}
+//                       </span>
+//                     )}
+//                   </div>
+//                 </div>
+//               </div>
+//             ))
+//           : // Only show "no results" if there was a search query AND the initial fetch didn't fail
+//             searchQuery &&
+//             !isFetching &&
+//             !(error && currencies.length === 0) && (
+//               <p className="text-gray-700 lg:py-10 py-5 bg-white/5 rounded-lg capitalize dark:text-gray-300 text-center">
+//                 No results found for "{searchQuery}".
+//               </p>
+//             )}
+//       </div>
+//     );
+//   };
+
+//   // --- Render Component ---
+//   return (
+//     <AnimatePresence mode="wait">
+//       {isOpen && (
+//         <motion.div
+//           className="fixed inset-0 bg-black/50 dark:bg-white/30 z-[100] flex sm:items-center items-end justify-center" // Added padding for mobile view, adjusted backdrop
+//           initial={{ opacity: 0 }}
+//           animate={{ opacity: 1 }}
+//           exit={{ opacity: 0 }}
+//           onClick={onClose} // Close on overlay click
+//           aria-modal="true"
+//           role="dialog"
+//           aria-labelledby="currency-modal-title"
+//           aria-describedby="currency-modal-description"
+//         >
+//           {/* Stop propagation prevents closing when clicking inside the modal */}
+//           <motion.div
+//             ref={modalContentRef}
+//             className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl sm:p-6 p-2 w-full sm:max-w-2xl relative flex flex-col max-h-[70vh] sm:max-h-[65vh]" // Adjusted max-height, padding
+//             variants={modalVariants}
+//             initial="initial"
+//             animate="animate"
+//             exit="exit"
+//             onClick={(e) => e.stopPropagation()}
+//           >
+//             {/* Close Button */}
+//             <div className="absolute top-2 right-2 z-10">
+//               {/* Ensure button is above content */}
+//               <button
+//                 onClick={onClose}
+//                 aria-label="Close currency selector"
+//                 className="p-3 bg-lightborder hover:bg-neutral-300 dark:bg-primarybox dark:hover:bg-secondarybox rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none" // Adjusted size and focus ring
+//               >
+//                 <IoClose
+//                   className="text-neutral-900 dark:text-primary"
+//                   size={28}
+//                 />
+//                 {/* Adjusted size */}
+//               </button>
+//             </div>
+//             {/* Inner content structure */}
+//             <div className="flex flex-col gap-4 flex-grow overflow-hidden px-4 sm:px-0">
+//               {/* Header */}
+//               <div className="text-left flex-shrink-0 mt-4 sm:mt-0">
+//                 <h2
+//                   id="currency-modal-title"
+//                   className="sm:text-2xl text-xl font-semibold text-mainheading dark:text-white pr-10" // Adjusted size, added padding-right for close btn space
+//                 >
+//                   Open a balance
+//                 </h2>
+//                 <p
+//                   id="currency-modal-description"
+//                   className="text-gray dark:text-gray-300 font-normal text-sm sm:text-base" // Adjusted size/weight
+//                 >
+//                   Choose a currency to add to your account.
+//                 </p>
+//               </div>
+
+//               {/* Search Input */}
+//               <div className="relative flex-shrink-0">
+//                 <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+//                   <FiSearch
+//                     className="size-5 text-neutral-500 dark:text-neutral-400" // Adjusted color
+//                     aria-hidden="true"
+//                   />
+//                 </div>
+//                 <input
+//                   ref={searchInputRef} // **** ATTACH REF HERE ****
+//                   type="text"
+//                   placeholder="Search currency (e.g., USD, Euro)"
+//                   className="w-full rounded-full h-12 py-3 pl-11 pr-10 border focus:border-[#5f5f5f] transition-all duration-75 ease-linear focus:outline-none placeholder:text-neutral-500 dark:placeholder:text-neutral-400 text-neutral-900 dark:text-white" // Enhanced styling
+//                   value={searchQuery}
+//                   onChange={(e) => setSearchQuery(e.target.value)}
+//                   aria-label="Search for a currency"
+//                 />
+//                 {searchQuery && (
+//                   <button
+//                     onClick={clearSearchTerm}
+//                     className="absolute inset-y-0 right-3 flex items-center text-neutral-900 dark:text-primary focus:outline-none cursor-pointer"
+//                     aria-label="Clear search"
+//                   >
+//                     <MdCancel size={28} aria-hidden="true" />
+//                   </button>
+//                 )}
+//               </div>
+
+//               {/* This specifically handles errors related to selection or the add process, fetch errors are handled in renderContent */}
+//               <AnimatePresence>
+//                 {error &&
+//                   currencies.length > 0 && ( // Only show this error if currencies are loaded (not a fetch error)
+//                     <motion.div
+//                       initial={{ opacity: 0, height: 0 }}
+//                       animate={{ opacity: 1, height: "auto" }}
+//                       exit={{ opacity: 0, height: 0 }}
+//                       transition={{ duration: 0.2 }}
+//                       className="overflow-hidden flex-shrink-0"
+//                       role="alert"
+//                     >
+//                       <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
+//                         <div className="size-10 rounded-full flex items-center justify-center bg-red-600/20">
+//                           <FaExclamationCircle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+//                         </div>
+//                         <p className="text-sm font-medium text-red-700 dark:text-red-300/90">
+//                           {error}
+//                         </p>
+//                       </div>
+//                     </motion.div>
+//                   )}
+//               </AnimatePresence>
+//               {/* Dynamic Content Area (List, Loading, No Results) */}
+
+//               {/* Scrollable Content Area */}
+//               {renderContent()}
+//             </div>{" "}
+
+//             {/* Footer */}
+//             {!isFetching && (
+//               <div
+//                 className={cn(
+//                   "w-full flex flex-col sm:flex-row sm:justify-end items-center gap-3 pt-4 border-t flex-shrink-0 mt-auto px-4 sm:px-0" // Added padding horizontal for mobile
+//                 )}
+//               >
+//                 <button
+//                   className="inline-flex justify-center cursor-pointer bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox order-2 sm:order-1 disabled:opacity-50 disabled:cursor-not-allowed dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 text-center w-full transition-all duration-75 ease-linear" // Adjusted styles, sm:w-auto
+//                   onClick={onClose}
+//                   disabled={isAdding} // Only disable cancel if actively adding
+//                   type="button"
+//                 >
+//                   Cancel
+//                 </button>
+
+//                 <button
+//                   className="inline-flex items-center justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 order-1 sm:order-2 disabled:opacity-50 disabled:bg-primary/50 disabled:cursor-not-allowed font-medium rounded-full px-8 py-3 text-center w-full transition-all duration-75 ease-linear" // Adjusted styles, sm:w-auto
+//                   type="button"
+//                   onClick={handleConfirm}
+//                   disabled={
+//                     isAdding || // Disable if adding
+//                     !selectedCurrencyCode || // Disable if no selection
+//                     selectedCurrencyCode === "INR" // Disable if invalid selection
+//                   }
+//                 >
+//                   {/* Show specific text for adding state */}
+//                   {isAdding ? (
+//                     <>
+//                       <svg
+//                         className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+//                         viewBox="0 0 24 24"
+//                         fill="none"
+//                         xmlns="http://www.w3.org/2000/svg"
+//                         aria-hidden="true"
+//                       >
+//                         <path
+//                           d="M12 2V6"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M12 18V22"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M4.93 4.93L7.76 7.76"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M16.24 16.24L19.07 19.07"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M2 12H6"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M18 12H22"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M4.93 19.07L7.76 16.24"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                         <path
+//                           d="M16.24 7.76L19.07 4.93"
+//                           stroke="currentColor"
+//                           strokeWidth="2"
+//                           strokeLinecap="round"
+//                           strokeLinejoin="round"
+//                         />
+//                       </svg>
+//                       <span>Adding...</span>
+//                     </>
+//                   ) : (
+//                     "Confirm"
+//                   )}
+//                 </button>
+//               </div>
+//             )}
+//           </motion.div>
+//         </motion.div>
+//       )}
+//     </AnimatePresence>
+//   );
+// };
+
+// export default CurrencySelectorModal;
+
+// // frontend/components/dashboard/components/MainDashBoardSection/CurrencySelectorModal.tsx
+// "use client";
+// import React, {
+//   useState,
+//   useEffect,
+//   useRef,
+//   useMemo,
+//   useCallback,
+// } from "react";
+// import axios, { AxiosError } from "axios";
+// import { motion, AnimatePresence } from "framer-motion";
+// import { useAuth } from "../../../contexts/AuthContext"; // Adjust path if needed
+// import apiConfig from "../../../config/apiConfig"; // Adjust path if needed
+// import Image from "next/image";
+// import { FiSearch } from "react-icons/fi";
+// import { MdCancel } from "react-icons/md";
+// import { FaExclamationCircle } from "react-icons/fa";
+// import { cn } from "@/lib/utils"; // Adjust path if needed
+// import { IoClose } from "react-icons/io5";
+
+// axios.defaults.baseURL = apiConfig.baseUrl;
+
+// // --- Interfaces ---
+// interface CurrencyOption {
+//   code: string;
+//   currencyName?: string;
+//   flagImage?: string;
+// }
+
+// interface NewAccountResponse {
+//   _id: string;
+//   userId: string;
+//   currency: {
+//     code: string;
+//   };
+//   balance: string;
+//   createdAt: string;
+//   updatedAt: string;
+// }
+
+// export interface AddedAccountInfo {
+//   _id: string;
+//   balance: string;
+//   currency?: { code: string } | null;
+// }
+// interface ApiErrorResponse {
+//   message?: string;
+// }
+
+// interface CurrencySelectorModalProps {
+//   isOpen: boolean;
+//   onClose: () => void;
+//   onCurrencyAdded: (newAccount: AddedAccountInfo) => void;
+// }
+
+// // --- Framer Motion Variants ---
+// const mobileContentVariants = {
+//   initial: { y: "100%", opacity: 0 },
+//   animate: {
+//     y: 0,
+//     opacity: 1,
+//     transition: { type: "spring", stiffness: 100, damping: 20 },
+//   },
+//   exit: { y: "100%", opacity: 0, transition: { duration: 0.2 } },
+// };
+
+// const desktopContentVariants = {
+//   initial: { y: -30, opacity: 0, scale: 0.95 },
+//   animate: {
+//     y: 0,
+//     opacity: 1,
+//     scale: 1,
+//     transition: { type: "spring", stiffness: 100, damping: 15 },
+//   },
+//   exit: { y: -30, opacity: 0, scale: 0.95 },
+// };
+
+// // --- Component ---
+// const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
+//   isOpen,
+//   onClose,
+//   onCurrencyAdded,
+// }) => {
+//   const [currencies, setCurrencies] = useState<CurrencyOption[]>([]);
+//   const [selectedCurrencyCode, setSelectedCurrencyCode] = useState<string>("");
+//   const [searchQuery, setSearchQuery] = useState("");
+//   const [isFetching, setIsFetching] = useState(false);
+//   const [isAdding, setIsAdding] = useState(false);
+//   const [error, setError] = useState<string | null>(null);
+//   const [isMobile, setIsMobile] = useState(false);
+//   const { token } = useAuth();
+//   const modalContentRef = useRef<HTMLDivElement>(null);
+//   const searchInputRef = useRef<HTMLInputElement>(null);
+
+//   // --- Hooks ---
+
+//   useEffect(() => {
+//     if (isOpen) {
+//       document.body.classList.add("overflow-hidden");
+//     } else {
+//       document.body.classList.remove("overflow-hidden");
+//     }
+//     return () => {
+//       document.body.classList.remove("overflow-hidden");
+//     };
+//   }, [isOpen]);
+
+//   useEffect(() => {
+//     const checkMobile = () => setIsMobile(window.innerWidth < 640);
+//     checkMobile();
+//     window.addEventListener("resize", checkMobile);
+//     return () => window.removeEventListener("resize", checkMobile);
+//   }, []);
+
+//   useEffect(() => {
+//     const fetchCurrencies = async () => {
+//       setIsFetching(true);
+//       setError(null);
+//       setCurrencies([]);
+//       try {
+//         const response = await axios.get<CurrencyOption[]>("/currencies");
+//         const availableCurrencies = response.data.filter(
+//           (currency) => currency.code !== "INR"
+//         );
+//         setCurrencies(availableCurrencies);
+//       } catch (err) {
+//         let message = "Failed to load currencies";
+//         if (axios.isAxiosError<ApiErrorResponse>(err)) {
+//           message = err.response?.data?.message || err.message || message;
+//         } else if (err instanceof Error) {
+//           message = err.message;
+//         }
+//         setError(message);
+//         console.error("Error fetching currencies:", err);
+//       } finally {
+//         setIsFetching(false);
+//       }
+//     };
+
+//     if (isOpen) {
+//       setSelectedCurrencyCode("");
+//       setSearchQuery("");
+//       setError(null);
+//       setIsAdding(false);
+//       fetchCurrencies();
+//       const timer = setTimeout(() => {
+//         searchInputRef.current?.focus();
+//       }, 100);
+//       return () => clearTimeout(timer);
+//     }
+//   }, [isOpen]);
+
+//   useEffect(() => {
+//     if (!isOpen) return;
+//     const handleKeyDown = (event: KeyboardEvent) => {
+//       if (event.key === "Escape") {
+//         onClose();
+//       }
+//     };
+//     document.addEventListener("keydown", handleKeyDown);
+//     return () => document.removeEventListener("keydown", handleKeyDown);
+//   }, [isOpen, onClose]);
+
+//   const filteredCurrencies = useMemo(() => {
+//     const query = searchQuery.toLowerCase().trim();
+//     if (!query) return currencies;
+//     return currencies.filter(
+//       (currency) =>
+//         currency.code.toLowerCase().includes(query) ||
+//         (currency.currencyName &&
+//           currency.currencyName.toLowerCase().includes(query))
+//     );
+//   }, [currencies, searchQuery]);
+
+//   const modalVariants = isMobile
+//     ? mobileContentVariants
+//     : desktopContentVariants;
+
+//   const handleCurrencySelect = useCallback((code: string) => {
+//     if (code !== "INR") {
+//       setSelectedCurrencyCode(code);
+//       setError(null);
+//     }
+//   }, []);
+
+//   const handleConfirm = useCallback(async () => {
+//     if (!selectedCurrencyCode || selectedCurrencyCode === "INR") {
+//       setError("Please select a valid currency.");
+//       return;
+//     }
+//     setIsAdding(true);
+//     setError(null);
+//     try {
+//       const response = await axios.post<NewAccountResponse>(
+//         "/accounts",
+//         { currencyCode: selectedCurrencyCode },
+//         { headers: { Authorization: `Bearer ${token}` } }
+//       );
+//       const addedAccountInfo: AddedAccountInfo = {
+//         _id: response.data._id,
+//         balance: response.data.balance,
+//         currency: response.data.currency
+//           ? { code: response.data.currency.code }
+//           : null,
+//       };
+//       onCurrencyAdded(addedAccountInfo);
+//       onClose();
+//     } catch (err) {
+//       let message = "Failed to add currency account";
+//       if (axios.isAxiosError<ApiErrorResponse>(err)) {
+//         if (err.response?.status === 409) {
+//           message =
+//             err.response?.data?.message ||
+//             `You already have an account with ${selectedCurrencyCode}.`;
+//         } else {
+//           message = err.response?.data?.message || err.message || message;
+//         }
+//       } else if (err instanceof Error) {
+//         message = err.message;
+//       }
+//       setError(message);
+//       console.error("Error adding currency account:", err);
+//     } finally {
+//       setIsAdding(false);
+//     }
+//   }, [selectedCurrencyCode, token, onCurrencyAdded, onClose]);
+
+//   const clearSearchTerm = useCallback(() => {
+//     setSearchQuery("");
+//     searchInputRef.current?.focus();
+//   }, []);
+
+//   const renderContent = () => {
+//     if (isFetching) {
+//       return (
+//         <div className="flex-grow flex items-center justify-center py-4 min-h-[100px]">
+//           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+//         </div>
+//       );
+//     }
+//     if (!isFetching && error && currencies.length === 0) {
+//       return (
+//         <div className="flex-grow flex flex-col items-center justify-center text-center py-4 min-h-[100px]">
+//           <div className="size-10 rounded-full flex items-center justify-center bg-red-600/20">
+//             <FaExclamationCircle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+//           </div>
+//           <p className="text-red-500 font-medium">
+//             {error || "Could not load currencies."}
+//           </p>
+//         </div>
+//       );
+//     }
+//     if (!isFetching && !error && currencies.length === 0) {
+//       return (
+//         <div className="flex-grow flex items-center justify-center text-center py-4 min-h-[100px]">
+//           <p className="text-gray-700 dark:text-gray-300">
+//             No available currencies to add at this time.
+//           </p>
+//         </div>
+//       );
+//     }
+//     return (
+//       <div className="space-y-2 min-h-[150px]">
+//         {" "}
+//         {/* Removed flex-grow, overflow, mb, pr */}
+//         {filteredCurrencies.length > 0
+//           ? filteredCurrencies.map((currency) => (
+//               <div
+//                 key={currency.code}
+//                 className={cn(
+//                   "block hover:bg-lightgray dark:hover:bg-primarybox p-3 sm:p-4 rounded-2xl transition-colors duration-150 ease-in-out cursor-pointer focus:outline-none",
+//                   selectedCurrencyCode === currency.code &&
+//                     "bg-lightgray dark:bg-primarybox"
+//                 )}
+//                 onClick={() => handleCurrencySelect(currency.code)}
+//                 role="button"
+//                 tabIndex={0}
+//                 onKeyDown={(e) =>
+//                   e.key === "Enter" || e.key === " "
+//                     ? handleCurrencySelect(currency.code)
+//                     : null
+//                 }
+//                 aria-pressed={selectedCurrencyCode === currency.code}
+//               >
+//                 <div className="flex items-center gap-3 sm:gap-4">
+//                   {currency.flagImage ? (
+//                     <Image
+//                       src={currency.flagImage.trim()}
+//                       alt={`${currency.currencyName || currency.code} flag`}
+//                       width={40}
+//                       height={40}
+//                       onError={(e) => {
+//                         console.warn(
+//                           `Warning: Could not load image for ${currency.code}: ${currency.flagImage}. Hiding image.`
+//                         );
+//                         (e.target as HTMLImageElement).style.display = "none";
+//                       }}
+//                       className="rounded-full object-cover flex-shrink-0 w-[40px] h-[40px] bg-gray-200 dark:bg-gray-700"
+//                       unoptimized={currency.flagImage.includes("flagcdn.com")}
+//                     />
+//                   ) : (
+//                     <div className="w-[40px] h-[40px] rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-300 text-xs font-medium flex-shrink-0">
+//                       {currency.code.substring(0, 3)}
+//                     </div>
+//                   )}
+//                   <div className="flex flex-col overflow-hidden">
+//                     <span className="font-medium text-neutral-900 dark:text-white text-sm md:text-base truncate">
+//                       {currency.code}
+//                     </span>
+//                     {currency.currencyName && (
+//                       <span className="text-xs md:text-sm text-gray-700 dark:text-gray-300 truncate">
+//                         {currency.currencyName}
+//                       </span>
+//                     )}
+//                   </div>
+//                 </div>
+//               </div>
+//             ))
+//           : searchQuery &&
+//             !isFetching &&
+//             !(error && currencies.length === 0) && (
+//               <p className="text-gray-700 lg:py-10 py-5 bg-white/5 rounded-lg capitalize dark:text-gray-300 text-center">
+//                 No results found for "{searchQuery}".
+//               </p>
+//             )}
+//       </div>
+//     );
+//   };
+
+//   return (
+//     <AnimatePresence mode="wait">
+//       {isOpen && (
+//         <motion.div
+//           className="fixed inset-0 bg-black/50 dark:bg-white/30 z-[100] flex sm:items-center items-end justify-center"
+//           initial={{ opacity: 0 }}
+//           animate={{ opacity: 1 }}
+//           exit={{ opacity: 0 }}
+//           onClick={onClose}
+//           aria-modal="true"
+//           role="dialog"
+//           aria-labelledby="currency-modal-title"
+//           aria-describedby="currency-modal-description"
+//         >
+//           <motion.div
+//             ref={modalContentRef}
+//             className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl w-full sm:max-w-2xl relative flex flex-col overflow-hidden max-h-[85vh] sm:max-h-[80vh]" // Adjusted max-height, removed direct padding (p-2, sm:p-6)
+//             variants={modalVariants}
+//             initial="initial"
+//             animate="animate"
+//             exit="exit"
+//             onClick={(e) => e.stopPropagation()}
+//           >
+//             {/* Header */}
+//             <div className="p-4 sm:p-6 flex items-center justify-between flex-shrink-0 border-b ">
+//               <div>
+//                 {" "}
+//                 {/* Wrapper for title and description */}
+//                 <h2
+//                   id="currency-modal-title"
+//                   className="sm:text-2xl text-xl font-semibold text-mainheading dark:text-white"
+//                 >
+//                   Open a balance
+//                 </h2>
+//                 <p
+//                   id="currency-modal-description"
+//                   className="text-gray dark:text-gray-300 font-normal text-sm sm:text-base"
+//                 >
+//                   Choose a currency to add to your account.
+//                 </p>
+//               </div>
+//               <div
+//                 onClick={onClose}
+//                 className="size-12 bg-lightgray hover:bg-lightborder cursor-pointer dark:bg-primarybox dark:hover:bg-secondarybox flex items-center justify-center rounded-full transition-all duration-75 ease-linear"
+//                 role="button"
+//                 tabIndex={0}
+//                 onKeyDown={(e) => {
+//                   if (e.key === "Enter" || e.key === " ") onClose();
+//                 }}
+//                 aria-label="Close modal"
+//               >
+//                 <button
+//                   className="text-neutral-900 dark:text-primary cursor-pointer focus:outline-none"
+//                   aria-label="Close"
+//                 >
+//                   <IoClose size={28} />
+//                 </button>
+//               </div>
+//             </div>
+
+//             {/* Scrollable Content Area */}
+//             <div className="flex-grow overflow-y-auto scrollbar-hide">
+//               <div className="p-4 sm:p-6 space-y-4">
+//                 {" "}
+//                 {/* Padding and spacing for content items */}
+//                 {/* Search Input */}
+//                 <div className="relative flex-shrink-0">
+//                   <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+//                     <FiSearch
+//                       className="size-5 text-neutral-500 dark:text-neutral-400"
+//                       aria-hidden="true"
+//                     />
+//                   </div>
+//                   <input
+//                     ref={searchInputRef}
+//                     type="text"
+//                     placeholder="Search currency (e.g., USD, Euro)"
+//                     className="w-full rounded-full h-12 py-3 pl-11 pr-10 border focus:border-[#5f5f5f] transition-all duration-75 ease-linear focus:outline-none placeholder:text-neutral-500 dark:placeholder:text-neutral-400 text-neutral-900 dark:text-white bg-white dark:bg-background border-gray-300 dark:border-neutral-700" // Added bg and border for explicitness
+//                     value={searchQuery}
+//                     onChange={(e) => setSearchQuery(e.target.value)}
+//                     aria-label="Search for a currency"
+//                   />
+//                   {searchQuery && (
+//                     <button
+//                       onClick={clearSearchTerm}
+//                       className="absolute inset-y-0 right-3 flex items-center text-neutral-900 dark:text-primary focus:outline-none cursor-pointer"
+//                       aria-label="Clear search"
+//                     >
+//                       <MdCancel size={28} aria-hidden="true" />
+//                     </button>
+//                   )}
+//                 </div>
+
+//                 {/* Error Message for selection/add process */}
+//                 <AnimatePresence>
+//                   {error && currencies.length > 0 && (
+//                     <motion.div
+//                       initial={{ opacity: 0, height: 0 }}
+//                       animate={{ opacity: 1, height: "auto" }}
+//                       exit={{ opacity: 0, height: 0 }}
+//                       transition={{ duration: 0.2 }}
+//                       className="overflow-hidden flex-shrink-0" // flex-shrink-0 to prevent it from shrinking
+//                       role="alert"
+//                     >
+//                       <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
+//                         <div className="size-10 rounded-full flex items-center justify-center bg-red-600/20">
+//                           <FaExclamationCircle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+//                         </div>
+//                         <p className="text-sm font-medium text-red-700 dark:text-red-300/90">
+//                           {error}
+//                         </p>
+//                       </div>
+//                     </motion.div>
+//                   )}
+//                 </AnimatePresence>
+//                 {/* Dynamic Content (List, Loading, No Results) from renderContent() */}
+//                 {renderContent()}
+//               </div>
+//             </div>
+
+//             {/* Footer */}
+//             {!isFetching && (
+//               <div className="p-4 sm:p-6 border-t  bg-white dark:bg-background flex-shrink-0">
+//                 <div className="flex sm:flex-row flex-col justify-end gap-3">
+//                   <button
+//                     className="inline-flex justify-center cursor-pointer bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox order-2 sm:order-1 disabled:opacity-50 disabled:cursor-not-allowed dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 h-12.5 text-center w-full sm:w-auto transition-all duration-75 ease-linear" // Added sm:w-auto
+//                     onClick={onClose}
+//                     disabled={isAdding}
+//                     type="button"
+//                   >
+//                     Cancel
+//                   </button>
+//                   <button
+//                     className="inline-flex items-center justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 order-1 sm:order-2 disabled:opacity-50 disabled:bg-primary/50 disabled:cursor-not-allowed font-medium rounded-full px-8 py-3 h-12.5 text-center w-full sm:w-auto transition-all duration-75 ease-linear" // Added sm:w-auto
+//                     type="button"
+//                     onClick={handleConfirm}
+//                     disabled={
+//                       isAdding ||
+//                       !selectedCurrencyCode ||
+//                       selectedCurrencyCode === "INR"
+//                     }
+//                   >
+//                     {isAdding ? (
+//                       <>
+//                         <svg
+//                           className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+//                           viewBox="0 0 24 24"
+//                           fill="none"
+//                           xmlns="http://www.w3.org/2000/svg"
+//                           aria-hidden="true"
+//                         >
+//                           <path
+//                             d="M12 2V6"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                           <path
+//                             d="M12 18V22"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                           <path
+//                             d="M4.93 4.93L7.76 7.76"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                           <path
+//                             d="M16.24 16.24L19.07 19.07"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                           <path
+//                             d="M2 12H6"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                           <path
+//                             d="M18 12H22"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                           <path
+//                             d="M4.93 19.07L7.76 16.24"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                           <path
+//                             d="M16.24 7.76L19.07 4.93"
+//                             stroke="currentColor"
+//                             strokeWidth="2"
+//                             strokeLinecap="round"
+//                             strokeLinejoin="round"
+//                           />
+//                         </svg>
+//                         <span>Adding...</span>
+//                       </>
+//                     ) : (
+//                       "Confirm"
+//                     )}
+//                   </button>
+//                 </div>
+//               </div>
+//             )}
+//           </motion.div>
+//         </motion.div>
+//       )}
+//     </AnimatePresence>
+//   );
+// };
+
+// export default CurrencySelectorModal;
 
 // frontend/components/dashboard/components/MainDashBoardSection/CurrencySelectorModal.tsx
 "use client";
@@ -1781,13 +2940,13 @@ import React, {
 } from "react";
 import axios, { AxiosError } from "axios";
 import { motion, AnimatePresence } from "framer-motion";
-import { useAuth } from "../../../contexts/AuthContext";
-import apiConfig from "../../../config/apiConfig";
+import { useAuth } from "../../../contexts/AuthContext"; // Adjust path if needed
+import apiConfig from "../../../config/apiConfig"; // Adjust path if needed
 import Image from "next/image";
 import { FiSearch } from "react-icons/fi";
 import { MdCancel } from "react-icons/md";
 import { FaExclamationCircle } from "react-icons/fa";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils"; // Adjust path if needed
 import { IoClose } from "react-icons/io5";
 
 axios.defaults.baseURL = apiConfig.baseUrl;
@@ -1796,29 +2955,24 @@ axios.defaults.baseURL = apiConfig.baseUrl;
 interface CurrencyOption {
   code: string;
   currencyName?: string;
-  flagImage?: string; // Make sure your API provides this or adjust logic
+  flagImage?: string;
 }
 
-// Interface representing the successful response from POST /accounts
 interface NewAccountResponse {
   _id: string;
   userId: string;
-  // Use the nested structure if your API returns it like this
   currency: {
     code: string;
-    // other currency fields if present
   };
-  balance: string; // Typically string from API
+  balance: string;
   createdAt: string;
   updatedAt: string;
 }
 
-// Interface expected by the CountryCard's onCurrencyAdded handler
-// Map the API response to this structure if they differ
-export interface AddedAccountInfo { // <--- ADD 'export' HERE
+export interface AddedAccountInfo {
   _id: string;
   balance: string;
-  currency?: { code: string } | null; // Match CountryCard's Account interface
+  currency?: { code: string } | null;
 }
 interface ApiErrorResponse {
   message?: string;
@@ -1827,12 +2981,12 @@ interface ApiErrorResponse {
 interface CurrencySelectorModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onCurrencyAdded: (newAccount: AddedAccountInfo) => void; // Use the mapped interface
+  onCurrencyAdded: (newAccount: AddedAccountInfo) => void;
 }
 
 // --- Framer Motion Variants ---
 const mobileContentVariants = {
-  initial: { y: "100%", opacity: 0 }, // Start from bottom
+  initial: { y: "100%", opacity: 0 },
   animate: {
     y: 0,
     opacity: 1,
@@ -1861,17 +3015,16 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
   const [currencies, setCurrencies] = useState<CurrencyOption[]>([]);
   const [selectedCurrencyCode, setSelectedCurrencyCode] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState("");
-  const [isFetching, setIsFetching] = useState(false); // For initial currency list fetch
-  const [isAdding, setIsAdding] = useState(false); // For adding currency API call
+  const [isFetching, setIsFetching] = useState(false);
+  const [isAdding, setIsAdding] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const { token } = useAuth();
   const modalContentRef = useRef<HTMLDivElement>(null);
-  const searchInputRef = useRef<HTMLInputElement>(null); // Ref for the search input
+  const searchInputRef = useRef<HTMLInputElement>(null); // Ref for search input (can still be used for other interactions like clear)
 
   // --- Hooks ---
 
-  // Body Scroll Lock
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add("overflow-hidden");
@@ -1883,28 +3036,22 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
     };
   }, [isOpen]);
 
-  // Detect mobile view
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 640);
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
-  
 
-  // Fetch currencies when modal opens
   useEffect(() => {
     const fetchCurrencies = async () => {
       setIsFetching(true);
       setError(null);
-      setCurrencies([]); // Clear previous results
+      setCurrencies([]);
       try {
-        // Ensure your API endpoint '/currencies' and response structure match this.
-        // Example: [{ "code": "USD", "currencyName": "US Dollar", "flagImage": "/path/to/usd.svg" }, ...]
         const response = await axios.get<CurrencyOption[]>("/currencies");
-        // Filter out INR if necessary (ideally backend handles this)
         const availableCurrencies = response.data.filter(
-          (currency) => currency.code !== "INR" // Example filter
+          (currency) => currency.code !== "INR"
         );
         setCurrencies(availableCurrencies);
       } catch (err) {
@@ -1922,28 +3069,20 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
     };
 
     if (isOpen) {
-      // Reset state for fresh modal opening
       setSelectedCurrencyCode("");
       setSearchQuery("");
       setError(null);
       setIsAdding(false);
       fetchCurrencies();
-
-      // ---- FOCUS LOGIC ----
-      // Use setTimeout to ensure the element is rendered and animations might have started
-      const timer = setTimeout(() => {
-        searchInputRef.current?.focus();
-      }, 100); // Adjust delay if needed (e.g., 50-150ms)
-
-      return () => clearTimeout(timer); // Cleanup timeout if modal closes quickly
-      // ---- END FOCUS LOGIC ----
-    } else {
-      // Optional: Clear currencies when closing to free memory if list is huge
-      // setCurrencies([]);
+      // ---- FOCUS LOGIC REMOVED ----
+      // const timer = setTimeout(() => {
+      //   searchInputRef.current?.focus();
+      // }, 100);
+      // return () => clearTimeout(timer);
+      // ---- END FOCUS LOGIC REMOVED ----
     }
-  }, [isOpen]); // Dependency only on isOpen
+  }, [isOpen]);
 
-  // Close modal on Escape key
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -1955,12 +3094,9 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, onClose]);
 
-  // --- Memoized Values ---
-
-  // Memoize filtered currencies
   const filteredCurrencies = useMemo(() => {
     const query = searchQuery.toLowerCase().trim();
-    if (!query) return currencies; // Return all if search is empty
+    if (!query) return currencies;
     return currencies.filter(
       (currency) =>
         currency.code.toLowerCase().includes(query) ||
@@ -1969,17 +3105,14 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
     );
   }, [currencies, searchQuery]);
 
-  // Determine Framer Motion variants based on screen size
   const modalVariants = isMobile
     ? mobileContentVariants
     : desktopContentVariants;
 
-  // --- Event Handlers ---
-
   const handleCurrencySelect = useCallback((code: string) => {
     if (code !== "INR") {
       setSelectedCurrencyCode(code);
-      setError(null); // Clear errors on selection
+      setError(null);
     }
   }, []);
 
@@ -1988,20 +3121,14 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
       setError("Please select a valid currency.");
       return;
     }
-
     setIsAdding(true);
     setError(null);
-
     try {
-      // Ensure your POST /accounts endpoint and response structure match this.
-      // Example response: { "_id": "...", "userId": "...", "currency": { "code": "USD" }, "balance": "0.00", ... }
       const response = await axios.post<NewAccountResponse>(
         "/accounts",
         { currencyCode: selectedCurrencyCode },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      // Map the successful API response to the structure expected by CountryCard
       const addedAccountInfo: AddedAccountInfo = {
         _id: response.data._id,
         balance: response.data.balance,
@@ -2009,14 +3136,12 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
           ? { code: response.data.currency.code }
           : null,
       };
-
-      onCurrencyAdded(addedAccountInfo); // Pass the mapped data
-      onClose(); // Close modal on success
+      onCurrencyAdded(addedAccountInfo);
+      onClose();
     } catch (err) {
       let message = "Failed to add currency account";
       if (axios.isAxiosError<ApiErrorResponse>(err)) {
         if (err.response?.status === 409) {
-          // Conflict error
           message =
             err.response?.data?.message ||
             `You already have an account with ${selectedCurrencyCode}.`;
@@ -2029,31 +3154,25 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
       setError(message);
       console.error("Error adding currency account:", err);
     } finally {
-      setIsAdding(false); // Reset adding state regardless of outcome
+      setIsAdding(false);
     }
   }, [selectedCurrencyCode, token, onCurrencyAdded, onClose]);
 
   const clearSearchTerm = useCallback(() => {
     setSearchQuery("");
-    searchInputRef.current?.focus(); // Re-focus after clearing
+    // Optionally, you might still want to focus if the user *manually* clears.
+    // If not, comment out the line below.
+    // searchInputRef.current?.focus();
   }, []);
 
-  // --- Render Logic Helper ---
-
   const renderContent = () => {
-    // 1. Initial Fetch Loading State
     if (isFetching) {
       return (
-        <div className="flex-grow flex items-center justify-center py-4 min-h-[100px]" >
-          {" "}
-          {/* Added min-height */}
+        <div className="flex-grow flex items-center justify-center py-4 min-h-[100px]">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
         </div>
       );
     }
-
-    // 2. Fetch Error State
-    // Display fetch error prominently if it occurs before list rendering
     if (!isFetching && error && currencies.length === 0) {
       return (
         <div className="flex-grow flex flex-col items-center justify-center text-center py-4 min-h-[100px]">
@@ -2066,8 +3185,6 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
         </div>
       );
     }
-
-    // 3. Fetch Success but No Currencies Available
     if (!isFetching && !error && currencies.length === 0) {
       return (
         <div className="flex-grow flex items-center justify-center text-center py-4 min-h-[100px]">
@@ -2077,24 +3194,20 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
         </div>
       );
     }
-
-    // 4. Currencies Loaded, Display List or No Search Results
     return (
-      <div
-        className="flex-grow overflow-y-auto scrollbar-hide space-y-2 mb-3 pr-1 min-h-[150px]" // Added min-height, pr-1 to prevent scrollbar overlap
-      >
+      <div className="space-y-2 min-h-[150px]">
         {filteredCurrencies.length > 0
           ? filteredCurrencies.map((currency) => (
               <div
                 key={currency.code}
                 className={cn(
-                  "block hover:bg-lightgray dark:hover:bg-primarybox p-3 sm:p-4 rounded-2xl transition-colors duration-150 ease-in-out cursor-pointer focus:outline-none", // Added focus styles
+                  "block hover:bg-lightgray dark:hover:bg-primarybox p-3 sm:p-4 rounded-2xl transition-colors duration-150 ease-in-out cursor-pointer focus:outline-none",
                   selectedCurrencyCode === currency.code &&
-                    "bg-lightgray dark:bg-primarybox" // Enhanced selection indicator with ring
+                    "bg-lightgray dark:bg-primarybox"
                 )}
                 onClick={() => handleCurrencySelect(currency.code)}
                 role="button"
-                tabIndex={0} // Make it focusable
+                tabIndex={0}
                 onKeyDown={(e) =>
                   e.key === "Enter" || e.key === " "
                     ? handleCurrencySelect(currency.code)
@@ -2103,25 +3216,22 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
                 aria-pressed={selectedCurrencyCode === currency.code}
               >
                 <div className="flex items-center gap-3 sm:gap-4">
-                  {/* Use provided flagImage or fallback */}
                   {currency.flagImage ? (
                     <Image
-                      src={currency.flagImage.trim()} // Use the flagImage from API data
+                      src={currency.flagImage.trim()}
                       alt={`${currency.currencyName || currency.code} flag`}
                       width={40}
                       height={40}
                       onError={(e) => {
                         console.warn(
-                          // Use warn for non-critical image load errors
                           `Warning: Could not load image for ${currency.code}: ${currency.flagImage}. Hiding image.`
                         );
-                        (e.target as HTMLImageElement).style.display = "none"; // Hide broken image icon
+                        (e.target as HTMLImageElement).style.display = "none";
                       }}
-                      className="rounded-full object-cover flex-shrink-0 w-[40px] h-[40px] bg-gray-200 dark:bg-gray-700" // Added fallback bg
-                      unoptimized={currency.flagImage.includes("flagcdn.com")} // Example for external source
+                      className="rounded-full object-cover flex-shrink-0 w-[40px] h-[40px] bg-gray-200 dark:bg-gray-700"
+                      unoptimized={currency.flagImage.includes("flagcdn.com")}
                     />
                   ) : (
-                    // Fallback display if no flagImage provided
                     <div className="w-[40px] h-[40px] rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-300 text-xs font-medium flex-shrink-0">
                       {currency.code.substring(0, 3)}
                     </div>
@@ -2139,8 +3249,7 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
                 </div>
               </div>
             ))
-          : // Only show "no results" if there was a search query AND the initial fetch didn't fail
-            searchQuery &&
+          : searchQuery &&
             !isFetching &&
             !(error && currencies.length === 0) && (
               <p className="text-gray-700 lg:py-10 py-5 bg-white/5 rounded-lg capitalize dark:text-gray-300 text-center">
@@ -2151,96 +3260,98 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
     );
   };
 
-  // --- Render Component ---
   return (
     <AnimatePresence mode="wait">
       {isOpen && (
         <motion.div
-          className="fixed inset-0 bg-black/50 dark:bg-white/30 z-[100] flex sm:items-center items-end justify-center" // Added padding for mobile view, adjusted backdrop
+          className="fixed inset-0 bg-black/50 dark:bg-white/30 z-[100] flex sm:items-center items-end justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          onClick={onClose} // Close on overlay click
+          onClick={onClose}
           aria-modal="true"
           role="dialog"
           aria-labelledby="currency-modal-title"
           aria-describedby="currency-modal-description"
         >
-          {/* Stop propagation prevents closing when clicking inside the modal */}
           <motion.div
             ref={modalContentRef}
-            className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl sm:p-6 p-2 w-full sm:max-w-2xl relative flex flex-col max-h-[70vh] sm:max-h-[65vh]" // Adjusted max-height, padding
+            className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl w-full sm:max-w-2xl relative flex flex-col overflow-hidden max-h-[85vh] sm:max-h-[80vh]"
             variants={modalVariants}
             initial="initial"
             animate="animate"
             exit="exit"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
-            <div className="absolute top-2 right-2 z-10">
-              {/* Ensure button is above content */}
-              <button
-                onClick={onClose}
-                aria-label="Close currency selector"
-                className="p-3 bg-lightborder hover:bg-neutral-300 dark:bg-primarybox dark:hover:bg-secondarybox rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none" // Adjusted size and focus ring
-              >
-                <IoClose
-                  className="text-neutral-900 dark:text-primary"
-                  size={28}
-                />
-                {/* Adjusted size */}
-              </button>
-            </div>
-            {/* Inner content structure */}
-            <div className="flex flex-col gap-4 flex-grow overflow-hidden px-4 sm:px-0">
-              {/* Manages overall layout and padding */}
-              {/* Header */}
-              <div className="text-left flex-shrink-0 mt-4 sm:mt-0">
-                {/* Adjusted top margin */}
+            {/* Header */}
+            <div className="p-4 sm:p-6 flex items-center justify-between flex-shrink-0 border-b ">
+              <div>
                 <h2
                   id="currency-modal-title"
-                  className="sm:text-2xl text-xl font-semibold text-mainheading dark:text-white pr-10" // Adjusted size, added padding-right for close btn space
+                  className="sm:text-2xl text-xl font-semibold text-mainheading dark:text-white"
                 >
                   Open a balance
                 </h2>
                 <p
                   id="currency-modal-description"
-                  className="text-gray dark:text-gray-300 font-normal text-sm sm:text-base" // Adjusted size/weight
+                  className="text-gray dark:text-gray-300 font-normal text-sm sm:text-base"
                 >
                   Choose a currency to add to your account.
                 </p>
               </div>
-              {/* Search Input */}
-              <div className="relative flex-shrink-0">
-                <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
-                  <FiSearch
-                    className="size-5 text-neutral-500 dark:text-neutral-400" // Adjusted color
-                    aria-hidden="true"
-                  />
-                </div>
-                <input
-                  ref={searchInputRef} // **** ATTACH REF HERE ****
-                  type="text"
-                  placeholder="Search currency (e.g., USD, Euro)"
-                  className="w-full rounded-full h-12 py-3 pl-11 pr-10 border focus:border-[#5f5f5f] transition-all duration-75 ease-linear focus:outline-none placeholder:text-neutral-500 dark:placeholder:text-neutral-400 text-neutral-900 dark:text-white" // Enhanced styling
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  aria-label="Search for a currency"
-                />
-                {searchQuery && (
-                  <button
-                    onClick={clearSearchTerm}
-                    className="absolute inset-y-0 right-3 flex items-center text-neutral-900 dark:text-primary focus:outline-none cursor-pointer"
-                    aria-label="Clear search"
-                  >
-                    <MdCancel size={28} aria-hidden="true" />
-                  </button>
-                )}
+              <div
+                onClick={onClose}
+                className="size-12 bg-lightgray hover:bg-lightborder cursor-pointer dark:bg-primarybox dark:hover:bg-secondarybox flex items-center justify-center rounded-full transition-all duration-75 ease-linear"
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") onClose();
+                }}
+                aria-label="Close modal"
+              >
+                <button
+                  className="text-neutral-900 dark:text-primary cursor-pointer focus:outline-none"
+                  aria-label="Close"
+                >
+                  <IoClose size={28} />
+                </button>
               </div>
-              {/* This specifically handles errors related to selection or the add process, fetch errors are handled in renderContent */}
-              <AnimatePresence>
-                {error &&
-                  currencies.length > 0 && ( // Only show this error if currencies are loaded (not a fetch error)
+            </div>
+
+            {/* Scrollable Content Area */}
+            <div className="flex-grow overflow-y-auto scrollbar-hide">
+              <div className="p-4 sm:p-6 space-y-4">
+                {/* Search Input */}
+                <div className="relative flex-shrink-0">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                    <FiSearch
+                      className="size-5 text-neutral-500 dark:text-neutral-400"
+                      aria-hidden="true"
+                    />
+                  </div>
+                  <input
+                    ref={searchInputRef} // Ref is still attached
+                    type="text"
+                    placeholder="Search currency (e.g., USD, Euro)"
+                    className="w-full rounded-full h-12 py-3 pl-11 pr-10 border focus:border-[#5f5f5f] transition-all duration-75 ease-linear focus:outline-none placeholder:text-neutral-500 dark:placeholder:text-neutral-400 text-neutral-900 dark:text-white bg-white dark:bg-background border-gray-300 dark:border-neutral-700"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    aria-label="Search for a currency"
+                  />
+                  {searchQuery && (
+                    <button
+                      onClick={clearSearchTerm}
+                      className="absolute inset-y-0 right-3 flex items-center text-neutral-900 dark:text-primary focus:outline-none cursor-pointer"
+                      aria-label="Clear search"
+                    >
+                      <MdCancel size={28} aria-hidden="true" />
+                    </button>
+                  )}
+                </div>
+
+                {/* Error Message for selection/add process */}
+                <AnimatePresence>
+                  {error && currencies.length > 0 && (
                     <motion.div
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
@@ -2253,112 +3364,114 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
                         <div className="size-10 rounded-full flex items-center justify-center bg-red-600/20">
                           <FaExclamationCircle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
                         </div>
-                        <p className="text-sm font-medium text-red-700 dark:text-red-300/90">{error}</p>
+                        <p className="text-sm font-medium text-red-700 dark:text-red-300/90">
+                          {error}
+                        </p>
                       </div>
                     </motion.div>
                   )}
-              </AnimatePresence>
-              {/* Dynamic Content Area (List, Loading, No Results) */}
-              {renderContent()}
-            </div>{" "}
-            {!isFetching && (
-              <div
-                className={cn(
-                  "w-full flex flex-col sm:flex-row sm:justify-end items-center gap-3 pt-4 border-t flex-shrink-0 mt-auto px-4 sm:px-0" // Added padding horizontal for mobile
-                )}
-              >
-                <button
-                  className="inline-flex justify-center cursor-pointer bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox order-2 sm:order-1 disabled:opacity-50 disabled:cursor-not-allowed dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 text-center w-full transition-all duration-75 ease-linear" // Adjusted styles, sm:w-auto
-                  onClick={onClose}
-                  disabled={isAdding} // Only disable cancel if actively adding
-                  type="button"
-                >
-                  Cancel
-                </button>
+                </AnimatePresence>
 
-                <button
-                  className="inline-flex items-center justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 order-1 sm:order-2 disabled:opacity-50 disabled:bg-primary/50 disabled:cursor-not-allowed font-medium rounded-full px-8 py-3 text-center w-full transition-all duration-75 ease-linear" // Adjusted styles, sm:w-auto
-                  type="button"
-                  onClick={handleConfirm}
-                  disabled={
-                    isAdding || // Disable if adding
-                    !selectedCurrencyCode || // Disable if no selection
-                    selectedCurrencyCode === "INR" // Disable if invalid selection
-                  }
-                >
-                  {/* Show specific text for adding state */}
-                  {isAdding ? (
-                    <>
-                      <svg
-                      className="h-5 w-5 text-neutral-900 animate-spin mr-2" 
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M12 2V6"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M12 18V22"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M4.93 4.93L7.76 7.76"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M16.24 16.24L19.07 19.07"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M2 12H6"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M18 12H22"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M4.93 19.07L7.76 16.24"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M16.24 7.76L19.07 4.93"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                      <span>Adding...</span>
-                    </>
-                  ) : (
-                    "Confirm"
-                  )}
-                </button>
+                {/* Dynamic Content (List, Loading, No Results) from renderContent() */}
+                {renderContent()}
+              </div>
+            </div>
+
+            {/* Footer */}
+            {!isFetching && (
+              <div className="p-4 sm:p-6 border-t  bg-white dark:bg-background flex-shrink-0">
+                <div className="flex sm:flex-row flex-col justify-end gap-3">
+                  <button
+                    className="inline-flex justify-center cursor-pointer bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox order-2 sm:order-1 disabled:opacity-50 disabled:cursor-not-allowed dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear"
+                    onClick={onClose}
+                    disabled={isAdding}
+                    type="button"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="inline-flex items-center justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 order-1 sm:order-2 disabled:opacity-50 disabled:bg-primary/50 disabled:cursor-not-allowed font-medium rounded-full px-8 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear"
+                    type="button"
+                    onClick={handleConfirm}
+                    disabled={
+                      isAdding ||
+                      !selectedCurrencyCode ||
+                      selectedCurrencyCode === "INR"
+                    }
+                  >
+                    {isAdding ? (
+                      <>
+                        <svg
+                          className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                          aria-hidden="true"
+                        >
+                          <path
+                            d="M12 2V6"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M12 18V22"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M4.93 4.93L7.76 7.76"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M16.24 16.24L19.07 19.07"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M2 12H6"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M18 12H22"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M4.93 19.07L7.76 16.24"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M16.24 7.76L19.07 4.93"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                        <span>Adding...</span>
+                      </>
+                    ) : (
+                      "Confirm"
+                    )}
+                  </button>
+                </div>
               </div>
             )}
           </motion.div>

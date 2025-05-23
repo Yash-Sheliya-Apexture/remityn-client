@@ -3486,7 +3486,7 @@
 //                 variants={errorVariants}
 //               >
 //                 <div className="flex bg-red-100 dark:bg-red-600/20 justify-center rounded-full items-center lg:size-12 size-10 shrink-0">
-//                   <FiX className="p-0.5 text-red-600 dark:text-red-400 lg:size-8 size-6" />
+//                   <FiX className="p-0.5 text-red-600 lg:size-8 size-6" />
 //                 </div>
 
 //                 <div className="inline-block">
@@ -3532,7 +3532,7 @@
 //                   variants={errorVariants}
 //                 >
 //                   <div className="flex bg-red-100 dark:bg-red-600/20 justify-center rounded-full items-center lg:size-12 size-10 shrink-0">
-//                     <FiX className="p-0.5 text-red-600 dark:text-red-400 lg:size-8 size-6" />
+//                     <FiX className="p-0.5 text-red-600 lg:size-8 size-6" />
 //                   </div>
 
 //                   <div className="inline-block">
@@ -5118,9 +5118,10 @@ export default function LoginPage() {
                   htmlFor="email"
                   className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
                 >
-                  Your email address{" "}
-                  <span className="text-red-600 dark:text-red-400">*</span>
+                  Your email address {" "}
+                  <span className="text-red-600">*</span>
                 </label>
+
                 <input
                   type="email"
                   id="email"
@@ -5157,8 +5158,8 @@ export default function LoginPage() {
                   htmlFor="password"
                   className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
                 >
-                  Your password{" "}
-                  <span className="text-red-600 dark:text-red-400">*</span>
+                  Your password {" "}
+                  <span className="text-red-600">*</span>
                 </label>
 
                 <div className="relative">

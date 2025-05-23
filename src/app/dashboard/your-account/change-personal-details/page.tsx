@@ -2020,7 +2020,7 @@ export default function ChangePersonalDetails() {
                                     {/* First Name (Editable) */}
                                     <FormField control={form.control} name="firstName" render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Legal First Name(s) *</FormLabel>
+                                            <FormLabel>First Name(s) </FormLabel>
                                             <FormControl>
                                                 <Input placeholder="Enter your first name(s)" {...field} />
                                             </FormControl>
@@ -2031,7 +2031,7 @@ export default function ChangePersonalDetails() {
                                     {/* Last Name (Editable) */}
                                     <FormField control={form.control} name="lastName" render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Legal Last Name(s) *</FormLabel>
+                                            <FormLabel>Last Name(s) </FormLabel>
                                             <FormControl>
                                                 <Input placeholder="Enter your last name(s)" {...field} />
                                             </FormControl>
@@ -2041,10 +2041,11 @@ export default function ChangePersonalDetails() {
 
                                     {/* Nationality */}
                                     <FormItem>
-                                        <FormLabel className="flex items-center gap-1.5"><Globe className="h-4 w-4 text-muted-foreground"/> Nationality</FormLabel>
+                                        <FormLabel className="flex items-center gap-1.5">Nationality</FormLabel>
                                         <FormControl>
-                                            <Input value={displayNationality} readOnly className="bg-gray-100 dark:bg-secondarybox cursor-not-allowed" />
+                                            <Input value={displayNationality} readOnly className="bg-lightgray dark:bg-primarybox cursor-not-allowed" />
                                         </FormControl>
+
                                         <FormDescription>Nationality cannot be changed here. Contact support if incorrect.</FormDescription>
                                         {/* No FormMessage needed as it's not validated/submitted */}
                                     </FormItem>
@@ -2057,15 +2058,15 @@ export default function ChangePersonalDetails() {
                                          <div className="flex gap-2">
                                              <div className="w-1/3">
                                                  <Label htmlFor="dob-day" className="block text-sm font-medium text-gray dark:text-gray-300 mb-1">Day</Label>
-                                                 <Input id="dob-day" name="dob-day" value={displayDob.day} readOnly className="bg-gray-100 dark:bg-secondarybox cursor-not-allowed" />
+                                                 <Input id="dob-day" name="dob-day" value={displayDob.day} readOnly className="bg-lightgray dark:bg-primarybox cursor-not-allowed" />
                                              </div>
                                              <div className="w-1/2">
                                                  <Label htmlFor="dob-month" className="block text-sm font-medium text-gray dark:text-gray-300 mb-1">Month</Label>
-                                                 <Input id="dob-month" name="dob-month" value={monthLabels[displayDob.month] || ''} readOnly className="bg-gray-100 dark:bg-secondarybox cursor-not-allowed" />
+                                                 <Input id="dob-month" name="dob-month" value={monthLabels[displayDob.month] || ''} readOnly className="bg-lightgray dark:bg-primarybox cursor-not-allowed" />
                                              </div>
                                              <div className="w-1/3">
                                                  <Label htmlFor="dob-year" className="block text-sm font-medium text-gray dark:text-gray-300 mb-1">Year</Label>
-                                                 <Input id="dob-year" name="dob-year" value={displayDob.year} readOnly className="bg-gray-100 dark:bg-secondarybox cursor-not-allowed" />
+                                                 <Input id="dob-year" name="dob-year" value={displayDob.year} readOnly className="bg-lightgray dark:bg-primarybox cursor-not-allowed" />
                                              </div>
                                          </div>
                                          <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Date of birth usually cannot be changed after verification. Contact support if incorrect.</p>
@@ -2076,7 +2077,7 @@ export default function ChangePersonalDetails() {
                                     <div className="space-y-2 pt-2">
                                         <FormLabel className="flex items-center gap-1.5"><Phone className="h-4 w-4 text-muted-foreground"/> Mobile Number</FormLabel>
                                         <FormControl>
-                                             <Input value={displayMobile} readOnly className="bg-gray-100 dark:bg-secondarybox cursor-not-allowed" />
+                                             <Input value={displayMobile} readOnly className="bg-gray-100 dark:bg-primarybox cursor-not-allowed" />
                                          </FormControl>
                                          <FormDescription>Mobile number cannot be changed here. Contact support if needed.</FormDescription>
                                          {/* No FormMessage needed */}

@@ -2291,7 +2291,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
                         </div>{" "}
                         <MdErrorOutline
                           size={20}
-                          className="absolute -bottom-1 -right-1 text-orange-500 bg-white dark:bg-neutral-900 dark:text-orange-400 rounded-full p-0.5 shadow"
+                          className="absolute -bottom-1 -right-1 text-orange-500 bg-white dark:bg-neutral-900 dark:text-orange-400 rounded-full p-0.5"
                         />{" "}
                       </div>
                       <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">

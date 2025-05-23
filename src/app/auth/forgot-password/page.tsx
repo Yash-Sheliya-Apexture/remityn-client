@@ -2775,7 +2775,7 @@ const ResetPasswordForm = () => {
                   className=" text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
                 >
                   Enter your email address{" "}
-                  <span className="text-red-600 dark:text-red-400">*</span>
+                  <span className="text-red-600">*</span>
                 </label>
                 <input
                   id="email"
@@ -2797,6 +2797,7 @@ const ResetPasswordForm = () => {
                     emailFieldError ? "email-field-error" : undefined
                   }
                 />
+                
                 {/* Specific Email Field Error */}
                 {emailFieldError && (
                   <p

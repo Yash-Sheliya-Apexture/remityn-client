@@ -166,7 +166,7 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          Welcome to Wise, a service provided by Apexture . Wise is a modern
+          Welcome to Remityn, a service provided by Apexture . Remityn is a modern
           currency exchange and remittance platform designed to make
           international money transfers faster, more affordable, and
           transparent. Our service leverages secure technology to simplify how
@@ -179,7 +179,7 @@ const sections: PolicySection[] = [
           access our website, no matter where you're located
         </p>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          This Privacy Policy is designed to inform you about how Wise processes
+          This Privacy Policy is designed to inform you about how Remityn processes
           your personal data whenever you interact with our platform — whether
           you're creating an account, completing a transaction, or communicating
           with our support team.
@@ -201,7 +201,7 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          To provide you with secure and efficient money transfer services, Wise
+          To provide you with secure and efficient money transfer services, Remityn
           collects various types of personal and technical information. This
           data is essential for delivering our services, complying with legal
           requirements, and enhancing your user experience. The information we
@@ -217,7 +217,7 @@ const sections: PolicySection[] = [
             </li>
             <li>
               Transactional Data We collect details of your financial
-              transactions with Wise, including money sent or received, bank
+              transactions with Remityn, including money sent or received, bank
               account numbers, payment card information, currency exchanged, and
               records of the services you use.
             </li>
@@ -264,7 +264,7 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="font-normal text-gray-500 lg:text-base text-sm dark:text-gray-300">
-          At Wise, we collect personal data through various methods to ensure
+          At Remityn, we collect personal data through various methods to ensure
           accurate, secure, and efficient service delivery. The ways we gather
           information include:
         </p>
@@ -284,7 +284,7 @@ const sections: PolicySection[] = [
             </li>
             <li>
               2. Automated Technologies or Interactions When you engage with
-              Wise online, we automatically collect technical data about your
+              Remityn online, we automatically collect technical data about your
               device and browsing. This data is gathered using technologies such
               as:
               <ul className="ml-5 list-inside list-disc lg:text-base text-sm space-y-1 mt-2">
@@ -317,7 +317,7 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300">
-          Wise uses the information we collect from you to operate efficiently,
+          Remityn uses the information we collect from you to operate efficiently,
           deliver a secure and personalized experience, and fulfill our legal
           and contractual obligations. Here’s how your data is used:
         </p>
@@ -326,7 +326,7 @@ const sections: PolicySection[] = [
           <ul className="ml-6 list-inside list-decimal lg:text-base text-sm space-y-1">
             <li>
               To Register You as a New Customer We use your personal
-              identification data to create your Wise account and onboard you as
+              identification data to create your Remityn account and onboard you as
               a verified user.
             </li>
             <li>
@@ -378,7 +378,7 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300">
-          At Wise, safeguarding your personal information is a top priority. We
+          At Remityn, safeguarding your personal information is a top priority. We
           have implemented robust security measures to prevent unauthorized
           access, misuse, alteration, or disclosure of your personal data.
         </p>
@@ -408,7 +408,7 @@ const sections: PolicySection[] = [
               regulatory authorities in accordance with legal requirements.
             </li>
             <li>
-              4. Continuous Testing and Preparedness Wise regularly tests its
+              4. Continuous Testing and Preparedness Remityn regularly tests its
               infrastructure, systems, and response strategies through planned
               disaster recovery exercises and cybersecurity drills to ensure
               ongoing readiness against potential threats.
@@ -424,7 +424,7 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          As a global platform, Wise may need to transfer your personal data to
+          As a global platform, Remityn may need to transfer your personal data to
           countries outside of the European Economic Area (EEA). These transfers
           are necessary for delivering our services and supporting international
           operations, such as processing transactions or working with trusted
@@ -445,7 +445,7 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          At Wise, we aim to deliver content, offers, and services that are most
+          At Remityn, we aim to deliver content, offers, and services that are most
           relevant to you. To achieve this, we may use your Identity, Contact,
           Technical, Usage, and Profile Data to better understand your
           preferences and tailor our marketing communications accordingly.
@@ -462,7 +462,7 @@ const sections: PolicySection[] = [
     title: "Cookies",
     content: (
       <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-        At Wise, we use cookies and similar technologies to enhance your
+        At Remityn, we use cookies and similar technologies to enhance your
         experience on our website. These small files are stored on your device
         to help us understand how you interact with our site, remember your
         preferences, and deliver content that’s more relevant to you. Cookies
@@ -472,8 +472,8 @@ const sections: PolicySection[] = [
         cookies. However, please be aware that disabling cookies may affect the
         functionality of certain features on our website. For more details about
         how we use cookies, please refer to our Cookie Policy.
-        <Link href="/cookie-policy" legacyBehavior>
-          <a className="underline">cookie policy</a>
+        <Link href="/cookie-policy" >
+          <span className="underline">cookie policy</span>
         </Link>
         .
       </p>
@@ -485,7 +485,7 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          Wise is a trusted remittance platform powered by cutting-edge
+          Remityn is a trusted remittance platform powered by cutting-edge
           technology and a commitment to transparency, security, and customer
           satisfaction. Operated by Apexture Limited, our mission is to make
           international money transfers faster, more affordable, and more
@@ -495,7 +495,7 @@ const sections: PolicySection[] = [
           We understand the importance of handling your personal data with care.
           That’s why we adhere to strict privacy practices and are committed to
           protecting your information at every step. Whether you're sending
-          money abroad or managing your account, you can rely on Wise to
+          money abroad or managing your account, you can rely on Remityn to
           prioritize both your financial and data security.
         </p>
       </>
@@ -513,7 +513,7 @@ const PrivacyPolicyPage: React.FC = () => {
           </h2>
 
           <p className="max-w-5xl text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-            At Wise, protecting your personal information is a top priority. We
+            At Remityn, protecting your personal information is a top priority. We
             use advanced security measures and comply with global data
             protection laws to ensure your data is safe, private, and only used
             for the services you trust us with.

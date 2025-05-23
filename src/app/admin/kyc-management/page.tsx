@@ -1457,9 +1457,11 @@ const KycManagementPage: React.FC = () => {
       <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
         <ListChecks className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
       </div>
+
       <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
         {searchQuery ? "No Matches Found" : "All Clear KYC !"}
       </h2>
+
 
       <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
         {searchQuery
@@ -1507,7 +1509,7 @@ const KycManagementPage: React.FC = () => {
               {sortBy === "date" && (
                 <motion.div
                   layoutId="activeSortBackground"
-                  className="absolute inset-0 rounded-full bg-primary shadow-sm z-0"
+                  className="absolute inset-0 rounded-full bg-primary z-0"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}
@@ -1533,7 +1535,7 @@ const KycManagementPage: React.FC = () => {
               {sortBy === "name" && (
                 <motion.div
                   layoutId="activeSortBackground"
-                  className="absolute inset-0 rounded-full bg-primary shadow-sm z-0"
+                  className="absolute inset-0 rounded-full bg-primary z-0"
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
                 />
               )}
@@ -1738,7 +1740,7 @@ const KycManagementPage: React.FC = () => {
             </div>
           ) : (
             <div className="Management">
-              <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center gap-3">
                 <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
                   <MdManageAccounts className="size-6 text-mainheading dark:text-primary" />
                 </div>

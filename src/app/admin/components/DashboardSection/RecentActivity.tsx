@@ -690,7 +690,7 @@ export default function RecentActivity() {
         </div>
       </div>
 
-      <div className="space-y-4 relative">
+      <div className="space-y-3 relative">
         {showSkeletons ? ( // Show skeletons for the list if loading OR refreshing 508px
           [...Array(activitiesToDisplayCount)].map((_, i) => (
             <div
@@ -698,16 +698,28 @@ export default function RecentActivity() {
               className="flex items-start bg-lightgray dark:bg-primarybox p-4 rounded-lg "
             >
               <Skeleton className="h-10 w-10 rounded-full mr-4 flex-shrink-0 bg-lightborder dark:bg-accent" />
-              <div className="flex-grow space-y-2.5">
-                <Skeleton className="h-4 w-4/5 rounded-full bg-lightborder dark:bg-accent" />
-                <Skeleton className="h-3 w-2/5 rounded-full bg-lightborder dark:bg-accent" />
-              </div>
-              <div className="space-y-1.5">
-                <Skeleton className="h-3 w-32 rounded-full  bg-lightborder dark:bg-accent" />
-                <Skeleton className="h-3 w-22 rounded-full  bg-lightborder dark:bg-accent" />
+              <div className="flex sm:flex-row flex-col justify-between w-full">
+                <div className="flex-grow space-y-2.5">
+                  <Skeleton className="h-4 w-4/5 rounded-full bg-lightborder dark:bg-accent" />
+                  <Skeleton className="h-3 w-2/5 rounded-full bg-lightborder dark:bg-accent" />
+                </div>
+
+                {isMobile && (
+                  <div className="flex flex-col items-start gap-1 mt-1">
+                    <Skeleton className="h-3 w-36  rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
+                    <Skeleton className="h-3 w-26 rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
+                  </div>
+                )}
+                {!isMobile && (
+                  <div className="flex flex-col items-end gap-1">
+                    <Skeleton className="h-3 w-36  rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
+                    <Skeleton className="h-3 w-26 rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
+                  </div>
+                )}
               </div>
             </div>
           ))
+          
         ) : activities.length > 0 ? (
           activities.map((activity, index) => {
             const config = getActivityConfig(activity.type);
@@ -733,7 +745,7 @@ export default function RecentActivity() {
                     )}
                   </p>
                   {isMobile && (
-                    <div className="mt-1 flex items-center gap-2">
+                    <div className="mt-1 flex flex-wrap items-center gap-2">
                       <p className="text-xs text-gray-500 dark:text-gray-300 whitespace-nowrap">
                         {moment(activity.timestamp).format(
                           "MMM D, YYYY h:mm A"
@@ -772,7 +784,7 @@ export default function RecentActivity() {
           </div>
         )}
       </div>
-      
+
       {isMobile && (
         <Link
           href="/admin/activity"

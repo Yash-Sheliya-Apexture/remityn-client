@@ -636,13 +636,13 @@
 // interface MobileMenuProps {
 //   isOpen: boolean;
 //   onClose: () => void;
-//   featureLinks: { href: string; text: string }[];
+//   navLinks: { href: string; text: string }[];
 // }
 
 // const MobileMenu: React.FC<MobileMenuProps> = ({
 //   isOpen,
 //   onClose,
-//   featureLinks
+//   navLinks
 // }) => {
 //   const [isFeaturesOpen, setIsFeaturesOpen] = useState(false); // State for Features dropdown
 
@@ -690,7 +690,7 @@
 //             {/* Features (with dropdown) */}
 //             <FeatureDropdown
 //               buttonText="Features"
-//               links={featureLinks}
+//               links={navLinks}
 //               buttonClassName="block w-full text-left py-2  font-medium text-lg"
 //               isMobile={true}
 //               isOpen={isFeaturesOpen}
@@ -763,13 +763,13 @@
 // interface MobileMenuProps {
 //   isOpen: boolean;
 //   onClose: () => void;
-//   featureLinks: { href: string; text: string }[];
+//   navLinks: { href: string; text: string }[];
 // }
 
 // const MobileMenu: React.FC<MobileMenuProps> = ({
 //   isOpen,
 //   onClose,
-//   featureLinks
+//   navLinks
 // }) => {
 //   const [isFeaturesOpen, setIsFeaturesOpen] = useState(false); // State for Features dropdown
 
@@ -820,7 +820,7 @@
 //             {/* Features (with dropdown) */}
 //             <FeatureDropdown
 //               buttonText="Features"
-//               links={featureLinks}
+//               links={navLinks}
 //               buttonClassName="block w-full text-left py-2  font-medium text-lg"
 //               isMobile={true}
 //               isOpen={isFeaturesOpen}
@@ -895,14 +895,14 @@
 // interface MobileMenuProps {
 //   isOpen: boolean;
 //   onClose: () => void;
-//   featureLinks: { href: string; text: string }[];
+//   navLinks: { href: string; text: string }[];
 //   topContent?: React.ReactNode; // <-- Add this line (make it optional '?' or required based on need)
 // }
 
 // const MobileMenu: React.FC<MobileMenuProps> = ({
 //   isOpen,
 //   onClose,
-//   featureLinks,
+//   navLinks,
 //   topContent, // <-- Destructure the prop here
 // }) => {
 //   const [isFeaturesOpen, setIsFeaturesOpen] = useState(false); // State for Features dropdown
@@ -948,7 +948,7 @@
 
 //             <FeatureDropdown
 //               buttonText="Features"
-//               links={featureLinks}
+//               links={navLinks}
 //               topContent={topContent} // <-- Pass the prop down here
 //               buttonClassName="block w-fit text-left py-2 px-4 font-medium hover:bg-gray-100 dark:hover:bg-gray-800 rounded" // Added hover and rounded
 //               isMobile={true}
@@ -1006,7 +1006,7 @@
 // interface MobileMenuProps {
 //   isOpen: boolean;
 //   onClose: () => void;
-//   featureLinks: { href: string; text: string }[];
+//   navLinks: { href: string; text: string }[];
 //   topContent?: React.ReactNode;
 //   isLoggedIn: boolean;
 //   onLogout: () => void;
@@ -1015,7 +1015,7 @@
 // const MobileMenu: React.FC<MobileMenuProps> = ({
 //   isOpen,
 //   onClose,
-//   featureLinks,
+//   navLinks,
 //   topContent,
 //   isLoggedIn,
 //   onLogout,
@@ -1070,7 +1070,7 @@
 //             {/* Mobile Feature Dropdown */}
 //             <FeatureDropdown
 //               buttonText="Features"
-//               links={featureLinks}
+//               links={navLinks}
 //               buttonClassName="inline-block w-full text-left py-2 font-medium rounded-md" // Consistent styling
 //               isMobile={true}
 //               isOpen={isFeaturesOpen}
@@ -1154,7 +1154,7 @@
 // interface MobileMenuProps {
 //   isOpen: boolean; // Reflects if the menu should be open (controlled from parent)
 //   onClose: () => void; // Function to call when the menu needs to close
-//   featureLinks: { href: string; text: string }[]; // Array of feature links
+//   navLinks: { href: string; text: string }[]; // Array of feature links
 //   topContent?: React.ReactNode; // Optional top content (not currently used in the provided code)
 //   isLoggedIn: boolean; // Authentication status
 //   onLogout: () => void; // Function to call for logout
@@ -1164,7 +1164,7 @@
 // const MobileMenu: React.FC<MobileMenuProps> = ({
 //   isOpen, // Use this prop to control visibility if needed, though animation might handle it
 //   onClose,
-//   featureLinks,
+//   navLinks,
 //   topContent, // Not used in the return jsx
 //   isLoggedIn,
 //   onLogout,
@@ -1221,7 +1221,7 @@
 //             {/* Mobile Feature Dropdown */}
 //             <FeatureDropdown
 //               buttonText="Features"
-//               links={featureLinks}
+//               links={navLinks}
 //               buttonClassName="inline-block w-full text-left py-2 font-medium rounded-md" // Consistent styling
 //               isMobile={true}
 //               isOpen={isFeaturesOpen}
@@ -1298,8 +1298,6 @@
 
 // export default MobileMenu;
 
-
-
 // // frontend/src/app/components/layout/MobileMenu.tsx // Or your actual path
 // // ========================================================================
 
@@ -1314,14 +1312,12 @@
 // interface MobileMenuProps {
 //   isOpen: boolean; // Reflects if the menu should be open (controlled from parent)
 //   onClose: () => void; // Function to call when the menu needs to close
-//   featureLinks: { href: string; text: string }[]; // Array of feature links
+//   navLinks: { href: string; text: string }[]; // Array of feature links
 //   topContent?: React.ReactNode; // Optional top content (not currently used in the provided code)
 //   isLoggedIn: boolean; // Authentication status
 //   onLogout: () => void; // Function to call for logout
 //   authLoading: boolean;
 // }
-
-
 
 // // Variants for the container of the links to orchestrate staggering
 // const listVariants = {
@@ -1363,7 +1359,7 @@
 // const MobileMenu: React.FC<MobileMenuProps> = ({
 //   isOpen,
 //   onClose,
-//   featureLinks,
+//   navLinks,
 //   topContent,
 //   isLoggedIn,
 //   onLogout,
@@ -1446,7 +1442,7 @@
 //                 <motion.div variants={itemVariants}>
 //                   <FeatureDropdown
 //                     buttonText="Features"
-//                     links={featureLinks}
+//                     links={navLinks}
 //                     buttonClassName="inline-block w-full text-left py-2 font-medium rounded-md" // Consistent styling
 //                     isMobile={true}
 //                     isOpen={isFeaturesOpen}
@@ -1543,7 +1539,7 @@
 // interface MobileMenuProps {
 //   isOpen: boolean; // Reflects if the menu should be open (controlled from parent)
 //   onClose: () => void; // Function to call when the menu needs to close
-//   featureLinks: { href: string; text: string }[]; // Array of feature links
+//   navLinks: { href: string; text: string }[]; // Array of feature links
 //   topContent?: React.ReactNode; // Optional top content (not currently used in the provided code)
 //   isLoggedIn: boolean; // Authentication status
 //   onLogout: () => void; // Function to call for logout
@@ -1590,7 +1586,7 @@
 // const MobileMenu: React.FC<MobileMenuProps> = ({
 //   isOpen,
 //   onClose,
-//   featureLinks,
+//   navLinks,
 //   topContent,
 //   isLoggedIn,
 //   onLogout,
@@ -1665,7 +1661,7 @@
 //             <motion.div variants={itemVariants}>
 //               <FeatureDropdown
 //                 buttonText="Features"
-//                 links={featureLinks}
+//                 links={navLinks}
 //                 // CHANGED: inline-block -> block w-full
 //                 buttonClassName="block w-full text-left py-2 font-medium rounded-md" // Consistent styling
 //                 isMobile={true}
@@ -1747,75 +1743,338 @@
 
 // export default MobileMenu;
 
+// // frontend/src/app/components/layout/MobileMenu.tsx
+// "use client";
+// import React, { useState } from "react";
+// import Link from "next/link";
+// import { usePathname } from "next/navigation"; // Import usePathname
+// import FeatureDropdown from "@/app/components/ui/FeatureDropdown";
+// import ThemeToggle from "../../../contexts/ThemeToggle";
+// import { motion } from "framer-motion";
 
+// // --- Define the interface for props ---
+// interface MobileMenuProps {
+//   isOpen: boolean;
+//   onClose: () => void;
+//   navLinks: { href: string; text: string }[];
+//   topContent?: React.ReactNode;
+//   isLoggedIn: boolean;
+//   onLogout: () => void;
+//   authLoading: boolean;
+// }
 
-// frontend/src/app/components/layout/MobileMenu.tsx
+// // Variants for the container of the links to orchestrate staggering
+// const listVariants = {
+//   hidden: {
+//     opacity: 0, // Can start hidden if you prefer a fade-in for the whole block
+//     transition: {
+//       when: "afterChildren", // Ensure children finish animating out before hiding container
+//     },
+//   },
+//   visible: {
+//     opacity: 1,
+//     transition: {
+//       when: "beforeChildren", // Ensure container is ready before children animate in
+//       staggerChildren: 0.08, // Stagger delay between each child (adjust as needed)
+//     },
+//   },
+// };
+
+// // Variants for each individual link item
+// const itemVariants = {
+//   hidden: {
+//     opacity: 0,
+//     x: -50, // Start 30px to the left
+//   },
+//   visible: {
+//     opacity: 1,
+//     x: 0, // Animate to original position
+//     transition: {
+//       type: "spring", // Optional: Use spring physics
+//       stiffness: 200, // Optional: Adjust spring stiffness
+//       damping: 15, // Optional: Adjust spring damping
+//       // Or use a simple ease:
+//       ease: "easeOut",
+//       duration: 0.3
+//     },
+//   },
+// };
+
+// const MobileMenu: React.FC<MobileMenuProps> = ({
+//   isOpen,
+//   onClose,
+//   navLinks,
+//   topContent,
+//   isLoggedIn,
+//   onLogout,
+//   authLoading,
+// }) => {
+//   const [isFeaturesOpen, setIsFeaturesOpen] = useState(false);
+//   const pathname = usePathname(); // Get the current pathname
+
+//   const toggleFeaturesDropdown = () => {
+//     setIsFeaturesOpen(!isFeaturesOpen);
+//   };
+
+//   const handleLinkClick = () => {
+//     setIsFeaturesOpen(false);
+//     onClose();
+//   };
+
+//   const handleLogoutClick = () => {
+//     onLogout();
+//     handleLinkClick();
+//   };
+
+//   // --- Define reusable class strings ---
+//   const baseMobileLinkClasses =
+//     "block w-full px-4 py-1.5 rounded-full font-medium transition-all duration-75 ease-linear"; // Base mobile link style
+//   const inactiveMobileLinkClasses =
+//     "text-mainheading dark:text-white dark:hover:text-primary hover:bg-lightgray hover:dark:bg-primarybox"; // Style for inactive links + hover
+//   const activeMobileLinkClasses =
+//     "bg-lightgray dark:bg-primarybox text-mainheading dark:text-primary"; // Style for active links
+
+//   // --- Function to determine link classes for standard Mobile Menu Links ---
+//   const getMobileLinkClasses = (href: string): string => {
+//     let isActive = false;
+//     const isRootPath = pathname === "/";
+
+//     if (href === "/") {
+//       isActive = isRootPath;
+//     } else {
+//       // Ensure pathname is not null or undefined before calling startsWith
+//       // Also check that the href is not just "/" to avoid activating non-home links on the homepage
+//       isActive = !!pathname && pathname !== "/" && pathname.startsWith(href);
+//     }
+
+//     return `${baseMobileLinkClasses} ${isActive ? activeMobileLinkClasses : inactiveMobileLinkClasses}`;
+//   };
+//   // --- End of function ---
+
+//   // --- Determine if any feature link is currently active ---
+//   const isAnyFeatureLinkActive = navLinks.some(link =>
+//       !!pathname && pathname !== "/" && pathname.startsWith(link.href)
+//   );
+
+//   // --- Construct the classes for the Feature Dropdown button ---
+//   const featureDropdownButtonClasses = `${baseMobileLinkClasses} ${isAnyFeatureLinkActive ? activeMobileLinkClasses : inactiveMobileLinkClasses} text-left`; // Add text-left explicitly
+
+//   if (!isOpen) return null;
+
+//   return (
+//     <div
+//       className="flex flex-col justify-between h-full"
+//       aria-hidden={!isOpen}
+//       role="dialog"
+//       aria-modal="true"
+//     >
+//       {/* Top Navigation Links */}
+//       <motion.div
+//         className="p-4 space-y-2 border-t overflow-x-hidden overflow-y-auto sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3  sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox"
+//         initial="hidden"
+//         animate="visible"
+//         variants={listVariants}
+//       >
+//         <div className="flex flex-col gap-2 w-full">
+//           {/* Home Link */}
+//           <motion.div variants={itemVariants}>
+//             <Link
+//               href="/"
+//               className={getMobileLinkClasses("/")}
+//               onClick={handleLinkClick}
+//             >
+//               Home
+//             </Link>
+//           </motion.div>
+
+//           {/* About Link */}
+//           <motion.div variants={itemVariants}>
+//             <Link
+//               href="/about-us"
+//               className={getMobileLinkClasses("/about-us")}
+//               onClick={handleLinkClick}
+//             >
+//               About
+//             </Link>
+//           </motion.div>
+
+//           {/* Mobile Feature Dropdown */}
+//           <motion.div variants={itemVariants}>
+//             <FeatureDropdown
+//               buttonText="Features"
+//               links={navLinks}
+//               // Apply the calculated classes based on feature link activity
+//               buttonClassName={featureDropdownButtonClasses}
+//               isMobile={true}
+//               isOpen={isFeaturesOpen}
+//               toggleDropdown={toggleFeaturesDropdown}
+//               onLinkClick={handleLinkClick}
+//               // Pass active status to potentially style the arrow differently if needed
+//               isActive={isAnyFeatureLinkActive}
+//             />
+//           </motion.div>
+
+//           {/* Reviews Link */}
+//            <motion.div variants={itemVariants}>
+//             <Link
+//                 href="/reviews"
+//                 className={getMobileLinkClasses("/reviews")}
+//                 onClick={handleLinkClick}
+//             >
+//                 Reviews
+//             </Link>
+//           </motion.div>
+
+//           {/* Help Link */}
+//           <motion.div variants={itemVariants}>
+//             <Link
+//               href="/faqs"
+//               className={getMobileLinkClasses("/faqs")}
+//               onClick={handleLinkClick}
+//             >
+//               Help
+//             </Link>
+//           </motion.div>
+//         </div>
+//       </motion.div>
+
+//       {/* Bottom Auth Buttons & Theme Toggle */}
+//       <div className="p-4 border-t">
+//         <div className="mb-4 flex justify-center">
+//            <ThemeToggle location="admin" /> {/* Changed location */}
+//         </div>
+//         <div className="flex flex-col sm:flex-row items-center gap-3">
+//           {authLoading ? (
+//             // Loading Skeleton
+//             <div className="flex flex-col sm:flex-row w-full gap-3">
+//               <div className="h-11 w-full bg-gray-200 dark:bg-white/10 rounded-full animate-pulse"></div>
+//               <div className="h-11 w-full bg-gray-200 dark:bg-white/10 rounded-full animate-pulse"></div>
+//             </div>
+//           ) : isLoggedIn ? (
+//             // Logged In Buttons
+//             <>
+//               <Link
+//                 href="/dashboard"
+//                 // Keep specific button styling for Dashboard as it's a primary action
+//                 className="inline-block w-full px-4 py-2.5 bg-primary hover:bg-primaryhover rounded-full font-medium text-base text-center text-mainheading transition-colors"
+//                 onClick={handleLinkClick}
+//               >
+//                 Dashboard
+//               </Link>
+//               <button
+//                 onClick={handleLogoutClick}
+//                 className="inline-block w-full px-4 py-2.5 bg-gray-100 dark:bg-secondary text-main dark:text-white rounded-full font-medium text-base text-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+//               >
+//                 Log out
+//               </button>
+//             </>
+//           ) : (
+//             // Logged Out Buttons
+//             <>
+//               <Link
+//                 href="/auth/login"
+//                 passHref
+//                 className="inline-block w-full px-4 py-3 h-12.5 border dark:border-gray-600 dark:border-none bg-white dark:bg-secondary font-medium rounded-full text-base text-center dark:text-white text-mainheading hover:bg-gray-50 transition-colors"
+//                 onClick={handleLinkClick}
+//               >
+//                 Log in
+//               </Link>
+//               <Link
+//                 href="/auth/register"
+//                 passHref
+//                 className="inline-block w-full px-4 py-3 h-12.5 bg-primary hover:bg-primaryhover rounded-full font-medium text-base text-center text-mainheading transition-colors duration-300 ease-in-out"
+//                 onClick={handleLinkClick}
+//               >
+//                 Register
+//               </Link>
+//             </>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default MobileMenu;
+
 "use client";
-import React, { useState } from "react";
+import React from "react"; // Removed useState as isFeaturesOpen is no longer needed
 import Link from "next/link";
-import { usePathname } from "next/navigation"; // Import usePathname
-import FeatureDropdown from "@/app/components/ui/FeatureDropdown";
-import ThemeToggle from "../../../contexts/ThemeToggle";
+import { usePathname } from "next/navigation";
 import { motion } from "framer-motion";
+import { HiOutlineLogout } from "react-icons/hi";
 
 // --- Define the interface for props ---
 interface MobileMenuProps {
   isOpen: boolean;
   onClose: () => void;
-  featureLinks: { href: string; text: string }[];
-  topContent?: React.ReactNode;
+  navLinks: { href: string; text: string }[];
   isLoggedIn: boolean;
   onLogout: () => void;
   authLoading: boolean;
 }
 
-// Variants for the container of the links to orchestrate staggering
+// Variants for the container of the links
 const listVariants = {
-  hidden: { /* ... */ },
-  visible: { /* ... */ },
+  hidden: {
+    opacity: 0,
+    transition: {
+      when: "afterChildren",
+    },
+  },
+  visible: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.08,
+    },
+  },
 };
 
 // Variants for each individual link item
 const itemVariants = {
-  hidden: { /* ... */ },
-  visible: { /* ... */ },
+  hidden: {
+    opacity: 0,
+    x: -30, // Adjusted for a slightly softer animation
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      // type: "spring", // Spring can be nice but sometimes overshoot
+      // stiffness: 200,
+      // damping: 20,
+      ease: "easeOut",
+      duration: 0.3,
+    },
+  },
 };
 
 const MobileMenu: React.FC<MobileMenuProps> = ({
   isOpen,
   onClose,
-  featureLinks,
-  topContent,
+  navLinks,
   isLoggedIn,
   onLogout,
   authLoading,
 }) => {
-  const [isFeaturesOpen, setIsFeaturesOpen] = useState(false);
-  const pathname = usePathname(); // Get the current pathname
-
-  const toggleFeaturesDropdown = () => {
-    setIsFeaturesOpen(!isFeaturesOpen);
-  };
+  const pathname = usePathname();
 
   const handleLinkClick = () => {
-    setIsFeaturesOpen(false);
-    onClose();
+    onClose(); // Close menu on any link click
   };
 
   const handleLogoutClick = () => {
     onLogout();
-    handleLinkClick();
+    handleLinkClick(); // Also close menu
   };
 
-  // --- Define reusable class strings ---
   const baseMobileLinkClasses =
-    "block w-full px-4 py-1.5 rounded-full font-medium transition-all duration-75 ease-linear"; // Base mobile link style
+    "block w-full text-left px-4 py-3 rounded-full font-medium text-lg transition-all duration-150 ease-in-out"; // Increased py, rounded-lg, text-lg
   const inactiveMobileLinkClasses =
-    "text-mainheading dark:text-white dark:hover:text-primary hover:bg-lightgray hover:dark:bg-primarybox"; // Style for inactive links + hover
-  const activeMobileLinkClasses =
-    "bg-lightgray dark:bg-primarybox text-mainheading dark:text-primary"; // Style for active links
+    "text-gray-200 hover:bg-gray-700/50 hover:text-white"; // Adjusted colors for dark theme
+  const activeMobileLinkClasses = "bg-primaryboxdubal text-white"; // Adjusted active state
 
-  // --- Function to determine link classes for standard Mobile Menu Links ---
   const getMobileLinkClasses = (href: string): string => {
     let isActive = false;
     const isRootPath = pathname === "/";
@@ -1823,148 +2082,112 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
     if (href === "/") {
       isActive = isRootPath;
     } else {
-      // Ensure pathname is not null or undefined before calling startsWith
-      // Also check that the href is not just "/" to avoid activating non-home links on the homepage
-      isActive = !!pathname && pathname !== "/" && pathname.startsWith(href);
+      isActive = !!pathname && pathname.startsWith(href) && href !== "/";
     }
-
-    return `${baseMobileLinkClasses} ${isActive ? activeMobileLinkClasses : inactiveMobileLinkClasses}`;
+    return `${baseMobileLinkClasses} ${
+      isActive ? activeMobileLinkClasses : inactiveMobileLinkClasses
+    }`;
   };
-  // --- End of function ---
 
-  // --- Determine if any feature link is currently active ---
-  const isAnyFeatureLinkActive = featureLinks.some(link =>
-      !!pathname && pathname !== "/" && pathname.startsWith(link.href)
-  );
+  // Prepare ordered links for the mobile menu
+  const mobileNavLinksConfig = [
+    ...navLinks.filter((link) =>
+      ["/", "/about-us", "/features"].includes(link.href)
+    ), // Home, About, Features
+    { href: "/reviews", text: "Reviews" }, // Add Reviews link
+    ...navLinks.filter((link) => link.href === "/faqs"), // Add Help link
+  ];
 
-  // --- Construct the classes for the Feature Dropdown button ---
-  const featureDropdownButtonClasses = `${baseMobileLinkClasses} ${isAnyFeatureLinkActive ? activeMobileLinkClasses : inactiveMobileLinkClasses} text-left`; // Add text-left explicitly
+  // Filter out any potential undefined items if navLinks prop is manipulated unexpectedly
+  const finalMobileLinks = navLinks
+    .map((link) => {
+      if (link.href === "/features") {
+        return [link, { href: "/reviews", text: "Reviews" }];
+      }
+      return link;
+    })
+    .flat()
+    .filter(Boolean) as { href: string; text: string }[];
 
+  // A more robust way to create the ordered list for the mobile menu:
+  const orderedMobileLinks: { href: string; text: string }[] = [];
+  const linksOrder = ["/", "/about-us", "/features", "/reviews", "/faqs"];
+  const tempNavLinks = [...navLinks, { href: "/reviews", text: "Reviews" }]; // Combine and add reviews
+
+  linksOrder.forEach((href) => {
+    const link = tempNavLinks.find((l) => l.href === href);
+    if (link) {
+      orderedMobileLinks.push(link);
+    }
+  });
 
   if (!isOpen) return null;
 
   return (
     <div
-      className="flex flex-col justify-between h-full"
+      className="flex flex-col justify-between h-full mx-4 mb-4 bg-primary-foreground rounded-[35px] overflow-hidden"
       aria-hidden={!isOpen}
       role="dialog"
       aria-modal="true"
     >
-      {/* Top Navigation Links */}
       <motion.div
-        className="p-4 space-y-2 border-t overflow-x-hidden overflow-y-auto sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3  sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox"
+        className="p-4 space-y-2.5 overflow-y-auto flex-grow"
         initial="hidden"
         animate="visible"
+        exit="hidden" // Ensure exit animation plays
         variants={listVariants}
       >
-        <div className="flex flex-col gap-2 w-full">
-          {/* Home Link */}
-          <motion.div variants={itemVariants}>
+        {orderedMobileLinks.map((link) => (
+          <motion.div variants={itemVariants} key={link.href}>
             <Link
-              href="/"
-              className={getMobileLinkClasses("/")}
+              href={link.href}
+              className={getMobileLinkClasses(link.href)}
               onClick={handleLinkClick}
             >
-              Home
+              {link.text}
             </Link>
           </motion.div>
-
-          {/* About Link */}
-          <motion.div variants={itemVariants}>
-            <Link
-              href="/about-us"
-              className={getMobileLinkClasses("/about-us")}
-              onClick={handleLinkClick}
-            >
-              About
-            </Link>
-          </motion.div>
-
-          {/* Mobile Feature Dropdown */}
-          <motion.div variants={itemVariants}>
-            <FeatureDropdown
-              buttonText="Features"
-              links={featureLinks}
-              // Apply the calculated classes based on feature link activity
-              buttonClassName={featureDropdownButtonClasses}
-              isMobile={true}
-              isOpen={isFeaturesOpen}
-              toggleDropdown={toggleFeaturesDropdown}
-              onLinkClick={handleLinkClick}
-              // Pass active status to potentially style the arrow differently if needed
-              isActive={isAnyFeatureLinkActive}
-            />
-          </motion.div>
-
-          {/* Reviews Link */}
-           <motion.div variants={itemVariants}>
-            <Link
-                href="/reviews"
-                className={getMobileLinkClasses("/reviews")}
-                onClick={handleLinkClick}
-            >
-                Reviews
-            </Link>
-          </motion.div>
-
-          {/* Help Link */}
-          <motion.div variants={itemVariants}>
-            <Link
-              href="/faqs"
-              className={getMobileLinkClasses("/faqs")}
-              onClick={handleLinkClick}
-            >
-              Help
-            </Link>
-          </motion.div>
-        </div>
+        ))}
       </motion.div>
 
-      {/* Bottom Auth Buttons & Theme Toggle */}
+      {/* Bottom Auth Buttons */}
       <div className="p-4 border-t">
-        <div className="mb-4 flex justify-center">
-           <ThemeToggle location="admin" /> {/* Changed location */}
-        </div>
-        <div className="flex flex-col sm:flex-row items-center gap-3">
+        {/* ThemeToggle was here, now removed */}
+        <div className="flex sm:flex-row items-center gap-3 pt-4">
           {authLoading ? (
-            // Loading Skeleton
-            <div className="flex flex-col sm:flex-row w-full gap-3">
-              <div className="h-11 w-full bg-gray-200 dark:bg-white/10 rounded-full animate-pulse"></div>
-              <div className="h-11 w-full bg-gray-200 dark:bg-white/10 rounded-full animate-pulse"></div>
+            <div className="flex sm:flex-row w-full gap-3">
+              <div className="h-12 w-full bg-gray-700/50 rounded-full animate-pulse"></div>
+              <div className="h-12 w-full bg-gray-700/50 rounded-full animate-pulse"></div>
             </div>
           ) : isLoggedIn ? (
-            // Logged In Buttons
             <>
               <Link
                 href="/dashboard"
-                // Keep specific button styling for Dashboard as it's a primary action
-                className="inline-block w-full px-4 py-2.5 bg-primary hover:bg-primaryhover rounded-full font-medium text-base text-center text-mainheading transition-colors"
+                className="inline-block w-[calc(100%-52px)] text-center px-4 py-3 bg-primary hover:bg-primaryhover rounded-full font-medium text-base text-mainheading transition-colors"
                 onClick={handleLinkClick}
               >
                 Dashboard
               </Link>
               <button
                 onClick={handleLogoutClick}
-                className="inline-block w-full px-4 py-2.5 bg-gray-100 dark:bg-secondary text-main dark:text-white rounded-full font-medium text-base text-center hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+                title="Logout"
+                className="border border-gray-600 hover:border-gray-500 w-10 h-10 flex justify-center items-center rounded-full transition-colors ease-in-out duration-300 text-gray-300 hover:text-white cursor-pointer"
               >
-                Log out
+                <HiOutlineLogout className="text-xl" />
               </button>
             </>
           ) : (
-            // Logged Out Buttons
             <>
               <Link
                 href="/auth/login"
-                passHref
-                className="inline-block w-full px-4 py-3 h-12.5 border dark:border-gray-600 dark:border-none bg-white dark:bg-secondary font-medium rounded-full text-base text-center dark:text-white text-mainheading hover:bg-gray-50 transition-colors"
+                className="inline-block w-full text-center px-4 py-3 border border-gray-600 hover:border-gray-500 rounded-full font-medium text-base text-white transition-colors"
                 onClick={handleLinkClick}
               >
                 Log in
               </Link>
               <Link
                 href="/auth/register"
-                passHref
-                className="inline-block w-full px-4 py-3 h-12.5 bg-primary hover:bg-primaryhover rounded-full font-medium text-base text-center text-mainheading transition-colors duration-300 ease-in-out"
+                className="inline-block w-full text-center px-4 py-3 border border-primary bg-primary hover:bg-primaryhover rounded-full font-medium text-base text-mainheading transition-colors"
                 onClick={handleLinkClick}
               >
                 Register

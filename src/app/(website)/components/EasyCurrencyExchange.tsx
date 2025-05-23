@@ -790,14 +790,14 @@ const EasyCurrencyExchange: React.FC = () => {
                 index % 2 !== 0 ? "md:mt-8 lg:mt-12" : "" // You can adjust the margin value (e.g., mt-8, mt-10, mt-12)
               }`}
             >
-              <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 lg:space-y-4 space-y-2.5 h-full">
+              <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 lg:space-y-4 space-y-2.5">
                 <div className="lg:size-14 size-12 rounded-full bg-primary flex items-center justify-center">
                   {item.icon}
                 </div>
                 <h3 className="sm:text-xl text-lg font-medium dark:text-white text-neutral-900 capitalize">
                   {item.title}
                 </h3>
-                <p className="sm:text-base text-sm text-gray-500 dark:text-gray-300">
+                <p className="sm:text-lg text-base text-gray-500 dark:text-gray-300">
                   {item.description}
                 </p>
               </div>

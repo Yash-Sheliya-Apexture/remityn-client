@@ -290,6 +290,7 @@ import { FaCog } from "react-icons/fa";
 import { BiLogOut } from "react-icons/bi";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "../contexts/AuthContext"; // <-- 1. Import useAuth (Adjust path if needed)
+import { noConflict } from "lodash";
 
 export interface UserProfileProps {
   userName: string;
@@ -331,6 +332,7 @@ const UserProfileDropdownMenu: React.FC<UserProfileDropdownMenuProps> = ({
         onClose();
       },
     },
+
     {
       text: "Settings",
       icon: <FaCog className="size-5" />,
@@ -340,17 +342,19 @@ const UserProfileDropdownMenu: React.FC<UserProfileDropdownMenuProps> = ({
         onClose();
       },
     },
+
     {
       text: "Logout",
       icon: <BiLogOut className="size-5" />,
       action: handleLogout, // <-- 4. Use the handleLogout function here
     },
+
   ];
 
   return (
     // Use motion.div for the dropdown container
     <motion.div
-      className="absolute mt-4 right-0 w-52 z-50 border rounded-xl shadow-lg origin-top-right bg-white dark:bg-background" // Increased z-index, adjusted dark mode colors slightly
+      className="absolute mt-4 right-0 w-52 z-50 border rounded-lg origin-top-right bg-white dark:bg-background" // Increased z-index, adjusted dark mode colors slightly
       style={{ transformOrigin: "top right" }}
       initial={{ opacity: 0, scale: 0.95, y: -5 }} // Start slightly above and scaled down
       animate={{ opacity: 1, scale: 1, y: 0 }} // Animate to full opacity, scale, and position
@@ -358,9 +362,9 @@ const UserProfileDropdownMenu: React.FC<UserProfileDropdownMenuProps> = ({
       transition={{ duration: 0.1, ease: "easeOut" }} // Faster animation
     >
       {/* Added padding around the list for better spacing */}
-      <div className="p-1.5">
+      <div className="p-2">
         <ul
-          className="space-y-1" // Reduced space slightly if needed
+          className="space-y-1.5" // Reduced space slightly if needed
           role="menu"
           aria-orientation="vertical"
           aria-labelledby="options-menu"
@@ -447,6 +451,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
           }}
           priority // Consider if this image is high priority
         />
+
       </button>
 
       {/* Wrap the conditional rendering with AnimatePresence */}

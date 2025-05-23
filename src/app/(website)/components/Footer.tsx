@@ -1659,9 +1659,6 @@
 
 // export default Footer;
 
-
-
-
 // app/components/Footer.tsx
 "use client";
 import Link from "next/link";
@@ -1785,7 +1782,7 @@ const Footer: React.FC = () => {
           </div>
         </li>
       ))}
-    </ul> 
+    </ul>
   );
 
   const handleCurrencyConverterClick = (converter: string) => {
@@ -1801,13 +1798,25 @@ const Footer: React.FC = () => {
       <div className="container mx-auto px-4">
         <div className=" flex flex-col lg:flex-row justify-between w-full">
           <div className="flex flex-col w-full lg:w-1/2 mb-8 lg:mb-0">
-            <Image
-              src="/assets/images/wise-logo.svg" // Ensure this path is correct
-              alt="7Wise logo"
-              height={100} // Adjusted size
-              width={100} // Adjusted size
-              className="mb-4 lg:h-14 h-6"
-            />
+            <Link href="/">
+              <Image
+                src="/assets/images/white_logo.svg"
+                alt="Wise Logo"
+                width={160}
+                height={50}
+                priority
+                className=" mb-4 w-40 h-auto dark:hidden block"
+              />
+
+              <Image
+                src="/assets/images/dark_logo.svg"
+                alt="Wise Logo"
+                width={160}
+                height={50}
+                priority
+                className="mb-4 w-40 h-auto dark:block hidden"
+              />
+            </Link>
             <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
               {/* Adjusted text size and leading */}
               We provide reliable and competitive currency exchange services
@@ -1928,7 +1937,7 @@ const Footer: React.FC = () => {
             <span className="text-gray-500 dark:text-gray-300">
               Created by{" "}
             </span>
-            <span className="font-medium">Apexeture Private Limited</span> ©{" "}
+            <span className="font-medium">Apexture Private Limited</span> ©{" "}
             {new Date().getFullYear()}
           </p>
           <div className="flex lg:gap-4 gap-2 pb-10 sm:pb-0">

@@ -1316,6 +1316,7 @@ const NewPasswordPage = () => {
               </motion.div>
             )}
           </AnimatePresence>
+
           {/* Reset Success Display */}
           <AnimatePresence>
             {isResetSuccessVisible && resetSuccess && (
@@ -1342,6 +1343,7 @@ const NewPasswordPage = () => {
             )}
           </AnimatePresence>
 
+
           {/* Form Container (Conditionally rendered content *inside* motion.div) */}
           <motion.div variants={itemVariants}>
             {token && !resetSuccess ? (
@@ -1354,7 +1356,7 @@ const NewPasswordPage = () => {
                     className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
                   >
                     New Password{" "}
-                    <span className="text-red-600 dark:text-red-400">*</span>
+                    <span className="text-red-600">*</span>
                   </label>
 
                   <div className="relative">
@@ -1464,7 +1466,7 @@ const NewPasswordPage = () => {
                     className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
                   >
                     Confirm New Password{" "}
-                    <span className="text-red-600 dark:text-red-400">*</span>
+                    <span className="text-red-600">*</span>
                   </label>
 
                   <div className="relative">

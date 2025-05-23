@@ -24474,7 +24474,6 @@ const animations = {
       y: 0,
       scaleY: 1,
       height: "auto",
-      marginBottom: "1rem",
       transition: {
         duration: 0.4,
         ease: [0.25, 0.46, 0.45, 0.94],
@@ -24887,11 +24886,11 @@ const HeroSection: React.FC = () => {
 
   return (
     <section className="Hero-Section lg:pb-10 pb-5 overflow-hidden relative">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto sm:px-4 px-2">
         <div className="rounded-3xl p-px bg-gradient-to-b from-white to-transparent to-88% border border-[#22282A] min-h-[500px] relative z-0">
-          <div className="bg-background rounded-3xl overflow-hidden p-6 md:p-10 h-full relative flex flex-col">
+          <div className="bg-background rounded-3xl overflow-hidden xl:p-10 lg:p-6 p-4  h-full relative flex flex-col">
             {/* Background decorations */}
-            <div className="shep hidden md:block">
+            <div className="shep">
               <div className="absolute -left-1 -top-1">
                 <img src="/assets/images/dsfsfdsfdsf.svg" className="z-1" alt="" />
               </div>
@@ -24900,12 +24899,12 @@ const HeroSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-primary-foreground rounded-3xl flex flex-col md:flex-row gap-6 md:gap-4 p-6 md:p-[45px] z-2 relative">
+            <div className="bg-primary-foreground rounded-3xl flex flex-col md:flex-row gap-4 xl:p-10 lg:p-6 p-4 z-2 relative">
               {/* Left Panel - Amount Input and Rates */}
               <div className="w-full md:w-2/3">
                 <div className="flex flex-col sm:flex-row gap-4">
                   {/* Send Amount Input */}
-                  <div className="mb-6 w-full relative">
+                  <div className="sm:mb-6 mb-0 w-full relative">
                     <label htmlFor="sendAmountInput" className="block text-gray-200 lg:text-base text-sm mb-1">
                       You send
                     </label>
@@ -24921,7 +24920,7 @@ const HeroSection: React.FC = () => {
                         onChange={handleSendAmountChange}
                         onFocus={handleSendAmountFocus}
                         onKeyDown={handleSendAmountKeyDown}
-                        className="block w-full h-14 md:h-17 p-3 text-white dark:text-white md:text-2xl text-xl font-bold focus:outline-none bg-transparent rounded-l-xl transition-all ease-linear duration-150 placeholder-gray-500 dark:placeholder-gray-400"
+                        className="block w-full sm:h-17 h-14 p-3 text-white dark:text-white md:text-2xl text-xl font-bold focus:outline-none bg-transparent rounded-l-xl transition-all ease-linear duration-150 placeholder-gray-500 dark:placeholder-gray-400"
                         disabled={state.isInitialLoading || !selectedSendCurrency || !!apiError || !!generalError}
                         aria-label="Amount to send"
                         aria-invalid={!!sendAmountError}
@@ -24956,11 +24955,11 @@ const HeroSection: React.FC = () => {
                   </div>
 
                   {/* Receive Amount Display */}
-                  <div className="mb-6 w-full">
+                  <div className="sm:mb-6 mb-2 w-full">
                     <label htmlFor="receiveAmountInput" className="block text-gray-200 lg:text-base text-sm mb-1">
                       Recipient gets
                     </label>
-                    <div className="w-full rounded-xl flex items-center justify-between  h-17 relative overflow-hidden border border-gray-600">
+                    <div className="w-full rounded-xl flex items-center justify-between sm:h-17 h-14 relative overflow-hidden border border-gray-600">
                       <AnimatePresence mode="wait">
                         <motion.div
                           key={`${calculation.receiveAmount}-${CONFIG.RECEIVE_CURRENCY}`}
@@ -25021,11 +25020,11 @@ const HeroSection: React.FC = () => {
                   )}
                   
                   <div className={`flex items-center gap-2 ${ (state.isCalculating && !state.calculatedRates) || state.isInitialLoading ? "animate-pulse" : ""}`}>
-                    <span className={`text-xl font-medium ${!hasValidRates && !state.isCalculating && !state.isInitialLoading ? "text-gray-500" : "text-white"}`}>
+                    <span className={`sm:text-xl text-lg font-medium ${!hasValidRates && !state.isCalculating && !state.isInitialLoading ? "text-gray-500" : "text-white"}`}>
                         {displayTexts.ourRate}
                     </span>
                     {displayTexts.adjustmentText && (
-                        <span className="text-primary text-xs font-semibold">{displayTexts.adjustmentText}</span>
+                        <span className="text-primary text-xs sm:font-semibold">{displayTexts.adjustmentText}</span>
                     )}
                   </div>
                   
@@ -25040,16 +25039,16 @@ const HeroSection: React.FC = () => {
                   {calculation.savings && parseFloat(calculation.savings) > 0 && hasValidRates && (
                     <motion.div
                       key="savings-banner"
-                      className="mt-3 mb-2"
+                      className="mt-3 sm:mb-2 mb-1"
                       variants={animations.savingsBanner}
                       initial="hidden"
                       animate="visible"
                       exit="exit"
                     >
-                      <div className="bg-primary/10 rounded-xl py-4 pe-4">
+                      <div className="bg-primary/10 rounded-xl sm:py-4 sm:pe-4 p-2">
                         <div className="flex items-center gap-3">
-                          <div className="bg-primary/80 rounded-full p-3 flex-shrink-0 -ml-6 border-3 border-primary-foreground">
-                            <FaPiggyBank size={24} className="text-primary-foreground" />
+                          <div className="bg-primary/80 rounded-full sm:p-3 p-1.5 flex-shrink-0 sm:-ml-6 ml-0 sm:border-3 border-0 border-primary-foreground">
+                            <FaPiggyBank className="size-6 text-primary-foreground" />
                           </div>
                           <div>
                             <p className="font-semibold text-primary lg:text-base text-sm flex items-center gap-1">
@@ -25074,7 +25073,7 @@ const HeroSection: React.FC = () => {
                   <label className="block text-gray-200 lg:text-base text-sm mb-1">
                     Paying with
                   </label>
-                  <div className="p-4 h-17 border border-gray-600 rounded-xl flex items-center justify-between text-white bg-primarybox">
+                  <div className="sm:p-4 p-3 sm:h-17 h-14 border border-gray-600 rounded-xl flex items-center justify-between text-white bg-primarybox">
                     <div className="flex items-center gap-2">
                       <CiBank className=" w-5 h-5 md:w-6 md:h-6" />
                       <span className="font-medium md:text-base text-sm">Bank Transfer</span>
@@ -25087,9 +25086,9 @@ const HeroSection: React.FC = () => {
                   <label className="block text-gray-200 lg:text-base text-sm mb-1">
                     Fee breakdown
                   </label>
-                  <div className="space-y-2  p-4 border border-gray-600 rounded-xl bg-primarybox">
+                  <div className="space-y-2 sm:p-4 p-3 border border-gray-600 rounded-xl bg-primarybox">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400 dark:text-gray-500">Our fee</span>
+                      <span className="text-gray-400 dark:text-gray-500 sm:text-base text-sm">Our fee</span>
                       <AnimatePresence mode="wait">
                         <motion.span
                           key={`our-fee-${calculation.ourFee.toFixed(2)}-${selectedSendCurrency}`}
@@ -25107,7 +25106,7 @@ const HeroSection: React.FC = () => {
                     </div>
 
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400 dark:text-gray-500">Bank transfer fee</span>
+                      <span className="text-gray-400 dark:text-gray-500 sm:text-base text-sm">Bank transfer fee</span>
                       <span className="font-medium text-white dark:text-white">
                           {hasValidRates
                             ? state.feeStructure.bankTransferFee > 0
@@ -25142,7 +25141,7 @@ const HeroSection: React.FC = () => {
                 {/* Arrival Time */}
                 <div className="mb-4 md:mb-6 flex justify-between items-center">
                   <label className="block text-gray-200 lg:text-base text-sm mb-1">
-                    Should arrive
+                    Should arrive around
                   </label>
                   <div className={`text-primary font-semibold md:text-base text-sm ${state.isInitialLoading || (state.isCalculating && !arrivalDate) ? 'animate-pulse' : ''}`}>
                     {state.isInitialLoading || (state.isCalculating && !arrivalDate) ? "Calculating..." : arrivalDate ? `By ${arrivalDate}` : "Unavailable"}

@@ -2053,7 +2053,7 @@ const Footer: React.FC = () => {
           </nav>
         </div>
 
-        <div className="border-t   mb-12.5"></div>
+        <div className="border-t  mb-12.5"></div>
 
         {/* Mobile Navigation Links (appears below logo, above contact on mobile) */}
         <nav className="sm:hidden flex flex-col items-center space-y-4 mb-10">

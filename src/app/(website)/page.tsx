@@ -9,15 +9,16 @@ import Principles from "./components/Principles";
 import TransferMoney from "./components/TransferMoney";
 import Faq from "./components/Faq";
 import FlagSection from "./components/FlagSection";
+import Secure from "./components/Secure";
 
 export default function Home() {
   return (
     <>
       <HeroSectionNew />
       <CalculetingSection />
-
       <HeroSection />
       <ProtectionSection />
+      <Secure />
       <SecuritySection />
       <SocialTrustSection />
       <FlagSection />

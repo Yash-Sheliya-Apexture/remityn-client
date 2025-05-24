@@ -483,16 +483,20 @@ const HeroSection: React.FC = () => {
 
       {/* Central Text Content (remains the same) */}
       <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto mt-16 sm:mt-24 md:mt-20">
+
         <div className="mb-6 inline-flex items-center bg-primarybox backdrop-blur-md text-white px-4 py-1.5 rounded-full text-sm sm:text-base border">
           <FiSend size={18} className="mr-2 text-primary" />
           All Time Letters Rates
         </div>
+        
         <h1 className="text-4xl font-SatoshiVariable sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
           Easy Global Money Exchange at{" "}
           <span className="text-primary font-SatoshiVariableItalic">
             0% Fees
           </span>
         </h1>
+
+        
         <p className="text-lg md:text-xl text-subheadingWhite mb-10 max-w-3xl px-2">
           Experience global money exchange with 0% fees and instant transfers.
           Our platform offers secure, transparent transactions with real-time

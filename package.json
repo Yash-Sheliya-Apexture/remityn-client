@@ -35,6 +35,7 @@
     "date-fns": "^4.1.0",
     "debounce": "^2.2.0",
     "framer-motion": "^12.9.2",
+    "gsap": "^3.13.0",
     "lodash": "^4.17.21",
     "lucide-react": "^0.503.0",
     "moment": "^2.30.1",

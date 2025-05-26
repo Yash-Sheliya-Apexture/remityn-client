@@ -11,6 +11,7 @@ import FlagSection from "./components/FlagSection";
 import InternationalTransferSection from "./components/InternationalTransferSection";
 import CallToActionSection from "./components/CallToActionSection";
 import FeaturesSection from "./components/home/FeaturesSection";
+import StepCardContent from "./components/StepCard/StepContentCard";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
       <SecuritySection />
       <ClientTestimonialSection />
       <FeaturesSection />
+      <StepCardContent />
       <CallToActionSection />
 
 

@@ -187,6 +187,10 @@ html {
   
   /* Icon Background Gradient Color End */
 
+  --card-stack-offset-y: 20px; /* How much the card below peeks out from its top */
+  --card-stack-scale: 0.93;    /* How much the card behind scales down */
+  --card-stack-transition-duration: 0.4s; /* Smoothness of transition */
+
 }
 
 @theme inline {
@@ -396,3 +400,53 @@ button:focus {
   /* Bottom dark part of bevel */
 }
 /* Icon Background Gradient Color End */
+
+
+
+/* Add these to your global CSS file */
+
+/* These classes define the transform/opacity states. */
+/* Tailwind's `transition-all duration-500 ease-out` on the element will animate these. */
+/* z-index will be applied directly via Tailwind classes in the component. */
+
+.card-active {
+  transform: scale(1) translateY(0px);
+  opacity: 1;
+}
+
+.card-covered-1 { /* Directly behind the active card */
+  transform: scale(0.95) translateY(10px); /* Scale down, move slightly down to recede */
+  opacity: 0.7; /* Optional: slightly fade out, or set to 1 if only scale changes */
+}
+
+.card-covered-2 { /* Two cards behind the active card (this one will be hidden) */
+  transform: scale(0.90) translateY(20px);
+  opacity: 0;
+  pointer-events: none; /* Important for hidden cards */
+}
+
+.card-covered-deep { /* Cards further behind (also hidden) */
+  transform: scale(0.85) translateY(30px);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.card-upcoming { /* Cards that haven't reached the sticky position yet */
+  transform: scale(1) translateY(0px); /* Default state */
+  opacity: 1;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+     width: 6px;
+   }
+   .custom-scrollbar::-webkit-scrollbar-track {
+     background: rgba(255, 255, 255, 0.1);
+     border-radius: 3px;
+   }
+   .custom-scrollbar::-webkit-scrollbar-thumb {
+     background: rgba(255, 255, 255, 0.3);
+     border-radius: 3px;
+   }
+   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+     background: rgba(255, 255, 255, 0.5);
+   }

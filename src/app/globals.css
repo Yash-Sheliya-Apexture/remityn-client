@@ -31,6 +31,8 @@ body {
   --color-mainheading: #22282a;
   --color-subheadingWhite: #b1c5ce;
   --color-subheading: #394247;
+  --color-secondheadingWhite: #e4edf1;
+  
   /* Text Color End*/
 
   --color-stock-hover: #6a7282;
@@ -81,6 +83,13 @@ body {
   }
 }
 
+
+/* Optional: Smoother scrolling for the whole page */
+html {
+  scroll-behavior: smooth;
+}
+
+
 .animate-float {
   animation: float 15s infinite;
 }
@@ -113,6 +122,8 @@ body {
   --mainheading: oklch(0.2717 0.0093 219.82);
   --subheadingWhite: oklch(0.8111 0.0253 226.55);
   --subheading: oklch(0.3728 0.0147 232.08);
+  --secondheadingWhite: oklch(0.9405 0.0111 225.98);
+
   /* Text Color End*/
 
 

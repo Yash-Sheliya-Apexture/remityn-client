@@ -676,7 +676,7 @@ const FlagSection = () => {
 
   return (
     // Section Structure (Kept Exactly As Is)
-    <section className="Flag-section lg:py-10 py-5 relative overflow-hidden bg-white dark:bg-background">
+    <section className="Flag-section lg:py-10 py-5 relative overflow-hidden">
       {" "}
       {/* Added bg colors */}
       <div className="container mx-auto px-4 relative z-10">

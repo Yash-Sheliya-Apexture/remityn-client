@@ -282,80 +282,19 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion"; // Import motion
-import { FaLock, FaShieldAlt, FaUniversity } from "react-icons/fa"; // Corrected FaLock import path if needed
-
-// Animation Variants
-
-// For the main text content on the left
-const textVariants = {
-  hidden: { opacity: 0, x: -100 }, // Start invisible and 100px to the left
-  visible: {
-    opacity: 1,
-    x: 0, // Animate to original position
-    transition: {
-      duration: 0.7, // Animation duration
-      ease: "easeOut", // Animation easing
-      delay: 0.2, // Small delay after section enters view
-    },
-  },
-};
-
-// For the image on the right
-const imageVariants = {
-  hidden: { opacity: 0, x: 100 }, // Start invisible and 100px to the right
-  visible: {
-    opacity: 1,
-    x: 0, // Animate to original position
-    transition: {
-      duration: 0.7,
-      ease: "easeOut",
-      delay: 0.3, // Slightly later delay than text
-    },
-  },
-};
-
-// Container for the bottom feature cards (to control staggering)
-const featuresContainerVariants = {
-  hidden: {}, // No initial state needed for container itself
-  visible: {
-    transition: {
-      delayChildren: 0.5, // Start animating cards after top elements are likely in view
-      staggerChildren: 0.2, // Delay between each card animation
-    },
-  },
-};
-
-// For each individual feature card at the bottom
-const featureCardVariants = {
-  hidden: { opacity: 0, y: 50 }, // Start invisible and 50px down
-  visible: {
-    opacity: 1,
-    y: 0, // Animate to original position
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
 
 const SecuritySection = () => {
   return (
     // Apply whileInView to the main section to trigger animations
-    <motion.section
-      className="Security-section md:py-10 py-5 overflow-hidden" // Hide horizontal overflow during animation
+    <section
+      className="Security-section md:py-20 py-5 overflow-hidden" // Hide horizontal overflow during animation
       id="security"
-      initial="hidden"
-      whileInView="visible"
-      // viewport={{ amount: 0.2, once: false }} // <-- OLD: Animate every time
-      viewport={{ amount: 0.2, once: true }} // <-- NEW: Trigger when 20% visible, animate ONLY ONCE
     >
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row items-center gap-8">
           {/* Left Text Block */}
-          <motion.div
+          <div
             className="w-full lg:w-1/2 order-2 md:order-1"
-            variants={textVariants} // Apply text animation variants
             // Inherits initial/whileInView timing from parent section
           >
             <div className="space-y-4 text-center md:text-left">
@@ -385,25 +324,25 @@ const SecuritySection = () => {
                 </Link>
               </div>
             </div>
-          </motion.div>
+          </div>
 
           {/* Right Image Block */}
-          <motion.div
+          <div
             className="w-full lg:w-1/2 order-1 md:order-2"
-            variants={imageVariants} // Apply image animation variants
           >
-            <div className="relative xl:aspect-[3/2] lg:aspect-square sm:aspect-[3/2] aspect-square overflow-hidden">
+            <div className="relative w-full flex justify-center">
               <Image
-                src="/assets/images/secure.svg"
-                fill
+                src="/assets/images/eretrtgcbvcb.png"
+                width={550}
+                height={800}
                 alt="Padlock symbolizing security"
-                className="object-contain"
+                className="object-contain rounded-3xl"
               />
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
 export default SecuritySection;

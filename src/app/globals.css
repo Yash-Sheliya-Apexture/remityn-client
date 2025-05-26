@@ -31,6 +31,8 @@ body {
   --color-mainheading: #22282a;
   --color-subheadingWhite: #b1c5ce;
   --color-subheading: #394247;
+  --color-secondheadingWhite: #e4edf1;
+  
   /* Text Color End*/
 
   --color-stock-hover: #6a7282;
@@ -50,10 +52,9 @@ body {
   --color-error: #a8200d;
   --shadow-whitecolor: inset 0 0 0 2px #fff;
   --shadow-darkcolor: inset 0 0 0 2px #171717;
-  --color-border-hover: #5f6f77b3;
 
   /* Border-Color */
-  --border: oklch(0.4461 0.0298 257.68);
+  --color-border: #4a5565;
 
 
   --color-lightborder: #e3e3e3;
@@ -81,6 +82,13 @@ body {
     transform: translateY(0) rotate(360deg);
   }
 }
+
+
+/* Optional: Smoother scrolling for the whole page */
+html {
+  scroll-behavior: smooth;
+}
+
 
 .animate-float {
   animation: float 15s infinite;
@@ -114,6 +122,8 @@ body {
   --mainheading: oklch(0.2717 0.0093 219.82);
   --subheadingWhite: oklch(0.8111 0.0253 226.55);
   --subheading: oklch(0.3728 0.0147 232.08);
+  --secondheadingWhite: oklch(0.9405 0.0111 225.98);
+
   /* Text Color End*/
 
 
@@ -160,6 +170,23 @@ body {
   /* Indigo */
   --chart-8: 60 85% 50%;
   /* Bright Yellow */
+
+  /* Icon Background Gradient Color Start */
+
+   /* UPDATED: For the larger, inner circle (w-20 h-20) - top to bottom linear glow */
+  --icon-direct-bg-top: rgba(102, 232, 250, 10%);    /* Top color of the gradient for the icon's background */
+  --icon-direct-bg-bottom: rgba(102, 232, 250, 0%); /* Bottom color of the gradient for the icon's background */
+
+  /* For the subtle inner bevel/highlight on the inner circle */
+  --icon-inner-bevel-highlight: rgba(102, 232, 250, 0.15); /* Light color for top inner shadow */
+  --icon-inner-bevel-shadow: rgba(20, 22, 15, 0.3);       /* Dark color for bottom inner shadow */
+
+  /* UPDATED: For the larger, outer circle (w-20 h-20) - top to bottom linear glow */
+  --icon-outer-linear-glow-top: rgba(102, 232, 250, 10%);    /* Lighter part of the glow, at the top */
+  --icon-outer-linear-glow-bottom: rgba(102, 232, 250, 0%); /* Darker part of the glow, at the bottom */
+  
+  /* Icon Background Gradient Color End */
+
 }
 
 @theme inline {
@@ -348,3 +375,24 @@ button:focus {
   background: #6b7280 !important;
   /* Corresponds to gray-500 */
 }
+
+/* Icon Background Gradient Color Start */
+.icon-outer-wrapper {
+  /* UPDATED: Linear gradient for a top-to-bottom glow effect */
+  background-image: linear-gradient(to bottom,
+      /* Direction of the gradient */
+      var(--icon-outer-linear-glow-top) 0%,
+      var(--icon-outer-linear-glow-bottom) 100%);
+}
+
+.icon-inner-background {
+  background-image: linear-gradient(180deg,
+      var(--icon-direct-bg-top) 0%,
+      var(--icon-direct-bg-bottom) 100%);
+  /* Creates a subtle bevel effect using inset shadows */
+  box-shadow: inset 0 1px 1px 0 var(--icon-inner-bevel-highlight),
+    /* Top light part of bevel */
+    inset 0 1px 1px 0 var(--icon-inner-bevel-shadow);
+  /* Bottom dark part of bevel */
+}
+/* Icon Background Gradient Color End */

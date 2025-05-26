@@ -10,15 +10,18 @@ import TransferMoney from "./components/TransferMoney";
 import Faq from "./components/Faq";
 import FlagSection from "./components/FlagSection";
 import InternationalTransferSection from "./components/InternationalTransferSection";
+import StepCardContent from "./components/StepCard/StepContentCard";
+import FeaturesSection from "./components/FeaturesSection";
 
 export default function Home() {
   return (
     <>
       <HeroSectionNew />
       <CalculetingSection />
-
       <HeroSection />
       <InternationalTransferSection />
+      {/* <FeaturesSection /> */}
+      <StepCardContent />
       <ProtectionSection />
       <SecuritySection />
       <SocialTrustSection />

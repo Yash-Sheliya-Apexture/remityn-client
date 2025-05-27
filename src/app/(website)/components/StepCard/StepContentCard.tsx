@@ -1859,8 +1859,6 @@
 // src/app/StepCardContent.tsx (or your component's location)
 "use client";
 import React, { useEffect, useRef } from "react";
-// Import IconType if it's not already in types.ts, or directly use from react-icons
-import { IconType } from "react-icons";
 import { FaCheckCircle, FaWallet, FaUserFriends } from "react-icons/fa";
 import { FaMoneyBillTransfer } from "react-icons/fa6";
 import { gsap } from "gsap";
@@ -1885,13 +1883,7 @@ const stepsData: StepData[] = [
     title: "Register and verify",
     subtitle: "Complete verification process",
     contentTitle: "Register & Verify",
-    contentSubtitle: (
-      <>
-        Get started in minutes with a secure and simple sign-up process. We use
-        top-level identity verification to protect your account and ensure
-        compliance with international money transfer regulations.
-      </>
-    ),
+    contentSubtitle: "Get started in minutes with a secure and simple sign-up process. We use top-level identity verification to protect your account and ensure compliance with international money transfer regulations.",
     contentImages: {
       light: "/assets/images/Register-and-verify-light.png",
       dark: "/assets/images/Register-and-verify-dark.png",
@@ -1909,8 +1901,7 @@ const stepsData: StepData[] = [
     title: "Create a Digital Wallet",
     subtitle: "Add transfer amount",
     contentTitle: "Create Your Digital Wallet with Passkey",
-    contentSubtitle:
-      "Set up your secure digital wallet in seconds. With integrated passkey protection, your funds and personal details are safeguarded from the start.",
+    contentSubtitle: "Set up your secure digital wallet in seconds. With integrated passkey protection, your funds and personal details are safeguarded from the start.",
     contentImages: {
       light: "/assets/images/Create-a-Digital-Wallet-light.png",
       dark: "/assets/images/Create-a-Digital-Wallet-dark.png",
@@ -1928,8 +1919,7 @@ const stepsData: StepData[] = [
     title: "Add Recipients",
     subtitle: "Who do we send to?",
     contentTitle: "Add Recipients",
-    contentSubtitle:
-      "Easily link the bank accounts or digital wallets of the people you wish to send money to. Manage recipients securely and send funds with confidence.",
+    contentSubtitle: "Easily link the bank accounts or digital wallets of the people you wish to send money to. Manage recipients securely and send funds with confidence.",
     contentImages: {
       light: "/assets/images/Add-Recipients-light.png",
       dark: "/assets/images/Add-Recipients-dark.png",
@@ -1947,8 +1937,7 @@ const stepsData: StepData[] = [
     title: "Transfer Money",
     subtitle: "Complete transfer process",
     contentTitle: "Transfer Money Seamlessly",
-    contentSubtitle:
-      "Complete your money transfer in just a few taps. Enjoy real-time processing, transparent fees, and secure delivery to your recipients in India.",
+    contentSubtitle: "Complete your money transfer in just a few taps. Enjoy real-time processing, transparent fees, and secure delivery to your recipients in India.",
     contentImages: {
       light: "/assets/images/Transfer-Money-light.png",
       dark: "/assets/images/Transfer-Money-dark.png",
@@ -2028,11 +2017,11 @@ const StepCardContent: React.FC = () => {
   return (
     <section ref={sectionRef} className="StePCardSection relative py-20">
       <div className="container mx-auto px-4">
-        <div className="space-y-4 text-center ">
-          <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+        <div className="space-y-4 text-center">
+          <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
             4 easy steps to<span className="text-primary"> Transfer to India </span>
           </h3>
-          <p className="text-lg md:text-xl text-subheadingWhite max-w-5xl mx-auto">
+          <p className="text-subheadingWhite md:text-lg text-base lg:max-w-4xl max-w-full mx-auto">
             Transfer funds internationally to India with ease, speed, and
             security. We offer competitive exchange rates and a seamless
             experience for your INR remittances.

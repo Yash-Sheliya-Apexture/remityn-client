@@ -5575,7 +5575,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right Panel - Login Form */}
-      <div className="w-full lg:w-[45%] xl:w-[40%] flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 overflow-y-auto lg:bg-none bg-gradient-to-b from-primary/40 from-10% via-transparent to-transparent">
+      <div className="w-full lg:w-[45%] xl:w-[40%] flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 overflow-y-auto">
         <div className="lg:hidden mb-10 self-center">
           <Image
             src="/assets/images/main_logo.svg"

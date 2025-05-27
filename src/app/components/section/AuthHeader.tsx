@@ -139,7 +139,7 @@ import React from "react"; // No longer need useState, useEffect
 
 const AuthHeader: React.FC = () => {
   return (
-    <header className="bg-white dark:bg-background border-b sticky top-0 z-50">
+    <header className="border-b sticky top-0 z-50">
       {/* Added z-index just in case */}
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">

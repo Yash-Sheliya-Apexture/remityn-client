@@ -18,6 +18,7 @@ body {
   --font-SatoshiVariableItalic: var(--font-SatoshiVariableItalic);
 
   /* Background Color Start*/
+  --color-background: #22282a;
   --color-primary: #66e8fa;
   --color-primaryhover: #9cf0fc;
   /* aacho */
@@ -32,7 +33,7 @@ body {
   --color-subheadingWhite: #b1c5ce;
   --color-subheading: #394247;
   --color-secondheadingWhite: #e4edf1;
-  
+
   /* Text Color End*/
 
   --color-stock-hover: #6a7282;
@@ -124,6 +125,9 @@ html {
   --subheading: oklch(0.3728 0.0147 232.08);
   --secondheadingWhite: oklch(0.9405 0.0111 225.98);
 
+  /* --border: oklch(0.4461 0.0298 257.68); old */
+  --border: oklch(0.4461 0.0298 257.68);
+
   /* Text Color End*/
 
 
@@ -143,7 +147,6 @@ html {
   --accent: oklch(0.97 0 0);
   /* --accent-foreground: oklch(0.205 0 0); */
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.4461 0.0298 257.68);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
   --sidebar: oklch(0.985 0 0);
@@ -173,23 +176,32 @@ html {
 
   /* Icon Background Gradient Color Start */
 
-   /* UPDATED: For the larger, inner circle (w-20 h-20) - top to bottom linear glow */
-  --icon-direct-bg-top: rgba(102, 232, 250, 10%);    /* Top color of the gradient for the icon's background */
-  --icon-direct-bg-bottom: rgba(102, 232, 250, 0%); /* Bottom color of the gradient for the icon's background */
+  /* UPDATED: For the larger, inner circle (w-20 h-20) - top to bottom linear glow */
+  --icon-direct-bg-top: rgba(102, 232, 250, 10%);
+  /* Top color of the gradient for the icon's background */
+  --icon-direct-bg-bottom: rgba(102, 232, 250, 0%);
+  /* Bottom color of the gradient for the icon's background */
 
   /* For the subtle inner bevel/highlight on the inner circle */
-  --icon-inner-bevel-highlight: rgba(102, 232, 250, 0.15); /* Light color for top inner shadow */
-  --icon-inner-bevel-shadow: rgba(20, 22, 15, 0.3);       /* Dark color for bottom inner shadow */
+  --icon-inner-bevel-highlight: rgba(102, 232, 250, 0.15);
+  /* Light color for top inner shadow */
+  --icon-inner-bevel-shadow: rgba(20, 22, 15, 0.3);
+  /* Dark color for bottom inner shadow */
 
   /* UPDATED: For the larger, outer circle (w-20 h-20) - top to bottom linear glow */
-  --icon-outer-linear-glow-top: rgba(102, 232, 250, 10%);    /* Lighter part of the glow, at the top */
-  --icon-outer-linear-glow-bottom: rgba(102, 232, 250, 0%); /* Darker part of the glow, at the bottom */
-  
+  --icon-outer-linear-glow-top: rgba(102, 232, 250, 10%);
+  /* Lighter part of the glow, at the top */
+  --icon-outer-linear-glow-bottom: rgba(102, 232, 250, 0%);
+  /* Darker part of the glow, at the bottom */
+
   /* Icon Background Gradient Color End */
 
-  --card-stack-offset-y: 20px; /* How much the card below peeks out from its top */
-  --card-stack-scale: 0.93;    /* How much the card behind scales down */
-  --card-stack-transition-duration: 0.4s; /* Smoothness of transition */
+  --card-stack-offset-y: 20px;
+  /* How much the card below peeks out from its top */
+  --card-stack-scale: 0.93;
+  /* How much the card behind scales down */
+  --card-stack-transition-duration: 0.4s;
+  /* Smoothness of transition */
 
 }
 
@@ -399,6 +411,7 @@ button:focus {
     inset 0 1px 1px 0 var(--icon-inner-bevel-shadow);
   /* Bottom dark part of bevel */
 }
+
 /* Icon Background Gradient Color End */
 
 
@@ -414,39 +427,61 @@ button:focus {
   opacity: 1;
 }
 
-.card-covered-1 { /* Directly behind the active card */
-  transform: scale(0.95) translateY(10px); /* Scale down, move slightly down to recede */
-  opacity: 0.7; /* Optional: slightly fade out, or set to 1 if only scale changes */
+.card-covered-1 {
+  /* Directly behind the active card */
+  transform: scale(0.95) translateY(10px);
+  /* Scale down, move slightly down to recede */
+  opacity: 0.7;
+  /* Optional: slightly fade out, or set to 1 if only scale changes */
 }
 
-.card-covered-2 { /* Two cards behind the active card (this one will be hidden) */
+.card-covered-2 {
+  /* Two cards behind the active card (this one will be hidden) */
   transform: scale(0.90) translateY(20px);
   opacity: 0;
-  pointer-events: none; /* Important for hidden cards */
+  pointer-events: none;
+  /* Important for hidden cards */
 }
 
-.card-covered-deep { /* Cards further behind (also hidden) */
+.card-covered-deep {
+  /* Cards further behind (also hidden) */
   transform: scale(0.85) translateY(30px);
   opacity: 0;
   pointer-events: none;
 }
 
-.card-upcoming { /* Cards that haven't reached the sticky position yet */
-  transform: scale(1) translateY(0px); /* Default state */
+.card-upcoming {
+  /* Cards that haven't reached the sticky position yet */
+  transform: scale(1) translateY(0px);
+  /* Default state */
   opacity: 1;
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-     width: 6px;
-   }
-   .custom-scrollbar::-webkit-scrollbar-track {
-     background: rgba(255, 255, 255, 0.1);
-     border-radius: 3px;
-   }
-   .custom-scrollbar::-webkit-scrollbar-thumb {
-     background: rgba(255, 255, 255, 0.3);
-     border-radius: 3px;
-   }
-   .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-     background: rgba(255, 255, 255, 0.5);
-   }
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: #ffffff;
+    transition: background-color 5000s ease-in-out 0s;
+    box-shadow: inset 0 0 20px 20px transparent;
+    caret-color: #fff;
+}

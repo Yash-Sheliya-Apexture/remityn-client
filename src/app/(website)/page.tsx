@@ -1,22 +1,16 @@
-import HeroSectionNew from "./components/Hero/HeroSectionNew";
-import CalculetingSection from "./components/Hero/CalculetingSection";
-import ClientTestimonialSection from "./components/ClientTestimonialSection";
-import SecuritySection from "./components/SecuritySection";
-import SocialTrustSection from "./components/SocialTrust";
-import MissionSection from "./components/MissionSection";
-import Principles from "./components/Principles";
-import TransferMoney from "./components/TransferMoney";
-import Faq from "./components/Faq";
-import FlagSection from "./components/FlagSection";
+import HeroSection from "./components/home/HeroSection";
+import CalculetingSection from "./components/home/CalculetingSection";
+import ClientTestimonialSection from "./components/home/ClientTestimonialSection";
+import SecuritySection from "./components/home/SecuritySection";
 import InternationalTransferSection from "./components/InternationalTransferSection";
-import CallToActionSection from "./components/CallToActionSection";
+import CallToActionSection from "./components/home/CallToActionSection";
 import FeaturesSection from "./components/home/FeaturesSection";
 import StepCardContent from "./components/StepCard/StepContentCard";
 
 export default function Home() {
   return (
     <>
-      <HeroSectionNew />
+      <HeroSection />
       <CalculetingSection />
       <InternationalTransferSection />
       <SecuritySection />
@@ -24,20 +18,6 @@ export default function Home() {
       <FeaturesSection />
       <StepCardContent />
       <CallToActionSection />
-
-
-
-
-      {/* <ProtectionSection /> */}
-
-      {/* <ProtectionSection /> */}
-
-      {/* <SocialTrustSection /> */}
-      {/* <FlagSection /> */}
-      {/* <MissionSection /> */}
-      {/* <Principles /> */}
-      {/* <TransferMoney /> */}
-      {/* <Faq /> */}
     </>
   );
 }

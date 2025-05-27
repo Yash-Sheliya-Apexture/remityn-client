@@ -210,12 +210,12 @@ const WhyChooseUs: React.FC = () => {
       <div className="mx-auto container px-4">
         {/* Heading Section */}
         <div className="mx-auto max-w-2xl text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite capitalize">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite sm:block hidden">
             Find out why{" "}
             <span className="text-primary">millions choose Remityn</span>
           </h1>
 
-          <p className="text-subheadingWhite md:text-lg text-base lg:max-w-4xl max-w-full mx-auto">
+          <p className="text-subheadingWhite md:text-lg text-base max-w-5xl">
             For over 10 years, Remityn Corporation Inc. Trusted by travelers and
             expats worldwide, Remityn offers fast, secure, and affordable money
             transfers—anytime, anywhere. Join the global community that moves
@@ -225,7 +225,7 @@ const WhyChooseUs: React.FC = () => {
 
         {/* Features Grid */}
         <div
-          className="lg:mt-20 mt-10 flex flex-col md:flex-row gap-8" // Added flex-col for small screens, md:flex-row for medium and up
+          className="mt-10 flex flex-col md:flex-row gap-8" // Added flex-col for small screens, md:flex-row for medium and up
         >
           {featuresData.map((feature) => (
             <div

@@ -129,9 +129,9 @@ const TrustedCurrencyPartner = () => {
     >
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row items-center gap-8">
-          <div className="w-full lg:w-1/2 order-1 lg:order-2">
-            <div className="space-y-4 text-center lg:text-left">
-              <div className="inline-block">
+          <div className="w-full lg:w-1/2 order-2 md:order-1">
+            <div className="space-y-4 text-center md:text-left">
+              <div className="sm:inline-block hidden">
                 <span className="text-subheadingWhite font-medium text-sm uppercase">
                   <span className="text-subheadingWhite/30">[</span> About us{" "}
                   <span className="text-subheadingWhite/30">]</span>
@@ -139,12 +139,12 @@ const TrustedCurrencyPartner = () => {
               </div>
 
               <div className="space-y-4 text-center md:text-left max-w-4xl mx-auto md:mx-0">
-                <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+                <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite sm:block hidden">
                   Exchange with Confidence,{" "}
                   <span className="text-primary">Worldwide</span>
                 </h2>
 
-                <p className="text-lg md:text-xl text-subheadingWhite max-w-5xl">
+                <p className="text-subheadingWhite md:text-lg text-base max-w-5xl">
                   At Remityn, Experience seamless and secure currency exchange
                   services no matter where you are. Whether you're traveling for
                   business or leisure, our trusted global network ensures fast,
@@ -154,7 +154,7 @@ const TrustedCurrencyPartner = () => {
                 </p>
               </div>
 
-              <div className="flex justify-center md:justify-start">
+              <div className="flex justify-center md:justify-start mt-8">
                 <Link href="/auth/register" className="inline-block">
                   <button className="bg-primary hover:bg-primaryhover text-neutral-900 cursor-pointer font-medium text-base lg:text-lg py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
                     Create A Free Account
@@ -164,8 +164,20 @@ const TrustedCurrencyPartner = () => {
             </div>
           </div>
 
-
           <div className="w-full lg:w-1/2 lg:order-2 order-1">
+            <div className="sm:hidden block">
+              <span className="text-subheadingWhite font-medium text-sm mb-1 text-center md:text-left block uppercase">
+                <span className="text-subheadingWhite/30">[</span> About us
+                <span className="text-subheadingWhite/30">]</span>
+              </span>
+              <div className="space-y-4 text-center md:text-left max-w-4xl mx-auto md:mx-0">
+                <h3 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+                  Exchange with Confidence{" "}
+                  <span className="text-primary">Worldwide</span>
+                </h3>
+              </div>
+            </div>
+
             <div className="relative w-full flex justify-center">
               <Image
                 src="/assets/images/TrustedPartner.png"

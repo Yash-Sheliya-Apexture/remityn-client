@@ -142,6 +142,19 @@ const CurrencyExchangeServices: React.FC<
           <div
             className="w-full lg:w-1/2 lg:order-1 order-2" // Image first on SM, left on LG
           >
+            <div className="sm:hidden block">
+              <span className="text-subheadingWhite font-medium text-sm mb-1 text-center md:text-left block uppercase">
+                <span className="text-subheadingWhite/30">[</span> Our mission
+                <span className="text-subheadingWhite/30">]</span>
+              </span>
+              <div className="space-y-4 text-center md:text-left max-w-4xl mx-auto md:mx-0">
+                <h3 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+                  Empowering Transparent{" "}
+                  <span className="text-primary"> lobal Exchange</span>
+                </h3>
+              </div>
+            </div>
+
             <div className="relative w-full flex justify-center">
               <Image
                 src="/assets/images/women.png" // Original image path
@@ -156,23 +169,22 @@ const CurrencyExchangeServices: React.FC<
 
           {/* Text Content Area - Appears on the RIGHT on large screens (lg:order-2), SECOND on small screens (order-2) */}
           <div
-            className="w-full lg:w-1/2 lg:order-2 order-1" // Text second on SM, right on LG
+            className="w-full lg:w-1/2 lg:order-1 order-2" // Text second on SM, right on LG
           >
-            <div className="space-y-4 text-center lg:text-left">
-              <div className="inline-block">
+            <div className="space-y-4 text-center md:text-left">
+              <div className="sm:inline-block hidden">
                 <span className="text-subheadingWhite font-medium text-sm uppercase">
-                  <span className="text-subheadingWhite/30">[</span> Our mission{" "}
+                  <span className="text-subheadingWhite/30">[</span> Our mission
                   <span className="text-subheadingWhite/30">]</span>
                 </span>
               </div>
 
               <div className="space-y-4 text-center md:text-left max-w-4xl mx-auto md:mx-0">
-                <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+                <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite sm:block hidden">
                   Empowering Transparent{" "}
-                  <span className="text-primary">Global Exchange</span>
-                </h2>
-
-                <p className="text-lg md:text-xl text-subheadingWhite max-w-5xl">
+                  <span className="text-primary">Global Exchange </span>
+                </h3>
+                <p className="text-subheadingWhite md:text-lg text-base max-w-5xl">
                   We are committed to making global currency exchange simple and
                   clear. Our platform ensures transparency with honest rates and
                   no hidden fees. Trust and reliability are at the heart of
@@ -182,14 +194,14 @@ const CurrencyExchangeServices: React.FC<
                   hassle-free.
                 </p>
               </div>
+            </div>
 
-              <div className="flex justify-center md:justify-start">
-                <Link href="/auth/register" className="inline-block">
-                  <button className="bg-primary hover:bg-primaryhover text-neutral-900 cursor-pointer font-medium text-base lg:text-lg py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
-                    Create A Free Account
-                  </button>
-                </Link>
-              </div>
+            <div className="flex justify-center md:justify-start mt-8">
+              <Link href="/auth/register" className="inline-block">
+                <button className="bg-primary hover:bg-primaryhover text-neutral-900 cursor-pointer font-medium text-base lg:text-lg py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
+                  Create A Free Account
+                </button>
+              </Link>
             </div>
           </div>
         </div>

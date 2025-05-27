@@ -1,0 +1,23 @@
+// src/types.ts (or your preferred location for types)
+import React from "react";
+import { IconType } from "react-icons";
+
+export interface ContentBlock {
+  text: string;
+  type?: "default" | "success" | "warning" | "secondry";
+}
+
+export interface StepData {
+  id: number;
+  iconDefault: IconType;
+  iconActive: IconType;
+  title: string;
+  subtitle: string;
+  contentTitle: string;
+  contentSubtitle: React.ReactNode;
+  contentImages: {
+    light: string;
+    dark: string;
+  };
+  contentBlocks?: ContentBlock[];
+}

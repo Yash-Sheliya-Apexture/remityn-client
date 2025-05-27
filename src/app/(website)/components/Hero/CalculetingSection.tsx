@@ -8,7 +8,7 @@
 // import appstore from "../../../../public/assets/images/app-store-logo.png";
 // import playstore from "../../../../public/assets/images/play-store-logo.png";
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   return (
 //     <section className="Hero-Section py-12 bg-white">
 //       <div className="container mx-auto px-4">
@@ -117,7 +117,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import Image from "next/image";
@@ -139,7 +139,7 @@
 // import USD from "../../../../public/assets/icons/usd.svg";
 // import INR from "../../../../public/assets/icons/inr.svg";
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("80,000");
 //   const [receiveAmount, setReceiveAmount] = useState("897.85");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("INR");
@@ -423,7 +423,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import Image from "next/image";
@@ -447,7 +447,7 @@
 
 // import CountryDropdown from "../../components/CountryDropdown";
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("80,000");
 //   const [receiveAmount, setReceiveAmount] = useState("897.85");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("INR");
@@ -739,7 +739,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import Image from "next/image";
@@ -763,7 +763,7 @@
 
 // import CountryDropdown from "../../components/CountryDropdown";
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("80,000");
 //   const [receiveAmount, setReceiveAmount] = useState("897.85");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("INR");
@@ -1099,7 +1099,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import Image from "next/image";
@@ -1134,7 +1134,7 @@
 //     rates: ExchangeRates
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState(""); // Default to empty
 //   const [receiveAmount, setReceiveAmount] = useState(""); // Default to empty
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("INR");
@@ -1520,7 +1520,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import Image from "next/image";
@@ -1555,7 +1555,7 @@
 //   rates: { [key: string]: number }; // Rates are relative to the base
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("INR");
@@ -1938,7 +1938,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import { SlLock } from "react-icons/sl";
@@ -1963,7 +1963,7 @@
 //   rates: { [key: string]: number }; // Rates are relative to the base
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("INR");
@@ -2256,7 +2256,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import { SlLock } from "react-icons/sl";
@@ -2280,7 +2280,7 @@
 //   rates: { [key: string]: number };
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("USD"); // Default to USD
@@ -2539,7 +2539,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import { SlLock } from "react-icons/sl";
@@ -2561,7 +2561,7 @@
 //   rates: { [key: string]: number };
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("USD");
@@ -2818,7 +2818,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // Last Complete Code
 // "use client";
@@ -2841,7 +2841,7 @@
 //   rates: { [key: string]: number };
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("USD");
@@ -3108,10 +3108,10 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // // New Latest Code
-// // app/components/Home/HeroSection.tsx
+// // app/components/Home/CalculetingSection.tsx
 // "use client";
 // import { SlLock } from "react-icons/sl";
 // import { IoIosArrowForward } from "react-icons/io";
@@ -3136,7 +3136,7 @@
 //   }
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //     const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext(); //get context
 //     const [sendAmount, setSendAmount] = useState("");
 
@@ -3382,9 +3382,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import { SlLock } from "react-icons/sl";
 // import { IoIosArrowForward } from "react-icons/io";
@@ -3403,7 +3403,7 @@
 
 // // Removed unused ApiResponse interface
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //     const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext(); //get context
 //     const [sendAmount, setSendAmount] = useState("");
 
@@ -3650,9 +3650,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import { SlLock } from "react-icons/sl";
 // import { IoIosArrowForward } from "react-icons/io";
@@ -3671,7 +3671,7 @@
 
 // // Removed unused ApiResponse interface
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //     const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext(); //get context
 //     const [sendAmount, setSendAmount] = useState("");
 
@@ -3918,9 +3918,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import { SlLock } from "react-icons/sl";
 // import { IoIosArrowForward } from "react-icons/io";
@@ -3951,7 +3951,7 @@
 //   [key: string]: { [key: string]: number };
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
@@ -4260,7 +4260,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // import Image from "next/image";
 // import Link from "next/link";
@@ -4272,7 +4272,7 @@
 // import appstore from "../../../../public/assets/images/app-store-logo.png";
 // import playstore from "../../../../public/assets/images/play-store-logo.png";
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   return (
 //     <section className="Hero-Section py-12 bg-white">
 //       <div className="container mx-auto px-4">
@@ -4381,7 +4381,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import Image from "next/image";
@@ -4403,7 +4403,7 @@
 // import USD from "../../../../public/assets/icons/usd.svg";
 // import INR from "../../../../public/assets/icons/inr.svg";
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("80,000");
 //   const [receiveAmount, setReceiveAmount] = useState("897.85");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("INR");
@@ -4687,7 +4687,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import Image from "next/image";
@@ -4711,7 +4711,7 @@
 
 // import CountryDropdown from "../../components/CountryDropdown";
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("80,000");
 //   const [receiveAmount, setReceiveAmount] = useState("897.85");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("INR");
@@ -5003,7 +5003,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import Image from "next/image";
@@ -5027,7 +5027,7 @@
 
 // import CountryDropdown from "../../components/CountryDropdown";
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("80,000");
 //   const [receiveAmount, setReceiveAmount] = useState("897.85");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("INR");
@@ -5363,7 +5363,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import Image from "next/image";
@@ -5398,7 +5398,7 @@
 //     rates: ExchangeRates
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState(""); // Default to empty
 //   const [receiveAmount, setReceiveAmount] = useState(""); // Default to empty
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("INR");
@@ -5784,7 +5784,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import Image from "next/image";
@@ -5819,7 +5819,7 @@
 //   rates: { [key: string]: number }; // Rates are relative to the base
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("INR");
@@ -6202,7 +6202,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import { SlLock } from "react-icons/sl";
@@ -6227,7 +6227,7 @@
 //   rates: { [key: string]: number }; // Rates are relative to the base
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("INR");
@@ -6520,7 +6520,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import { SlLock } from "react-icons/sl";
@@ -6544,7 +6544,7 @@
 //   rates: { [key: string]: number };
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("USD"); // Default to USD
@@ -6803,7 +6803,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // "use client";
 // import { SlLock } from "react-icons/sl";
@@ -6825,7 +6825,7 @@
 //   rates: { [key: string]: number };
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("USD");
@@ -7082,7 +7082,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // Last Complete Code
 // "use client";
@@ -7105,7 +7105,7 @@
 //   rates: { [key: string]: number };
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
 //   const [selectedSendCurrency, setSelectedSendCurrency] = useState("USD");
@@ -7372,10 +7372,10 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 // // New Latest Code
-// // app/components/Home/HeroSection.tsx
+// // app/components/Home/CalculetingSection.tsx
 // "use client";
 // import { SlLock } from "react-icons/sl";
 // import { IoIosArrowForward } from "react-icons/io";
@@ -7400,7 +7400,7 @@
 //   }
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //     const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext(); //get context
 //     const [sendAmount, setSendAmount] = useState("");
 
@@ -7646,9 +7646,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import { SlLock } from "react-icons/sl";
 // import { IoIosArrowForward } from "react-icons/io";
@@ -7667,7 +7667,7 @@
 
 // // Removed unused ApiResponse interface
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //     const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext(); //get context
 //     const [sendAmount, setSendAmount] = useState("");
 
@@ -7914,9 +7914,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import { SlLock } from "react-icons/sl";
 // import { IoIosArrowForward } from "react-icons/io";
@@ -7935,7 +7935,7 @@
 
 // // Removed unused ApiResponse interface
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //     const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext(); //get context
 //     const [sendAmount, setSendAmount] = useState("");
 
@@ -8182,9 +8182,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import {
 //   IoIosArrowForward,
@@ -8207,7 +8207,7 @@
 //   [key: string]: number | string; // Allow string initially due to debugging
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
@@ -8234,7 +8234,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       setRawRates(null);
@@ -8249,8 +8249,8 @@
 //           currencyService.getAllCurrencies(true),
 //         ]);
 
-//         console.log("HeroSection: Rates Response Raw", ratesResponse);
-//         console.log("HeroSection: Currencies Response", currenciesResponse);
+//         console.log("CalculetingSection: Rates Response Raw", ratesResponse);
+//         console.log("CalculetingSection: Currencies Response", currenciesResponse);
 
 //         if (
 //           ratesResponse &&
@@ -8259,10 +8259,10 @@
 //           Object.keys(ratesResponse.rates).length > 0
 //         ) {
 //           setRawRates(ratesResponse.rates);
-//           console.log("HeroSection: Raw Rates Set", ratesResponse.rates);
+//           console.log("CalculetingSection: Raw Rates Set", ratesResponse.rates);
 //         } else {
 //           console.error(
-//             "HeroSection: Invalid raw exchange rate data received:",
+//             "CalculetingSection: Invalid raw exchange rate data received:",
 //             ratesResponse
 //           );
 //           throw new Error("Could not load current exchange rates.");
@@ -8270,21 +8270,21 @@
 
 //         if (Array.isArray(currenciesResponse)) {
 //           setCurrencies(currenciesResponse);
-//           console.log("HeroSection: Currencies Set", currenciesResponse);
+//           console.log("CalculetingSection: Currencies Set", currenciesResponse);
 //         } else {
 //           console.error(
-//             "HeroSection: Invalid currency data received:",
+//             "CalculetingSection: Invalid currency data received:",
 //             currenciesResponse
 //           );
 //           throw new Error("Could not load currency details.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load required conversion data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //         setIsLoading(false);
 //       }
 //     };
@@ -8294,7 +8294,7 @@
 
 //   // --- Rate Calculation Effect ---
 //   useEffect(() => {
-//     console.log("HeroSection Rate Effect Triggered:", {
+//     console.log("CalculetingSection Rate Effect Triggered:", {
 //       isLoading,
 //       rawRatesExists: !!rawRates,
 //       rawRatesKeys: rawRates ? Object.keys(rawRates).length : "N/A",
@@ -8309,7 +8309,7 @@
 //       !selectedSendCurrency
 //     ) {
 //       console.log(
-//         "HeroSection: Skipping rate calculation (loading or missing data/currency)."
+//         "CalculetingSection: Skipping rate calculation (loading or missing data/currency)."
 //       );
 //       if (!isLoading && (!rawRates || currencies.length === 0)) {
 //         setMarketRate(null);
@@ -8328,12 +8328,12 @@
 //       // --- Safeguard & Type Check ---
 //       // Log the raw values and types BEFORE any conversion
 //       console.log(
-//         `HeroSection: Raw Value Check - Selected (${selectedSendCurrency}):`,
+//         `CalculetingSection: Raw Value Check - Selected (${selectedSendCurrency}):`,
 //         rawRateSelectedValue,
 //         `(Type: ${typeof rawRateSelectedValue})`
 //       );
 //       console.log(
-//         `HeroSection: Raw Value Check - INR (${receiveCurrencyCode}):`,
+//         `CalculetingSection: Raw Value Check - INR (${receiveCurrencyCode}):`,
 //         rawRateINRValue,
 //         `(Type: ${typeof rawRateINRValue})`
 //       );
@@ -8355,12 +8355,12 @@
 
 //       // Log the values and types AFTER potential conversion
 //       console.log(
-//         `HeroSection: Numeric Check - rateBaseToSelected (${selectedSendCurrency}):`,
+//         `CalculetingSection: Numeric Check - rateBaseToSelected (${selectedSendCurrency}):`,
 //         rateBaseToSelected,
 //         `(Type: ${typeof rateBaseToSelected})`
 //       );
 //       console.log(
-//         `HeroSection: Numeric Check - rateBaseToINR (${receiveCurrencyCode}):`,
+//         `CalculetingSection: Numeric Check - rateBaseToINR (${receiveCurrencyCode}):`,
 //         rateBaseToINR,
 //         `(Type: ${typeof rateBaseToINR})`
 //       );
@@ -8373,7 +8373,7 @@
 //         isNaN(rateBaseToINR)
 //       ) {
 //         console.error(
-//           `HeroSection: Failed numeric check after conversion. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw Rates Object:`,
+//           `CalculetingSection: Failed numeric check after conversion. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw Rates Object:`,
 //           rawRates
 //         );
 //         // Provide a more specific error based on which value failed, if possible
@@ -8388,7 +8388,7 @@
 //       // Check for zero rate after confirming it's a number
 //       if (rateBaseToSelected === 0) {
 //         console.error(
-//           `HeroSection: Rate for selected currency ${selectedSendCurrency} is zero.`
+//           `CalculetingSection: Rate for selected currency ${selectedSendCurrency} is zero.`
 //         );
 //         throw new Error(
 //           `Invalid market rate (zero) for ${selectedSendCurrency}.`
@@ -8399,7 +8399,7 @@
 //       const calculatedMarketRate = rateBaseToINR / rateBaseToSelected;
 //       setMarketRate(calculatedMarketRate);
 //       console.log(
-//         `HeroSection: Calculated Market Rate (${selectedSendCurrency}->${receiveCurrencyCode}):`,
+//         `CalculetingSection: Calculated Market Rate (${selectedSendCurrency}->${receiveCurrencyCode}):`,
 //         calculatedMarketRate
 //       );
 
@@ -8407,13 +8407,13 @@
 // const sendingCurrencyDetails = currencies.find(c => c.code === selectedSendCurrency);
 // const adjustmentPercent = sendingCurrencyDetails?.rateAdjustmentPercentage ?? 0;
 // setRateAdjustment(adjustmentPercent);
-// console.log(`HeroSection: Rate Adjustment fetched for ${selectedSendCurrency}: ${adjustmentPercent}%`);
+// console.log(`CalculetingSection: Rate Adjustment fetched for ${selectedSendCurrency}: ${adjustmentPercent}%`);
 
 // // --- 3. Calculate "Our Rate" ---
 // // This calculation correctly applies the adjustment/margin, resulting in a less favorable rate for the sender
 // const calculatedOurRate = calculatedMarketRate * (1 + adjustmentPercent / 100);
 // setOurRate(calculatedOurRate);
-// console.log(`HeroSection: Calculated Our Rate (${selectedSendCurrency}->${receiveCurrencyCode}):`, calculatedOurRate);
+// console.log(`CalculetingSection: Calculated Our Rate (${selectedSendCurrency}->${receiveCurrencyCode}):`, calculatedOurRate);
 
 //       // Clear calculation-specific errors if successful
 //       if (
@@ -8425,10 +8425,10 @@
 //         setError(null); // Clear calculation errors
 //       } else if (error) {
 //         // This else-if still correctly handles the case where 'error' exists but isn't one of the specific calculation errors.
-//         console.log("HeroSection: Keeping previous load error:", error); // Keep load errors
+//         console.log("CalculetingSection: Keeping previous load error:", error); // Keep load errors
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates:", err);
+//       console.error("CalculetingSection: Error calculating rates:", err);
 //       setError(
 //         err.message || `Could not calculate rate for ${selectedSendCurrency}.`
 //       );
@@ -8470,7 +8470,7 @@
 //   };
 
 //   const handleCurrencyChange = (newCurrency: string) => {
-//     console.log("HeroSection: Currency changed to:", newCurrency);
+//     console.log("CalculetingSection: Currency changed to:", newCurrency);
 //     setSelectedSendCurrency(newCurrency);
 //     setSendAmount("");
 //     setReceiveAmount("");
@@ -8735,9 +8735,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import {
 //   IoIosArrowForward,
@@ -8760,7 +8760,7 @@
 //   [key: string]: number | string; // Allow string initially for robust parsing
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
@@ -8790,7 +8790,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       setRawRates(null); setCurrencies([]);
@@ -8803,32 +8803,32 @@
 //           currencyService.getAllCurrencies(true), // Fetch currency details WITH fees/adjustments
 //         ]);
 
-//         console.log("HeroSection: Rates Response Raw", ratesResponse);
-//         console.log("HeroSection: Currencies Response", currenciesResponse);
+//         console.log("CalculetingSection: Rates Response Raw", ratesResponse);
+//         console.log("CalculetingSection: Currencies Response", currenciesResponse);
 
 //         // Validate and set raw rates
 //         if (ratesResponse && typeof ratesResponse.rates === "object" && ratesResponse.rates !== null && Object.keys(ratesResponse.rates).length > 0) {
 //           setRawRates(ratesResponse.rates);
-//           console.log("HeroSection: Raw Rates Set", ratesResponse.rates);
+//           console.log("CalculetingSection: Raw Rates Set", ratesResponse.rates);
 //         } else {
-//           console.error("HeroSection: Invalid raw exchange rate data received:", ratesResponse);
+//           console.error("CalculetingSection: Invalid raw exchange rate data received:", ratesResponse);
 //           throw new Error("Could not load current exchange rates.");
 //         }
 
 //         // Validate and set currencies
 //         if (Array.isArray(currenciesResponse)) {
 //           setCurrencies(currenciesResponse);
-//           console.log("HeroSection: Currencies Set", currenciesResponse);
+//           console.log("CalculetingSection: Currencies Set", currenciesResponse);
 //         } else {
-//           console.error("HeroSection: Invalid currency data received:", currenciesResponse);
+//           console.error("CalculetingSection: Invalid currency data received:", currenciesResponse);
 //           throw new Error("Could not load currency details.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load required conversion data.");
 //         setRawRates(null); setCurrencies([]); // Ensure reset on error
 //       } finally {
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //         setIsLoading(false);
 //       }
 //     };
@@ -8837,10 +8837,10 @@
 
 //   // --- Rate and Fee Calculation Effect ---
 //   useEffect(() => {
-//     console.log("HeroSection Rate & Fee Effect Triggered:", { isLoading, rawRatesExists: !!rawRates, currenciesLength: currencies.length, selectedSendCurrency });
+//     console.log("CalculetingSection Rate & Fee Effect Triggered:", { isLoading, rawRatesExists: !!rawRates, currenciesLength: currencies.length, selectedSendCurrency });
 
 //     if (isLoading || !rawRates || currencies.length === 0 || !selectedSendCurrency) {
-//       console.log("HeroSection: Skipping calculations (loading or missing data/currency).");
+//       console.log("CalculetingSection: Skipping calculations (loading or missing data/currency).");
 //       if (!isLoading && (!rawRates || currencies.length === 0)) { // If loading finished but data missing
 //         setMarketRate(null); setOurRate(null); setRateAdjustment(0);
 //         setWiseFeePercentage(0); setBankTransferFeeAmount(0);
@@ -8854,30 +8854,30 @@
 //       let rawRateSelectedValue = rawRates[selectedSendCurrency];
 //       let rawRateINRValue = rawRates[receiveCurrencyCode];
 
-//       console.log(`HeroSection: Raw Value Check - Selected (${selectedSendCurrency}):`, rawRateSelectedValue, `(Type: ${typeof rawRateSelectedValue})`);
-//       console.log(`HeroSection: Raw Value Check - INR (${receiveCurrencyCode}):`, rawRateINRValue, `(Type: ${typeof rawRateINRValue})`);
+//       console.log(`CalculetingSection: Raw Value Check - Selected (${selectedSendCurrency}):`, rawRateSelectedValue, `(Type: ${typeof rawRateSelectedValue})`);
+//       console.log(`CalculetingSection: Raw Value Check - INR (${receiveCurrencyCode}):`, rawRateINRValue, `(Type: ${typeof rawRateINRValue})`);
 
 //       const rateBaseToSelected = typeof rawRateSelectedValue === 'string' ? parseFloat(rawRateSelectedValue) : (typeof rawRateSelectedValue === 'number' ? rawRateSelectedValue : NaN);
 //       const rateBaseToINR = typeof rawRateINRValue === 'string' ? parseFloat(rawRateINRValue) : (typeof rawRateINRValue === 'number' ? rawRateINRValue : NaN);
 
-//       console.log(`HeroSection: Numeric Check - rateBaseToSelected (${selectedSendCurrency}):`, rateBaseToSelected, `(Type: ${typeof rateBaseToSelected})`);
-//       console.log(`HeroSection: Numeric Check - rateBaseToINR (${receiveCurrencyCode}):`, rateBaseToINR, `(Type: ${typeof rateBaseToINR})`);
+//       console.log(`CalculetingSection: Numeric Check - rateBaseToSelected (${selectedSendCurrency}):`, rateBaseToSelected, `(Type: ${typeof rateBaseToSelected})`);
+//       console.log(`CalculetingSection: Numeric Check - rateBaseToINR (${receiveCurrencyCode}):`, rateBaseToINR, `(Type: ${typeof rateBaseToINR})`);
 
 //       if (typeof rateBaseToSelected !== "number" || isNaN(rateBaseToSelected) || typeof rateBaseToINR !== "number" || isNaN(rateBaseToINR)) {
-//         console.error(`HeroSection: Failed numeric check after conversion. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw Rates Object:`, rawRates);
+//         console.error(`CalculetingSection: Failed numeric check after conversion. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw Rates Object:`, rawRates);
 //         let specificError = `Market rate unavailable for ${selectedSendCurrency} to ${receiveCurrencyCode}.`;
 //         if (isNaN(rateBaseToSelected)) specificError += ` Invalid rate value for ${selectedSendCurrency}.`;
 //         if (isNaN(rateBaseToINR)) specificError += ` Invalid rate value for ${receiveCurrencyCode}.`;
 //         throw new Error(specificError);
 //       }
 //       if (rateBaseToSelected === 0) {
-//         console.error(`HeroSection: Rate for selected currency ${selectedSendCurrency} is zero.`);
+//         console.error(`CalculetingSection: Rate for selected currency ${selectedSendCurrency} is zero.`);
 //         throw new Error(`Invalid market rate (zero) for ${selectedSendCurrency}.`);
 //       }
 
 //       const calculatedMarketRate = rateBaseToINR / rateBaseToSelected;
 //       setMarketRate(calculatedMarketRate);
-//       console.log(`HeroSection: Calculated Market Rate (${selectedSendCurrency}->${receiveCurrencyCode}):`, calculatedMarketRate);
+//       console.log(`CalculetingSection: Calculated Market Rate (${selectedSendCurrency}->${receiveCurrencyCode}):`, calculatedMarketRate);
 
 //       // --- 2. Find Currency Details & Set Fees/Adjustments ---
 //       const sendingCurrencyDetails = currencies.find(c => c.code === selectedSendCurrency);
@@ -8888,23 +8888,23 @@
 //       setRateAdjustment(adjustmentPercent);
 //       setWiseFeePercentage(fetchedWiseFeePercent); // Store percentage for later use
 //       setBankTransferFeeAmount(fetchedBankFee);     // Store fixed bank fee
-//       console.log(`HeroSection: Set Fees/Adjust - Adjust: ${adjustmentPercent}%, Wise Fee %: ${fetchedWiseFeePercent}%, Bank Fee: ${fetchedBankFee}`);
+//       console.log(`CalculetingSection: Set Fees/Adjust - Adjust: ${adjustmentPercent}%, Wise Fee %: ${fetchedWiseFeePercent}%, Bank Fee: ${fetchedBankFee}`);
 
 //       // --- 3. Calculate "Our Rate" ---
 //       // Apply adjustment (margin makes rate less favorable for sender)
 //       const calculatedOurRate = calculatedMarketRate * (1 + adjustmentPercent / 100);
 //       setOurRate(calculatedOurRate);
-//       console.log(`HeroSection: Calculated Our Rate (${selectedSendCurrency}->${receiveCurrencyCode}):`, calculatedOurRate);
+//       console.log(`CalculetingSection: Calculated Our Rate (${selectedSendCurrency}->${receiveCurrencyCode}):`, calculatedOurRate);
 
 //       // --- 4. Clear specific calculation errors if successful ---
 //       if (error && (error.startsWith("Market rate unavailable") || error.startsWith("Invalid market rate"))) {
 //         setError(null);
 //       } else if (error) {
-//         console.log("HeroSection: Keeping previous load error:", error)
+//         console.log("CalculetingSection: Keeping previous load error:", error)
 //       }
 
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(err.message || `Could not calculate rates/fees for ${selectedSendCurrency}.`);
 //       // Reset all calculated values on error
 //       setMarketRate(null); setOurRate(null); setRateAdjustment(0);
@@ -8942,7 +8942,7 @@
 //   };
 
 //   const handleCurrencyChange = (newCurrency: string) => {
-//     console.log("HeroSection: Currency changed to:", newCurrency);
+//     console.log("CalculetingSection: Currency changed to:", newCurrency);
 //     setSelectedSendCurrency(newCurrency);
 //     // Reset everything that depends on the currency or calculated rates/fees
 //     setSendAmount(""); setReceiveAmount("");
@@ -9087,9 +9087,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import {
 //   IoIosInformationCircleOutline,
@@ -9112,7 +9112,7 @@
 //   [key: string]: number | string; // Allow string initially for robust parsing
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const [sendAmount, setSendAmount] = useState("");
 //   const [receiveAmount, setReceiveAmount] = useState("");
@@ -9142,7 +9142,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true); // Start loading
 //       setError(null);
 //       setRawRates(null); setCurrencies([]);
@@ -9158,32 +9158,32 @@
 //           currencyService.getAllCurrencies(true), // Fetch currency details WITH fees/adjustments
 //         ]);
 
-//         console.log("HeroSection: Rates Response Raw", ratesResponse);
-//         console.log("HeroSection: Currencies Response", currenciesResponse);
+//         console.log("CalculetingSection: Rates Response Raw", ratesResponse);
+//         console.log("CalculetingSection: Currencies Response", currenciesResponse);
 
 //         // Validate and set raw rates
 //         if (ratesResponse && typeof ratesResponse.rates === "object" && ratesResponse.rates !== null && Object.keys(ratesResponse.rates).length > 0) {
 //           setRawRates(ratesResponse.rates);
-//           console.log("HeroSection: Raw Rates Set", ratesResponse.rates);
+//           console.log("CalculetingSection: Raw Rates Set", ratesResponse.rates);
 //         } else {
-//           console.error("HeroSection: Invalid raw exchange rate data received:", ratesResponse);
+//           console.error("CalculetingSection: Invalid raw exchange rate data received:", ratesResponse);
 //           throw new Error("Could not load current exchange rates.");
 //         }
 
 //         // Validate and set currencies
 //         if (Array.isArray(currenciesResponse)) {
 //           setCurrencies(currenciesResponse);
-//           console.log("HeroSection: Currencies Set", currenciesResponse);
+//           console.log("CalculetingSection: Currencies Set", currenciesResponse);
 //         } else {
-//           console.error("HeroSection: Invalid currency data received:", currenciesResponse);
+//           console.error("CalculetingSection: Invalid currency data received:", currenciesResponse);
 //           throw new Error("Could not load currency details.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load required conversion data.");
 //         setRawRates(null); setCurrencies([]); // Ensure reset on error
 //       } finally {
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //         setIsLoading(false); // Stop loading
 //       }
 //     };
@@ -9194,7 +9194,7 @@
 //   useEffect(() => {
 //     // Skip calculations if initial data is still loading
 //     if (isLoading || !rawRates || currencies.length === 0 || !selectedSendCurrency) {
-//         console.log("HeroSection: Skipping calculations (loading or missing data/currency).");
+//         console.log("CalculetingSection: Skipping calculations (loading or missing data/currency).");
 //         // Keep calculated values null/zero while loading
 //         if (!isLoading && (!rawRates || currencies.length === 0)) { // If loading finished but data missing
 //           setMarketRate(null); setOurRate(null); setRateAdjustment(0);
@@ -9204,7 +9204,7 @@
 //       }
 
 //     // Proceed with calculations only after isLoading is false and data is available
-//     console.log("HeroSection Rate & Fee Effect Triggered:", { isLoading, rawRatesExists: !!rawRates, currenciesLength: currencies.length, selectedSendCurrency });
+//     console.log("CalculetingSection Rate & Fee Effect Triggered:", { isLoading, rawRatesExists: !!rawRates, currenciesLength: currencies.length, selectedSendCurrency });
 
 //     try {
 //       // --- 1. Calculate Market Rate ---
@@ -9218,7 +9218,7 @@
 //       const rateBaseToINR = typeof rawRateINRValue === 'string' ? parseFloat(rawRateINRValue) : (typeof rawRateINRValue === 'number' ? rawRateINRValue : NaN);
 
 //       if (typeof rateBaseToSelected !== "number" || isNaN(rateBaseToSelected) || typeof rateBaseToINR !== "number" || isNaN(rateBaseToINR)) {
-//         console.error(`HeroSection: Failed numeric check after conversion. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw Rates Object:`, rawRates);
+//         console.error(`CalculetingSection: Failed numeric check after conversion. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw Rates Object:`, rawRates);
 //         let specificError = `Market rate unavailable for ${selectedSendCurrency} to ${receiveCurrencyCode}.`;
 //         if (isNaN(rateBaseToSelected)) specificError += ` Invalid rate value for ${selectedSendCurrency}.`;
 //         if (isNaN(rateBaseToINR)) specificError += ` Invalid rate value for ${receiveCurrencyCode}.`;
@@ -9251,7 +9251,7 @@
 //       }
 
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(err.message || `Could not calculate rates/fees for ${selectedSendCurrency}.`);
 //       setMarketRate(null); setOurRate(null); setRateAdjustment(0);
 //       setWiseFeePercentage(0); setBankTransferFeeAmount(0); setOurFeeAmount(0);
@@ -9290,7 +9290,7 @@
 //   };
 
 //   const handleCurrencyChange = (newCurrency: string) => {
-//     console.log("HeroSection: Currency changed to:", newCurrency);
+//     console.log("CalculetingSection: Currency changed to:", newCurrency);
 //     setSelectedSendCurrency(newCurrency);
 //     // Reset dependent states immediately, but rely on useEffect for recalculation after data fetch if needed
 //     setSendAmount(""); setReceiveAmount("");
@@ -9517,9 +9517,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, { useState, useEffect, useMemo } from "react";
 // import Link from "next/link";
@@ -9543,7 +9543,7 @@
 //   [key: string]: number | string; // Allow string initially for robust parsing
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -9577,7 +9577,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       // Reset all relevant states at the beginning of the fetch
@@ -9597,8 +9597,8 @@
 //           currencyService.getAllCurrencies(true), // Fetch currency details WITH fees/adjustments
 //         ]);
 
-//         console.log("HeroSection: Rates Response Raw", ratesResponse);
-//         console.log("HeroSection: Currencies Response", currenciesResponse);
+//         console.log("CalculetingSection: Rates Response Raw", ratesResponse);
+//         console.log("CalculetingSection: Currencies Response", currenciesResponse);
 
 //         // Validate and set raw rates
 //         if (
@@ -9618,12 +9618,12 @@
 //           throw new Error("Could not load currency details.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load required conversion data.");
 //         setRawRates(null);
 //         setCurrencies([]); // Ensure reset on error
 //       } finally {
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //         setIsLoading(false); // Stop loading
 //       }
 //     };
@@ -9640,7 +9640,7 @@
 //       !selectedSendCurrency
 //     ) {
 //       console.log(
-//         "HeroSection: Skipping calculations (loading or missing data/currency)."
+//         "CalculetingSection: Skipping calculations (loading or missing data/currency)."
 //       );
 //       // Ensure rates/fees are nullified if data becomes unavailable after load
 //       if (!isLoading && (!rawRates || currencies.length === 0)) {
@@ -9653,7 +9653,7 @@
 //       return;
 //     }
 
-//     console.log("HeroSection Rate & Fee Effect Triggered:", {
+//     console.log("CalculetingSection Rate & Fee Effect Triggered:", {
 //       selectedSendCurrency,
 //     });
 
@@ -9677,7 +9677,7 @@
 //       // Validate parsed rates
 //       if (isNaN(rateBaseToSelected) || isNaN(rateBaseToINR)) {
 //         console.error(
-//           `HeroSection: Invalid numeric rate value. Selected: ${rateBaseToSelected} (${typeof rawRateSelectedValue}), INR: ${rateBaseToINR} (${typeof rawRateINRValue}). Raw Rates:`,
+//           `CalculetingSection: Invalid numeric rate value. Selected: ${rateBaseToSelected} (${typeof rawRateSelectedValue}), INR: ${rateBaseToINR} (${typeof rawRateINRValue}). Raw Rates:`,
 //           rawRates
 //         );
 //         throw new Error(
@@ -9722,7 +9722,7 @@
 //         setError(null);
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(
 //         err.message ||
 //           `Could not calculate rates/fees for ${selectedSendCurrency}.`
@@ -9815,7 +9815,7 @@
 //   };
 
 //   const handleCurrencyChange = (newCurrency: string) => {
-//     console.log("HeroSection: Currency changed to:", newCurrency);
+//     console.log("CalculetingSection: Currency changed to:", newCurrency);
 //     setSelectedSendCurrency(newCurrency);
 //     // Reset dependent states immediately for responsiveness
 //     setSendAmount("");
@@ -10214,9 +10214,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, { useState, useEffect, useMemo } from "react";
 // import Link from "next/link";
@@ -10238,7 +10238,7 @@
 //   [key: string]: number | string; // Allow string initially for robust parsing
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -10272,7 +10272,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       // Reset all relevant states
@@ -10293,8 +10293,8 @@
 //           currencyService.getAllCurrencies(true), // Fetch WITH fees/adjustments
 //         ]);
 
-//         console.log("HeroSection: Rates Response Raw", ratesResponse);
-//         console.log("HeroSection: Currencies Response", currenciesResponse);
+//         console.log("CalculetingSection: Rates Response Raw", ratesResponse);
+//         console.log("CalculetingSection: Currencies Response", currenciesResponse);
 
 //         if (
 //           ratesResponse?.rates &&
@@ -10312,12 +10312,12 @@
 //           throw new Error("Could not load currency details.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load required conversion data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //         setIsLoading(false);
 //       }
 //     };
@@ -10333,7 +10333,7 @@
 //       !selectedSendCurrency
 //     ) {
 //       console.log(
-//         "HeroSection: Skipping rate calculations (loading or missing data/currency)."
+//         "CalculetingSection: Skipping rate calculations (loading or missing data/currency)."
 //       );
 //       if (!isLoading && (!rawRates || currencies.length === 0)) {
 //         setMarketRate(null);
@@ -10345,7 +10345,7 @@
 //       return;
 //     }
 
-//     console.log("HeroSection Rate & Fee Effect Triggered:", {
+//     console.log("CalculetingSection Rate & Fee Effect Triggered:", {
 //       selectedSendCurrency,
 //     });
 
@@ -10368,7 +10368,7 @@
 
 //       if (isNaN(rateBaseToSelected) || isNaN(rateBaseToINR)) {
 //         console.error(
-//           `HeroSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
+//           `CalculetingSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
 //           rawRates
 //         );
 //         throw new Error(
@@ -10408,7 +10408,7 @@
 //       // Store the final "Our Rate" rounded to 2 decimal places
 //       setOurRate(parseFloat(calculatedOurRate.toFixed(2))); // <-- Round final rate to 2 decimal places
 
-//       console.log("HeroSection: Rates Calculated", {
+//       console.log("CalculetingSection: Rates Calculated", {
 //         marketRate: calculatedMarketRate.toFixed(6), // Log higher precision
 //         roundedMarketRate: parseFloat(calculatedMarketRate.toFixed(2)),
 //         adjustmentPercent,
@@ -10427,7 +10427,7 @@
 //         setError(null);
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(
 //         err.message ||
 //           `Could not calculate rates/fees for ${selectedSendCurrency}.`
@@ -10476,7 +10476,7 @@
 //         // If fees exceed send amount, show 0.00
 //         setReceiveAmount("0.00");
 //       }
-//       console.log("HeroSection: Amounts Calculated", {
+//       console.log("CalculetingSection: Amounts Calculated", {
 //         sendAmount: numericSendAmount,
 //         wiseFeePercent: wiseFeePercentage,
 //         calculatedWiseFee: calculatedOurFee,
@@ -10527,7 +10527,7 @@
 //   };
 
 //   const handleCurrencyChange = (newCurrency: string) => {
-//     console.log("HeroSection: Currency changed to:", newCurrency);
+//     console.log("CalculetingSection: Currency changed to:", newCurrency);
 //     setSelectedSendCurrency(newCurrency);
 //     setSendAmount("");
 //     setReceiveAmount("");
@@ -10931,9 +10931,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, { useState, useEffect, useMemo } from "react";
 // import Link from "next/link";
@@ -10963,7 +10963,7 @@
 //   [key: string]: number | string; // Allow string initially for robust parsing
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -10997,7 +10997,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       // Reset all relevant states
@@ -11018,8 +11018,8 @@
 //           currencyService.getAllCurrencies(true), // Fetch WITH fees/adjustments
 //         ]);
 
-//         console.log("HeroSection: Rates Response Raw", ratesResponse);
-//         console.log("HeroSection: Currencies Response", currenciesResponse);
+//         console.log("CalculetingSection: Rates Response Raw", ratesResponse);
+//         console.log("CalculetingSection: Currencies Response", currenciesResponse);
 
 //         if (
 //           ratesResponse?.rates &&
@@ -11037,12 +11037,12 @@
 //           throw new Error("Could not load currency details.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load required conversion data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //         setIsLoading(false);
 //       }
 //     };
@@ -11058,7 +11058,7 @@
 //       !selectedSendCurrency
 //     ) {
 //       console.log(
-//         "HeroSection: Skipping rate calculations (loading or missing data/currency)."
+//         "CalculetingSection: Skipping rate calculations (loading or missing data/currency)."
 //       );
 //       if (!isLoading && (!rawRates || currencies.length === 0)) {
 //         setMarketRate(null);
@@ -11070,7 +11070,7 @@
 //       return;
 //     }
 
-//     console.log("HeroSection Rate & Fee Effect Triggered:", {
+//     console.log("CalculetingSection Rate & Fee Effect Triggered:", {
 //       selectedSendCurrency,
 //     });
 
@@ -11093,7 +11093,7 @@
 
 //       if (isNaN(rateBaseToSelected) || isNaN(rateBaseToINR)) {
 //         console.error(
-//           `HeroSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
+//           `CalculetingSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
 //           rawRates
 //         );
 //         throw new Error(
@@ -11132,7 +11132,7 @@
 //       // Store the final "Our Rate" rounded to 2 decimal places
 //       setOurRate(parseFloat(calculatedOurRate.toFixed(2))); // <-- Round final rate to 2 decimal places
 
-//       console.log("HeroSection: Rates Calculated", {
+//       console.log("CalculetingSection: Rates Calculated", {
 //         marketRate: calculatedMarketRate.toFixed(6),
 //         roundedMarketRate: parseFloat(calculatedMarketRate.toFixed(2)),
 //         adjustmentPercent,
@@ -11150,7 +11150,7 @@
 //         setError(null);
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(
 //         err.message ||
 //           `Could not calculate rates/fees for ${selectedSendCurrency}.`
@@ -11191,7 +11191,7 @@
 //       } else {
 //         setReceiveAmount("0.00");
 //       }
-//       console.log("HeroSection: Amounts Calculated", {
+//       console.log("CalculetingSection: Amounts Calculated", {
 //         sendAmount: numericSendAmount,
 //         wiseFeePercent: wiseFeePercentage,
 //         calculatedWiseFee: calculatedOurFee,
@@ -11241,7 +11241,7 @@
 //   };
 
 //   const handleCurrencyChange = (newCurrency: string) => {
-//     console.log("HeroSection: Currency changed to:", newCurrency);
+//     console.log("CalculetingSection: Currency changed to:", newCurrency);
 //     setSelectedSendCurrency(newCurrency);
 //     setSendAmount("");
 //     setReceiveAmount("");
@@ -11644,9 +11644,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// app/(website)/components/Hero/HeroSection.tsx
+// app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, { useState, useEffect, useMemo } from "react";
 // import Link from "next/link";
@@ -11676,7 +11676,7 @@
 //   [key: string]: number | string; // Allow string initially for robust parsing
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -11710,7 +11710,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       // Reset all relevant states
@@ -11731,8 +11731,8 @@
 //           currencyService.getAllCurrencies(true), // Fetch WITH fees/adjustments
 //         ]);
 
-//         console.log("HeroSection: Rates Response Raw", ratesResponse);
-//         console.log("HeroSection: Currencies Response", currenciesResponse);
+//         console.log("CalculetingSection: Rates Response Raw", ratesResponse);
+//         console.log("CalculetingSection: Currencies Response", currenciesResponse);
 
 //         if (
 //           ratesResponse?.rates &&
@@ -11750,12 +11750,12 @@
 //           throw new Error("Could not load currency details.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load required conversion data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //         setIsLoading(false);
 //       }
 //     };
@@ -11771,7 +11771,7 @@
 //       !selectedSendCurrency
 //     ) {
 //       console.log(
-//         "HeroSection: Skipping rate calculations (loading or missing data/currency)."
+//         "CalculetingSection: Skipping rate calculations (loading or missing data/currency)."
 //       );
 //       if (!isLoading && (!rawRates || currencies.length === 0)) {
 //         setMarketRate(null);
@@ -11783,7 +11783,7 @@
 //       return;
 //     }
 
-//     console.log("HeroSection Rate & Fee Effect Triggered:", {
+//     console.log("CalculetingSection Rate & Fee Effect Triggered:", {
 //       selectedSendCurrency,
 //     });
 
@@ -11806,7 +11806,7 @@
 
 //       if (isNaN(rateBaseToSelected) || isNaN(rateBaseToINR)) {
 //         console.error(
-//           `HeroSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
+//           `CalculetingSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
 //           rawRates
 //         );
 //         throw new Error(
@@ -11845,7 +11845,7 @@
 //       // Store the final "Our Rate" rounded to 2 decimal places
 //       setOurRate(parseFloat(calculatedOurRate.toFixed(2))); // <-- Round final rate to 2 decimal places
 
-//       console.log("HeroSection: Rates Calculated", {
+//       console.log("CalculetingSection: Rates Calculated", {
 //         marketRate: calculatedMarketRate.toFixed(6),
 //         roundedMarketRate: parseFloat(calculatedMarketRate.toFixed(2)),
 //         adjustmentPercent,
@@ -11863,7 +11863,7 @@
 //         setError(null);
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(
 //         err.message ||
 //           `Could not calculate rates/fees for ${selectedSendCurrency}.`
@@ -11904,7 +11904,7 @@
 //       } else {
 //         setReceiveAmount("0.00");
 //       }
-//       console.log("HeroSection: Amounts Calculated", {
+//       console.log("CalculetingSection: Amounts Calculated", {
 //         sendAmount: numericSendAmount,
 //         wiseFeePercent: wiseFeePercentage,
 //         calculatedWiseFee: calculatedOurFee,
@@ -11954,7 +11954,7 @@
 //   };
 
 //   const handleCurrencyChange = (newCurrency: string) => {
-//     console.log("HeroSection: Currency changed to:", newCurrency);
+//     console.log("CalculetingSection: Currency changed to:", newCurrency);
 //     setSelectedSendCurrency(newCurrency);
 //     setSendAmount("");
 //     setReceiveAmount("");
@@ -12369,9 +12369,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// app/(website)/components/Hero/HeroSection.tsx
+// app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, { useState, useEffect, useMemo } from "react";
 // import Link from "next/link";
@@ -12401,7 +12401,7 @@
 //   [key: string]: number | string; // Allow string initially for robust parsing
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -12435,7 +12435,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       // Reset all relevant states
@@ -12456,8 +12456,8 @@
 //           currencyService.getAllCurrencies(true), // Fetch WITH fees/adjustments
 //         ]);
 
-//         console.log("HeroSection: Rates Response Raw", ratesResponse);
-//         console.log("HeroSection: Currencies Response", currenciesResponse);
+//         console.log("CalculetingSection: Rates Response Raw", ratesResponse);
+//         console.log("CalculetingSection: Currencies Response", currenciesResponse);
 
 //         if (
 //           ratesResponse?.rates &&
@@ -12475,12 +12475,12 @@
 //           throw new Error("Could not load currency details.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load required conversion data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //         setIsLoading(false);
 //       }
 //     };
@@ -12496,7 +12496,7 @@
 //       !selectedSendCurrency
 //     ) {
 //       console.log(
-//         "HeroSection: Skipping rate calculations (loading or missing data/currency)."
+//         "CalculetingSection: Skipping rate calculations (loading or missing data/currency)."
 //       );
 //       if (!isLoading && (!rawRates || currencies.length === 0)) {
 //         setMarketRate(null);
@@ -12508,7 +12508,7 @@
 //       return;
 //     }
 
-//     console.log("HeroSection Rate & Fee Effect Triggered:", {
+//     console.log("CalculetingSection Rate & Fee Effect Triggered:", {
 //       selectedSendCurrency,
 //     });
 
@@ -12531,7 +12531,7 @@
 
 //       if (isNaN(rateBaseToSelected) || isNaN(rateBaseToINR)) {
 //         console.error(
-//           `HeroSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
+//           `CalculetingSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
 //           rawRates
 //         );
 //         throw new Error(
@@ -12570,7 +12570,7 @@
 //       // Store the final "Our Rate" rounded to 2 decimal places
 //       setOurRate(parseFloat(calculatedOurRate.toFixed(2))); // <-- Round final rate to 2 decimal places
 
-//       console.log("HeroSection: Rates Calculated", {
+//       console.log("CalculetingSection: Rates Calculated", {
 //         marketRate: calculatedMarketRate.toFixed(6),
 //         roundedMarketRate: parseFloat(calculatedMarketRate.toFixed(2)),
 //         adjustmentPercent,
@@ -12588,7 +12588,7 @@
 //         setError(null);
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(
 //         err.message ||
 //           `Could not calculate rates/fees for ${selectedSendCurrency}.`
@@ -12629,7 +12629,7 @@
 //       } else {
 //         setReceiveAmount("0.00");
 //       }
-//       console.log("HeroSection: Amounts Calculated", {
+//       console.log("CalculetingSection: Amounts Calculated", {
 //         sendAmount: numericSendAmount,
 //         wiseFeePercent: wiseFeePercentage,
 //         calculatedWiseFee: calculatedOurFee,
@@ -12679,7 +12679,7 @@
 //   };
 
 //   const handleCurrencyChange = (newCurrency: string) => {
-//     console.log("HeroSection: Currency changed to:", newCurrency);
+//     console.log("CalculetingSection: Currency changed to:", newCurrency);
 //     setSelectedSendCurrency(newCurrency);
 //     setSendAmount("");
 //     setReceiveAmount("");
@@ -13094,9 +13094,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, { useState, useEffect, useMemo } from "react";
 // import Link from "next/link";
@@ -13127,7 +13127,7 @@
 //   [key: string]: number | string; // Allow string initially for robust parsing
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -13161,7 +13161,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       // Reset all relevant states
@@ -13182,8 +13182,8 @@
 //           currencyService.getAllCurrencies(true), // Fetch WITH fees/adjustments
 //         ]);
 
-//         console.log("HeroSection: Rates Response Raw", ratesResponse);
-//         console.log("HeroSection: Currencies Response", currenciesResponse);
+//         console.log("CalculetingSection: Rates Response Raw", ratesResponse);
+//         console.log("CalculetingSection: Currencies Response", currenciesResponse);
 
 //         if (
 //           ratesResponse?.rates &&
@@ -13201,12 +13201,12 @@
 //           throw new Error("Could not load currency details.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load required conversion data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //         setIsLoading(false);
 //       }
 //     };
@@ -13222,7 +13222,7 @@
 //       !selectedSendCurrency
 //     ) {
 //       console.log(
-//         "HeroSection: Skipping rate calculations (loading or missing data/currency)."
+//         "CalculetingSection: Skipping rate calculations (loading or missing data/currency)."
 //       );
 //       if (!isLoading && (!rawRates || currencies.length === 0)) {
 //         setMarketRate(null);
@@ -13234,7 +13234,7 @@
 //       return;
 //     }
 
-//     console.log("HeroSection Rate & Fee Effect Triggered:", {
+//     console.log("CalculetingSection Rate & Fee Effect Triggered:", {
 //       selectedSendCurrency,
 //     });
 
@@ -13257,7 +13257,7 @@
 
 //       if (isNaN(rateBaseToSelected) || isNaN(rateBaseToINR)) {
 //         console.error(
-//           `HeroSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
+//           `CalculetingSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
 //           rawRates
 //         );
 //         throw new Error(
@@ -13296,7 +13296,7 @@
 //       // Store the final "Our Rate" rounded to 2 decimal places
 //       setOurRate(parseFloat(calculatedOurRate.toFixed(2))); // <-- Round final rate to 2 decimal places
 
-//       console.log("HeroSection: Rates Calculated", {
+//       console.log("CalculetingSection: Rates Calculated", {
 //         marketRate: calculatedMarketRate.toFixed(6),
 //         roundedMarketRate: parseFloat(calculatedMarketRate.toFixed(2)),
 //         adjustmentPercent,
@@ -13314,7 +13314,7 @@
 //         setError(null);
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(
 //         err.message ||
 //           `Could not calculate rates/fees for ${selectedSendCurrency}.`
@@ -13355,7 +13355,7 @@
 //       } else {
 //         setReceiveAmount("0.00");
 //       }
-//       console.log("HeroSection: Amounts Calculated", {
+//       console.log("CalculetingSection: Amounts Calculated", {
 //         sendAmount: numericSendAmount,
 //         wiseFeePercent: wiseFeePercentage,
 //         calculatedWiseFee: calculatedOurFee,
@@ -13405,7 +13405,7 @@
 //   };
 
 //   const handleCurrencyChange = (newCurrency: string) => {
-//     console.log("HeroSection: Currency changed to:", newCurrency);
+//     console.log("CalculetingSection: Currency changed to:", newCurrency);
 //     setSelectedSendCurrency(newCurrency);
 //     setSendAmount("");
 //     setReceiveAmount("");
@@ -13837,9 +13837,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, { useState, useEffect, useMemo } from "react";
 // import Link from "next/link";
@@ -13870,7 +13870,7 @@
 //   [key: string]: number | string; // Allow string initially for robust parsing
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -13904,7 +13904,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       // Reset all relevant states
@@ -13925,8 +13925,8 @@
 //           currencyService.getAllCurrencies(true), // Fetch WITH fees/adjustments
 //         ]);
 
-//         console.log("HeroSection: Rates Response Raw", ratesResponse);
-//         console.log("HeroSection: Currencies Response", currenciesResponse);
+//         console.log("CalculetingSection: Rates Response Raw", ratesResponse);
+//         console.log("CalculetingSection: Currencies Response", currenciesResponse);
 
 //         if (
 //           ratesResponse?.rates &&
@@ -13944,12 +13944,12 @@
 //           throw new Error("Could not load currency details.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load required conversion data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //         setIsLoading(false);
 //       }
 //     };
@@ -13965,7 +13965,7 @@
 //       !selectedSendCurrency
 //     ) {
 //       console.log(
-//         "HeroSection: Skipping rate calculations (loading or missing data/currency)."
+//         "CalculetingSection: Skipping rate calculations (loading or missing data/currency)."
 //       );
 //       if (!isLoading && (!rawRates || currencies.length === 0)) {
 //         setMarketRate(null);
@@ -13977,7 +13977,7 @@
 //       return;
 //     }
 
-//     console.log("HeroSection Rate & Fee Effect Triggered:", {
+//     console.log("CalculetingSection Rate & Fee Effect Triggered:", {
 //       selectedSendCurrency,
 //     });
 
@@ -14000,7 +14000,7 @@
 
 //       if (isNaN(rateBaseToSelected) || isNaN(rateBaseToINR)) {
 //         console.error(
-//           `HeroSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
+//           `CalculetingSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
 //           rawRates
 //         );
 //         throw new Error(
@@ -14039,7 +14039,7 @@
 //       // Store the final "Our Rate" rounded to 2 decimal places
 //       setOurRate(parseFloat(calculatedOurRate.toFixed(2))); // <-- Round final rate to 2 decimal places
 
-//       console.log("HeroSection: Rates Calculated", {
+//       console.log("CalculetingSection: Rates Calculated", {
 //         marketRate: calculatedMarketRate.toFixed(6),
 //         roundedMarketRate: parseFloat(calculatedMarketRate.toFixed(2)),
 //         adjustmentPercent,
@@ -14057,7 +14057,7 @@
 //         setError(null);
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(
 //         err.message ||
 //           `Could not calculate rates/fees for ${selectedSendCurrency}.`
@@ -14098,7 +14098,7 @@
 //       } else {
 //         setReceiveAmount("0.00");
 //       }
-//       console.log("HeroSection: Amounts Calculated", {
+//       console.log("CalculetingSection: Amounts Calculated", {
 //         sendAmount: numericSendAmount,
 //         wiseFeePercent: wiseFeePercentage,
 //         calculatedWiseFee: calculatedOurFee,
@@ -14148,7 +14148,7 @@
 //   };
 
 //   const handleCurrencyChange = (newCurrency: string) => {
-//     console.log("HeroSection: Currency changed to:", newCurrency);
+//     console.log("CalculetingSection: Currency changed to:", newCurrency);
 //     setSelectedSendCurrency(newCurrency);
 //     setSendAmount("");
 //     setReceiveAmount("");
@@ -14576,9 +14576,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// app/(website)/components/Hero/HeroSection.tsx
+// app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, { useState, useEffect, useMemo } from "react";
 // import Link from "next/link";
@@ -14609,7 +14609,7 @@
 //   [key: string]: number | string;
 // }
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -14644,7 +14644,7 @@
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
 //       // ... (data fetching logic remains the same) ...
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       setRawRates(null);
@@ -14664,8 +14664,8 @@
 //           currencyService.getAllCurrencies(true),
 //         ]);
 
-//         console.log("HeroSection: Rates Response Raw", ratesResponse);
-//         console.log("HeroSection: Currencies Response", currenciesResponse);
+//         console.log("CalculetingSection: Rates Response Raw", ratesResponse);
+//         console.log("CalculetingSection: Currencies Response", currenciesResponse);
 
 //         if (
 //           ratesResponse?.rates &&
@@ -14682,12 +14682,12 @@
 //           throw new Error("Could not load currency details.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load required conversion data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //         setIsLoading(false);
 //       }
 //     };
@@ -14704,7 +14704,7 @@
 //       !selectedSendCurrency
 //     ) {
 //       console.log(
-//         "HeroSection: Skipping rate calculations (loading or missing data/currency)."
+//         "CalculetingSection: Skipping rate calculations (loading or missing data/currency)."
 //       );
 //       if (!isLoading && (!rawRates || currencies.length === 0)) {
 //         setMarketRate(null);
@@ -14716,7 +14716,7 @@
 //       return;
 //     }
 
-//     console.log("HeroSection Rate & Fee Effect Triggered:", {
+//     console.log("CalculetingSection Rate & Fee Effect Triggered:", {
 //       selectedSendCurrency,
 //     });
 
@@ -14738,7 +14738,7 @@
 
 //       if (isNaN(rateBaseToSelected) || isNaN(rateBaseToINR)) {
 //         console.error(
-//           `HeroSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
+//           `CalculetingSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
 //           rawRates
 //         );
 //         throw new Error(
@@ -14771,7 +14771,7 @@
 //         calculatedMarketRate * (1 + adjustmentPercent / 100);
 //       setOurRate(parseFloat(calculatedOurRate.toFixed(2)));
 
-//       console.log("HeroSection: Rates Calculated", {
+//       console.log("CalculetingSection: Rates Calculated", {
 //         marketRate: calculatedMarketRate.toFixed(6),
 //         roundedMarketRate: parseFloat(calculatedMarketRate.toFixed(2)),
 //         adjustmentPercent,
@@ -14789,7 +14789,7 @@
 //         setError(null);
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(
 //         err.message ||
 //           `Could not calculate rates/fees for ${selectedSendCurrency}.`
@@ -14832,7 +14832,7 @@
 //       } else {
 //         setReceiveAmount("0.00");
 //       }
-//       console.log("HeroSection: Amounts Calculated", {
+//       console.log("CalculetingSection: Amounts Calculated", {
 //         sendAmount: numericSendAmount,
 //         wiseFeePercent: wiseFeePercentage,
 //         calculatedWiseFee: calculatedOurFee,
@@ -14883,7 +14883,7 @@
 
 //   const handleCurrencyChange = (newCurrency: string) => {
 //     // ... (input handling logic remains the same) ...
-//     console.log("HeroSection: Currency changed to:", newCurrency);
+//     console.log("CalculetingSection: Currency changed to:", newCurrency);
 //     setSelectedSendCurrency(newCurrency);
 //     setSendAmount("");
 //     setReceiveAmount("");
@@ -15345,9 +15345,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, {
 //   useState,
@@ -15385,7 +15385,7 @@
 // const CYCLE_AMOUNTS = ["100", "200", "500", "1000" , "1500"];
 // const CYCLE_DELAY = 5000; // 5 seconds
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -15424,7 +15424,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       // Reset all relevant states
@@ -15448,8 +15448,8 @@
 //           currencyService.getAllCurrencies(true), // Fetch WITH fees/adjustments
 //         ]);
 
-//         console.log("HeroSection: Rates Response Raw", ratesResponse);
-//         console.log("HeroSection: Currencies Response", currenciesResponse);
+//         console.log("CalculetingSection: Rates Response Raw", ratesResponse);
+//         console.log("CalculetingSection: Currencies Response", currenciesResponse);
 
 //         if (
 //           ratesResponse?.rates &&
@@ -15467,12 +15467,12 @@
 //           throw new Error("Could not load currency details.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load required conversion data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //         setIsLoading(false);
 //       }
 //     };
@@ -15488,7 +15488,7 @@
 //       currencies.length === 0 ||
 //       !selectedSendCurrency
 //     ) {
-//       // console.log("HeroSection: Skipping rate calculations (loading or missing data/currency).");
+//       // console.log("CalculetingSection: Skipping rate calculations (loading or missing data/currency).");
 //       if (!isLoading && (!rawRates || currencies.length === 0)) {
 //         setMarketRate(null);
 //         setOurRate(null);
@@ -15499,7 +15499,7 @@
 //       return;
 //     }
 
-//     // console.log("HeroSection Rate & Fee Effect Triggered:", { selectedSendCurrency });
+//     // console.log("CalculetingSection Rate & Fee Effect Triggered:", { selectedSendCurrency });
 
 //     try {
 //       let rawRateSelectedValue = rawRates[selectedSendCurrency];
@@ -15520,7 +15520,7 @@
 
 //       if (isNaN(rateBaseToSelected) || isNaN(rateBaseToINR)) {
 //         console.error(
-//           `HeroSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
+//           `CalculetingSection: Invalid numeric rate value. Selected: ${rateBaseToSelected}, INR: ${rateBaseToINR}. Raw:`,
 //           rawRates
 //         );
 //         throw new Error(
@@ -15554,7 +15554,7 @@
 //         calculatedMarketRate * (1 + adjustmentPercent / 100);
 //       setOurRate(parseFloat(calculatedOurRate.toFixed(2)));
 
-//       // console.log("HeroSection: Rates Calculated", { /* ... */ });
+//       // console.log("CalculetingSection: Rates Calculated", { /* ... */ });
 
 //       // Clear error if calculation succeeds
 //       if (
@@ -15565,7 +15565,7 @@
 //         setError(null);
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(
 //         err.message ||
 //           `Could not calculate rates/fees for ${selectedSendCurrency}.`
@@ -15607,7 +15607,7 @@
 //       } else {
 //         setReceiveAmount("0.00");
 //       }
-//       // console.log("HeroSection: Amounts Calculated", { /* ... */ });
+//       // console.log("CalculetingSection: Amounts Calculated", { /* ... */ });
 //     } else {
 //       setOurFeeAmount(0);
 //       setReceiveAmount(""); // Clear receive amount if send amount is 0 or rate is invalid
@@ -15700,7 +15700,7 @@
 
 //   const handleCurrencyChange = useCallback(
 //     (newCurrency: string) => {
-//       console.log("HeroSection: Currency changed to:", newCurrency);
+//       console.log("CalculetingSection: Currency changed to:", newCurrency);
 //       setSelectedSendCurrency(newCurrency);
 //       // Reset everything, including cycle state
 //       setSendAmount(""); // Clear amount
@@ -16139,9 +16139,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, {
 //   useState,
@@ -16179,7 +16179,7 @@
 // const CYCLE_AMOUNTS = ["100", "300", "500" , "700" , "1000"];
 // const CYCLE_DELAY = 2500; // 2.5 seconds
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -16229,7 +16229,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       setRawRates(null);
@@ -16266,13 +16266,13 @@
 //           throw new Error("Could not load currencies.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
 //         setIsLoading(false);
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //       }
 //     };
 //     fetchInitialData();
@@ -16342,7 +16342,7 @@
 //         setError(null);
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(
 //         err.message || `Could not calculate rates for ${selectedSendCurrency}.`
 //       );
@@ -16471,7 +16471,7 @@
 
 //   const handleCurrencyChange = useCallback(
 //     (newCurrency: string) => {
-//       console.log("HeroSection: Currency changed to:", newCurrency);
+//       console.log("CalculetingSection: Currency changed to:", newCurrency);
 //       setSelectedSendCurrency(newCurrency);
 //       setSendAmount("");
 //       setReceiveAmount("");
@@ -16905,11 +16905,11 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 //30-04-2025
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, {
 //   useState,
@@ -16947,7 +16947,7 @@
 // const CYCLE_AMOUNTS = ["100", "300", "500", "700", "1000"]; // Updated cycle amounts
 // const CYCLE_DELAY = 2500; // 2.5 seconds
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -16997,7 +16997,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       setRawRates(null);
@@ -17034,13 +17034,13 @@
 //           throw new Error("Could not load currencies.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
 //         setIsLoading(false);
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //       }
 //     };
 //     fetchInitialData();
@@ -17110,7 +17110,7 @@
 //         setError(null);
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(
 //         err.message || `Could not calculate rates for ${selectedSendCurrency}.`
 //       );
@@ -17238,7 +17238,7 @@
 
 //   const handleCurrencyChange = useCallback(
 //     (newCurrency: string) => {
-//       console.log("HeroSection: Currency changed to:", newCurrency);
+//       console.log("CalculetingSection: Currency changed to:", newCurrency);
 //       setSelectedSendCurrency(newCurrency);
 //       setSendAmount("");
 //       setReceiveAmount("");
@@ -17714,9 +17714,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, {
 //   useState,
@@ -17755,7 +17755,7 @@
 // const CYCLE_DELAY = 2500; // 2.5 seconds
 // const MAX_SEND_AMOUNT = 50000; // Define the maximum allowed amount (exclusive of 50000)
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -17806,7 +17806,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       setSendAmountError(null); // Reset specific error on load
@@ -17844,13 +17844,13 @@
 //           throw new Error("Could not load currencies.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
 //         setIsLoading(false);
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //       }
 //     };
 //     fetchInitialData();
@@ -17920,7 +17920,7 @@
 //         setError(null); // Clear rate error if rate becomes available
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(
 //         err.message || `Could not calculate rates for ${selectedSendCurrency}.`
 //       );
@@ -18125,7 +18125,7 @@
 
 //   const handleCurrencyChange = useCallback(
 //     (newCurrency: string) => {
-//       console.log("HeroSection: Currency changed to:", newCurrency);
+//       console.log("CalculetingSection: Currency changed to:", newCurrency);
 //       setSelectedSendCurrency(newCurrency);
 //       // Reset everything related to the previous currency/amount
 //       setSendAmount("");
@@ -18715,9 +18715,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// app/(website)/components/Hero/HeroSection.tsx
+// app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, {
 //   useState,
@@ -18756,7 +18756,7 @@
 // const CYCLE_DELAY = 2500;
 // const MAX_SEND_AMOUNT = 50000; // Define the maximum allowed amount (inclusive of 50000)
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -18811,7 +18811,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setError(null);
 //       setSendAmountError(null);
@@ -18849,13 +18849,13 @@
 //           throw new Error("Could not load currencies.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setError(err.message || "Failed to load data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
 //         setIsLoading(false);
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //       }
 //     };
 //     fetchInitialData();
@@ -18925,7 +18925,7 @@
 //         setError(null); // Clear rate error if rate becomes available
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setError(
 //         err.message || `Could not calculate rates for ${selectedSendCurrency}.`
 //       );
@@ -19166,7 +19166,7 @@
 
 //   const handleCurrencyChange = useCallback(
 //     (newCurrency: string) => {
-//       console.log("HeroSection: Currency changed to:", newCurrency);
+//       console.log("CalculetingSection: Currency changed to:", newCurrency);
 //       setSelectedSendCurrency(newCurrency);
 //       setSendAmount("");
 //       setReceiveAmount("");
@@ -19717,9 +19717,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, {
 //   useState,
@@ -19758,7 +19758,7 @@
 // const CYCLE_DELAY = 2500;
 // const MAX_SEND_AMOUNT = 50000; // Define the maximum allowed amount
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -19809,7 +19809,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true);
 //       setApiError(null);
 //       setSendAmountError(null);
@@ -19847,13 +19847,13 @@
 //           throw new Error("Could not load currencies.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setApiError(err.message || "Failed to load data.");
 //         setRawRates(null);
 //         setCurrencies([]);
 //       } finally {
 //         setIsLoading(false);
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //       }
 //     };
 //     fetchInitialData();
@@ -19924,7 +19924,7 @@
 //         setApiError(null);
 //       }
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setApiError(
 //         err.message || `Could not calculate rates for ${selectedSendCurrency}.`
 //       );
@@ -20030,7 +20030,7 @@
 //           setSendAmountError(null); // Clear validation error when cycling
 //         } else {
 //           console.warn(
-//             `HeroSection: Auto-cycle amount ${nextAmountStr} exceeds limit ${MAX_SEND_AMOUNT}. Skipping.`
+//             `CalculetingSection: Auto-cycle amount ${nextAmountStr} exceeds limit ${MAX_SEND_AMOUNT}. Skipping.`
 //           );
 //         }
 //         return nextIndex;
@@ -20150,7 +20150,7 @@
 
 //   const handleCurrencyChange = useCallback(
 //     (newCurrency: string) => {
-//       console.log("HeroSection: Currency changed to:", newCurrency);
+//       console.log("CalculetingSection: Currency changed to:", newCurrency);
 //       stopAutoCycling();
 //       setSelectedSendCurrency(newCurrency);
 //       setSendAmount("");
@@ -20775,9 +20775,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, {
 //   useState,
@@ -20819,7 +20819,7 @@
 // const CYCLE_DELAY = 2500;
 // const MAX_SEND_AMOUNT = 50000; // Define the maximum allowed amount
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -20871,7 +20871,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true); // Start loading for initial data
 //       setApiError(null);
 //       setSendAmountError(null);
@@ -20914,7 +20914,7 @@
 //               const rateValue = ratesResponse.rates[code];
 //               const numericValue = parseFloat(String(rateValue));
 //               if (isNaN(numericValue) || numericValue <= 0) {
-//                   console.warn(`HeroSection: Invalid rate value for ${code}:`, rateValue);
+//                   console.warn(`CalculetingSection: Invalid rate value for ${code}:`, rateValue);
 //                   hasInvalidRate = true;
 //                   // Optionally skip this rate or handle it differently
 //               } else {
@@ -20926,7 +20926,7 @@
 //              setRawRates(numericRates);
 //              // Check if the currently selected currency's rate is available
 //              if (!numericRates[selectedSendCurrency]) {
-//                  console.warn(`HeroSection: Rate for pre-selected currency ${selectedSendCurrency} not found in fetched rates.`);
+//                  console.warn(`CalculetingSection: Rate for pre-selected currency ${selectedSendCurrency} not found in fetched rates.`);
 //                  // Optionally select a default currency here if the current one isn't available
 //                  // For now, the rate calculation effect will handle the missing rate error.
 //              }
@@ -20946,9 +20946,9 @@
 //                const defaultCurrency = currenciesResponse.find(c => c.code === 'USD') || currenciesResponse[0];
 //                if (defaultCurrency) {
 //                   setSelectedSendCurrency(defaultCurrency.code);
-//                    console.log("HeroSection: Setting default currency:", defaultCurrency.code);
+//                    console.log("CalculetingSection: Setting default currency:", defaultCurrency.code);
 //                } else {
-//                    console.error("HeroSection: No currencies available to set default.");
+//                    console.error("CalculetingSection: No currencies available to set default.");
 //                    // Handle case where currency list is empty or doesn't have USD
 //                }
 //            }
@@ -20956,7 +20956,7 @@
 //           throw new Error("Could not load currencies.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setApiError(err.message || "Failed to load data.");
 //         setRawRates(null);
 //         setCurrencies([]);
@@ -20970,7 +20970,7 @@
 //         setReceiveAmount("");
 //       } finally {
 //         setIsLoading(false); // Initial data load is complete
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //       }
 //     };
 
@@ -20986,10 +20986,10 @@
 
 //   // --- Rate and Fee Calculation Effect ---
 //   useEffect(() => {
-//     console.log("HeroSection: Calculating rates and fees effect triggered.");
+//     console.log("CalculetingSection: Calculating rates and fees effect triggered.");
 //     // Only run if initial loading is done and essential data is available
 //     if (isLoading || !rawRates || currencies.length === 0 || !selectedSendCurrency) {
-//         console.log("HeroSection: Calculation skipped - data not ready or currency not selected.");
+//         console.log("CalculetingSection: Calculation skipped - data not ready or currency not selected.");
 //         // Keep existing calculated states or reset based on component state needs
 //         // If data isn't ready, leave rates/fees as null or previous values
 //         // If currency is not selected, maybe reset? Handled in currency change handler.
@@ -21018,7 +21018,7 @@
 
 //       if (rateVsINR === undefined || rateVsINR === null || isNaN(rateVsINR) || rateVsINR <= 0) {
 //         // Handle cases where the rate for the selected currency is missing or invalid
-//         console.error(`HeroSection: Rate for ${selectedSendCurrency}/INR is missing or invalid in rawRates.`);
+//         console.error(`CalculetingSection: Rate for ${selectedSendCurrency}/INR is missing or invalid in rawRates.`);
 //         throw new Error(`Rate unavailable for ${selectedSendCurrency}/INR.`); // Throw a specific error
 //       }
 
@@ -21032,7 +21032,7 @@
 //       );
 
 //       if (!sendingCurrencyDetails) {
-//           console.error(`HeroSection: Currency details not found for ${selectedSendCurrency}.`);
+//           console.error(`CalculetingSection: Currency details not found for ${selectedSendCurrency}.`);
 //            throw new Error(`Details unavailable for ${selectedSendCurrency}. Cannot calculate fees.`);
 //       }
 
@@ -21052,11 +21052,11 @@
 //       const calculatedOurRate = calculatedMarketRate * (1 + adjustmentPercent / 100);
 //       setOurRate(parseFloat(calculatedOurRate.toFixed(2))); // Use higher precision initially, format for display later if needed
 
-//       console.log(`HeroSection: Calculated rates for ${selectedSendCurrency}/INR: Market=${calculatedMarketRate.toFixed(2)}, Our=${calculatedOurRate.toFixed(2)}`);
-//       console.log(`HeroSection: Fees for ${selectedSendCurrency}: Wise=${fetchedWiseFeePercent}%, Bank=${fetchedBankFee}`);
+//       console.log(`CalculetingSection: Calculated rates for ${selectedSendCurrency}/INR: Market=${calculatedMarketRate.toFixed(2)}, Our=${calculatedOurRate.toFixed(2)}`);
+//       console.log(`CalculetingSection: Fees for ${selectedSendCurrency}: Wise=${fetchedWiseFeePercent}%, Bank=${fetchedBankFee}`);
 
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       // Only set API error if it's a rate/calculation specific error, not a temporary input error
 //       setApiError(
 //         err.message || `Could not calculate rates for ${selectedSendCurrency}.`
@@ -21071,7 +21071,7 @@
 //       setReceiveAmount(""); // Reset receive amount
 //     } finally {
 //        setIsCalculating(false); // Calculation is complete
-//        console.log("HeroSection: Rate and fee calculation complete.");
+//        console.log("CalculetingSection: Rate and fee calculation complete.");
 //     }
 //   }, [
 //     selectedSendCurrency,
@@ -21084,10 +21084,10 @@
 
 //   // --- Receive Amount & Fee Calculation Effect (Based on validated sendAmount and calculated rates) ---
 //   useEffect(() => {
-//     console.log("HeroSection: Amount calculation effect triggered.");
+//     console.log("CalculetingSection: Amount calculation effect triggered.");
 //     // Only calculate if rates are ready and no critical API error
 //     if (ourRate === null || apiError) {
-//         console.log("HeroSection: Amount calculation skipped - rates not ready or API error exists.");
+//         console.log("CalculetingSection: Amount calculation skipped - rates not ready or API error exists.");
 //         setReceiveAmount(sendAmount === "" ? "" : "0.00"); // Show 0.00 if there's input but no rate
 //         setOurFeeAmount(0);
 //         return;
@@ -21101,14 +21101,14 @@
 //     if (numericSendAmount > MAX_SEND_AMOUNT) {
 //        // This should ideally be caught by handleSendAmountChange and set sendAmountError
 //        // But as a safeguard, if somehow a too-large number gets here, reset calculations
-//        console.warn("HeroSection: Amount calculation received value exceeding max limit.");
+//        console.warn("CalculetingSection: Amount calculation received value exceeding max limit.");
 //        setSendAmountError(`Amount exceeds maximum limit of ${MAX_SEND_AMOUNT.toLocaleString()} ${selectedSendCurrency}.`); // Ensure error state is set
 //        setReceiveAmount("");
 //        setOurFeeAmount(0);
 //        return;
 //     } else if (sendAmountError) {
 //         // If there's already a validation error (e.g., from bad input), reset calculations
-//         console.log("HeroSection: Amount calculation skipped - sendAmountError is active.");
+//         console.log("CalculetingSection: Amount calculation skipped - sendAmountError is active.");
 //          setReceiveAmount("");
 //          setOurFeeAmount(0);
 //         return;
@@ -21131,18 +21131,18 @@
 //         calculatedReceive = amountToSendAfterFees * ourRate;
 //         // Display receive amount to 2 decimal places for INR
 //         setReceiveAmount(calculatedReceive.toFixed(2));
-//         console.log(`HeroSection: Calculated: Send=${numericSendAmount}, OurRate=${ourRate}, WiseFee=${roundedOurFee}, BankFee=${bankTransferFeeAmount}, AmountAfterFees=${amountToSendAfterFees}, Receive=${calculatedReceive.toFixed(2)}`);
+//         console.log(`CalculetingSection: Calculated: Send=${numericSendAmount}, OurRate=${ourRate}, WiseFee=${roundedOurFee}, BankFee=${bankTransferFeeAmount}, AmountAfterFees=${amountToSendAfterFees}, Receive=${calculatedReceive.toFixed(2)}`);
 //       } else {
 //         // If fees eat up the entire amount or more
 //         setReceiveAmount("0.00");
-//          console.log(`HeroSection: Calculated: Send=${numericSendAmount}, Fees exceeded amount. Receive=0.00`);
+//          console.log(`CalculetingSection: Calculated: Send=${numericSendAmount}, Fees exceeded amount. Receive=0.00`);
 //       }
 //     } else {
 //       // If send amount is 0 or not a valid number
 //       setOurFeeAmount(0);
 //       // Show 0.00 only if the input has content, otherwise empty
 //       setReceiveAmount(sendAmount === "" ? "" : "0.00");
-//        console.log("HeroSection: Amount calculation skipped - sendAmount is 0 or empty.");
+//        console.log("CalculetingSection: Amount calculation skipped - sendAmount is 0 or empty.");
 //     }
 //   }, [
 //     sendAmount, // Trigger when sendAmount changes
@@ -21181,7 +21181,7 @@
 //     const performCycle = () => {
 //       // Check if cycling should stop
 //       if (!isAutoCycling || isLoading || authLoading || ourRate === null || apiError || isCalculating) {
-//         console.log("HeroSection: Stopping auto-cycle due to conditions.");
+//         console.log("CalculetingSection: Stopping auto-cycle due to conditions.");
 //         stopAutoCycling(); // Explicitly stop if conditions are not met
 //         return;
 //       }
@@ -21195,10 +21195,10 @@
 //         if (!isNaN(nextAmount) && nextAmount <= MAX_SEND_AMOUNT) {
 //           setSendAmount(nextAmountStr);
 //           setSendAmountError(null); // Clear validation error when cycling
-//            console.log("HeroSection: Auto-cycling to amount:", nextAmountStr);
+//            console.log("CalculetingSection: Auto-cycling to amount:", nextAmountStr);
 //         } else {
 //           console.warn(
-//             `HeroSection: Auto-cycle amount ${nextAmountStr} exceeds limit ${MAX_SEND_AMOUNT}. Skipping.`
+//             `CalculetingSection: Auto-cycle amount ${nextAmountStr} exceeds limit ${MAX_SEND_AMOUNT}. Skipping.`
 //           );
 //            // If an amount in the cycle list exceeds the max, stop cycling?
 //            stopAutoCycling(); // Stop cycling if a configured amount is invalid
@@ -21216,7 +21216,7 @@
 
 //     // Start the cycling logic only if conditions are met
 //     if (isAutoCycling && !isLoading && !authLoading && ourRate !== null && !apiError && !isCalculating) {
-//         console.log("HeroSection: Starting auto-cycle logic.");
+//         console.log("CalculetingSection: Starting auto-cycle logic.");
 //       // Use setTimeout for the initial delay, then setInterval for subsequent cycles
 //       const initialDelay = currentCycleIndex === -1 ? 500 : CYCLE_DELAY; // Shorter delay for the very first cycle
 //       cycleTimerRef.current = setTimeout(() => {
@@ -21231,19 +21231,19 @@
 //           !apiError &&
 //           !isCalculating // Double-check conditions before setting interval
 //         ) {
-//            console.log("HeroSection: Setting up auto-cycle interval.");
+//            console.log("CalculetingSection: Setting up auto-cycle interval.");
 //           cycleTimerRef.current = setInterval(performCycle, CYCLE_DELAY);
 //         } else {
-//              console.log("HeroSection: Conditions changed after initial cycle, not setting interval.");
+//              console.log("CalculetingSection: Conditions changed after initial cycle, not setting interval.");
 //         }
 //       }, initialDelay);
 //     } else {
-//          console.log("HeroSection: Conditions not met to start auto-cycle.");
+//          console.log("CalculetingSection: Conditions not met to start auto-cycle.");
 //     }
 
 //     // Cleanup function: This runs when the effect re-runs or component unmounts
 //     return () => {
-//       console.log("HeroSection: Auto-cycle effect cleanup.");
+//       console.log("CalculetingSection: Auto-cycle effect cleanup.");
 //       if (cycleTimerRef.current) {
 //         clearInterval(cycleTimerRef.current);
 //         cycleTimerRef.current = null;
@@ -21346,7 +21346,7 @@
 
 //   const handleCurrencyChange = useCallback(
 //     (newCurrency: string) => {
-//       console.log("HeroSection: Currency changed to:", newCurrency);
+//       console.log("CalculetingSection: Currency changed to:", newCurrency);
 //       stopAutoCycling(); // Stop cycling on currency change
 //       setSelectedSendCurrency(newCurrency);
 //       // Reset related states that depend on the currency
@@ -21904,9 +21904,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, {
 //   useState,
@@ -21943,7 +21943,7 @@
 // const CYCLE_DELAY = 2500;
 // const MAX_SEND_AMOUNT = 50000; // Define the maximum allowed amount
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -21995,7 +21995,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true); // Start loading for initial data
 //       setApiError(null);
 //       setSendAmountError(null);
@@ -22033,7 +22033,7 @@
 //             const numericValue = parseFloat(String(rateValue));
 //             if (isNaN(numericValue) || numericValue <= 0) {
 //               console.warn(
-//                 `HeroSection: Invalid rate value for ${code}:`,
+//                 `CalculetingSection: Invalid rate value for ${code}:`,
 //                 rateValue
 //               );
 //             } else {
@@ -22044,7 +22044,7 @@
 //             setRawRates(numericRates);
 //             if (!numericRates[selectedSendCurrency]) {
 //               console.warn(
-//                 `HeroSection: Rate for pre-selected currency ${selectedSendCurrency} not found in fetched rates.`
+//                 `CalculetingSection: Rate for pre-selected currency ${selectedSendCurrency} not found in fetched rates.`
 //               );
 //             }
 //           } else {
@@ -22069,12 +22069,12 @@
 //             if (defaultCurrency) {
 //               setSelectedSendCurrency(defaultCurrency.code);
 //               console.log(
-//                 "HeroSection: Setting default currency:",
+//                 "CalculetingSection: Setting default currency:",
 //                 defaultCurrency.code
 //               );
 //             } else {
 //               console.error(
-//                 "HeroSection: No currencies available to set default."
+//                 "CalculetingSection: No currencies available to set default."
 //               );
 //             }
 //           }
@@ -22082,7 +22082,7 @@
 //           throw new Error("Could not load currencies.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setApiError(err.message || "Failed to load data.");
 //         setRawRates(null);
 //         setCurrencies([]);
@@ -22095,7 +22095,7 @@
 //         setReceiveAmount("");
 //       } finally {
 //         setIsLoading(false);
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //       }
 //     };
 
@@ -22109,7 +22109,7 @@
 
 //   // --- Rate and Fee Calculation Effect ---
 //   useEffect(() => {
-//     console.log("HeroSection: Calculating rates and fees effect triggered.");
+//     console.log("CalculetingSection: Calculating rates and fees effect triggered.");
 //     if (
 //       isLoading ||
 //       !rawRates ||
@@ -22117,7 +22117,7 @@
 //       !selectedSendCurrency
 //     ) {
 //       console.log(
-//         "HeroSection: Calculation skipped - data not ready or currency not selected."
+//         "CalculetingSection: Calculation skipped - data not ready or currency not selected."
 //       );
 //       if (!rawRates || currencies.length === 0 || !selectedSendCurrency) {
 //         setMarketRate(null);
@@ -22143,7 +22143,7 @@
 //         rateVsINR <= 0
 //       ) {
 //         console.error(
-//           `HeroSection: Rate for ${selectedSendCurrency}/INR is missing or invalid in rawRates.`
+//           `CalculetingSection: Rate for ${selectedSendCurrency}/INR is missing or invalid in rawRates.`
 //         );
 //         throw new Error(`Rate unavailable for ${selectedSendCurrency}/INR.`);
 //       }
@@ -22156,7 +22156,7 @@
 //       );
 //       if (!sendingCurrencyDetails) {
 //         console.error(
-//           `HeroSection: Currency details not found for ${selectedSendCurrency}.`
+//           `CalculetingSection: Currency details not found for ${selectedSendCurrency}.`
 //         );
 //         throw new Error(
 //           `Details unavailable for ${selectedSendCurrency}. Cannot calculate fees.`
@@ -22179,15 +22179,15 @@
 //       setOurRate(parseFloat(calculatedOurRate.toFixed(2)));
 
 //       console.log(
-//         `HeroSection: Calculated rates for ${selectedSendCurrency}/INR: Market=${calculatedMarketRate.toFixed(
+//         `CalculetingSection: Calculated rates for ${selectedSendCurrency}/INR: Market=${calculatedMarketRate.toFixed(
 //           2
 //         )}, Our=${calculatedOurRate.toFixed(2)}`
 //       );
 //       console.log(
-//         `HeroSection: Fees for ${selectedSendCurrency}: Wise=${fetchedWiseFeePercent}%, Bank=${fetchedBankFee}`
+//         `CalculetingSection: Fees for ${selectedSendCurrency}: Wise=${fetchedWiseFeePercent}%, Bank=${fetchedBankFee}`
 //       );
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setApiError(
 //         err.message || `Could not calculate rates for ${selectedSendCurrency}.`
 //       );
@@ -22200,16 +22200,16 @@
 //       setReceiveAmount("");
 //     } finally {
 //       setIsCalculating(false);
-//       console.log("HeroSection: Rate and fee calculation complete.");
+//       console.log("CalculetingSection: Rate and fee calculation complete.");
 //     }
 //   }, [selectedSendCurrency, rawRates, currencies, isLoading]);
 
 //   // --- Receive Amount & Fee Calculation Effect (Based on validated sendAmount and calculated rates) ---
 //   useEffect(() => {
-//     console.log("HeroSection: Amount calculation effect triggered.");
+//     console.log("CalculetingSection: Amount calculation effect triggered.");
 //     if (ourRate === null || apiError) {
 //       console.log(
-//         "HeroSection: Amount calculation skipped - rates not ready or API error exists."
+//         "CalculetingSection: Amount calculation skipped - rates not ready or API error exists."
 //       );
 //       setReceiveAmount(sendAmount === "" ? "" : "0.00");
 //       setOurFeeAmount(0);
@@ -22225,7 +22225,7 @@
 //     // However, it's a good safeguard.
 //     if (numericSendAmount > MAX_SEND_AMOUNT) {
 //       console.warn(
-//         "HeroSection: Amount calculation received value exceeding max limit (safeguard)."
+//         "CalculetingSection: Amount calculation received value exceeding max limit (safeguard)."
 //       );
 //       // Ensure sendAmountError is set if this somehow happens, though handleSendAmountChange should manage it.
 //       if (!sendAmountError) {
@@ -22240,7 +22240,7 @@
 //       return;
 //     } else if (sendAmountError) {
 //       console.log(
-//         "HeroSection: Amount calculation skipped - sendAmountError is active."
+//         "CalculetingSection: Amount calculation skipped - sendAmountError is active."
 //       );
 //       setReceiveAmount("");
 //       setOurFeeAmount(0);
@@ -22259,21 +22259,21 @@
 //         calculatedReceive = amountToSendAfterFees * ourRate;
 //         setReceiveAmount(calculatedReceive.toFixed(2));
 //         console.log(
-//           `HeroSection: Calculated: Send=${numericSendAmount}, OurRate=${ourRate}, WiseFee=${roundedOurFee}, BankFee=${bankTransferFeeAmount}, AmountAfterFees=${amountToSendAfterFees}, Receive=${calculatedReceive.toFixed(
+//           `CalculetingSection: Calculated: Send=${numericSendAmount}, OurRate=${ourRate}, WiseFee=${roundedOurFee}, BankFee=${bankTransferFeeAmount}, AmountAfterFees=${amountToSendAfterFees}, Receive=${calculatedReceive.toFixed(
 //             2
 //           )}`
 //         );
 //       } else {
 //         setReceiveAmount("0.00");
 //         console.log(
-//           `HeroSection: Calculated: Send=${numericSendAmount}, Fees exceeded amount. Receive=0.00`
+//           `CalculetingSection: Calculated: Send=${numericSendAmount}, Fees exceeded amount. Receive=0.00`
 //         );
 //       }
 //     } else {
 //       setOurFeeAmount(0);
 //       setReceiveAmount(sendAmount === "" ? "" : "0.00");
 //       console.log(
-//         "HeroSection: Amount calculation skipped - sendAmount is 0 or empty."
+//         "CalculetingSection: Amount calculation skipped - sendAmount is 0 or empty."
 //       );
 //     }
 //   }, [
@@ -22318,7 +22318,7 @@
 //         apiError ||
 //         isCalculating
 //       ) {
-//         console.log("HeroSection: Stopping auto-cycle due to conditions.");
+//         console.log("CalculetingSection: Stopping auto-cycle due to conditions.");
 //         stopAutoCycling();
 //         return;
 //       }
@@ -22331,10 +22331,10 @@
 //         if (!isNaN(nextAmount) && nextAmount <= MAX_SEND_AMOUNT) {
 //           setSendAmount(nextAmountStr);
 //           setSendAmountError(null);
-//           console.log("HeroSection: Auto-cycling to amount:", nextAmountStr);
+//           console.log("CalculetingSection: Auto-cycling to amount:", nextAmountStr);
 //         } else {
 //           console.warn(
-//             `HeroSection: Auto-cycle amount ${nextAmountStr} exceeds limit ${MAX_SEND_AMOUNT}. Skipping.`
+//             `CalculetingSection: Auto-cycle amount ${nextAmountStr} exceeds limit ${MAX_SEND_AMOUNT}. Skipping.`
 //           );
 //           stopAutoCycling();
 //           return prevIndex;
@@ -22356,7 +22356,7 @@
 //       !apiError &&
 //       !isCalculating
 //     ) {
-//       console.log("HeroSection: Starting auto-cycle logic.");
+//       console.log("CalculetingSection: Starting auto-cycle logic.");
 //       const initialDelay = currentCycleIndex === -1 ? 500 : CYCLE_DELAY;
 //       cycleTimerRef.current = setTimeout(() => {
 //         performCycle();
@@ -22368,20 +22368,20 @@
 //           !apiError &&
 //           !isCalculating
 //         ) {
-//           console.log("HeroSection: Setting up auto-cycle interval.");
+//           console.log("CalculetingSection: Setting up auto-cycle interval.");
 //           cycleTimerRef.current = setInterval(performCycle, CYCLE_DELAY);
 //         } else {
 //           console.log(
-//             "HeroSection: Conditions changed after initial cycle, not setting interval."
+//             "CalculetingSection: Conditions changed after initial cycle, not setting interval."
 //           );
 //         }
 //       }, initialDelay);
 //     } else {
-//       console.log("HeroSection: Conditions not met to start auto-cycle.");
+//       console.log("CalculetingSection: Conditions not met to start auto-cycle.");
 //     }
 
 //     return () => {
-//       console.log("HeroSection: Auto-cycle effect cleanup.");
+//       console.log("CalculetingSection: Auto-cycle effect cleanup.");
 //       if (cycleTimerRef.current) {
 //         clearInterval(cycleTimerRef.current);
 //         cycleTimerRef.current = null;
@@ -22484,7 +22484,7 @@
 
 //   const handleCurrencyChange = useCallback(
 //     (newCurrency: string) => {
-//       console.log("HeroSection: Currency changed to:", newCurrency);
+//       console.log("CalculetingSection: Currency changed to:", newCurrency);
 //       stopAutoCycling();
 //       setSelectedSendCurrency(newCurrency);
 //       setSendAmount("");
@@ -23080,9 +23080,9 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
-// // app/(website)/components/Hero/HeroSection.tsx
+// // app/(website)/components/Hero/CalculetingSection.tsx
 // "use client";
 // import React, {
 //   useState,
@@ -23119,7 +23119,7 @@
 // const CYCLE_DELAY = 2500;
 // const MAX_SEND_AMOUNT = 50000; // Define the maximum allowed amount
 
-// const HeroSection: React.FC = () => {
+// const CalculetingSection: React.FC = () => {
 //   // --- Contexts ---
 //   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
 //   const { user, loading: authLoading } = useAuth();
@@ -23171,7 +23171,7 @@
 //   // --- Data Fetching Effect ---
 //   useEffect(() => {
 //     const fetchInitialData = async () => {
-//       console.log("HeroSection: Fetching initial data...");
+//       console.log("CalculetingSection: Fetching initial data...");
 //       setIsLoading(true); // Start loading for initial data
 //       setApiError(null);
 //       setSendAmountError(null);
@@ -23209,7 +23209,7 @@
 //             const numericValue = parseFloat(String(rateValue));
 //             if (isNaN(numericValue) || numericValue <= 0) {
 //               console.warn(
-//                 `HeroSection: Invalid rate value for ${code}:`,
+//                 `CalculetingSection: Invalid rate value for ${code}:`,
 //                 rateValue
 //               );
 //             } else {
@@ -23220,7 +23220,7 @@
 //             setRawRates(numericRates);
 //             if (!numericRates[selectedSendCurrency]) {
 //               console.warn(
-//                 `HeroSection: Rate for pre-selected currency ${selectedSendCurrency} not found in fetched rates.`
+//                 `CalculetingSection: Rate for pre-selected currency ${selectedSendCurrency} not found in fetched rates.`
 //               );
 //             }
 //           } else {
@@ -23245,12 +23245,12 @@
 //             if (defaultCurrency) {
 //               setSelectedSendCurrency(defaultCurrency.code);
 //               console.log(
-//                 "HeroSection: Setting default currency:",
+//                 "CalculetingSection: Setting default currency:",
 //                 defaultCurrency.code
 //               );
 //             } else {
 //               console.error(
-//                 "HeroSection: No currencies available to set default."
+//                 "CalculetingSection: No currencies available to set default."
 //               );
 //             }
 //           }
@@ -23258,7 +23258,7 @@
 //           throw new Error("Could not load currencies.");
 //         }
 //       } catch (err: any) {
-//         console.error("HeroSection: Error fetching initial data:", err);
+//         console.error("CalculetingSection: Error fetching initial data:", err);
 //         setApiError(err.message || "Failed to load data.");
 //         setRawRates(null);
 //         setCurrencies([]);
@@ -23271,7 +23271,7 @@
 //         setReceiveAmount("");
 //       } finally {
 //         setIsLoading(false);
-//         console.log("HeroSection: Initial data fetch complete.");
+//         console.log("CalculetingSection: Initial data fetch complete.");
 //       }
 //     };
 
@@ -23285,7 +23285,7 @@
 
 //   // --- Rate and Fee Calculation Effect ---
 //   useEffect(() => {
-//     console.log("HeroSection: Calculating rates and fees effect triggered.");
+//     console.log("CalculetingSection: Calculating rates and fees effect triggered.");
 //     if (
 //       isLoading ||
 //       !rawRates ||
@@ -23293,7 +23293,7 @@
 //       !selectedSendCurrency
 //     ) {
 //       console.log(
-//         "HeroSection: Calculation skipped - data not ready or currency not selected."
+//         "CalculetingSection: Calculation skipped - data not ready or currency not selected."
 //       );
 //       if (!rawRates || currencies.length === 0 || !selectedSendCurrency) {
 //         setMarketRate(null);
@@ -23319,7 +23319,7 @@
 //         rateVsINR <= 0
 //       ) {
 //         console.error(
-//           `HeroSection: Rate for ${selectedSendCurrency}/INR is missing or invalid in rawRates.`
+//           `CalculetingSection: Rate for ${selectedSendCurrency}/INR is missing or invalid in rawRates.`
 //         );
 //         throw new Error(`Rate unavailable for ${selectedSendCurrency}/INR.`);
 //       }
@@ -23332,7 +23332,7 @@
 //       );
 //       if (!sendingCurrencyDetails) {
 //         console.error(
-//           `HeroSection: Currency details not found for ${selectedSendCurrency}.`
+//           `CalculetingSection: Currency details not found for ${selectedSendCurrency}.`
 //         );
 //         throw new Error(
 //           `Details unavailable for ${selectedSendCurrency}. Cannot calculate fees.`
@@ -23355,15 +23355,15 @@
 //       setOurRate(parseFloat(calculatedOurRate.toFixed(2)));
 
 //       console.log(
-//         `HeroSection: Calculated rates for ${selectedSendCurrency}/INR: Market=${calculatedMarketRate.toFixed(
+//         `CalculetingSection: Calculated rates for ${selectedSendCurrency}/INR: Market=${calculatedMarketRate.toFixed(
 //           2
 //         )}, Our=${calculatedOurRate.toFixed(2)}`
 //       );
 //       console.log(
-//         `HeroSection: Fees for ${selectedSendCurrency}: Wise=${fetchedWiseFeePercent}%, Bank=${fetchedBankFee}`
+//         `CalculetingSection: Fees for ${selectedSendCurrency}: Wise=${fetchedWiseFeePercent}%, Bank=${fetchedBankFee}`
 //       );
 //     } catch (err: any) {
-//       console.error("HeroSection: Error calculating rates/fees:", err);
+//       console.error("CalculetingSection: Error calculating rates/fees:", err);
 //       setApiError(
 //         err.message || `Could not calculate rates for ${selectedSendCurrency}.`
 //       );
@@ -23376,16 +23376,16 @@
 //       setReceiveAmount("");
 //     } finally {
 //       setIsCalculating(false);
-//       console.log("HeroSection: Rate and fee calculation complete.");
+//       console.log("CalculetingSection: Rate and fee calculation complete.");
 //     }
 //   }, [selectedSendCurrency, rawRates, currencies, isLoading]);
 
 //   // --- Receive Amount & Fee Calculation Effect (Based on validated sendAmount and calculated rates) ---
 //   useEffect(() => {
-//     console.log("HeroSection: Amount calculation effect triggered.");
+//     console.log("CalculetingSection: Amount calculation effect triggered.");
 //     if (ourRate === null || apiError) {
 //       console.log(
-//         "HeroSection: Amount calculation skipped - rates not ready or API error exists."
+//         "CalculetingSection: Amount calculation skipped - rates not ready or API error exists."
 //       );
 //       setReceiveAmount(sendAmount === "" ? "" : "0.00");
 //       setOurFeeAmount(0);
@@ -23401,7 +23401,7 @@
 //     // However, it's a good safeguard.
 //     if (numericSendAmount > MAX_SEND_AMOUNT) {
 //       console.warn(
-//         "HeroSection: Amount calculation received value exceeding max limit (safeguard)."
+//         "CalculetingSection: Amount calculation received value exceeding max limit (safeguard)."
 //       );
 //       // Ensure sendAmountError is set if this somehow happens, though handleSendAmountChange should manage it.
 //       if (!sendAmountError) {
@@ -23416,7 +23416,7 @@
 //       return;
 //     } else if (sendAmountError) {
 //       console.log(
-//         "HeroSection: Amount calculation skipped - sendAmountError is active."
+//         "CalculetingSection: Amount calculation skipped - sendAmountError is active."
 //       );
 //       setReceiveAmount("");
 //       setOurFeeAmount(0);
@@ -23435,21 +23435,21 @@
 //         calculatedReceive = amountToSendAfterFees * ourRate;
 //         setReceiveAmount(calculatedReceive.toFixed(2));
 //         console.log(
-//           `HeroSection: Calculated: Send=${numericSendAmount}, OurRate=${ourRate}, WiseFee=${roundedOurFee}, BankFee=${bankTransferFeeAmount}, AmountAfterFees=${amountToSendAfterFees}, Receive=${calculatedReceive.toFixed(
+//           `CalculetingSection: Calculated: Send=${numericSendAmount}, OurRate=${ourRate}, WiseFee=${roundedOurFee}, BankFee=${bankTransferFeeAmount}, AmountAfterFees=${amountToSendAfterFees}, Receive=${calculatedReceive.toFixed(
 //             2
 //           )}`
 //         );
 //       } else {
 //         setReceiveAmount("0.00");
 //         console.log(
-//           `HeroSection: Calculated: Send=${numericSendAmount}, Fees exceeded amount. Receive=0.00`
+//           `CalculetingSection: Calculated: Send=${numericSendAmount}, Fees exceeded amount. Receive=0.00`
 //         );
 //       }
 //     } else {
 //       setOurFeeAmount(0);
 //       setReceiveAmount(sendAmount === "" ? "" : "0.00");
 //       console.log(
-//         "HeroSection: Amount calculation skipped - sendAmount is 0 or empty."
+//         "CalculetingSection: Amount calculation skipped - sendAmount is 0 or empty."
 //       );
 //     }
 //   }, [
@@ -23494,7 +23494,7 @@
 //         apiError ||
 //         isCalculating
 //       ) {
-//         console.log("HeroSection: Stopping auto-cycle due to conditions.");
+//         console.log("CalculetingSection: Stopping auto-cycle due to conditions.");
 //         stopAutoCycling();
 //         return;
 //       }
@@ -23507,10 +23507,10 @@
 //         if (!isNaN(nextAmount) && nextAmount <= MAX_SEND_AMOUNT) {
 //           setSendAmount(nextAmountStr);
 //           setSendAmountError(null);
-//           console.log("HeroSection: Auto-cycling to amount:", nextAmountStr);
+//           console.log("CalculetingSection: Auto-cycling to amount:", nextAmountStr);
 //         } else {
 //           console.warn(
-//             `HeroSection: Auto-cycle amount ${nextAmountStr} exceeds limit ${MAX_SEND_AMOUNT}. Skipping.`
+//             `CalculetingSection: Auto-cycle amount ${nextAmountStr} exceeds limit ${MAX_SEND_AMOUNT}. Skipping.`
 //           );
 //           stopAutoCycling();
 //           return prevIndex;
@@ -23532,7 +23532,7 @@
 //       !apiError &&
 //       !isCalculating
 //     ) {
-//       console.log("HeroSection: Starting auto-cycle logic.");
+//       console.log("CalculetingSection: Starting auto-cycle logic.");
 //       const initialDelay = currentCycleIndex === -1 ? 500 : CYCLE_DELAY;
 //       cycleTimerRef.current = setTimeout(() => {
 //         performCycle();
@@ -23544,20 +23544,20 @@
 //           !apiError &&
 //           !isCalculating
 //         ) {
-//           console.log("HeroSection: Setting up auto-cycle interval.");
+//           console.log("CalculetingSection: Setting up auto-cycle interval.");
 //           cycleTimerRef.current = setInterval(performCycle, CYCLE_DELAY);
 //         } else {
 //           console.log(
-//             "HeroSection: Conditions changed after initial cycle, not setting interval."
+//             "CalculetingSection: Conditions changed after initial cycle, not setting interval."
 //           );
 //         }
 //       }, initialDelay);
 //     } else {
-//       console.log("HeroSection: Conditions not met to start auto-cycle.");
+//       console.log("CalculetingSection: Conditions not met to start auto-cycle.");
 //     }
 
 //     return () => {
-//       console.log("HeroSection: Auto-cycle effect cleanup.");
+//       console.log("CalculetingSection: Auto-cycle effect cleanup.");
 //       if (cycleTimerRef.current) {
 //         clearInterval(cycleTimerRef.current);
 //         cycleTimerRef.current = null;
@@ -23660,7 +23660,7 @@
 
 //   const handleCurrencyChange = useCallback(
 //     (newCurrency: string) => {
-//       console.log("HeroSection: Currency changed to:", newCurrency);
+//       console.log("CalculetingSection: Currency changed to:", newCurrency);
 //       stopAutoCycling();
 //       setSelectedSendCurrency(newCurrency);
 //       setSendAmount("");
@@ -24207,7 +24207,7 @@
 //   );
 // };
 
-// export default HeroSection;
+// export default CalculetingSection;
 
 
 "use client";
@@ -24222,15 +24222,10 @@ import { FaPiggyBank } from "react-icons/fa";
 import { TrendingUp } from "lucide-react";
 
 import CountryDropdown from "../../../components/ui/CountryDropdown";
-import HeroText from "./HeroText"; // Assuming HeroText component exists
 import { useAppContext } from "../../../contexts/WebsiteAppContext";
 import { useAuth } from "../../../contexts/AuthContext";
 import exchangeRateService from "../../../services/exchangeRate";
 import currencyService, { Currency } from "../../../services/currency";
-
-// =============================================================================
-// TYPES & INTERFACES
-// =============================================================================
 
 interface ExchangeRates {
   [currencyCode: string]: number;
@@ -24511,7 +24506,7 @@ const animations = {
 // MAIN COMPONENT
 // =============================================================================
 
-const HeroSection: React.FC = () => {
+const CalculetingSection: React.FC = () => {
   // Context hooks
   const { selectedSendCurrency, setSelectedSendCurrency } = useAppContext();
   const { user, loading: authLoading } = useAuth();
@@ -24887,7 +24882,7 @@ const HeroSection: React.FC = () => {
   return (
     <section className="Hero-Section lg:pb-10 pb-5 overflow-hidden relative">
       <div className="container mx-auto sm:px-4 px-2">
-        <div className="rounded-3xl p-px bg-gradient-to-b from-white to-transparent to-88% border border-[#22282A] min-h-[500px] relative z-0">
+        <div className="rounded-3xl p-px bg-gradient-to-b from-primary to-transparent to-88% border border-[#22282A] min-h-[500px] relative z-0">
           <div className="bg-background rounded-3xl overflow-hidden xl:p-10 lg:p-6 p-4  h-full relative flex flex-col">
             {/* Background decorations */}
             <div className="shep">
@@ -24899,7 +24894,7 @@ const HeroSection: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-primary-foreground rounded-3xl flex flex-col md:flex-row gap-4 xl:p-10 lg:p-6 p-4 z-2 relative">
+            <div className="bg-gradient-to-b from-primary-foreground to-transparent to-92% rounded-3xl flex flex-col md:flex-row gap-4 xl:p-10 lg:p-6 p-4 z-2 relative">
               {/* Left Panel - Amount Input and Rates */}
               <div className="w-full md:w-2/3">
                 <div className="flex flex-col sm:flex-row gap-4">
@@ -24909,7 +24904,7 @@ const HeroSection: React.FC = () => {
                       You send
                     </label>
                     <div  className={`w-full border  rounded-xl flex items-center justify-between transition-all duration-150 ease-linear ${
-                      sendAmountError ? "border-red-600 " : "border-gray-600"
+                      sendAmountError ? "border-red-600 " : ""
                     }`}>
                       <input
                         id="sendAmountInput"
@@ -24985,7 +24980,7 @@ const HeroSection: React.FC = () => {
                                 : ""
                             }
                             readOnly
-                            className="block w-full h-full p-3 text-white dark:text-gray-300 md:text-2xl text-xl font-bold focus:outline-none bg-transparent rounded-l-xl placeholder-gray-500 dark:placeholder-gray-400 cursor-default"
+                            className="block w-full h-full p-3 text-white  md:text-2xl text-xl font-bold focus:outline-none bg-transparent rounded-l-xl placeholder-gray-500 cursor-default"
                             aria-label="Amount recipient gets"
                           />
                         </motion.div>
@@ -25073,7 +25068,7 @@ const HeroSection: React.FC = () => {
                   <label className="block text-gray-200 lg:text-base text-sm mb-1">
                     Paying with
                   </label>
-                  <div className="sm:p-4 p-3 sm:h-17 h-14 border border-gray-600 rounded-xl flex items-center justify-between text-white bg-primarybox">
+                  <div className="sm:p-4 p-3 sm:h-17 h-14 border rounded-xl flex items-center justify-between text-white bg-primarybox">
                     <div className="flex items-center gap-2">
                       <CiBank className=" w-5 h-5 md:w-6 md:h-6" />
                       <span className="font-medium md:text-base text-sm">Bank Transfer</span>
@@ -25086,7 +25081,7 @@ const HeroSection: React.FC = () => {
                   <label className="block text-gray-200 lg:text-base text-sm mb-1">
                     Fee breakdown
                   </label>
-                  <div className="space-y-2 sm:p-4 p-3 border border-gray-600 rounded-xl bg-primarybox">
+                  <div className="space-y-2 sm:p-4 p-3 border rounded-xl bg-primarybox">
                     <div className="flex justify-between items-center">
                       <span className="text-gray-400 dark:text-gray-500 sm:text-base text-sm">Our fee</span>
                       <AnimatePresence mode="wait">
@@ -25116,7 +25111,7 @@ const HeroSection: React.FC = () => {
                       </span>
                     </div>
 
-                    <hr className="border-gray-500 my-2" />
+                    <hr className="border my-2" />
 
                     <div className="flex justify-between items-center">
                       <span className="text-white dark:text-white font-semibold">Total fees</span>
@@ -25179,4 +25174,4 @@ const HeroSection: React.FC = () => {
   );
 };
 
-export default HeroSection;
+export default CalculetingSection;

@@ -1798,7 +1798,6 @@
 //       <div className="container mx-auto px-4">
 //         <div className=" flex flex-col lg:flex-row justify-between w-full">
 //           <div className="flex flex-col w-full lg:w-1/2 mb-8 lg:mb-0">
-//           {/* Footer-Logo */}
 //             <Link href="/">
 //               <Image
 //                 src="/assets/images/white_logo.svg"
@@ -1818,6 +1817,14 @@
 //                 className="mb-4 w-40 h-auto dark:block hidden"
 //               />
 //             </Link>
+//             <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+//               {/* Adjusted text size and leading */}
+//               We provide reliable and competitive currency exchange services
+//               with real-time rates, secure transactions, and excellent customer
+//               support. Whether you're traveling, investing, or sending money
+//               abroad, trust us to handle your currency needs with transparency
+//               and speed.
+//             </p>
 //           </div>
 
 //           <div className="grid grid-cols-1 sm:grid-cols-2 lg:gap-y-6 gap-y-4 w-full lg:w-1/4">
@@ -1951,209 +1958,6 @@
 
 // export default Footer;
 
-// // app/components/Footer.tsx
-// "use client";
-// import Link from "next/link";
-// import { IconType } from "react-icons";
-// import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
-// import { FaTwitter, FaLinkedinIn } from "react-icons/fa";
-// import Image from "next/image";
-// import { FaFacebook, FaLinkedin } from "react-icons/fa6";
-
-// interface NavLinkItem {
-//   href: string;
-//   label: string;
-// }
-
-// interface ContactInfoItem {
-//   icon: IconType;
-//   text: string;
-//   href?: string;
-//   ariaLabel?: string;
-// }
-
-// interface SocialLinkItem {
-//   icon: IconType;
-//   href: string;
-//   label: string; // for aria-label
-// }
-
-// const navLinks: NavLinkItem[] = [
-//   { href: "/", label: "Home" },
-//   { href: "/about-us", label: "About" },
-//   { href: "/features", label: "Features" },
-//   { href: "/reviews", label: "Reviews" },
-// ];
-
-// const contactInfo: ContactInfoItem[] = [
-//   {
-//     icon: MdEmail,
-//     text: "hello@skillbirdge.com",
-//     href: "mailto:hello@skillbirdge.com",
-//     ariaLabel: "Email us at hello@skillbirdge.com",
-//   },
-//   {
-//     icon: MdPhone,
-//     text: "+91 8849498140",
-//     href: "tel:+91 8849498140",
-//     ariaLabel: "Call us at +91 91813 23 2309",
-//   },
-//   {
-//     icon: MdLocationOn,
-//     text: "Somewhere in the World",
-//     ariaLabel: "Our location: Somewhere in the World",
-//   },
-// ];
-
-// const socialLinks: SocialLinkItem[] = [
-//   { icon: FaFacebook , href: "https://www.facebook.com/", label: "Facebook" },
-//   { icon: FaTwitter, href: "https://x.com/home", label: "Twitter" },
-//   { icon: FaLinkedin , href: "https://www.linkedin.com/company/apextureprivatelimited/posts/?feedView=all", label: "LinkedIn" },
-// ];
-
-// const copyrightText = "Remityn. All Rights Reserved";
-// const currentYear = new Date().getFullYear();
-
-// const Footer: React.FC = () => {
-//   return (
-//     <footer className="pt-12 pb-8 sm:pt-16 sm:pb-10">
-//       <div className="container mx-auto px-4">
-//         {/* Top Section: Logo and Nav Links */}
-//         <div className="flex flex-col items-center ">
-//           {/* Logo */}
-//           <div className="sm:mb-12.5 mb-6">
-
-//             {/* Footer-Logo */}
-//             <Link href="/">
-//               <Image
-//                 src="/assets/images/main_logo.svg"
-//                 alt="Wise Logo"
-//                 width={160}
-//                 height={50}
-//                 priority
-//                 className="sm:w-46 w-40 h-auto"
-//               />
-//             </Link>
-//           </div>
-
-//           {/* Desktop Navigation Links */}
-//           <nav className="hidden sm:flex items-center space-x-6.5 mb-12.5">
-//             {navLinks.map((link) => (
-//               <Link
-//                 key={link.href}
-//                 href={link.href}
-//                 className="text-lg lg:text-2xl text-subheadingWhite hover:text-primary transition-colors duration-75 ease-linear"
-//               >
-//                 {link.label}
-//               </Link>
-//             ))}
-//           </nav>
-//         </div>
-
-//         <div className="border-t border-t-gray-600/50 mb-12.5 hidden sm:block"></div>
-
-//         {/* Mobile Navigation Links (appears below logo, above contact on mobile) */}
-//         <nav className="sm:hidden flex items-center justify-center space-x-3.5 sm:mb-10 mb-7.5">
-//           {navLinks.map((link) => (
-//             <Link
-//               key={link.href}
-//               href={link.href}
-//               className="text-base text-subheadingWhite hover:text-primary transition-colors duration-75 ease-linear"
-//             >
-//               {link.label}
-//             </Link>
-//           ))}
-//         </nav>
-
-//         <div className="border-t border-t-gray-600/50 sm:mb-12.5 mb-7.5 sm:hidden block"></div>
-
-//         {/* Middle Section: Contact Info */}
-//         <div className="flex items-center flex-row justify-center gap-5 sm:text-lg text-base mb-7.5 sm:mb-12.5 shrink-0 flex-wrap">
-//           {contactInfo.map((item, index) => (
-//             <a // Use <a> tag for mailto and tel links
-//               key={index}
-//               href={item.href}
-//               aria-label={item.ariaLabel}
-//               target={
-//                 item.href &&
-//                 (item.href.startsWith("mailto:") ||
-//                   item.href.startsWith("tel:"))
-//                   ? "_blank"
-//                   : undefined
-//               }
-//               rel={
-//                 item.href &&
-//                 (item.href.startsWith("mailto:") ||
-//                   item.href.startsWith("tel:"))
-//                   ? "noopener noreferrer"
-//                   : undefined
-//               }
-//               className={`flex items-center ${
-//                 item.href ? "hover:text-[#A5CC3D]" : "cursor-default"
-//               } transition-colors duration-200 group`}
-//             >
-//               <item.icon className="size-6 text-primary mr-1.5 transition-colors duration-200" />
-//               <span className="text-subheadingWhite transition-colors duration-200">
-//                 {item.text}
-//               </span>
-//             </a>
-//           ))}
-//         </div>
-
-//         <div className="border-t border-t-gray-600/50 mb-12.5"></div>
-
-//         {/* Bottom Bar: Social, Copyright, Legal */}
-//         <div className="bg-primary-foreground border-gray-700/50 p-3 mt-8 sm:mt-0 border rounded-xl sm:rounded-full ">
-//           {/* Reduced top margin for bottom bar if it directly follows contact info */}
-//           <div className="flex flex-col sm:flex-row justify-between items-center space-y-5 sm:space-y-0">
-//             {/* Social Media Icons */}
-//             <div className="flex space-x-3.5 items-center order-1 -mt-8 sm:mt-0">
-//               {socialLinks.map((link) => (
-//                 <a
-//                   key={link.label}
-//                   href={link.href}
-//                   aria-label={link.label}
-//                   target="_blank"
-//                   rel="noopener noreferrer"
-//                   className="bg-primary text-mainheading rounded-full flex items-center justify-center
-//                              sm:size-13 size-11  /* Mobile: 40px, Desktop: 32px */
-//                              transition-all duration-300"
-//                 >
-//                   <link.icon className="w-5 h-5 sm:size-6" />{" "}
-//                 </a>
-//               ))}
-//             </div>
-
-//             {/* Copyright Text */}
-//             <p className="sm:text-base text-subheadingWhite text-center order-2 sm:text-center">
-//               {copyrightText} © {currentYear}
-//             </p>
-
-//             {/* Legal Links */}
-//             <div className="flex  space-y-2 sm:space-y-0 sm:flex-row items-center gap-3 order-3">
-//                 <Link
-//                   href="/privacy-policy"
-//                   className="text-base text-subheadingWhite transition-colors duration-200"
-//                 >
-//                   Privacy Policy
-//                 </Link>
-//                 <span className="text-subheadingWhite">|</span>
-//                 <Link
-//                   href="/terms-and-conditions"
-//                   className="text-base text-subheadingWhite transition-colors duration-200"
-//                 >
-//                   Terms of Service
-//                 </Link>
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-//     </footer>
-//   );
-// };
-
-// export default Footer;
-
 // app/components/Footer.tsx
 "use client";
 import Link from "next/link";
@@ -2278,7 +2082,6 @@ const Footer: React.FC = () => {
           </nav>
         </div>
 
-        <div className="border-t border-t-gray-600/50 mb-12.5 hidden sm:block"></div>
 
         {/* Mobile Navigation Links (appears below logo, above contact on mobile) */}
         <nav className="sm:hidden flex items-center justify-center gap-3.5 sm:mb-10 mb-7.5">
@@ -2293,10 +2096,9 @@ const Footer: React.FC = () => {
           ))}
         </nav>
 
-        <div className="border-t border-t-gray-600/50 sm:mb-12.5 mb-7.5 sm:hidden block"></div>
 
         {/* Middle Section: Contact Info */}
-        <div className="flex items-center flex-row justify-center gap-3.5 sm:text-lg text-base mb-7.5 sm:mb-12.5 shrink-0 flex-wrap">
+        <div className="flex items-center flex-row justify-center gap-3.5 sm:text-lg text-base mb-7.5 sm:mb-12.5 shrink-0 flex-wrap border-t border-b py-12.5">
           {contactInfo.map((item, index) => (
             <a // Use <a> tag for mailto and tel links
               key={index}
@@ -2328,8 +2130,6 @@ const Footer: React.FC = () => {
           ))}
         </div>
 
-        {/* Currency Converters Section */}
-        <div className="border-t border-t-gray-600/50 sm:mb-12.5 mb-7.5"></div>
 
         <div className="Currency-Convertors text-center sm:text-left mb-7.5 sm:mb-12.5">
           <div className="flex flex-wrap justify-center gap-3.5">
@@ -2337,7 +2137,7 @@ const Footer: React.FC = () => {
               <div className="flex items-center" key={pair}>
                 <div className="relative group inline-block">
                   <button
-                    className="relative z-10 cursor-pointer bg-primary-foreground  font-medium hover:bg-primaryhover px-4 py-2 rounded-full sm:text-base text-sm text-subheadingWhite transition-all duration-75 ease-linear hover:text-subheading"
+                    className="relative z-10 cursor-pointer bg-primary-foreground font-medium hover:bg-primaryhover px-4 py-2 rounded-full sm:text-base text-sm text-subheadingWhite transition-all duration-75 ease-linear hover:text-subheading"
                     onClick={() => handleCurrencyConverterClick(pair)}
                   >
                     {pair}
@@ -2348,7 +2148,6 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* <div className="border-t border-t-gray-600/50 mb-12.5"></div> */}
 
         {/* Bottom Bar: Social, Copyright, Legal */}
         <div className="bg-primary-foreground border-gray-700/50 sm:p-3 p-4 mt-16 pb-8 sm:mt-0 border rounded-xl sm:rounded-full ">
@@ -2362,9 +2161,9 @@ const Footer: React.FC = () => {
                   aria-label={link.label}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-primary text-mainheading rounded-full flex items-center justify-center 
-                             sm:size-13 size-11
-                             transition-all duration-300"
+                  className="bg-primary text-mainheading rounded-full flex items-center justify-center
+sm:size-13 size-11
+transition-all duration-300"
                 >
                   <link.icon className="w-5 h-5 sm:size-6" />{" "}
                 </a>

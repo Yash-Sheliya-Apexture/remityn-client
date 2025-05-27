@@ -1,7 +1,6 @@
 import HeroSection from "./components/Hero/HeroSection";
 import HeroSectionNew from "./components/Hero/HeroSectionNew";
 import CalculetingSection from "./components/CalculetingSection";
-import ProtectionSection from "./components/ProtectionSection";
 import SecuritySection from "./components/SecuritySection";
 import SocialTrustSection from "./components/SocialTrust";
 import MissionSection from "./components/MissionSection";
@@ -11,6 +10,7 @@ import Faq from "./components/Faq";
 import FlagSection from "./components/FlagSection";
 import Secure from "./components/Secure";
 import InternationalTransferSection from "./components/InternationalTransferSection";
+import ProcessingSteps from "./components/ProcessingSteps";
 
 export default function Home() {
   return (
@@ -19,15 +19,16 @@ export default function Home() {
       <CalculetingSection />
       <HeroSection />
       <InternationalTransferSection />
-      <ProtectionSection />
+      {/* <ProtectionSection /> */}
       <Secure />
+      <ProcessingSteps />
       <SecuritySection />
       <SocialTrustSection />
       <FlagSection />
       <MissionSection />
+      <Faq />
       <Principles />
       <TransferMoney />
-      <Faq />
     </>
   );
 }

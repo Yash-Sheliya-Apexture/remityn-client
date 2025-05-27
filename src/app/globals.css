@@ -162,18 +162,24 @@ body {
 
   /* Icon Background Gradient Color Start */
 
-   /* UPDATED: For the larger, inner circle (w-20 h-20) - top to bottom linear glow */
-  --icon-direct-bg-top: rgba(102, 232, 250, 10%);    /* Top color of the gradient for the icon's background */
-  --icon-direct-bg-bottom: rgba(102, 232, 250, 0%); /* Bottom color of the gradient for the icon's background */
+  /* UPDATED: For the larger, inner circle (w-20 h-20) - top to bottom linear glow */
+  --icon-direct-bg-top: rgba(102, 232, 250, 10%);
+  /* Top color of the gradient for the icon's background */
+  --icon-direct-bg-bottom: rgba(102, 232, 250, 0%);
+  /* Bottom color of the gradient for the icon's background */
 
   /* For the subtle inner bevel/highlight on the inner circle */
-  --icon-inner-bevel-highlight: rgba(102, 232, 250, 0.15); /* Light color for top inner shadow */
-  --icon-inner-bevel-shadow: rgba(20, 22, 15, 0.3);       /* Dark color for bottom inner shadow */
+  --icon-inner-bevel-highlight: rgba(102, 232, 250, 0.15);
+  /* Light color for top inner shadow */
+  --icon-inner-bevel-shadow: rgba(20, 22, 15, 0.3);
+  /* Dark color for bottom inner shadow */
 
   /* UPDATED: For the larger, outer circle (w-20 h-20) - top to bottom linear glow */
-  --icon-outer-linear-glow-top: rgba(102, 232, 250, 10%);    /* Lighter part of the glow, at the top */
-  --icon-outer-linear-glow-bottom: rgba(102, 232, 250, 0%); /* Darker part of the glow, at the bottom */
-  
+  --icon-outer-linear-glow-top: rgba(102, 232, 250, 10%);
+  /* Lighter part of the glow, at the top */
+  --icon-outer-linear-glow-bottom: rgba(102, 232, 250, 0%);
+  /* Darker part of the glow, at the bottom */
+
   /* Icon Background Gradient Color End */
 
 }
@@ -384,4 +390,8 @@ button:focus {
     inset 0 1px 1px 0 var(--icon-inner-bevel-shadow);
   /* Bottom dark part of bevel */
 }
+
 /* Icon Background Gradient Color End */
+
+
+

@@ -3163,7 +3163,7 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
         {isOpen && (
           <motion.div
             key="dropdown-content"
-            className="absolute z-50 lg:w-[400px] w-72 max-w-[90vw] top-14 -right-5 sm:right-0 bg-primary-foreground rounded-lg border shadow-lg overflow-hidden"
+            className="absolute z-80 lg:w-[400px] w-72 max-w-[90vw] top-14 -right-5 sm:right-0 bg-primary-foreground rounded-lg border shadow-lg overflow-hidden"
             style={{ transformOrigin: "top center" }}
             variants={dropdownContainerVariants}
             initial="hidden"
@@ -3206,11 +3206,10 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                   {filteredCurrencies.map((currency) => {
                     const flagSrc = getFlagSrc(currency);
                     return (
-                      <motion.li
+                      <li
                         key={currency.code}
-                        variants={listItemVariants}
                         onClick={() => handleCurrencyChange(currency.code)}
-                        className={`flex items-center justify-between p-3 rounded-lg hover:bg-primarybox cursor-pointer focus:outline-none focus:bg-gray-100 dark:focus:bg-white/10 ${
+                        className={`flex items-center justify-between p-3 rounded-lg hover:bg-primarybox cursor-pointer focus:outline-none focus:bg-bg-primarybox ${
                           selectedCurrency === currency.code
                             ? " bg-primarybox"
                             : ""
@@ -3247,7 +3246,7 @@ const CurrencyDropdown: React.FC<CurrencyDropdownProps> = ({
                             </span>
                           </div>
                         </div>
-                      </motion.li>
+                      </li>
                     );
                   })}
                 </ul>

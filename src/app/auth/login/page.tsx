@@ -5575,7 +5575,7 @@ export default function LoginPage() {
       </div>
 
       {/* Right Panel - Login Form */}
-      <div className="w-full lg:w-[45%] xl:w-[40%] flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 overflow-y-auto">
+      <div className="w-full lg:w-[45%] xl:w-[40%] flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 overflow-y-auto lg:bg-none bg-gradient-to-b from-primary/40 from-10% via-transparent to-transparent">
         <div className="lg:hidden mb-10 self-center">
           <Image
             src="/assets/images/main_logo.svg"
@@ -5688,7 +5688,7 @@ export default function LoginPage() {
               <motion.div variants={itemVariants}>
                 <button
                   type="button"
-                  className="flex hover:bg-primarybox duration-300 ease-linear border justify-center rounded-lg h-14 text-white w-full cursor-pointer font-medium gap-2.5 items-center px-4 py-3"
+                  className="flex lg:bg-transparent bg-white/12 hover:bg-primarybox duration-300 ease-linear border justify-center rounded-lg h-14 text-white w-full cursor-pointer font-medium gap-2.5 items-center px-4 py-3"
                   onClick={handleGoogleLogin}
                 >
                   <Image

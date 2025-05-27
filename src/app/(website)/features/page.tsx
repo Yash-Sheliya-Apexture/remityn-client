@@ -1,10 +1,10 @@
 import React from "react";
-import Principles from "../components/Principles";
+import Features_Hero from "../components/features/Features_Hero";
 
 const page = () => {
   return (
     <div className="Features-Main">
-      <Principles />
+      <Features_Hero />
     </div>
   );
 };

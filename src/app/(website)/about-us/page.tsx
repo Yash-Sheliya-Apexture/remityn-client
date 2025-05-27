@@ -1,7 +1,7 @@
 import React from 'react'
-import TrustedCurrencyPartner from '../components/TrustedCurrencyPartner'
-import CurrencyExchangeServices from '../components/CurrencyExchangeServices'
-import WhyChooseUs from '../components/WhyChooseUs'
+import TrustedCurrencyPartner from '../components/About/TrustedCurrencyPartner'
+import CurrencyExchangeServices from '../components/About/CurrencyExchangeServices'
+import WhyChooseUs from '../components/About/WhyChooseUs'
 
 const page = () => {
   return (

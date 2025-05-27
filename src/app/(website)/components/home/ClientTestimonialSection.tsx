@@ -286,6 +286,7 @@
 
 // export default ClientTestimonialSection;
 
+
 "use client"; // Required for Framer Motion and Swiper interactivity
 
 import React from "react";

@@ -54,11 +54,11 @@ const InternationalTransferSection: React.FC = () => {
     <section className="InternationalTransferSection py-20">
       <div className="container mx-auto px-4">
         {/* Header Section - simplified as tabs are removed */}
-        <div className="space-y-4 text-center md:text-left max-w-4xl mx-auto md:mx-0">
-          <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+        <div className="text-center lg:text-left">
+          <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
             Send Money to <span className="text-primary">India</span>
           </h3>
-          <p className="text-lg md:text-xl text-subheadingWhite max-w-5xl">
+          <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">
             Transfer funds internationally to India with ease, speed, and
             security. We offer competitive exchange rates and a seamless
             experience for your INR remittances.
@@ -95,10 +95,10 @@ const InternationalTransferSection: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <h3 className="text-lg md:text-xl text-mainheadingWhite font-bold capitalize">
+                <h3 className="text-2xl text-mainheadingWhite font-semibold">
                   {product.title}
                 </h3>
-                <p className="sm:text-lg text-base text-subheadingWhite">
+                <p className="text-subheadingWhite lg:text-lg text-base">
                   {product.description}
                 </p>
               </div>

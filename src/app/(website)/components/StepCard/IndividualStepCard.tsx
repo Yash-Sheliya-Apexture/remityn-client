@@ -85,13 +85,13 @@ import { StepData, ContentBlock } from "../../../../types/step-data"; // Adjust 
 const getBlockClasses = (type: ContentBlock["type"]) => {
   switch (type) {
     case "success":
-      return "inline-flex justify-center items-center px-4 py-1 font-medium rounded-3xl lg:text-base text-sm capitalize text-mainheading bg-primary ";
+      return "inline-flex justify-center items-center text-mainheading bg-primary";
     case "warning":
-      return "inline-flex justify-center items-center px-4 py-1 font-medium rounded-3xl lg:text-base text-sm capitalize text-mainheadingWhite bg-mainheading ";
+      return "inline-flex justify-center items-center text-mainheadingWhite bg-mainheading";
     case "secondry": // Note: "secondary" is usually spelled with an 'a'
-      return "inline-flex justify-center items-center px-4 py-1 font-medium rounded-3xl lg:text-base text-sm capitalize text-mainheading bg-[#B1C5CE] ";
+      return "inline-flex justify-center items-center text-mainheading bg-[#B1C5CE]";
     default:
-      return "inline-flex justify-center items-center px-4 py-1 font-medium rounded-3xl lg:text-base text-sm capitalize text-mainheading bg-[#B1C5CE] ";
+      return "inline-flex justify-center items-center text-mainheading bg-[#B1C5CE]";
   }
 };
 
@@ -125,8 +125,8 @@ const IndividualStepCard: React.FC<IndividualStepCardProps> = ({
           alt={`${step.title} illustration (light)`}
           width={500}
           height={450}
-          style={{ maxHeight: "360px", objectFit: "contain" }}
           priority={isFirst} // Prioritize loading for the very first card (index 0)
+          className="lg:h-[450px] h-[300px] object-contain"
         />
       </div>
     </div>
@@ -135,14 +135,14 @@ const IndividualStepCard: React.FC<IndividualStepCardProps> = ({
   // Define Text Content Column JSX
   const TextContentColumn = (
     <div
-      className="lg:w-2/5 w-full flex flex-col justify-center lg:justify-start items-start sm:p-8 p-6"
+      className="lg:w-2/5 w-full flex flex-col justify-between items-start sm:p-8 p-4"
     >
       {/* Title and Subtitle */}
       <div className="space-y-3 mb-4 lg:mb-6">
-        <h3 className="text-xl md:text-2xl text-mainheadingWhite font-bold capitalize">
+        <h3 className="text-2xl text-mainheadingWhite font-semibold">
           {step.contentTitle}
         </h3>
-        <p className="sm:text-xl text-base text-subheadingWhite">
+        <p className="text-subheadingWhite lg:text-lg text-base">
           {step.contentSubtitle}
         </p>
       </div>
@@ -153,11 +153,9 @@ const IndividualStepCard: React.FC<IndividualStepCardProps> = ({
           {step.contentBlocks.map((block, blockIndex) => (
             <div
               key={blockIndex}
-              className={`px-4 font-medium lg:text-base text-xs lg:py-2.5 py-2 rounded-full text-nowrap ${getBlockClasses(
-                block.type
-              )}`}
+              className={`${getBlockClasses(block.type)} px-6 py-2 rounded-full `}
             >
-              {block.text}
+              <p className="lg:text-base text-sm font-medium ">{block.text}</p>
             </div>
           ))}
         </div>
@@ -168,7 +166,7 @@ const IndividualStepCard: React.FC<IndividualStepCardProps> = ({
   return (
     <>
       {/* You can use it :- min-h-[480px] md:min-h-[520px] max-h-[650px] */}
-      <div className="mx-auto max-w-screen-md lg:max-w-screen-lg rounded-3xl bg-subheading overflow-hidden p-1">
+      <div className="mx-auto max-w-screen-md lg:max-w-screen-xl rounded-3xl bg-subheading overflow-hidden p-1">
         <div
           className={`flex flex-col ${
             isEvenSequenceCard ? "lg:flex-row-reverse" : "lg:flex-row"

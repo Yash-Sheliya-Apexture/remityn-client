@@ -789,14 +789,14 @@ const FeaturesSection: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="text-white relative"
+      className="text-white relative  py-10 lg:py-16"
       style={{ height: dynamicHeight }}
     >
       <div
         className={`
           ${isLargeScreen 
-            ? "sticky top-0 overflow-hidden flex flex-col h-screen py-10 lg:py-16"
-            : "py-10 lg:py-16 container mx-auto px-4"
+            ? "sticky top-0 overflow-hidden flex flex-col h-screen"
+            : "container mx-auto px-4"
           }
         `}
       >

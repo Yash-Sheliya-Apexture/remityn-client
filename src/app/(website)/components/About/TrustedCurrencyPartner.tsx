@@ -125,7 +125,7 @@ import React from "react";
 const TrustedCurrencyPartner = () => {
   return (
     <section
-      className="TrustedCurrencySection lg:py-20 py-5 overflow-hidden"
+      className="TrustedCurrencySection sm:py-16 py-10 overflow-hidden"
       id="about-us"
     >
       <div className="container mx-auto px-4">

@@ -210,7 +210,7 @@ const WhyChooseUs: React.FC = () => {
 
   return (
     // Add overflow-hidden to prevent scrollbars during card animation (can be kept or removed based on static layout needs)
-    <section className="WhyChooseUsSection md:py-20 py-5 overflow-hidden ">
+    <section className="WhyChooseUsSection sm:py-16 py-10 overflow-hidden ">
       <div className="mx-auto container px-4">
         {/* Heading Section */}
         <div className="mx-auto max-w-4xl text-center space-y-4">
@@ -229,7 +229,7 @@ const WhyChooseUs: React.FC = () => {
 
         {/* Features Grid */}
         <div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 sm:mt-25 mt-16" // Added flex-col for small screens, md:flex-row for medium and up
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 sm:gap-10 gap-8 sm:mt-16 mt-10" // Added flex-col for small screens, md:flex-row for medium and up
         >
           {featuresData.map((product, index) => {
             const isLast = index === currentProducts.length - 1;
@@ -238,7 +238,7 @@ const WhyChooseUs: React.FC = () => {
             if (!isLast) {
               // Original border and padding logic for non-last items
               conditionalClasses =
-                "lg:border-r border-r-gray-600/50 lg:border-b-0 border-b border-b-gray-600/50 lg:pr-10 lg:pb-0 pb-10";
+                "lg:border-r border-r-gray-600/50 lg:border-b-0 border-b border-b-gray-600/50 pr-0 lg:pr-10 pb-8 sm:pb-10 lg:pb-0";
             } else {
               if (
                 currentProducts.length === 1 ||

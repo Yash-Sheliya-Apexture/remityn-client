@@ -3,11 +3,9 @@ import CalculetingSection from "./components/home/CalculetingSection";
 import ClientTestimonialSection from "./components/home/ClientTestimonialSection";
 import SecuritySection from "./components/home/SecuritySection";
 import InternationalTransferSection from "./components/InternationalTransferSection";
-import CallToActionSection from "./components/home/CallToActionSection";
+import CallToActionSection from "./components/CallToActionSection";
 import FeaturesSection from "./components/home/FeaturesSection";
 import StepCardContent from "./components/StepCard/StepContentCard";
-import FaqSection from "./components/home/Faq";
-// import FaqSection from "./components/home/Faq";
 
 export default function Home() {
   return (
@@ -19,7 +17,6 @@ export default function Home() {
       <ClientTestimonialSection />
       <FeaturesSection />
       <StepCardContent />
-      <FaqSection />
       <CallToActionSection />
     </>
   );

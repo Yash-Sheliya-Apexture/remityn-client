@@ -208,7 +208,7 @@ const BackToTopButton: React.FC<BackToTopButtonProps> = ({
 
   // --- Define Base, Positional, and Mobile Visibility Classes ---
   const baseClasses =
-    "fixed cursor-pointer bottom-5 p-1.5 px-4 lg:text-base text-sm rounded-full bg-primary text-neutral-900 hover:bg-primaryhover focus:outline-none z-30 font-medium"; // Base styles, removed hidden/sm:block
+    "fixed cursor-pointer bottom-2 p-1.5 px-4 lg:text-base text-sm rounded-full bg-primary text-neutral-900 hover:bg-primaryhover focus:outline-none z-30 font-medium"; // Base styles, removed hidden/sm:block
 
   // Determine position-specific classes
   let positionClasses = "";

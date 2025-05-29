@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import React from "react";
 // import Principles from "../components/Principles";
 
@@ -94,8 +95,16 @@ const FeaturesPage = () => {
       icon: FaRegCheckCircle, // Changed to a checkmark for completion
     },
   ];
+=======
+import React from "react";
+import FeatherHero from "../components/Feature/FeatherHero";
+import OurFeatures from "../components/Feature/OurFeatures";
+import CallToActionSection from "../components/CallToActionSection";
+import SendMoneySteps from "../components/Feature/SendMoneySteps";
+>>>>>>> 7f12ac02c936a4f1f334ac1463fc093242cbdd7e
 
   return (
+<<<<<<< HEAD
     <>
       <Head>
         <title>Our Features - Send Money to India Securely</title>
@@ -222,6 +231,14 @@ const FeaturesPage = () => {
         {/* <Footer /> */}
       </div>
     </>
+=======
+    <div className="Features-Main">
+      <FeatherHero />
+      <OurFeatures />
+      <SendMoneySteps />
+      <CallToActionSection />
+    </div>
+>>>>>>> 7f12ac02c936a4f1f334ac1463fc093242cbdd7e
   );
 };
 

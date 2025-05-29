@@ -3188,7 +3188,7 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
     if (!isFetching && !error && currencies.length === 0) {
       return (
         <div className="flex-grow flex items-center justify-center text-center py-4 min-h-[100px]">
-          <p className="text-gray-700 dark:text-gray-300">
+          <p className="text-white/90">
             No available currencies to add at this time.
           </p>
         </div>
@@ -3201,9 +3201,9 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
               <div
                 key={currency.code}
                 className={cn(
-                  "block hover:bg-lightgray dark:hover:bg-primarybox p-3 sm:p-4 rounded-2xl transition-colors duration-150 ease-in-out cursor-pointer focus:outline-none",
+                  "block hover:bg-primarybox p-3 sm:p-4 rounded-2xl transition-colors duration-150 ease-in-out cursor-pointer focus:outline-none",
                   selectedCurrencyCode === currency.code &&
-                    "bg-lightgray dark:bg-primarybox"
+                    "bg-primarybox"
                 )}
                 onClick={() => handleCurrencySelect(currency.code)}
                 role="button"
@@ -3232,27 +3232,28 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
                       unoptimized={currency.flagImage.includes("flagcdn.com")}
                     />
                   ) : (
-                    <div className="w-[40px] h-[40px] rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-700 dark:text-gray-300 text-xs font-medium flex-shrink-0">
+                    <div className="w-[40px] h-[40px] rounded-full bg-primarybox flex items-center justify-center text-white/90 text-xs font-medium flex-shrink-0">
                       {currency.code.substring(0, 3)}
                     </div>
                   )}
                   <div className="flex flex-col overflow-hidden">
-                    <span className="font-medium text-neutral-900 dark:text-white text-sm md:text-base truncate">
+                    <span className="font-medium text-white/90 text-sm md:text-base truncate">
                       {currency.code}
                     </span>
                     {currency.currencyName && (
-                      <span className="text-xs md:text-sm text-gray-700 dark:text-gray-300 truncate">
+                      <span className="text-xs md:text-sm text-subheadingWhite truncate">
                         {currency.currencyName}
                       </span>
                     )}
                   </div>
                 </div>
+                
               </div>
             ))
           : searchQuery &&
             !isFetching &&
             !(error && currencies.length === 0) && (
-              <p className="text-gray-700 lg:py-10 py-5 bg-white/5 rounded-lg capitalize dark:text-gray-300 text-center">
+              <p className=" lg:py-10 py-5 rounded-lg bg-primarybox capitalize text-white/90 text-center">
                 No results found for "{searchQuery}".
               </p>
             )}
@@ -3264,7 +3265,7 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
     <AnimatePresence mode="wait">
       {isOpen && (
         <motion.div
-          className="fixed inset-0 bg-black/50 dark:bg-white/30 z-[100] flex sm:items-center items-end justify-center"
+          className="fixed inset-0 bg-white/15 z-[100] flex sm:items-center items-end justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -3276,7 +3277,7 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
         >
           <motion.div
             ref={modalContentRef}
-            className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl w-full sm:max-w-2xl relative flex flex-col overflow-hidden max-h-[85vh] sm:max-h-[80vh]"
+            className="bg-background sm:rounded-3xl rounded-t-3xl w-full sm:max-w-2xl relative flex flex-col overflow-hidden max-h-[85vh] sm:max-h-[80vh]"
             variants={modalVariants}
             initial="initial"
             animate="animate"
@@ -3288,34 +3289,24 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
               <div>
                 <h2
                   id="currency-modal-title"
-                  className="sm:text-2xl text-xl font-semibold text-mainheading dark:text-white"
+                  className="sm:text-2xl text-xl font-semibold text-mainheadingWhite"
                 >
                   Open a balance
                 </h2>
                 <p
                   id="currency-modal-description"
-                  className="text-gray dark:text-gray-300 font-normal text-sm sm:text-base"
+                  className="text-secondheadingWhite font-normal text-sm sm:text-base"
                 >
                   Choose a currency to add to your account.
                 </p>
               </div>
-              <div
+              <button
+                className="p-2.5 bg-primarybox hover:bg-secondarybox text-primary rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
                 onClick={onClose}
-                className="size-12 bg-lightgray hover:bg-lightborder cursor-pointer dark:bg-primarybox dark:hover:bg-secondarybox flex items-center justify-center rounded-full transition-all duration-75 ease-linear"
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") onClose();
-                }}
                 aria-label="Close modal"
               >
-                <button
-                  className="text-neutral-900 dark:text-primary cursor-pointer focus:outline-none"
-                  aria-label="Close"
-                >
-                  <IoClose size={28} />
-                </button>
-              </div>
+                <IoClose size={28} />
+              </button>
             </div>
 
             {/* Scrollable Content Area */}
@@ -3333,7 +3324,7 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
                     ref={searchInputRef} // Ref is still attached
                     type="text"
                     placeholder="Search currency (e.g., USD, Euro)"
-                    className="w-full rounded-full h-12 py-3 pl-11 pr-10 border focus:border-[#5f5f5f] transition-all duration-75 ease-linear focus:outline-none placeholder:text-neutral-500 dark:placeholder:text-neutral-400 text-neutral-900 dark:text-white bg-white dark:bg-background border-gray-300 dark:border-neutral-700"
+                    className="w-full rounded-full h-12 py-3 pl-11 pr-10 border placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white bg-primarybox/50 transition-all duration-75 ease-linear focus:outline-none"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     aria-label="Search for a currency"
@@ -3341,10 +3332,10 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
                   {searchQuery && (
                     <button
                       onClick={clearSearchTerm}
-                      className="absolute inset-y-0 right-3 flex items-center text-neutral-900 dark:text-primary focus:outline-none cursor-pointer"
+                      className="absolute inset-y-0 right-3 flex items-center text-primary focus:outline-none cursor-pointer"
                       aria-label="Clear search"
                     >
-                      <MdCancel size={28} aria-hidden="true" />
+                      <MdCancel size={24} aria-hidden="true" />
                     </button>
                   )}
                 </div>
@@ -3379,10 +3370,10 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
 
             {/* Footer */}
             {!isFetching && (
-              <div className="p-4 sm:p-6 border-t  bg-white dark:bg-background flex-shrink-0">
+              <div className="p-4 sm:p-6 border-t flex-shrink-0">
                 <div className="flex sm:flex-row flex-col justify-end gap-3">
                   <button
-                    className="inline-flex justify-center cursor-pointer bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox order-2 sm:order-1 disabled:opacity-50 disabled:cursor-not-allowed dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear"
+                    className="inline-flex justify-center cursor-pointer text-primary bg-primarybox hover:bg-secondarybox order-2 sm:order-1 disabled:opacity-50 disabled:cursor-not-allowed  font-medium rounded-full px-8 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear"
                     onClick={onClose}
                     disabled={isAdding}
                     type="button"
@@ -3390,7 +3381,7 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
                     Cancel
                   </button>
                   <button
-                    className="inline-flex items-center justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 order-1 sm:order-2 disabled:opacity-50 disabled:bg-primary/50 disabled:cursor-not-allowed font-medium rounded-full px-8 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear"
+                    className="inline-flex items-center justify-center cursor-pointer bg-primary text-mainheading hover:bg-primaryhover order-1 sm:order-2 disabled:opacity-50 disabled:bg-primary/80 disabled:cursor-not-allowed font-medium rounded-full px-8 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear"
                     type="button"
                     onClick={handleConfirm}
                     disabled={

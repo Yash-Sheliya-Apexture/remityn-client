@@ -5,12 +5,13 @@ const CallToActionSection: React.FC = () => {
     <section className="CallToActionSection">
       <div className="container mx-auto px-4">
         <div
-          className="rounded-3xl p-px overflow-hidden"
+          className="rounded-3xl overflow-hidden"
           style={{
             background:
               "linear-gradient(160deg,rgba(102, 232, 250, 1) 0%, rgba(255, 255, 255, 0) 28%, rgba(255, 255, 255, 0) 72%, rgba(102, 232, 250, 1) 100%)",
           }}
         >
+          <div className="border-2 border-transparent bg-clip-padding">
           <div className="bg-primary-foreground rounded-3xl p-8 md:p-12 lg:p-16 relative">
               <div className="shep">
                 <div className="absolute left-1 top-0">
@@ -49,6 +50,7 @@ const CallToActionSection: React.FC = () => {
                 </a>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>

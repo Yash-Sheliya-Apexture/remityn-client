@@ -828,42 +828,42 @@ export default function AccountVerification({
   // --- Determine styles based on variant ---
   const styles = {
     warning: {
-      iconColor: "text-yellow-600 dark:text-yellow-500",
+      iconColor: "text-yellow-500",
       iconbg: "bg-yellow-600/20",
-      bgColor: "bg-yellow-50 dark:bg-yellow-900/25  border-yellow-500",
-      titleColor: "text-yellow-800 dark:text-yellow-200",
-      messageColor: "text-yellow-700 dark:text-yellow-300/90",
+      bgColor: "bg-yellow-900/25 border-yellow-500",
+      titleColor: "text-yellow-200",
+      messageColor: "text-yellow-300/90",
       linkColor:
-        "text-yellow-700 hover:text-yellow-800 dark:text-yellow-400 dark:hover:text-yellow-300",
+        "text-yellow-400 hover:text-yellow-300",
     },
     destructive: {
-        iconColor: "text-red-600 dark:text-red-500",
+        iconColor: "text-red-500",
         iconbg: "bg-red-600/20",
         bgColor:
-          "bg-red-50 dark:bg-red-900/25 border-red-500",
-        titleColor: "text-red-800 dark:text-red-200",
-        messageColor: "text-red/700 dark:text-red-300/90",
+          "bg-red-900/25 border-red-500",
+        titleColor: "text-red-200",
+        messageColor: "text-red-300/90",
         linkColor:
-          "text-red-700 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300",
+          "text-red-400 hover:text-red-300",
     },
     info: {
-        iconColor: "text-blue-600 dark:text-blue-500",
+        iconColor: "text-blue-500",
         iconbg : "bg-blue-600/20",
         bgColor:
-          "bg-blue-50 dark:bg-blue-900/25 border-blue border-blue-500",
-        titleColor: "text-blue-800 dark:text-blue-200",
+          "bg-blue-900/25 border-blue border-blue-500",
+        titleColor: "text-blue-200",
         messageColor: "text-blue-700 dark:text-blue-300/90",
         linkColor:
-          "text-blue-700 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300",
+          "text-blue-400 hover:text-blue-300",
     },
     pending: {
-      iconColor: "text-cyan-600 dark:text-cyan-500",
+      iconColor: "text-cyan-500",
       iconbg: "bg-cyan-600/20",
-      bgColor: "bg-cyan-50 dark:bg-cyan-900/25 border-cyan-500",
-      titleColor: "text-cyan-800 dark:text-cyan-200",
-      messageColor: "text-cyan-700 dark:text-cyan-300/90",
+      bgColor: "bg-cyan-900/25 border-cyan-500",
+      titleColor: "text-cyan-200",
+      messageColor: "text-cyan-300/90",
       linkColor:
-        "text-cyan-700 hover:text-cyan-800 dark:text-cyan-400 dark:hover:text-cyan-300",
+        "text-cyan-400 hover:text-cyan-300",
     },
   };
   const currentStyles = styles[variant];

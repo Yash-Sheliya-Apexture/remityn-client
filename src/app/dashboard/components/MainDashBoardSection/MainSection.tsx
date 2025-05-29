@@ -582,13 +582,13 @@ const MainDashBoard = () => {
     return (
       <div className="space-y-6 md:space-y-8 animate-pulse p-4 md:p-0">
         {/* Mimic layout with skeletons */}
-        <Skeleton className="h-24 w-full rounded-lg bg-muted dark:bg-muted/60" />{" "}
+        <Skeleton className="h-24 w-full rounded-lg" />
         {/* Placeholder for Banner/Verification */}
-        <Skeleton className="h-32 w-full rounded-lg bg-muted dark:bg-muted/60" />{" "}
+        <Skeleton className="h-32 w-full rounded-lg" />
         {/* Placeholder for CountryCard */}
-        <Skeleton className="h-48 w-full rounded-lg bg-muted dark:bg-muted/60" />{" "}
+        <Skeleton className="h-48 w-full rounded-lg" />
         {/* Placeholder for Tasks */}
-        <Skeleton className="h-64 w-full rounded-lg bg-muted dark:bg-muted/60" />{" "}
+        <Skeleton className="h-64 w-full rounded-lg" />
         {/* Placeholder for Transactions */}
       </div>
     );
@@ -645,7 +645,7 @@ const MainDashBoard = () => {
 
         <Link href={"/dashboard/add-money/select-balance"}>
           {/* Added icon, added `gap-1.5` for spacing */}
-          <button className="flex items-center justify-center gap-1.5 bg-[#ceff81] text-neutral-900 hover:bg-primaryhover py-1 px-4 font-medium rounded-full transition-all duration-75 ease-linear cursor-pointer">
+          <button className="flex items-center justify-center gap-1.5 bg-primarybox text-primary hover:bg-primaryhover hover:text-neutral-900 py-1 px-4 font-medium rounded-full transition-all duration-75 ease-linear cursor-pointer">
             <TbMoneybag size={18} /> {/* Adjust size as needed */}
             Add
           </button>

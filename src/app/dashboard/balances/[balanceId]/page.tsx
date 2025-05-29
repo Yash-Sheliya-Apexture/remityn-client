@@ -9968,7 +9968,7 @@ const BalanceDetailPage = () => {
 
       <div className="mt-10">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-8 sticky lg:top-28 top-20 z-10 bg-background dark:bg-background">
-          <h3 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white">
+          <h3 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
             Transactions
           </h3>
            {/* Only show search/filter if not initially empty OR if transactions are loading */}

@@ -91,35 +91,39 @@ import Image from "next/image";
 
 const SendMoneySteps = () => {
   const steps = [
-    {
-      id: 1,
-      icon: <UserPlus className="w-6 h-6 text-primary" />,
-      title: "Create Your Account",
-      description: "Sign up quickly with minimal information.",
-    },
-    {
-      id: 2,
-      icon: <Wallet className="w-6 h-6 text-primary" />,
-      title: "Fund Your Wallet",
-      description: "Add money in your local currency.",
-    },
-    {
-      id: 3,
-      icon: <Send className="w-6 h-6 text-primary" />,
-      title: "Initiate Transfer to India",
-      description: "Enter recipient details and amount in INR.",
-    },
-    {
-      id: 4,
-      icon: <CheckCircle className="w-6 h-6 text-primary" />,
-      title: "Money Received",
-      description:
-        "Recipient gets funds directly in their Indian bank account.",
-    },
-  ];
+  {
+    id: 1,
+    icon: <UserPlus className="w-6 h-6 text-primary" />,
+    title: "Create Your Account",
+    description:
+      "Sign up quickly with minimal information to get started. All you need is a valid email address and a few personal details.",
+  },
+  {
+    id: 2,
+    icon: <Wallet className="w-6 h-6 text-primary" />,
+    title: "Fund Your Wallet",
+    description:
+      "Easily add money to your wallet using your preferred payment method. We support a range of local currency options for your convenience.",
+  },
+  {
+    id: 3,
+    icon: <Send className="w-6 h-6 text-primary" />,
+    title: "Initiate Transfer to India",
+    description:
+      "Enter the recipient's bank details and the amount you wish to send. Review the exchange rate and confirm your transfer in a few clicks.",
+  },
+  {
+    id: 4,
+    icon: <CheckCircle className="w-6 h-6 text-primary" />,
+    title: "Money Received",
+    description:
+      "The recipient receives the money directly into their Indian bank account. They are notified instantly once the transfer is successful.",
+  },
+];
+
 
   return (
-    <div className="SendMoneyStep py-20">
+    <div className="SendMoneyStep sm:py-16 py-10">
       {" "}
       {/* Assuming this class might set a theme, e.g., dark background */}
       <div className="container mx-auto px-4">
@@ -133,8 +137,8 @@ const SendMoneySteps = () => {
         </div>
 
         {/* Steps Container */}
-        <div className="flex flex-col lg:flex-row items-center gap-8 lg:mt-25 mt-16">
-          <div className="Steps-Container w-full lg:w-1/2">
+        <div className="flex flex-col lg:flex-row items-center gap-8 lg:mt-16 mt-10">
+          <div className="Steps-Container w-full lg:w-2/5">
             {steps.map((step, index) => (
               <div
                 key={step.id}
@@ -180,14 +184,14 @@ const SendMoneySteps = () => {
             ))}
           </div>
 
-          <div className="w-full lg:w-1/2 lg:block hidden">
+          <div className="w-full lg:w-3/5 lg:block hidden">
             <div className="relative w-full flex justify-center">
               <Image
                 src="/assets/images/steps_image-1.png"
                 width={550}
                 height={800}
                 alt="Padlock symbolizing security"
-                className="object-contain w-full rounded-3xl"
+                className="object-contain w-[70%] hrounded-3xl"
               />
             </div>
           </div>

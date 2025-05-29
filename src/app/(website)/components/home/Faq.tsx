@@ -2312,7 +2312,7 @@ const FaqSection: React.FC = () => {
 
         {/* FAQ */}
         <div
-          className="sm:mt-25 mt-16"
+          className="sm:mt-20 mt-16"
         >
           <div className="flex flex-col" data-orientation="vertical">
             {faqData.map((item) => {
@@ -2338,7 +2338,7 @@ const FaqSection: React.FC = () => {
                       data-state={isOpen ? "open" : "closed"}
                       data-orientation="vertical"
                       id={uniqueTriggerId}
-                      className={`flex w-full cursor-pointer flex-1 gap-4 items-start justify-between text-start xl:text-[28px] text-2xl font-medium transition-all ease-linear duration-75 ${
+                      className={`flex w-full cursor-pointer flex-1 gap-4 items-start justify-between text-start xl:text-[28px] text-xl font-medium transition-all ease-linear duration-75 ${
                         isOpen
                           ? "text-primary hover:text-primaryhover" // Color when OPEN and hover color for OPEN
                           : "text-mainheadingWhite hover:text-[#92A6B0]" // Color when CLOSED and hover color for CLOSED
@@ -2348,7 +2348,7 @@ const FaqSection: React.FC = () => {
                       {item.question}
                       {/* New Animated Plus/Minus Icon */}
                       <div
-                        className="size-6 shrink-0 relative xl:mt-2 mt-1" // MODIFIED: Removed text-mainheadingWhite to allow color inheritance
+                        className="xl:size-6 size-4 shrink-0 relative mt-2" // MODIFIED: Removed text-mainheadingWhite to allow color inheritance
                         aria-hidden="true"
                       >
                         {/* Line 1 (Initially vertical, rotates to form the minus stroke) */}
@@ -2398,7 +2398,7 @@ const FaqSection: React.FC = () => {
                         exit="exit"
                         className="overflow-hidden"
                       >
-                        <p className="text-subheadingWhite xl:text-xl text-lg leading-relaxed ">
+                        <p className="text-subheadingWhite xl:text-xl text-base leading-relaxed ">
                           {item.answer}
                         </p>
                       </motion.div>

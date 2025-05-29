@@ -154,8 +154,6 @@
 
 // export default ClientTestimonialSection;
 
-
-
 // "use client"; // Required for Framer Motion and Swiper interactivity
 
 // import React from "react";
@@ -213,7 +211,7 @@
 //               <div className="max-w-5xl mx-auto relative">
 //                 <div className="absolute -left-[2px] top-1/2 -translate-y-1/2 w-[2px] h-[calc(100%+400px)] bg-gradient-to-t from-transparent via-white to-transparent hidden md:block"></div>
 //                 <div className="absolute left-0 md:left-[338px] top-1/2 -translate-y-1/2 w-[2px] h-[calc(100%+400px)] bg-gradient-to-t from-transparent via-white to-transparent hidden md:block"></div>
-                
+
 //                 <Swiper
 //                   className="!overflow-visible"
 //                   modules={[Autoplay, Navigation]}
@@ -259,14 +257,14 @@
 //                   ))}
 //                 </Swiper>
 
-//                 <div 
+//                 <div
 //                   className="swiper-button-prev-custom group absolute left-2 sm:left-4 md:-left-12 lg:-left-16 top-1/2 -translate-y-1/2 z-30 cursor-pointer p-2 md:p-3 bg-black/30 hover:bg-black/50 active:bg-black/70 rounded-full transition-all duration-300 [&.swiper-button-disabled]:opacity-40 [&.swiper-button-disabled]:cursor-not-allowed"
 //                 >
 //                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="white" className="w-5 h-5 md:w-6 md:h-6 group-hover:stroke-primary transition-colors duration-300">
 //                     <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
 //                   </svg>
 //                 </div>
-//                 <div 
+//                 <div
 //                   className="swiper-button-next-custom group absolute right-2 sm:right-4 md:-right-12 lg:-right-16 top-1/2 -translate-y-1/2 z-30 cursor-pointer p-2 md:p-3 bg-black/30 hover:bg-black/50 active:bg-black/70 rounded-full transition-all duration-300 [&.swiper-button-disabled]:opacity-40 [&.swiper-button-disabled]:cursor-not-allowed"
 //                 >
 //                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="white" className="w-5 h-5 md:w-6 md:h-6 group-hover:stroke-primary transition-colors duration-300">
@@ -305,71 +303,98 @@ interface Testimonial {
   imageSrc: string;
   quote: string;
   name: string;
+  DateAndTime: string;
 }
 
 // Sample testimonial data
 const testimonialsData: Testimonial[] = [
   {
     id: 1,
-    imageSrc: "/assets/images/John-Taylor.jpg",
+    imageSrc: "./assets/images/John.png",
     quote:
-      "I used this site to prepare for a backpacking trip through Southeast Asia. It was a major help. I could exchange small amounts for different currencies, all in one place. That flexibility is rare.",
-    name: "Sofia Vyas",
+      "This website has become my go-to for exchanging money before every trip. I always get competitive exchange rates and zero hidden fees. The interface is clean and super easy to navigate, even for first-time users. Every transaction I’ve made has been smooth and reliable. Definitely one of the best online currency exchange platforms.",
+    name: "John Taylor | Sales Manager",
+    DateAndTime: "4:16 PM · Jul 20, 2023",
   },
   {
     id: 2,
-    imageSrc: "/assets/images/John-Taylor.jpg", // Replace with another image
+    imageSrc: "./assets/images/Amelia.jpg",
     quote:
-      "The platform is incredibly user-friendly and the rates are very competitive. Customer support was also quick to respond to my queries. Highly recommended!",
-    name: "Jane Doe",
+      "Safe, simple, and very efficient—this website made exchanging currency a breeze. I used it before a trip to South America, and it worked perfectly. I’ll be using it again for all my future travel needs. It’s exactly what you want when handling international money.  travel often for business and always need a reliable currency exchange platform.",
+    name: "Amelia Brown | CEO of Fremantle",
+    DateAndTime: "5:57 PM · Oct 23, 2022",
   },
   {
     id: 3,
-    imageSrc: "/assets/images/John-Taylor.jpg", // Replace with another image
+    imageSrc: "./assets/images/Tom.jpg",
     quote:
-      "A seamless experience from start to finish. Transferring funds internationally has never been easier. I appreciate the transparency and security features.",
-    name: "Alex Smith",
+      "Planning my honeymoon abroad was stressful, but at least exchanging money wasn’t. This site gave me the best rate after comparing a few options online. The instructions were clear, and the process was smooth from start to finish. I felt secure entering my details and appreciated the instant confirmation. Five stars from a happy newlywed traveler!",
+    name: "Tom Diaz | The Sales Booster",
+    DateAndTime: "10:16 AM · Jan 4, 2024",
   },
+  {
+    id: 4,
+    imageSrc: "./assets/images/Sofia.png",
+    quote:
+      "I found this service while researching currency exchange options before my backpacking trip. It turned out to be a great find with very competitive rates. Signing up was easy, and the whole process was seamless. I even recommended it to other travelers I met abroad. A fantastic tool for anyone traveling internationally.",
+    name: "Sofia Vyas | Freelance Writer",
+    DateAndTime: "4:05 PM · Jan 9, 2023",
+  },
+  {
+    id: 5,
+    imageSrc: "./assets/images/krunal.jpg",
+    quote:
+      "I found this service while researching currency exchange options before my backpacking trip. It turned out to be a great find with very competitive rates. Signing up was easy, and the whole process was seamless. I even recommended it to other travelers I met abroad. A fantastic tool for anyone traveling internationally.",
+    name: "Krunal Kathiriya | IOS App Developer",
+    DateAndTime: "3:16 PM · Apr 16, 2024",
+  },
+
 ];
 
 const ClientTestimonialSection: React.FC = () => {
   return (
     <>
-      <section className="ClientTestimonialSection sm:py-40 py-20 overflow-hidden"> {/* Note: overflow-hidden might clip some animations if they extend outwards temporarily */}
+      <section className="ClientTestimonialSection sm:py-40 py-10 overflow-hidden">
+        {" "}
+        {/* Note: overflow-hidden might clip some animations if they extend outwards temporarily */}
         <div className="container mx-auto px-4 relative z-10">
-          <div className="wrpa relative"> {/* Consider renaming 'wrpa' to 'wrapper' if it's a typo */}
+          <div className="wrpa relative">
+            {" "}
+            {/* Consider renaming 'wrpa' to 'wrapper' if it's a typo */}
             <div className="absolute left-0 sm:-top-[2px] -top-10 h-[2px] w-full bg-gradient-to-r from-transparent via-white to-transparent"></div>
             <div>
               <div className="max-w-5xl mx-auto relative">
                 <div className="absolute sm:-left-[2px] left-4 sm:top-1/2 -top-18 sm:-translate-y-1/2 translate-y-0 w-[2px] sm:h-[calc(100%+300px)] h-[350px] bg-gradient-to-t from-transparent via-white to-transparent sm:block hidden"></div>
                 <div className="absolute left-auto md:left-[338px] sm:right-auto right-4 sm:top-1/2 -top-18 sm:-translate-y-1/2 translate-y-0 w-[2px] sm:h-[calc(100%+300px)] h-[350px] bg-gradient-to-t from-transparent via-white to-transparent sm:block hidden"></div>
-                
+
                 <Swiper
                   className="!overflow-visible" // Allows peeking slides if slidesPerView > 1 and spaceBetween allows
                   modules={[Autoplay, Navigation]}
                   spaceBetween={50}
                   slidesPerView={1}
-                  loop={false} 
+                  loop={false}
                   // autoplay={{
-                  //   delay: 5000,
+                  //   delay: 2500,
                   //   disableOnInteraction: false,
                   // }}
                   navigation={{
-                    nextEl: '.swiper-button-next-custom',
-                    prevEl: '.swiper-button-prev-custom',
+                    nextEl: ".swiper-button-next-custom",
+                    prevEl: ".swiper-button-prev-custom",
                   }}
                 >
                   {testimonialsData.map((testimonial) => (
                     <SwiperSlide key={testimonial.id}>
-                      <div className="flex flex-col md:flex-row gap-10 relative items-center md:items-start">
+                      <div className="flex flex-col md:flex-row sm:gap-10 gap-0 relative items-center md:items-start">
                         {/* Target '.imags' for animation */}
-                        <div className="w-[200px] md:w-[338px] relative flex-shrink-0 imags"> {/* Added 'imags' class here directly for animation targeting */}
+                        <div className="w-[338px] relative flex-shrink-0 imags">
+                          {" "}
+                          {/* Added 'imags' class here directly for animation targeting */}
                           {/* <div className="imags"> Removed inner div to simplify targeting */}
-                            <img
-                              src={testimonial.imageSrc}
-                              alt={testimonial.name}
-                              className="rounded-3xl w-full h-auto object-cover"
-                            />
+                          <img
+                            src={testimonial.imageSrc}
+                            alt={testimonial.name}
+                            className="rounded-3xl w-full h-[480px] object-cover"
+                          />
                           {/* </div> */}
                         </div>
                         <div className="w-full md:w-[calc(100%-338px-2.5rem)]">
@@ -383,6 +408,11 @@ const ClientTestimonialSection: React.FC = () => {
                                 {testimonial.name}
                               </span>
                             </div>
+                            <div className="mt-5">
+                              <span className="text-secondheadingWhite text-sm">
+                                {testimonial.DateAndTime}
+                              </span>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -390,27 +420,45 @@ const ClientTestimonialSection: React.FC = () => {
                   ))}
                 </Swiper>
 
-                <div 
-                  className="swiper-button-prev-custom group absolute left-2 sm:left-4 md:-left-12 lg:-left-16 top-1/2 -translate-y-1/2 z-30 cursor-pointer p-2 md:p-3 bg-black/30 hover:bg-black/50 active:bg-black/70 rounded-full transition-all duration-300 [&.swiper-button-disabled]:opacity-40 [&.swiper-button-disabled]:cursor-not-allowed"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="white" className="w-5 h-5 md:w-6 md:h-6 group-hover:stroke-primary transition-colors duration-300">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                <div className="swiper-button-prev-custom group absolute left-5 sm:left-4 md:-left-12 lg:-left-16 top-1/4 sm:top-1/2 -translate-y-1/2 z-30 cursor-pointer p-2 md:p-3 bg-black/30 hover:bg-black/50 active:bg-black/70 rounded-full transition-all duration-300 [&.swiper-button-disabled]:opacity-40 [&.swiper-button-disabled]:cursor-not-allowed">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2.5}
+                    stroke="white"
+                    className="w-5 h-5 md:w-6 md:h-6 group-hover:stroke-primary transition-colors duration-300"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M15.75 19.5L8.25 12l7.5-7.5"
+                    />
                   </svg>
                 </div>
-                <div 
-                  className="swiper-button-next-custom group absolute right-2 sm:right-4 md:-right-12 lg:-right-16 top-1/2 -translate-y-1/2 z-30 cursor-pointer p-2 md:p-3 bg-black/30 hover:bg-black/50 active:bg-black/70 rounded-full transition-all duration-300 [&.swiper-button-disabled]:opacity-40 [&.swiper-button-disabled]:cursor-not-allowed"
-                >
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="white" className="w-5 h-5 md:w-6 md:h-6 group-hover:stroke-primary transition-colors duration-300">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+
+                <div className="swiper-button-next-custom group absolute right-5 sm:right-4 md:-right-12 lg:-right-16 top-1/4 sm:top-1/2 -translate-y-1/2 z-30 cursor-pointer p-2 md:p-3 bg-black/30 hover:bg-black/50 active:bg-black/70 rounded-full transition-all duration-300 [&.swiper-button-disabled]:opacity-40 [&.swiper-button-disabled]:cursor-not-allowed">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={2.5}
+                    stroke="white"
+                    className="w-5 h-5 md:w-6 md:h-6 group-hover:stroke-primary transition-colors duration-300"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M8.25 4.5l7.5 7.5-7.5 7.5"
+                    />
                   </svg>
                 </div>
               </div>
             </div>
-
             <div className="absolute left-0 -bottom-[2px] h-[2px] w-full bg-gradient-to-r from-transparent via-white to-transparent"></div>
           </div>
         </div>
-        
+
         {/* Added <style jsx global> for animations */}
         <style jsx global>{`
           /* Initial state for elements to be animated */
@@ -434,7 +482,8 @@ const ClientTestimonialSection: React.FC = () => {
           }
 
           /* Ensure Swiper container itself has some padding if animations cause temporary overflow */
-           .testimonial-swiper { /* You might need to add this class to your Swiper component if not already present */
+          .testimonial-swiper {
+            /* You might need to add this class to your Swiper component if not already present */
             padding-top: 10px; /* Adjust if animations get clipped at the top */
             padding-bottom: 10px; /* Adjust if animations get clipped at the bottom */
           }

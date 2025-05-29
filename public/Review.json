@@ -4,28 +4,26 @@
             "id": 1,
             "reviews": [
                 {
-                    "reviewerName": "Tom Diaz",
+                    "reviewerName": "Tom Diaz | The Sales Booster",
+                    "subtitle": "The Sales Booster",
                     "avatarUrl": "./assets/images/Tom.jpg",
-                    "rating": 4.5,
-                    "comment": "It was my first time using this service, and I was impressed by how intuitive everything was. Their exchange rates beat every airport or local counter I checked. I received live updates and full transparency at every step. Their customer support was fast and friendly too. This service really makes travel money stress-free."
-                },
-                {
-                    "reviewerName": "John Taylor",
-                    "avatarUrl": "./assets/images/John-Taylor.jpg",
                     "rating": 5,
-                    "comment": "This service came highly recommended, and now I know why. I used it for a European road trip and exchanged currency for three countries. Every transaction went smoothly. It’s the best tool I’ve found for managing money during international travel."
+                    "DateAndTime": "10:16 AM · Jan 4, 2024",
+                    "comment": "Planning my honeymoon abroad was stressful, but at least exchanging money wasn’t. This site gave me the best rate after comparing a few options online. The instructions were clear, and the process was smooth from start to finish. I felt secure entering my details and appreciated the instant confirmation. Five stars from a happy newlywed traveler!"
                 },
                 {
-                    "reviewerName": "Ryan Cooper",
+                    "reviewerName": "John Taylor | Sales Manager",
+                    "avatarUrl": "./assets/images/John.png",
+                    "rating": 5,
+                    "DateAndTime": "4:16 PM · Jul 20, 2023",
+                    "comment": "This website has become my go-to for exchanging money before every trip. I always get competitive exchange rates and zero hidden fees. The interface is clean and super easy to navigate, even for first-time users. Every transaction I’ve made has been smooth and reliable. Definitely one of the best online currency exchange platforms."
+                },
+                {
+                    "reviewerName": "Ryan Cooper | Market Analysis",
                     "avatarUrl": "./assets/images/Ryan.jpg",
                     "rating": 4.5,
-                    "comment": "Excellent experience from start to finish! The exchange was fast, the rates were competitive, and the service felt completely secure. I’ll definitely be using this site again in the future."
-                },
-                {
-                    "reviewerName": "Sofia Vyas",
-                    "avatarUrl": "./assets/images/Sofia.png",
-                    "rating": 5,
-                    "comment": "The site lets you compare rates in real time before committing. I liked seeing my savings compared to other options. Support was available the moment I needed it. No unnecessary waiting or confusion. Everything was explained clearly before and after payment.I trust you this site more than my local banks."
+                    "DateAndTime": "3:24 PM · Feb 2, 2024",
+                    "comment": "I was amazed by how quickly my money reached my family abroad. The exchange rates beat every other service I’ve used, and the process was smooth from start to finish. Highly recommend this platform for all international travelers. Every transaction went smoothly complated."
                 }
             ]
         },
@@ -33,28 +31,25 @@
             "id": 2,
             "reviews": [
                 {
-                    "reviewerName": "Krunal Kathiriya",
+                    "reviewerName": "Krunal Kathiriya | IOS App Developer",
                     "avatarUrl": "./assets/images/krunal.jpg",
                     "rating": 5,
-                    "comment": "As someone who values efficiency, this website checks every box. It’s simple, secure, and offers great exchange rates. It helped me prepare for a recent trip overseas without any stress. If you travel internationally, you’ll love how easy this platform makes the process"
+                    "DateAndTime": "3:16 PM · Apr 16, 2024",
+                    "comment": "As someone who values efficiency, this website checks every box. It’s simple, secure, and offers great exchange rates. It helped me prepare for a recent trip overseas without any stress. If you travel internationally, you’ll love how easy this platform makes the process to I used it before a trip to South America, and it worked perfectly."
                 },
                 {
-                    "reviewerName": "Lisa Carter",
+                    "reviewerName": "Lisa Carter | Product Design",
                     "avatarUrl": "./assets/images/Lisa-Carter.jpg",
                     "rating": 4.5,
+                    "DateAndTime": "10:01 PM · Apr 7, 2022",
                     "comment": "I was able to exchange currency while sitting at the airport lounge. That alone is impressive.What’s even better is how intuitive the platform is. You see current rates, lock them in, and transfer money in minutes. It’s perfect when time is tight. I received updates during every step. The entire exchange felt fast and safe."
                 },
                 {
-                    "reviewerName": "Amelia Brown",
+                    "reviewerName": "Amelia Brown | CEO of Fremantle",
                     "avatarUrl": "./assets/images/Amelia.jpg",
-                    "rating": 4,
+                    "rating": 4.5,
+                    "DateAndTime": "5:57 PM · Oct 23, 2022",
                     "comment": "Safe, simple, and very efficient—this website made exchanging currency a breeze. I used it before a trip to South America, and it worked perfectly. I’ll be using it again for all my future travel needs. It’s exactly what you want when handling international money.  travel often for business and always need a reliable currency exchange platform."
-                },
-                {
-                    "reviewerName": "Henry Walker",
-                    "avatarUrl": "./assets/images/Henry.jpg",
-                    "rating": 5,
-                    "comment": "My husband and I used this for our anniversary trip abroad. It made budgeting easy.We were able to lock in favorable rates before our trip and avoid surprises. I liked the option to set rate alerts via email"
                 }
             ]
         },
@@ -62,29 +57,122 @@
             "id": 3,
             "reviews": [
                 {
-                    "reviewerName": "Sarah Mitchell",
+                    "reviewerName": "Sarah Mitchell | CEO of Cycling UK",
                     "avatarUrl": "./assets/images/Sarah.jpg",
                     "rating": 4.5,
-                    "comment": "I liked how this site showed the exact fees before the transaction. Total transparency.I could plan my travel money without guessing what I’d lose in fees. The process is mobile-friendly and accessible 24/7. I checked rates on the go and completed everything in a few minutes. That kind of convenience is hard to beat."
+                    "DateAndTime": "08:47 PM · Feb 19, 2024",
+                    "comment": "I liked how this site showed the exact fees before the transaction. Total transparency.I could plan my travel money without guessing what I’d lose in fees. The process is mobile-friendly and accessible 24/7. I checked rates on the go and completed everything in a few minutes. That kind of convenience is hard trying to beat."
                 },
                 {
-                    "reviewerName": "Emily Clarke",
+                    "reviewerName": "Emily Clarke | Business Development Consultant",
                     "avatarUrl": "./assets/images/Emily.avif",
                     "rating": 5,
+                    "DateAndTime": "11:02 AM · Mar 7, 2024",
                     "comment": "It’s rare to find a service that balances speed and security. This one does both.I exchanged a decent sum before my trip and received it quickly. I loved getting an invoice with all details spelled out. No vague charges or bad surprises."
                 },
                 {
-                    "reviewerName": "Jake Miller",
+                    "reviewerName": "Jake Miller | Concept Artist",
                     "avatarUrl": "./assets/images/Jake.jpg",
                     "location": "Austin, TX",
                     "rating": 4,
-                    "comment": "I used this site to prepare for a backpacking trip through Southeast Asia. It was a major help.I could exchange small amounts for different currencies, all in one place. That flexibility is rare  "
+                    "DateAndTime": "06:33 AM · May 25, 2024",
+                    "comment": "I first found this platform while looking for low-cost ways to send money internationally, and I haven’t looked back. The experience is seamless—from setting up the account to confirming each transfer. It’s a great tool for both casual and frequent best platform for a travelers likes."
                 },
                 {
-                    "reviewerName": "Liam Brown",
+                    "reviewerName": "Liam Brown | Los Angeles",
                     "avatarUrl": "./assets/images/Liam.jpg",
                     "rating": 4.5,
-                    "comment": "I had to make a last-minute money transfer while abroad. This platform saved the day.I was surprised how quickly everything went through. I logged in, chose the currency, and sent the amount—all in less than 10 minutes. The recipient got the money that same day. The real-time rate check was a great bonus.I liked the option to set rate alerts via email "
+                    "DateAndTime": "09:56 AM · Dec 1, 2024",
+                    "comment": "I had to make a last-minute money transfer while abroad. This platform saved the day.I was surprised how quickly everything went through. I logged in, chose the currency, and sent the amount—all in less than 10 minutes. The recipient got the money that same day. The real-time rate check was a great bonus."
+                },
+                {
+                    "reviewerName": "Sofia Vyas | Freelance Writer",
+                    "avatarUrl": "./assets/images/Sofia.png",
+                    "rating": 5,
+                    "DateAndTime": "4:05 PM · Jan 9, 2023",
+                    "comment": "I found this service while researching currency exchange options before my backpacking trip. It turned out to be a great find with very competitive rates. Signing up was easy, and the whole process was seamless. I even recommended it to other travelers I met abroad. A fantastic tool for anyone traveling internationally."
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "reviews": [
+                {
+                    "reviewerName": "Sarah Mitchell | CEO of Cycling UK",
+                    "avatarUrl": "./assets/images/Sarah.jpg",
+                    "rating": 4.5,
+                    "DateAndTime": "08:47 PM · Feb 19, 2024",
+                    "comment": "I liked how this site showed the exact fees before the transaction. Total transparency.I could plan my travel money without guessing what I’d lose in fees. The process is mobile-friendly and accessible 24/7. I checked rates on the go and completed everything in a few minutes. That kind of convenience is hard trying to beat."
+                },
+                {
+                    "reviewerName": "Emily Clarke | Business Development Consultant",
+                    "avatarUrl": "./assets/images/Emily.avif",
+                    "rating": 5,
+                    "DateAndTime": "11:02 AM · Mar 7, 2024",
+                    "comment": "It’s rare to find a service that balances speed and security. This one does both.I exchanged a decent sum before my trip and received it quickly. I loved getting an invoice with all details spelled out. No vague charges or bad surprises."
+                },
+                {
+                    "reviewerName": "Jake Miller | Concept Artist",
+                    "avatarUrl": "./assets/images/Jake.jpg",
+                    "location": "Austin, TX",
+                    "rating": 4,
+                    "DateAndTime": "06:33 AM · May 25, 2024",
+                    "comment": "I first found this platform while looking for low-cost ways to send money internationally, and I haven’t looked back. The experience is seamless—from setting up the account to confirming each transfer. It’s a great tool for both casual and frequent best platform for a travelers likes."
+                },
+                {
+                    "reviewerName": "Liam Brown | Los Angeles",
+                    "avatarUrl": "./assets/images/Liam.jpg",
+                    "rating": 4.5,
+                    "DateAndTime": "09:56 AM · Dec 1, 2024",
+                    "comment": "I had to make a last-minute money transfer while abroad. This platform saved the day.I was surprised how quickly everything went through. I logged in, chose the currency, and sent the amount—all in less than 10 minutes. The recipient got the money that same day. The real-time rate check was a great bonus."
+                },
+                {
+                    "reviewerName": "Sofia Vyas | Freelance Writer",
+                    "avatarUrl": "./assets/images/Sofia.png",
+                    "rating": 5,
+                    "DateAndTime": "4:05 PM · Jan 9, 2023",
+                    "comment": "The site lets you compare rates in real time before committing. I liked seeing my savings compared to other options. Support was available the moment I needed it. No unnecessary waiting or confusion. Everything was explained clearly before and after payment.I trust you this site more than my local banks."
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "reviews": [
+                {
+                    "reviewerName": "Sarah Mitchell | CEO of Cycling UK",
+                    "avatarUrl": "./assets/images/Sarah.jpg",
+                    "rating": 4.5,
+                    "DateAndTime": "08:47 PM · Feb 19, 2024",
+                    "comment": "I liked how this site showed the exact fees before the transaction. Total transparency.I could plan my travel money without guessing what I’d lose in fees. The process is mobile-friendly and accessible 24/7. I checked rates on the go and completed everything in a few minutes. That kind of convenience is hard trying to beat."
+                },
+                {
+                    "reviewerName": "Emily Clarke | Business Development Consultant",
+                    "avatarUrl": "./assets/images/Emily.avif",
+                    "rating": 5,
+                    "DateAndTime": "11:02 AM · Mar 7, 2024",
+                    "comment": "It’s rare to find a service that balances speed and security. This one does both.I exchanged a decent sum before my trip and received it quickly. I loved getting an invoice with all details spelled out. No vague charges or bad surprises."
+                },
+                {
+                    "reviewerName": "Jake Miller | Concept Artist",
+                    "avatarUrl": "./assets/images/Jake.jpg",
+                    "location": "Austin, TX",
+                    "rating": 4,
+                    "DateAndTime": "06:33 AM · May 25, 2024",
+                    "comment": "I first found this platform while looking for low-cost ways to send money internationally, and I haven’t looked back. The experience is seamless—from setting up the account to confirming each transfer. It’s a great tool for both casual and frequent best platform for a travelers likes."
+                },
+                {
+                    "reviewerName": "Liam Brown | Los Angeles",
+                    "avatarUrl": "./assets/images/Liam.jpg",
+                    "rating": 4.5,
+                    "DateAndTime": "09:56 AM · Dec 1, 2024",
+                    "comment": "I had to make a last-minute money transfer while abroad. This platform saved the day.I was surprised how quickly everything went through. I logged in, chose the currency, and sent the amount—all in less than 10 minutes. The recipient got the money that same day. The real-time rate check was a great bonus."
+                },
+                {
+                    "reviewerName": "Sofia Vyas | Freelance Writer",
+                    "avatarUrl": "./assets/images/Sofia.png",
+                    "rating": 5,
+                    "DateAndTime": "4:05 PM · Jan 9, 2023",
+                    "comment": "The site lets you compare rates in real time before committing. I liked seeing my savings compared to other options. Support was available the moment I needed it. No unnecessary waiting or confusion. Everything was explained clearly before and after payment.I trust you this site more than my local banks."
                 }
             ]
         }

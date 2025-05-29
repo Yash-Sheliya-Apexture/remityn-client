@@ -1,0 +1,83 @@
+[
+    {
+        "id": "tweet1",
+        "name": "Simon Severino",
+        "title": "The Sales Booster",
+        "username": "@simonseverino",
+        "avatarUrl": "./assets/images/Tom.jpg",
+        "text": "Seriously, @attio is the best CRM I have ever used. Recommending it to all clients these days. And I say this as a sales coach with 21 years experience in all top CRMs.",
+        "timestamp": "10:16 AM - Jan 4, 2024"
+    },
+    {
+        "id": "tweet2",
+        "name": "Philip Lakin",
+        "username": "@philipLakin",
+        "avatarUrl": "https://via.placeholder.com/48/4CAF50/FFFFFF?Text=PL",
+        "text": "Dove into @attio today and I'm FLOORED. They have seriously nailed an \"opinionated Airtable for CRM.\" Built-in enrichment, syncing with email + calendar, access/privacy controls, and the list goes on. They say they can power you from zero to IPO, and I actually believe them.",
+        "timestamp": "4:16 PM - Jul 20, 2023"
+    },
+    {
+        "id": "tweet3",
+        "name": "Erik Bernhardsson",
+        "username": "@bernhardsson",
+        "avatarUrl": "https://via.placeholder.com/48/2196F3/FFFFFF?Text=EB",
+        "text": "Rare product endorsement but we just moved to @attio from Hubspot and it's like moving to Linear from Jira",
+        "timestamp": "3:24 PM - Feb 2, 2024"
+    },
+    {
+        "id": "tweet4",
+        "name": "Jono Bacon",
+        "username": "@jonobacon",
+        "avatarUrl": "https://via.placeholder.com/48/9C27B0/FFFFFF?Text=JB",
+        "text": "Let's be honest, most CRMs suck. Overcomplicated, expensive, and you have to bend to their will...not the other way around. I am a huge fan of @attio - their product is rock-solid, customer support is AAA, and it is *very* flexible and simple. attio.com",
+        "timestamp": "4:05 PM - Jan 9, 2023"
+    },
+    {
+        "id": "tweet5",
+        "name": "Martin Riedel",
+        "username": "@martin_riedel",
+        "avatarUrl": "https://via.placeholder.com/48/795548/FFFFFF?Text=MR",
+        "text": "CRM software sucks. If don't want to use a tool everyday that sucks energy because of its complexity. just shifted to @attio which really seems to do sales less painful. so far, I love it!",
+        "timestamp": "3:16 PM - Apr 16, 2024"
+    },
+    {
+        "id": "tweet6",
+        "name": "Sebastiaan Debrouwere",
+        "username": "@iamsebdeb",
+        "avatarUrl": "https://via.placeholder.com/48/F44336/FFFFFF?Text=SD",
+        "text": "We use @attio on a daily basis for several internal processes, and I cannot rave enough about them. Incredibly flexibility and features combined with super intuitive UI.",
+        "timestamp": "10:01 PM - Apr 7, 2022"
+    },
+    {
+        "id": "tweet7",
+        "name": "Alon",
+        "username": "@alon",
+        "avatarUrl": "https://via.placeholder.com/48/E91E63/FFFFFF?Text=A",
+        "text": "I think this depends heavily on company size, GTM motion, size of sales team, etc... As an early stage startup I'm really loving using @attio - great balance of flexibility and prescriptiveness",
+        "timestamp": "12:00 AM - Jan 1, 2023"
+    },
+    {
+        "id": "tweet8",
+        "name": "Dimitry Gershenson",
+        "username": "@d_gershenson",
+        "avatarUrl": "https://via.placeholder.com/48/3F51B5/FFFFFF?Text=DG",
+        "text": "We use our CRM @attio for sales, fundraising, and recruiting. It's awesome",
+        "timestamp": "12:32 AM - Jan 4, 2023"
+    },
+    {
+        "id": "tweet9",
+        "name": "Jane Doe",
+        "username": "@janedoe",
+        "avatarUrl": "https://via.placeholder.com/48/009688/FFFFFF?Text=JD",
+        "text": "Just started with @attio and it's already a game changer for our team. The UI is clean and the features are powerful. Highly recommend!",
+        "timestamp": "9:00 AM - May 10, 2024"
+    },
+    {
+        "id": "tweet10",
+        "name": "Mike Ross",
+        "username": "@mikeross",
+        "avatarUrl": "https://via.placeholder.com/48/FF5722/FFFFFF?Text=MR",
+        "text": "Switching to @attio was the best decision we made this year. Customer support is top-notch and the product just works.",
+        "timestamp": "2:30 PM - May 1, 2024"
+    }
+]

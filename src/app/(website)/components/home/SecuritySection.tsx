@@ -276,6 +276,10 @@
 // };
 // export default SecuritySection;
 
+
+
+
+
 // components/SecuritySection.tsx
 "use client"; // Required for Framer Motion
 
@@ -287,7 +291,7 @@ const SecuritySection = () => {
   return (
     // Apply whileInView to the main section to trigger animations
     <section
-      className="Security-section md:py-20 py-5 overflow-hidden" // Hide horizontal overflow during animation
+      className="Security-section sm:py-16 py-10 overflow-hidden" // Hide horizontal overflow during animation
       id="security"
     >
       <div className="container mx-auto px-4">
@@ -305,6 +309,7 @@ const SecuritySection = () => {
                   <span className="text-subheadingWhite/30">]</span>
                 </span>
               </div>
+              
               <div className="space-y-4 text-center md:text-left max-w-4xl mx-auto md:mx-0">
                 <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite sm:block hidden">
                   Secure Currency Exchange{" "}
@@ -319,6 +324,7 @@ const SecuritySection = () => {
                   and always secure.
                 </p>
               </div>
+              
               <div className="flex justify-center md:justify-start mt-8">
                 <Link
                   href="/faqs"

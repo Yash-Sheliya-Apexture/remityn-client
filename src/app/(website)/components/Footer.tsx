@@ -1992,6 +1992,7 @@ const navLinks: NavLinkItem[] = [
   { href: "/about-us", label: "About" },
   { href: "/features", label: "Features" },
   { href: "/reviews", label: "Reviews" },
+  { href: "/faqs", label: "Help" },
 ];
 
 const contactInfo: ContactInfoItem[] = [
@@ -2049,7 +2050,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="lg:py-20 py-10">
+    <footer className="lg:py-16 py-10">
       <div className="container mx-auto px-4">
         {/* Top Section: Logo and Nav Links */}
         <div className="flex flex-col items-center ">
@@ -2069,12 +2070,12 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden sm:flex items-center space-x-6.5 mb-12.5">
+          <nav className="hidden sm:flex items-center space-x-6 mb-12.5">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-lg lg:text-2xl text-subheadingWhite hover:text-primary transition-colors duration-75 ease-linear"
+                className="text-lg lg:text-xl text-subheadingWhite hover:text-primary transition-colors duration-75 ease-linear"
               >
                 {link.label}
               </Link>
@@ -2082,7 +2083,6 @@ const Footer: React.FC = () => {
           </nav>
         </div>
 
-        <div className="border-t border-t-gray-600/50 mb-12.5 hidden sm:block"></div>
 
         {/* Mobile Navigation Links (appears below logo, above contact on mobile) */}
         <nav className="sm:hidden flex items-center justify-center gap-3.5 sm:mb-10 mb-7.5">
@@ -2097,10 +2097,9 @@ const Footer: React.FC = () => {
           ))}
         </nav>
 
-        <div className="border-t border-t-gray-600/50 sm:mb-12.5 mb-7.5 sm:hidden block"></div>
 
         {/* Middle Section: Contact Info */}
-        <div className="flex items-center flex-row justify-center gap-3.5 sm:text-lg text-base mb-7.5 sm:mb-12.5 shrink-0 flex-wrap">
+        <div className="flex items-center flex-row justify-center gap-3.5 sm:text-lg text-base mb-7.5 sm:mb-12.5 shrink-0 flex-wrap border-t border-b py-12.5">
           {contactInfo.map((item, index) => (
             <a // Use <a> tag for mailto and tel links
               key={index}
@@ -2132,8 +2131,6 @@ const Footer: React.FC = () => {
           ))}
         </div>
 
-        {/* Currency Converters Section */}
-        <div className="border-t border-t-gray-600/50 sm:mb-12.5 mb-7.5"></div>
 
         <div className="Currency-Convertors text-center sm:text-left mb-7.5 sm:mb-12.5">
           <div className="flex flex-wrap justify-center gap-3.5">
@@ -2152,7 +2149,6 @@ const Footer: React.FC = () => {
           </div>
         </div>
 
-        {/* <div className="border-t border-t-gray-600/50 mb-12.5"></div> */}
 
         {/* Bottom Bar: Social, Copyright, Legal */}
         <div className="bg-primary-foreground border-gray-700/50 sm:p-3 p-4 mt-16 pb-8 sm:mt-0 border rounded-xl sm:rounded-full ">

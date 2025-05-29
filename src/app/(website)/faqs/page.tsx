@@ -1775,7 +1775,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
           aria-expanded={isOpen}
           onClick={onToggle}
           // Updated styling: Text sizes, colors, hover states, transitions from FaqSection
-          className={`flex w-full cursor-pointer flex-1 gap-4 items-start justify-between text-start xl:text-[28px] text-2xl font-medium transition-all ease-linear duration-75
+          className={`flex w-full cursor-pointer flex-1 gap-4 items-start justify-between text-start xl:text-[28px] text-xl font-medium transition-all ease-linear duration-75
             ${
               isOpen
                 ? "text-primary hover:text-primaryhover" 
@@ -1786,7 +1786,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
           {item.question}
           {/* New Animated Plus/Minus Icon */}
           <div
-            className="size-6 shrink-0 relative xl:mt-2 mt-1"
+            className="xl:size-6 size-4 shrink-0 relative mt-2"
             aria-hidden="true"
           >
             <motion.div
@@ -1833,7 +1833,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
             className="overflow-hidden" // Removed specific text color here, will be on <p>
           >
             {/* Updated styling: Text size and color for answer from FaqSection */}
-            <p className="text-subheadingWhite xl:text-xl text-lg leading-relaxed "> 
+            <p className="text-subheadingWhite xl:text-xl text-base leading-relaxed "> 
               {item.answer}
             </p>
           </motion.div>
@@ -1855,7 +1855,7 @@ const FAQPage: React.FC = () => {
 
   return (
     // Updated page styling: Dark background, adjusted padding
-    <section className="FAQSection min-h-screen py-20 overflow-hidden"> 
+    <section className="FAQSection min-h-screen lg:py-20 py-5 overflow-hidden"> 
       <div className="container mx-auto px-4">
         <div className="text-left">
           <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite"> 
@@ -1873,8 +1873,11 @@ const FAQPage: React.FC = () => {
           <div className="lg:space-y-10 space-y-6"> 
             {faqSections.map((section) => (
               <div key={section.title}>
-                <h2 className="text-[26px] xl:text-3xl font-semibold text-primary lg:mb-8 mb-6" 
+                <h2 className="text-2xl xl:text-3xl font-semibold flex items-center sm:gap-3 gap-1.5 text-primary lg:mb-8 mb-6" 
                 >
+                  {/* Dots */}
+                  <div className="xl:size-4 size-3 bg-primary rounded-full">
+                  </div>
                   {section.title}
                 </h2>
 

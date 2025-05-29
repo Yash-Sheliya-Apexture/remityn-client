@@ -6,7 +6,6 @@ import InternationalTransferSection from "./components/InternationalTransferSect
 import CallToActionSection from "./components/CallToActionSection";
 import FeaturesSection from "./components/home/FeaturesSection";
 import StepCardContent from "./components/StepCard/StepContentCard";
-// import FaqSection from "./components/home/Faq";
 
 export default function Home() {
   return (
@@ -18,7 +17,6 @@ export default function Home() {
       <ClientTestimonialSection />
       <FeaturesSection />
       <StepCardContent />
-      {/* <FaqSection /> */}
       <CallToActionSection />
     </>
   );

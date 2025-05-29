@@ -1214,7 +1214,7 @@ const FeatureCard: React.FC<FeatureCardProps> = ({
 
 const OurFeatures: React.FC = () => {
   return (
-    <section className="FeatureSection py-20">
+    <section className="FeatureSection sm:py-16 py-10">
       <div className="container mx-auto px-4">
         <div className="space-y-4 text-center md:text-left">
           <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
@@ -1237,7 +1237,7 @@ const OurFeatures: React.FC = () => {
             This provides a simpler 2-column layout on medium devices.
           - lg (large screens, 1024px+): 6 columns. Items use their specific colSpanLarge.
         */}
-        <div className="w-full box-border lg:mt-25 mt-16">
+        <div className="w-full box-border lg:mt-16 mt-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-[3] bg-[#394247] rounded-3xl border-3 border-[#394247]">
             {features.map((feature) => (
               <div key={feature.id} className={feature.colSpanLarge}>

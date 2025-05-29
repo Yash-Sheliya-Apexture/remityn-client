@@ -2,7 +2,7 @@ import React from "react";
 
 const CallToActionSection: React.FC = () => {
   return (
-    <section className="CallToActionSection">
+    <section className="CallToActionSection  py-10 lg:py-16">
       <div className="container mx-auto px-4">
         <div
           className="rounded-3xl p-px overflow-hidden"

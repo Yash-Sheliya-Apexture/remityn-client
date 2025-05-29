@@ -4804,6 +4804,7 @@ const navLinks = [
   { href: "/", text: "Home" },
   { href: "/about-us", text: "About" },
   { href: "/features", text: "Features" },
+  { href: "/reviews", text: "Reviews" },
   { href: "/faqs", text: "Help" },
 ];
 
@@ -4895,7 +4896,7 @@ const Header: React.FC = () => {
 
   const getNavLinkClasses = (href: string): string => {
     const baseClasses =
-      "px-3 sm:px-4 py-1.5 text-[15px] font-medium rounded-md transition-colors"; // Adjusted py
+      "px-3 sm:px-4 py-1.5 text-base font-medium rounded-md transition-all ease-linear duration-75"; // Adjusted py
     const isActive = pathname === href;
     return `${baseClasses} ${
       isActive ? "text-white" : "text-gray-300 hover:text-white"
@@ -4975,13 +4976,14 @@ const Header: React.FC = () => {
                       <button
                         onClick={handleLogout}
                         title="Logout"
-                        className="border border-gray-600 hover:border-gray-500 w-10 h-10 flex justify-center items-center rounded-full transition-colors ease-in-out duration-300 text-gray-300 hover:text-white cursor-pointer"
+                        className="border border-gray-600 hover:border-gray-500 w-10 h-10 flex justify-center items-center rounded-full transition-all ease-linear duration-75 text-gray-300 hover:text-white cursor-pointer"
                       >
                         <HiOutlineLogout className="text-xl" />
                       </button>
+                      
                       <Link
                         href="/dashboard"
-                        className="bg-primary px-4 sm:px-5 py-2 h-10 flex items-center text-nowrap text-sm font-medium rounded-full hover:bg-primaryhover transition-colors ease-in-out duration-300 text-mainheading cursor-pointer"
+                        className="bg-primary px-4 sm:px-5 py-2 h-10 flex items-center text-nowrap text-sm font-medium rounded-full hover:bg-primaryhover transition-all ease-linear duration-75 text-mainheading cursor-pointer"
                       >
                         Dashboard
                       </Link>
@@ -4990,13 +4992,13 @@ const Header: React.FC = () => {
                     <>
                       <Link
                         href="/auth/register"
-                        className="border hover:border-stock-hover px-4 sm:px-5 py-2 flex justify-center items-center rounded-full transition-colors ease-in-out duration-300 text-gray-300 hover:text-white cursor-pointer"
+                        className="border hover:border-stock-hover px-4 sm:px-5 py-2 flex justify-center items-center rounded-full transition-all ease-linear duration-75 text-gray-300 hover:text-white cursor-pointer"
                       >
                         Register
                       </Link>
                       <Link
                         href="/auth/login"
-                        className="bg-primary border border-primary hover:border-primaryhover px-4 sm:px-5 py-2 text-nowrap font-medium rounded-full hover:bg-primaryhover transition-colors ease-in-out duration-300 text-mainheading cursor-pointer h-10 flex items-center"
+                        className="bg-primary border border-primary hover:border-primaryhover px-4 sm:px-5 py-2 text-nowrap font-medium rounded-full hover:bg-primaryhover transition-all ease-linear duration-75 text-mainheading cursor-pointer h-10 flex items-center"
                       >
                         Log in
                       </Link>
@@ -5008,15 +5010,15 @@ const Header: React.FC = () => {
                 <div className="flex lg:hidden items-center">
                   <button
                     onClick={toggleMobileMenu}
-                    className="bg-primaryboxdubal rounded-full p-2 text-gray-300 hover:text-white focus:outline-none"
+                    className="bg-primaryboxdubal cursor-pointer rounded-full p-2 text-gray-300 hover:text-white focus:outline-none"
                     aria-label={isMobileMenuOpen ? "Close Menu" : "Open Menu"}
                     aria-expanded={isMobileMenuOpen}
                     aria-controls="mobile-menu-content"
                   >
                     {isMobileMenuOpen ? (
-                      <IoMdClose size={26} className="text-white" />
+                      <IoMdClose size={20} className="text-primary" />
                     ) : (
-                      <GiHamburgerMenu size={26} className="text-white" />
+                      <GiHamburgerMenu size={20} className="text-primary" />
                     )}
                   </button>
                 </div>

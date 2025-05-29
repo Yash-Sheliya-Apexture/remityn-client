@@ -67,7 +67,7 @@ const Features_Hero = () => {
 
             <div className="relative w-full flex justify-center">
               <Image
-                src="/assets/images/Features.png" // Original image path
+                src="/assets/images/men.png" // Original image path
                 alt="Currency exchange services illustration" // Updated alt text for clarity
                 width={550}
                 height={800}

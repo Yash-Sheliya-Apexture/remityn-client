@@ -2368,21 +2368,601 @@
 
 // export default ReviewCards;
 
-"use client";
+// "use client";
 
+// import { useState, useEffect, useRef, useMemo, useCallback } from "react";
+// import { FaStar, FaStarHalfAlt } from "react-icons/fa";
+// import { motion, AnimatePresence } from "framer-motion";
+// import { Skeleton } from "@/components/ui/skeleton"; // Assuming this is the path to your custom skeleton
+
+// // --- Constants ---
+// const REVIEWS_PER_PAGE_MOBILE = 6;
+// const LOAD_MORE_DELAY_MS = 750;
+// const SKELETONS_DESKTOP = 12;
+// const SKELETONS_TABLET = 6;
+// const SKELETONS_MOBILE = REVIEWS_PER_PAGE_MOBILE; // Use the same constant for consistency
+
+// // --- StarRating Component (Original Styling) ---
+// interface StarRatingProps {
+//   rating: number;
+//   maxRating?: number;
+// }
+
+// const StarRating: React.FC<StarRatingProps> = ({ rating, maxRating = 5 }) => {
+//   const stars = [];
+//   const fullStars = Math.floor(rating);
+//   const hasHalfStar = rating % 1 !== 0;
+
+//   for (let i = 0; i < maxRating; i++) {
+//     if (i < fullStars) {
+//       stars.push(
+//         <FaStar
+//           key={i}
+//           className="inline-block text-[#FBBF24] dark:text-white"
+//         />
+//       );
+//     } else if (i === fullStars && hasHalfStar) {
+//       stars.push(
+//         <FaStarHalfAlt
+//           key={i}
+//           className="inline-block text-[#FBBF24] dark:text-white"
+//         />
+//       );
+//     } else {
+//       stars.push(
+//         <FaStar
+//           key={i}
+//           className="inline-block text-gray-300 dark:text-gray-600"
+//         />
+//       );
+//     }
+//   }
+//   return <div className="inline-block">{stars}</div>;
+// };
+
+// // --- ReviewCard Component (Original Styling) ---
+// interface ReviewCardProps {
+//   reviewerName: string;
+//   avatarUrl: string;
+//   rating: number;
+//   comment: string;
+// }
+
+// const ReviewCard: React.FC<ReviewCardProps> = ({
+//   reviewerName,
+//   avatarUrl,
+//   rating,
+//   comment,
+// }) => {
+//   return (
+//     <div className="bg-lightgray dark:bg-primarybox rounded-2xl lg:p-6 p-4 flex flex-col items-start shadow-sm h-full">
+//       <div className="flex items-center gap-4 w-full">
+//         <img
+//           src={avatarUrl}
+//           alt={`Avatar of ${reviewerName}`}
+//           className="lg:size-16 size-14 rounded-full object-cover flex-shrink-0"
+//         />
+//         <div className="flex flex-col items-start">
+//           <div className="text-neutral-900 lg:text-lg text-base capitalize dark:text-primary font-medium text-nowrap">
+//             {reviewerName}
+//           </div>
+//           <StarRating rating={rating} />
+//         </div>
+//       </div>
+//       <div className="text-gray-500 dark:text-gray-300 lg:text-lg text-base mt-5 flex-grow">
+//         {comment}
+//       </div>
+//     </div>
+//   );
+// };
+
+// // --- Loading Dots Component (Original Styling) ---
+// const LoadingDots: React.FC = () => (
+//   <div className="flex justify-center items-center space-x-1.5 py-4">
+//     <motion.div
+//       className="size-2.5 bg-primary dark:bg-white rounded-full"
+//       animate={{ y: ["0rem", "-0.4rem", "0rem"] }}
+//       transition={{
+//         duration: 0.8,
+//         repeat: Infinity,
+//         ease: "easeInOut",
+//         delay: 0,
+//       }}
+//     />
+//     <motion.div
+//       className="size-2.5 bg-primary dark:bg-white rounded-full"
+//       animate={{ y: ["0rem", "-0.4rem", "0rem"] }}
+//       transition={{
+//         duration: 0.8,
+//         repeat: Infinity,
+//         ease: "easeInOut",
+//         delay: 0.2,
+//       }}
+//     />
+//     <motion.div
+//       className="size-2.5 bg-primary dark:bg-white rounded-full"
+//       animate={{ y: ["0rem", "-0.4rem", "0rem"] }}
+//       transition={{
+//         duration: 0.8,
+//         repeat: Infinity,
+//         ease: "easeInOut",
+//         delay: 0.4,
+//       }}
+//     />
+//   </div>
+// );
+
+// // --- ReviewCardSkeleton Component (Using custom Skeleton) ---
+// const ReviewCardSkeleton: React.FC = () => (
+//   <div className="bg-lightgray dark:bg-primarybox rounded-2xl lg:p-6 p-4 flex flex-col items-start shadow-sm h-full">
+//     <div className="flex items-center gap-4 w-full">
+//       <Skeleton className="lg:size-16 size-14 rounded-full flex-shrink-0" />
+//       <div className="flex flex-col items-start w-full">
+//         <Skeleton className="h-5 w-3/4 mb-2" />
+//         <Skeleton className="h-4 w-1/2" />
+//       </div>
+//     </div>
+//     <div className="mt-5 flex-grow w-full">
+//       <Skeleton className="h-4 w-full mb-2" />
+//       <Skeleton className="h-4 w-full mb-2" />
+//       <Skeleton className="h-4 w-full mb-2" />
+//       <Skeleton className="h-4 w-full mb-2" />
+//       <Skeleton className="h-4 w-full mb-2" />
+//       <Skeleton className="h-4 w-full mb-2" />
+//       <Skeleton className="h-4 w-1/2" />
+//     </div>
+//   </div>
+// );
+
+// // --- Types for review data ---
+// interface Review {
+//   id: string;
+//   reviewerName: string;
+//   avatarUrl: string;
+//   rating: number;
+//   comment: string;
+//   location?: string;
+// }
+
+// interface ReviewGroup {
+//   id: string | number;
+//   reviews: Omit<Review, "id">[];
+// }
+
+// interface ReviewJson {
+//   reviewGroups: ReviewGroup[];
+// }
+
+// // --- ReviewCards Component (Main Logic) ---
+// const ReviewCards: React.FC = () => {
+//   const [reviewGroups, setReviewGroups] = useState<ReviewGroup[]>([]);
+//   const [initialLoading, setInitialLoading] = useState<boolean>(true);
+//   const [error, setError] = useState<Error | null>(null);
+
+//   const [visibleReviewsCount, setVisibleReviewsCount] = useState<number>(
+//     SKELETONS_MOBILE // Initialize with mobile skeleton count
+//   );
+//   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
+//   const sentinelRef = useRef<HTMLDivElement | null>(null);
+
+//   const allReviews = useMemo(() => {
+//     let flatReviews: Review[] = [];
+//     reviewGroups.forEach((group, groupIndex) => {
+//       group.reviews.forEach((review, reviewIndex) => {
+//         flatReviews.push({
+//           ...review,
+//           id: `review-${group.id}-${groupIndex}-${reviewIndex}`,
+//         });
+//       });
+//     });
+//     return flatReviews;
+//   }, [reviewGroups]);
+
+//   useEffect(() => {
+//     const fetchReviews = async () => {
+//       setInitialLoading(true);
+//       setError(null);
+//       try {
+//         // Simulate network delay for testing skeletons
+//         // await new Promise(resolve => setTimeout(resolve, 2000));
+//         const response = await fetch("/Review.json");
+//         if (!response.ok)
+//           throw new Error(`HTTP error! status: ${response.status}`);
+//         const data: ReviewJson = await response.json();
+//         setReviewGroups(data.reviewGroups);
+//       } catch (err: any) {
+//         console.error("Failed to fetch reviews:", err);
+//         setError(err);
+//       } finally {
+//         setInitialLoading(false);
+//       }
+//     };
+//     fetchReviews();
+//   }, []);
+
+//   const headerContainerVariants = {
+//     hidden: { opacity: 0 },
+//     visible: {
+//       opacity: 1,
+//       transition: { delayChildren: 0.2, staggerChildren: 0.2 },
+//     },
+//   };
+
+//   const headerItemVariants = {
+//     hidden: { opacity: 0, y: 25 },
+//     visible: {
+//       opacity: 1,
+//       y: 0,
+//       transition: { duration: 0.6, ease: "easeOut" },
+//     },
+//   };
+
+//   const gridVariants = {
+//     hidden: { opacity: 0 },
+//     visible: {
+//       opacity: 1,
+//       transition: { staggerChildren: 0.1, delayChildren: 0.2 },
+//     },
+//   };
+
+//   const columnVariants = {
+//     hidden: { opacity: 0, y: 20 },
+//     visible: {
+//       opacity: 1,
+//       y: 0,
+//       transition: { staggerChildren: 0.07, delayChildren: 0.1 },
+//     },
+//   };
+
+//   const cardVariants = {
+//     hidden: { opacity: 0, y: 30, scale: 0.95 },
+//     visible: {
+//       opacity: 1,
+//       y: 0,
+//       scale: 1,
+//       transition: { duration: 0.4, ease: "easeOut" },
+//     },
+//     exit: {
+//       opacity: 0,
+//       y: -20,
+//       scale: 0.98,
+//       transition: { duration: 0.3, ease: "easeIn" },
+//     },
+//   };
+
+//   const loadMoreReviews = useCallback(() => {
+//     if (isLoadingMore || visibleReviewsCount >= allReviews.length) return;
+//     setIsLoadingMore(true);
+//     setTimeout(() => {
+//       setVisibleReviewsCount(
+//         (prevCount) => Math.min(prevCount + SKELETONS_MOBILE, allReviews.length) // Use SKELETONS_MOBILE for load more increment
+//       );
+//       setIsLoadingMore(false);
+//     }, LOAD_MORE_DELAY_MS);
+//   }, [isLoadingMore, visibleReviewsCount, allReviews.length]);
+
+//   useEffect(() => {
+//     if (initialLoading || allReviews.length === 0 || !sentinelRef.current)
+//       return;
+
+//     const observer = new IntersectionObserver(
+//       (entries) => {
+//         if (
+//           entries[0].isIntersecting &&
+//           !isLoadingMore &&
+//           visibleReviewsCount < allReviews.length
+//         ) {
+//           const sentinelIsDisplayed =
+//             window.getComputedStyle(entries[0].target).display !== "none";
+//           if (sentinelIsDisplayed) {
+//             loadMoreReviews();
+//           }
+//         }
+//       },
+//       { root: null, rootMargin: "0px 0px 200px 0px", threshold: 0.1 }
+//     );
+//     const currentSentinel = sentinelRef.current;
+//     if (currentSentinel) observer.observe(currentSentinel);
+//     return () => {
+//       if (currentSentinel) observer.unobserve(currentSentinel);
+//       observer.disconnect();
+//     };
+//   }, [
+//     initialLoading,
+//     isLoadingMore,
+//     loadMoreReviews,
+//     allReviews.length,
+//     visibleReviewsCount,
+//   ]);
+
+//   const reviewsToShowMobile = useMemo(
+//     () => allReviews.slice(0, visibleReviewsCount),
+//     [allReviews, visibleReviewsCount]
+//   );
+//   const hasMoreReviewsMobile = visibleReviewsCount < allReviews.length;
+
+//   const tabletLayoutColumns = useMemo(() => {
+//     if (allReviews.length === 0) return [];
+//     const columns: Review[][] = [[], []];
+//     allReviews.forEach((review, index) => {
+//       columns[index % 2].push(review);
+//     });
+//     return columns;
+//   }, [allReviews]);
+
+//   const desktopLayoutColumns = useMemo(() => {
+//     if (allReviews.length === 0) return [];
+//     const columns: Review[][] = [[], [], []];
+//     allReviews.forEach((review, index) => {
+//       columns[index % 3].push(review);
+//     });
+//     return columns;
+//   }, [allReviews]);
+
+//   const renderHeader = () => (
+//     <motion.div
+//       className="space-y-4 text-center md:text-left"
+//       variants={headerContainerVariants}
+//       initial="hidden"
+//       whileInView="visible"
+//       viewport={{ once: true, amount: 0.2 }}
+//     >
+//       <motion.div className="inline-block" variants={headerItemVariants}>
+//         <div className="px-4 py-1.5 bg-lightgray dark:bg-primarybox rounded-full inline-block">
+//           <span className="text-neutral-900 dark:text-white font-medium text-sm capitalize">
+//             Genuine Customer Reviews
+//           </span>
+//         </div>
+//       </motion.div>
+//       <motion.h1
+//         className="text-3xl md:text-4xl xl:text-6xl font-black text-mainheading dark:text-white uppercase"
+//         variants={headerItemVariants}
+//       >
+//         Honest Reviews{" "}
+//         <span className="text-primary">Real Travelers Like You</span>
+//       </motion.h1>
+//       <motion.p
+//         className="text-gray-500 dark:text-gray-300 lg:text-lg text-base pb-10"
+//         variants={headerItemVariants}
+//       >
+//         Discover what real travelers have to say about their experiences with
+//         our currency exchange services. From frequent flyers to first-time
+//         tourists, our customers share honest feedback about fast, reliable, and
+//         secure transactions.
+//       </motion.p>
+//     </motion.div>
+//   );
+
+//   if (initialLoading && allReviews.length === 0) {
+//     // Generate a master list of skeletons, enough for the largest view (desktop)
+//     const masterSkeletons = Array(SKELETONS_DESKTOP)
+//       .fill(0)
+//       .map((_, index) => <ReviewCardSkeleton key={`skeleton-${index}`} />);
+
+//     // Skeletons for Mobile View
+//     const mobileViewSkeletons = masterSkeletons.slice(0, SKELETONS_MOBILE);
+
+//     // Skeletons for Tablet View
+//     const tabletViewSkeletons = masterSkeletons.slice(0, SKELETONS_TABLET);
+//     const tabletSkeletonColumns: React.ReactNode[][] = [[], []];
+//     tabletViewSkeletons.forEach((sk, i) =>
+//       tabletSkeletonColumns[i % 2].push(sk)
+//     );
+
+//     // Skeletons for Desktop View (all masterSkeletons)
+//     const desktopSkeletonColumns: React.ReactNode[][] = [[], [], []];
+//     masterSkeletons.forEach((sk, i) => desktopSkeletonColumns[i % 3].push(sk));
+
+//     return (
+//       <section className="Reviews md:pt-14 pt-10 pb-16 md:pb-24 overflow-hidden">
+//         <div className="container mx-auto px-4">
+//           {renderHeader()}
+//           {/* Mobile Skeleton View */}
+//           <div className="block md:hidden mt-5">
+//             <div className="flex flex-col items-center gap-5">
+//               <div className="w-full space-y-5">
+//                 {mobileViewSkeletons.map((skeleton, index) => (
+//                   <div key={`mobile-skeleton-${index}`}>{skeleton}</div>
+//                 ))}
+//               </div>
+//             </div>
+//           </div>
+//           {/* Tablet Skeleton View */}
+//           <div className="hidden md:grid md:grid-cols-2 lg:hidden gap-5 mt-5">
+//             {tabletSkeletonColumns.map((columnSkeletons, colIndex) => (
+//               <div
+//                 key={`tablet-skeleton-col-${colIndex}`}
+//                 className="space-y-5 flex flex-col"
+//               >
+//                 {columnSkeletons.map((skeletonItem, reviewIndex) => (
+//                   <div
+//                     key={`tablet-skeleton-item-${colIndex}-${reviewIndex}`}
+//                     className="h-full"
+//                   >
+//                     {skeletonItem}
+//                   </div>
+//                 ))}
+//               </div>
+//             ))}
+//           </div>
+//           {/* Desktop Skeleton View */}
+//           <div className="hidden lg:grid lg:grid-cols-3 gap-5 mt-5">
+//             {desktopSkeletonColumns.map((columnSkeletons, colIndex) => (
+//               <div
+//                 key={`desktop-skeleton-col-${colIndex}`}
+//                 className="space-y-5 flex flex-col"
+//               >
+//                 {columnSkeletons.map((skeletonItem, reviewIndex) => (
+//                   <div
+//                     key={`desktop-skeleton-item-${colIndex}-${reviewIndex}`}
+//                     className="h-full"
+//                   >
+//                     {skeletonItem}
+//                   </div>
+//                 ))}
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </section>
+//     );
+//   }
+
+//   if (error) {
+//     return (
+//       <section className="Reviews md:pt-14 pt-10 pb-16 md:pb-24 overflow-hidden">
+//         <div className="container mx-auto px-4">
+//           {renderHeader()}
+//           <div className="mt-10 text-center p-6 md:p-10 border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20 rounded-lg shadow-md">
+//             <h3 className="text-xl md:text-2xl font-semibold text-red-700 dark:text-red-400 mb-3">
+//               Oops! Something Went Wrong
+//             </h3>
+//             <p className="text-red-600 dark:text-red-300 mb-1">
+//               We couldn't load the reviews at this time. Please try again later.
+//             </p>
+//             <p className="mt-2 text-sm text-red-500 dark:text-red-400">
+//               Error details: {error.message}
+//             </p>
+//           </div>
+//         </div>
+//       </section>
+//     );
+//   }
+
+//   if (!initialLoading && allReviews.length === 0 && !error) {
+//     return (
+//       <section className="Reviews md:pt-14 pt-10 pb-16 md:pb-24 overflow-hidden">
+//         <div className="container mx-auto px-4">
+//           {renderHeader()}
+//           <div className="text-center p-10 mt-10 bg-lightgray dark:bg-primarybox rounded-lg">
+//             <p className="text-lg text-neutral-700 dark:text-gray-300">
+//               No reviews found. Be the first to share your experience!
+//             </p>
+//           </div>
+//         </div>
+//       </section>
+//     );
+//   }
+
+//   return (
+//     <section className="Reviews md:pt-14 pt-10 pb-16 md:pb-24 overflow-hidden">
+//       <div className="container mx-auto px-4">
+//         {renderHeader()}
+
+//         {/* --- Mobile View: 1 Column --- */}
+//         <div className="block md:hidden">
+//           <div className="flex flex-col items-center gap-5">
+//             <div className="w-full space-y-5">
+//               <AnimatePresence initial={false}>
+//                 {reviewsToShowMobile.map((review) => (
+//                   <motion.div
+//                     key={review.id}
+//                     variants={cardVariants}
+//                     layout
+//                     initial="hidden"
+//                     animate="visible"
+//                     exit="exit"
+//                   >
+//                     <ReviewCard {...review} />
+//                   </motion.div>
+//                 ))}
+//               </AnimatePresence>
+//             </div>
+//             {hasMoreReviewsMobile && (
+//               <div
+//                 ref={sentinelRef}
+//                 style={{ height: "1px" }}
+//                 aria-hidden="true"
+//               />
+//             )}
+//             <AnimatePresence>
+//               {isLoadingMore && (
+//                 <motion.div
+//                   initial={{ opacity: 0 }}
+//                   animate={{ opacity: 1 }}
+//                   exit={{ opacity: 0 }}
+//                   transition={{ duration: 0.3 }}
+//                   className="w-full"
+//                 >
+//                   <LoadingDots />
+//                 </motion.div>
+//               )}
+//             </AnimatePresence>
+//           </div>
+//         </div>
+
+//         {/* --- Tablet View: 2 Columns --- */}
+//         <motion.div
+//           className="hidden md:grid md:grid-cols-2 lg:hidden gap-5"
+//           variants={gridVariants}
+//           initial="hidden"
+//           whileInView="visible"
+//           viewport={{ once: true, amount: 0.05 }}
+//         >
+//           {tabletLayoutColumns.map((columnReviews, colIndex) => (
+//             <motion.div
+//               key={`tablet-col-${colIndex}`}
+//               className="space-y-5 flex flex-col"
+//               variants={columnVariants}
+//             >
+//               {columnReviews.map((review) => (
+//                 <motion.div
+//                   key={review.id}
+//                   variants={cardVariants}
+//                   className="h-full"
+//                 >
+//                   <ReviewCard {...review} />
+//                 </motion.div>
+//               ))}
+//             </motion.div>
+//           ))}
+//         </motion.div>
+
+//         {/* --- Desktop View: 3 Columns --- */}
+//         <motion.div
+//           className="hidden lg:grid lg:grid-cols-3 gap-5"
+//           variants={gridVariants}
+//           initial="hidden"
+//           whileInView="visible"
+//           viewport={{ once: true, amount: 0.05 }}
+//         >
+//           {desktopLayoutColumns.map((columnReviews, colIndex) => (
+//             <motion.div
+//               key={`desktop-col-${colIndex}`}
+//               className="space-y-5 flex flex-col"
+//               variants={columnVariants}
+//             >
+//               {columnReviews.map((review) => (
+//                 <motion.div
+//                   key={review.id}
+//                   variants={cardVariants}
+//                   className="h-full"
+//                 >
+//                   <ReviewCard {...review} />
+//                 </motion.div>
+//               ))}
+//             </motion.div>
+//           ))}
+//         </motion.div>
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default ReviewCards;
+
+"use client";
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import { FaStar, FaStarHalfAlt } from "react-icons/fa";
-import { motion, AnimatePresence } from "framer-motion";
-import { Skeleton } from "@/components/ui/skeleton"; // Assuming this is the path to your custom skeleton
 
 // --- Constants ---
 const REVIEWS_PER_PAGE_MOBILE = 6;
 const LOAD_MORE_DELAY_MS = 750;
-const SKELETONS_DESKTOP = 12;
-const SKELETONS_TABLET = 6;
-const SKELETONS_MOBILE = REVIEWS_PER_PAGE_MOBILE; // Use the same constant for consistency
+const PLACEHOLDERS_DESKTOP = 12;
+const PLACEHOLDERS_TABLET = 6;
+const PLACEHOLDERS_MOBILE = REVIEWS_PER_PAGE_MOBILE; // Use the same constant for consistency
 
-// --- StarRating Component (Original Styling) ---
+// --- StarRating Component ---
 interface StarRatingProps {
   rating: number;
   maxRating?: number;
@@ -2420,7 +3000,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, maxRating = 5 }) => {
   return <div className="inline-block">{stars}</div>;
 };
 
-// --- ReviewCard Component (Original Styling) ---
+// --- ReviewCard Component ---
 interface ReviewCardProps {
   reviewerName: string;
   avatarUrl: string;
@@ -2456,61 +3036,11 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
   );
 };
 
-// --- Loading Dots Component (Original Styling) ---
-const LoadingDots: React.FC = () => (
-  <div className="flex justify-center items-center space-x-1.5 py-4">
-    <motion.div
-      className="size-2.5 bg-primary dark:bg-white rounded-full"
-      animate={{ y: ["0rem", "-0.4rem", "0rem"] }}
-      transition={{
-        duration: 0.8,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay: 0,
-      }}
-    />
-    <motion.div
-      className="size-2.5 bg-primary dark:bg-white rounded-full"
-      animate={{ y: ["0rem", "-0.4rem", "0rem"] }}
-      transition={{
-        duration: 0.8,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay: 0.2,
-      }}
-    />
-    <motion.div
-      className="size-2.5 bg-primary dark:bg-white rounded-full"
-      animate={{ y: ["0rem", "-0.4rem", "0rem"] }}
-      transition={{
-        duration: 0.8,
-        repeat: Infinity,
-        ease: "easeInOut",
-        delay: 0.4,
-      }}
-    />
-  </div>
-);
-
-// --- ReviewCardSkeleton Component (Using custom Skeleton) ---
-const ReviewCardSkeleton: React.FC = () => (
-  <div className="bg-lightgray dark:bg-primarybox rounded-2xl lg:p-6 p-4 flex flex-col items-start shadow-sm h-full">
-    <div className="flex items-center gap-4 w-full">
-      <Skeleton className="lg:size-16 size-14 rounded-full flex-shrink-0" />
-      <div className="flex flex-col items-start w-full">
-        <Skeleton className="h-5 w-3/4 mb-2" />
-        <Skeleton className="h-4 w-1/2" />
-      </div>
-    </div>
-    <div className="mt-5 flex-grow w-full">
-      <Skeleton className="h-4 w-full mb-2" />
-      <Skeleton className="h-4 w-full mb-2" />
-      <Skeleton className="h-4 w-full mb-2" />
-      <Skeleton className="h-4 w-full mb-2" />
-      <Skeleton className="h-4 w-full mb-2" />
-      <Skeleton className="h-4 w-full mb-2" />
-      <Skeleton className="h-4 w-1/2" />
-    </div>
+// --- Static Loading Indicator (Replaces LoadingDots) ---
+const LoadingIndicator: React.FC = () => (
+  <div className="flex justify-center items-center py-4">
+    <p className="text-primary dark:text-white">Loading more reviews...</p>
+    {/* You can add a simple spinner here if you have one, e.g., an SVG or a CSS spinner */}
   </div>
 );
 
@@ -2540,7 +3070,7 @@ const ReviewCards: React.FC = () => {
   const [error, setError] = useState<Error | null>(null);
 
   const [visibleReviewsCount, setVisibleReviewsCount] = useState<number>(
-    SKELETONS_MOBILE // Initialize with mobile skeleton count
+    PLACEHOLDERS_MOBILE // Initialize with mobile placeholder count
   );
   const [isLoadingMore, setIsLoadingMore] = useState<boolean>(false);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
@@ -2563,7 +3093,7 @@ const ReviewCards: React.FC = () => {
       setInitialLoading(true);
       setError(null);
       try {
-        // Simulate network delay for testing skeletons
+        // Simulate network delay for testing placeholders
         // await new Promise(resolve => setTimeout(resolve, 2000));
         const response = await fetch("/Review.json");
         if (!response.ok)
@@ -2580,62 +3110,13 @@ const ReviewCards: React.FC = () => {
     fetchReviews();
   }, []);
 
-  const headerContainerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { delayChildren: 0.2, staggerChildren: 0.2 },
-    },
-  };
-
-  const headerItemVariants = {
-    hidden: { opacity: 0, y: 25 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
-    },
-  };
-
-  const gridVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.1, delayChildren: 0.2 },
-    },
-  };
-
-  const columnVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { staggerChildren: 0.07, delayChildren: 0.1 },
-    },
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 30, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { duration: 0.4, ease: "easeOut" },
-    },
-    exit: {
-      opacity: 0,
-      y: -20,
-      scale: 0.98,
-      transition: { duration: 0.3, ease: "easeIn" },
-    },
-  };
-
   const loadMoreReviews = useCallback(() => {
     if (isLoadingMore || visibleReviewsCount >= allReviews.length) return;
     setIsLoadingMore(true);
     setTimeout(() => {
       setVisibleReviewsCount(
-        (prevCount) => Math.min(prevCount + SKELETONS_MOBILE, allReviews.length) // Use SKELETONS_MOBILE for load more increment
+        (prevCount) =>
+          Math.min(prevCount + PLACEHOLDERS_MOBILE, allReviews.length) // Use PLACEHOLDERS_MOBILE for load more increment
       );
       setIsLoadingMore(false);
     }, LOAD_MORE_DELAY_MS);
@@ -2700,104 +3181,96 @@ const ReviewCards: React.FC = () => {
   }, [allReviews]);
 
   const renderHeader = () => (
-    <motion.div
-      className="space-y-4 text-center md:text-left"
-      variants={headerContainerVariants}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
-    >
-      <motion.div className="inline-block" variants={headerItemVariants}>
-        <div className="px-4 py-1.5 bg-lightgray dark:bg-primarybox rounded-full inline-block">
-          <span className="text-neutral-900 dark:text-white font-medium text-sm capitalize">
-            Genuine Customer Reviews
-          </span>
-        </div>
-      </motion.div>
-      <motion.h1
-        className="text-3xl md:text-4xl xl:text-6xl font-black text-mainheading dark:text-white uppercase"
-        variants={headerItemVariants}
-      >
-        Honest Reviews{" "}
-        <span className="text-primary">Real Travelers Like You</span>
-      </motion.h1>
-      <motion.p
-        className="text-gray-500 dark:text-gray-300 lg:text-lg text-base pb-10"
-        variants={headerItemVariants}
-      >
-        Discover what real travelers have to say about their experiences with
+    <div className="space-y-4 text-center md:text-left mb-10">
+      <div className="inline-block">
+        <span className="text-subheadingWhite font-medium text-sm uppercase">
+          <span className="text-subheadingWhite/30">[</span> Ours Reviews{" "}
+          <span className="text-subheadingWhite/30">]</span>
+        </span>
+      </div>
+
+      <div className="space-y-4 text-center md:text-left max-w-4xl mx-auto md:mx-0">
+        <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite sm:block hidden">
+          Honest Reviews,{" "}
+          <span className="text-primary">Real Travelers Like You</span>
+        </h2>
+
+        <p className="text-subheadingWhite md:text-lg text-base max-w-5xl">
+          Discover what real travelers have to say about their experiences with
         our currency exchange services. From frequent flyers to first-time
         tourists, our customers share honest feedback about fast, reliable, and
         secure transactions.
-      </motion.p>
-    </motion.div>
+        </p>
+      </div>
+    </div>
   );
 
   if (initialLoading && allReviews.length === 0) {
-    // Generate a master list of skeletons, enough for the largest view (desktop)
-    const masterSkeletons = Array(SKELETONS_DESKTOP)
-      .fill(0)
-      .map((_, index) => <ReviewCardSkeleton key={`skeleton-${index}`} />);
-
-    // Skeletons for Mobile View
-    const mobileViewSkeletons = masterSkeletons.slice(0, SKELETONS_MOBILE);
-
-    // Skeletons for Tablet View
-    const tabletViewSkeletons = masterSkeletons.slice(0, SKELETONS_TABLET);
-    const tabletSkeletonColumns: React.ReactNode[][] = [[], []];
-    tabletViewSkeletons.forEach((sk, i) =>
-      tabletSkeletonColumns[i % 2].push(sk)
+    const masterPlaceholders = Array(PLACEHOLDERS_DESKTOP);
+    const mobileViewPlaceholders = masterPlaceholders.slice(
+      0,
+      PLACEHOLDERS_MOBILE
     );
 
-    // Skeletons for Desktop View (all masterSkeletons)
-    const desktopSkeletonColumns: React.ReactNode[][] = [[], [], []];
-    masterSkeletons.forEach((sk, i) => desktopSkeletonColumns[i % 3].push(sk));
+    const tabletViewPlaceholders = masterPlaceholders.slice(
+      0,
+      PLACEHOLDERS_TABLET
+    );
+    const tabletPlaceholderColumns: React.ReactNode[][] = [[], []];
+    tabletViewPlaceholders.forEach((ph, i) =>
+      tabletPlaceholderColumns[i % 2].push(ph)
+    );
+
+    const desktopPlaceholderColumns: React.ReactNode[][] = [[], [], []];
+    masterPlaceholders.forEach((ph, i) =>
+      desktopPlaceholderColumns[i % 3].push(ph)
+    );
 
     return (
       <section className="Reviews md:pt-14 pt-10 pb-16 md:pb-24 overflow-hidden">
         <div className="container mx-auto px-4">
           {renderHeader()}
-          {/* Mobile Skeleton View */}
+          {/* Mobile Placeholder View */}
           <div className="block md:hidden mt-5">
             <div className="flex flex-col items-center gap-5">
               <div className="w-full space-y-5">
-                {mobileViewSkeletons.map((skeleton, index) => (
-                  <div key={`mobile-skeleton-${index}`}>{skeleton}</div>
+                {mobileViewPlaceholders.map((placeholder, index) => (
+                  <div key={`mobile-placeholder-${index}`}>{placeholder}</div>
                 ))}
               </div>
             </div>
           </div>
-          {/* Tablet Skeleton View */}
+          {/* Tablet Placeholder View */}
           <div className="hidden md:grid md:grid-cols-2 lg:hidden gap-5 mt-5">
-            {tabletSkeletonColumns.map((columnSkeletons, colIndex) => (
+            {tabletPlaceholderColumns.map((columnPlaceholders, colIndex) => (
               <div
-                key={`tablet-skeleton-col-${colIndex}`}
+                key={`tablet-placeholder-col-${colIndex}`}
                 className="space-y-5 flex flex-col"
               >
-                {columnSkeletons.map((skeletonItem, reviewIndex) => (
+                {columnPlaceholders.map((placeholderItem, reviewIndex) => (
                   <div
-                    key={`tablet-skeleton-item-${colIndex}-${reviewIndex}`}
+                    key={`tablet-placeholder-item-${colIndex}-${reviewIndex}`}
                     className="h-full"
                   >
-                    {skeletonItem}
+                    {placeholderItem}
                   </div>
                 ))}
               </div>
             ))}
           </div>
-          {/* Desktop Skeleton View */}
+          {/* Desktop Placeholder View */}
           <div className="hidden lg:grid lg:grid-cols-3 gap-5 mt-5">
-            {desktopSkeletonColumns.map((columnSkeletons, colIndex) => (
+            {desktopPlaceholderColumns.map((columnPlaceholders, colIndex) => (
               <div
-                key={`desktop-skeleton-col-${colIndex}`}
+                key={`desktop-placeholder-col-${colIndex}`}
                 className="space-y-5 flex flex-col"
               >
-                {columnSkeletons.map((skeletonItem, reviewIndex) => (
+                {columnPlaceholders.map((placeholderItem, reviewIndex) => (
                   <div
-                    key={`desktop-skeleton-item-${colIndex}-${reviewIndex}`}
+                    key={`desktop-placeholder-item-${colIndex}-${reviewIndex}`}
                     className="h-full"
                   >
-                    {skeletonItem}
+                    {placeholderItem}
                   </div>
                 ))}
               </div>
@@ -2853,20 +3326,11 @@ const ReviewCards: React.FC = () => {
         <div className="block md:hidden">
           <div className="flex flex-col items-center gap-5">
             <div className="w-full space-y-5">
-              <AnimatePresence initial={false}>
-                {reviewsToShowMobile.map((review) => (
-                  <motion.div
-                    key={review.id}
-                    variants={cardVariants}
-                    layout
-                    initial="hidden"
-                    animate="visible"
-                    exit="exit"
-                  >
-                    <ReviewCard {...review} />
-                  </motion.div>
-                ))}
-              </AnimatePresence>
+              {reviewsToShowMobile.map((review) => (
+                <div key={review.id}>
+                  <ReviewCard {...review} />
+                </div>
+              ))}
             </div>
             {hasMoreReviewsMobile && (
               <div
@@ -2875,78 +3339,53 @@ const ReviewCards: React.FC = () => {
                 aria-hidden="true"
               />
             )}
-            <AnimatePresence>
-              {isLoadingMore && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="w-full"
-                >
-                  <LoadingDots />
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {isLoadingMore && (
+              <div className="w-full">
+                <LoadingIndicator />
+              </div>
+            )}
           </div>
         </div>
 
         {/* --- Tablet View: 2 Columns --- */}
-        <motion.div
-          className="hidden md:grid md:grid-cols-2 lg:hidden gap-5"
-          variants={gridVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.05 }}
-        >
+        <div className="hidden md:grid md:grid-cols-2 lg:hidden gap-5">
           {tabletLayoutColumns.map((columnReviews, colIndex) => (
-            <motion.div
+            <div
               key={`tablet-col-${colIndex}`}
               className="space-y-5 flex flex-col"
-              variants={columnVariants}
             >
               {columnReviews.map((review) => (
-                <motion.div
-                  key={review.id}
-                  variants={cardVariants}
-                  className="h-full"
-                >
+                <div key={review.id} className="h-full">
                   <ReviewCard {...review} />
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
 
         {/* --- Desktop View: 3 Columns --- */}
-        <motion.div
-          className="hidden lg:grid lg:grid-cols-3 gap-5"
-          variants={gridVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.05 }}
-        >
+        <div className="hidden lg:grid lg:grid-cols-3 gap-5">
           {desktopLayoutColumns.map((columnReviews, colIndex) => (
-            <motion.div
+            <div
               key={`desktop-col-${colIndex}`}
               className="space-y-5 flex flex-col"
-              variants={columnVariants}
             >
               {columnReviews.map((review) => (
-                <motion.div
-                  key={review.id}
-                  variants={cardVariants}
-                  className="h-full"
-                >
+                <div key={review.id} className="h-full">
                   <ReviewCard {...review} />
-                </motion.div>
+                </div>
               ))}
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 };
 
 export default ReviewCards;
+
+
+
+
+

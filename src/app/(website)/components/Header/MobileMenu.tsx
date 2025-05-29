@@ -2014,42 +2014,6 @@ interface MobileMenuProps {
   authLoading: boolean;
 }
 
-// Variants for the container of the links
-const listVariants = {
-  hidden: {
-    opacity: 0,
-    transition: {
-      when: "afterChildren",
-    },
-  },
-  visible: {
-    opacity: 1,
-    transition: {
-      when: "beforeChildren",
-      staggerChildren: 0.08,
-    },
-  },
-};
-
-// Variants for each individual link item
-const itemVariants = {
-  hidden: {
-    opacity: 0,
-    x: -30, // Adjusted for a slightly softer animation
-  },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      // type: "spring", // Spring can be nice but sometimes overshoot
-      // stiffness: 200,
-      // damping: 20,
-      ease: "easeOut",
-      duration: 0.3,
-    },
-  },
-};
-
 const MobileMenu: React.FC<MobileMenuProps> = ({
   isOpen,
   onClose,
@@ -2070,9 +2034,9 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   };
 
   const baseMobileLinkClasses =
-    "block w-full text-left px-4 py-3 rounded-full font-medium text-lg transition-all duration-150 ease-in-out"; // Increased py, rounded-lg, text-lg
+    "block w-full text-left px-4 py-3 rounded-full font-medium text-lg transition-all duration-75 ease-linear"; // Increased py, rounded-lg, text-lg
   const inactiveMobileLinkClasses =
-    "text-gray-200 hover:bg-gray-700/50 hover:text-white"; // Adjusted colors for dark theme
+    "text-gray-300 hover:bg-gray-700/50 hover:text-white"; // Adjusted colors for dark theme
   const activeMobileLinkClasses = "bg-primaryboxdubal text-white"; // Adjusted active state
 
   const getMobileLinkClasses = (href: string): string => {
@@ -2130,15 +2094,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
       role="dialog"
       aria-modal="true"
     >
-      <motion.div
+      <div
         className="p-4 space-y-2.5 overflow-y-auto flex-grow"
-        initial="hidden"
-        animate="visible"
-        exit="hidden" // Ensure exit animation plays
-        variants={listVariants}
       >
         {orderedMobileLinks.map((link) => (
-          <motion.div variants={itemVariants} key={link.href}>
+          <div key={link.href}>
             <Link
               href={link.href}
               className={getMobileLinkClasses(link.href)}
@@ -2146,12 +2106,12 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             >
               {link.text}
             </Link>
-          </motion.div>
+          </div>
         ))}
-      </motion.div>
+      </div>
 
       {/* Bottom Auth Buttons */}
-      <div className="p-4 border-t">
+      <div className="p-4 border-t border-gray-600/50">
         {/* ThemeToggle was here, now removed */}
         <div className="flex sm:flex-row items-center gap-3 pt-4">
           {authLoading ? (
@@ -2159,11 +2119,11 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               <div className="h-12 w-full bg-gray-700/50 rounded-full animate-pulse"></div>
               <div className="h-12 w-full bg-gray-700/50 rounded-full animate-pulse"></div>
             </div>
-          ) : isLoggedIn ? (
+          ) : !isLoggedIn ? (
             <>
               <Link
                 href="/dashboard"
-                className="inline-block w-[calc(100%-52px)] text-center px-4 py-3 bg-primary hover:bg-primaryhover rounded-full font-medium text-base text-mainheading transition-colors"
+                className="inline-block w-[calc(100%-52px)] text-center px-4 py-2.5 bg-primary hover:bg-primaryhover rounded-full font-medium text-base text-mainheading transition-all duration-75 ease-linear"
                 onClick={handleLinkClick}
               >
                 Dashboard
@@ -2171,7 +2131,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               <button
                 onClick={handleLogoutClick}
                 title="Logout"
-                className="border border-gray-600 hover:border-gray-500 w-10 h-10 flex justify-center items-center rounded-full transition-colors ease-in-out duration-300 text-gray-300 hover:text-white cursor-pointer"
+                className="border border-gray-600 hover:border-gray-500 size-10 flex justify-center items-center rounded-full transition-all ease-linear duration-75 text-subheadingWhite hover:text-white cursor-pointer"
               >
                 <HiOutlineLogout className="text-xl" />
               </button>
@@ -2180,14 +2140,14 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
             <>
               <Link
                 href="/auth/login"
-                className="inline-block w-full text-center px-4 py-3 border border-gray-600 hover:border-gray-500 rounded-full font-medium text-base text-white transition-colors"
+                className="inline-block w-full text-center px-4 py-2.5 border border-gray-600 hover:border-gray-500 rounded-full font-medium text-base text-subheadingWhite transition-all ease-linear duration-75"
                 onClick={handleLinkClick}
               >
                 Log in
               </Link>
               <Link
                 href="/auth/register"
-                className="inline-block w-full text-center px-4 py-3 border border-primary bg-primary hover:bg-primaryhover rounded-full font-medium text-base text-mainheading transition-colors"
+                className="inline-block w-full text-center px-4 py-2.5 border border-primary bg-primary hover:bg-primaryhover rounded-full font-medium text-base text-mainheading transition-all ease-linear duration-75"
                 onClick={handleLinkClick}
               >
                 Register

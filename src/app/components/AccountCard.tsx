@@ -615,20 +615,20 @@ const AccountCard: React.FC<AccountCardProps> = ({ username }) => {
   return (
     <>
       {/* Main card container */}
-      <div className="bg-lightgray dark:bg-primarybox sm:p-8 p-4 rounded-3xl overflow-hidden relative">
+      <div className="bg-primarybox sm:p-8 p-4 rounded-3xl overflow-hidden relative">
         {/* Profile initials display area */}
-        <div className="flex flex-col items-center mb-4">
+        <div className="flex flex-col items-center mb-6">
           {/* Initials circle container - Added 'relative' for icon positioning */}
-          <div className="relative bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center size-20">
+          <div className="relative bg-primary rounded-full flex items-center justify-center size-20">
             {/* Display Initials */}
-            <span className="text-3xl font-semibold text-neutral-900 dark:text-white select-none">
+            <span className="text-3xl font-semibold text-mainheading  select-none">
               {initials}
             </span>
 
             {/* --- Verification Icon (Conditionally Re ndered) --- */}
             {isVerified && (
               <div
-                className="absolute -bottom-1 -right-1 bg-lightgray dark:bg-[#2E2E2E] p-1 rounded-full" // Adjusted background/border for visibility
+                className="absolute -bottom-1 -right-1 bg-primarybox p-1 rounded-full" // Adjusted background/border for visibility
                 title="Verified Account" // Tooltip for accessibility
               >
                 <BsFillCheckCircleFill
@@ -642,19 +642,16 @@ const AccountCard: React.FC<AccountCardProps> = ({ username }) => {
 
         {/* User details */}
         <div>
-          <h1 className="lg:text-4xl md:text-3xl text-2xl text-center font-black font-mont text-mainheading dark:text-white uppercase wrap-break-word mb-2">
+          <h1 className="lg:text-4xl md:text-3xl text-2xl text-center font-black font-mont text-mainheadingWhite uppercase wrap-break-word mb-6">
             {username} {/* Display the username passed via props */}
           </h1>
-          <p className="text-center text-gray-700 dark:text-gray-300 font-medium capitalize mb-6">
-            Your personal account
-          </p>
         </div>
 
         {/* Logout button */}
         <div className="text-center mt-6">
           <button
             onClick={handleLogout}
-            className="bg-primary hover:bg-primaryhover text-neutral-900 px-6 py-2 rounded-full font-semibold transition-all duration-75 ease-linear cursor-pointer"
+            className="bg-background/60 hover:bg-secondarybox text-primary px-6 py-2 rounded-full font-semibold transition-all duration-75 ease-linear cursor-pointer"
           >
             Log Out
           </button>

@@ -132,23 +132,23 @@ const MenuItem: React.FC<MenuItemProps> = ({
   hasNotificationDot = false, // --- Default to false ---
 }) => {
   const menuItemContent = (
-    <div className="flex items-center gap-4 hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer group">
-      <div className="bg-lightborder dark:bg-secondarybox p-3 rounded-full relative">
+    <div className="flex items-center gap-4 hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer group">
+      <div className="bg-[#52636c] p-3 rounded-full relative">
         {icon}
         {hasNotificationDot && (
             // <span className="ml-2 h-2.5 w-2.5 rounded-full bg-red-500" />
             <span
-              className="absolute top-1 right-1 block h-3 w-3 transform translate-x-1/4 -translate-y-1/4 rounded-full bg-red-700 ring-2 ring-white group-hover:ring-lightgray  dark:group-hover:ring-[#2e2e2e] dark:ring-background"
+              className="absolute top-1 right-1 block h-3 w-3 transform translate-x-1/4 -translate-y-1/4 rounded-full bg-red-700 ring-2 ring-background group-hover:ring-primarybox"
               aria-label="New notifications"
             />
           )}
       </div>
       <div className="flex-grow">
-        <div className="flex items-center font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-xl">
+        <div className="flex items-center font-medium leading-relaxed text-white/90 sm:text-xl">
           {label}
         </div>
         {description && (
-          <div className="text-sm text-gray-500 dark:text-gray-300 mt-1">
+          <div className="text-sm text-subheadingWhite mt-1">
             {description}
           </div>
         )}
@@ -156,7 +156,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
 
       {hasChevron && (
         <div className="ml-4">
-          <GoChevronRight size={24} className="text-neutral-900 dark:text-white group-hover:translate-x-2.5 font-medium transition-transform ease-in-out duration-300" />
+          <GoChevronRight size={24} className="text-white/90 group-hover:translate-x-2.5 font-medium transition-transform ease-in-out duration-300" />
         </div>
       )}
     </div>

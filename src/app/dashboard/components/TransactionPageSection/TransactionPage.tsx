@@ -7265,11 +7265,11 @@ const TransactionsPageSkeleton: React.FC = () => {
   return (
     <section className="Transaction-Page pb-8 md:pb-10">
       <div className="container mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-8 sticky lg:top-28 top-20 z-10 bg-white dark:bg-background">
-          <Skeleton className="md:h-12 h-8 md:w-64 w-40 rounded-md" />
+        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-8 sticky lg:top-28 top-20 z-10 bg-background">
+          <Skeleton className="md:h-12 h-8 md:w-64 w-40 rounded-lg" />
           <div className="flex items-center gap-4 w-full md:w-auto justify-end">
-            <Skeleton className="h-12.5 w-full sm:w-70 rounded-full" />
-            <Skeleton className="h-12.5 w-36 rounded-full" />
+            <Skeleton className="h-11.5 w-full sm:w-70 rounded-full" />
+            <Skeleton className="h-11.5 w-36 rounded-full" />
           </div>
         </div>
         <div className="space-y-6">
@@ -7277,7 +7277,7 @@ const TransactionsPageSkeleton: React.FC = () => {
           {/* Add more spacing between skeleton groups */}
           {/* Simulate Pending/In Progress group */}
           <div>
-            <Skeleton className="h-6 w-32 mb-4 rounded" />{" "}
+            <Skeleton className="h-4 w-32 mb-4 rounded" />{" "}
             {/* Heading skeleton */}
             {Array(2)
               .fill(0)
@@ -7287,16 +7287,20 @@ const TransactionsPageSkeleton: React.FC = () => {
                   className="block p-2 sm:p-4 rounded-2xl"
                 >
                   <div className="flex items-center gap-4">
-                    <Skeleton className="size-14 rounded-full flex-shrink-0" />
+                    {/* Icon Skeleton */}
+                    <div className="relative flex-shrink-0">
+                      <div className="flex items-center justify-center">
+                        <Skeleton className="h-12 w-12 rounded-full" />
+                      </div>
+                    </div>
+                    {/* Text and Button Skeletons */}
                     <div className="flex-grow flex flex-row justify-between items-center gap-4">
                       <div className="flex-grow">
-                        {" "}
-                        <Skeleton className="h-5 md:w-40 w-28 mb-2" />{" "}
-                        <Skeleton className="h-4 md:w-58 w-40" />{" "}
+                        <Skeleton className="h-4 w-40 mb-2" />
+                        <Skeleton className="h-3 w-32" />
                       </div>
                       <div className="shrink-0">
-                        {" "}
-                        <Skeleton className="lg:h-8 h-6 lg:w-32 w-16 rounded-full" />{" "}
+                        <Skeleton className="h-5 w-20 rounded-full" />
                       </div>
                     </div>
                   </div>
@@ -7305,7 +7309,7 @@ const TransactionsPageSkeleton: React.FC = () => {
           </div>
           {/* Simulate Processed group */}
           <div>
-            <Skeleton className="h-6 w-40 mb-4 rounded" />{" "}
+            <Skeleton className="h-4 w-32 mb-4 rounded" />{" "}
             {/* Date heading skeleton */}
             {Array(4)
               .fill(0)
@@ -7315,16 +7319,20 @@ const TransactionsPageSkeleton: React.FC = () => {
                   className="block p-2 sm:p-4 rounded-2xl"
                 >
                   <div className="flex items-center gap-4">
-                    <Skeleton className="size-14 rounded-full flex-shrink-0" />
+                    {/* Icon Skeleton */}
+                    <div className="relative flex-shrink-0">
+                      <div className="flex items-center justify-center">
+                        <Skeleton className="h-12 w-12 rounded-full" />
+                      </div>
+                    </div>
+                    {/* Text and Button Skeletons */}
                     <div className="flex-grow flex flex-row justify-between items-center gap-4">
                       <div className="flex-grow">
-                        {" "}
-                        <Skeleton className="h-5 md:w-40 w-28 mb-2" />{" "}
-                        <Skeleton className="h-4 md:w-58 w-40" />{" "}
+                        <Skeleton className="h-4 w-40 mb-2" />
+                        <Skeleton className="h-3 w-32" />
                       </div>
                       <div className="shrink-0">
-                        {" "}
-                        <Skeleton className="lg:h-8 h-6 lg:w-32 w-16 rounded-full" />{" "}
+                        <Skeleton className="h-5 w-20 rounded-full" />
                       </div>
                     </div>
                   </div>
@@ -7772,8 +7780,8 @@ const TransactionsPage: React.FC = () => {
       <section className="Transaction-Wrapper">
         <div className="container mx-auto">
           {/* Header and Actions */}
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 sticky lg:top-28 top-20 z-10 bg-white dark:bg-background">
-            <h1 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 sticky lg:top-28 top-20 z-10 bg-background">
+            <h1 className="sm:text-3xl text-2xl font-semibold text-white/90">
               Transactions
             </h1>
 
@@ -7793,7 +7801,7 @@ const TransactionsPage: React.FC = () => {
 
           {/* Error Display: Only show error if not loading */}
           {error && ( // isLoading check is implicitly handled by the main isLoading guard above
-            <div className="text-center py-5 text-red-600 bg-red-50 dark:text-red-400 dark:bg-red-900/20 p-4 mb-4 rounded-md border border-red-200 dark:border-red-800/30">
+            <div className="text-center py-5 text-red-500 bg-red-600/20 p-4 mb-4 rounded-md border border-red-800/30">
               <strong>Error:</strong> {error}
             </div>
           )}
@@ -7805,22 +7813,16 @@ const TransactionsPage: React.FC = () => {
                 {/* ---- Pending Section ---- */}
                 {pendingTransactions.length > 0 && (
                   <div className="Pending-Transaction-Lists">
-                    <h3 className="font-medium text-gray-700 dark:text-white mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
+                    <h3 className="font-medium text-white/90 mb-3 leading-8 border-b">
                       Pending
                     </h3>
                     <div className="space-y-2">
                       {pendingTransactions.map((transaction) => {
                         const isAddMoney = transaction.type === "Add Money";
                         const icon = isAddMoney ? (
-                          <LuPlus
-                            size={22}
-                            className="text-neutral-900 dark:text-white"
-                          />
+                          <LuPlus size={22} className="text-white/90" />
                         ) : (
-                          <GoArrowUp
-                            size={22}
-                            className="text-neutral-900 dark:text-white"
-                          />
+                          <GoArrowUp size={22} className="text-white/90" />
                         );
                         const description = isAddMoney
                           ? "Waiting for you money"
@@ -7846,23 +7848,23 @@ const TransactionsPage: React.FC = () => {
                             key={`pending-${transaction._id}`}
                             className="block"
                           >
-                            <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
+                            <div className="block hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
                               <div className="flex items-center sm:gap-4 gap-2">
-                                <div className="p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center flex-shrink-0">
+                                <div className="p-3 bg-secondarybox rounded-full flex items-center justify-center">
                                   {icon}
                                 </div>
 
                                 <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
                                   <div className="text-wrap">
-                                    <h3 className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px">
+                                    <h3 className="font-medium leading-relaxed text-white/90 sm:text-lg text-15px">
                                       {name}
                                     </h3>
-                                    <p className="sm:text-sm text-13px text-gray-500 dark:text-gray-300 mt-1 ">
+                                    <p className="sm:text-sm text-13px text-subheadingWhite mt-1">
                                       {description}
                                     </p>
                                   </div>
                                   <div
-                                    className={`font-medium text-neutral-900 dark:text-white whitespace-nowrap shrink-0 sm:text-base text-15px`}
+                                    className={`font-medium text-white/90 whitespace-nowrap shrink-0 sm:text-base text-15px`}
                                   >
                                     {amountPrefix}
                                     {amount.toLocaleString(undefined, {
@@ -7883,22 +7885,16 @@ const TransactionsPage: React.FC = () => {
                 {/* ---- In Progress Section ---- */}
                 {inProgressTransactions.length > 0 && (
                   <div className="InProcess-Transaction-Lists">
-                    <h3 className="font-medium text-gray-700 dark:text-white mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
+                    <h3 className="font-medium text-white/90 mb-3 leading-8 border-b">
                       In Progress
                     </h3>
                     <div className="space-y-2">
                       {inProgressTransactions.map((transaction) => {
                         const isAddMoney = transaction.type === "Add Money";
                         const icon = isAddMoney ? (
-                          <LuPlus
-                            size={22}
-                            className="text-neutral-900 dark:text-white"
-                          />
+                          <LuPlus size={22} className="text-white/90" />
                         ) : (
-                          <GoArrowUp
-                            size={22}
-                            className="text-neutral-900 dark:text-white"
-                          />
+                          <GoArrowUp size={22} className="text-white/90" />
                         );
                         const description = isAddMoney
                           ? "Processing payment"
@@ -7924,22 +7920,22 @@ const TransactionsPage: React.FC = () => {
                             key={`progress-${transaction._id}`}
                             className="block"
                           >
-                            <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
+                            <div className="block hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
                               <div className="flex items-center sm:gap-4 gap-2">
-                                <div className="p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center flex-shrink-0">
+                                <div className="p-3 bg-secondarybox rounded-full flex items-center justify-center">
                                   {icon}
                                 </div>
                                 <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
                                   <div className="text-wrap">
-                                    <h3 className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px">
+                                    <h3 className="font-medium leading-relaxed text-white/90 sm:text-lg text-15px">
                                       {name}
                                     </h3>
-                                    <p className="sm:text-sm text-13px text-gray-500 dark:text-gray-300 mt-1 ">
+                                    <p className="sm:text-sm text-13px text-subheadingWhite mt-1">
                                       {description}
                                     </p>
                                   </div>
                                   <div
-                                    className={`font-medium text-neutral-900 dark:text-white whitespace-nowrap shrink-0 sm:text-base text-15px`}
+                                    className={`font-medium text-white/90 whitespace-nowrap shrink-0 sm:text-base text-15px`}
                                   >
                                     {amountPrefix}
                                     {amount.toLocaleString(undefined, {
@@ -7963,7 +7959,7 @@ const TransactionsPage: React.FC = () => {
                     {Object.entries(groupedProcessedTransactions).map(
                       ([date, transactionsForDate]) => (
                         <div key={date} className="Processed-Transaction-Lists">
-                          <h3 className="font-medium text-gray-700 dark:text-white mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
+                          <h3 className="font-medium text-white/90 mb-3 leading-8 border-b">
                             {date}
                           </h3>
                           <div className="space-y-2">
@@ -7971,14 +7967,11 @@ const TransactionsPage: React.FC = () => {
                               const isAddMoney =
                                 transaction.type === "Add Money";
                               const icon = isAddMoney ? (
-                                <LuPlus
-                                  size={22}
-                                  className="text-neutral-900 dark:text-white"
-                                />
+                                <LuPlus size={22} className="text-white/90" />
                               ) : (
                                 <GoArrowUp
                                   size={22}
-                                  className="text-neutral-900 dark:text-white"
+                                  className="text-white/90"
                                 />
                               );
                               const amount = isAddMoney
@@ -8009,23 +8002,20 @@ const TransactionsPage: React.FC = () => {
                                     ? "Added"
                                     : `Sent by you`;
                                   amountClass = isAddMoney
-                                    ? "text-green-600 dark:text-green-500"
-                                    : "text-neutral-900 dark:text-white";
+                                    ? "text-green-500"
+                                    : "text-white/90";
                                   break;
                                 case "canceled":
                                   description = "Cancelled";
-                                  amountClass =
-                                    "text-red-600 line-through dark:text-red-500";
+                                  amountClass = "text-red-600 line-through";
                                   break;
                                 case "failed":
                                   description = "Failed";
-                                  amountClass =
-                                    "text-red-600 line-through dark:text-red-500";
+                                  amountClass = "text-red-600 line-through";
                                   break;
                                 default:
                                   description = `Status: ${transaction.status}`;
-                                  amountClass =
-                                    "text-gray-500 dark:text-gray-400";
+                                  amountClass = "text-gray-400";
                               }
 
                               return (
@@ -8034,17 +8024,17 @@ const TransactionsPage: React.FC = () => {
                                   key={`processed-${transaction._id}`}
                                   className="block"
                                 >
-                                  <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
+                                  <div className="block hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
                                     <div className="flex sm:items-center items-start sm:gap-4 gap-2">
-                                      <div className="p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center flex-shrink-0">
+                                      <div className="p-3 bg-secondarybox rounded-full flex items-center justify-center">
                                         {icon}
                                       </div>
                                       <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
                                         <div className="text-wrap">
-                                          <h3 className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px">
+                                          <h3 className="font-medium leading-relaxed text-white/90 sm:text-lg text-15px">
                                             {name}
                                           </h3>
-                                          <p className="sm:text-sm text-13px text-gray-500 dark:text-gray-300 mt-1">
+                                          <p className="sm:text-sm text-13px text-subheadingWhite mt-1">
                                             {description}
                                           </p>
                                         </div>
@@ -8076,17 +8066,17 @@ const TransactionsPage: React.FC = () => {
                   filteredTransactions.length === 0 && // Ensure it's not just filters clearing the view
                   !filtersAreActive &&
                   !searchIsActive && ( // Explicitly check that no filters/search are active
-                    <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
-                      <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
-                        <MdOutlineAccessTime className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+                    <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+                      <div className="lg:size-16 size-14 flex items-center justify-center bg-primary rounded-full mb-2">
+                        <MdOutlineAccessTime className="lg:size-8 size-6 mx-auto text-mainheading" />
                       </div>
-                      <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+                      <h2 className="lg:text-3xl text-2xl font-medium text-mainheadingWhite mt-1">
                         You haven't made any transactions yet.
                       </h2>
-                      <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+                      <p className="lg:text-lg text-base text-subheadingWhite max-w-lg mx-auto">
                         Once you start{" "}
-                        <strong className="text-primary">Adding</strong> or{" "}
-                        <strong className="text-primary">Sending</strong> money,
+                        <strong className="text-primary"><Link href="add-money/select-balance">Adding</Link> </strong> or{" "}
+                        <strong className="text-primary"><Link href="send/select-balance">Sending</Link></strong> money,
                         your transactions will show up here.
                       </p>
                     </div>
@@ -8095,12 +8085,12 @@ const TransactionsPage: React.FC = () => {
                 {filteredTransactions.length === 0 &&
                   allTransactions.length > 0 && // Only show if there *are* transactions to filter from
                   (filtersAreActive || searchIsActive) && ( // Only show if filters or search are active
-                    <div className="text-center flex flex-col items-center text-lg px-4 space-y-4 bg-lightgray py-10 dark:bg-primarybox rounded-lg">
-                      <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full">
-                        <ClipboardXIcon className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+                    <div className="text-center flex flex-col items-center text-lg px-4 space-y-4  py-10 bg-primarybox rounded-lg">
+                      <div className="lg:size-16 size-14 flex items-center justify-center bg-primary rounded-full">
+                        <ClipboardXIcon className="lg:size-8 size-6 mx-auto text-mainheading" />
                       </div>
 
-                      <span className="text-gray-500 dark:text-gray-300"> 
+                      <span className="text-subheadingWhite">
                         No transactions match your current{" "}
                         {filtersAreActive && searchIsActive
                           ? "filter and search criteria"

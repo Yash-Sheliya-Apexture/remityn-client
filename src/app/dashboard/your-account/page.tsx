@@ -136,13 +136,13 @@ const AccountSettings: React.FC = () => {
       <div className="lg:max-w-2xl lg:mx-auto grid grid-cols-1 md:grid-cols-[auto,1fr] gap-10">
         <AccountCard username={displayName} />
         <div className="flex flex-col w-full">
-          <h2 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white mb-4">
+          <h2 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite mb-4">
             Your account
           </h2>
           <div className="space-y-2 mb-6">
             <MenuItem
               icon={
-                <FaRegBell className="size-6 text-neutral-900 dark:text-white" />
+                <FaRegBell className="size-6 text-white/90" />
               }
               label="Inbox"
               href="your-account/inbox"
@@ -151,20 +151,20 @@ const AccountSettings: React.FC = () => {
             />
             <MenuItem
               icon={
-                <RxQuestionMark className="size-6 text-neutral-900 dark:text-white" />
+                <RxQuestionMark className="size-6 text-white/90" />
               }
               label="Help"
               href="/faqs"
             />
           </div>
 
-          <h2 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white mb-4">
+          <h2 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite mb-4">
             Settings
           </h2>
           <div className="space-y-2">
             <MenuItem
               icon={
-                <IoMoonOutline className="size-6 text-neutral-900 dark:text-white" />
+                <IoMoonOutline className="size-6 text-white/90" />
               }
               label="Theme Settings"
               description="Customize appearance with light, dark, or system themes."
@@ -172,23 +172,15 @@ const AccountSettings: React.FC = () => {
             />
             <MenuItem
               icon={
-                <RiShieldLine className="size-6 text-neutral-900 dark:text-white" />
+                <RiShieldLine className="size-6 text-white/90" />
               }
               label="Security and privacy"
               description="Change your security and privacy settings."
               href="your-account/security-and-privacy"
             />
-            {/* <MenuItem
-              icon={
-                <FaRegBell className="size-6 text-neutral-900 dark:text-white" />
-              }
-              label="Notifications"
-              description="Customise how you get updates."
-              href="your-account/notification-preferences"
-            /> */}
             <MenuItem
               icon={
-                <FiUser className="size-6 text-neutral-900 dark:text-white" />
+                <FiUser className="size-6 text-white/90" />
               }
               label="Personal details"
               description="Update your personal information."

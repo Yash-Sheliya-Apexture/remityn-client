@@ -25004,8 +25004,9 @@ const CalculetingSection: React.FC = () => {
   return (
     <section className="Hero-Section lg:pb-10 pb-5 relative">
       <div className="container mx-auto sm:px-4 px-2 relative">
-        <div className="rounded-3xl p-px bg-gradient-to-b from-primary to-transparent to-88% min-h-[500px] relative z-0">
-          <div className="bg-background rounded-3xl overflow-hidden xl:p-10 lg:p-6 p-4  h-full relative flex flex-col">
+        {/* <div className="rounded-3xl p-[2px] bg-gradient-to-b from-primary to-transparent to-88% min-h-[500px] relative z-0"> */}
+        <div className="rounded-3xl bg-gradient-to-b from-primary to-transparent to-88% min-h-[500px] relative z-0">
+          <div className="bg-background border-2 bg-clip-padding border-transparent rounded-3xl overflow-hidden xl:p-10 lg:p-6 p-4  h-full relative flex flex-col">
             {/* Background decorations */}
             <div className="shep">
               <div className="absolute -left-1 -top-1">
@@ -25328,7 +25329,7 @@ const CalculetingSection: React.FC = () => {
                       </span>
                     </div>
 
-                    <hr className="border my-2" />
+                    <div className="border my-2" />
 
                     <div className="flex justify-between items-center">
                       <span className="text-white dark:text-white font-semibold">

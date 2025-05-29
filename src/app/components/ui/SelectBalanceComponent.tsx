@@ -405,8 +405,6 @@
 
 // export default SelectBalanceComponent;
 
-
-
 // // frontend/src/components/dashboard/shared/SelectBalanceComponent.tsx
 // "use client";
 
@@ -667,11 +665,6 @@
 
 // export default SelectBalanceComponent;
 
-
-
-
-
-
 "use client";
 
 import React from "react";
@@ -733,7 +726,7 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
   if (isLoading) {
     return (
       <>
-        <Skeleton className="h-14 w-72 sm:w-96 mx-auto rounded-md mb-4" />
+        <Skeleton className="md:h-12 h-8 w-72 sm:w-96 mx-auto rounded-lg mb-4" />
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {allowAddBalance && (
             <Skeleton className="lg:h-32 h-28 w-full rounded-2xl border-2 border-dashed" />
@@ -749,14 +742,14 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
   }
 
   const addCardClasses =
-    "sm:p-4 p-2 bg-lightgray dark:bg-primarybox/70 hover:dark:bg-secondarybox rounded-2xl flex flex-col justify-center items-center cursor-pointer hover:bg-neutral-200/70 transition-all duration-75 ease-linear border-2 border-dashed border-neutral-900 dark:border-neutral-300 min-h-[112px]";
+    "sm:p-4 p-2 bg-primarybox hover:bg-[#2f373b] rounded-2xl flex flex-col justify-center items-center cursor-pointer transition-all duration-75 ease-linear border-2 border-dashed border-gray-400 min-h-[112px]";
 
   const AddCardContent = () => (
     <>
-      <div className="rounded-full border-2 border-neutral-900 dark:border-white p-2 flex items-center justify-center mb-2">
-        <GoPlus size={28} className="text-neutral-900 dark:text-white" />
+      <div className="rounded-full border-2 border-gray-400/40 p-2 flex items-center justify-center mb-2">
+        <GoPlus size={28} className="text-white" />
       </div>
-      <span className="text-center text-neutral-500 dark:text-white">
+      <span className="text-center text-white">
         {addBalanceLinkText}
       </span>
     </>
@@ -765,26 +758,27 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
   return (
     <section className="Select-Balance-Wrapper">
       <div className="All-Balance-Card">
-        <h1 className="text-xl md:text-2xl lg:text-3xl capitalize font-semibold text-mainheading dark:text-white text-left md:text-center mb-4">
+        <h1 className="text-xl md:text-2xl lg:text-3xl capitalize font-semibold text-mainheadingWhite text-left md:text-center mb-4">
           {pageTitle}
         </h1>
 
         {error && !isLoading && (
-          <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg sm:p-10 p-4 flex flex-col items-center gap-3 mb-6">
-            <p className="font-medium text-center text-red-600 dark:text-red-400 text-base">Error loading balances: {error}</p>
+          <div className="bg-red-900/25 border border-red-500 rounded-lg sm:p-10 p-4 flex flex-col items-center gap-3 mb-6">
+            <p className="font-medium text-center text-red-400 text-base">
+              Error loading balances: {error}
+            </p>
             {!error.toLowerCase().includes("unauthorized") && (
               <div>
                 <button
                   onClick={refetchBalances}
-                  className="font-medium inline-flex items-center justify-center px-6 py-2 rounded-3xl bg-primary text-neutral-900 hover:bg-primaryhover sm:w-auto w-full"
+                  className="font-medium cursor-pointer inline-flex items-center justify-center px-6 py-2 rounded-3xl bg-primary text-neutral-900 hover:bg-primaryhover sm:w-auto w-full"
                 >
                   Retry
                 </button>
               </div>
-
             )}
             {error.toLowerCase().includes("unauthorized") && (
-              <p className="text-neutral-900 dark:text-white">
+              <p className="text-white/90">
                 Please{" "}
                 <Link
                   href="/auth/login"
@@ -799,11 +793,11 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
         )}
 
         {!isLoading && !error && balances.length === 0 && tokenExists && (
-          <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+          <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
             <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
-              <ShieldCheck className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+              <ShieldCheck className="lg:size-8 size-6 mx-auto text-mainheading dark:text-primary" />
             </div>
-            <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+            <h2 className="lg:text-3xl text-2xl font-medium text-white/90 mt-1">
               {noBalancePrimaryMessage}
             </h2>
 
@@ -824,15 +818,15 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
                   >
                     {noBalanceSecondaryMessage}
                   </Link>
-                ) : ( // Else (no click handler, OR not allowed to add balance, OR no href for link), render as plain text
-                  <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+                ) : (
+                  // Else (no click handler, OR not allowed to add balance, OR no href for link), render as plain text
+                  <p className="lg:text-lg text-base text-subheadingWhite max-w-lg mx-auto">
                     {noBalanceSecondaryMessage}
                   </p>
                 )}
               </>
             )}
             {/* --- END REFINED LOGIC --- */}
-
           </div>
         )}
 
@@ -860,7 +854,7 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
               <div
                 key={account._id}
                 onClick={() => onSelectBalance(account._id)}
-                className="sm:p-4 p-2 sm:h-32 h-28 bg-lightgray dark:bg-primarybox hover:bg-neutral-200/70 hover:dark:bg-secondarybox rounded-2xl flex justify-between items-center gap-2 transition-all duration-75 ease-linear cursor-pointer min-h-[112px]"
+                className="sm:p-4 p-2 sm:h-32 h-28 bg-primarybox hover:bg-[#2f373b] hover:dark:bg-secondarybox rounded-2xl flex justify-between items-center gap-2 transition-all duration-75 ease-linear cursor-pointer min-h-[112px]"
                 role="button"
                 tabIndex={0}
                 onKeyPress={(e) =>
@@ -885,17 +879,17 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
                     unoptimized
                   />
                   <div className="flex-grow min-w-0">
-                    <p className="text-neutral-900 dark:text-white text-lg font-semibold truncate">
+                    <p className="text-white/90 text-lg font-semibold truncate">
                       {account.currency.code} Balance
                     </p>
-                    <p className="text-neutral-500 dark:text-gray-300 font-semibold text-sm">
+                    <p className="text-secondheadingWhite font-semibold text-sm">
                       {parseFloat(account.balance).toFixed(2)}{" "}
                       {account.currency.code}
                     </p>
                   </div>
                 </div>
                 <IoIosArrowForward
-                  className="text-neutral-900 dark:text-white ml-2 flex-shrink-0"
+                  className="text-white/90 ml-2 flex-shrink-0"
                   aria-hidden="true"
                 />
               </div>
@@ -904,7 +898,7 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
         )}
 
         {!tokenExists && !isLoading && (
-          <div className="text-center text-neutral-600 dark:text-gray-400 p-4 mt-6">
+          <div className="text-center text-secondheadingWhite p-4 mt-6">
             Please{" "}
             <Link href="/auth/login" className="text-primary hover:underline">
               log in
@@ -913,6 +907,7 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
           </div>
         )}
       </div>
+      
     </section>
   );
 };

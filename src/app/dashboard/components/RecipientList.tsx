@@ -581,13 +581,13 @@ export default function RecipientList({
 
   return (
     <div
-      className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer"
+      className="block hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer"
       onClick={handleItemClick}
     >
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center">
-          <div className="w-12.5 h-12.5 rounded-full bg-lightborder dark:bg-secondarybox flex items-center justify-center relative flex-shrink-0">
-            <span className="font-bold text-neutral-900 dark:text-white">
+          <div className="w-12.5 h-12.5 rounded-full bg-secondarybox flex items-center justify-center relative flex-shrink-0">
+            <span className="font-bold text-white/90">
               {getInitials(recipient.accountHolderName)}
             </span>
             <div className="absolute bottom-0 right-0 w-4 h-4 rounded-full overflow-hidden">
@@ -607,22 +607,16 @@ export default function RecipientList({
             </div>
           </div>
           <div className="ml-4">
-            <h5 className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg">
+            <h5 className="font-medium leading-relaxed text-white/90 sm:text-lg">
               {recipient.accountHolderName}
             </h5>
             {recipient.accountNumber && recipient.currency?.code && ( // Add check for currency code
-              <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
+              <p className="text-sm text-subheadingWhite mt-1">
                 {recipient.currency.code} Account ending in{" "}
                 {recipient.accountNumber.slice(-4)}{" "}
                 {/* Use dynamic currency code */}
               </p>
             )}
-             {/* Optional: Handle cases where account number might be missing but currency exists */}
-             {!recipient.accountNumber && recipient.currency?.code && (
-                <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
-                  {recipient.currency.code} Recipient
-                </p>
-             )}
           </div>
         </div>
 
@@ -639,7 +633,7 @@ export default function RecipientList({
           </div>
         ) : (
           <div className="ml-4">
-            <IoIosArrowForward className="size-5 text-neutral-900 dark:text-white" />
+            <IoIosArrowForward className="size-5 text-white/90" />
           </div>
         )}
       </div>

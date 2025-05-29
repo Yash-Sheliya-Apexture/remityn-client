@@ -1839,9 +1839,9 @@ const TransactionsSection: React.FC = () => {
   const renderTransactionRow = (transaction: Transaction) => {
     const isAddMoney = transaction.type === "Add Money";
     const icon = isAddMoney ? (
-      <LuPlus size={22} className="text-neutral-900 dark:text-white" />
+      <LuPlus size={22} className="text-white" />
     ) : (
-      <GoArrowUp size={22} className="text-neutral-900 dark:text-white" />
+      <GoArrowUp size={22} className="text-white" />
     );
 
     // --- START MODIFICATION ---
@@ -1906,15 +1906,15 @@ const TransactionsSection: React.FC = () => {
 
     // Determine amount prefix and class for the right-side display
     const amountPrefix = isAddMoney ? "+ " : "- ";
-    let amountClass = "text-neutral-900 dark:text-white"; // Default style
+    let amountClass = "text-white"; // Default style
 
     // (Amount class logic remains the same)
     if (status === "completed") {
-        amountClass = isAddMoney ? "text-green-600 dark:text-green-500" : "text-neutral-900 dark:text-white";
+        amountClass = isAddMoney ? "text-green-500" : "text-white";
     } else if (status === "canceled" || status === "failed") {
        amountClass = "text-red-600 line-through";
     } else if (status === 'pending' || status === 'processing' || status === 'in progress') {
-       amountClass = "text-neutral-900 dark:text-white";
+       amountClass = "text-white";
     }
 
     return (
@@ -1923,10 +1923,10 @@ const TransactionsSection: React.FC = () => {
         key={transaction._id}
         className="block"
       >
-        <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
+        <div className="block hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
           <div className="flex sm:items-center items-start sm:gap-4 gap-2">
             {/* Icon container */}
-            <div className="p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center">
+            <div className="p-3 bg-[#52636c] rounded-full flex items-center justify-center">
               {icon}
             </div>
 
@@ -1935,10 +1935,10 @@ const TransactionsSection: React.FC = () => {
               {/* Name and Description */}
               {/* This h3 now uses the correctly formatted 'name' */}
               <div className="text-wrap">
-                <h3 className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px">
+                <h3 className="font-medium leading-relaxed text-mainheadingWhite sm:text-lg text-15px">
                   {name}
                 </h3>
-                <p className="sm:text-sm text-13px text-gray-500 dark:text-gray-300 mt-1">
+                <p className="sm:text-sm text-13px text-subheadingWhite mt-1">
                   {description}
                 </p>
               </div>
@@ -1968,13 +1968,13 @@ const TransactionsSection: React.FC = () => {
       <div className="Transactions">
         {/* Section Header */}
         <div className="flex justify-between items-center mb-4 gap-4">
-          <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white text-wrap">
+          <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite text-wrap">
             Recent Transactions
           </h1>
-          <div className="flex items-center justify-center cursor-pointer bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox px-4 py-1.5 rounded-full transition-all duration-75 ease-linear">
+          <div className="flex items-center justify-center cursor-pointer text-primary hover:text-neutral-900 bg-primarybox hover:bg-primaryhover px-4 py-1.5 rounded-full transition-all duration-75 ease-linear">
             <Link
               href="/dashboard/transactions"
-              className=" text-neutral-900 dark:text-white text-xs font-semibold text-nowrap"
+              className=" text-xs font-semibold text-nowrap"
             >
               See all
             </Link>
@@ -2011,7 +2011,7 @@ const TransactionsSection: React.FC = () => {
 
           {/* Error Message */}
           {!loading && error && (
-            <p className="text-center text-red-500 dark:text-red-400 py-4 px-2">
+            <p className="text-center text-red-500 py-4 px-2">
               Error: {error}
             </p>
           )}
@@ -2020,10 +2020,10 @@ const TransactionsSection: React.FC = () => {
           {!loading && !error && latestTransactions.length === 0 && (
             <>
             <div className="flex items-center sm:gap-4 gap-2">
-              <div className="p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center flex-shrink-0">
-                <MdOutlineAccessTime size={22} className="text-neutral-900 dark:text-white" />
+              <div className="p-3 bg-secondarybox rounded-full flex items-center justify-center flex-shrink-0">
+                <MdOutlineAccessTime size={22} className="text-white" />
               </div>
-                <p className="text-center text-gray-500 dark:text-gray-300">
+                <p className="text-center text-subheadingWhite">
                   No recent transactions found.
                 </p>
             </div>

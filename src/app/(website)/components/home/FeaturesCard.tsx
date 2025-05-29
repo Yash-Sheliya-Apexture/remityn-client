@@ -118,7 +118,7 @@ const FeaturesCard: React.FC<FeaturesCardProps> = ({
   return (
     <div
       key={id}
-      className={`group bg-background relative w-full xl:w-[28rem] h-full xl:h-[28rem]
+      className={`group bg-background relative w-full xl:w-[26rem] h-full xl:h-[26rem]
                   flex-shrink-0 cursor-pointer overflow-hidden text-white rounded-3xl 
                   transition-all duration-300 ease-in-out transform
                   p-5 md:p-6 flex flex-col`} // Added padding and flex-col here

@@ -194,19 +194,19 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ onDateSelect, selectedD
     };
 
     return (
-        <div className="bg-white dark:bg-background sm:w-96 w-full rounded-2xl shadow border mt-2 p-4 absolute sm:left-20 left-0 z-10">
+        <div className="bg-background sm:w-96 w-full rounded-2xl shadow border mt-2 p-4 absolute sm:left-20 left-0 z-10">
             <div className="flex justify-between items-center mb-4">
-                <button onClick={prevMonth} className="p-2 hover:bg-primary text-main dark:hover:text-main dark:text-white transition-colors duration-300 ease-in-out cursor-pointer rounded-md">
+                <button onClick={prevMonth} className="p-2 hover:bg-primary hover:text-mainheading text-white/90 transition-colors duration-300 ease-in-out cursor-pointer rounded-md">
                     <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
                 </button>
-                <span className="font-semibold">{format(new Date(year, month), 'MMMM yyyy')}</span>
-                <button onClick={nextMonth} className="p-2 hover:bg-primary text-main dark:hover:text-main dark:text-white transition-colors duration-300 ease-in-out cursor-pointer rounded-md">
+                <span className="font-semibold text-white/90">{format(new Date(year, month), 'MMMM yyyy')}</span>
+                <button onClick={nextMonth} className="p-2 hover:bg-primary hover:text-mainheading text-white/90 transition-colors duration-300 ease-in-out cursor-pointer rounded-md">
                     <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
                 </button>
             </div>
             <div className="grid grid-cols-7 gap-1 mb-2">
                 {daysInWeek.map((day, index) => (
-                    <div key={index} className="text-center text-main dark:text-white font-semibold text-sm">{day}</div>
+                    <div key={index} className="text-center text-white/90 font-semibold text-sm">{day}</div>
                 ))}
             </div>
             <div className="grid grid-cols-7 gap-1.5">
@@ -215,9 +215,9 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ onDateSelect, selectedD
                         key={index}
                         onClick={() => handleDateClick(day)}
                         className={`rounded-sm size-10 focus:outline-none
-                            ${isSameMonth(day, new Date(year, month)) ? 'text-gray-500 dark:text-gray-300 font-medium' : 'text-gray'}
+                            ${isSameMonth(day, new Date(year, month)) ? 'text-gray-300 font-medium' : 'text-gray-500'}
                             ${isToday(day) && isSameMonth(day, new Date(year, month)) ? 'font-semibold' : ''}
-                            ${selectedDate && isSameDay(day, selectedDate) ? 'bg-primary text-white dark:text-main' : ''}
+                            ${selectedDate && isSameDay(day, selectedDate) ? 'bg-primary text-mainheading' : ''}
                             ${!isSameMonth(day, new Date(year, month)) ? 'opacity-50 cursor-default hover:bg-transparent' : 'cursor-pointer'}
                           `}
                         disabled={!isSameMonth(day, new Date(year, month))}

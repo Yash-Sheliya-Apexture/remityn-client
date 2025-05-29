@@ -144,10 +144,6 @@
 
 // export default BalanceHeader;
 
-
-
-
-
 // // frontend/src/app/dashboard/components/BalanceHeader.tsx
 // import React from "react";
 // import Image from "next/image";
@@ -269,7 +265,7 @@
 //                 </button>
 //                 Add
 //               </Link>
-              
+
 //               <div className="send text-center cursor-pointer" onClick={onSendClick}>
 //                 <button
 //                   // onClick={onSendClick}
@@ -281,7 +277,7 @@
 //                   title={
 //                     !canSendMoney ? "Add funds to send money" : "Send money"
 //                   }
-//                   // disabled={!canSendMoney} 
+//                   // disabled={!canSendMoney}
 //                 >
 //                   <GoArrowUp size={24} />
 //                 </button>
@@ -289,7 +285,7 @@
 //               </div>
 //             </div>
 //           </div>
-          
+
 //         </div>
 //       </div>
 //     </>
@@ -297,9 +293,6 @@
 // };
 
 // export default BalanceHeader;
-
-
-
 
 // // frontend/src/app/dashboard/components/BalanceHeader.tsx
 // import React from "react";
@@ -383,7 +376,6 @@
 //   const areRatesLoading = marketRateAgainstINR === null && ourRateAgainstINR === null && currencyCode !== 'INR';
 //   // Determine if rates are ready to be displayed
 //   const showRates = marketRateAgainstINR !== null && ourRateAgainstINR !== null && currencyCode !== 'INR';
-
 
 //   return (
 //     <>
@@ -488,7 +480,6 @@
 
 // export default BalanceHeader;
 
-
 // // frontend/src/app/dashboard/components/BalanceHeader.tsx
 // import React from "react";
 // import Image from "next/image";
@@ -571,7 +562,6 @@
 //                  <span className="text-2xl font-bold"> {currencyCode}</span>
 //                  </div>
 //              )}
-
 
 //             {/* Display Market Rate and Our Rate against INR - with Loading State */}
 //             {/* Rates logic remains similar, ensure currencyCode check includes null/undefined */}
@@ -676,12 +666,12 @@ const BalanceHeader: React.FC<BalanceHeaderProps> = ({
   // ... (rest of the component code remains the same until the Actions section) ...
 
   const currencyCode = balanceDetail?.currency.code;
-  const formattedBalance = balanceDetail ? parseFloat(
-    balanceDetail.balance.toString()
-  ).toLocaleString(undefined, {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  }) : '0.00';
+  const formattedBalance = balanceDetail
+    ? parseFloat(balanceDetail.balance.toString()).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    : "0.00";
 
   return (
     <>
@@ -691,98 +681,111 @@ const BalanceHeader: React.FC<BalanceHeaderProps> = ({
           {/* Left Side - Balance Info */}
           <div className="Balance sm:text-left text-center">
             {/* ... (Currency Flag, Name, Balance Amount, Rates - unchanged) ... */}
-             <div className="flex items-center sm:justify-start justify-center gap-2 mb-4">
-               {balanceDetail?.currency.flagImage ? (
-                 <Image
-                   src={balanceDetail.currency.flagImage}
-                   alt={`${currencyCode ?? 'N/A'} flag`}
-                   width={50}
-                   height={50}
-                   className="rounded-full object-cover"
-                   onError={(e) => { (e.target as HTMLImageElement).src = "/assets/icon/default.svg"; }}
-                   priority
-                 />
-               ) : (
-                 <div className="w-[50px] h-[50px] rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500 dark:text-gray-400 text-lg font-semibold">
-                   {currencyCode ? currencyCode.slice(0, 2) : '??'}
-                 </div>
-               )}
-               <h2 className="text-lg text-neutral-900 dark:text-white">
-                 {currencyCode ?? 'N/A'} balance
-               </h2>
-             </div>
-
-              {/* Balance Amount */}
-              {isLoading || !balanceDetail ? (
-                  <Skeleton className="h-12 w-48 mb-6 sm:mx-0 mx-auto" />
+            <div className="flex items-center sm:justify-start justify-center gap-2 mb-4">
+              {balanceDetail?.currency.flagImage ? (
+                <>
+                  <Image
+                    src={balanceDetail.currency.flagImage}
+                    alt={`${currencyCode ?? "N/A"} flag`}
+                    width={50}
+                    height={50}
+                    className="rounded-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src =
+                        "/assets/icon/default.svg";
+                    }}
+                    priority
+                  />
+                </>
               ) : (
-                  <div className="text-5xl font-bold text-neutral-900 dark:text-white mb-6">
-                  {formattedBalance}
-                  <span className="text-2xl font-bold"> {currencyCode}</span>
-                  </div>
+                <div className="w-[50px] h-[50px] rounded-full bg-primarybox flex items-center justify-center text-white/90 text-lg font-semibold">
+                  {currencyCode ? currencyCode.slice(0, 2) : "??"}
+                </div>
               )}
+              <h2 className="text-lg text-mainheadingWhite">
+                {currencyCode ?? "N/A"} balance
+              </h2>
+            </div>
 
-             {/* Display Market Rate and Our Rate */}
-             {currencyCode && currencyCode !== 'INR' && (
-                  <div className="mb-4 text-gray-500 dark:text-gray-300 flex md:flex-row flex-col sm:items-start items-center gap-4 min-h-[32px]">
-                  {marketRateAgainstINR === null && ourRateAgainstINR === null ? (
-                      <>
-                      <Skeleton className="h-8 w-48 rounded-4xl" />
-                      <Skeleton className="h-8 w-48 rounded-4xl" />
-                      </>
-                  ) : marketRateAgainstINR !== null && ourRateAgainstINR !== null ? (
-                     <>
-                         <div className="p-1.5 px-6 rounded-4xl bg-primary dark:bg-primary/20 text-neutral-900 dark:text-primary w-fit whitespace-nowrap">
-                         <span>Our Rate: 1 {currencyCode} = {ourRateAgainstINR.toFixed(2)} INR</span>
-                         </div>
-                         <div className="p-1.5 px-6 rounded-4xl bg-blue-600 dark:bg-blue-600/20 text-gray-100 dark:text-blue-600 w-fit whitespace-nowrap">
-                         <span>Market Rate: 1 {currencyCode} = {marketRateAgainstINR.toFixed(2)} INR</span>
-                         </div>
-                     </>
-                  ) : ( null )}
-                  </div>
-             )}
+            {/* Balance Amount */}
+            {isLoading || !balanceDetail ? (
+              <Skeleton className="h-12 w-48 mb-6 sm:mx-0 mx-auto" />
+            ) : (
+              <div className="text-5xl font-bold text-mainheadingWhite mb-6">
+                {formattedBalance}
+                <span className="text-2xl font-bold"> {currencyCode}</span>
+              </div>
+            )}
+
+            {/* Display Market Rate and Our Rate */}
+            {currencyCode && currencyCode !== "INR" && (
+              <div className="mb-4 text-gray-500 dark:text-gray-300 flex md:flex-row flex-col sm:items-start items-center gap-4 min-h-[32px]">
+                {marketRateAgainstINR === null && ourRateAgainstINR === null ? (
+                  <>
+                    <Skeleton className="h-8 w-48 rounded-4xl" />
+                    <Skeleton className="h-8 w-48 rounded-4xl" />
+                  </>
+                ) : marketRateAgainstINR !== null &&
+                  ourRateAgainstINR !== null ? (
+                  <>
+                    <div className="p-1.5 px-6 rounded-4xl bg-primary/25 text-primary w-fit whitespace-nowrap">
+                      <span>
+                        Our Rate: 1 {currencyCode} ={" "}
+                        {ourRateAgainstINR.toFixed(2)} INR
+                      </span>
+                    </div>
+                    <div className="p-1.5 px-6 rounded-4xl bg-blue-700/20 text-blue-500 w-fit whitespace-nowrap">
+                      <span>
+                        Market Rate: 1 {currencyCode} ={" "}
+                        {marketRateAgainstINR.toFixed(2)} INR
+                      </span>
+                    </div>
+                  </>
+                ) : null}
+              </div>
+            )}
           </div>
 
           {/* Right Side - Actions */}
           {/* Add checks for balanceDetail existence */}
           {balanceDetail && (
             <div className="flex flex-col justify-start items-center sm:items-end">
-                <div className="flex justify-center space-x-6">
-
+              <div className="flex justify-center space-x-6">
                 {/* --- MODIFIED: Use div + onClick for Add Money --- */}
                 <div
-                    className="text-center text-neutral-900 dark:text-white flex flex-col items-center cursor-pointer"
-                    onClick={onAddMoneyClick} // <-- Use the callback
-                    title="Add money" // Add title for accessibility
+                  className="text-center text-white/90 flex flex-col items-center cursor-pointer"
+                  onClick={onAddMoneyClick} // <-- Use the callback
+                  title="Add money" // Add title for accessibility
                 >
-                    <div className="bg-primary cursor-pointer mb-1 hover:bg-primaryhover text-neutral-900 w-14 h-14 flex justify-center items-center rounded-full">
-                        <LuPlus size={24} />
-                    </div>
-                    Add
+                  <div className="bg-primary cursor-pointer mb-1 hover:bg-primaryhover text-mainheading w-14 h-14 flex justify-center items-center rounded-full">
+                    <LuPlus size={24} />
+                  </div>
+                  Add
                 </div>
                 {/* --- END MODIFICATION --- */}
 
                 {/* Send Money Button (unchanged structure, logic handled by onSendClick in parent) */}
-                <div className="send text-center cursor-pointer flex flex-col items-center" onClick={onSendClick}>
-                    <div
-                        className={`bg-primary cursor-pointer mb-1 text-neutral-900 w-14 h-14 flex justify-center items-center rounded-full ${
-                            !canSendMoney // Keep existing styling for insufficient balance visual cue
-                            ? "opacity-50 bg-primary hover:bg-primaryhover cursor-not-allowed"
-                            : "hover:bg-primaryhover"
-                        }`}
-                        title={
-                            !canSendMoney ? "Add funds to send money" : "Send money"
-                        }
-                    >
-                        <GoArrowUp size={24} />
-                    </div>
-                    <span className="text-neutral-900 dark:text-white">Send</span>
+                <div
+                  className="send text-center cursor-pointer flex flex-col items-center"
+                  onClick={onSendClick}
+                >
+                  <div
+                    className={`bg-primary cursor-pointer mb-1 text-mainheading w-14 h-14 flex justify-center items-center rounded-full ${
+                      !canSendMoney // Keep existing styling for insufficient balance visual cue
+                        ? "opacity-50 bg-primary hover:bg-primaryhover cursor-not-allowed"
+                        : "hover:bg-primaryhover"
+                    }`}
+                    title={
+                      !canSendMoney ? "Add funds to send money" : "Send money"
+                    }
+                  >
+                    <GoArrowUp size={24} />
+                  </div>
+                  <span className="text-white/90">Send</span>
                 </div>
-                </div>
+              </div>
             </div>
           )}
-
         </div>
       </div>
     </>

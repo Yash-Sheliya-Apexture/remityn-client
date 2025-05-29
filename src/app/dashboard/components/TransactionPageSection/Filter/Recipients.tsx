@@ -828,10 +828,7 @@ const Recipients: React.FC<RecipientsProps> = ({
   if (error) {
     return (
         <div>
-            <h4 className="text-gray-500 dark:text-gray-300 font-medium mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
-              Recipients
-            </h4>
-             <p className="text-red-500 dark:text-red-400 p-4 bg-red-50 dark:bg-red-900/20 rounded-md text-sm">Error loading recipients: {error}</p>
+             <p className="py-5 text-red-500 bg-red-600/20 p-4 mb-4 rounded-md border border-red-800/30">Error loading recipients: {error}</p>
         </div>
       );
   }
@@ -844,27 +841,15 @@ const Recipients: React.FC<RecipientsProps> = ({
   return (
     <>
       {/* Keep the heading */}
-      <h4 className="text-gray-500 dark:text-gray-300 font-medium mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
-        Recipients
-      </h4>
       <div className="space-y-2">
         {recipients.map((recipient) => (
           <RecipientList
             key={recipient._id}
             recipient={recipient}
-            // Pass selection status based on the prop
             isSelected={isRecipientSelected(recipient._id)}
-            // Pass the modified handler
             onCheckboxChange={handleCheckboxChange}
-            // showCheckbox is implicitly true here, but you could pass it if needed elsewhere
           />
         ))}
-        {/* Optional: Display selected count based on the prop */}
-        {/* {selectedRecipientIds.length > 0 && (
-          <p className="mt-4 text-sm dark:text-gray-300 text-gray-500">
-            {selectedRecipientIds.length} recipient(s) selected.
-          </p>
-        )} */}
       </div>
     </>
   );

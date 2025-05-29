@@ -291,7 +291,7 @@ const SecuritySection = () => {
   return (
     // Apply whileInView to the main section to trigger animations
     <section
-      className="Security-section md:py-20 py-5 overflow-hidden" // Hide horizontal overflow during animation
+      className="Security-section sm:py-20 py-10 overflow-hidden" // Hide horizontal overflow during animation
       id="security"
     >
       <div className="container mx-auto px-4">

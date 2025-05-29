@@ -501,12 +501,14 @@ const HeroSection: React.FC = () => {
           Our platform offers secure, transparent transactions with real-time
           exchange rates.
         </p>
+
         <Link
           href="/signup"
           className="px-8 sm:px-10 py-3 sm:py-3.5 bg-primary hover:bg-primaryhover text-neutral-900 font-medium rounded-full text-base sm:text-lg transform transition-all duration-200 ease-out"
         >
           Start Your Free Trial
         </Link>
+        
         <p className="mt-8 text-sm sm:text-base text-subheadingWhite flex items-center justify-center">
           <Globe size={20} className="mr-1.5 text-primary" />
           <span className="opacity-90">use and helping over </span> {" "}

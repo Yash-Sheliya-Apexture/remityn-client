@@ -166,8 +166,8 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          Welcome to Remityn, a service provided by Apexture . Remityn is a modern
-          currency exchange and remittance platform designed to make
+          Welcome to Remityn, a service provided by Apexture . Remityn is a
+          modern currency exchange and remittance platform designed to make
           international money transfers faster, more affordable, and
           transparent. Our service leverages secure technology to simplify how
           people send and receive money across borders.
@@ -179,10 +179,10 @@ const sections: PolicySection[] = [
           access our website, no matter where you're located
         </p>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          This Privacy Policy is designed to inform you about how Remityn processes
-          your personal data whenever you interact with our platform — whether
-          you're creating an account, completing a transaction, or communicating
-          with our support team.
+          This Privacy Policy is designed to inform you about how Remityn
+          processes your personal data whenever you interact with our platform —
+          whether you're creating an account, completing a transaction, or
+          communicating with our support team.
         </p>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
           It is important that you read this Privacy Policy together with any
@@ -201,11 +201,11 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          To provide you with secure and efficient money transfer services, Remityn
-          collects various types of personal and technical information. This
-          data is essential for delivering our services, complying with legal
-          requirements, and enhancing your user experience. The information we
-          collect includes:
+          To provide you with secure and efficient money transfer services,
+          Remityn collects various types of personal and technical information.
+          This data is essential for delivering our services, complying with
+          legal requirements, and enhancing your user experience. The
+          information we collect includes:
         </p>
 
         <div className="w-full font-normal text-gray-500 dark:text-gray-300">
@@ -317,17 +317,17 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300">
-          Remityn uses the information we collect from you to operate efficiently,
-          deliver a secure and personalized experience, and fulfill our legal
-          and contractual obligations. Here’s how your data is used:
+          Remityn uses the information we collect from you to operate
+          efficiently, deliver a secure and personalized experience, and fulfill
+          our legal and contractual obligations. Here’s how your data is used:
         </p>
 
         <div className="text-gray-500 dark:text-gray-300">
           <ul className="ml-6 list-inside list-decimal lg:text-base text-sm space-y-1">
             <li>
               To Register You as a New Customer We use your personal
-              identification data to create your Remityn account and onboard you as
-              a verified user.
+              identification data to create your Remityn account and onboard you
+              as a verified user.
             </li>
             <li>
               To Process and Deliver Your Transactions Your transactional data
@@ -378,8 +378,8 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300">
-          At Remityn, safeguarding your personal information is a top priority. We
-          have implemented robust security measures to prevent unauthorized
+          At Remityn, safeguarding your personal information is a top priority.
+          We have implemented robust security measures to prevent unauthorized
           access, misuse, alteration, or disclosure of your personal data.
         </p>
 
@@ -424,11 +424,11 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          As a global platform, Remityn may need to transfer your personal data to
-          countries outside of the European Economic Area (EEA). These transfers
-          are necessary for delivering our services and supporting international
-          operations, such as processing transactions or working with trusted
-          third-party partners.
+          As a global platform, Remityn may need to transfer your personal data
+          to countries outside of the European Economic Area (EEA). These
+          transfers are necessary for delivering our services and supporting
+          international operations, such as processing transactions or working
+          with trusted third-party partners.
         </p>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
           Some of these countries may not have the same level of data protection
@@ -445,9 +445,9 @@ const sections: PolicySection[] = [
     content: (
       <>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-          At Remityn, we aim to deliver content, offers, and services that are most
-          relevant to you. To achieve this, we may use your Identity, Contact,
-          Technical, Usage, and Profile Data to better understand your
+          At Remityn, we aim to deliver content, offers, and services that are
+          most relevant to you. To achieve this, we may use your Identity,
+          Contact, Technical, Usage, and Profile Data to better understand your
           preferences and tailor our marketing communications accordingly.
         </p>
         <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
@@ -472,7 +472,7 @@ const sections: PolicySection[] = [
         cookies. However, please be aware that disabling cookies may affect the
         functionality of certain features on our website. For more details about
         how we use cookies, please refer to our Cookie Policy.
-        <Link href="/cookie-policy" >
+        <Link href="/cookie-policy">
           <span className="underline">cookie policy</span>
         </Link>
         .
@@ -505,22 +505,24 @@ const sections: PolicySection[] = [
 
 const PrivacyPolicyPage: React.FC = () => {
   return (
-    <section className="Privacy-PolicyPage lg:py-10 py-5 bg-white dark:bg-background overflow-hidden">
+    <section className="Privacy-PolicyPage lg:py-10 py-5 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="space-y-4">
-          <h2 className="text-3xl md:text-4xl lg:text-6xl capitalize font-black text-mainheading dark:text-white">
-            Privacy <span className="text-primary"> Policy</span>
-          </h2>
 
+          <h1 className="text-4xl font-SatoshiVariable sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+            Privacy{" "}
+            <span className="text-primary font-SatoshiVariableItalic">
+              Policy
+            </span>
+          </h1>
+          
           <p className="max-w-5xl text-gray-500 dark:text-gray-300 lg:text-lg text-base">
-            At Remityn, protecting your personal information is a top priority. We
-            use advanced security measures and comply with global data
+            At Remityn, protecting your personal information is a top priority.
+            We use advanced security measures and comply with global data
             protection laws to ensure your data is safe, private, and only used
             for the services you trust us with.
           </p>
-
           <div className="border-t my-4"></div>
-
           {/* Main Content Column */}
           {sections.map((section) => (
             <div key={section.id} id={section.id}>

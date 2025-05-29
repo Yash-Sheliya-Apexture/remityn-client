@@ -165,11 +165,30 @@ const CurrencyExchangeServices: React.FC<
                 priority
               />
             </div>
+
+            <div className="block md:hidden">
+              <p className="text-subheadingWhite md:text-lg text-base max-w-5xl pt-8 text-center">
+                We are committed to making global currency exchange simple and
+                clear. Our platform ensures transparency with honest rates and
+                no hidden fees. Trust and reliability are at the heart of every
+                transaction we facilitate. We empower travelers and businesses
+                to exchange money confidently worldwide. With us, your currency
+                exchange experience is secure, fast, and hassle-free.
+              </p>
+
+              <div className="flex justify-center md:justify-start mt-8">
+                <Link href="/auth/register" className="inline-block">
+                  <button className="bg-primary hover:bg-primaryhover text-neutral-900 cursor-pointer font-medium text-base lg:text-lg py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
+                    Create A Free Account
+                  </button>
+                </Link>
+              </div>
+            </div>
           </div>
 
           {/* Text Content Area - Appears on the RIGHT on large screens (lg:order-2), SECOND on small screens (order-2) */}
           <div
-            className="w-full lg:w-1/2 lg:order-1 order-2" // Text second on SM, right on LG
+            className="w-full lg:w-1/2 lg:order-2 order-1 hidden md:block" // Text second on SM, right on LG
           >
             <div className="space-y-4 text-center md:text-left">
               <div className="sm:inline-block hidden">

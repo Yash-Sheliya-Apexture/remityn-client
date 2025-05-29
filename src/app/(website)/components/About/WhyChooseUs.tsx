@@ -204,18 +204,22 @@ const featuresData: FeatureItem[] = [
 
 // --- Component ---
 const WhyChooseUs: React.FC = () => {
+
+  const currentProducts = featuresData;
+
+
   return (
     // Add overflow-hidden to prevent scrollbars during card animation (can be kept or removed based on static layout needs)
-    <section className="WhyChooseUsSection md:py-10 py-5 overflow-hidden ">
+    <section className="WhyChooseUsSection md:py-20 py-5 overflow-hidden ">
       <div className="mx-auto container px-4">
         {/* Heading Section */}
-        <div className="mx-auto max-w-2xl text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite sm:block hidden">
+        <div className="mx-auto max-w-4xl text-center space-y-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl capitalize font-bold mb-6 leading-tight text-mainheadingWhite">
             Find out why{" "}
             <span className="text-primary">millions choose Remityn</span>
           </h1>
 
-          <p className="text-subheadingWhite md:text-lg text-base max-w-5xl">
+          <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">
             For over 10 years, Remityn Corporation Inc. Trusted by travelers and
             expats worldwide, Remityn offers fast, secure, and affordable money
             transfers—anytime, anywhere. Join the global community that moves
@@ -225,33 +229,53 @@ const WhyChooseUs: React.FC = () => {
 
         {/* Features Grid */}
         <div
-          className="mt-10 flex flex-col md:flex-row gap-8" // Added flex-col for small screens, md:flex-row for medium and up
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 sm:mt-25 mt-16" // Added flex-col for small screens, md:flex-row for medium and up
         >
-          {featuresData.map((feature) => (
+          {featuresData.map((product, index) => {
+            const isLast = index === currentProducts.length - 1;
+            let conditionalClasses = "";
+
+            if (!isLast) {
+              // Original border and padding logic for non-last items
+              conditionalClasses =
+                "lg:border-r border-r-gray-600/50 lg:border-b-0 border-b border-b-gray-600/50 lg:pr-10 lg:pb-0 pb-10";
+            } else {
+              if (
+                currentProducts.length === 1 ||
+                currentProducts.length % 2 !== 0
+              ) {
+                conditionalClasses = "sm:col-span-2 lg:col-span-1"; // lg:col-span-1 ensures it takes 1/3 on large screens
+              } else {
+                conditionalClasses = "lg:col-span-1";
+              }
+            }
+
+            return (
             <div
-              key={feature.title} // Key goes on the outer div
-              className="sm:p-6 p-4 text-center space-y-6 md:w-1/3" // Added md:w-1/3 for equal width on medium screens and up
+              key={index} // Key goes on the outer div
+              className={`text-center space-y-6${conditionalClasses ? ' ' + conditionalClasses.trim() : ''}`}// Added md:w-1/3 for equal width on medium screens and up
             >
               {/* Icon */}
               <div className="flex justify-center">
                 <div className="w-20 h-20 rounded-full icon-outer-wrapper flex items-center justify-center">
                   <div className="w-14 h-14 rounded-full icon-inner-background flex items-center justify-center">
-                    {feature.icons}
+                    {product.icons}
                   </div>
                 </div>
               </div>
 
               {/* Title */}
               <h3 className="text-2xl text-mainheadingWhite font-semibold">
-                {feature.title}
+                {product.title}
               </h3>
 
               {/* Description */}
               <p className="text-subheadingWhite lg:text-lg text-base">
-                {feature.description}
+                {product.description}
               </p>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>

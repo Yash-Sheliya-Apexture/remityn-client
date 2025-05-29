@@ -114,9 +114,10 @@
 
 // export default TrustedCurrencyPartner;
 
+
+
 // frontend/src/components/AboutSection.tsx
 "use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";

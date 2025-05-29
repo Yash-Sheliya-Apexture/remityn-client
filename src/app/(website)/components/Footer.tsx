@@ -1992,6 +1992,7 @@ const navLinks: NavLinkItem[] = [
   { href: "/about-us", label: "About" },
   { href: "/features", label: "Features" },
   { href: "/reviews", label: "Reviews" },
+  { href: "/faqs", label: "Help" },
 ];
 
 const contactInfo: ContactInfoItem[] = [
@@ -2069,12 +2070,12 @@ const Footer: React.FC = () => {
           </div>
 
           {/* Desktop Navigation Links */}
-          <nav className="hidden sm:flex items-center space-x-6.5 mb-12.5">
+          <nav className="hidden sm:flex items-center space-x-6 mb-12.5">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-lg lg:text-2xl text-subheadingWhite hover:text-primary transition-colors duration-75 ease-linear"
+                className="text-lg lg:text-xl text-subheadingWhite hover:text-primary transition-colors duration-75 ease-linear"
               >
                 {link.label}
               </Link>

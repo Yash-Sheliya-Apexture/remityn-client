@@ -832,7 +832,7 @@ const FeaturesSection: React.FC = () => {
             )}
 
             {isLargeScreen ? (
-              <div className="bg-[#394247] rounded-3xl p-[1px] inline-flex flex-row gap-[2] flex-shrink-0">
+              <div className="bg-[#394247] rounded-3xl border-3 border-[#394247] inline-flex flex-row gap-[3] flex-shrink-0 h-full relative">
                 {FeaturesData.map((feature) => (
                   <ServiceCard
                     key={feature.id}

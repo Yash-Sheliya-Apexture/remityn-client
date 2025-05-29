@@ -22,9 +22,13 @@ body {
   --color-primary: #66e8fa;
   --color-primaryhover: #9cf0fc;
   /* aacho */
-  --color-primarybox: #39424780;
+  --color-primarybox: #394247;
   /* ghato */
-  --color-primary-foreground: #2e3539;
+  --color-primary-foreground:#394247;
+  
+
+  --color-secondarybox: #52636c;
+
   /* Background color End */
 
   /* Text Color Start*/
@@ -60,7 +64,6 @@ body {
 
   --color-lightborder: #e3e3e3;
 
-  --color-secondarybox: #525252;
   /* Background-color Hover-Button */
 
   --color-dark-text: #22282a;
@@ -113,9 +116,12 @@ html {
   /* Background Color Start*/
   --background: oklch(0.2717 0.0093 219.82);
   --primary: oklch(0.8651 0.1162 207.69);
-  --primarybox: oklch(0.4025 0.0252 215.64 / 36.08%);
+  --primarybox: oklch(0.3728 0.0147 232.08);
   --primaryboxdubal: oklch(0.3728 0.0147 232.08 / 80%);
-  --primary-foreground: oklch(0.3239 0.0119 232.79);
+  --primary-foreground: oklch(0.3728 0.0147 232.08);
+
+  --secondarybox: oklch(0.4888 0.0253 231.04);
+
   /* Background Color End*/
 
   /* Text Color Start*/
@@ -132,7 +138,6 @@ html {
 
 
   --secondary: oklch(23.9% 0.0463 227.39);
-  --secondarybox: oklch(0.44 0 0);
   --secondary-foreground: oklch(0.205 0 0);
 
   --radius: 0.625rem;

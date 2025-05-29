@@ -4237,7 +4237,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={toggleSidebar}
-            className="fixed inset-0 bg-black/50 dark:bg-black/70 z-40 lg:hidden"
+            className="fixed inset-0 bg-white/15 z-40 lg:hidden"
             aria-hidden="true"
           />
         )}
@@ -4249,7 +4249,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
           <motion.div
             key="full-sidebar"
             ref={sidebarRef}
-            className={`w-64 fixed lg:sticky bg-white dark:bg-background h-screen inset-y-0 left-0 ${
+            className={`w-64 fixed lg:sticky h-screen inset-y-0 left-0 bg-background ${
               isMobileView ? "z-40" : "lg:z-10"
             } flex flex-col shadow-lg lg:shadow-none`}
             initial={isMobileView ? { x: "-100%" } : { x: 0 }}
@@ -4267,39 +4267,21 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                 }}
               >
                 <Image
-                  src="/assets/images/dark_logo.svg"
+                  src="/assets/images/main_logo.svg"
                   alt="Wise Logo"
                   width={160}
                   height={50}
                   priority
-                  className=" hidden dark:block"
-                />
-              </Link>
-              <Link
-                href="/dashboard"
-                className="inline-block"
-                onClick={() => {
-                  if (isMobileView && sidebarOpen) toggleSidebar();
-                }}
-              >
-                <Image
-                  src="/assets/images/white_logo.svg"
-                  alt="Wise Logo"
-                  width={160}
-                  height={50}
-                  priority
-                  className=" dark:hidden block"
                 />
               </Link>
               {isMobileView && (
                 <button
                   onClick={toggleSidebar}
-                  className="absolute top-1/2 right-3 -translate-y-1/2 lg:hidden bg-lightborder cursor-pointer hover:bg-neutral-300 dark:bg-primarybox dark:hover:bg-secondarybox z-10 p-2.5 rounded-full transition-colors duration-300 ease-in-out"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 lg:hidden bg-primarybox hover:bg-secondarybox text-primary cursor-pointer z-10 p-2.5 rounded-full transition-colors duration-300 ease-in-out"
                   aria-label="Close sidebar"
                 >
                   <IoClose
                     size={26}
-                    className="text-mainheading dark:text-primary"
                   />
                 </button>
               )}
@@ -4334,8 +4316,8 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                           className={`relative w-full flex items-center gap-3 py-3 px-6 font-medium rounded-full transition duration-200 mb-3 cursor-pointer
                             ${
                               visuallyDisabled
-                                ? "text-neutral-400 dark:text-gray-600 cursor-not-allowed opacity-60"
-                                : "text-neutral-500 hover:text-neutral-900 dark:text-gray-300 dark:hover:text-primary"
+                                ? "text-neutral-400 cursor-not-allowed opacity-60"
+                                : "text-subheadingWhite hover:text-primary"
                             }
                           `}
                           disabled={visuallyDisabled}
@@ -4380,10 +4362,10 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                           className={`relative w-full flex items-center gap-3 py-3 px-6 font-medium rounded-full transition duration-200 mb-3
                             ${
                               isActive
-                                ? "lg:bg-transparent dark:lg:bg-transparent bg-primary/60 text-neutral-900 dark:bg-primarybox dark:text-primary"
+                                ? "lg:bg-transparent dark:lg:bg-transparent bg-primarybox text-primary"
                                 : visuallyDisabled
-                                ? "text-neutral-400 dark:text-gray-600 cursor-not-allowed opacity-60"
-                                : "text-neutral-500 hover:text-neutral-900 dark:text-gray-300 dark:hover:text-primary"
+                                ? "text-neutral-400 cursor-not-allowed opacity-60"
+                                : "text-subheadingWhite hover:text-primary"
                             }
                           `}
                           aria-current={isActive ? "page" : undefined}
@@ -4393,7 +4375,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                           {isActive && (
                             <motion.div
                               layoutId="active-sidebar-indicator"
-                              className="absolute inset-0 rounded-full bg-primary dark:bg-primarybox"
+                              className="absolute inset-0 rounded-full bg-primarybox"
                               initial={false}
                               transition={{
                                 type: "spring",
@@ -4422,7 +4404,8 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                   ) : (
                     <button
                       onClick={handleLogout}
-                      className="w-full flex items-center space-x-3 py-3 px-6 font-medium rounded-full transition duration-200 mb-2 cursor-pointer text-neutral-500 hover:text-neutral-900 dark:text-gray-300 dark:hover:text-primary"
+                      className="w-full flex items-center space-x-3 py-3 px-6 font-medium rounded-full transition duration-200 mb-2 cursor-pointer text-subheadingWhite
+                       hover:text-primary"
                     >
                       <VscSignOut className="w-6 h-6 flex-shrink-0" />
                       <span className="font-medium">Logout</span>
@@ -4460,7 +4443,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
             transition={{ duration: 0.2, ease: "easeInOut" }}
-            className="sm:hidden fixed bottom-0 left-0 w-full bg-white dark:bg-background border-t z-45 rounded-tl-3xl rounded-tr-3xl"
+            className="sm:hidden fixed bottom-0 left-0 w-full bg-background border-t z-45 rounded-tl-3xl rounded-tr-3xl"
           >
             <div className="flex items-center justify-around h-16 relative">
               {standardBottomNavItems.slice(0, 2).map((item) => {
@@ -4508,7 +4491,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                     } ${
                       isActive
                         ? "text-primary dark:text-primary"
-                        : "text-neutral-500 dark:text-gray-400 hover:text-neutral-800 dark:hover:text-gray-200"
+                        : "text-subheadingWhite hover:text-neutral-800 "
                     }`}
                     aria-current={isActive ? "page" : undefined}
                     aria-disabled={visuallyDisabled}
@@ -4521,7 +4504,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                       className={`text-[10px] font-medium transition-colors truncate ${
                         isActive
                           ? "text-primary dark:text-primary"
-                          : "text-neutral-600 dark:text-gray-400 group-hover:text-neutral-800 dark:group-hover:text-gray-200"
+                          : "text-subheadingWhite group-hover:text-neutral-800"
                       }`}
                     >
                       {item.label}
@@ -4651,7 +4634,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                           : ""
                       } ${
                         // No active state for action buttons in bottom nav
-                        "text-neutral-500 dark:text-gray-400 hover:text-neutral-800 dark:hover:text-gray-200"
+                        "text-subheadingWhite hover:text-primary"
                       }`}
                       disabled={visuallyDisabled}
                       aria-disabled={visuallyDisabled}
@@ -4662,7 +4645,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                         {IconComponent && <IconComponent className="size-6" />}
                       </div>
                       <span
-                        className={`${commonLabelClasses} text-neutral-600 dark:text-gray-400 group-hover:text-neutral-800 dark:group-hover:text-gray-200`}
+                        className={`${commonLabelClasses} text-subheadingWhite group-hover:text-primary`}
                       >
                         {item.label}
                       </span>
@@ -4707,7 +4690,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                       } ${
                         isActive
                           ? "text-primary dark:text-primary"
-                          : "text-neutral-500 dark:text-gray-400 hover:text-neutral-800 dark:hover:text-gray-200"
+                          : "text-subheadingWhite hover:text-primary"
                       }`}
                       aria-current={isActive ? "page" : undefined}
                       aria-disabled={visuallyDisabled}
@@ -4720,7 +4703,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                         className={`${commonLabelClasses} ${
                           isActive
                             ? "text-primary dark:text-primary"
-                            : "text-neutral-600 dark:text-gray-400 group-hover:text-neutral-800 dark:group-hover:text-gray-200"
+                            : "text-subheadingWhite group-hover:text-primary"
                         }`}
                       >
                         {item.label}

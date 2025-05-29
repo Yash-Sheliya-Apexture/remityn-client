@@ -1793,7 +1793,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
             animate={{ opacity: 0.5 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/50 dark:bg-white/30 z-50"
+            className="fixed inset-0 bg-white/30 z-50"
             // onClick={onClose} // Keep if you want backdrop click to close, can be annoying during interaction
           />
 
@@ -1804,7 +1804,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
               isMobile
                 ? "bottom-0 left-0 right-0 h-[100dvh]"
                 : "top-0 right-0 sm:w-[600px] h-full"
-            } bg-white dark:bg-background z-80 flex flex-col`}
+            } bg-background z-80 flex flex-col`}
             initial={
               isMobile ? { y: "100%", opacity: 0 } : { x: "100%", opacity: 0 }
             }
@@ -1816,33 +1816,30 @@ const FilterModal: React.FC<FilterModalProps> = ({
             }
             transition={{ type: "tween", duration: 0.3 }}
           >
-            <div className="sm:p-6 p-4 h-20 flex items-center justify-between flex-shrink-0 border-b border-neutral-200 dark:border-neutral-700 relative">
-              <h3 className="font-semibold text-mainheading dark:text-white text-xl lg:text-2xl">
+            <div className="sm:p-6 p-4 h-20 flex items-center justify-between flex-shrink-0 border-b relative">
+              <h3 className="font-semibold text-mainheadingWhite text-xl lg:text-2xl">
                 Filters
               </h3>
               <button
                 onClick={onClose}
-                className="p-2.5 bg-lightborder hover:bg-neutral-300 dark:bg-primarybox dark:hover:bg-secondarybox rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
+                className="p-2.5 bg-primarybox hover:bg-secondarybox text-primary rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
                 aria-label="Close filters"
               >
-                <IoClose
-                  className="text-neutral-900 dark:text-primary"
-                  size={28}
-                />
+                <IoClose size={28} />
               </button>
             </div>
 
             <div className="sm:p-6 p-4 flex-grow overflow-y-auto scrollbar-hide space-y-6">
               <div>
-                <h4 className="text-gray-500 dark:text-gray-300 font-medium mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
+                <h4 className="font-medium text-white/90 mb-3 leading-8 border-b">
                   Date
                 </h4>
                 <div className="flex items-center flex-wrap gap-2 mb-4">
                   <button
                     className={`font-medium border flex items-center gap-1 rounded-full px-4 py-2 cursor-pointer transition-colors ${
                       isLastMonthActive
-                        ? "bg-neutral-900 text-primary dark:bg-primarybox border-transparent"
-                        : "text-mainheading dark:text-white bg-white dark:bg-background border-neutral-300 dark:border-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500"
+                        ? " bg-primarybox hover:bg-secondarybox text-primary border-transparent"
+                        : " text-white/90 bg-background hover:border-gray-500"
                     }`}
                     onClick={() =>
                       isLastMonthActive
@@ -1865,8 +1862,8 @@ const FilterModal: React.FC<FilterModalProps> = ({
                   <button
                     className={`font-medium border flex items-center gap-1 rounded-full px-4 py-2 cursor-pointer transition-colors ${
                       isLastQuarterActive
-                        ? "bg-neutral-900 text-primary dark:bg-primarybox border-transparent"
-                        : "text-mainheading dark:text-white bg-white dark:bg-background border-neutral-300 dark:border-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500"
+                        ? "bg-primarybox hover:bg-secondarybox text-primary border-transparent"
+                        : "text-white/90 bg-background hover:border-gray-500"
                     }`}
                     onClick={() =>
                       isLastQuarterActive
@@ -1889,8 +1886,8 @@ const FilterModal: React.FC<FilterModalProps> = ({
                   <button
                     className={`font-medium border flex items-center gap-1 rounded-full px-4 py-2 cursor-pointer transition-colors ${
                       isLastYearActive
-                        ? "bg-neutral-900 text-primary dark:bg-primarybox border-transparent"
-                        : "text-mainheading dark:text-white bg-white dark:bg-background border-neutral-300 dark:border-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500"
+                        ? "bg-primarybox hover:bg-secondarybox text-primary border-transparent"
+                        : "text-white/90 bg-background hover:border-gray-500"
                     }`}
                     onClick={() =>
                       isLastYearActive
@@ -1926,6 +1923,9 @@ const FilterModal: React.FC<FilterModalProps> = ({
                 </div>
               </div>
               <div>
+                <h4 className="font-medium text-white/90 mb-3 leading-8 border-b">
+                  Recipients
+                </h4>
                 <Recipients
                   selectedRecipientIds={selectedRecipients}
                   onRecipientSelectionChange={handleRecipientSelectionChange}
@@ -1945,7 +1945,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
               </div>
               {userAccounts && userAccounts.length > 0 && (
                 <div>
-                  <h4 className="text-gray-500 dark:text-gray-300 font-medium mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
+                  <h4 className="font-medium text-white/90 mb-3 leading-8 border-b">
                     Balance
                   </h4>
                   <div className="space-y-2">
@@ -1975,18 +1975,18 @@ const FilterModal: React.FC<FilterModalProps> = ({
               )}
             </div>
 
-            <div className="sm:p-6 p-4 border-t border-neutral-200 dark:border-neutral-700 bg-white dark:bg-background flex-shrink-0">
+            <div className="sm:p-6 p-4 border-t bg-background flex-shrink-0">
               <div className="flex items-center gap-3">
                 <button
                   type="button"
-                  className="bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear"
+                  className="text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear"
                   onClick={handleClearAllFilters}
                 >
                   Clear all
                 </button>
                 <button
                   type="button"
-                  className="bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear"
+                  className="bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear"
                   onClick={handleApplyFilters}
                 >
                   Apply

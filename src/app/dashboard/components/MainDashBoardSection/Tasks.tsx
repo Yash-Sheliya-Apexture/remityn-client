@@ -916,7 +916,7 @@ const TasksPage: React.FC = () => {
     <section className="Tasks-Wrapper">
       <div className="Tasks">
         {/* --- Heading --- */}
-        <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white mb-4">
+        <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite mb-4">
           Tasks
         </h1>
 
@@ -986,29 +986,29 @@ const TasksPage: React.FC = () => {
                       href={`/dashboard/transactions/${task._id}`}
                       className="block"
                     >
-                      <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
-                        <div className="flex sm:items-center sm:gap-4 gap-2">
+                      <div className="block hover:bg-primarybox group/item p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
+                        <div className="flex sm:items-center sm:gap-4 gap-2 ">
                           {/* Icon */}
                           <div className="relative flex-shrink-0">
-                            <div className="p-3 bg-yellow-100 dark:bg-yellow-800/60 rounded-full flex items-center justify-center">
+                            <div className="p-3 bg-yellow-700/50 rounded-full flex items-center justify-center">
                               <LuPlus
                                 size={24}
-                                className="text-yellow-700 dark:text-yellow-300"
+                                className="text-yellow-300"
                               />
                             </div>
                             <MdErrorOutline
                               size={20}
-                              className="absolute top-8 -right-1 text-orange-500 bg-white dark:bg-gray-800 rounded-full p-0.5" // Adjusted background for dark mode visibility
+                              className="absolute top-8 -right-1 text-orange-500 bg-background group-hover/item:bg-primarybox rounded-full transition-all duration-75 ease-linear p-0.5" // Adjusted background for dark mode visibility
                             />
                           </div>
                           {/* Details & Action */}
                           <div className="flex-grow flex flex-row justify-between items-center gap-4">
                             {/* Text Details */}
                             <div className="flex-grow">
-                              <p className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px">
+                              <p className="font-medium leading-relaxed text-mainheadingWhite sm:text-lg text-15px">
                                 To your {currency} balance
                               </p>
-                              <p className="sm:text-sm text-13px text-orange-600 dark:text-orange-400 font-semibold mt-1">
+                              <p className="sm:text-sm text-13px text-orange-600 dark:text-orange-400 font-medium mt-1">
                                 {" "}
                                 {/* Adjusted text color for dark mode */}
                                 Waiting for you to pay

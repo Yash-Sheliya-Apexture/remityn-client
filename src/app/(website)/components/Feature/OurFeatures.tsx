@@ -783,307 +783,477 @@
 
 // export default FeaturesSection;
 
-"use client"; // Required for Framer Motion
+// "use client"; // Required for Framer Motion
+// import React from "react";
+// import Image from "next/image";
+// import { FaChartLine, FaHeadset, FaFastForward } from "react-icons/fa";
+// import { FiGlobe } from "react-icons/fi";
+// import { motion } from "framer-motion"; // Import motion
+
+// // --- Animation Variants ---
+
+// // Variants for the overall section container
+// const sectionVariants = {
+//   hidden: {},
+//   visible: {
+//     transition: {
+//       staggerChildren: 0.25, // Stagger heading and grid container slightly more
+//     },
+//   },
+// };
+
+// // Variants for the heading section
+// const headingVariants = {
+//   hidden: { opacity: 0, y: -30 },
+//   visible: {
+//     opacity: 1,
+//     y: 0,
+//     transition: {
+//       duration: 0.5,
+//       ease: "easeOut",
+//     },
+//   },
+// };
+
+// // Variants for the grid container (to stagger the cards within)
+// const gridContainerVariants = {
+//   hidden: {},
+//   visible: {
+//     transition: {
+//       staggerChildren: 0.1, // Stagger each card
+//       delayChildren: 0.2, // Delay after heading starts
+//     },
+//   },
+// };
+
+// // Variants for each individual feature card (Gentle Spring Slide-Up)
+// const cardVariants = {
+//   hidden: {
+//     opacity: 0,
+//     y: 60, // Start 60px below
+//   },
+//   visible: {
+//     opacity: 1,
+//     y: 0, // Animate to final position
+//     transition: {
+//       type: "spring", // Spring physics
+//       damping: 15, // Adjust damping (bounce)
+//       stiffness: 100, // Adjust stiffness (speed)
+//       duration: 0.5, // Can provide a hint, but spring controls timing mostly
+//       ease: "easeOut", // Fallback ease if needed
+//     },
+//   },
+// };
+
+// // --- FeaturesSection Component ---
+// const FeaturesSection: React.FC = () => {
+//   return (
+//     <motion.section
+//       className="Features-Section bg-white lg:py-10 py-5 dark:bg-background overflow-hidden"
+//       id="features"
+//       variants={sectionVariants}
+//       initial="hidden"
+//       whileInView="visible"
+//       // viewport={{ amount: 0.2, once: false }} // <-- OLD: Repeat animation
+//       viewport={{ amount: 0.2, once: true }} // <-- NEW: Animate only once
+//     >
+//       <div className="container mx-auto px-4">
+//         <div className="flex flex-col gap-8">
+//           {/* Heading Section - Apply motion */}
+//           <motion.div
+//             className="space-y-4 text-center md:text-left"
+//             variants={headingVariants}
+//             // Inherits trigger from parent section
+//           >
+//             <h1 className="text-3xl md:text-4xl xl:text-6xl font-black text-mainheading dark:text-white uppercase">
+//               Security, Speed,
+//               <span className="text-primary"> Savings & Support </span>
+//             </h1>
+
+//             {/* Description */}
+//             <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base lg:max-w-5xl max-w-full">
+//               At the heart of our service is a commitment to making your money
+//               transfers seamless, secure, and cost-effective. Whether you're
+//               sending funds internationally or managing cross-border
+//               transactions, we combine cutting-edge technology with expert
+//               support to ensure speed, transparency, and peace of mind.
+//             </p>
+//           </motion.div>
+
+//           {/* Features Grid - Apply motion container for staggering */}
+//           <motion.div
+//             className="grid gap-6 grid-cols-1 md:grid-cols-2 md:grid-rows-0"
+//             variants={gridContainerVariants}
+//           >
+//             {/* Feature Card 1: Security (Large) */}
+//             <motion.div
+//               className="row-span-4 flex flex-col overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox"
+//               variants={cardVariants} // Apply Spring Slide-Up animation
+//               // Timing controlled by parent stagger
+//             >
+//               <Image
+//                 src="/assets/images/lock.jpg"
+//                 width={500}
+//                 height={500}
+//                 alt="Secure padlock illustration"
+//                 className="w-full object-cover lg:h-96 md:h-60 h-46"
+//                 priority
+//               />
+
+//               <div className="flex flex-col space-y-3 p-4 lg:p-6">
+//                 <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
+//                   <span className="text-primary font-bold ">Secure</span> Every
+//                   Step of the Way
+//                 </h3>
+//                 <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
+//                   We prioritize your security with advanced encryption and fraud
+//                   detection, keeping your money and data safe 24/7.
+//                 </p>
+//               </div>
+//             </motion.div>
+
+//             {/* Feature Card 2: Speed (Small) */}
+//             <motion.div
+//               className="row-span-2 flex flex-col justify-center lg:gap-6 gap-3 overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox lg:p-6 p-4"
+//               variants={cardVariants} // Apply Spring Slide-Up animation
+//             >
+//               <FaFastForward className="lg:size-10 size-8 text-neutral-900 dark:text-primary" />
+//               <div className="flex flex-col gap-3">
+//                 <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
+//                   <span>
+//                     Our transfers are{" "}
+//                     <span className="text-primary font-bold">Speedy</span>
+//                   </span>
+//                 </h3>
+//                 <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
+//                   Receive your money swiftly, often within minutes, thanks to
+//                   our optimized transfer network.
+//                 </p>
+//               </div>
+//             </motion.div>
+
+//             {/* Feature Card 3: Support (Large) */}
+//             <motion.div
+//               className="row-span-4 flex flex-col overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox"
+//               variants={cardVariants} // Apply Spring Slide-Up animation
+//             >
+//               <Image
+//                 src="/assets/images/friendly-customer.jpg"
+//                 width={500}
+//                 height={500}
+//                 alt="Friendly customer support agent"
+//                 className="w-full object-cover lg:h-96 md:h-60 h-46"
+//               />
+//               <div className="flex flex-col gap-3 p-4 lg:p-6">
+//                 <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
+//                   <span>
+//                     Need{" "}
+//                     <span className="text-primary font-bold">Support </span>?
+//                     We’re here!
+//                   </span>
+//                 </h3>
+//                 <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
+//                   Our dedicated support team is available via chat, email, and
+//                   phone to assist you anytime.
+//                 </p>
+//               </div>
+//             </motion.div>
+
+//             {/* Feature Card 4: Savings (Small) */}
+//             <motion.div
+//               className="row-span-2 flex flex-col justify-center lg:gap-6 gap-3 overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox lg:p-6 p-4"
+//               variants={cardVariants} // Apply Spring Slide-Up animation
+//             >
+//               <FaChartLine className="lg:size-10 size-8 text-neutral-900 dark:text-primary" />
+//               <div className="flex flex-col gap-3">
+//                 <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
+//                   <span>
+//                     <span className="text-primary font-bold">Save</span> with
+//                     high exchange rates
+//                   </span>
+//                 </h3>
+//                 <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
+//                   Get the best value for your hard-earned money with our
+//                   competitive, transparent exchange rates.
+//                 </p>
+//               </div>
+//             </motion.div>
+
+//             {/* Feature Card 5: Rates (Large) */}
+//             <motion.div
+//               className="row-span-4 flex flex-col overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox"
+//               variants={cardVariants} // Apply Spring Slide-Up animation
+//             >
+//               <Image
+//                 src="/assets/images/dynamicRate.png"
+//                 width={500}
+//                 height={500}
+//                 alt="Graph showing dynamic exchange rates"
+//                 className="w-full object-cover lg:h-96 md:h-60 h-46"
+//               />
+//               <div className="flex flex-col gap-3 p-4 lg:p-6">
+//                 <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
+//                   <span>
+//                     Stay ahead with live{" "}
+//                     <span className="text-primary font-bold capitalize">
+//                       exchange rates
+//                     </span>
+//                   </span>
+//                 </h3>
+//                 <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
+//                   Stay updated with real-time currency exchange rates for
+//                   informed decisions and maximum value.
+//                 </p>
+//               </div>
+//             </motion.div>
+
+//             {/* Feature Card 6: Reach (Small) */}
+//             <motion.div
+//               className="row-span-2 flex flex-col justify-center lg:gap-6 gap-3 overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox lg:p-6 p-4"
+//               variants={cardVariants} // Apply Spring Slide-Up animation
+//             >
+//               <FiGlobe className="lg:size-10 size-8 text-neutral-900 dark:text-primary" />
+//               <div className="flex flex-col gap-3">
+//                 <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
+//                   <span>
+//                     <span className="text-primary font-bold">
+//                       Worldwide Reach
+//                     </span>{" "}
+//                     , Local Touch
+//                   </span>
+//                 </h3>
+//                 <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
+//                   Our platform combines international reach with localized
+//                   support for a seamless experience.
+//                 </p>
+//               </div>
+//             </motion.div>
+
+//             {/* Feature Card 7: Money (Large) */}
+//             <motion.div
+//               className="row-span-4 flex flex-col overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox"
+//               variants={cardVariants} // Apply Spring Slide-Up animation
+//             >
+//               <Image
+//                 src="/assets/images/withoutborder.png"
+//                 width={500}
+//                 height={500}
+//                 alt="Illustration of money exchange without borders"
+//                 className="w-full object-cover lg:h-96 md:h-60 h-46"
+//               />
+//               <div className="flex flex-col gap-3 p-4 lg:p-6">
+//                 <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
+//                   <span>
+//                     Exchange{" "}
+//                     <span className="text-primary font-bold capitalize">
+//                       Money{" "}
+//                     </span>
+//                     Without Borders
+//                   </span>
+//                 </h3>
+//                 <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
+//                   Seamless global money transfers made simple, connecting you
+//                   financially across continents.
+//                 </p>
+//               </div>
+//             </motion.div>
+
+//             {/* Feature Card 8: 24/7 Support (Small) */}
+//             <motion.div
+//               className="row-span-2 flex flex-col justify-center lg:gap-6 gap-3 overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox lg:p-6 p-4"
+//               variants={cardVariants} // Apply Spring Slide-Up animation
+//             >
+//               <FaHeadset className="lg:size-10 size-8 text-mainheading dark:text-primary" />
+//               <div className="flex flex-col gap-3">
+//                 <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
+//                   <span>
+//                     <span className="text-primary font-bold">
+//                       24/7 Customer{" "}
+//                     </span>
+//                     Support
+//                   </span>
+//                 </h3>
+//                 <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
+//                   We're here for you—day or night—with reliable customer service
+//                   whenever you need assistance.
+//                 </p>
+//               </div>
+//             </motion.div>
+//           </motion.div>
+//         </div>
+//       </div>
+//     </motion.section>
+//   );
+// };
+
+// export default FeaturesSection;
+
+
+
 import React from "react";
-import Image from "next/image";
-import { FaChartLine, FaHeadset, FaFastForward } from "react-icons/fa";
-import { FiGlobe } from "react-icons/fi";
-import { motion } from "framer-motion"; // Import motion
+// Import appropriate icons from react-icons
+import {
+  FaUserPlus,      // For Account Setup
+  FaWallet,        // For Fund Your Account
+  FaPaperPlane,    // For Direct Transfers
+  FaExchangeAlt,   // For Exchange Rates
+  FaShieldAlt,     // For Security
+  FaReceipt,       // For Transparent Fees
+  FaHeadset,       // For Customer Support (new Card 7)
+} from "react-icons/fa";
+// Removed: import { icons } from 'lucide-react'; as it's not used
 
-// --- Animation Variants ---
+interface Feature {
+  id: number;
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  colSpanLarge: string; // To define column span on large screens (lg:)
+  iconBgColor: string;
+}
 
-// Variants for the overall section container
-const sectionVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.25, // Stagger heading and grid container slightly more
-    },
+const features: Feature[] = [
+  {
+    id: 1,
+    icon: FaUserPlus,
+    title: "Quick & Easy Account Setup",
+    description: "Get started in minutes. Create your secure account and begin your journey to hassle-free money transfers.",
+    colSpanLarge: "lg:col-span-3", // Spans 3 of 6 columns on large screens
+    iconBgColor: "#e3ffd1", // Light green
   },
-};
-
-// Variants for the heading section
-const headingVariants = {
-  hidden: { opacity: 0, y: -30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
+  {
+    id: 2,
+    icon: FaWallet,
+    title: "Fund Your Account Your Way",
+    description: "Easily add funds to your account balance using your local currency through various secure payment methods.",
+    colSpanLarge: "lg:col-span-3", // Spans 3 of 6 columns on large screens
+    iconBgColor: "#9bf7ff", // Light blue
   },
-};
-
-// Variants for the grid container (to stagger the cards within)
-const gridContainerVariants = {
-  hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1, // Stagger each card
-      delayChildren: 0.2, // Delay after heading starts
-    },
+  {
+    id: 3,
+    icon: FaPaperPlane,
+    title: "Direct Transfers to India",
+    description: "Send money directly to any bank account or UPI ID in India. Our specialized service ensures your funds reach their destination efficiently.",
+    colSpanLarge: "lg:col-span-2", // Spans 2 of 6 columns on large screens
+    iconBgColor: "#e2c9fb", // Light pink
   },
-};
-
-// Variants for each individual feature card (Gentle Spring Slide-Up)
-const cardVariants = {
-  hidden: {
-    opacity: 0,
-    y: 60, // Start 60px below
+  {
+    id: 4,
+    icon: FaExchangeAlt,
+    title: "Competitive Exchange Rates",
+    description: "Enjoy exchange rates that are better than the market average. Get more INR for your currency, maximizing value for your recipient.",
+    colSpanLarge: "lg:col-span-2", // Spans 2 of 6 columns on large screens
+    iconBgColor: "#fbcdcd", // Light orange
   },
-  visible: {
-    opacity: 1,
-    y: 0, // Animate to final position
-    transition: {
-      type: "spring", // Spring physics
-      damping: 15, // Adjust damping (bounce)
-      stiffness: 100, // Adjust stiffness (speed)
-      duration: 0.5, // Can provide a hint, but spring controls timing mostly
-      ease: "easeOut", // Fallback ease if needed
-    },
+  {
+    id: 5,
+    icon: FaShieldAlt,
+    title: "Bank-Grade Security",
+    description: "Your security is our priority. We use advanced encryption and security protocols to protect your funds and personal data.",
+    colSpanLarge: "lg:col-span-2", // Spans 2 of 6 columns on large screens
+    iconBgColor: "#fee09f", // Light purple
   },
-};
+  {
+    id: 6,
+    icon: FaReceipt,
+    title: "Transparent Fees & Process",
+    description: "No hidden charges. See all fees upfront before you send. Track your transfer every step of the way.",
+    colSpanLarge: "lg:col-span-3", // Spans 3 of 6 columns on large screens
+    iconBgColor: "#98FB98", // Light cyan
+  },
+  {
+    id: 7,
+    icon: FaHeadset,
+    title: "24/7 Customer Support",
+    description: "Get help anytime with our dedicated support team, ready to assist you with any queries or issues.",
+    colSpanLarge: "lg:col-span-3", // Spans 3 of 6 columns on large screens
+    iconBgColor: "#FFA07A", // Light yellow
+  },
+];
 
-// --- FeaturesSection Component ---
-const FeaturesSection: React.FC = () => {
+interface FeatureCardProps {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  iconBgColor: string;
+}
+
+// Corrected this component
+const FeatureCard: React.FC<FeatureCardProps> = ({
+  icon: Icon,
+  title,
+  description,
+  iconBgColor,
+}) => {
+  // Added iconBgColor to destructuring
   return (
-    <motion.section
-      className="Features-Section bg-white lg:py-10 py-5 dark:bg-background overflow-hidden"
-      id="features"
-      variants={sectionVariants}
-      initial="hidden"
-      whileInView="visible"
-      // viewport={{ amount: 0.2, once: false }} // <-- OLD: Repeat animation
-      viewport={{ amount: 0.2, once: true }} // <-- NEW: Animate only once
-    >
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col gap-8">
-          {/* Heading Section - Apply motion */}
-          <motion.div
-            className="space-y-4 text-center md:text-left"
-            variants={headingVariants}
-            // Inherits trigger from parent section
-          >
-            <h1 className="text-3xl md:text-4xl xl:text-6xl font-black text-mainheading dark:text-white uppercase">
-              Security, Speed,
-              <span className="text-primary"> Savings & Support </span>
-            </h1>
+    // Card styling updated for new image
+    <div className="bg-background relative w-full h-full xl:h-[20rem] rounded-3xl p-4 md:p-6 flex flex-col ">
+      <div className="mb-4">
 
-            {/* Description */}
-            <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base lg:max-w-5xl max-w-full">
-              At the heart of our service is a commitment to making your money
-              transfers seamless, secure, and cost-effective. Whether you're
-              sending funds internationally or managing cross-border
-              transactions, we combine cutting-edge technology with expert
-              support to ensure speed, transparency, and peace of mind.
-            </p>
-          </motion.div>
-
-          {/* Features Grid - Apply motion container for staggering */}
-          <motion.div
-            className="grid gap-6 grid-cols-1 md:grid-cols-2 md:grid-rows-0"
-            variants={gridContainerVariants}
-          >
-            {/* Feature Card 1: Security (Large) */}
-            <motion.div
-              className="row-span-4 flex flex-col overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox"
-              variants={cardVariants} // Apply Spring Slide-Up animation
-              // Timing controlled by parent stagger
-            >
-              <Image
-                src="/assets/images/lock.jpg"
-                width={500}
-                height={500}
-                alt="Secure padlock illustration"
-                className="w-full object-cover lg:h-96 md:h-60 h-46"
-                priority
-              />
-
-              <div className="flex flex-col space-y-3 p-4 lg:p-6">
-                <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
-                  <span className="text-primary font-bold ">Secure</span> Every
-                  Step of the Way
-                </h3>
-                <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
-                  We prioritize your security with advanced encryption and fraud
-                  detection, keeping your money and data safe 24/7.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Feature Card 2: Speed (Small) */}
-            <motion.div
-              className="row-span-2 flex flex-col justify-center lg:gap-6 gap-3 overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox lg:p-6 p-4"
-              variants={cardVariants} // Apply Spring Slide-Up animation
-            >
-              <FaFastForward className="lg:size-10 size-8 text-neutral-900 dark:text-primary" />
-              <div className="flex flex-col gap-3">
-                <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
-                  <span>
-                    Our transfers are{" "}
-                    <span className="text-primary font-bold">Speedy</span>
-                  </span>
-                </h3>
-                <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Receive your money swiftly, often within minutes, thanks to
-                  our optimized transfer network.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Feature Card 3: Support (Large) */}
-            <motion.div
-              className="row-span-4 flex flex-col overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox"
-              variants={cardVariants} // Apply Spring Slide-Up animation
-            >
-              <Image
-                src="/assets/images/friendly-customer.jpg"
-                width={500}
-                height={500}
-                alt="Friendly customer support agent"
-                className="w-full object-cover lg:h-96 md:h-60 h-46"
-              />
-              <div className="flex flex-col gap-3 p-4 lg:p-6">
-                <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
-                  <span>
-                    Need{" "}
-                    <span className="text-primary font-bold">Support </span>?
-                    We’re here!
-                  </span>
-                </h3>
-                <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Our dedicated support team is available via chat, email, and
-                  phone to assist you anytime.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Feature Card 4: Savings (Small) */}
-            <motion.div
-              className="row-span-2 flex flex-col justify-center lg:gap-6 gap-3 overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox lg:p-6 p-4"
-              variants={cardVariants} // Apply Spring Slide-Up animation
-            >
-              <FaChartLine className="lg:size-10 size-8 text-neutral-900 dark:text-primary" />
-              <div className="flex flex-col gap-3">
-                <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
-                  <span>
-                    <span className="text-primary font-bold">Save</span> with
-                    high exchange rates
-                  </span>
-                </h3>
-                <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Get the best value for your hard-earned money with our
-                  competitive, transparent exchange rates.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Feature Card 5: Rates (Large) */}
-            <motion.div
-              className="row-span-4 flex flex-col overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox"
-              variants={cardVariants} // Apply Spring Slide-Up animation
-            >
-              <Image
-                src="/assets/images/dynamicRate.png"
-                width={500}
-                height={500}
-                alt="Graph showing dynamic exchange rates"
-                className="w-full object-cover lg:h-96 md:h-60 h-46"
-              />
-              <div className="flex flex-col gap-3 p-4 lg:p-6">
-                <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
-                  <span>
-                    Stay ahead with live{" "}
-                    <span className="text-primary font-bold capitalize">
-                      exchange rates
-                    </span>
-                  </span>
-                </h3>
-                <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Stay updated with real-time currency exchange rates for
-                  informed decisions and maximum value.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Feature Card 6: Reach (Small) */}
-            <motion.div
-              className="row-span-2 flex flex-col justify-center lg:gap-6 gap-3 overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox lg:p-6 p-4"
-              variants={cardVariants} // Apply Spring Slide-Up animation
-            >
-              <FiGlobe className="lg:size-10 size-8 text-neutral-900 dark:text-primary" />
-              <div className="flex flex-col gap-3">
-                <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
-                  <span>
-                    <span className="text-primary font-bold">
-                      Worldwide Reach
-                    </span>{" "}
-                    , Local Touch
-                  </span>
-                </h3>
-                <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Our platform combines international reach with localized
-                  support for a seamless experience.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Feature Card 7: Money (Large) */}
-            <motion.div
-              className="row-span-4 flex flex-col overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox"
-              variants={cardVariants} // Apply Spring Slide-Up animation
-            >
-              <Image
-                src="/assets/images/withoutborder.png"
-                width={500}
-                height={500}
-                alt="Illustration of money exchange without borders"
-                className="w-full object-cover lg:h-96 md:h-60 h-46"
-              />
-              <div className="flex flex-col gap-3 p-4 lg:p-6">
-                <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
-                  <span>
-                    Exchange{" "}
-                    <span className="text-primary font-bold capitalize">
-                      Money{" "}
-                    </span>
-                    Without Borders
-                  </span>
-                </h3>
-                <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
-                  Seamless global money transfers made simple, connecting you
-                  financially across continents.
-                </p>
-              </div>
-            </motion.div>
-
-            {/* Feature Card 8: 24/7 Support (Small) */}
-            <motion.div
-              className="row-span-2 flex flex-col justify-center lg:gap-6 gap-3 overflow-hidden rounded-3xl bg-lightgray dark:bg-primarybox lg:p-6 p-4"
-              variants={cardVariants} // Apply Spring Slide-Up animation
-            >
-              <FaHeadset className="lg:size-10 size-8 text-mainheading dark:text-primary" />
-              <div className="flex flex-col gap-3">
-                <h3 className="lg:text-2xl text-base font-medium text-neutral-900 dark:text-white">
-                  <span>
-                    <span className="text-primary font-bold">
-                      24/7 Customer{" "}
-                    </span>
-                    Support
-                  </span>
-                </h3>
-                <p className="lg:text-lg text-sm font-medium text-gray-500 dark:text-gray-300">
-                  We're here for you—day or night—with reliable customer service
-                  whenever you need assistance.
-                </p>
-              </div>
-            </motion.div>
-          </motion.div>
+        <div
+          className="xl:w-20 lg:w-18 w-14 xl:h-20 lg:h-18 h-14 xl:rounded-2xl rounded-xl flex items-center justify-center"
+          style={{ backgroundColor: iconBgColor }} 
+        >
+         
+          <Icon className="text-mainheading transition-colors duration-300 ease-in-out xl:size-6 size-5" />
         </div>
       </div>
-    </motion.section>
+      <div className="flex flex-col flex-grow xl:justify-end">
+  
+        <h3 className=" text-mainheadingWhite group-hover:text-primary text-2xl font-semibold line-clamp-2 mb-2">
+          {title}
+        </h3>
+        <p className="text-subheadingWhite lg:text-lg text-base">
+          {description}
+        </p>
+      </div>
+    </div>
   );
 };
 
-export default FeaturesSection;
+const OurFeatures: React.FC = () => {
+  return (
+    <section className="FeatureSection py-20">
+      <div className="container mx-auto px-4">
+        <div className="space-y-4 text-center md:text-left">
+          <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+            Our Core{" "}
+            <span className="text-primary">Features</span>
+          </h3>
+          <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">
+            Experience seamless international transfers with fast setup,
+            transparent fees, and secure delivery. Our in-house security
+            protects your data, backed by 24/7 support for complete peace of
+            mind.
+          </p>
+        </div>
+        {/*
+          Grid setup:
+          - Default: 1 column
+          - sm (small screens, 640px+): 2 columns. Items will naturally flow.
+            An item that is lg:col-span-3 will still only take up 1 of 2 columns here.
+            An item that is lg:col-span-2 will also take up 1 of 2 columns here.
+            This provides a simpler 2-column layout on medium devices.
+          - lg (large screens, 1024px+): 6 columns. Items use their specific colSpanLarge.
+        */}
+        <div className="w-full box-border lg:mt-25 mt-16">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-[3] bg-[#394247] rounded-3xl border-3 border-[#394247]">
+            {features.map((feature) => (
+              <div key={feature.id} className={feature.colSpanLarge}>
+                <FeatureCard
+                  icon={feature.icon}
+                  title={feature.title}
+                  description={feature.description}
+                  iconBgColor={feature.iconBgColor}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default OurFeatures;

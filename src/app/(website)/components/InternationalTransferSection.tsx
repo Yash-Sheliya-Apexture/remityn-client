@@ -66,7 +66,7 @@ const InternationalTransferSection: React.FC = () => {
         </div>
 
         {/* Products Grid - remains largely the same, iterates over currentProducts */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 sm:mt-25 mt-16">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10 lg:mt-25 mt-16">
           {currentProducts.map((product, index) => {
             const isLast = index === currentProducts.length - 1;
             let conditionalClasses = "";

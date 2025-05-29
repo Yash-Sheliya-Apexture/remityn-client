@@ -2029,7 +2029,7 @@ const StepCardContent: React.FC = () => {
         </div>
         <div
           ref={cardsContainerRef}
-          className="relative flex flex-col gap-20 sm:mt-25 mt-16"
+          className="relative flex flex-col gap-20 lg:mt-25 mt-16"
         >
           {stepsData.map((step, index) => (
             <div

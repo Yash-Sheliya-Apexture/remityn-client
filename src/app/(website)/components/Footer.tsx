@@ -2075,7 +2075,7 @@ const Footer: React.FC = () => {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-lg lg:text-xl text-subheadingWhite hover:text-primary transition-colors duration-75 ease-linear"
+                className="text-lg lg:text-xl text-subheadingWhite hover:text-primary transition-colors duration-75 ease-linear "
               >
                 {link.label}
               </Link>
@@ -2085,7 +2085,7 @@ const Footer: React.FC = () => {
 
 
         {/* Mobile Navigation Links (appears below logo, above contact on mobile) */}
-        <nav className="sm:hidden flex items-center justify-center gap-3.5 sm:mb-10 mb-7.5">
+        <nav className="sm:hidden flex flex-wrap items-center justify-center gap-3.5 sm:mb-10 mb-7.5">
           {navLinks.map((link) => (
             <Link
               key={link.href}

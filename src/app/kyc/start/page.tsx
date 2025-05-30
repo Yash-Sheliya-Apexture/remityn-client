@@ -1771,7 +1771,6 @@
 //     pathname,
 //   ]);
 
-
 //   // --- Action Handlers (Keep existing logic) ---
 //   const handleStartVerification = useCallback(async () => {
 //     if (
@@ -1813,7 +1812,6 @@
 //     }
 //   }, [user, backendStatus, refetchUser, fetchKycStatus, router]);
 
-
 //   // --- Render Logic ---
 
 //   // 1. Primary Loading
@@ -1851,7 +1849,6 @@
 //         </div>
 //     );
 //   }
-
 
 //   // 5. Render Main Content (User logged in AND status allows starting/resuming)
 //   if ( user && ["not_started", "skipped", "rejected"].includes(backendStatus as string) ) {
@@ -1948,7 +1945,6 @@
 //                 </AlertDescription>
 //             </Alert>
 
-
 //             {/* Action Error Message */}
 //             {actionError && (
 //                 <Alert variant="destructive">
@@ -1965,7 +1961,6 @@
 
 //             <div className="flex flex-col sm:flex-row gap-3 w-full">
 
-            
 //             {/* Skip Button - Secondary Action (Only for not_started) */}
 //             {backendStatus === "not_started" && (
 //                 <button
@@ -2001,7 +1996,7 @@
 //                     primaryButtonClasses // Applies blue or red background
 //                 )}
 //             >
-//                  {startButtonText} {startButtonIcon} 
+//                  {startButtonText} {startButtonIcon}
 //             </button>
 
 //             </div>
@@ -2030,8 +2025,6 @@
 //     </div>
 //   );
 // }
-
-
 
 // // last code
 // // frontend/src/app/kyc/start/page.tsx
@@ -2128,7 +2121,6 @@
 //     pathname,
 //   ]);
 
-
 //   // --- Action Handlers (Keep existing logic) ---
 //   const handleStartVerification = useCallback(async () => {
 //     if (
@@ -2170,7 +2162,6 @@
 //     }
 //   }, [user, backendStatus, refetchUser, fetchKycStatus, router]);
 
-
 //   // --- Render Logic ---
 
 //   // 1. Primary Loading
@@ -2208,7 +2199,6 @@
 //         </div>
 //     );
 //   }
-
 
 //   // 5. Render Main Content (User logged in AND status allows starting/resuming)
 //   if ( user && ["not_started", "skipped", "rejected"].includes(backendStatus as string) ) {
@@ -2423,7 +2413,6 @@
 //   );
 // }
 
-
 // frontend/src/app/kyc/start/page.tsx
 "use client";
 
@@ -2517,15 +2506,20 @@ export default function KycStartPage() {
     // pathname, // pathname not strictly needed if KycProvider handles conditional UI
   ]);
 
-
   // --- Action Handlers ---
   const handleStartVerification = useCallback(async () => {
     if (
       !user ||
       !["not_started", "skipped", "rejected"].includes(backendStatus as string)
     ) {
-      console.warn("KYC Start: Start verification clicked in unexpected state:", backendStatus);
-      setActionError("Cannot start verification at this time. Current status: " + backendStatus);
+      console.warn(
+        "KYC Start: Start verification clicked in unexpected state:",
+        backendStatus
+      );
+      setActionError(
+        "Cannot start verification at this time. Current status: " +
+          backendStatus
+      );
       return;
     }
     setActionError(null);
@@ -2542,29 +2536,45 @@ export default function KycStartPage() {
 
     // If KYC status is already 'skipped', redirect to dashboard immediately.
     if (backendStatus === "skipped") {
-      console.log("KYC Start: KYC status is already 'skipped'. Redirecting to dashboard.");
+      console.log(
+        "KYC Start: KYC status is already 'skipped'. Redirecting to dashboard."
+      );
       router.push("/dashboard");
       return;
     }
 
     // Only allow the actual skip API call if status is 'not_started'.
     if (backendStatus !== "not_started") {
-      console.warn("KYC Start: Skip button clicked in an unexpected state for API call:", backendStatus);
-      setActionError("Cannot skip verification at this stage. Your current status is: " + backendStatus);
+      console.warn(
+        "KYC Start: Skip button clicked in an unexpected state for API call:",
+        backendStatus
+      );
+      setActionError(
+        "Cannot skip verification at this stage. Your current status is: " +
+          backendStatus
+      );
       return;
     }
 
     // Confirmation dialog
-    if (!confirm("Skipping verification may limit access to certain features. You can complete it later. Continue?")) {
+    if (
+      !confirm(
+        "Skipping verification may limit access to certain features. You can complete it later. Continue?"
+      )
+    ) {
       return;
     }
 
     setIsSkipping(true);
     setActionError(null);
     try {
-      console.log("KYC Start: Attempting to skip KYC via service (status was 'not_started')...");
+      console.log(
+        "KYC Start: Attempting to skip KYC via service (status was 'not_started')..."
+      );
       await kycService.skipKyc();
-      console.log("KYC Start: Skip API call successful. Refetching user and KYC status...");
+      console.log(
+        "KYC Start: Skip API call successful. Refetching user and KYC status..."
+      );
       await refetchUser(); // Refetch user data
       await fetchKycStatus(true); // Force refetch KYC status
       // After refetch, KycContext's backendStatus should update to 'skipped'.
@@ -2572,14 +2582,24 @@ export default function KycStartPage() {
       router.push("/dashboard"); // Redirect after successful skip and refetch
     } catch (err: any) {
       console.error("KYC Start: Error skipping KYC:", err);
-      const errorMessage = err?.response?.data?.message || err.message || "An unexpected error occurred while trying to skip verification.";
+      const errorMessage =
+        err?.response?.data?.message ||
+        err.message ||
+        "An unexpected error occurred while trying to skip verification.";
       setActionError(errorMessage);
       // User stays on page to see the error.
     } finally {
       setIsSkipping(false);
     }
-  }, [user, backendStatus, router, refetchUser, fetchKycStatus, setActionError, setIsSkipping]);
-
+  }, [
+    user,
+    backendStatus,
+    router,
+    refetchUser,
+    fetchKycStatus,
+    setActionError,
+    setIsSkipping,
+  ]);
 
   // --- Render Logic ---
 
@@ -2592,54 +2612,59 @@ export default function KycStartPage() {
     );
   }
 
-  // 2. User not logged in (after initial auth check)
-  // This should ideally be handled by a higher-level redirect or page guard in KycProvider or layout.
-  // If KycProvider sets backendStatus to 'unauthenticated', that's handled by redirect logic below.
-  if (!user && backendStatus !== 'unauthenticated') { // If user is gone but status hasn't updated yet
-     return (
-        <div className="flex justify-center items-center min-h-[400px]">
-            <p className="text-muted-foreground">Authenticating...</p>
-            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground ml-2" />
-        </div>
-    );
-  }
-
-  // 3. Waiting for Redirect based on KycContext status (verified, pending, error, unauthenticated)
-  // KycProvider is expected to handle these redirects. This component shows a spinner while that happens.
-  if (user && (kycLoadingStatus || ["verified", "pending", "error", "unauthenticated"].includes(backendStatus as string))) {
-    // KycProvider should redirect from these states. Show spinner during transition.
-    // "loading" is also a state where we might be waiting for status resolution.
-    // "unauthenticated" should also lead to redirect by KycProvider.
+  if (!user && backendStatus !== "unauthenticated") {
+    // If user is gone but status hasn't updated yet
     return (
       <div className="flex justify-center items-center min-h-[400px]">
-        <p className="text-muted-foreground">Loading KYC status...</p>
         <Loader2 className="h-8 w-8 animate-spin text-primary ml-2" />
+        <p className="text-mainheadingWhite">Authenticating...</p>
       </div>
     );
   }
 
+  if (
+    user &&
+    (kycLoadingStatus ||
+      ["verified", "pending", "error", "unauthenticated"].includes(
+        backendStatus as string
+      ))
+  ) {
+    return (
+      <div className="flex justify-center flex-col items-center min-h-[400px]">
+        <Loader2 className="h-8 w-8 animate-spin text-primary ml-2" />
+        <p className="text-mainheadingWhite">Loading KYC status...</p>
+      </div>
+    );
+  }
 
   // 4. Render Main Content (User logged in AND status allows starting/resuming: not_started, skipped, rejected)
-  if ( user && ["not_started", "skipped", "rejected"].includes(backendStatus as string) ) {
+  if (
+    user &&
+    ["not_started", "skipped", "rejected"].includes(backendStatus as string)
+  ) {
     let title = "Verify Your Identity";
-    let description = "Complete identity verification to comply with regulations, enhance security, and unlock all account features.";
+    let description =
+      "Complete identity verification to comply with regulations, enhance security, and unlock all account features.";
     let headerIcon = <UserPlus className="h-8 w-8" />;
     let iconBgColor = "bg-primary/20 text-primary border-primary/30";
     let startButtonText = "Start Verification";
     let startButtonIcon = <ArrowRight className="ml-2 size-4.5" />;
-    let primaryButtonClasses = "bg-primary text-neutral-900 hover:bg-primaryhover";
+    let primaryButtonClasses =
+      "bg-primary text-mainheading hover:bg-primaryhover";
 
     if (backendStatus === "skipped") {
       title = "Complete Your Verification";
-      description = "You previously skipped identity verification. Complete it now to access full account features.";
+      description =
+        "You previously skipped identity verification. Complete it now to access full account features.";
       headerIcon = <UserCheck className="h-8 w-8" />;
-      iconBgColor = "bg-blue-100 text-blue-600 border-blue-300 dark:bg-blue-900/40 dark:text-blue-400 dark:border-blue-700";
+      iconBgColor = "bg-blue-900/40 text-blue-400 border-blue-700";
       startButtonText = "Complete Verification";
     } else if (backendStatus === "rejected") {
       title = "Retry Verification";
-      description = "Your previous verification attempt requires attention. Please review the feedback and submit again.";
+      description =
+        "Your previous verification attempt requires attention. Please review the feedback and submit again.";
       headerIcon = <AlertTriangle className="h-8 w-8" />;
-      iconBgColor = "bg-red-100 text-destructive border-red-300 dark:bg-red-900/40 dark:text-red-400 dark:border-red-700";
+      iconBgColor = "bg-red-900/40 text-red-400 border-red-700";
       startButtonText = "Retry Verification";
       startButtonIcon = <RotateCcw className="ml-2 size-4.5" />;
       primaryButtonClasses = "bg-red-600 hover:bg-red-700 text-white";
@@ -2647,53 +2672,53 @@ export default function KycStartPage() {
 
     return (
       <div className="mx-auto max-w-2xl">
-        <Card className="bg-white dark:bg-background w-full border shadow-none animate-fadeIn overflow-hidden">
-          <CardHeader className="items-center text-center p-4 md:p-8 bg-lightgray dark:bg-primarybox">
+        <Card className="bg-background w-full border shadow-none animate-fadeIn overflow-hidden">
+          <CardHeader className="items-center text-center p-4 md:p-8 bg-primarybox">
             <div className="mb-4 w-full inline-flex justify-center">
               <div
                 className={cn(
-                  "h-16 w-16 flex items-center justify-center rounded-full border shadow-inner",
+                  "h-16 w-16 flex items-center justify-center rounded-full border-2 shadow-inner",
                   iconBgColor
                 )}
               >
                 {headerIcon}
               </div>
             </div>
-            <CardTitle className="text-2xl font-semibold tracking-tight text-mainheading dark:text-white">
+            <CardTitle className="text-2xl font-semibold tracking-tight text-mainheadingWhite">
               {title}
             </CardTitle>
-            <CardDescription className="text-base text-gray-500 dark:text-gray-300 mt-1">
+            <CardDescription className="text-base text-subheadingWhite mt-1">
               {description}
             </CardDescription>
           </CardHeader>
 
           <CardContent className="p-4 md:p-8 space-y-6">
             {backendStatus === "skipped" && (
-              <Alert className="bg-blue-50 dark:bg-blue-900/25 border-blue-500 rounded-lg p-4 gap-3">
+              <Alert className="bg-blue-900/25 border-blue-500 rounded-lg p-4 gap-3">
                 <div className="flex-shrink-0 sm:size-12 size-10 rounded-full flex items-center justify-center bg-blue-600/20">
                   <Info className="text-blue-600 dark:text-blue-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
                 <div>
-                  <AlertTitle className="font-medium text-blue-800 dark:text-blue-200 tracking-normal text-base">
+                  <AlertTitle className="font-medium text-blue-200 tracking-normal text-base">
                     Verification Pending
                   </AlertTitle>
-                  <AlertDescription className="text-blue-700 dark:text-blue-300/90">
+                  <AlertDescription className="text-blue-300/90">
                     Complete verification now to unlock full account features.
                   </AlertDescription>
                 </div>
               </Alert>
             )}
 
-            {backendStatus === 'rejected' && (
-              <Alert className="bg-red-50 dark:bg-red-900/25 border-red-500 rounded-lg p-4 gap-3">
+            {backendStatus === "rejected" && (
+              <Alert className="bg-red-900/25 border-red-500 rounded-lg p-4 gap-3">
                 <div className="flex-shrink-0 sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20">
-                  <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                  <AlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
                 <div>
-                  <AlertTitle className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
+                  <AlertTitle className="font-medium tracking-normal text-red-200 text-base mb-1">
                     Previous Attempt Failed
                   </AlertTitle>
-                  <AlertDescription className="text-red-700 dark:text-red-300/90">
+                  <AlertDescription className="text-red-300/90">
                     {rejectionReason ||
                       "Please review the requirements carefully and ensure your documents are clear and valid."}
                   </AlertDescription>
@@ -2701,43 +2726,43 @@ export default function KycStartPage() {
               </Alert>
             )}
 
-            <Alert className="p-4 rounded-lg">
-              <FileText className="h-5 w-5 flex-shrink-0 mt-1 text-neutral-900 dark:text-white" />
+            <div className="p-4 border flex gap-4 rounded-lg">
+              <FileText className="h-5 w-5 flex-shrink-0 mt-1 text-white/90" />
               <div>
-                <AlertTitle className="font-medium text-neutral-900 dark:text-white tracking-normal text-base">
+                <AlertTitle className="font-medium text-mainheadingWhite tracking-normal text-base mb-1">
                   What You'll Need
                 </AlertTitle>
-                <AlertDescription className="text-gray-500 dark:text-gray-300">
+                <AlertDescription className="text-subheadingWhite">
                   Have a valid government-issued photo ID ready (e.g., Passport,
                   National ID, Resident Permit). Ensure it's not expired and the
                   image is clear.
                 </AlertDescription>
               </div>
-            </Alert>
+            </div>
 
-            <Alert className="p-4 rounded-lg">
+            <div className="p-4 border flex gap-4 rounded-lg">
               <ShieldCheck className="h-5 w-5 flex-shrink-0 mt-1 text-green-600 dark:text-green-500" />
               <div>
-                <AlertTitle className="font-medium text-neutral-900 dark:text-white tracking-normal text-base">
+                <AlertTitle className="font-medium text-mainheadingWhite tracking-normal text-base mb-1">
                   Secure Process
                 </AlertTitle>
-                <AlertDescription className="text-gray-500 dark:text-gray-300">
+                <AlertDescription className="text-subheadingWhite">
                   Your information is handled securely and used solely for
                   identity verification purposes.
                 </AlertDescription>
               </div>
-            </Alert>
+            </div>
 
             {actionError && (
-              <Alert className="bg-red-50 dark:bg-red-900/25 border-red-500 rounded-lg p-4 gap-3">
+              <Alert className="bg-red-900/25 border-red-500 rounded-lg p-4 gap-3">
                 <div className="flex-shrink-0 sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20">
-                  <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                  <AlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
                 <div>
-                  <AlertTitle className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
+                  <AlertTitle className="font-medium tracking-normal text-red-200 text-base">
                     Action Failed
                   </AlertTitle>
-                  <AlertDescription className="text-red-700 dark:text-red-300/90">
+                  <AlertDescription className="text-red-300/90">
                     {actionError}
                   </AlertDescription>
                 </div>
@@ -2751,7 +2776,7 @@ export default function KycStartPage() {
                 <button
                   onClick={handleSkip}
                   disabled={isSkipping}
-                  className="inline-flex items-center justify-center bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
+                  className="inline-flex items-center justify-center text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
                 >
                   {isSkipping ? (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -2764,7 +2789,7 @@ export default function KycStartPage() {
                 backendStatus === "rejected") && (
                 <button
                   onClick={() => router.push("/dashboard")}
-                  className="inline-flex items-center justify-center bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
+                  className="inline-flex items-center justify-center text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
                 >
                   <LogIn className="mr-2 h-4 w-4" />
                   Go to Dashboard
@@ -2773,7 +2798,7 @@ export default function KycStartPage() {
 
               <button
                 onClick={handleStartVerification}
-                disabled={isSkipping} 
+                disabled={isSkipping}
                 className={cn(
                   "inline-flex items-center justify-center font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none",
                   primaryButtonClasses
@@ -2784,9 +2809,13 @@ export default function KycStartPage() {
             </div>
 
             <div className="w-full text-center pt-4 sm:pt-2">
-              <p className="text-sm text-neutral-900 dark:text-white">
+              <p className="text-sm text-subheadingWhite">
                 Need help?{" "}
-                <Link href="/support" className="underline hover:text-primary">
+                <Link
+                  href="https://wa.me/919265348797"
+                  className="underline hover:text-primary"
+                  target="_"
+                >
                   Contact support
                 </Link>{" "}
                 <HelpCircle className="inline h-4 w-4 ml-0.5" />
@@ -2799,12 +2828,25 @@ export default function KycStartPage() {
   }
 
   // Fallback if none of the above conditions are met
-  console.warn("KycStartPage reached unexpected render state. Backend Status:", backendStatus, "User Authenticated:", !!user, "Auth Loading:", authLoading, "KYC Initialized:", kycInitialized, "KYC Loading:", kycLoadingStatus);
+  console.warn(
+    "KycStartPage reached unexpected render state. Backend Status:",
+    backendStatus,
+    "User Authenticated:",
+    !!user,
+    "Auth Loading:",
+    authLoading,
+    "KYC Initialized:",
+    kycInitialized,
+    "KYC Loading:",
+    kycLoadingStatus
+  );
   return (
     <div className="flex flex-col justify-center items-center min-h-[400px] text-center">
       <Loader2 className="h-8 w-8 animate-spin text-primary mb-4" />
       <p className="text-muted-foreground">Preparing KYC process...</p>
-      <p className="text-xs text-muted-foreground mt-2">If this persists, please try refreshing the page or contact support.</p>
+      <p className="text-xs text-muted-foreground mt-2">
+        If this persists, please try refreshing the page or contact support.
+      </p>
     </div>
   );
 }

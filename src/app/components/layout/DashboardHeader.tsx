@@ -75,9 +75,9 @@ interface DashboardHeaderProps {
 
 const DashboardHeader: React.FC<DashboardHeaderProps> = ({ title }) => {
   return (
-    <header className="DashboardHeader sticky lg:top-28 top-20 z-10 mb-6 bg-background">
+    <header className="DashboardHeader pb-6 sticky lg:top-28 top-20 z-10 bg-background">
       <div className="Heading">
-        <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
+        <h1 className="sm:text-3xl text-2xl font-semibold text-mainheadingWhite">
           {title}
         </h1>
       </div>

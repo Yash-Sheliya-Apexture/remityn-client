@@ -955,15 +955,12 @@ const TransferReasonPage = () => {
 
   return (
     <div className="TransferReason-Page">
-      {/* Optional Header */}
-      {/* <DashboardHeader title="Send Money" currentStep={2.5} totalSteps={steps.length} steps={steps} /> */}
-
       <div className="mx-auto lg:max-w-lg">
-        <h1 className="lg:text-3xl md:text-2xl text-xl font-semibold text-mainheading dark:text-white mb-4">
+        <h1 className="lg:text-3xl md:text-2xl text-xl font-semibold text-mainheadingWhite mb-4">
           What's the reason for your transfer?
         </h1>
         {summary?.receiveCurrencyCode === "INR" && (
-          <p className="text-gray-500 dark:text-gray-300 sm:text-lg text-sm mb-6">
+          <p className="text-subheadingWhite sm:text-lg text-sm mb-6">
             Please note that transfers to charities or NGOs in India may have
             restrictions.
           </p>
@@ -972,7 +969,7 @@ const TransferReasonPage = () => {
         {/* Use CustomDropdown component */}
         <div className="mb-6">
            <CustomDropdown
-              label={ <label className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base mb-1">
+              label={ <label className="text-mainheadingWhite block capitalize text-sm lg:text-base mb-1">
                          Select an option that best describes the reason
                       </label>
                     }
@@ -991,7 +988,7 @@ const TransferReasonPage = () => {
 
         <button
           onClick={handleSubmit}
-          className="flex items-center justify-center w-full bg-primary text-neutral-900 font-medium hover:bg-primaryhover space-x-3 py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex items-center justify-center w-full bg-primary text-mainheading font-medium hover:bg-primaryhover space-x-3 py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           disabled={!summary || !selectedReason || !recipientId}
         >
           Continue

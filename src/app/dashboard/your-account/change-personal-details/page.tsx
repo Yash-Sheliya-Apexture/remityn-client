@@ -1763,7 +1763,6 @@ import { Check, ChevronsUpDown, Globe, Phone, Loader2 } from "lucide-react"; // 
 import { cn } from "@/lib/utils"; // For Shadcn class merging
 import { format, parseISO, isValid } from 'date-fns';
 import { FiAlertTriangle } from "react-icons/fi";
-import ChangePersonalDetailsSkeleton from "../../components/ChangePersonalDetails/ChangePersonalDetailsSkeleton";
 
 // --- Zod Schema Definition (REVISED) ---
 // Only include fields that the user CAN edit
@@ -1970,12 +1969,12 @@ export default function ChangePersonalDetails() {
 
     // --- Loading State ---
     if (authLoading) {
-    //   return (
-    //     <section className="change-personal-details py-10 flex justify-center items-center min-h-[400px]">
-    //         <Loader2 className="h-8 w-8 animate-spin text-primary" />
-    //     </section>
-    //   );
-    return <ChangePersonalDetailsSkeleton />; // Use the new skeleton
+      return (
+        <section className="change-personal-details py-10 flex justify-center items-center min-h-[400px]">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </section>
+      );
+    // return <ChangePersonalDetailsSkeleton />; 
     }
 
     // --- No User State ---

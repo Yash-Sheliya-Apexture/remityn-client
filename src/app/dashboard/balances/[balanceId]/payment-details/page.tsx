@@ -2265,7 +2265,6 @@
 //     );
 //   }
 
-
 //   if (!paymentDetails) {
 //     console.error(
 //       "PaymentDetailsPage: Reached render section unexpectedly with null paymentDetails."
@@ -2430,9 +2429,7 @@
 
 // export default PaymentDetailsPage;
 
-
-
-// Last code 
+// Last code
 // "use client";
 // import React, { useState, useEffect } from "react";
 // import { useParams, useRouter, useSearchParams } from "next/navigation";
@@ -2858,7 +2855,6 @@
 //     );
 //   }
 
-
 //   if (!paymentDetails) {
 //     console.error(
 //       "PaymentDetailsPage: Reached render section unexpectedly with null paymentDetails."
@@ -3074,8 +3070,6 @@
 
 // export default PaymentDetailsPage;
 
-
-
 // // frontend/src/app/dashboard/balances/[balanceId]/payment-details/page.tsx
 // "use client";
 // import React, { useState, useEffect, useCallback } from "react";
@@ -3101,11 +3095,11 @@
 // // --- PaymentDetails Interface ---
 // interface PaymentDetails {
 //   _id: string;
-//   user: string; 
+//   user: string;
 //   balanceCurrency: { _id: string; code: string };
 //   payInCurrency: { _id: string; code: string };
 //   amountToAdd: number;
-//   amountToPay: number | string; 
+//   amountToPay: number | string;
 //   exchangeRate: number;
 //   wiseFee: number;
 //   bankTransferFee: number;
@@ -3627,8 +3621,6 @@
 
 // export default PaymentDetailsPage;
 
-
-
 // frontend/src/app/dashboard/balances/[balanceId]/payment-details/page.tsx
 "use client";
 import React, { useState, useEffect, useCallback } from "react";
@@ -3637,25 +3629,30 @@ import { useAuth } from "../../../../contexts/AuthContext"; // Adjusted path
 import paymentService from "../../../../services/payment"; // Adjusted path
 import { Skeleton } from "@/components/ui/skeleton"; // Adjust path
 import { Button } from "@/components/ui/button"; // Adjust path
-import {
-  Copy,
-  AlertTriangle,
-  Check,
-} from "lucide-react";
+import { Copy, AlertTriangle, Check } from "lucide-react";
 
 // Import react-toastify and CustomToast
-import { ToastContainer, toast as reactToastifyToast, Slide, ToastContainerProps, TypeOptions, ToastOptions } from 'react-toastify'; // Added ToastOptions
-import 'react-toastify/dist/ReactToastify.css';
-import CustomToast, { CustomToastProps } from "../../../../../app/components/CustomToast"; // Adjusted path
+import {
+  ToastContainer,
+  toast as reactToastifyToast,
+  Slide,
+  ToastContainerProps,
+  TypeOptions,
+  ToastOptions,
+} from "react-toastify"; // Added ToastOptions
+import "react-toastify/dist/ReactToastify.css";
+import CustomToast, {
+  CustomToastProps,
+} from "../../../../../app/components/CustomToast"; // Adjusted path
 
 // --- PaymentDetails Interface ---
 interface PaymentDetails {
   _id: string;
-  user: string; 
+  user: string;
   balanceCurrency: { _id: string; code: string };
   payInCurrency: { _id: string; code: string };
   amountToAdd: number;
-  amountToPay: number | string; 
+  amountToPay: number | string;
   exchangeRate: number;
   wiseFee: number;
   bankTransferFee: number;
@@ -3679,7 +3676,11 @@ interface DetailItemProps {
   value: string | undefined | null;
   fieldName: string;
   className?: string;
-  showToast: (message: string, type?: CustomToastProps['type'], toastSpecificOptions?: Partial<ToastOptions>) => void;
+  showToast: (
+    message: string,
+    type?: CustomToastProps["type"],
+    toastSpecificOptions?: Partial<ToastOptions>
+  ) => void;
 }
 
 const DetailItem: React.FC<DetailItemProps> = ({
@@ -3687,9 +3688,10 @@ const DetailItem: React.FC<DetailItemProps> = ({
   value,
   fieldName,
   className = "",
-  showToast, 
+  showToast,
 }) => {
-  const displayValue = value !== undefined && value !== null ? String(value) : "N/A";
+  const displayValue =
+    value !== undefined && value !== null ? String(value) : "N/A";
   const canCopy = displayValue && displayValue !== "N/A";
 
   const [isCopied, setIsCopied] = useState(false);
@@ -3710,20 +3712,20 @@ const DetailItem: React.FC<DetailItemProps> = ({
       })
       .catch((err) => {
         console.error(`DetailItem (${fieldName}): Failed to copy text: `, err);
-        showToast("Could not copy to clipboard.", 'error'); 
+        showToast("Could not copy to clipboard.", "error");
         setIsCopied(false);
       });
   };
 
-  const iconClasses = "size-3.5 mr-1 text-neutral-900 dark:text-white";
+  const iconClasses = "size-3.5 mr-1 text-subheadingWhite";
 
   return (
     <div
-      className={`bg-lightgray dark:bg-white/5 p-4 rounded-lg flex justify-between items-center gap-4 ${className}`}
+      className={`bg-primarybox p-4 rounded-lg flex justify-between items-center gap-4 ${className}`}
     >
       <div className="flex-1 min-w-0">
-        <p className="text-xs text-gray-500 dark:text-gray-300 mb-1">{label}</p>
-        <p className="font-semibold text-neutral-900 dark:text-white break-words">
+        <p className="text-xs text-subheadingWhite mb-1">{label}</p>
+        <p className="font-semibold text-mainheadingWhite break-words">
           {displayValue}
         </p>
       </div>
@@ -3732,7 +3734,7 @@ const DetailItem: React.FC<DetailItemProps> = ({
           type="button"
           onClick={handleCopyToClipboard}
           aria-label={`Copy ${label}`}
-          className={`shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-neutral-900 bg-white hover:bg-lightborder dark:text-white dark:bg-neutral-900 dark:hover:bg-primarybox
+          className={`shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-subheadingWhite bg-secondarybox hover:bg-secondaryboxhover
             ${isCopied ? "cursor-default" : "cursor-pointer"}
           `}
           disabled={isCopied}
@@ -3758,11 +3760,13 @@ const PaymentDetailsPage = () => {
   const { token } = useAuth();
 
   // --- State ---
-  const [paymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(null);
+  const [paymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(
+    null
+  );
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [isMobile, setIsMobile] = useState(false); 
+  const [isMobile, setIsMobile] = useState(false);
 
   // --- Vars ---
   const balanceId = params.balanceId as string | undefined;
@@ -3774,32 +3778,49 @@ const PaymentDetailsPage = () => {
       setIsMobile(window.innerWidth < 640);
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   // --- Custom Toast Invocation ---
-  const showToast = useCallback((
-    message: string,
-    type?: CustomToastProps['type'],
-    toastSpecificOptions?: Partial<ToastOptions> // MODIFIED: Added toastSpecificOptions
-  ) => {
-    const effectiveType = type || 'default';
-    let progressClassName: string;
-    switch(effectiveType) {
-      case 'success': progressClassName = "toast-progress-success"; break;
-      case 'error': progressClassName = "toast-progress-error"; break;
-      case 'info': progressClassName = "toast-progress-info"; break;
-      case 'warning': progressClassName = "toast-progress-warning"; break;
-      case 'default': default: progressClassName = "toast-progress-default"; break;
-    }
-    reactToastifyToast(<CustomToast message={message} type={effectiveType} />, {
-      progressClassName: progressClassName,
-      type: effectiveType as TypeOptions,
-      icon: false,
-      ...toastSpecificOptions, // MODIFIED: Spread additional options
-    });
-  }, []);
+  const showToast = useCallback(
+    (
+      message: string,
+      type?: CustomToastProps["type"],
+      toastSpecificOptions?: Partial<ToastOptions> // MODIFIED: Added toastSpecificOptions
+    ) => {
+      const effectiveType = type || "default";
+      let progressClassName: string;
+      switch (effectiveType) {
+        case "success":
+          progressClassName = "toast-progress-success";
+          break;
+        case "error":
+          progressClassName = "toast-progress-error";
+          break;
+        case "info":
+          progressClassName = "toast-progress-info";
+          break;
+        case "warning":
+          progressClassName = "toast-progress-warning";
+          break;
+        case "default":
+        default:
+          progressClassName = "toast-progress-default";
+          break;
+      }
+      reactToastifyToast(
+        <CustomToast message={message} type={effectiveType} />,
+        {
+          progressClassName: progressClassName,
+          type: effectiveType as TypeOptions,
+          icon: false,
+          ...toastSpecificOptions, // MODIFIED: Spread additional options
+        }
+      );
+    },
+    []
+  );
 
   // --- ToastContainer Props and Style ---
   const toastContainerProps: ToastContainerProps = {
@@ -3814,13 +3835,22 @@ const PaymentDetailsPage = () => {
     draggable: true,
     pauseOnHover: true,
     transition: Slide,
-    toastClassName: () => "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3",
+    toastClassName: () =>
+      "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3",
   };
 
-  const getToastContainerStyle = (): React.CSSProperties & { [key: `--${string}`]: string | number } => {
+  const getToastContainerStyle = (): React.CSSProperties & {
+    [key: `--${string}`]: string | number;
+  } => {
     const baseStyle = { zIndex: 30 };
     if (isMobile) {
-      return { ...baseStyle, top: "1rem", left: "1rem", right: "1rem", width: "auto" };
+      return {
+        ...baseStyle,
+        top: "1rem",
+        left: "1rem",
+        right: "1rem",
+        width: "auto",
+      };
     } else {
       return { ...baseStyle, top: "0.75rem", right: "0.75rem", width: "320px" };
     }
@@ -3837,35 +3867,46 @@ const PaymentDetailsPage = () => {
         setError("Payment ID is missing from URL.");
         setIsLoading(false);
         // console.error("PaymentDetailsPage: No paymentId found.");
-        showToast("Payment ID missing. Redirecting...", 'error');
-        router.push(balanceId ? `/dashboard/balances/${balanceId}` : "/dashboard/transactions");
+        showToast("Payment ID missing. Redirecting...", "error");
+        router.push(
+          balanceId
+            ? `/dashboard/balances/${balanceId}`
+            : "/dashboard/transactions"
+        );
         return;
       }
       if (!balanceId) {
         setError("Balance context is missing from URL.");
         setIsLoading(false);
         // console.error("PaymentDetailsPage: No balanceId found in route params.");
-        showToast("Balance context missing. Redirecting...", 'error');
+        showToast("Balance context missing. Redirecting...", "error");
         router.push("/dashboard/balances");
         return;
       }
       if (!token) {
         setError("Authentication required. Please log in.");
         setIsLoading(false);
-        showToast("Authentication required. Redirecting to login...", 'error');
+        showToast("Authentication required. Redirecting to login...", "error");
         router.push("/auth/login");
         return;
       }
 
       try {
-        const details = await paymentService.getPaymentDetails(paymentId, token);
+        const details = await paymentService.getPaymentDetails(
+          paymentId,
+          token
+        );
         setPaymentDetails(details as unknown as PaymentDetails);
       } catch (err: unknown) {
         let errMsg = "Failed to load payment details";
         let statusCode: number | undefined;
 
         if (typeof err === "object" && err !== null && "response" in err) {
-          const response = (err as { response?: { data?: { message?: string }; status?: number } }).response;
+          const response = (
+            err as {
+              response?: { data?: { message?: string }; status?: number };
+            }
+          ).response;
           errMsg = response?.data?.message || errMsg;
           statusCode = response?.status;
         } else if (err instanceof Error) {
@@ -3877,13 +3918,15 @@ const PaymentDetailsPage = () => {
 
         if (statusCode === 404) {
           // setError(`Payment with ID ${paymentId} not found or you don't have access.`); // setError is still useful for on-page persistent errors
-          showToast(`Payment with ID ${paymentId} not found.`, 'error'); 
+          showToast(`Payment with ID ${paymentId} not found.`, "error");
         } else if (statusCode === 401 || statusCode === 403) {
           // setError("Unauthorized to view this payment.");
-          showToast("Unauthorized. Redirecting...", 'error', { onClose: () => router.push("/dashboard") });
+          showToast("Unauthorized. Redirecting...", "error", {
+            onClose: () => router.push("/dashboard"),
+          });
           // router.push("/dashboard"); // Navigation handled by toast onClose
         } else {
-          showToast(`Error: ${errMsg}`, 'error');
+          showToast(`Error: ${errMsg}`, "error");
         }
       } finally {
         setIsLoading(false);
@@ -3899,18 +3942,25 @@ const PaymentDetailsPage = () => {
     setError(null);
 
     if (!paymentId || !token || !balanceId) {
-      const missing = [!paymentId && "Payment ID", !token && "Token", !balanceId && "Balance ID"].filter(Boolean).join(", ");
+      const missing = [
+        !paymentId && "Payment ID",
+        !token && "Token",
+        !balanceId && "Balance ID",
+      ]
+        .filter(Boolean)
+        .join(", ");
       const errorMsg = `Cannot proceed: Missing ${missing}. Please refresh or go back.`;
       setError(errorMsg); // Keep for on-page error display if needed
       // console.error("PaymentDetailsPage: Missing critical data for handleIvePaid:", { paymentId, token, balanceId });
-      showToast(errorMsg, 'error');
+      showToast(errorMsg, "error");
       return;
     }
 
     setIsSubmitting(true);
     // console.log("PaymentDetailsPage: Submitting... paymentId:", paymentId, "balanceId:", balanceId);
 
-    let toastData: { message: string, type: CustomToastProps['type'] } | null = null;
+    let toastData: { message: string; type: CustomToastProps["type"] } | null =
+      null;
     let shouldRedirect = false;
     const finalSuccessUrl = `/dashboard/balances/${balanceId}/payment-success?paymentId=${paymentId}`;
 
@@ -3919,59 +3969,78 @@ const PaymentDetailsPage = () => {
         // console.log("PaymentDetailsPage: Attempting paymentService.confirmUserTransfer");
         await paymentService.confirmUserTransfer(paymentId, token);
         // console.log("PaymentDetailsPage: confirmUserTransfer successful");
-        toastData = { message: "Payment marked as initiated!", type: 'success' };
+        toastData = {
+          message: "Payment marked as initiated!",
+          type: "success",
+        };
         shouldRedirect = true;
       } catch (confirmErr: unknown) {
         let confirmErrMsg = "Could not confirm payment initiation";
-        if (typeof confirmErr === "object" && confirmErr !== null && "response" in confirmErr) {
-          const response = (confirmErr as { response?: { data?: { message?: string } } }).response;
+        if (
+          typeof confirmErr === "object" &&
+          confirmErr !== null &&
+          "response" in confirmErr
+        ) {
+          const response = (
+            confirmErr as { response?: { data?: { message?: string } } }
+          ).response;
           confirmErrMsg = response?.data?.message || confirmErrMsg;
         } else if (confirmErr instanceof Error) {
           confirmErrMsg = confirmErr.message;
         }
         // console.error("PaymentDetailsPage: Failed to update payment status via confirmUserTransfer:", confirmErrMsg, confirmErr);
-        setError(`Note: Couldn't automatically update status: ${confirmErrMsg}. Redirecting anyway...`);
-        toastData = { message: `Couldn't confirm payment status: ${confirmErrMsg}. Proceeding...`, type: 'warning'};
-        shouldRedirect = true; 
+        setError(
+          `Note: Couldn't automatically update status: ${confirmErrMsg}. Redirecting anyway...`
+        );
+        toastData = {
+          message: `Couldn't confirm payment status: ${confirmErrMsg}. Proceeding...`,
+          type: "warning",
+        };
+        shouldRedirect = true;
       }
 
       if (toastData) {
         if (shouldRedirect) {
           showToast(toastData.message, toastData.type, {
-            onClose: () => router.push(finalSuccessUrl)
+            onClose: () => router.push(finalSuccessUrl),
             // autoClose will use the default from ToastContainer (5000ms)
           });
           // setIsSubmitting will remain true until navigation occurs via toast onClose
         } else {
           // This path might not be hit if toastData always implies redirection in current logic
           showToast(toastData.message, toastData.type);
-          setIsSubmitting(false); 
+          setIsSubmitting(false);
         }
       } else {
-         // Fallback if no toastData was set (should not happen with current logic)
+        // Fallback if no toastData was set (should not happen with current logic)
         setIsSubmitting(false);
       }
-
-    } catch (err: unknown) { // Outer catch for unexpected errors during the process
+    } catch (err: unknown) {
+      // Outer catch for unexpected errors during the process
       let errMsg = "An unexpected error occurred while trying to proceed.";
       if (typeof err === "object" && err !== null && "response" in err) {
-        const response = (err as { response?: { data?: { message?: string } } }).response;
+        const response = (err as { response?: { data?: { message?: string } } })
+          .response;
         errMsg = response?.data?.message || errMsg;
       } else if (err instanceof Error) {
         errMsg = err.message;
       }
       setError(`Failed to proceed: ${errMsg}`);
       // console.error("PaymentDetailsPage: Error during handleIvePaid (outer catch):", err);
-      showToast(`Failed to proceed: ${errMsg}`, 'error');
+      showToast(`Failed to proceed: ${errMsg}`, "error");
       setIsSubmitting(false); // Error, so reset submit state, no redirect from here
     }
   };
 
   const handlePayLater = () => {
     // console.log("PaymentDetailsPage: handlePayLater triggered, navigating to /dashboard/transactions");
-    showToast("You can find this payment later in your transactions list.", 'info', {
-        onClose: () => router.push("/dashboard/transactions")
-    });
+    showToast(
+      "You can find this payment later in your transactions list.",
+      "info",
+      {
+        onClose: () => router.push("/dashboard/transactions"),
+      }
+    );
     // router.push("/dashboard/transactions"); // Navigation handled by toast onClose
   };
   // --- END Action Handlers ---
@@ -3981,7 +4050,10 @@ const PaymentDetailsPage = () => {
   if (isLoading) {
     return (
       <div className="container mx-auto py-8 max-w-2xl relative">
-         <ToastContainer {...toastContainerProps} style={getToastContainerStyle()} />
+        <ToastContainer
+          {...toastContainerProps}
+          style={getToastContainerStyle()}
+        />
         {/* Skeleton structure remains the same */}
         <Skeleton className="h-8 w-3/5 mb-2 mx-auto" />
         <Skeleton className="h-4 w-4/5 mb-6 mx-auto" />
@@ -4013,11 +4085,15 @@ const PaymentDetailsPage = () => {
   if (!isLoading && error && !paymentDetails) {
     return (
       <div className="mx-auto px-4 py-8 text-center text-gray-500 dark:text-gray-300 md:max-w-lg relative">
-        <ToastContainer {...toastContainerProps} style={getToastContainerStyle()} />
+        <ToastContainer
+          {...toastContainerProps}
+          style={getToastContainerStyle()}
+        />
         <div className="bg-destructive/10 border border-destructive/30 text-destructive p-4 rounded-lg flex flex-col items-center space-y-2 mb-6">
           <AlertTriangle className="w-6 h-6" />
           <p className="font-semibold">Error Loading Payment Details</p>
-          <p className="text-sm">{error}</p> {/* This 'error' state is for persistent on-page error messages */}
+          <p className="text-sm">{error}</p>{" "}
+          {/* This 'error' state is for persistent on-page error messages */}
         </div>
         <Button onClick={() => router.back()} variant="outline">
           Go Back
@@ -4037,9 +4113,13 @@ const PaymentDetailsPage = () => {
     // console.warn("Rendering 'Not Found' state because paymentDetails or balanceId is missing after loading.", { hasPaymentDetails: !!paymentDetails, hasBalanceId: !!balanceId });
     return (
       <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center relative">
-        <ToastContainer {...toastContainerProps} style={getToastContainerStyle()} />
+        <ToastContainer
+          {...toastContainerProps}
+          style={getToastContainerStyle()}
+        />
         <p className="lg:text-xl text-lg text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
-          Payment details could not be found, are no longer valid, or the page context is incorrect.
+          Payment details could not be found, are no longer valid, or the page
+          context is incorrect.
         </p>
         <button
           onClick={() => router.push("/dashboard/transactions")}
@@ -4055,8 +4135,13 @@ const PaymentDetailsPage = () => {
     // console.error("PaymentDetailsPage: Reached render section unexpectedly with null paymentDetails.");
     return (
       <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center relative">
-        <ToastContainer {...toastContainerProps} style={getToastContainerStyle()} />
-        <p className="lg:text-xl text-lg text-gray-500 dark:text-gray-300 max-w-lg mx-auto">Something went wrong loading payment details. Please try again.</p>
+        <ToastContainer
+          {...toastContainerProps}
+          style={getToastContainerStyle()}
+        />
+        <p className="lg:text-xl text-lg text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+          Something went wrong loading payment details. Please try again.
+        </p>
         <button
           onClick={() => router.push("/dashboard/transactions")}
           className="bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 sm:w-auto w-full text-center cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
@@ -4074,31 +4159,39 @@ const PaymentDetailsPage = () => {
     amountValue = amountRaw;
   } else if (typeof amountRaw === "string") {
     amountValue = parseFloat(amountRaw.replace(/,/g, ""));
-    if (isNaN(amountValue)) console.error("Failed to parse amountToPay string:", amountRaw);
+    if (isNaN(amountValue))
+      console.error("Failed to parse amountToPay string:", amountRaw);
   } else {
     amountValue = NaN;
     console.error("Unexpected type for amountToPay:", typeof amountRaw);
   }
-  const amountToPayFormatted = isNaN(amountValue) ? "N/A" : amountValue.toFixed(2);
+  const amountToPayFormatted = isNaN(amountValue)
+    ? "N/A"
+    : amountValue.toFixed(2);
 
   const bankDetails = paymentDetails.bankDetails || {};
   const referenceCode = paymentDetails.referenceCode || "N/A";
-  const defaultBankAddress = "Remityn Europe SA/NV\nRue du Trône 100, box 3\nBrussels 1050\nBelgium";
+  const defaultBankAddress =
+    "Remityn Europe SA/NV\nRue du Trône 100, box 3\nBrussels 1050\nBelgium";
   const bankAddress = bankDetails.bankAddress || defaultBankAddress;
 
   return (
-    <section className="Payment-Details relative"> 
-      <ToastContainer {...toastContainerProps} style={getToastContainerStyle()} />
+    <section className="Payment-Details relative">
+      <ToastContainer
+        {...toastContainerProps}
+        style={getToastContainerStyle()}
+      />
       <div className="mx-auto lg:max-w-2xl">
-        <h1 className="lg:text-3xl md:text-2xl text-xl lg:text-center font-semibold text-mainheading mb-2.5 dark:text-white">
+        <h1 className="lg:text-3xl md:text-2xl text-xl lg:text-center font-semibold text-mainheadingWhite mb-2.5">
           Use your bank to make a payment to Remityn
         </h1>
-        <p className="lg:text-base text-sm text-gray-500 dark:text-gray-300 lg:mb-10 mb-5 text-left lg:text-center">
-          Make a {`${payInCurrencyCode}`} payment — not an international one — using the details below.
+        <p className="lg:text-base text-sm text-subheadingWhite lg:mb-10 mb-5 text-left lg:text-center">
+          Make a {`${payInCurrencyCode}`} payment — not an international one —
+          using the details below.
         </p>
 
-        <div className="rounded-xl bg-white dark:bg-background border p-4">
-          <h2 className="lg:text-lg text-base font-medium mb-4 text-neutral-900 dark:text-white">
+        <div className="rounded-xl bg-background border p-4">
+          <h2 className="lg:text-lg text-base font-medium mb-4 text-mainheadingWhite">
             Details you'll need to make this transfer
           </h2>
           <div className="lg:space-y-4 space-y-2.5">
@@ -4117,8 +4210,12 @@ const PaymentDetailsPage = () => {
                   showToast={showToast}
                 />
               </div>
-              <p className="text-sm font-medium text-neutral-900 dark:text-white sm:max-w-[200px] flex-shrink-0 mt-1 sm:mt-0">
-                Include <strong className="text-primary font-bold">{referenceCode}</strong> as the reference or reason for your transfer.
+              <p className="text-sm font-medium text-mainheadingWhite sm:max-w-[200px] flex-shrink-0 mt-1 sm:mt-0">
+                Include{" "}
+                <strong className="text-primary font-bold">
+                  {referenceCode}
+                </strong>{" "}
+                as the reference or reason for your transfer.
               </p>
             </div>
             <DetailItem
@@ -4135,35 +4232,40 @@ const PaymentDetailsPage = () => {
             />
             <DetailItem
               label={`Amount to send (${payInCurrencyCode})`}
-              value={amountToPayFormatted === "N/A" ? "N/A" : `${amountToPayFormatted}`}
+              value={
+                amountToPayFormatted === "N/A"
+                  ? "N/A"
+                  : `${amountToPayFormatted}`
+              }
               fieldName="Amount to send"
               showToast={showToast}
             />
-            <div className="bg-lightgray dark:bg-white/5 p-4 rounded-lg">
-              <p className="text-xs text-gray-500 dark:text-gray-300 mb-1">
+            <div className="bg-primarybox p-4 rounded-lg">
+              <p className="text-xs text-subheadingWhite mb-1">
                 Our bank's address
               </p>
-              <p className="font-semibold text-neutral-900 dark:text-white break-words">
+              <p className="font-semibold text-mainheadingWhite break-words">
                 {bankAddress}
               </p>
             </div>
           </div>
         </div>
 
-        {error && !isLoading && ( // For persistent on-page errors, if any, set by setError()
-          <div className="my-4 bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
-            <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-red-600/20">
-              <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+        {error &&
+          !isLoading && ( // For persistent on-page errors, if any, set by setError()
+            <div className="my-4 bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
+              <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-red-600/20">
+                <AlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
+              </div>
+              <span className="text-red-300/90">{error}</span>
             </div>
-            <span className="text-red-700 dark:text-red-300/90">{error}</span>
-          </div>
-        )}
+          )}
 
         <div className="space-y-3 mt-5">
           <button
             onClick={handleIvePaid}
             disabled={isSubmitting || isLoading}
-            className="flex items-center justify-center bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center justify-center bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <>
@@ -4173,14 +4275,62 @@ const PaymentDetailsPage = () => {
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"
                 >
-                  <path d="M12 2V6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M12 18V22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M4.93 4.93L7.76 7.76" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M16.24 16.24L19.07 19.07" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M2 12H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M18 12H22" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M4.93 19.07L7.76 16.24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M16.24 7.76L19.07 4.93" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path
+                    d="M12 2V6"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M12 18V22"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M4.93 4.93L7.76 7.76"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M16.24 16.24L19.07 19.07"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M2 12H6"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M18 12H22"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M4.93 19.07L7.76 16.24"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  <path
+                    d="M16.24 7.76L19.07 4.93"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
                 </svg>
                 <span>Processing...</span>
               </>
@@ -4191,7 +4341,7 @@ const PaymentDetailsPage = () => {
           <button
             onClick={handlePayLater}
             disabled={isSubmitting || isLoading}
-            className="bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-70 disabled:cursor-not-allowed"
+            className="text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-70 disabled:cursor-not-allowed"
           >
             I’ll transfer my money later
           </button>

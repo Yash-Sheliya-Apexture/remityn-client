@@ -991,10 +991,7 @@ const TasksPage: React.FC = () => {
                           {/* Icon */}
                           <div className="relative flex-shrink-0">
                             <div className="p-3 bg-yellow-700/50 rounded-full flex items-center justify-center">
-                              <LuPlus
-                                size={24}
-                                className="text-yellow-300"
-                              />
+                              <LuPlus size={24} className="text-yellow-300" />
                             </div>
                             <MdErrorOutline
                               size={20}
@@ -1051,15 +1048,6 @@ const TasksPage: React.FC = () => {
 };
 
 export default TasksPage;
-
-
-
-
-
-
-
-
-
 
 // "use client"; // Use client-side rendering for hooks
 

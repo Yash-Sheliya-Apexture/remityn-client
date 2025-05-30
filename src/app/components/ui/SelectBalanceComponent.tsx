@@ -794,8 +794,8 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
 
         {!isLoading && !error && balances.length === 0 && tokenExists && (
           <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
-            <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
-              <ShieldCheck className="lg:size-8 size-6 mx-auto text-mainheading dark:text-primary" />
+            <div className="lg:size-16 size-14 flex items-center justify-center bg-primary rounded-full mb-2">
+              <ShieldCheck className="lg:size-8 size-6 mx-auto text-mainheading " />
             </div>
             <h2 className="lg:text-3xl text-2xl font-medium text-white/90 mt-1">
               {noBalancePrimaryMessage}
@@ -854,7 +854,7 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
               <div
                 key={account._id}
                 onClick={() => onSelectBalance(account._id)}
-                className="sm:p-4 p-2 sm:h-32 h-28 bg-primarybox hover:bg-[#2f373b] hover:dark:bg-secondarybox rounded-2xl flex justify-between items-center gap-2 transition-all duration-75 ease-linear cursor-pointer min-h-[112px]"
+                className="sm:p-4 p-2 sm:h-32 h-28 bg-primarybox hover:bg-[#2f373b] rounded-2xl flex justify-between items-center gap-2 transition-all duration-75 ease-linear cursor-pointer min-h-[112px]"
                 role="button"
                 tabIndex={0}
                 onKeyPress={(e) =>

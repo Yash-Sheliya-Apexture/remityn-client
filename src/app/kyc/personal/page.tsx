@@ -5181,14 +5181,14 @@ export default function KycPersonalPage() {
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto shadow-none border animate-fadeIn sm:p-8 p-4 bg-white dark:bg-background">
+    <Card className="w-full max-w-2xl mx-auto shadow-none border animate-fadeIn sm:p-8 p-4 bg-transparent">
       <CardHeader className="border-b pb-6 mb-6 space-y-2">
-        <CardTitle className="sm:text-2xl text-xl font-semibold tracking-normal flex items-start gap-2 text-mainheading dark:text-white">
+        <CardTitle className="sm:text-2xl text-xl font-semibold tracking-normal flex items-start gap-2 text-mainheadingWhite">
           <User className="h-6 w-6 text-primary mt-1 flex-shrink-0" /> Personal
           Details (Step 
           {formStepOrder.indexOf("personal") + 1} of {formStepOrder.length})
         </CardTitle>
-        <CardDescription className="text-gray-500 dark:text-gray-300">
+        <CardDescription className="text-subheadingWhite">
           Enter your legal name, date of birth, and mobile number. Fields marked
           with <span className="text-red-500">*</span> are required.
         </CardDescription>
@@ -5196,15 +5196,15 @@ export default function KycPersonalPage() {
 
       <CardContent>
         {formActionError && (
-          <Alert className="bg-red-50 dark:bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
+          <Alert className="bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
             <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
-              <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+              <AlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
             </div>
             <div>
-              <AlertTitle className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
+              <AlertTitle className="font-medium tracking-normal text-red-600 dark:text-red-200 text-base">
                 Action Failed
               </AlertTitle>
-              <AlertDescription className="text-red-700 dark:text-red-300/90">
+              <AlertDescription className="text-red-300/90">
                 {formActionError}
               </AlertDescription>
             </div>
@@ -5219,11 +5219,11 @@ export default function KycPersonalPage() {
                 name="firstName"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel className="text-neutral-900 dark:text-white">
+                    <FormLabel className="text-mainheadingWhite block capitalize text-sm lg:text-base">
                       Legal First Name <span className="text-red-600">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., Jane" {...field} />
+                      <Input className="block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0" placeholder="e.g., Jane" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -5235,11 +5235,11 @@ export default function KycPersonalPage() {
                 name="lastName"
                 render={({ field }) => (
                   <FormItem className="flex flex-col">
-                    <FormLabel className="text-neutral-900 dark:text-white">
+                    <FormLabel className="text-mainheadingWhite block capitalize text-sm lg:text-base">
                       Legal Last Name <span className="text-red-600">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., Doe" {...field} />
+                      <Input className="block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0" placeholder="e.g., Doe" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -5252,7 +5252,7 @@ export default function KycPersonalPage() {
               name="dateOfBirth"
               render={({ field }) => (
                 <FormItem className="flex flex-col">
-                  <FormLabel className="text-neutral-900 dark:text-white">
+                  <FormLabel className="text-mainheadingWhite block capitalize text-sm lg:text-base">
                     Date of Birth <span className="text-red-600">*</span>
                   </FormLabel>
                   <Popover
@@ -5271,14 +5271,14 @@ export default function KycPersonalPage() {
                   >
                     <PopoverTrigger asChild>
                       <Button
-                        variant={"outline"}
+
                         className={cn(
-                          "w-full h-12 justify-start text-left font-normal",
-                          !field.value && "text-muted-foreground"
+                          "justify-start text-left font-normal mt-1 px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0",
+                          !field.value && "text-gray-400"
                         )}
                         type="button" // Ensure it's not a submit button
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="mr-2 h-4 w-4 shrink-0" />
                         {field.value && isDateValid(field.value) ? (
                           format(field.value, "PPP")
                         ) : (
@@ -5363,7 +5363,7 @@ export default function KycPersonalPage() {
                       </div>
                     </PopoverContent>
                   </Popover>
-                  <FormDescription className="text-gray-500 dark:text-gray-300 pt-1">
+                  <FormDescription className="text-subheadingWhite pt-1">
                     You must be 18 years or older.
                   </FormDescription>
                   <FormMessage />
@@ -5372,7 +5372,7 @@ export default function KycPersonalPage() {
             />
 
             <div className="space-y-2">
-              <FormLabel className="flex items-center gap-1.5 text-neutral-900 dark:text-white">
+              <FormLabel className="text-mainheadingWhite block capitalize text-sm lg:text-base">
                 Mobile Number <span className="text-red-600">*</span>
               </FormLabel>
 
@@ -5388,11 +5388,10 @@ export default function KycPersonalPage() {
                       >
                         <PopoverTrigger asChild>
                           <Button
-                            variant="outline"
                             role="combobox"
                             aria-expanded={countryCodePopoverOpen}
                             className={cn(
-                              "w-full h-12 justify-between",
+                              "mt-1 justify-between px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0",
                               !field.value && "text-muted-foreground"
                             )}
                             aria-label="Select country calling code"
@@ -5489,7 +5488,7 @@ export default function KycPersonalPage() {
                           inputMode="numeric"
                           placeholder="Enter number"
                           {...field}
-                          className="h-12"
+                          className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0"
                         />
                       </FormControl>
                       <FormMessage />
@@ -5497,7 +5496,7 @@ export default function KycPersonalPage() {
                   )}
                 />
               </div>
-              <FormDescription className="text-gray-500 dark:text-gray-300 pt-1">
+              <FormDescription className="text-subheadingWhite pt-1">
                 Used for verification and communications.
               </FormDescription>
             </div>

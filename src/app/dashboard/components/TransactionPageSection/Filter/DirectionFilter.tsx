@@ -437,7 +437,7 @@ const DirectionFilter: React.FC<DirectionFilterProps> = ({
 }) => {
   return (
     <div>
-      <h4 className="text-gray-500 dark:text-gray-300 font-medium mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
+      <h4 className="font-medium text-white/90 mb-3 leading-8 border-b">
         Direction
       </h4>
       <RadioGroup
@@ -449,31 +449,31 @@ const DirectionFilter: React.FC<DirectionFilterProps> = ({
         aria-label="Filter by transaction direction" // Accessibility
       >
         {/* All */}
-        <label htmlFor="direction-all" className="flex items-center gap-4 cursor-pointer dark:hover:bg-primarybox hover:bg-lightgray sm:p-4 p-2 rounded-2xl transition-colors duration-150 ease-in-out">
-          <div className="p-3 rounded-full bg-lightborder dark:bg-secondarybox flex items-center justify-center shrink-0">
-            <BsList size={24} className="text-neutral-900 dark:text-white" />
+        <label htmlFor="direction-all" className="flex items-center gap-4 cursor-pointer hover:bg-primarybox sm:p-4 p-2 rounded-2xl transition-colors duration-150 ease-in-out">
+          <div className="p-3 rounded-full bg-secondarybox flex items-center justify-center shrink-0">
+            <BsList size={24} className="text-white" />
           </div>
-          <span className="text-neutral-900 font-semibold dark:text-white flex-grow">All</span>
+          <span className="font-semibold text-white/90 flex-grow">All</span>
           {/* Radio item associated with the label */}
           <RadioGroupItem value="all" id="direction-all" className="shrink-0"/>
         </label>
 
         {/* Money in (Add Money) */}
-        <label htmlFor="direction-add" className="flex items-center gap-4 cursor-pointer dark:hover:bg-primarybox hover:bg-lightgray sm:p-4 p-2 rounded-2xl transition-colors duration-150 ease-in-out">
-          <div className="p-3 rounded-full bg-lightborder dark:bg-secondarybox flex items-center justify-center shrink-0">
-            <LuPlus size={24} className="text-neutral-900 dark:text-white" />
+        <label htmlFor="direction-add" className="flex items-center gap-4 cursor-pointer hover:bg-primarybox sm:p-4 p-2 rounded-2xl transition-colors duration-150 ease-in-out">
+          <div className="p-3 rounded-full bg-secondarybox flex items-center justify-center shrink-0">
+            <LuPlus size={24} className="text-white" />
           </div>
-          <span className="text-neutral-900 dark:text-white font-semibold flex-grow">Add Money</span>
+          <span className="font-semibold text-white/90 flex-grow">Add Money</span>
            {/* Radio item associated with the label */}
           <RadioGroupItem value="add" id="direction-add" className="shrink-0"/>
         </label>
 
         {/* Money out (Send Money) */}
-        <label htmlFor="direction-send" className="flex items-center gap-4 cursor-pointer dark:hover:bg-primarybox hover:bg-lightgray sm:p-4 p-2 rounded-2xl transition-colors duration-150 ease-in-out">
-          <div className="p-3 rounded-full bg-lightborder dark:bg-secondarybox flex items-center justify-center shrink-0">
-            <GoArrowUp size={24} className="text-neutral-900 dark:text-white" />
+        <label htmlFor="direction-send" className="flex items-center gap-4 cursor-pointer hover:bg-primarybox sm:p-4 p-2 rounded-2xl transition-colors duration-150 ease-in-out">
+          <div className="p-3 rounded-full bg-secondarybox flex items-center justify-center shrink-0">
+            <GoArrowUp size={24} className="text-white" />
           </div>
-          <span className="text-neutral-900 dark:text-white font-semibold flex-grow">Send Money</span>
+          <span className="font-semibold text-white/90 flex-grow">Send Money</span>
            {/* Radio item associated with the label */}
           <RadioGroupItem value="send" id="direction-send" className="shrink-0"/>
         </label>

@@ -2015,7 +2015,7 @@ const StepCardContent: React.FC = () => {
   }, [numSteps]);
 
   return (
-    <section ref={sectionRef} className="StePCardSection relative py-20">
+    <section ref={sectionRef} className="StePCardSection relative  py-10 lg:py-16">
       <div className="container mx-auto px-4">
         <div className="space-y-4 text-center">
           <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">

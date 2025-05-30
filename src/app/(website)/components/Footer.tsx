@@ -2050,7 +2050,7 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="lg:py-20 py-10">
+    <footer className="lg:py-16 py-10">
       <div className="container mx-auto px-4">
         {/* Top Section: Logo and Nav Links */}
         <div className="flex flex-col items-center ">

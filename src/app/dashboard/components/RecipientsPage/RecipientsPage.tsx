@@ -1725,7 +1725,7 @@ export default function RecipientsPage() {
         <div className="Recipients-Page">
           {/* Header */}
           <div className="mb-6 flex items-center justify-between ">
-            <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white">
+            <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
               Recipients
             </h1>
             {/* Add Button (Small Screens) */}
@@ -1745,13 +1745,13 @@ export default function RecipientsPage() {
             <div className="relative flex-1">
               <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                 <FiSearch
-                  className="size-5 text-neutral-900 dark:text-white"
+                  className="size-5 text-mainheadingWhite"
                   aria-hidden="true"
                 />
               </div>
               <input
                 type="text"
-                className="w-full rounded-full h-12.5 py-3 pl-12 pr-10 border transition-all ease-linear duration-75 focus:outline-0 focus:border-[#5f5f5f] placeholder:text-neutral-900 dark:placeholder:text-white"
+                className="w-full rounded-full h-12.5 py-3 pl-12 pr-3  focus:outline-0 transition-all duration-75 ease-in-out placeholder:text-gray-400 border border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white bg-primarybox/50"
                 placeholder="Search existing recipients"
                 value={searchTerm}
                 onChange={handleSearchChange}
@@ -1759,7 +1759,7 @@ export default function RecipientsPage() {
               {searchTerm && (
                 <button
                   onClick={clearSearchTerm}
-                  className="absolute inset-y-0 right-3 flex items-center text-neutral-900 dark:text-primary focus:outline-none cursor-pointer"
+                  className="absolute inset-y-0 right-3 flex items-center text-primary focus:outline-none cursor-pointer"
                 >
                   <MdCancel size={20} aria-hidden="true" />
                 </button>
@@ -1787,7 +1787,7 @@ export default function RecipientsPage() {
           ) : filteredRecipients.length > 0 ? (
             // Display List
             <div className="All-Recipients">
-              <h3 className="font-medium text-sm text-gray-500 dark:text-gray-300 mb-3 uppercase tracking-wide leading-8 border-b">
+              <h3 className="font-medium text-white/90 mb-3 leading-8 border-b">
                 All Recipients
               </h3>
               <div className="space-y-2">

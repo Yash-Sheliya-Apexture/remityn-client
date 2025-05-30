@@ -5472,45 +5472,19 @@ export default function LoginPage() {
     window.location.href = `${apiConfig.baseUrl}/auth/google`;
   };
 
-  const OnlyPipeLogo = ({ forDarkBg = true }: { forDarkBg?: boolean }) => (
-    <div className="flex items-center space-x-2">
-      <svg
-        width="28"
-        height="28"
-        viewBox="0 0 24 24"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <circle cx="12" cy="12" r="10" fill="white" />
-        <circle
-          cx="12"
-          cy="12"
-          r="5"
-          fill={forDarkBg ? "#1E535E" : "#1E535E"}
-        />{" "}
-        {/* Adjust inner color if needed */}
-      </svg>
-      <span
-        className={`text-2xl font-semibold ${
-          forDarkBg ? "text-white" : "text-white"
-        }`}
-      >
-        OnlyPipe
-      </span>
-    </div>
-  );
-
   return (
     <div className="flex flex-col lg:flex-row min-h-screen lg:p-3">
       {/* Left Panel - Visible on large screens */}
       <div className="hidden lg:flex lg:w-[55%] xl:w-[60%] bg-[url(/assets/images/leftPartImage.png)] bg-cover bg-no-repeat bg-center p-10 xl:p-16 rounded-3xl flex-col justify-between relative">
-        <div className="absolute top-16 left-16 ">
-          <Image
-            src="/assets/images/main_logo.svg"
-            width={200}
-            height={90}
-            alt=""
-          />
+        <div className="absolute top-16 xl:left-16 ">
+          <Link href={"/"}>
+            <Image
+              src="/assets/images/main_logo.svg"
+              width={200}
+              height={90}
+              alt="Remityn Logo"
+            />
+          </Link>
         </div>
 
         <div className="flex-grow flex flex-col justify-end items-start text-white pt-20">
@@ -5535,20 +5509,20 @@ export default function LoginPage() {
             to register your account.
           </motion.p>
 
-          <div className="flex gap-4 w-full">
+          <div className="flex xl:flex-row flex-col gap-4 w-full">
             {[
-              { num: 1, title: "Sign up your account", active: true },
-              { num: 2, title: "Sign in your account" },
-              { num: 3, title: "Set up your KYC" },
+              { num: 1, title: "Sign up your account", active: false },
+              { num: 2, title: "Sign in your account", active: true },
+              { num: 3, title: "Set up your KYC", active: false },
             ].map((step, index) => (
               <motion.div
                 key={step.num}
-                className={`flex flex-col justify-between w-50 h-50 p-3.5 xl:p-4 rounded-xl transition-all duration-300 ${
+                className={`flex flex-col justify-between xl:w-50 xl:h-50 w-full h-26 p-3.5 xl:p-4 rounded-xl ${
                   step.active ? "bg-white shadow-lg" : "bg-white/12"
                 }`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5}}
+                transition={{ duration: 0.5 }}
               >
                 <div
                   className={`flex items-center justify-center size-7 xl:size-10 rounded-full mr-3 xl:mr-4 shrink-0 ${
@@ -5575,14 +5549,16 @@ export default function LoginPage() {
       </div>
 
       {/* Right Panel - Login Form */}
-      <div className="w-full lg:w-[45%] xl:w-[40%] flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 overflow-y-auto lg:bg-none bg-gradient-to-b from-primary/40 from-10% via-transparent to-transparent">
+      <div className="w-full lg:w-[45%] xl:w-[40%] flex flex-col items-center justify-center p-6 sm:p-8 md:p-10 lg:p-12 xl:p-16 overflow-y-auto">
         <div className="lg:hidden mb-10 self-center">
-          <Image
-            src="/assets/images/main_logo.svg"
-            width={200}
-            height={90}
-            alt="logo"
-          />
+          <Link href={"/"}>
+            <Image
+              src="/assets/images/main_logo.svg"
+              width={200}
+              height={90}
+              alt="Remityn Logo"
+            />
+          </Link>
         </div>
         <AnimatePresence mode="wait">
           <motion.div
@@ -5597,7 +5573,7 @@ export default function LoginPage() {
               {sessionExpiredMessage && (
                 <motion.div
                   key="session-expired-msg"
-                  className="bg-[#2B2B2B] rounded-xl p-4 flex items-center gap-3 mb-4"
+                  className="bg-primary-foreground rounded-xl p-4 flex items-center gap-3 mb-4"
                   role="alert"
                   initial="initial"
                   animate="animate"
@@ -5627,10 +5603,10 @@ export default function LoginPage() {
                 Welcome back.
               </h2>
               <p className="text-gray-400">
-                New to OnlyPipe?{" "}
+                New to Remityn?{" "}
                 <Link
                   href="/auth/register"
-                  className="text-primary hover:text-primaryhover font-medium underline underline-offset-2"
+                  className="text-primary hover:text-primaryhover font-medium underline underline-offset-2 transition-all duration-75 ease-linear"
                 >
                   Sign up
                 </Link>
@@ -5641,7 +5617,7 @@ export default function LoginPage() {
               {isGeneralErrorVisible && generalError && (
                 <motion.div
                   key="general-error-msg"
-                  className="bg-[#383E3F] rounded-xl p-4 flex items-center gap-3 mb-5"
+                  className="bg-primary-foreground rounded-xl p-4 flex items-center gap-3 mb-5"
                   role="alert"
                   initial="initial"
                   animate="animate"
@@ -5662,7 +5638,7 @@ export default function LoginPage() {
               {isLoginSuccessVisible && loginSuccess && (
                 <motion.div
                   key="login-success-msg"
-                  className="bg-[#383E3F] p-4 rounded-xl flex items-center gap-3 mb-5"
+                  className="bg-primary-foreground p-4 rounded-xl flex items-center gap-3 mb-5"
                   role="alert"
                   initial="initial"
                   animate="animate"
@@ -5688,7 +5664,7 @@ export default function LoginPage() {
               <motion.div variants={itemVariants}>
                 <button
                   type="button"
-                  className="flex lg:bg-transparent bg-white/12 hover:bg-primarybox duration-300 ease-linear border justify-center rounded-lg h-14 text-white w-full cursor-pointer font-medium gap-2.5 items-center px-4 py-3"
+                  className="flex hover:bg-primarybox transition-all duration-75 ease-linear border justify-center rounded-lg h-14 text-white w-full cursor-pointer font-medium gap-2.5 items-center px-4 py-3"
                   onClick={handleGoogleLogin}
                 >
                   <Image
@@ -5722,7 +5698,7 @@ export default function LoginPage() {
                   id="email"
                   placeholder="eg. johnfrans@gmail.com"
                   autoComplete="email"
-                  className={`block px-4 py-3 bg-primarybox border text-white placeholder-gray-400 h-14 w-full rounded-lg transition-all focus:outline-none ease-linear duration-100
+                  className={`block px-4 py-3 bg-primarybox border text-white placeholder-gray-400 h-14 w-full rounded-lg focus:outline-none transition-all duration-75 ease-linear pr-10
                     ${
                       emailError
                         ? "border-red-600 ring-1 ring-red-600"
@@ -5755,7 +5731,7 @@ export default function LoginPage() {
                     id="password"
                     placeholder="Enter your password"
                     autoComplete="current-password"
-                    className={`block px-4 py-3 bg-primarybox border text-white placeholder-gray-400 h-14 w-full rounded-lg transition-all focus:outline-none ease-linear duration-100 pr-10
+                    className={`block px-4 py-3 bg-primarybox border text-white placeholder-gray-400 h-14 w-full rounded-lg focus:outline-none transition-all duration-75 ease-linear pr-10
                       ${
                         passwordError
                           ? "border-red-600 ring-1 ring-red-600"
@@ -5770,7 +5746,7 @@ export default function LoginPage() {
                   />
                   <button
                     type="button"
-                    className="absolute right-3 top-1/2 -translate-y-1/2 transform cursor-pointer text-gray-500 hover:text-gray-300 focus:outline-none"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 transform cursor-pointer text-gray-500 hover:text-gray-300 focus:outline-none transition-all duration-75 ease-linear"
                     onClick={togglePasswordVisibility}
                     aria-label={
                       showPassword ? "Hide password" : "Show password"
@@ -5796,7 +5772,7 @@ export default function LoginPage() {
 
               <motion.div className="text-right pt-1" variants={itemVariants}>
                 <Link href="/auth/forgot-password" className="inline-block">
-                  <span className="text-subheadingWhite hover:text-primary font-medium underline underline-offset-2">
+                  <span className="text-subheadingWhite hover:text-primary font-medium underline underline-offset-2 transition-all duration-75 ease-linear">
                     Forgot Password?
                   </span>
                 </Link>
@@ -5805,7 +5781,7 @@ export default function LoginPage() {
               <motion.div variants={itemVariants} className="pt-2">
                 <button
                   type="submit"
-                  className={`bg-primary hover:bg-primaryhover w-full text-neutral-900 font-semibold py-3 px-8 h-14 rounded-lg transition-all duration-150 ease-linear flex items-center justify-center 
+                  className={`bg-primary hover:bg-primaryhover w-full text-neutral-900 font-semibold py-3 px-8 h-14 rounded-lg transition-all duration-75 ease-linear flex items-center justify-center 
                     ${
                       isSubmitting
                         ? "opacity-70 cursor-not-allowed"
@@ -5888,19 +5864,6 @@ export default function LoginPage() {
                 </button>
               </motion.div>
             </form>
-            {/*
-                The mobile screenshot includes "Already have an account? Log in" at the very bottom.
-                This is unusual for a login page. The "New to OnlyPipe? Sign up" link at the top is more conventional.
-                If strictly following the mobile screenshot for this part:
-              */}
-            {/*
-              <motion.p variants={itemVariants} className="text-gray-400 text-xs mt-6 text-center">
-                  Already have an account?{" "}
-                  <Link href="/auth/login" className="font-medium text-[#4CB8C4] hover:text-[#63c9d6] underline">
-                      Log in
-                  </Link>
-              </motion.p>
-              */}
           </motion.div>
         </AnimatePresence>
       </div>

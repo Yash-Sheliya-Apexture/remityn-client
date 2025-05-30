@@ -1,10 +1,16 @@
 import React from "react";
-import Features_Hero from "../components/features/Features_Hero";
+import FeatherHero from "../components/Feature/FeatherHero";
+import OurFeatures from "../components/Feature/OurFeatures";
+import CallToActionSection from "../components/CallToActionSection";
+import SendMoneySteps from "../components/Feature/SendMoneySteps";
 
 const page = () => {
   return (
     <div className="Features-Main">
-      <Features_Hero />
+      <FeatherHero />
+      <OurFeatures />
+      <SendMoneySteps />
+      <CallToActionSection />
     </div>
   );
 };

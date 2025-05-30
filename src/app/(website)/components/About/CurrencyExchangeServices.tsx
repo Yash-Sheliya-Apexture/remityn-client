@@ -135,7 +135,7 @@ const CurrencyExchangeServices: React.FC<
   CurrencyExchangeServicesProps
 > = () => {
   return (
-    <section className="CurrencyExchangeServicesSection lg:py-20 py-5 overflow-hidden">
+    <section className="CurrencyExchangeServicesSection sm:py-16 py-10 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row items-center gap-8">
           {/* Image Area - Appears on the LEFT on large screens (lg:order-1), FIRST on small screens (order-1) */}

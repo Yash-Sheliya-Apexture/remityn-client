@@ -456,7 +456,7 @@ const BalanceFilterItem: React.FC<BalanceFilterItemProps> = ({
   return (
     // Make the entire div clickable
     <div
-      className="flex items-center justify-between dark:hover:bg-primarybox hover:bg-lightgray sm:p-4 p-2 rounded-2xl transition-colors duration-150 ease-in-out cursor-pointer"
+      className="flex items-center justify-between hover:bg-primarybox sm:p-4 p-2 rounded-2xl transition-colors duration-150 ease-in-out cursor-pointer"
       onClick={handleDivClick}
       ref={containerRef}
       role="checkbox" // Accessibility: Indicate the div acts like a checkbox container
@@ -480,11 +480,11 @@ const BalanceFilterItem: React.FC<BalanceFilterItemProps> = ({
           />
         </div>
         <div className="ml-3 md:ml-4"> {/* Adjusted margin */}
-          <h5 className="font-medium text-neutral-900 dark:text-white capitalize text-sm md:text-base"> {/* Adjusted text size */}
+          <h5 className="font-medium text-white/90 capitalize text-sm md:text-base"> {/* Adjusted text size */}
             {currencyBalance.currencyName}
           </h5>
           {/* Optional: Could add currency code here if needed */}
-          {/* <p className="text-xs text-gray-500 dark:text-gray-400">{currencyBalance.currencyCode}</p> */}
+          <p className="text-xs text-subheadingWhite">{currencyBalance.currencyCode}</p>
         </div>
       </div>
 
@@ -498,7 +498,7 @@ const BalanceFilterItem: React.FC<BalanceFilterItemProps> = ({
         checked={checked}
         onCheckedChange={handleCheckboxChange} // Use the specific handler for Shadcn Checkbox
         onClick={(e) => e.stopPropagation()} // VERY IMPORTANT: Prevent click on checkbox triggering the div click handler
-        className="size-5 border-neutral-400 dark:border-neutral-600 shadow-none data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground" // Added more specific styling based on Shadcn convention
+        className="size-5 shadow-none data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground" // Added more specific styling based on Shadcn convention
         aria-label={`Select ${currencyBalance.currencyName}`} // More descriptive aria-label
       />
     </div>

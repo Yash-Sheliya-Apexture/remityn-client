@@ -789,14 +789,14 @@ const FeaturesSection: React.FC = () => {
   return (
     <section
       ref={sectionRef}
-      className="text-white relative"
+      className="text-white relative  py-10 lg:py-16"
       style={{ height: dynamicHeight }}
     >
       <div
         className={`
           ${isLargeScreen 
-            ? "sticky top-0 overflow-hidden flex flex-col h-screen py-10 lg:py-16"
-            : "py-10 lg:py-16 container mx-auto px-4"
+            ? "sticky top-0 overflow-hidden flex flex-col h-screen"
+            : "container mx-auto px-4"
           }
         `}
       >
@@ -832,7 +832,7 @@ const FeaturesSection: React.FC = () => {
             )}
 
             {isLargeScreen ? (
-              <div className="bg-[#394247] rounded-3xl p-[1px] inline-flex flex-row gap-[2] flex-shrink-0">
+              <div className="bg-[#394247] rounded-3xl border-3 border-[#394247] inline-flex flex-row gap-[3] flex-shrink-0 h-full relative">
                 {FeaturesData.map((feature) => (
                   <ServiceCard
                     key={feature.id}

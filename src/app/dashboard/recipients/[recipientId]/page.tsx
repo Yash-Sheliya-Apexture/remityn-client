@@ -2220,7 +2220,7 @@
 //             <div className="lg:size-16 size-14 flex items-center justify-center bg-red-600 dark:bg-transparent dark:bg-gradient-to-t dark:from-red-600 rounded-full mb-2">
 //             <AlertTriangle className="lg:size-8 size-6 mx-auto text-white dark:text-red-400" />
 //           </div>
-//           <p className="lg:text-xl text-lg text-gray-500 dark:text-gray-300 max-w-lg mx-auto">Error: Invalid or missing Recipient ID provided in the URL.</p>
+//           <p className="lg:text-xl text-lg text-subheadingWhite max-w-lg mx-auto">Error: Invalid or missing Recipient ID provided in the URL.</p>
             
 //             <Link href="/dashboard/recipients" className="text-primary hover:underline">Go back to Recipients</Link>
 //           </div>
@@ -2268,7 +2268,7 @@
 //           <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
 //             Error loading recipient
 //           </h2>
-//           <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+//           <p className="text-subheadingWhite max-w-lg mx-auto">
 //             {error || "Recipient not found."}{" "}
 //             <Link
 //               href="/dashboard/recipients"
@@ -2445,7 +2445,7 @@
 
 //         {/* Account Details Section */}
 //         <div className="Account-Details">
-//           <h3 className="font-medium text-gray-500 dark:text-gray-300 mb-3 tracking-wide leading-8 border-b">
+//           <h3 className="font-medium text-subheadingWhite mb-3 tracking-wide leading-8 border-b">
 //             Account Details
 //           </h3>
 //           <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6 mb-8">
@@ -2454,7 +2454,7 @@
 //               <label className="block font-semibold text-neutral-900 dark:text-white">
 //                 Account holder name
 //               </label>
-//               <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//               <p className="mt-1 text-sm text-subheadingWhite break-words">
 //                 {currentRecipient.accountHolderName}
 //               </p>
 //             </div>
@@ -2466,7 +2466,7 @@
 //               <div className="flex items-center gap-4 mt-1">
 //                 {currentRecipient.nickname ? (
 //                   <div className="flex items-center gap-2 flex-wrap">
-//                     <p className="text-sm text-gray-500 dark:text-gray-300 break-words">
+//                     <p className="text-sm text-subheadingWhite break-words">
 //                       {currentRecipient.nickname}
 //                     </p>
 //                     <button
@@ -2493,7 +2493,7 @@
 //               <label className="block font-semibold text-neutral-900 dark:text-white">
 //                 Account type
 //               </label>
-//               <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//               <p className="mt-1 text-sm text-subheadingWhite break-words">
 //                 {currentRecipient.accountType || "N/A"} {/* Handle potential missing value */}
 //               </p>
 //             </div>
@@ -2502,7 +2502,7 @@
 //               <label className="block font-semibold text-neutral-900 dark:text-white">
 //                 IFSC code
 //               </label>
-//               <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//               <p className="mt-1 text-sm text-subheadingWhite break-words">
 //                 {currentRecipient.ifscCode || "N/A"} {/* Handle potential missing value */}
 //               </p>
 //             </div>
@@ -2511,7 +2511,7 @@
 //               <label className="block font-semibold text-neutral-900 dark:text-white">
 //                 Account number
 //               </label>
-//               <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//               <p className="mt-1 text-sm text-subheadingWhite break-words">
 //                 {currentRecipient.accountNumber || "N/A"} {/* Handle potential missing value */}
 //               </p>
 //             </div>
@@ -2521,7 +2521,7 @@
 //                 <label className="block font-semibold text-neutral-900 dark:text-white">
 //                   Email (Optional)
 //                 </label>
-//                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//                 <p className="mt-1 text-sm text-subheadingWhite break-words">
 //                   {currentRecipient.email}
 //                 </p>
 //               </div>
@@ -2532,7 +2532,7 @@
 //                 <label className="block font-semibold text-neutral-900 dark:text-white">
 //                   Bank name
 //                 </label>
-//                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//                 <p className="mt-1 text-sm text-subheadingWhite break-words">
 //                   {currentRecipient.bankName}
 //                 </p>
 //               </div>
@@ -2543,7 +2543,7 @@
 //                 <label className="block font-semibold text-neutral-900 dark:text-white">
 //                   Address
 //                 </label>
-//                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+//                 <p className="mt-1 text-sm text-subheadingWhite break-words">
 //                   {currentRecipient.address}
 //                 </p>
 //               </div>
@@ -2585,7 +2585,7 @@
 //             />
 //             <p
 //               id="nickname-char-count"
-//               className="mt-2 text-gray-500 dark:text-gray-300 font-semibold text-xs"
+//               className="mt-2 text-subheadingWhite font-semibold text-xs"
 //             >
 //               {nicknameInput.length}/40 characters
 //             </p>
@@ -2728,7 +2728,7 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
             <div className="lg:size-16 size-14 flex items-center justify-center bg-red-600 dark:bg-transparent dark:bg-gradient-to-t dark:from-red-600 rounded-full mb-2">
             <AlertTriangle className="lg:size-8 size-6 mx-auto text-white dark:text-red-400" />
           </div>
-          <p className="lg:text-xl text-lg text-gray-500 dark:text-gray-300 max-w-lg mx-auto">Error: Invalid or missing Recipient ID provided in the URL.</p>
+          <p className="lg:text-xl text-lg text-subheadingWhite max-w-lg mx-auto">Error: Invalid or missing Recipient ID provided in the URL.</p>
             
             <Link href="/dashboard/recipients" className="text-primary hover:underline">Go back to Recipients</Link>
           </div>
@@ -2739,9 +2739,8 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
 
   if (loadingRecipient) {
     return (
-      <div className="RecipientDetailsPage py-10">
+      <div className="RecipientDetailsPage">
         <Skeleton className="h-8 w-48 rounded-md mb-6" />
-        
             {/* Enhanced Skeleton Loading State */}
             <div className="flex flex-col mb-8 space-y-4">
                 <Skeleton className="w-20 h-20 rounded-full" />
@@ -2751,12 +2750,12 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
                     <Skeleton className="w-32 h-10 rounded-full" />
                 </div>
             </div>
-             <Skeleton className="h-8 w-32 mb-6 rounded-md" />
-             <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6 mb-8">
-                {Array(6).fill(0).map((_, i) => (
+             <Skeleton className="h-4 w-32 rounded-md mb-6" />
+             <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6 mb-8  border-t py-6">
+                {Array(7).fill(0).map((_, i) => (
                     <div key={i}>
-                        <Skeleton className="h-4 w-24 mb-2 rounded-md"/>
-                        <Skeleton className="h-5 w-40 rounded-md"/>
+                        <Skeleton className="h-4 w-40 mb-2 rounded-md"/>
+                        <Skeleton className="h-2 w-26 rounded-md"/>
                     </div>
                 ))}
              </div>
@@ -2776,7 +2775,7 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
           <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
             Error loading recipient
           </h2>
-          <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+          <p className="text-subheadingWhite max-w-lg mx-auto">
             {error || "Recipient not found."}{" "}
             <Link
               href="/dashboard/recipients"
@@ -2905,13 +2904,13 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
       <div className="">
         {/* Profile Section */}
         <div className="flex flex-col mb-8 space-y-4">
-          <div className="relative w-20 h-20 rounded-full bg-lightborder dark:bg-secondarybox flex items-center justify-center">
-            <span className="font-bold text-2xl text-neutral-900 dark:text-white">
+          <div className="relative size-20 rounded-full bg-[#52636C] flex items-center justify-center">
+            <span className="font-bold text-2xl text-white/90">
               {initials} {/* Use calculated initials */}
             </span>
             {/* Conditional Flag Display - Robust check */}
             {currentRecipient.currency?.code && (
-              <div className="absolute bottom-1 right-0 w-6 h-6 rounded-full overflow-hidden border border-white dark:border-gray-800">
+              <div className="absolute bottom-1 right-0 w-6 h-6 rounded-full overflow-hidden border-2 border-white">
                 <Image
                   src={currentRecipient.currency.flagImage || `/assets/icon/${currentRecipient.currency.code.toLowerCase()}.svg`}
                   alt={`${currentRecipient.currency.code} flag`}
@@ -2927,9 +2926,11 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
               </div>
             )}
           </div>
-          <h2 className="sm:text-[26px] text-xl font-semibold text-mainheading dark:text-white break-words">
+
+          <h2 className="sm:text-[26px] text-xl font-semibold text-white break-words">
             {displayName} {/* Use calculated displayName */}
           </h2>
+
           <div className="flex items-center gap-4">
             {/* === MODIFIED LINK FOR SEND BUTTON === */}
             <Link
@@ -2953,28 +2954,28 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
 
         {/* Account Details Section */}
         <div className="Account-Details">
-          <h3 className="font-medium text-gray-500 dark:text-gray-300 mb-3 tracking-wide leading-8 border-b">
+          <h3 className="font-medium text-mainheadingWhite mb-3 tracking-wide leading-8 border-b">
             Account Details
           </h3>
           <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6 mb-8">
             {/* Account Holder Name */}
             <div>
-              <label className="block font-semibold text-neutral-900 dark:text-white">
-                Account holder name
+              <label className="block font-semibold text-white">
+                Account holder name 
               </label>
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+              <p className="mt-1 text-sm text-subheadingWhite break-words">
                 {currentRecipient.accountHolderName}
               </p>
             </div>
             {/* Nickname */}
             <div>
-              <label className="block font-semibold text-neutral-900 dark:text-white">
+              <label className="block font-semibold text-white">
                 Nickname
               </label>
               <div className="flex items-center gap-4 mt-1">
                 {currentRecipient.nickname ? (
                   <div className="flex items-center gap-2 flex-wrap">
-                    <p className="text-sm text-gray-500 dark:text-gray-300 break-words">
+                    <p className="text-sm text-subheadingWhite break-words">
                       {currentRecipient.nickname}
                     </p>
                     <button
@@ -2998,38 +2999,38 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
             </div>
             {/* Account Type */}
             <div>
-              <label className="block font-semibold text-neutral-900 dark:text-white">
+              <label className="block font-semibold text-white">
                 Account type
               </label>
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+              <p className="mt-1 text-sm text-subheadingWhite break-words">
                 {currentRecipient.accountType || "N/A"} {/* Handle potential missing value */}
               </p>
             </div>
             {/* IFSC Code */}
             <div>
-              <label className="block font-semibold text-neutral-900 dark:text-white">
+              <label className="block font-semibold text-white">
                 IFSC code
               </label>
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+              <p className="mt-1 text-sm text-subheadingWhite break-words">
                 {currentRecipient.ifscCode || "N/A"} {/* Handle potential missing value */}
               </p>
             </div>
             {/* Account Number */}
             <div>
-              <label className="block font-semibold text-neutral-900 dark:text-white">
+              <label className="block font-semibold text-white">
                 Account number
               </label>
-              <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+              <p className="mt-1 text-sm text-subheadingWhite break-words">
                 {currentRecipient.accountNumber || "N/A"} {/* Handle potential missing value */}
               </p>
             </div>
             {/* Email (Optional) */}
             {currentRecipient.email && (
               <div>
-                <label className="block font-semibold text-neutral-900 dark:text-white">
+                <label className="block font-semibold text-white">
                   Email (Optional)
                 </label>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+                <p className="mt-1 text-sm text-subheadingWhite break-words">
                   {currentRecipient.email}
                 </p>
               </div>
@@ -3037,10 +3038,10 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
             {/* Bank Name (Optional) */}
             {currentRecipient.bankName && (
               <div>
-                <label className="block font-semibold text-neutral-900 dark:text-white">
+                <label className="block font-semibold text-white">
                   Bank name
                 </label>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+                <p className="mt-1 text-sm text-subheadingWhite break-words">
                   {currentRecipient.bankName}
                 </p>
               </div>
@@ -3048,10 +3049,10 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
             {/* Address (Optional) */}
             {currentRecipient.address && (
               <div className="sm:col-span-2">
-                <label className="block font-semibold text-neutral-900 dark:text-white">
+                <label className="block font-semibold text-white">
                   Address
                 </label>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-300 break-words">
+                <p className="mt-1 text-sm text-subheadingWhite break-words">
                   {currentRecipient.address}
                 </p>
               </div>
@@ -3073,7 +3074,7 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
           <div className="mb-4">
             <label
               htmlFor="nickname"
-              className="block font-semibold text-neutral-900 dark:text-white"
+              className="block font-semibold text-white/90 text-left"
             >
               Account nickname (Optional)
             </label>
@@ -3093,7 +3094,7 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
             />
             <p
               id="nickname-char-count"
-              className="mt-2 text-gray-500 dark:text-gray-300 font-semibold text-xs"
+              className="mt-2 text-subheadingWhite font-semibold text-xs"
             >
               {nicknameInput.length}/40 characters
             </p>

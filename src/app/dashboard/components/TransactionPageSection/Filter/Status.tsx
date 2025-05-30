@@ -94,17 +94,17 @@ export default function Status({ selectedStatus, onStatusChange }: StatusProps) 
 
   return (
     <div>
-      <h4 className="text-gray-500 dark:text-gray-300 font-medium mb-3 leading-8 border-b border-neutral-200 dark:border-neutral-700">
+      <h4 className="font-medium text-white/90 mb-3 leading-8 border-b">
         Status
       </h4>
       <div className="flex items-center flex-wrap gap-2"> {/* Added flex-wrap */}
         {statusOptions.map((status) => (
           <button
             key={status.value}
-            className={`font-medium border rounded-full px-4 py-2 flex items-center gap-1.5 cursor-pointer transition-colors text-sm md:text-base ${ // Adjusted gap and text size slightly
+            className={`font-medium border flex items-center gap-1 rounded-full px-4 py-2 cursor-pointer transition-colors ${ // Adjusted gap and text size slightly
               selectedStatus === status.value
-                ? "bg-neutral-900 text-primary dark:bg-green-600/20 border-transparent" // Highlight if selected
-                : "text-mainheading dark:text-white bg-white dark:bg-background border-neutral-300 dark:border-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-500"
+                ? "bg-primarybox hover:bg-secondarybox text-primary border-transparent" // Highlight if selected
+                : "text-white/90 bg-background hover:border-gray-500"
             }`}
             onClick={() => handleStatusButtonClick(status.value)}
           >

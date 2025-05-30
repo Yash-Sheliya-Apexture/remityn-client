@@ -4084,7 +4084,7 @@ const PaymentDetailsPage = () => {
 
   if (!isLoading && error && !paymentDetails) {
     return (
-      <div className="mx-auto px-4 py-8 text-center text-gray-500 dark:text-gray-300 md:max-w-lg relative">
+      <div className="mx-auto px-4 py-8 text-center text-subheadingWhite md:max-w-lg relative">
         <ToastContainer
           {...toastContainerProps}
           style={getToastContainerStyle()}
@@ -4095,13 +4095,17 @@ const PaymentDetailsPage = () => {
           <p className="text-sm">{error}</p>{" "}
           {/* This 'error' state is for persistent on-page error messages */}
         </div>
-        <Button onClick={() => router.back()} variant="outline">
+        <Button
+          onClick={() => router.back()}
+          variant="outline"
+          className="text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-8 py-3 h-12.5 text-center border-0 sm:mr-4 m-0 cursor-pointer transition-all duration-75 ease-linear"
+        >
           Go Back
         </Button>
         <Button
           onClick={() => router.push("/dashboard/transactions")}
           variant="link"
-          className="mt-4 bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center cursor-pointer transition-all duration-75 ease-linear"
+          className="mt-4 bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center cursor-pointer transition-all duration-75 ease-linear"
         >
           View Transactions
         </Button>
@@ -4112,18 +4116,18 @@ const PaymentDetailsPage = () => {
   if (!isLoading && (!paymentDetails || !balanceId)) {
     // console.warn("Rendering 'Not Found' state because paymentDetails or balanceId is missing after loading.", { hasPaymentDetails: !!paymentDetails, hasBalanceId: !!balanceId });
     return (
-      <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center relative">
+      <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center relative">
         <ToastContainer
           {...toastContainerProps}
           style={getToastContainerStyle()}
         />
-        <p className="lg:text-xl text-lg text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+        <p className="lg:text-xl text-lg text-subheadingWhite max-w-lg mx-auto">
           Payment details could not be found, are no longer valid, or the page
           context is incorrect.
         </p>
         <button
           onClick={() => router.push("/dashboard/transactions")}
-          className="bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 sm:w-auto w-full text-center cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
+          className="bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 sm:w-auto w-full text-center cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
         >
           View Transactions
         </button>
@@ -4134,17 +4138,17 @@ const PaymentDetailsPage = () => {
   if (!paymentDetails) {
     // console.error("PaymentDetailsPage: Reached render section unexpectedly with null paymentDetails.");
     return (
-      <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center relative">
+      <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center relative">
         <ToastContainer
           {...toastContainerProps}
           style={getToastContainerStyle()}
         />
-        <p className="lg:text-xl text-lg text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+        <p className="lg:text-xl text-lg text-subheadingWhite max-w-lg mx-auto">
           Something went wrong loading payment details. Please try again.
         </p>
         <button
           onClick={() => router.push("/dashboard/transactions")}
-          className="bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 sm:w-auto w-full text-center cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
+          className="bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 sm:w-auto w-full text-center cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
         >
           View Transactions
         </button>

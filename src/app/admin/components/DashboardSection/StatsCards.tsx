@@ -145,15 +145,15 @@ export default function StatsCards() {
         {[...Array(4)].map((_, i) => (
           <div
             key={i}
-            className="bg-white dark:bg-primarybox sm:p-6 p-4 rounded-xl border flex justify-between"
+            className="sm:p-6 p-4 bg-primarybox rounded-xl flex justify-between"
           >
             <div>
-              <Skeleton className="h-7 rounded w-46 mb-2"></Skeleton>
-              <Skeleton className="h-9 rounded w-20 mb-3"></Skeleton>
-              <Skeleton className="h-5 rounded w-2/3"></Skeleton>
+              <Skeleton className="h-7 rounded w-46 bg-background/50"></Skeleton>
+              <Skeleton className="h-9 rounded w-20 mt-1 bg-background/50"></Skeleton>
+              <Skeleton className="h-5 rounded w-full mt-2 bg-background/50"></Skeleton>
             </div>
             <div>
-              <Skeleton className="rounded-full size-12"></Skeleton>
+              <Skeleton className="rounded-full size-12 bg-background/50"></Skeleton>
             </div>
           </div>
         ))}
@@ -165,7 +165,7 @@ export default function StatsCards() {
     // Error display remains the same
     return (
       <div
-        className="mb-8 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-xl relative flex items-center"
+        className="mb-8 bg-red-900/30 border border-red-700 text-red-300 px-4 py-3 rounded-xl relative flex items-center"
         role="alert"
       >
         <AlertCircle className="h-5 w-5 mr-2" />
@@ -178,10 +178,10 @@ export default function StatsCards() {
   const userGrowthTrend = stats?.growthPercentageThisWeek ?? 0;
   const userTrendColor =
     userGrowthTrend > 0
-      ? "text-green-600"
+      ? "text-green-500"
       : userGrowthTrend < 0
-      ? "text-red-600"
-      : "text-gray-500";
+      ? "text-red-500"
+      : "text-subheadingWhite";
   const UserTrendIconComponent =
     userGrowthTrend > 0
       ? TrendingUp
@@ -194,10 +194,10 @@ export default function StatsCards() {
   const addMoneyChange = stats?.addMoneyChangePercentage ?? 0;
   const addMoneyTrendColor =
     addMoneyChange > 0
-      ? "text-green-600"
+      ? "text-green-500"
       : addMoneyChange < 0
-      ? "text-red-600"
-      : "text-gray-500";
+      ? "text-red-500"
+      : "text-subheadingWhite";
   const AddMoneyTrendIconComponent =
     addMoneyChange > 0
       ? TrendingUp
@@ -210,10 +210,10 @@ export default function StatsCards() {
   const sendMoneyChange = stats?.sendMoneyChangePercentage ?? 0;
   const sendMoneyTrendColor =
     sendMoneyChange > 0
-      ? "text-green-600"
+      ? "text-green-500"
       : sendMoneyChange < 0
-      ? "text-red-600"
-      : "text-gray-500";
+      ? "text-red-500"
+      : "text-subheadingWhite";
   const SendMoneyTrendIconComponent =
     sendMoneyChange > 0
       ? TrendingUp
@@ -226,10 +226,10 @@ export default function StatsCards() {
   const completedChangeCount = stats?.completedTransfersChangeCount ?? 0;
   const completedTrendColor =
     completedChangeCount > 0
-      ? "text-green-600"
+      ? "text-green-500"
       : completedChangeCount < 0
-      ? "text-red-600"
-      : "text-gray-500";
+      ? "text-red-500"
+      : "text-subheadingWhite";
   // For count change, an up or down arrow is good. If 0, maybe no icon or a neutral one.
   const CompletedTrendIconComponent =
     completedChangeCount > 0
@@ -242,14 +242,14 @@ export default function StatsCards() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-8">
       {/* Total Users Card */}
-      <div className="dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
+      <div className="bg-primarybox sm:p-6 p-4 rounded-xl">
         <div className="flex justify-between items-start">
           <div className="Admin-Card">
-            <p className="text-lg font-medium text-gray-500 dark:text-gray-300">
+            <p className="text-lg font-medium text-subheadingWhite">
               Total Users
             </p>
 
-            <h3 className="text-3xl font-bold text-neutral-900 dark:text-white mt-1">
+            <h3 className="text-3xl font-bold text-mainheadingWhite mt-1">
               {stats?.totalUsers ?? "N/A"}
             </h3>
             <p className={`text-sm ${userTrendColor} flex items-center mt-2`}>
@@ -262,20 +262,20 @@ export default function StatsCards() {
               </span>
             </p>
           </div>
-          <div className="bg-blue-100 dark:bg-blue-600/20 p-3 rounded-full">
-            <Users className="size-6 text-blue-600 dark:text-blue-400" />
+          <div className="bg-blue-600/20 p-3 rounded-full">
+            <Users className="size-6 text-blue-400" />
           </div>
         </div>
       </div>
 
       {/* Today's Add Money Card */}
-      <div className="dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
+      <div className="bg-primarybox sm:p-6 p-4 rounded-2xl">
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-lg font-medium text-gray-500 dark:text-gray-300">
+            <p className="text-lg font-medium text-subheadingWhite">
               Today's Add Money
             </p>
-            <h3 className="text-3xl font-bold text-neutral-900 dark:text-white mt-1">
+            <h3 className="text-3xl font-bold text-mainheadingWhite mt-1">
               {stats?.todaysAddMoneyCount ?? "N/A"}
             </h3>
             <p
@@ -290,20 +290,20 @@ export default function StatsCards() {
               </span>
             </p>
           </div>
-          <div className="bg-yellow-100 dark:bg-yellow-600/20 p-3 rounded-full">
-            <TbMoneybag className="size-6 text-yellow-600 dark:text-yellow-400" />
+          <div className="bg-yellow-600/20 p-3 rounded-full">
+            <TbMoneybag className="size-6 text-yellow-400" />
           </div>
         </div>
       </div>
 
       {/* Today's Send Money Card - Now Dynamic */}
-      <div className="dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
+      <div className="bg-primarybox sm:p-6 p-4 rounded-2xl">
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-lg font-medium text-gray-500 dark:text-gray-300">
+            <p className="text-lg font-medium text-subheadingWhite">
               Today's Send Money
             </p>
-            <h3 className="text-3xl font-bold text-neutral-900 dark:text-white mt-1">
+            <h3 className="text-3xl font-bold text-mainheadingWhite mt-1">
               {stats?.todaysSendMoneyCount ?? "N/A"}
             </h3>
             <p
@@ -314,24 +314,24 @@ export default function StatsCards() {
               )}
               <span>
                 {sendMoneyTrendPrefix}
-                {sendMoneyChange.toFixed(1)}% from yesterday 
+                {sendMoneyChange.toFixed(1)}% from yesterday
               </span>
             </p>
           </div>
-          <div className="bg-green-100 dark:bg-green-600/20 p-3 rounded-full">
-            <BsSend className="size-6 text-green-600 dark:text-green-400" />
+          <div className="bg-green-600/20 p-3 rounded-full">
+            <BsSend className="size-6 text-green-400" />
           </div>
         </div>
       </div>
 
       {/* Completed Transfers Card - Now Dynamic */}
-      <div className="dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
+      <div className="bg-primarybox sm:p-6 p-4 rounded-2xl">
         <div className="flex justify-between items-start">
           <div>
-            <p className="text-lg font-medium text-gray-500 dark:text-gray-300">
+            <p className="text-lg font-medium text-subheadingWhite">
               Completed Transfers
             </p>
-            <h3 className="text-3xl font-bold text-neutral-900 dark:text-white mt-1">
+            <h3 className="text-3xl font-bold text-mainheadingWhite mt-1">
               {stats?.completedTransfersThisMonth ?? "N/A"}
             </h3>
             <p
@@ -346,8 +346,8 @@ export default function StatsCards() {
               </span>
             </p>
           </div>
-          <div className="bg-purple-100 dark:bg-purple-600/20 p-3 rounded-full">
-            <BsCheck2Circle  className="size-6 text-purple-600 dark:text-purple-400" />
+          <div className="bg-purple-600/20 p-3 rounded-full">
+            <BsCheck2Circle className="size-6 text-purple-400" />
           </div>
         </div>
       </div>

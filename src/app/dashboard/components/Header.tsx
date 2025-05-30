@@ -395,6 +395,7 @@ import { useAuth } from "../../contexts/AuthContext"; // Path is likely correct 
 import { IoIosArrowForward } from "react-icons/io";
 import Image from "next/image";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { TbMenu3 } from "react-icons/tb";
 
 interface HeaderProps {
   toggleSidebar: () => void;
@@ -456,10 +457,10 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
           <div className="flex justify-center items-center gap-4">
             <button
               onClick={toggleSidebar}
-              className="focus:outline-none cursor-pointer p-[12px] bg-primarybox hover:bg-secondarybox text-primary rounded-full transition-colors lg:hidden sm:block hidden"
+              className="focus:outline-none cursor-pointer p-2.5 bg-primarybox hover:bg-secondarybox text-primary rounded-full transition-colors lg:hidden sm:block hidden"
             >
-              <GiHamburgerMenu
-                size={24}
+              <TbMenu3
+                size={28}
               />
             </button>
 

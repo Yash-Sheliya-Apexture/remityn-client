@@ -2363,6 +2363,7 @@ import Link from "next/link";
 import { GoPlus } from "react-icons/go";
 import { Skeleton } from "@/components/ui/skeleton"; // Adjust the path to your Skeleton component
 import { AnimatePresence, motion } from "framer-motion";
+import { AlertCircle } from "lucide-react";
 
 axios.defaults.baseURL = apiConfig.baseUrl;
 
@@ -2541,8 +2542,9 @@ const CountryCard = () => {
                 </div>
               </div>
             ))}
+
           <div className="w-64 shrink-0" style={{ scrollSnapAlign: "start" }}>
-            <Skeleton className="p-6 h-[176px] bg-lightgray dark:bg-primarybox/70 rounded-2xl flex flex-col justify-center items-center border-2 border-dashed border-neutral-900 dark:border-neutral-300" />
+            <Skeleton className="p-6 h-[176px] bg-primarybox/70 rounded-2xl flex flex-col justify-center items-center border-2 border-dashed" />
           </div>
         </div>
       </section>
@@ -2552,11 +2554,13 @@ const CountryCard = () => {
   if (error) {
     // Error UI (unchanged)
     return (
-      <section className="Country-card px-2 py-4">
-        <div className="text-red-400 text-lg bg-red-900/30 p-4 rounded-lg border border-red-600/50">
-          Error loading accounts: {error}
-        </div>
-      </section>
+       <div
+        className="mb-8 bg-red-900/30 border border-red-700 text-red-300 px-4 py-3 rounded-xl relative flex items-center"
+        role="alert"
+      >
+        <AlertCircle className="h-5 w-5 mr-2" />
+        <span className="block sm:inline">Error loading accounts: {error}</span>
+      </div>
     );
   }
 

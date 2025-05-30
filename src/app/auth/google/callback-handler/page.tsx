@@ -118,22 +118,24 @@ function GoogleCallbackLogic() {
 
     // Render minimal loading or error
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-4">
-            {isProcessing && !error && (
-                <>
-                    <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
-                    <p className="text-lg font-semibold">Finalizing authentication...</p>
-                    <p className="text-muted-foreground">Please wait.</p>
-                 </>
-            )}
-            {error && (
-                 <div className="text-center text-destructive-foreground bg-destructive p-6 rounded-lg shadow-md max-w-md mx-auto">
-                    <p className="text-xl font-semibold mb-2">Authentication Failed</p>
-                    <p className="mb-4">{error}</p>
-                    <p className="text-sm">Redirecting to login page...</p>
-                 </div>
-            )}
-        </div>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-background p-4">
+        {isProcessing && !error && (
+          <>
+            <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
+            <p className="text-lg font-semibold text-mainheadingWhite">
+              Finalizing authentication...
+            </p>
+            <p className="text-subheadingWhite">Please wait.</p>
+          </>
+        )}
+        {error && (
+          <div className="text-center bg-red-600/20 border border-red-500/30 text-red-300 p-6 rounded-lg shadow-md max-w-md mx-auto">
+            <p className="text-xl font-semibold mb-2">Authentication Failed</p>
+            <p className="mb-4">{error}</p>
+            <p className="text-sm">Redirecting to login page...</p>
+          </div>
+        )}
+      </div>
     );
 }
 
@@ -141,7 +143,7 @@ function GoogleCallbackLogic() {
 export default function GoogleCallbackHandler() {
     return (
         <Suspense fallback={
-            <div className="flex flex-col items-center justify-center min-h-screen bg-background text-foreground p-4">
+            <div className="flex flex-col items-center justify-center min-h-screen bg-background text-subheadingWhite p-4">
                 <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
             </div>
         }>

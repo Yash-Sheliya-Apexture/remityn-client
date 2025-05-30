@@ -237,13 +237,13 @@ export const InboxMessageDetailView: React.FC<InboxMessageDetailViewProps> = ({
 
   return (
     <>
-      <div className="border rounded-2xl overflow-hidden transition-all ease-linear duration-75 flex flex-col h-full">
+      <div className="border border-gray-600/50 rounded-2xl overflow-hidden transition-all ease-linear duration-75 flex flex-col h-full">
         {/* Top Action Bar */}
         <div className="flex items-center justify-between p-4 sm:px-6  bg-primarybox sticky top-0 z-10">
           <button
             onClick={onBack}
             aria-label="Back to inbox list"
-            className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white sm:px-4 sm:py-2 sm:h-auto h-8 sm:w-auto w-8 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
+            className="flex items-center justify-center cursor-pointer gap-2 bg-background/60 hover:bg-secondarybox text-primary sm:px-4 sm:py-2 sm:h-auto h-8 sm:w-auto w-8 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
             disabled={isDeleting}
           >
             <ChevronLeft  size={20} />
@@ -251,7 +251,7 @@ export const InboxMessageDetailView: React.FC<InboxMessageDetailViewProps> = ({
           </button>
 
           <button
-            className="size-8 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white rounded-full transition-all duration-75 ease-linear flex justify-center items-center gap-2 cursor-pointer"
+            className="size-8 bg-secondarybox text-white/90 hover:bg-secondaryboxhover rounded-full transition-all duration-75 ease-linear flex justify-center items-center gap-2 cursor-pointer"
             onClick={handleOpenDeleteModal}
             aria-label="Delete message"
             disabled={isDeleting} // Disable button if delete is in progress
@@ -263,7 +263,7 @@ export const InboxMessageDetailView: React.FC<InboxMessageDetailViewProps> = ({
 
         {/* Message Header & Metadata */}
         <div className="p-4 sm:px-6">
-          <h1 className="text-xl sm:text-2xl font-medium text-mainheading dark:text-white mb-3 break-words capitalize">
+          <h1 className="text-xl sm:text-2xl font-medium text-mainheadingWhite mb-3 break-words capitalize">
             {message.subject}
           </h1>
 
@@ -275,7 +275,7 @@ export const InboxMessageDetailView: React.FC<InboxMessageDetailViewProps> = ({
               />
               <span>
                 From:{" "}
-                <span className="font-medium text-foreground/90">
+                <span className="font-medium text-subheadingWhite">
                   {/* {message.sender || "System"} */}
                   [Webiste Name]
                 </span>
@@ -290,7 +290,7 @@ export const InboxMessageDetailView: React.FC<InboxMessageDetailViewProps> = ({
                 Received:{" "}
                 <time
                   dateTime={message.sentAt}
-                  className="font-medium text-foreground/90"
+                  className="font-medium text-subheadingWhite"
                 >
                   {formatDistanceToNow(new Date(message.sentAt), {
                     addSuffix: true,
@@ -305,8 +305,8 @@ export const InboxMessageDetailView: React.FC<InboxMessageDetailViewProps> = ({
         {/* <Separator className="mx-4 sm:mx-6 my-2" /> */}
 
         {/* Message Body - Scrollable */}
-        <div className="p-4 sm:px-6 flex-grow overflow-y-auto border-t ">
-          <div className="text-sm sm:text-base text-foreground leading-relaxed message-body whitespace-pre-wrap break-words">
+        <div className="p-4 sm:px-6 flex-grow overflow-y-auto border-t border-t-gray-600/50">
+          <div className="text-sm sm:text-base text-subheadingWhite leading-relaxed message-body whitespace-pre-wrap break-words">
             {message.body}
           </div>
         </div>

@@ -616,7 +616,7 @@ export const InboxMessageListItem: React.FC<InboxMessageListItemProps> =
           onClick={() => onSelect(message)}
           className={cn(
             "cursor-pointer transition-all ease-linear duration-75 relative rounded-2xl overflow-hidden group",
-            isUnread ? "" : "border"
+            isUnread ? "" : "border border-gray-600/50"
           )}
           aria-label={`${isUnread ? "Unread m" : "M"}essage from ${
             message.sender || "System"
@@ -625,16 +625,16 @@ export const InboxMessageListItem: React.FC<InboxMessageListItemProps> =
           <div
             className={cn(
               "p-4 flex items-start gap-3",
-              isUnread ? "bg-lightgray dark:bg-primary/10" : ""
+              isUnread ? "bg-primarybox" : ""
             )}
           >
             {/* Icon Section */}
             <div
               className={cn(
-                "flex-shrink-0 flex justify-center items-center size-10 sm:size-12 rounded-full border dark:border-none",
+                "flex-shrink-0 flex justify-center items-center size-10 sm:size-12 rounded-full",
                 isUnread
-                  ? "bg-primary dark:bg-primary text-neutral-900"
-                  : "bg-lightgray dark:bg-primarybox text-neutral-900 dark:text-white"
+                  ? "bg-primary text-mainheading"
+                  : "bg-secondarybox text-white/90"
               )}
               aria-hidden="true"
             >
@@ -652,8 +652,8 @@ export const InboxMessageListItem: React.FC<InboxMessageListItemProps> =
                     className={cn(
                       "font-medium text-sm truncate", // Added truncate
                       isUnread
-                        ? "text-foreground dark:text-foreground"
-                        : "text-muted-foreground dark:text-muted-foreground"
+                        ? "text-primary"
+                        : "text-primary"
                     )}
                     title={"Remityn"}
                   >
@@ -666,7 +666,7 @@ export const InboxMessageListItem: React.FC<InboxMessageListItemProps> =
                 <div>
                   <time
                     dateTime={message.sentAt}
-                    className="text-gray-500 dark:text-gray-300 text-xs ml-auto flex-shrink-0 whitespace-nowrap"
+                    className="text-subheadingWhite text-xs ml-auto flex-shrink-0 whitespace-nowrap"
                   >
                     {formatDistanceToNow(new Date(message.sentAt), {
                       addSuffix: true,
@@ -676,14 +676,14 @@ export const InboxMessageListItem: React.FC<InboxMessageListItemProps> =
               </div>
               {/* Subject */}
               <h3
-                className="text-base sm:text-lg mb-1.5 capitalize text-neutral-900 dark:text-white truncate" // Added truncate
+                className="text-base sm:text-lg mb-1.5 capitalize text-mainheadingWhite truncate" // Added truncate
                 title={message.subject}
               >
                 {message.subject}
               </h3>
               {/* Body Snippet */}
               <p
-                className="text-sm line-clamp-2 text-gray-500 dark:text-gray-300"
+                className="text-sm line-clamp-2 text-subheadingWhite"
                 dangerouslySetInnerHTML={{
                   __html:
                     message.body.replace(/<[^>]*>?/gm, "").substring(0, 110) +
@@ -699,7 +699,7 @@ export const InboxMessageListItem: React.FC<InboxMessageListItemProps> =
 
             {/* Delete Button */}
             <button
-              className="absolute bottom-3 right-3 size-8 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white rounded-full transition-all duration-75 ease-linear flex justify-center items-center gap-2 cursor-pointer"
+              className="absolute bottom-3 right-3 size-8 bg-secondarybox text-white/90 hover:bg-secondaryboxhover rounded-full transition-all duration-75 ease-linear flex justify-center items-center gap-2 cursor-pointer"
               onClick={handleOpenDeleteModal} // Changed to open modal
               aria-label={`Delete message: ${message.subject}`}
               disabled={isDeleting} // Keep disabled if a delete operation is in progress

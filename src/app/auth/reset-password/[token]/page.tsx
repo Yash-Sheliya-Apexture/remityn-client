@@ -1659,7 +1659,7 @@ import { IoMdCloseCircle, IoIosCheckmarkCircle } from "react-icons/io";
 import { FiX } from "react-icons/fi";
 import { FaCheck } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
-import { LuEye, LuEyeClosed } from "react-icons/lu";
+import { LuEye, LuEyeOff } from "react-icons/lu";
 
 // --- Animation Variants (Copied from LoginPage/ResetPasswordPage) ---
 const pageContainerVariants = {
@@ -2083,7 +2083,7 @@ export default function NewPasswordPage() {
                       onClick={togglePasswordVisibility}
                       aria-label={showPassword ? "Hide password" : "Show password"}
                     >
-                      {showPassword ? <LuEye size={18} /> : <LuEyeClosed size={18} />}
+                      {showPassword ? <LuEye size={18} /> : <LuEyeOff size={18} />}
                     </button>
                   </div>
                   {passwordRequiredError && (
@@ -2139,7 +2139,7 @@ export default function NewPasswordPage() {
                       onClick={toggleConfirmPasswordVisibility}
                       aria-label={showConfirmPassword ? "Hide confirm password" : "Show confirm password"}
                     >
-                      {showConfirmPassword ? <LuEye size={18} /> : <LuEyeClosed size={18} />}
+                      {showConfirmPassword ? <LuEye size={18} /> : <LuEyeOff size={18} />}
                     </button>
                   </div>
                   {confirmPasswordError && (

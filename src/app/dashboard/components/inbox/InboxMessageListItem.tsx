@@ -616,7 +616,7 @@ export const InboxMessageListItem: React.FC<InboxMessageListItemProps> =
           onClick={() => onSelect(message)}
           className={cn(
             "cursor-pointer transition-all ease-linear duration-75 relative rounded-2xl overflow-hidden group",
-            isUnread ? "" : "border border-gray-600/50"
+            isUnread ? "" : "border"
           )}
           aria-label={`${isUnread ? "Unread m" : "M"}essage from ${
             message.sender || "System"
@@ -699,7 +699,7 @@ export const InboxMessageListItem: React.FC<InboxMessageListItemProps> =
 
             {/* Delete Button */}
             <button
-              className="absolute bottom-3 right-3 size-8 bg-secondarybox text-white/90 hover:bg-secondaryboxhover rounded-full transition-all duration-75 ease-linear flex justify-center items-center gap-2 cursor-pointer"
+              className="absolute bottom-4 right-4 size-8 bg-secondarybox text-white/90 hover:bg-secondaryboxhover rounded-full transition-all duration-75 ease-linear flex justify-center items-center gap-2 cursor-pointer"
               onClick={handleOpenDeleteModal} // Changed to open modal
               aria-label={`Delete message: ${message.subject}`}
               disabled={isDeleting} // Keep disabled if a delete operation is in progress

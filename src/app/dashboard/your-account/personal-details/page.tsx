@@ -385,10 +385,10 @@ export default function PersonalDetails() {
     <section className="Personal-Details-Wrapper">
       <div className="Personal-Details">
         <div className="mb-6">
-          <h2 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-white mb-1">
+          <h2 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite mb-1">
             {user.fullName || "Your Profile"}
           </h2>
-          <p className="lg:text-base text-sm text-gray-500 dark:text-gray-300">
+          <p className="lg:text-base text-sm text-subheadingWhite">
             Manage your personal details, email and phone number.
           </p>
         </div>
@@ -397,25 +397,25 @@ export default function PersonalDetails() {
           {/* Personal Information / Complete Account Section (Always Shown) */}
           <div>
             <Link href={personalInfoLink} passHref>
-              <div className="flex items-center gap-4 hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer group">
-                <div className="bg-lightborder dark:bg-secondarybox p-3 rounded-full">
+              <div className="flex items-center gap-4 hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer group">
+                <div className="bg-secondarybox p-3 rounded-full">
                   <LuUser
                     size={24}
-                    className="text-neutral-900 dark:text-white"
+                    className="text-white/90"
                   />
                 </div>
                 <div className="flex-grow">
-                  <p className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-xl">
+                  <p className="font-medium leading-relaxed text-mainheadingWhite text-base sm:text-xl">
                     {personalInfoLabel}
                   </p>
-                  <p className=" text-sm text-gray-500 dark:text-gray-300 mt-1">
+                  <p className=" text-sm text-subheadingWhite mt-1">
                     {personalInfoDescription}
                   </p>
                 </div>
                 <div>
                   <IoIosArrowForward
                     size={20}
-                    className="text-neutral-900 dark:text-white group-hover:translate-x-2.5 font-medium transition-transform ease-in-out duration-300"
+                    className="text-white/90 group-hover:translate-x-2.5 font-medium transition-transform ease-in-out duration-300"
                   />
                 </div>
               </div>
@@ -424,25 +424,25 @@ export default function PersonalDetails() {
 
           {/* Email Address (Conditionally Rendered) */}
           {hasEmail && ( // Only render if email exists
-            <div className="flex items-center gap-4 hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 cursor-pointer ease-linear group">
-              <div className="bg-lightborder dark:bg-secondarybox p-3 rounded-full">
+            <div className="flex items-center gap-4 hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear group">
+              <div className="bg-secondarybox p-3 rounded-full">
                 <LuMail
                   size={24}
-                  className="text-neutral-900 dark:text-white"
+                  className="text-white/90"
                 />
               </div>
               <div className="flex-grow">
-                <p className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-xl">
+                <p className="font-medium leading-relaxed text-mainheadingWhite text-base sm:text-xl">
                   Email Address
                 </p>
-                <p className=" text-sm text-gray-500 dark:text-gray-300 mt-1">
+                <p className=" text-sm text-subheadingWhite mt-1">
                   {user.email} {/* Display user's email */}
                 </p>
               </div>
               <div>
                 <IoIosArrowForward
                   size={20}
-                  className="text-neutral-900 dark:text-white group-hover:translate-x-2.5 font-medium transition-transform ease-in-out duration-300"
+                  className="text-white/90 group-hover:translate-x-2.5 font-medium transition-transform ease-in-out duration-300"
                 />
               </div>
             </div>
@@ -450,25 +450,25 @@ export default function PersonalDetails() {
 
           {/* Phone number (Conditionally Rendered) */}
           {hasPhoneNumber && ( // Only render if phone number exists
-            <div className="flex items-center gap-4 hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl cursor-pointer transition-all duration-75 ease-linear group">
-              <div className="bg-lightborder dark:bg-secondarybox p-3 rounded-full">
+            <div className="flex items-center gap-4 hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear group">
+              <div className="bg-secondarybox p-3 rounded-full">
                 <LuPhone
                   size={24}
-                  className="text-neutral-900 dark:text-white"
+                  className="text-white/90"
                 />
               </div>
               <div className="flex-grow">
-                <p className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-xl">
+                <p className="font-medium leading-relaxed text-mainheadingWhite text-base sm:text-xl">
                   Phone number
                 </p>
-                <p className=" text-sm text-gray-500 dark:text-gray-300 mt-1">
+                <p className=" text-sm text-subheadingWhite mt-1">
                   {displayPhoneNumber} {/* Display formatted phone number */}
                 </p>
               </div>
               <div>
                 <IoIosArrowForward
                   size={20}
-                  className="text-neutral-900 dark:text-white group-hover:translate-x-2.5 font-medium transition-transform ease-in-out duration-300"
+                  className="text-white/90 group-hover:translate-x-2.5 font-medium transition-transform ease-in-out duration-300"
                 />
               </div>
             </div>

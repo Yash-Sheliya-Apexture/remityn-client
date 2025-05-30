@@ -1763,6 +1763,7 @@ import { Check, ChevronsUpDown, Globe, Phone, Loader2 } from "lucide-react"; // 
 import { cn } from "@/lib/utils"; // For Shadcn class merging
 import { format, parseISO, isValid } from 'date-fns';
 import { FiAlertTriangle } from "react-icons/fi";
+import ChangePersonalDetailsSkeleton from "../../components/ChangePersonalDetails/ChangePersonalDetailsSkeleton";
 
 // --- Zod Schema Definition (REVISED) ---
 // Only include fields that the user CAN edit
@@ -1969,11 +1970,12 @@ export default function ChangePersonalDetails() {
 
     // --- Loading State ---
     if (authLoading) {
-      return (
-        <section className="change-personal-details py-10 flex justify-center items-center min-h-[400px]">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-        </section>
-      );
+    //   return (
+    //     <section className="change-personal-details py-10 flex justify-center items-center min-h-[400px]">
+    //         <Loader2 className="h-8 w-8 animate-spin text-primary" />
+    //     </section>
+    //   );
+    return <ChangePersonalDetailsSkeleton />; // Use the new skeleton
     }
 
     // --- No User State ---
@@ -2001,7 +2003,7 @@ export default function ChangePersonalDetails() {
         <section className="Change-Personal-Details-Wrapper">
             <div className="Change-Personal-Information">
                     <DashboardHeader title="Update your personal details" />
-                <div className="bg-white dark:bg-background w-full lg:max-w-xl rounded-lg">
+                <div className="w-full lg:max-w-xl rounded-lg">
 
                     <div className="">
                         {error && <p className="mb-4 text-center text-red-600 bg-red-100 dark:bg-red-900/30 p-3 rounded-lg text-sm">{error}</p>}
@@ -2013,16 +2015,16 @@ export default function ChangePersonalDetails() {
 
                                 {/* Personal details Section */}
                                 <div className="space-y-6">
-                                    <h3 className="text-lg font-semibold text-mainheading dark:text-white mb-4 border-b pb-2 dark:border-border/50">
+                                    <h3 className="text-lg font-semibold text-white/90 mb-4 border-b pb-2">
                                         Personal Details
                                     </h3>
 
                                     {/* First Name (Editable) */}
                                     <FormField control={form.control} name="firstName" render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>First Name(s) </FormLabel>
+                                            <FormLabel className="text-mainheadingWhite block capitalize text-sm lg:text-base">First Name(s) </FormLabel>
                                             <FormControl>
-                                                <Input placeholder="Enter your first name(s)" {...field} />
+                                                <Input className="block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0" placeholder="Enter your first name(s)" {...field} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -2031,9 +2033,9 @@ export default function ChangePersonalDetails() {
                                     {/* Last Name (Editable) */}
                                     <FormField control={form.control} name="lastName" render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>Last Name(s) </FormLabel>
+                                            <FormLabel className="text-mainheadingWhite block capitalize text-sm lg:text-base">Last Name(s) </FormLabel>
                                             <FormControl>
-                                                <Input placeholder="Enter your last name(s)" {...field} />
+                                                <Input className="block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0" placeholder="Enter your last name(s)" {...field} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>
@@ -2041,76 +2043,76 @@ export default function ChangePersonalDetails() {
 
                                     {/* Nationality */}
                                     <FormItem>
-                                        <FormLabel className="flex items-center gap-1.5">Nationality</FormLabel>
+                                        <FormLabel className="text-mainheadingWhite block capitalize text-sm lg:text-base">Nationality</FormLabel>
                                         <FormControl>
-                                            <Input value={displayNationality} readOnly className="bg-lightgray dark:bg-primarybox cursor-not-allowed" />
+                                            <Input value={displayNationality} readOnly className="block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0 cursor-not-allowed" />
                                         </FormControl>
 
-                                        <FormDescription>Nationality cannot be changed here. Contact support if incorrect.</FormDescription>
+                                        <FormDescription className="text-subheadingWhite">Nationality cannot be changed here. Contact support if incorrect.</FormDescription>
                                         {/* No FormMessage needed as it's not validated/submitted */}
                                     </FormItem>
 
                                     {/* Date of birth - Read Only Section */}
                                     <div>
-                                         <h3 className="text-lg font-semibold text-mainheading dark:text-white mb-4 border-b pb-2 dark:border-border/50">
+                                         <h3 className="text-lg font-semibold text-white/90 mb-4 border-b pb-2">
                                              Date of birth
                                          </h3>
                                          <div className="flex gap-2">
                                              <div className="w-1/3">
-                                                 <Label htmlFor="dob-day" className="block text-sm font-medium text-gray dark:text-gray-300 mb-1">Day</Label>
-                                                 <Input id="dob-day" name="dob-day" value={displayDob.day} readOnly className="bg-lightgray dark:bg-primarybox cursor-not-allowed" />
+                                                 <Label htmlFor="dob-day" className="text-mainheadingWhite block capitalize text-sm lg:text-base">Day</Label>
+                                                 <Input id="dob-day" name="dob-day" value={displayDob.day} readOnly className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0 cursor-not-allowed" />
                                              </div>
                                              <div className="w-1/2">
-                                                 <Label htmlFor="dob-month" className="block text-sm font-medium text-gray dark:text-gray-300 mb-1">Month</Label>
-                                                 <Input id="dob-month" name="dob-month" value={monthLabels[displayDob.month] || ''} readOnly className="bg-lightgray dark:bg-primarybox cursor-not-allowed" />
+                                                 <Label htmlFor="dob-month" className="text-mainheadingWhite block capitalize text-sm lg:text-base">Month</Label>
+                                                 <Input id="dob-month" name="dob-month" value={monthLabels[displayDob.month] || ''} readOnly className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0 cursor-not-allowed" />
                                              </div>
                                              <div className="w-1/3">
-                                                 <Label htmlFor="dob-year" className="block text-sm font-medium text-gray dark:text-gray-300 mb-1">Year</Label>
-                                                 <Input id="dob-year" name="dob-year" value={displayDob.year} readOnly className="bg-lightgray dark:bg-primarybox cursor-not-allowed" />
+                                                 <Label htmlFor="dob-year" className="text-mainheadingWhite block capitalize text-sm lg:text-base">Year</Label>
+                                                 <Input id="dob-year" name="dob-year" value={displayDob.year} readOnly className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0 cursor-not-allowed" />
                                              </div>
                                          </div>
-                                         <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">Date of birth usually cannot be changed after verification. Contact support if incorrect.</p>
+                                         <p className="text-sm text-subheadingWhite mt-1">Date of birth usually cannot be changed after verification. Contact support if incorrect.</p>
                                      </div>
 
 
                                      {/* Mobile Number Fields*/}
-                                    <div className="space-y-2 pt-2">
-                                        <FormLabel className="flex items-center gap-1.5"><Phone className="h-4 w-4 text-muted-foreground"/> Mobile Number</FormLabel>
+                                    <div className="pt-2">
+                                        <FormLabel className="text-mainheadingWhite block capitalize text-sm lg:text-base">Mobile Number</FormLabel>
                                         <FormControl>
-                                             <Input value={displayMobile} readOnly className="bg-gray-100 dark:bg-primarybox cursor-not-allowed" />
+                                             <Input value={displayMobile} readOnly className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0 cursor-not-allowed" />
                                          </FormControl>
-                                         <FormDescription>Mobile number cannot be changed here. Contact support if needed.</FormDescription>
+                                         <FormDescription className="text-sm text-subheadingWhite mt-1">Mobile number cannot be changed here. Contact support if needed.</FormDescription>
                                          {/* No FormMessage needed */}
                                      </div>
                                 </div>
 
                                 {/* Additional Information Section */}
-                                <div className="space-y-6 pt-4 border-t dark:border-border/50">
-                                    <h3 className="text-lg font-semibold text-mainheading dark:text-white mb-4 border-b pb-2 dark:border-border/50">
+                                <div className="space-y-6">
+                                    <h3 className="text-lg font-semibold text-white/90 mb-4 border-b pb-2">
                                         Additional Information
                                     </h3>
 
                                     {/* Occupation Combobox (Editable - Optional) */}
                                     <FormField control={form.control} name="occupation" render={({ field }) => (
                                         <FormItem className="flex flex-col">
-                                            <FormLabel>Occupation (Optional)</FormLabel>
+                                            <FormLabel className="text-mainheadingWhite block capitalize text-sm lg:text-base">Occupation (Optional)</FormLabel>
                                              <Popover open={occupationPopoverOpen} onOpenChange={setOccupationPopoverOpen}>
                                                 <PopoverTrigger asChild>
                                                     <FormControl>
-                                                        <Button variant="outline" role="combobox" aria-label="Select occupation" className={cn( "w-full h-12 justify-between", !field.value && "text-muted-foreground" )} >
+                                                        <Button role="combobox" aria-label="Select occupation" className={cn( "mt-1 justify-between px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0", !field.value && "text-muted-foreground" )} >
                                                              {field.value ? occupationOptions.find( (option) => option.value === field.value )?.label : "Select Occupation"}
                                                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                                          </Button>
                                                     </FormControl>
                                                 </PopoverTrigger>
-                                                <PopoverContent align="start" className="sm:w-[450px] max-h-[--radix-popover-content-available-height]">
-                                                    <Command>
-                                                        <CommandInput placeholder="Search occupation..." />
+                                                <PopoverContent align="start" className="bg-background sm:w-[450px] max-h-[--radix-popover-content-available-height]">
+                                                    <Command className="bg-background">
+                                                        <CommandInput className="placeholder:text-white/90 h-12 text-white/90" placeholder="Search occupation..." />
                                                          <CommandList>
-                                                            <CommandEmpty>No occupation found.</CommandEmpty>
+                                                            <CommandEmpty className="py-6 text-center text-sm text-subheadingWhite">No occupation found.</CommandEmpty>
                                                             <CommandGroup>
                                                                 {occupationOptions.map((option) => (
-                                                                     <CommandItem
+                                                                     <CommandItem className="text-mainheadingWhite rounded-full data-[selected=true]:bg-primarybox data-[selected=true]:text-mainheadingWhite"
                                                                          value={option.value} // Use value for selection logic
                                                                          key={option.value}
                                                                          onSelect={(currentValue) => {
@@ -2119,7 +2121,7 @@ export default function ChangePersonalDetails() {
                                                                          }}
                                                                      >
                                                                          {option.label}
-                                                                         <Check className={cn( "ml-2 h-4 w-4", option.value === field.value ? "opacity-100" : "opacity-0" )} />
+                                                                         <Check className={cn( "ml-2 h-4 w-4 text-mainheadingWhite", option.value === field.value ? "opacity-100" : "opacity-0" )} />
                                                                       </CommandItem>
                                                                 ))}
                                                             </CommandGroup>
@@ -2133,7 +2135,7 @@ export default function ChangePersonalDetails() {
                                 </div>
 
                                 {/* Save Button */}
-                                <div className="mt-8 pt-6 border-t dark:border-border/50">
+                                <div className="mt-8">
                                     <Button
                                         type="submit"
                                         className="bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"

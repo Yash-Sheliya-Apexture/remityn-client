@@ -4215,7 +4215,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
   };
 
   const NavItemSkeleton = () => (
-    <div className="relative w-full flex items-center gap-3 py-3 px-4 font-medium mb-3 text-neutral-400 dark:text-gray-600">
+    <div className="relative w-full flex items-center gap-3 py-3 px-4 font-medium mb-3">
       <Skeleton className="w-6 h-6 rounded-full flex-shrink-0" />
       <Skeleton className="w-24 h-6 rounded" />
     </div>
@@ -4274,6 +4274,7 @@ const Sidebar: React.FC<SidebarProps> = ({ sidebarOpen, toggleSidebar }) => {
                   priority
                 />
               </Link>
+
               {isMobileView && (
                 <button
                   onClick={toggleSidebar}

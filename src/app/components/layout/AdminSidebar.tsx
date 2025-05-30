@@ -3994,23 +3994,23 @@ const SidebarNavItem: React.FC<SidebarNavItemProps> = ({ href, icon: Icon, label
     <Link
       href={href}
       onClick={onClick}
-      className={`relative flex items-center gap-3 py-2 rounded-full transition-all duration-200 group ${
+      className={`relative flex items-center gap-3 py-2 rounded-full transition-all duration-75 ease-linear group ${
         isSubmenuItem ? 'pl-6' : 'pl-2'
       } ${
         isActive
-          ? "text-neutral-900 dark:text-primary"
-          : "text-neutral-500 hover:text-neutral-900 dark:text-gray-300 dark:hover:text-primary"
+          ? "text-primary"
+          : "text-subheadingWhite hover:text-primary"
       }`}
     >
-       <div className={`relative z-10 p-2 rounded-full transition-colors duration-200`}>
-           <Icon className={`size-5 transition-colors duration-200 `} />
+       <div className={`relative z-10 p-2 rounded-full transition-all ease-linear duration-75`}>
+           <Icon className={`size-5 transition-all ease-linear duration-75`} />
        </div>
        <span className="relative z-10 font-medium">{label}</span>
 
        {isActive && (
         <motion.div
           layoutId="active-sidebar-indicator"
-          className="absolute inset-0 bg-primary/60 dark:bg-primarybox rounded-full -z-10"
+          className="absolute inset-0 bg-primarybox rounded-full -z-10"
           transition={{
              type: "spring",
              stiffness: 350,
@@ -4095,11 +4095,11 @@ const SidebarContents: React.FC<SidebarContentsProps> = ({
     <>
       {showCloseButton && onCloseButtonClick && (
         <button
-          className="absolute top-1 right-1 cursor-pointer bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox transition-all ease-linear duration-75 z-10 p-2 rounded-full lg:hidden"
+          className="absolute top-1 right-1 cursor-pointer bg-primarybox hover:bg-secondarybox transition-all ease-linear duration-75 z-10 p-2 rounded-full lg:hidden"
           onClick={onCloseButtonClick}
           aria-label="Close sidebar"
         >
-          <FiX className="size-5 text-neutral-900 dark:text-primary" />
+          <FiX className="size-5 text-primary" />
         </button>
       )}
 
@@ -4107,7 +4107,7 @@ const SidebarContents: React.FC<SidebarContentsProps> = ({
         <div className="h-16 flex justify-center items-center">
           <Link href="/admin" className="inline-block" onClick={onLinkClick}>
             <Image
-              src="/assets/images/wise-logo.svg"
+              src="/assets/images/main_logo.svg"
               height={100}
               width={100}
               alt="Wise Admin Logo"
@@ -4120,16 +4120,16 @@ const SidebarContents: React.FC<SidebarContentsProps> = ({
 
       {user && (
         <div className="flex items-center gap-3 p-4 border-b">
-          <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center relative flex-shrink-0">
-            <span className="text-neutral-900 font-semibold uppercase text-lg">
+          <div className="size-10 rounded-full bg-primary flex items-center justify-center relative flex-shrink-0">
+            <span className="text-mainheading font-semibold uppercase text-lg">
               {email?.charAt(0) || "A"}
             </span>
           </div>
-          <div className="overflow-hidden space-y-0.5">
-            <p className="font-semibold capitalize text-neutral-900 dark:text-white truncate text-sm">
+          <div className="overflow-hidden">
+            <p className="font-semibold capitalize text-mainheadingWhite truncate">
               {fullName || "Admin User"}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+            <p className="text-sm text-subheadingWhite truncate">
               {email || "admin@example.com"}
             </p>
           </div>
@@ -4138,7 +4138,7 @@ const SidebarContents: React.FC<SidebarContentsProps> = ({
 
       <nav className="flex-1 py-4 overflow-x-hidden overflow-y-auto sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3  sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
         <div className="px-4 mb-4">
-          <span className="text-xs font-semibold uppercase tracking-wider text-gray-500 dark:text-gray-300 px-2">
+          <span className="text-xs font-semibold uppercase tracking-wider text-mainheadingWhite px-2">
             Main
           </span>
         </div>
@@ -4157,8 +4157,8 @@ const SidebarContents: React.FC<SidebarContentsProps> = ({
               onClick={toggleMessagesMenu}
               className={`flex items-center justify-between w-full gap-3 py-2 pl-2 rounded-full transition-all duration-200 group cursor-pointer ${
                 isMessagesRouteActive
-                  ? "text-neutral-900 dark:text-primary"
-                  : "text-neutral-500 hover:text-neutral-900 dark:text-gray-300 dark:hover:text-primary"
+                  ? "text-primary"
+                  : "text-subheadingWhite hover:text-primary"
               }`}
             >
               <div className="flex items-center gap-3">
@@ -4218,10 +4218,10 @@ const SidebarContents: React.FC<SidebarContentsProps> = ({
         {user && (
           <button
             onClick={handleLogoutClick}
-            className="flex items-center justify-center gap-3 cursor-pointer w-full px-4 py-2.5 rounded-full text-red-600 dark:text-red-500 bg-red-500/10 hover:bg-red-500/20 dark:bg-red-500/15 dark:hover:bg-red-500/25 transition-colors duration-200"
+            className="flex items-center justify-center gap-3 cursor-pointer w-full px-4 py-2.5 rounded-full text-red-500 bg-red-500/15 hover:bg-red-500/25 transition-all duration-75 ease-linear"
           >
-            <GrLogout className="size-5" aria-hidden="true" />
-            <span className="font-medium text-sm">Logout</span>
+            <GrLogout className="size-4" aria-hidden="true" />
+            <span className="font-medium">Logout</span>
           </button>
         )}
       </div>
@@ -4302,10 +4302,6 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
       closed: { x: "-100%" },
   };
 
-  const backdropVariants = {
-      visible: { opacity: 0.5 },
-      hidden: { opacity: 0 },
-  };
 
   // Cast user from useAuth() to UserType for SidebarContentsProps
   const typedUser = user as UserType | null;
@@ -4324,13 +4320,12 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
         {isSidebarOpen && (
           <motion.div
             key="sidebar-backdrop"
-            variants={backdropVariants}
-            initial="hidden"
-            animate="visible"
-            exit="hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
             onClick={toggleSidebar}
-            className="fixed inset-0 bg-black/50 dark:bg-white/30 z-40 lg:hidden"
+            className="fixed inset-0 bg-white/15 z-40 lg:hidden"
             aria-hidden="true"
           />
         )}
@@ -4343,7 +4338,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
             <motion.aside
               key="mobile-sidebar"
               ref={mobileSidebarRef}
-              className="w-64 fixed bg-white border-r dark:bg-neutral-900 inset-y-0 left-0 z-50 h-screen flex flex-col"
+              className="w-64 fixed border-r bg-background inset-y-0 left-0 z-50 h-screen flex flex-col"
               variants={sidebarSlideVariants}
               initial="closed"
               animate="open"
@@ -4362,7 +4357,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
       </div>
 
       {/* Desktop Sidebar (Static) */}
-      <aside className="hidden lg:flex w-64 sticky bg-white border-r dark:bg-neutral-900 inset-y-0 left-0 z-30 h-screen flex-col">
+      <aside className="hidden lg:flex w-64 sticky border-r inset-y-0 left-0 z-30 h-screen flex-col">
         <SidebarContents
           {...sidebarContentsProps}
         />

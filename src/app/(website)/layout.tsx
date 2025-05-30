@@ -432,6 +432,7 @@ export default function WebsiteLayout({ children }: LayoutProps) {
 
         <link rel="icon" href="./Remityn.ico" sizes="any" />
       </head>
+      
       <WebsiteAppProvider>
         {/* Header */}
         <Header />

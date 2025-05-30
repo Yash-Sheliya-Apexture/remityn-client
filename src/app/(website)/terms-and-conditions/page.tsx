@@ -296,7 +296,6 @@ const TermsAndConditionsPage: React.FC = () => {
     <section className="terms-condtionPage lg:py-10 py-5">
       <div className="container mx-auto px-4">
         {/* Removed extra wrapping div */}
-
         <div className="space-y-4">
           <h1 className="text-4xl font-SatoshiVariable sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
             Terms{" "}

@@ -4798,6 +4798,8 @@ import MobileMenu from "./MobileMenu";
 import { IoMdClose } from "react-icons/io";
 import { useAuth } from "@/app/contexts/AuthContext";
 import { HiOutlineLogout } from "react-icons/hi";
+import { IoClose } from "react-icons/io5";
+import { TbMenu3 } from "react-icons/tb";
 
 // Define navigation links
 const navLinks = [
@@ -5010,15 +5012,15 @@ const Header: React.FC = () => {
                 <div className="flex lg:hidden items-center">
                   <button
                     onClick={toggleMobileMenu}
-                    className="bg-primaryboxdubal cursor-pointer rounded-full p-2 text-gray-300 hover:text-white focus:outline-none"
+                    className="cursor-pointer bg-secondarybox hover:bg-secondaryboxhover transition-all ease-linear duration-75 rounded-full p-2 text-gray-300 hover:text-white focus:outline-none"
                     aria-label={isMobileMenuOpen ? "Close Menu" : "Open Menu"}
                     aria-expanded={isMobileMenuOpen}
                     aria-controls="mobile-menu-content"
                   >
                     {isMobileMenuOpen ? (
-                      <IoMdClose size={20} className="text-primary" />
+                      <IoClose size={28} className="text-primary" />
                     ) : (
-                      <GiHamburgerMenu size={20} className="text-primary" />
+                      <TbMenu3  size={28} className="text-primary" />
                     )}
                   </button>
                 </div>

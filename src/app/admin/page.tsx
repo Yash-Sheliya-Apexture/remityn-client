@@ -931,16 +931,16 @@ export default function AdminHomePage() {
           {/* Admin-Header */}
           <div className="Admin-Header mb-8">
             <div className="flex items-center gap-3">
-              <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-                <FaChartPie className="size-6 text-mainheading dark:text-primary" />
+              <div className="p-2.5 shrink-0 bg-primarybox rounded-full flex items-center justify-center">
+                <FaChartPie className="text-primary" size={26} />
               </div>
-              <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+
+              <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
                 Admin Dashboard Home
               </h1>
-
             </div>
 
-            <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+            <p className="mt-2 text-subheadingWhite text-base lg:text-lg">
               Welcome to your Admin Dashboard – the central hub for managing and
               monitoring your platform. Get a quick overview of key metrics,
               recent activities, user insights, and system performance. From

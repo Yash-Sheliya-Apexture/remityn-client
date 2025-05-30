@@ -92,7 +92,7 @@ const DeleteMessageModal: React.FC<DeleteMessageModalProps> = ({
               <span className="font-semibold">"{messageSubject}"</span>? This
               action cannot be undone.
             </p>
-            <div className="flex flex-col justify-center gap-4 mt-8">
+            <div className="flex sm:flex-row flex-col justify-center gap-4 mt-8">
               <button
                 className="bg-red-500 text-white hover:bg-red-600 font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear"
                 onClick={() => {

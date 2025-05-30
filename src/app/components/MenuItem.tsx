@@ -144,7 +144,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
           )}
       </div>
       <div className="flex-grow">
-        <div className="flex items-center font-medium leading-relaxed text-white/90 sm:text-xl">
+        <div className="flex items-center font-medium leading-relaxed text-mainheadingWhite text-base sm:text-xl">
           {label}
         </div>
         {description && (

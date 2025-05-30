@@ -165,26 +165,26 @@ const sections: PolicySection[] = [
     title: "Introduction",
     content: (
       <>
-        <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+        <p>
           Welcome to Remityn, a service provided by Apexture . Remityn is a
           modern currency exchange and remittance platform designed to make
           international money transfers faster, more affordable, and
           transparent. Our service leverages secure technology to simplify how
           people send and receive money across borders.
         </p>
-        <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+        <p>
           We are committed to protecting your privacy and handling your personal
           data with care and responsibility. This Privacy Policy outlines how we
           collect, use, store, and protect your personal information when you
           access our website, no matter where you're located
         </p>
-        <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+        <p>
           This Privacy Policy is designed to inform you about how Remityn
           processes your personal data whenever you interact with our platform —
           whether you're creating an account, completing a transaction, or
           communicating with our support team.
         </p>
-        <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+        <p>
           It is important that you read this Privacy Policy together with any
           other privacy notice or fair processing notice we may provide on
           specific occasions when we are collecting or processing personal data
@@ -200,7 +200,7 @@ const sections: PolicySection[] = [
     title: "What Information We Collect",
     content: (
       <>
-        <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+        <p>
           To provide you with secure and efficient money transfer services,
           Remityn collects various types of personal and technical information.
           This data is essential for delivering our services, complying with
@@ -208,7 +208,7 @@ const sections: PolicySection[] = [
           information we collect includes:
         </p>
 
-        <div className="w-full font-normal text-gray-500 dark:text-gray-300">
+        <div className="w-full font-normal text-subheadingWhite">
           <ul className="list-inside list-decimal ps-5 lg:text-base text-sm space-y-2">
             <li>
               Personal Identification Information This refers to data that can
@@ -246,8 +246,7 @@ const sections: PolicySection[] = [
             </li>
           </ul>
         </div>
-
-        <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+        <p>
           Please note that we do not collect any Special Categories of Personal
           Data about you (this includes details about your race or ethnicity,
           religious or philosophical beliefs, sex life, sexual orientation,
@@ -255,6 +254,7 @@ const sections: PolicySection[] = [
           health, and genetic and biometric data). Nor do we collect any
           information about criminal convictions and offences.
         </p>
+
       </>
     ),
   },
@@ -263,18 +263,18 @@ const sections: PolicySection[] = [
     title: "How We Collect Information",
     content: (
       <>
-        <p className="font-normal text-gray-500 lg:text-base text-sm dark:text-gray-300">
+        <p>
           At Remityn, we collect personal data through various methods to ensure
           accurate, secure, and efficient service delivery. The ways we gather
           information include:
         </p>
-        <div className="w-full font-normal text-gray-500 dark:text-gray-300">
-          <ul className="list-inside space-y-5 lg:text-base text-sm">
+        <div className="w-full font-normal text-subheadingWhite">
+          <ul className="list-inside space-y-5 sm:text-lg text-base">
             <li>
               1. Direct Interactions You may provide us with personal,
               transactional, and communication data when you interact with us
               directly. This includes when you:
-              <ul className="ml-5 list-inside list-disc lg:text-lg text-base mt-2 space-y-1">
+              <ul className="ml-5 list-inside list-disc mt-2 sm:text-base text-sm space-y-1">
                 <li>Create an account on our platform</li>
                 <li>Subscribe to our service or publications</li>
                 <li>Request marketing to be sent to you</li>
@@ -287,7 +287,7 @@ const sections: PolicySection[] = [
               Remityn online, we automatically collect technical data about your
               device and browsing. This data is gathered using technologies such
               as:
-              <ul className="ml-5 list-inside list-disc lg:text-base text-sm space-y-1 mt-2">
+              <ul className="ml-5 list-inside list-disc sm:text-base text-sm space-y-1 mt-2">
                 <li>
                   Technical Data from analytics providers such as Google based
                   outside the EU
@@ -316,13 +316,13 @@ const sections: PolicySection[] = [
     title: "How We Use Your Information",
     content: (
       <>
-        <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300">
+        <p>
           Remityn uses the information we collect from you to operate
           efficiently, deliver a secure and personalized experience, and fulfill
           our legal and contractual obligations. Here’s how your data is used:
         </p>
 
-        <div className="text-gray-500 dark:text-gray-300">
+        <div className="text-subheadingWhite">
           <ul className="ml-6 list-inside list-decimal lg:text-base text-sm space-y-1">
             <li>
               To Register You as a New Customer We use your personal
@@ -360,7 +360,7 @@ const sections: PolicySection[] = [
             </li>
           </ul>
         </div>
-        <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300">
+        <p>
           Please note that we only use your personal data when the law allows us
           to. Most commonly, we will use your personal data where we need to
           perform the contract we are about to enter into or have entered into
@@ -377,14 +377,14 @@ const sections: PolicySection[] = [
     title: "How We Protect Your Information",
     content: (
       <>
-        <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300">
+        <p>
           At Remityn, safeguarding your personal information is a top priority.
           We have implemented robust security measures to prevent unauthorized
           access, misuse, alteration, or disclosure of your personal data.
         </p>
 
-        <div className="text-gray-500 dark:text-gray-300">
-          <ul className="list-inside space-y-1 ps-5 lg:text-base text-sm">
+        <div className="text-subheadingWhite">
+          <ul className="list-inside space-y-1 ps-5 sm:text-base text-sm">
             <li>
               1. Advanced Security Measures We use industry-standard security
               protocols, including encryption, secure servers, and firewalls, to
@@ -423,14 +423,14 @@ const sections: PolicySection[] = [
     title: "International Transfers",
     content: (
       <>
-        <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+        <p>
           As a global platform, Remityn may need to transfer your personal data
           to countries outside of the European Economic Area (EEA). These
           transfers are necessary for delivering our services and supporting
           international operations, such as processing transactions or working
           with trusted third-party partners.
         </p>
-        <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+        <p>
           Some of these countries may not have the same level of data protection
           laws as those within your own country or the EEA. However, we are
           committed to ensuring that your personal data remains secure and
@@ -444,13 +444,13 @@ const sections: PolicySection[] = [
     title: "Marketing Preferences",
     content: (
       <>
-        <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+        <p>
           At Remityn, we aim to deliver content, offers, and services that are
           most relevant to you. To achieve this, we may use your Identity,
           Contact, Technical, Usage, and Profile Data to better understand your
           preferences and tailor our marketing communications accordingly.
         </p>
-        <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+        <p>
           This helps us determine which of our products, services, or promotions
           might be most useful or interesting to you.
         </p>
@@ -461,7 +461,7 @@ const sections: PolicySection[] = [
     id: "section11",
     title: "Cookies",
     content: (
-      <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+      <p>
         At Remityn, we use cookies and similar technologies to enhance your
         experience on our website. These small files are stored on your device
         to help us understand how you interact with our site, remember your
@@ -484,14 +484,14 @@ const sections: PolicySection[] = [
     title: "About Us",
     content: (
       <>
-        <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+        <p>
           Remityn is a trusted remittance platform powered by cutting-edge
           technology and a commitment to transparency, security, and customer
           satisfaction. Operated by Apexture Limited, our mission is to make
           international money transfers faster, more affordable, and more
           accessible for individuals and businesses across the globe.
         </p>
-        <p className="text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+        <p>
           We understand the importance of handling your personal data with care.
           That’s why we adhere to strict privacy practices and are committed to
           protecting your information at every step. Whether you're sending
@@ -508,30 +508,32 @@ const PrivacyPolicyPage: React.FC = () => {
     <section className="Privacy-PolicyPage lg:py-10 py-5 overflow-hidden">
       <div className="container mx-auto px-4">
         <div className="space-y-4">
-
           <h1 className="text-4xl font-SatoshiVariable sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
             Privacy{" "}
             <span className="text-primary font-SatoshiVariableItalic">
               Policy
             </span>
           </h1>
-          
-          <p className="max-w-5xl text-gray-500 dark:text-gray-300 lg:text-lg text-base">
+
+          <p className="text-lg md:text-xl text-subheadingWhite mb-10">
             At Remityn, protecting your personal information is a top priority.
             We use advanced security measures and comply with global data
             protection laws to ensure your data is safe, private, and only used
             for the services you trust us with.
           </p>
-          <div className="border-t my-4"></div>
+
+          <div className="border-t border-gray-600/50 my-4"></div>
           {/* Main Content Column */}
           {sections.map((section) => (
             <div key={section.id} id={section.id}>
               {/* Added margin-bottom and scroll-margin-top */}
-              <h2 className="mt-5 lg:text-3xl md:text-2xl text-xl font-medium text-neutral-900 dark:text-primary mb-3">
+              <h2 className="mt-5 lg:text-3xl md:text-2xl text-xl font-medium text-primary mb-4">
                 {section.title}
               </h2>
               {/* Changed to H2 for better semantics, added margin-bottom */}
-              <div className="space-y-4">{section.content}</div>
+              <div className="space-y-4 sm:text-lg text-base text-subheadingWhite">
+                {section.content}
+              </div>
             </div>
           ))}
         </div>

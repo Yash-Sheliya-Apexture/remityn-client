@@ -3359,6 +3359,7 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
                           {error}
                         </p>
                       </div>
+                      
                     </motion.div>
                   )}
                 </AnimatePresence>

@@ -4,7 +4,6 @@
 @import './style/style.css';
 @import "tw-animate-css";
 
-
 @custom-variant dark (&:is(.dark *));
 
 body {
@@ -23,11 +22,13 @@ body {
   --color-primaryhover: #9cf0fc;
   /* aacho */
   --color-primarybox: #394247;
+  --color-primaryboxhover: #2f373b;
   /* ghato */
-  --color-primary-foreground:#394247;
-  
+  --color-primary-foreground: #394247;
+
 
   --color-secondarybox: #52636c;
+  --color-secondaryboxhover: #677a85;
 
   /* Background color End */
 
@@ -41,7 +42,6 @@ body {
   /* Text Color End*/
 
   --color-stock-hover: #6a7282;
-
 
   --color-main: #0e0f0c;
   --color-lightgreen: #9fe870;
@@ -60,7 +60,6 @@ body {
 
   /* Border-Color */
   --color-border: #4a5565;
-
 
   --color-lightborder: #e3e3e3;
 
@@ -87,12 +86,10 @@ body {
   }
 }
 
-
 /* Optional: Smoother scrolling for the whole page */
 html {
   scroll-behavior: smooth;
 }
-
 
 .animate-float {
   animation: float 15s infinite;
@@ -117,10 +114,13 @@ html {
   --background: oklch(0.2717 0.0093 219.82);
   --primary: oklch(0.8651 0.1162 207.69);
   --primarybox: oklch(0.3728 0.0147 232.08);
+  --color-primaryboxhover: oklch(0.3309 0.013 229.33);
+
   --primaryboxdubal: oklch(0.3728 0.0147 232.08 / 80%);
   --primary-foreground: oklch(0.3728 0.0147 232.08);
 
   --secondarybox: oklch(0.4888 0.0253 231.04);
+  --secondaryboxhover: oklch(0.568 0.0281 233.37);
 
   /* Background Color End*/
 
@@ -135,7 +135,6 @@ html {
   --border: oklch(0.4461 0.0298 257.68);
 
   /* Text Color End*/
-
 
   --secondary: oklch(23.9% 0.0463 227.39);
   --secondary-foreground: oklch(0.205 0 0);
@@ -282,7 +281,6 @@ input:-webkit-autofill:active {
   transition: background-color 5000s ease-in-out 0s;
 }
 
-
 /* --- Dark Mode Overrides --- */
 /* Ensure your dark mode is triggered by a class, e.g., 'dark' on the html/body */
 .dark input:-webkit-autofill,
@@ -301,20 +299,19 @@ input:-webkit-autofill:active {
 }
 
 /* Review Card Animation */
-/* 
- .marquee-column {
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
+/*
+.marquee-column {
+overflow: hidden;
+display: flex;
+flex-direction: column;
 }
 
 .marquee-content {
-  display: flex;
-  flex-direction: column;
-  animation-timing-function: linear;
+display: flex;
+flex-direction: column;
+animation-timing-function: linear;
 
 } */
-
 
 /* In your global CSS file (e.g., globals.css) */
 @keyframes animate-border-draw {
@@ -348,9 +345,6 @@ input:-webkit-autofill:active {
   /* Ensure it's hidden when not active */
 }
 
-
-
-
 /* Hide number input spinners (Chrome, Safari, Edge) */
 .no-spinner::-webkit-outer-spin-button,
 .no-spinner::-webkit-inner-spin-button {
@@ -368,7 +362,6 @@ a:focus,
 button:focus {
   outline: none;
 }
-
 
 /* Add to your global CSS file (e.g., globals.css) if not already present */
 
@@ -418,8 +411,6 @@ button:focus {
 }
 
 /* Icon Background Gradient Color End */
-
-
 
 /* Add these to your global CSS file */
 
@@ -490,8 +481,6 @@ input:-webkit-autofill:active {
   box-shadow: inset 0 0 20px 20px transparent;
   caret-color: #fff;
 }
-
-
 
 /* review Section-Css */
 

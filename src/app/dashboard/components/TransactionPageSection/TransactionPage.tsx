@@ -7782,7 +7782,7 @@ const TransactionsPage: React.FC = () => {
           {/* Header and Actions */}
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 pb-4 sticky lg:top-28 top-20 z-10 bg-background">
             <h1 className="sm:text-3xl text-2xl font-semibold text-mainheadingWhite">
-              Transactions    
+              Transactions
             </h1>
 
             {/* Show actions if there's any data, or if filters/search are active, but not on critical error */}
@@ -7813,7 +7813,7 @@ const TransactionsPage: React.FC = () => {
                 {/* ---- Pending Section ---- */}
                 {pendingTransactions.length > 0 && (
                   <div className="Pending-Transaction-Lists">
-                    <h3 className="font-medium text-white/90 mb-3 leading-8 border-b">
+                    <h3 className="font-medium text-mainheadingWhite mb-3 leading-8 border-b">
                       Pending
                     </h3>
                     <div className="space-y-2">
@@ -7885,7 +7885,7 @@ const TransactionsPage: React.FC = () => {
                 {/* ---- In Progress Section ---- */}
                 {inProgressTransactions.length > 0 && (
                   <div className="InProcess-Transaction-Lists">
-                    <h3 className="font-medium text-white/90 mb-3 leading-8 border-b">
+                    <h3 className="font-medium text-mainheadingWhite mb-3 leading-8 border-b">
                       In Progress
                     </h3>
                     <div className="space-y-2">
@@ -7959,7 +7959,7 @@ const TransactionsPage: React.FC = () => {
                     {Object.entries(groupedProcessedTransactions).map(
                       ([date, transactionsForDate]) => (
                         <div key={date} className="Processed-Transaction-Lists">
-                          <h3 className="font-medium text-white/90 mb-3 leading-8 border-b">
+                          <h3 className="font-medium text-mainheadingWhite mb-3 leading-8 border-b">
                             {date}
                           </h3>
                           <div className="space-y-2">

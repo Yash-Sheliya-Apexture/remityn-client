@@ -223,37 +223,37 @@ export interface CustomToastProps {
 
 const CustomToast: React.FC<CustomToastProps> = ({ closeToast, message, type = 'default' }) => {
   // --- Fixed styles as per your request ---
-  const bgColorClass = 'bg-lightgray dark:bg-[#2d2d2d]';
-  const textColorClass = 'text-neutral-900 dark:text-white';
+  const bgColorClass = 'bg-primarybox';
+  const textColorClass = 'text-mainheadingWhite';
   const borderColorClass = ''; // Still this style empty
   const closeButtonHoverBgClass = ''; // Still this style empty
   const closeButtonFocusRingClass = ''; // Still this style empty
 
   // --- Icon and icon color will still change based on type ---
   let IconComponent: React.ElementType = BellDot;
-  let iconColorClass = 'text-neutral-900 dark:text-white'; // Default icon color, can be overridden by type
+  let iconColorClass = 'text-white/90'; // Default icon color, can be overridden by type
 
   switch (type) {
     case 'success':
       IconComponent = CheckCircle;
-      iconColorClass = 'text-green-500 dark:text-green-400';
+      iconColorClass = 'text-green-400';
       break;
     case 'error':
       IconComponent = XCircle;
-      iconColorClass = 'text-red-500 dark:text-red-400';
+      iconColorClass = 'text-red-400';
       break;
     case 'info':
       IconComponent = LucideInfoIcon;
-      iconColorClass = 'text-blue-500 dark:text-blue-400';
+      iconColorClass = 'text-blue-400';
       break;
     case 'warning':
       IconComponent = AlertTriangle;
-      iconColorClass = 'text-yellow-500 dark:text-yellow-400';
+      iconColorClass = 'text-yellow-400';
       break;
     case 'default':
     default:
       IconComponent = BellDot; // Explicitly set default icon
-      iconColorClass = 'text-gray-500 dark:text-gray-400'; // Default icon color if you want it different from text
+      iconColorClass = 'text-subheadingWhite'; // Default icon color if you want it different from text
       break;
   }
 

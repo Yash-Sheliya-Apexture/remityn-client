@@ -3748,7 +3748,7 @@ import { FiX } from "react-icons/fi";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaCheck } from "react-icons/fa6";
 import apiConfig from "../../config/apiConfig"; // Ensure this path is correct
-import { LuEye, LuEyeClosed } from "react-icons/lu";
+import { LuEye, LuEyeOff } from "react-icons/lu";
 
 const pageContainerVariants = {
   hidden: { opacity: 0 },
@@ -4238,7 +4238,7 @@ export default function RegisterPage() {
                     {showPassword ? (
                       <LuEye size={18} />
                     ) : (
-                      <LuEyeClosed size={18} />
+                      <LuEyeOff size={18} />
                     )}
                   </button>
                 </div>
@@ -4294,7 +4294,7 @@ export default function RegisterPage() {
                     {showConfirmPassword ? (
                       <LuEye size={18} />
                     ) : (
-                      <LuEyeClosed size={18} />
+                      <LuEyeOff size={18} />
                     )}
                   </button>
                 </div>

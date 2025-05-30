@@ -85,16 +85,16 @@ import { HelpCircle } from 'lucide-react'; // Import an icon
 
 const KycHeader: React.FC = () => {
     return (
-        <header className="sticky top-0 z-40 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 dark:border-border/60">
-            <div className="container mx-auto h-16 flex items-center justify-between px-4">
+        <header className="sticky top-0 z-40 w-full border-b bg-background">
+            <div className="container mx-auto sm:h-20 h-16 flex items-center justify-between px-4">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 transition-opacity hover:opacity-80" aria-label="Go to homepage">
                     <Image
-                        src="/assets/images/wise-logo.svg" // Ensure this path is correct
+                        src="/assets/images/main_logo.svg" // Ensure this path is correct
                         alt="Logo"
-                        width={100}
-                        height={24}
-                        className="h-auto w-26"
+                        width={150}
+                        height={30}
+                        className="h-auto"
                         priority // Prioritize logo loading
                     />
                 </Link>
@@ -102,7 +102,7 @@ const KycHeader: React.FC = () => {
                 {/* Optional: Help Link */}
                 <Link
                     href="/help#kyc" // Link to specific help section if available
-                    className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-primary transition-colors"
+                    className="flex items-center gap-1.5 text-sm font-medium text-mainheadingWhite hover:text-primary transition-colors"
                 >
                     <HelpCircle className="h-4 w-4" />
                     Need Help?

@@ -528,17 +528,17 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
     <div className="space-y-8">
       {/* Section 1: Transaction Breakdown */}
       <div>
-        <h3 className="text-base font-semibold mb-4 text-neutral-900 dark:text-white border-b dark:border-border pb-2">
+        <h3 className="text-base font-semibold mb-4 text-mainheadingWhite border-b dark:border-border pb-2">
           Transaction Breakdown
         </h3>
         <dl className="space-y-3 text-sm">
           {isPayment && (
             <>
               <div className="flex justify-between items-center">
-                <dt className="text-gray-500 dark:text-gray-300">
+                <dt className="text-subheadingWhite">
                   Amount to Add
                 </dt>
-                <dd className="font-medium text-neutral-900 dark:text-white">
+                <dd className="font-medium text-mainheadingWhite">
                   {formatCurrency(
                     paymentDetails.amountToAdd,
                     paymentDetails.balanceCurrency?.code
@@ -546,8 +546,8 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
                 </dd>
               </div>
               <div className="flex justify-between items-center">
-                <dt className="text-gray-500 dark:text-gray-300">Remityn Fee</dt>
-                <dd className="font-medium text-neutral-900 dark:text-white">
+                <dt className="text-subheadingWhite">Remityn Fee</dt>
+                <dd className="font-medium text-mainheadingWhite">
                   {formatCurrency(
                     paymentDetails.wiseFee,
                     paymentDetails.payInCurrency?.code
@@ -555,10 +555,10 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
                 </dd>
               </div>
               <div className="flex justify-between items-center">
-                <dt className="text-gray-500 dark:text-gray-300">
+                <dt className="text-subheadingWhite">
                   Bank Transfer Fee
                 </dt>
-                <dd className="font-medium text-neutral-900 dark:text-white">
+                <dd className="font-medium text-mainheadingWhite">
                   {formatCurrency(
                     paymentDetails.bankTransferFee,
                     paymentDetails.payInCurrency?.code
@@ -566,10 +566,10 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
                 </dd>
               </div>
               <div className="flex justify-between items-center border-t dark:border-border pt-3 mt-2">
-                <dt className="text-gray-500 dark:text-gray-300 font-semibold">
+                <dt className="text-subheadingWhite">
                   Total Amount to Pay
                 </dt>
-                <dd className="font-semibold text-neutral-900 dark:text-white">
+                <dd className="font-semibold text-mainheadingWhite">
                   {formatCurrency(
                     paymentDetails.amountToPay,
                     paymentDetails.payInCurrency?.code
@@ -577,17 +577,17 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
                 </dd>
               </div>
               <div className="flex justify-between items-center mt-2">
-                <dt className="text-gray-500 dark:text-gray-300">
+                <dt className="text-subheadingWhite">
                   Guaranteed Rate
                 </dt>
-                <dd className="font-medium text-neutral-900 dark:text-white">
+                <dd className="font-medium text-mainheadingWhite">
                   1 {paymentDetails.payInCurrency?.code ?? ""} =
                   {formatRate(paymentDetails.exchangeRate)}
                   {paymentDetails.balanceCurrency?.code ?? ""}
                 </dd>
               </div>
               {paymentDetails.failureReason && (
-                <div className="flex justify-between items-start text-red-600 dark:text-red-600 pt-3 border-t dark:border-border mt-3">
+                <div className="flex justify-between items-start text-red-600 dark:text-red-600 pt-3 border-t  mt-3">
                   <dt className="font-medium">Failure Reason</dt>
                   <dd className="text-right ml-4">
                     {paymentDetails.failureReason}
@@ -599,8 +599,8 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
           {isTransfer && (
             <>
               <div className="flex justify-between items-center">
-                <dt className="text-gray-500 dark:text-gray-300">You Sent</dt>
-                <dd className="font-medium text-neutral-900 dark:text-white">
+                <dt className="text-subheadingWhite">You Sent</dt>
+                <dd className="font-medium text-mainheadingWhite">
                   {formatCurrency(
                     transferDetails.sendAmount,
                     transferDetails.sendCurrency?.code
@@ -608,8 +608,8 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
                 </dd>
               </div>
               <div className="flex justify-between items-center">
-                <dt className="text-gray-500 dark:text-gray-300">Total Fees</dt>
-                <dd className="font-medium text-neutral-900 dark:text-white">
+                <dt className="text-subheadingWhite">Total Fees</dt>
+                <dd className="font-medium text-mainheadingWhite">
                   {formatCurrency(
                     transferDetails.fees,
                     transferDetails.sendCurrency?.code
@@ -617,10 +617,10 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
                 </dd>
               </div>
               <div className="flex justify-between items-center">
-                <dt className="text-gray-500 dark:text-gray-300">
+                <dt className="text-subheadingWhite">
                   Amount Converted
                 </dt>
-                <dd className="font-medium text-neutral-900 dark:text-white">
+                <dd className="font-medium text-mainheadingWhite">
                   {formatCurrency(
                     (transferDetails.sendAmount ?? 0) -
                       (transferDetails.fees ?? 0),
@@ -629,20 +629,20 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
                 </dd>
               </div>
               <div className="flex justify-between items-center">
-                <dt className="text-gray-500 dark:text-gray-300">
+                <dt className="text-subheadingWhite">
                   Guaranteed Rate
                 </dt>
-                <dd className="font-medium text-neutral-900 dark:text-white">
+                <dd className="font-medium text-mainheadingWhite">
                   1 {transferDetails.sendCurrency?.code ?? ""} =
                   {formatRate(transferDetails.exchangeRate)}
                   {transferDetails.receiveCurrency?.code ?? ""}
                 </dd>
               </div>
               <div className="flex justify-between items-center border-t dark:border-border pt-3 mt-2">
-                <dt className="text-gray-500 dark:text-gray-300 font-semibold">
+                <dt className="text-subheadingWhite">
                   Recipient Gets
                 </dt>
-                <dd className="font-semibold text-neutral-900 dark:text-white">
+                <dd className="font-semibold text-mainheadingWhite">
                   {formatCurrency(
                     transferDetails.receiveAmount,
                     transferDetails.receiveCurrency?.code
@@ -660,22 +660,22 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
             </>
           )}
           <div className="flex justify-between items-center pt-3 border-t dark:border-border mt-3">
-            <dt className="text-gray-500 dark:text-gray-300">Date Initiated</dt>
-            <dd className="font-medium text-neutral-900 dark:text-white">
+            <dt className="text-subheadingWhite">Date Initiated</dt>
+            <dd className="font-medium text-mainheadingWhite">
               {formatDisplayDate(transaction.createdAt)}
             </dd>
           </div>
           <div className="flex justify-between items-center">
-            <dt className="text-gray-500 dark:text-gray-300">Last Updated</dt>
-            <dd className="font-medium text-neutral-900 dark:text-white">
+            <dt className="text-subheadingWhite">Last Updated</dt>
+            <dd className="font-medium text-mainheadingWhite">
               {formatDisplayDate(transaction.updatedAt)}
             </dd>
           </div>
           <div className="flex justify-between items-center">
-            <dt className="text-gray-500 dark:text-gray-300">
+            <dt className="text-subheadingWhite">
               {isPayment ? "Reference Code" : "Transfer ID"}
             </dt>
-            <dd className="font-medium text-neutral-900 dark:text-white break-all text-right ml-4">
+            <dd className="font-medium text-mainheadingWhite break-all text-right ml-4">
               {isPayment
                 ? paymentDetails.referenceCode || "N/A"
                 : transaction._id}
@@ -686,7 +686,7 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
 
       {/* Section 2: Pay-in Bank Details / Recipient Details */}
       <div>
-        <h3 className="text-base font-semibold mb-4 text-neutral-900 dark:text-white border-b dark:border-border pb-2">
+        <h3 className="text-base font-semibold mb-4 text-mainheadingWhite border-b dark:border-border pb-2">
           {isPayment
             ? "Pay-in Bank Details (Send Payment Here)"
             : "Recipient Details"}
@@ -694,12 +694,12 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
         {isPayment && paymentDetails.bankDetails && (
           <div className="space-y-3 text-sm">
             {/* Payee Name */}
-            <div className="bg-gray-50 dark:bg-white/5 border dark:border-border p-3 rounded-md flex justify-between items-center gap-2">
+            <div className="bg-primarybox p-4 rounded-lg flex justify-between items-center gap-2">
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-300 mb-0.5">
+                <p className="text-xs text-subheadingWhite mb-1">
                   Payee Name
                 </p>
-                <p className="font-semibold text-neutral-900 dark:text-white">
+                <p className="font-semibold text-mainheadingWhite">
                   {paymentDetails.bankDetails?.payeeName || "N/A"}
                 </p>
               </div>
@@ -712,7 +712,7 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
                   )
                 }
                 aria-label={`Copy Payee name`}
-                className={`shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-neutral-900 bg-white hover:bg-lightborder dark:text-white dark:bg-neutral-900 dark:hover:bg-primarybox
+                className={`shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-subheadingWhite bg-secondarybox hover:bg-secondaryboxhover
                                     ${
                                       copyStatus.payeeName
                                         ? "cursor-default"
@@ -732,12 +732,12 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
               </button>
             </div>
             {/* IBAN */}
-            <div className="bg-gray-50 dark:bg-white/5 border dark:border-border p-3 rounded-md flex justify-between items-center gap-2">
+            <div className="bg-primarybox p-4 rounded-lg flex justify-between items-center gap-2">
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-300 mb-0.5">
+                <p className="text-xs text-subheadingWhite mb-1">
                   IBAN
                 </p>
-                <p className="font-semibold text-neutral-900 dark:text-white break-all">
+                <p className="font-semibold text-mainheadingWhite break-all">
                   {paymentDetails.bankDetails?.iban || "N/A"}
                 </p>
               </div>
@@ -750,7 +750,7 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
                   )
                 }
                 aria-label={`Copy IBAN`}
-                className={`shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-neutral-900 bg-white hover:bg-lightborder dark:text-white dark:bg-neutral-900 dark:hover:bg-primarybox
+                className={`shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-subheadingWhite bg-secondarybox hover:bg-secondaryboxhover
                                     ${
                                       copyStatus.iban
                                         ? "cursor-default"
@@ -770,12 +770,12 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
               </button>
             </div>
             {/* BIC/SWIFT */}
-            <div className="bg-gray-50 dark:bg-white/5 border dark:border-border p-3 rounded-md flex justify-between items-center gap-2">
+            <div className="bg-primarybox p-4 rounded-lg flex justify-between items-center gap-2">
               <div>
-                <p className="text-xs text-gray-500 dark:text-gray-300 mb-0.5">
+                <p className="text-xs text-subheadingWhite mb-1">
                   Bank code (BIC/SWIFT)
                 </p>
-                <p className="font-semibold text-neutral-900 dark:text-white">
+                <p className="font-semibold text-mainheadingWhite">
                   {paymentDetails.bankDetails?.bicSwift || "N/A"}
                 </p>
               </div>
@@ -788,7 +788,7 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
                   )
                 }
                 aria-label={`Copy BIC/SWIFT`}
-                className={`shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-neutral-900 bg-white hover:bg-lightborder dark:text-white dark:bg-neutral-900 dark:hover:bg-primarybox
+                className={`shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-subheadingWhite bg-secondarybox hover:bg-secondaryboxhover
                                     ${
                                       copyStatus.bicSwift
                                         ? "cursor-default"
@@ -809,15 +809,15 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
             </div>
             {/* Reference Code */}
             {paymentDetails.referenceCode && (
-              <div className="bg-blue-100 dark:bg-blue-600/20 border border-blue-200 dark:border-blue-600/80 p-3 rounded-md flex justify-between items-start gap-2">
+              <div className="bg-primarybox p-4 rounded-lg flex justify-between items-center gap-2">
                 <div>
-                  <p className="text-xs text-blue-600 dark:text-blue-300 mb-0.5 font-semibold">
+                  <p className="text-xs text-primary mb-0.5 font-semibold">
                     IMPORTANT: Reference Code
                   </p>
-                  <p className="font-bold text-blue-800 dark:text-blue-200 text-base break-all">
+                  <p className="font-semibold text-mainheadingWhite ext-blue-200 text-base break-all">
                     {paymentDetails.referenceCode}
                   </p>
-                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                  <p className="text-sm text-subheadingWhite mt-1">
                     You MUST include this code as the payment
                     reference/description when sending money from your bank.
                   </p>
@@ -831,7 +831,7 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
                     )
                   }
                   aria-label={`Copy Reference Code`}
-                  className={`shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-neutral-900 bg-white hover:bg-lightborder dark:text-white dark:bg-neutral-900 dark:hover:bg-primarybox
+                  className={`shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-primarybox bg-primary hover:bg-primaryhover
                                         ${
                                           copyStatus.referenceCode
                                             ? "cursor-default"
@@ -852,18 +852,18 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
               </div>
             )}
             {/* Bank Address */}
-            <div className="bg-gray-50 dark:bg-white/5 border p-3 rounded-md">
-              <p className="text-xs text-gray-500 dark:text-gray-300 mb-0.5">
+            <div className="bg-primarybox p-4 rounded-lg">
+              <p className="text-xs text-subheadingWhite mb-1">
                 Bank Address
               </p>
-              <p className="font-semibold text-neutral-900 dark:text-white whitespace-pre-line">
+              <p className="font-semibold text-mainheadingWhite">
                 {paymentDetails.bankDetails?.bankAddress || "N/A"}
               </p>
             </div>
           </div>
         )}
         {isPayment && !paymentDetails.bankDetails && (
-          <p className="text-sm text-gray-500 dark:text-gray-300">
+          <p className="text-sm text-subheadingWhite">
             Bank details for payment are not available for this transaction.
           </p>
         )}
@@ -871,57 +871,57 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
         {isTransfer && transferDetails.recipient && (
           <dl className="space-y-2 text-sm">
             <div className="flex justify-between">
-              <dt className="text-gray-500 dark:text-gray-300">Name</dt>
-              <dd className="font-medium text-neutral-900 dark:text-white text-right">
+              <dt className="text-subheadingWhite">Name</dt>
+              <dd className="font-medium text-mainheadingWhite text-right">
                 {transferDetails.recipient.accountHolderName}
               </dd>
             </div>
             {transferDetails.recipient.nickname && (
               <div className="flex justify-between">
-                <dt className="text-gray-500 dark:text-gray-300">Nickname</dt>
-                <dd className="font-medium text-neutral-900 dark:text-white text-right">
+                <dt className="text-subheadingWhite">Nickname</dt>
+                <dd className="font-medium text-mainheadingWhite text-right">
                   {transferDetails.recipient.nickname}
                 </dd>
               </div>
             )}
             <div className="flex justify-between">
-              <dt className="text-gray-500 dark:text-gray-300">
+              <dt className="text-subheadingWhite">
                 Receiving Currency
               </dt>
-              <dd className="font-medium text-neutral-900 dark:text-white text-right">
+              <dd className="font-medium text-mainheadingWhite text-right">
                 {transferDetails.recipient.currency?.code ?? ""}
               </dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-gray-500 dark:text-gray-300">
+              <dt className="text-subheadingWhite">
                 Account Number
               </dt>
-              <dd className="font-medium text-neutral-900 dark:text-white text-right">
+              <dd className="font-medium text-mainheadingWhite text-right">
                 {transferDetails.recipient.accountNumber}
               </dd>
             </div>
             <div className="flex justify-between">
-              <dt className="text-gray-500 dark:text-gray-300">Bank Name</dt>
-              <dd className="font-medium text-neutral-900 dark:text-white text-right">
+              <dt className="text-subheadingWhite">Bank Name</dt>
+              <dd className="font-medium text-mainheadingWhite text-right">
                 {transferDetails.recipient.bankName}
               </dd>
             </div>
             {transferDetails.reference && (
               <div className="flex justify-between pt-2 border-t mt-2">
-                <dt className="text-gray-500 dark:text-gray-300">
+                <dt className="text-subheadingWhite">
                   Reference for Recipient
                 </dt>
-                <dd className="font-medium text-neutral-900 dark:text-white text-right ml-4">
+                <dd className="font-medium text-mainheadingWhite text-right ml-4">
                   {transferDetails.reference}
                 </dd>
               </div>
             )}
             {transferDetails.reason && (
               <div className="flex justify-between">
-                <dt className="text-gray-500 dark:text-gray-300">
+                <dt className="text-subheadingWhite">
                   Reason for Transfer
                 </dt>
-                <dd className="font-medium text-neutral-900 dark:text-white text-right ml-4">
+                <dd className="font-medium text-mainheadingWhite text-right ml-4">
                   {transferDetails.reason}
                 </dd>
               </div>
@@ -929,7 +929,7 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
           </dl>
         )}
         {isTransfer && !transferDetails.recipient && (
-          <p className="text-sm text-gray-500 dark:text-gray-300">
+          <p className="text-sm text-subheadingWhite">
             Recipient details are not available for this transfer.
           </p>
         )}
@@ -937,12 +937,12 @@ const TransactionDetailsContent: React.FC<TransactionDetailsContentProps> = ({
 
       {/* Section 3: Note Section */}
       <div>
-        <h3 className="text-base font-semibold mb-2 text-neutral-900 dark:text-white">
+        <h3 className="text-base font-semibold mb-2 text-mainheadingWhite">
           Note (for your reference only)
         </h3>
         <textarea
           id="transactionNote"
-          className="lock px-4 py-3 bg-white dark:bg-background w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 focus:border-[#5f5f5f]"
+          className="px-4 py-3 w-full rounded-lg focus:outline-0 transition-all duration-75 ease-in-out placeholder:text-gray-400 border border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white bg-primarybox/50"
           placeholder="Add personal notes about this transaction..."
           value={note}
           onChange={onNoteChange}

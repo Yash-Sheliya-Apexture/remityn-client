@@ -643,10 +643,10 @@ const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
       : "text-3xl lg:text-5xl";
 
     const textColorClass = clsx({
-      "text-red-500 dark:text-red-400": hasError, // Styles input text color on error
+      "text-red-400": hasError, // Styles input text color on error
       "text-gray-500 font-medium": !hasError && isDimmed && hasValue,
-      "text-mainheading dark:text-white": !hasError && !isDimmed && isFocused,
-      "text-black dark:text-white":
+      "text-mainheadingWhite": !hasError && !isDimmed && isFocused,
+      "text-white":
         !hasError && !isDimmed && !isFocused && hasValue,
       "text-gray-400": !hasError && !isDimmed && !isFocused && !hasValue,
     });
@@ -655,10 +655,10 @@ const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
       <div data-testid={dataTestId?.replace("-input", "-section")}>
         <label
           htmlFor={inputId}
-          className={clsx("block font-medium mb-1 ml-2 dark:text-white", {
+          className={clsx("block font-medium mb-1 ml-2 text-mainheadingWhite", {
             "text-gray-700": hasValue,
-            "text-neutral-900": !hasValue,
-            "text-red-600 dark:text-red-500": hasError, // Styles label color on error
+            "text-mainheadingWhite": !hasValue,
+            "text-red-500": hasError, // Styles label color on error
           })}
         >
           {labelPrefix} {label} {labelSuffix}
@@ -666,7 +666,7 @@ const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
 
         <div
           className={clsx(
-            "flex items-center p-2 bg-white dark:bg-background relative min-h-[72px] transition-shadow",
+            "flex items-center p-2 relative min-h-[72px] transition-shadow",
             {
               "border-b":
                 isFocused && !hasError, // Adjusted focus style to be more visible
@@ -675,7 +675,7 @@ const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
             }
           )}
         >
-          <div className="flex items-center bg-lightborder dark:bg-primarybox border px-2 py-1.5 rounded-full gap-2.5 pr-5 flex-shrink-0">
+          <div className="flex items-center bg-primarybox border px-2 py-1.5 rounded-full gap-2.5 pr-5 flex-shrink-0">
             <Image
               src={flagImage || "/assets/icon/generic.svg"}
               alt={`${currencyCode} flag`}
@@ -686,7 +686,7 @@ const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
                 (e.target as HTMLImageElement).src = "/assets/icon/generic.svg";
               }}
             />
-            <span className="font-bold text-base text-mainheading dark:text-white">
+            <span className="font-bold text-base text-mainheadingWhite">
               {currencyCode}
             </span>
           </div>
@@ -701,7 +701,7 @@ const AmountInput = forwardRef<HTMLInputElement, AmountInputProps>(
             onFocus={onFocus}
             onBlur={onBlur}
             className={clsx(
-              `flex-grow border-none font-bold outline-none p-0 dark:text-white text-mainheading text-right pr-1 w-full bg-transparent transition-all duration-300 ease-in-out`,
+              `flex-grow border-none font-bold outline-none p-0 text-mainheadingWhite placeholder:text-gray-500 text-right pr-1 w-full bg-transparent transition-all duration-300 ease-in-out`,
               textSizeClass,
               textColorClass
             )}

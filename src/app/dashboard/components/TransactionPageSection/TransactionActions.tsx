@@ -387,7 +387,7 @@ const TransactionActions: React.FC<TransactionActionsProps> = ({
             />
             {/* Filter Trigger Button - Moved inside a simple div if needed, or directly */}
             <button
-                className="inline-flex items-center justify-center gap-3 bg-primary text-neutral-900 hover:bg-primaryhover h-12.5 md:w-40 w-12.5 font-medium rounded-full transition-all duration-75 ease-linear cursor-pointer shrink-0" // Added shrink-0
+                className="inline-flex items-center justify-center gap-3 bg-primary text-mainheading hover:bg-primaryhover h-12.5 md:w-40 w-12.5 font-medium rounded-full transition-all duration-75 ease-linear cursor-pointer shrink-0" // Added shrink-0
                 onClick={onFilterButtonClick} // Use the passed callback
                 aria-haspopup="dialog"
             >

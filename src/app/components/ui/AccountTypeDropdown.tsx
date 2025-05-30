@@ -62,21 +62,21 @@ const AccountTypeDropdown: React.FC<AccountTypeDropdownProps> = ({ value, onChan
     <div className="relative" ref={dropdownRef}>
       <button
         type="button"
-        className={`flex items-center justify-between mt-1 px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 placeholder:text-neutral-600 dark:placeholder:text-white/80 text-neutral-900 dark:text-white focus:border-[#5f5f5f] ${
+        className={`flex items-center justify-between mt-1 px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 placeholder:text-gray-400 border-gray-600 hover:border-gray-500 text-white focus:outline-0 cursor-pointer ${
           error
             ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
-            : ""
+            : "focus:border-gray-500"
         }`}
         
         onClick={toggleOpen}
       >
-        <span>{value || <span className="text-neutral-400 dark:text-white/50">Select account type</span>}</span>
-        {isOpen ? <IoChevronUp className="text-neutral-600 dark:text-white/80" /> : <IoChevronDown className="text-neutral-600 dark:text-white/80" />}
+        <span>{value || <span className="text-gray-400">Select account type</span>}</span>
+        {isOpen ? <IoChevronUp className="text-gray-400" /> : <IoChevronDown className="text-gray-400" />}
       </button>
       <AnimatePresence initial={false} > {/* AnimatePresence to handle mount/unmount animations */}
         {isOpen && ( // Conditionally render dropdown only when isOpen is true
           <motion.div
-            className="absolute z-10 mt-0.5 w-full rounded-xl shadow-lg bg-white dark:bg-background border"
+            className="absolute z-20 mt-2 w-full rounded-xl shadow-sm bg-background border overflow-hidden p-2 space-y-2"
             variants={dropdownVariants}
             initial="closed"
             animate="open"
@@ -87,7 +87,7 @@ const AccountTypeDropdown: React.FC<AccountTypeDropdownProps> = ({ value, onChan
                 <li
                   key={type}
                   className={`block px-4 py-2 cursor-pointer rounded-full transition-colors font-medium duration-300 ease-in-out ${
-                    value === type ? 'bg-lightgray text-neutral-900 dark:bg-primarybox dark:text-white' : 'hover:bg-lightgray dark:hover:bg-primarybox text-neutral-900 dark:text-white'
+                    value === type ? 'hover:bg-primarybox text-subheadingWhite' : 'bg-primary text-mainheading'
                   }`}
                   onClick={() => handleAccountTypeSelect(type)}
                 >

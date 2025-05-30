@@ -12,10 +12,10 @@ const PayingWithDisplay: React.FC<PayingWithDisplayProps> = ({
 }) => {
   return (
     <>
-      <label className="block font-medium mb-2 ml-2 text-neutral-900 dark:text-white">
+      <label className="block font-medium mb-2 ml-2 text-mainheadingWhite">
         Paying with
       </label>
-      <div className="bg-lightgray dark:bg-primarybox rounded-2xl p-4">
+      <div className="bg-primarybox rounded-2xl p-4">
         <div className="flex items-center gap-2 rounded-lg">
           <Image
             src={sourceAccount.currency.flagImage || "/assets/icon/generic.svg"}
@@ -28,10 +28,10 @@ const PayingWithDisplay: React.FC<PayingWithDisplayProps> = ({
             }}
           />
           <div className="space-y-0.5">
-            <h1 className="text-gray-500 font-medium dark:text-gray-300 text-sm">
+            <h1 className="font-medium text-subheadingWhite text-sm">
               Paying With
             </h1>
-            <p className="capitalize font-medium text-mainheading dark:text-white">
+            <p className="capitalize font-medium text-mainheadingWhite">
               Your {sourceAccount.currency.code} balance
             </p>
             <p className="text-primary font-bold">

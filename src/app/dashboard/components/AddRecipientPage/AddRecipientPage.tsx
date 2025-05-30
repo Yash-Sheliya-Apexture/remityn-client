@@ -2086,7 +2086,7 @@
 //                     htmlFor="accountHolderName"
 //                     className="text-gray text-sm block capitalize font-medium mb-1"
 //                   >
-//                     Recipient's bank details{" "}
+//                     Recipient's bank details
 //                     <span className="text-error">*</span>
 //                   </label>
 //                   <input
@@ -2730,7 +2730,7 @@
 //                     htmlFor="accountHolderName"
 //                     className="text-gray text-sm block capitalize font-medium mb-1"
 //                   >
-//                     Recipient's bank details{" "}
+//                     Recipient's bank details
 //                     <span className="text-error">*</span>
 //                   </label>
 //                   <input
@@ -3528,7 +3528,7 @@
 //                     htmlFor="address"
 //                     className="block text-sm font-semibold text-gray dark:text-gray-300 mb-1"
 //                   >
-//                     Recipient Address (Street, City, Postcode, Country){" "}
+//                     Recipient Address (Street, City, Postcode, Country)
 //                     {/* Adjusted label */}
 //                     <span className="text-error">*</span>
 //                   </label>
@@ -5590,7 +5590,7 @@
 //             className="bg-white dark:bg-background w-full lg:max-w-lg"
 //           >
 //             <h2 className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white mb-6 text-center sm:text-left">
-//               Enter their account details ({selectedCurrencyCode}){" "}
+//               Enter their account details ({selectedCurrencyCode})
 //               {/* Added selected code here */}
 //             </h2>
 
@@ -5613,7 +5613,7 @@
 
 //             {/* Recipient Form */}
 //             <form className="mt-2 space-y-5" onSubmit={handleSubmit} noValidate>
-//               {" "}
+//
 //               {/* Added noValidate */}
 //               {/* Email Input (Original UI) */}
 //               <div>
@@ -7269,23 +7269,20 @@ const AddRecipientPage = () => {
       <DashboardHeader title="Recipients" onBack={handleBackStep} />
       <div className="Steps">
         {step === 1 && (
-          <div
-            key="currency-step"
-            className="bg-white dark:bg-background relative"
-          >
-            <h2 className="lg:text-3xl md:text-2xl text-xl capitalize font-semibold text-mainheading dark:text-white text-left md:text-center mb-4">
+          <div key="currency-step" className="relative">
+            <h2 className="md:text-2xl text-xl capitalize font-semibold text-mainheadingWhite mb-4">
               Select their currency
             </h2>
             <div className="relative mb-4">
               <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
                 <FiSearch
-                  className="h-5 w-5 text-neutral-900 dark:text-white"
+                  className="size-5 text-mainheadingWhite"
                   aria-hidden="true"
                 />
               </div>
               <input
                 type="text"
-                className="w-full rounded-full h-14 py-3 pl-12 pr-10 border transition-all focus:outline-none focus:border-[#5f5f5f] placeholder:text-neutral-600 dark:placeholder:text-white bg-white dark:bg-background"
+                className="w-full rounded-full h-12.5 py-3 pl-12 pr-3  focus:outline-0 transition-all duration-75 ease-in-out placeholder:text-gray-400 border border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white bg-primarybox/50"
                 placeholder="Search currency by name or code..."
                 value={searchCurrency}
                 onChange={(e) => setSearchCurrency(e.target.value)}
@@ -7294,22 +7291,22 @@ const AddRecipientPage = () => {
                 <button
                   type="button"
                   onClick={clearSearchTerm}
-                  className="absolute inset-y-0 right-3 flex items-center text-neutral-900 dark:text-primary focus:outline-none cursor-pointer"
+                  className="absolute inset-y-0 right-3 flex items-center text-primary focus:outline-none cursor-pointer"
                   aria-label="Clear search"
                 >
-                  <MdCancel size={28} aria-hidden="true" />
+                  <MdCancel size={22} aria-hidden="true" />
                 </button>
               )}
             </div>
             {formError && !isLoadingCurrencies && (
               <div
-                className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-xl p-3 flex items-center gap-3 relative mb-3"
+                className="bg-red-900/25 border border-red-500 rounded-xl p-3 flex items-center gap-3 relative mb-3"
                 role="alert"
               >
                 <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-red-600/20">
-                  <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                  <AlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
-                <span className="text-red-700 dark:text-red-300/90 text-sm font-medium">
+                <span className="text-red-300/90 text-sm font-medium">
                   {formError}
                 </span>
               </div>
@@ -7317,16 +7314,15 @@ const AddRecipientPage = () => {
             <div className="space-y-6">
               {isLoadingCurrencies ? (
                 <>
-                  {" "}
-                  <Skeleton className="h-16 rounded-xl w-full" />{" "}
-                  <Skeleton className="h-16 rounded-xl w-full" />{" "}
-                  <Skeleton className="h-16 rounded-xl w-full" />{" "}
+                  <Skeleton className="h-16 rounded-xl w-full" />
+                  <Skeleton className="h-16 rounded-xl w-full" />
+                  <Skeleton className="h-16 rounded-xl w-full" />
                 </>
               ) : (
                 <>
                   {filteredAvailableCurrencies.length > 0 && (
                     <div>
-                      <h3 className="font-medium text-gray-500 dark:text-gray-300 mb-3 tracking-wide leading-8 border-b">
+                      <h3 className="font-medium text-white/90 mb-3 leading-8 border-b">
                         All currencies
                       </h3>
                       <div className="space-y-2">
@@ -7335,7 +7331,7 @@ const AddRecipientPage = () => {
                             key={currency._id || currency.code}
                             role="button"
                             tabIndex={0}
-                            className={`block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all cursor-pointer`}
+                            className={`block hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all cursor-pointer`}
                             onClick={() => handleCurrencySelect(currency.code)}
                             onKeyDown={(e) =>
                               e.key === "Enter" || e.key === " "
@@ -7354,18 +7350,18 @@ const AddRecipientPage = () => {
                                     className="rounded-full object-cover shrink-0"
                                   />
                                 ) : (
-                                  <div className="w-10 h-10 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center text-gray-500 dark:text-gray-300 text-xs font-medium shrink-0">
+                                  <div className="w-10 h-10 bg-secondarybox rounded-full flex items-center justify-center text-mainheadingWhite text-xs font-medium shrink-0">
                                     {currency.code}
                                   </div>
                                 )}
                                 <div className="grow text-wrap">
-                                  <h4 className="font-medium text-neutral-900 dark:text-white text-sm md:text-base">
+                                  <h4 className="font-medium text-mainheadingWhite text-sm md:text-base">
                                     {currency.code} - {currency.currencyName}
                                   </h4>
                                 </div>
                               </div>
                               <div className="ml-4">
-                                <IoArrowForward className="size-5 text-neutral-900 dark:text-white" />
+                                <IoArrowForward className="size-5 text-mainheadingWhite" />
                               </div>
                             </div>
                           </div>
@@ -7375,7 +7371,7 @@ const AddRecipientPage = () => {
                   )}
                   {filteredComingSoonCurrencies.length > 0 && (
                     <div>
-                      <h3 className="font-medium text-gray-500 dark:text-gray-300 mb-3 tracking-wide leading-8 border-b">
+                      <h3 className="font-medium text-white/90 mb-3 leading-8 border-b">
                         Coming soon
                       </h3>
                       <div className="space-y-2">
@@ -7395,17 +7391,17 @@ const AddRecipientPage = () => {
                                     className="rounded-full object-cover shrink-0"
                                   />
                                 ) : (
-                                  <div className="w-10 h-10 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center text-gray-500 dark:text-gray-300 text-xs font-medium shrink-0">
+                                  <div className="w-10 h-10 bg-secondarybox rounded-full flex items-center justify-center text-mainheadingWhite text-xs font-medium shrink-0">
                                     {currency.code}
                                   </div>
                                 )}
                                 <div className="grow text-wrap">
-                                  <h4 className="font-medium text-neutral-900 dark:text-white text-sm md:text-base">
+                                  <h4 className="font-medium text-mainheadingWhite text-sm md:text-base">
                                     {currency.code} - {currency.currencyName}
                                   </h4>
                                 </div>
                               </div>
-                              <span className="text-xs bg-lightgray dark:bg-primarybox text-gray-700 dark:text-gray-300 px-2 py-1 rounded-full shrink-0 ml-2">
+                              <span className="text-xs bg-primarybox text-mainheadingWhite px-2 py-1 rounded-full shrink-0 ml-2">
                                 Coming soon
                               </span>
                             </div>
@@ -7417,7 +7413,7 @@ const AddRecipientPage = () => {
                   {!isLoadingCurrencies &&
                     !filteredAvailableCurrencies.length &&
                     !filteredComingSoonCurrencies.length && (
-                      <div className="text-center text-gray-700 dark:bg-white/5 bg-lightgray dark:text-gray-300 mt-8 py-5 rounded-lg">
+                      <div className="text-center bg-primarybox text-subheadingWhite mt-8 py-5 rounded-lg">
                         {searchCurrency.trim() !== ""
                           ? `No currencies found for "${searchCurrency}".`
                           : "No currencies available."}
@@ -7430,22 +7426,19 @@ const AddRecipientPage = () => {
         )}
 
         {step === 2 && (
-          <div
-            key="account-step"
-            className="bg-white dark:bg-background w-full lg:max-w-lg"
-          >
-            <h2 className="lg:text-2xl text-xl font-semibold text-mainheading dark:text-white mb-6 text-left">
+          <div key="account-step" className="w-full lg:max-w-lg">
+            <h2 className="lg:text-2xl text-xl font-semibold text-mainheadingWhite mb-6 text-left">
               Enter their account details ({selectedCurrencyCode})
             </h2>
             {formError && (
               <div
-                className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-xl p-3 flex items-center gap-3 relative mb-3"
+                className="bg-red-900/25 border border-red-500 rounded-xl p-3 flex items-center gap-3 relative mb-3"
                 role="alert"
               >
                 <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-red-600/20">
-                  <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                  <AlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
-                <span className="text-red-700 dark:text-red-300/90 text-sm font-medium">
+                <span className="text-red-300/90 text-sm font-medium">
                   {formError}
                 </span>
               </div>
@@ -7454,27 +7447,27 @@ const AddRecipientPage = () => {
               <div>
                 <label
                   htmlFor="email"
-                  className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+                  className="text-mainheadingWhite block capitalize text-sm lg:text-base"
                 >
                   Their email (optional)
                 </label>
                 <input
                   type="email"
                   id="email"
-                  className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none focus:border-[#5f5f5f]`}
+                  className={`mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0`}
                   value={email}
                   placeholder="example@domain.com"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <h3 className="font-medium text-gray-600 dark:text-white pt-2 pb-1 mb-3 relative after:content-[''] after:block after:w-full after:h-px after:bg-gray-200 dark:after:bg-primarybox after:mt-1">
+              <h3 className="font-medium text-white/90 mb-3 leading-8 border-b">
                 Recipient's bank details
               </h3>
               <div className="space-y-5">
                 <div>
                   <label
                     htmlFor="accountHolderName"
-                    className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+                    className="text-mainheadingWhite block capitalize text-sm lg:text-base"
                   >
                     Full name of the account holder
                     <span className="text-red-500 ml-1">*</span>
@@ -7482,10 +7475,10 @@ const AddRecipientPage = () => {
                   <input
                     type="text"
                     id="accountHolderName"
-                    className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ${
+                    className={`mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500  text-white focus:outline-0 ${
                       accountHolderNameError
                         ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
-                        : "focus:border-[#5f5f5f]"
+                        : "focus:border-gray-500"
                     }`}
                     value={accountHolderName}
                     placeholder="e.g., John Doe"
@@ -7515,17 +7508,17 @@ const AddRecipientPage = () => {
                 <div>
                   <label
                     htmlFor="ifscCode"
-                    className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+                    className="text-mainheadingWhite block capitalize text-sm lg:text-base"
                   >
                     IFSC code <span className="text-red-500 ml-1">*</span>
                   </label>
                   <input
                     type="text"
                     id="ifscCode"
-                    className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ${
+                    className={`mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500  text-white focus:outline-0 ${
                       ifscCodeError || ifscApiError
                         ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
-                        : "focus:border-[#5f5f5f]"
+                        : "focus:border-gray-500"
                     }`}
                     value={ifscCode}
                     placeholder="e.g., YESB0123456"
@@ -7601,20 +7594,20 @@ const AddRecipientPage = () => {
                     fetchedAddress &&
                     !ifscApiError &&
                     !ifscCodeError && (
-                      <div className="mt-3 p-3 bg-lightgray/30 dark:bg-primarybox/30 rounded-lg border border-gray-200 dark:border-secondarybox space-y-2">
+                      <div className="mt-3 p-3 bg-primarybox rounded-lg border space-y-2">
                         <div>
-                          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400">
+                          <label className="block text-xs font-medium text-subheadingWhite">
                             Bank Name
                           </label>
-                          <p className="text-sm text-neutral-900 dark:text-white">
+                          <p className="text-sm text-mainheadingWhite">
                             {fetchedBankName}
                           </p>
                         </div>
                         <div>
-                          <label className="block text-xs font-medium text-gray-500 dark:text-gray-400">
+                          <label className="block text-xs font-medium text-subheadingWhite">
                             Branch Address
                           </label>
-                          <p className="text-sm text-neutral-900 dark:text-white">
+                          <p className="text-sm text-mainheadingWhite">
                             {fetchedAddress}
                           </p>
                         </div>
@@ -7624,7 +7617,7 @@ const AddRecipientPage = () => {
                 <div>
                   <label
                     htmlFor="accountNumber"
-                    className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+                    className="text-mainheadingWhite block capitalize text-sm lg:text-base"
                   >
                     Account number <span className="text-red-500 ml-1">*</span>
                   </label>
@@ -7632,10 +7625,10 @@ const AddRecipientPage = () => {
                     type="text"
                     inputMode="numeric"
                     id="accountNumber"
-                    className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ${
+                    className={`mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500  text-white focus:outline-0 ${
                       accountNumberError
                         ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
-                        : "focus:border-[#5f5f5f]"
+                        : "focus:border-gray-500"
                     }`}
                     value={accountNumber}
                     placeholder="Enter account number"
@@ -7662,7 +7655,7 @@ const AddRecipientPage = () => {
                   )}
                 </div>
                 <div>
-                  <label className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base">
+                  <label className="text-mainheadingWhite block capitalize text-sm lg:text-base">
                     Account type <span className="text-red-500 ml-1">*</span>
                   </label>
                   <AccountTypeDropdown
@@ -7678,26 +7671,24 @@ const AddRecipientPage = () => {
               <div className="flex sm:flex-row flex-col-reverse justify-center items-center gap-4 pt-4">
                 <button
                   type="button"
-                  className={`sm:order-1 order-2 bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all flex items-center justify-center`}
+                  className={`sm:order-1 order-2 text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all flex items-center justify-center`}
                   onClick={handleClearForm}
                 >
                   Clear All
                 </button>
                 <button
                   type="submit"
-                  className={`sm:order-2 order-1 bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center`}
+                  className={`sm:order-2 order-1 bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center`}
                   disabled={isSubmitting || isFormInvalid}
                 >
                   {isSubmitting ? (
                     <>
-                      {" "}
                       <svg
                         className="h-5 w-5 text-neutral-900 animate-spin mr-2"
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
                       >
-                        {" "}
                         <path
                           d="M12 2V6"
                           stroke="currentColor"

@@ -140,11 +140,11 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
       : 1;
 
   return (
-    <div className="bg-white dark:bg-background sticky lg:top-28 top-20 z-20 pb-5">
+    <div className="bg-background sticky lg:top-28 top-20 z-20 pb-5">
       <div className="container mx-auto">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           {/* Title */}
-          <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold dark:text-white text-mainheading">
+          <h1 className="text-xl md:text-2xl lg:text-3xl font-semibold text-mainheadingWhite">
             {title}
           </h1>
 
@@ -165,7 +165,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                         className={`flex-1 h-0.5 transition-colors duration-300 ease-in-out  ${
                           isCompleted || isActive
                             ? "bg-primary"
-                            : "bg-gray-500 dark:bg-gray-300"
+                            : "bg-mainheadingWhite"
                         }`}
                       />
                     )}
@@ -173,12 +173,12 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                     {/* Step Circle and Text */}
                     <div className="flex items-center flex-shrink-0 py-2">
                       <div
-                        className={`size-8 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
+                        className={`size-8 rounded-full flex items-center justify-center border-2  transition-all duration-300 ${
                           isCompleted
                             ? "bg-primary border-primary text-mainheading"
                             : isActive
-                            ? "border-primary text-primary font-bold ring-2 ring-primary/20 dark:ring-primary/40"
-                            : "text-gray-700 dark:text-gray-300"
+                            ? "border-primary text-primary font-bold ring-3 ring-primary/20 dark:ring-primary/40"
+                            : "text-mainheadingWhite border-subheadingWhite"
                         }`}
                       >
                         {isCompleted ? <FaCheck size={16} /> : stepNumber}
@@ -189,7 +189,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
                             ? "text-primary font-medium"
                             : isActive
                             ? "text-primary font-bold"
-                            : "text-gray-700 dark:text-gray-300"
+                            : "text-mainheadingWhite"
                         }`}
                       >
                         {stepName}

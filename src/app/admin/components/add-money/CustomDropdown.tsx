@@ -663,7 +663,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
 
   // --- Base classes for the button ---
   const baseButtonClasses =
-    "flex items-center justify-between mt-1 px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 placeholder:text-neutral-600 dark:placeholder:text-white/80 text-neutral-900 dark:text-white";
+    "flex items-center justify-between mt-1 px-4 py-3 bg-primarybox h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 text-mainheadingWhite";
 
   // --- Conditional classes based on disabled or loading state ---
   const conditionalClasses =
@@ -676,7 +676,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
       {label &&
         (typeof label === "string" ? (
           <label
-            className={`block font-medium text-neutral-900 dark:text-white mb-1 ${
+            className={`block font-medium text-mainheadingWhite  dark:text-white mb-1 ${
               disabled ? "opacity-50" : "opacity-100"
             }`}
           >
@@ -696,15 +696,15 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
       >
         <span>{getButtonDisplayText()}</span>
         {isLoading ? (
-          <RefreshCw className="size-5 animate-spin text-neutral-700 dark:text-neutral-300" />
+          <RefreshCw className="size-5 animate-spin text-neutral-300" />
         ) : (
           <ChevronDown
             className={`size-5 transition-transform duration-200 ${
               isOpen ? "rotate-180" : ""
             } ${
               disabled
-                ? "text-gray-400 dark:text-gray-500"
-                : "text-neutral-700 dark:text-neutral-300"
+                ? "text-subheadingWhite"
+                : "text-mainheadingWhite"
             }`}
           />
         )}
@@ -718,7 +718,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
             exit={{ opacity: 0, y: -5 }}
             transition={{ duration: 0.15 }}
             role="listbox"
-            className="absolute z-20 mt-2 w-full rounded-xl shadow-sm bg-white dark:bg-background border overflow-hidden p-2 space-y-2"
+            className="absolute z-20 mt-2 w-full rounded-xl shadow-sm bg-background border overflow-hidden p-2 space-y-2"
           >
             {options.map((option) => (
               <motion.li
@@ -728,8 +728,8 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
                 aria-selected={value === option}
                 className={`px-4 py-2 cursor-pointer rounded-full transition-colors font-medium duration-300 ease-in-out flex justify-between items-center ${
                   value === option
-                    ? "bg-primary text-neutral-900" // Selected item style
-                    : "hover:bg-lightgray dark:hover:bg-secondarybox text-gray-500 dark:text-gray-300"
+                    ? "bg-primary text-mainheading" // Selected item style
+                    : "hover:bg-primarybox text-subheadingWhite "
                 }`}
               >
                 {/* Display option as is, or use allOptionText if it's the designated 'all' value */}
@@ -739,7 +739,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
                     : option}
                 </span>
                 {value === option && (
-                  <GiCheckMark className="text-neutral-900" size={16} />
+                  <GiCheckMark className="text-mainheading" size={16} />
                 )}
               </motion.li>
             ))}

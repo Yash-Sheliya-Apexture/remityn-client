@@ -473,7 +473,7 @@ const PaymentSuccessPage = () => {
   // --- JSX (No changes needed here from the previous version) ---
   return (
     <section className="Payment-Success">
-      <div className="flex flex-col items-center justify-center bg-background text-gray-500 dark:text-gray-300 mt-10">
+      <div className="flex flex-col items-center justify-center bg-background text-subheadingWhite mt-10">
         <div className="md:mb-8 mb-6">
           <Image
             src={WiseLogo}
@@ -486,7 +486,7 @@ const PaymentSuccessPage = () => {
         </div>
 
         <div className="text-center max-w-lg w-full space-y-3">
-          <h1 className="text-4xl md:text-5xl xl:text-6xl font-black font-mont text-mainheading dark:text-white uppercase md:leading-16">
+          <h1 className="text-4xl md:text-5xl xl:text-6xl font-black font-mont text-mainheadingWhite uppercase md:leading-16">
             Your Money's
             <span className="text-primary"> on the Move </span>
           </h1>
@@ -494,7 +494,7 @@ const PaymentSuccessPage = () => {
           {!isLoading &&
             paymentDetails &&
             !error && ( // Show even if details are partial but essential ID is there
-              <p className="sm:text-lg text-base leading-tight text-gray-500 dark:text-gray-300">
+              <p className="sm:text-lg text-base leading-tight text-subheadingWhite">
                 Track your transfers in real-time and enjoy fast, secure
                 delivery to your recipients — anytime, anywhere.
                 {/* Conditionally display amount/currency only if valid */}
@@ -509,7 +509,7 @@ const PaymentSuccessPage = () => {
 
           {/* Generic Success (Fallback if paymentDetails couldn't be set but no blocking error) */}
           {!isLoading && !paymentDetails && !error && (
-            <p className="text-lg mb-8 text-gray-500 dark:text-gray-300">
+            <p className="text-lg mb-8 text-subheadingWhite">
               Your payment is processing and should arrive 2 hours. We'll keep
               you posted.
             </p>
@@ -517,8 +517,8 @@ const PaymentSuccessPage = () => {
 
           {/* Error Message Display */}
           {error && !isLoading && (
-            <div className="bg-red-100 dark:bg-red-600/20 border border-red-400 dark:border-red-600/50 rounded-xl p-4">
-              <p className="text-red-600 dark:text-red-400 text-sm font-medium">
+            <div className="bg-red-600/20 border border-red-600/50 rounded-xl p-4">
+              <p className="text-red-400 text-sm font-medium">
                 {error}
               </p>
             </div>
@@ -527,7 +527,7 @@ const PaymentSuccessPage = () => {
           {/* Action Button */}
           <button
             onClick={handleGotIt}
-            className="bg-primary hover:bg-primaryhover mt-4 font-medium py-3 px-8 rounded-full transition-all duration-75 ease-linear text-neutral-900 focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-primary hover:bg-primaryhover mt-4 font-medium py-3 px-8 rounded-full transition-all duration-75 ease-linear text-mainheading focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isLoading}
           >
             Check Now's

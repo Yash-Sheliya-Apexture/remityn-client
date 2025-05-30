@@ -133,7 +133,7 @@ const MenuItem: React.FC<MenuItemProps> = ({
 }) => {
   const menuItemContent = (
     <div className="flex items-center gap-4 hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer group">
-      <div className="bg-[#52636c] p-3 rounded-full relative">
+      <div className="bg-secondarybox p-3 rounded-full relative">
         {icon}
         {hasNotificationDot && (
             // <span className="ml-2 h-2.5 w-2.5 rounded-full bg-red-500" />

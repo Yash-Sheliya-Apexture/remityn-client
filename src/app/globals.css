@@ -23,11 +23,13 @@ body {
   --color-primaryhover: #9cf0fc;
   /* aacho */
   --color-primarybox: #394247;
+  --color-primaryboxhover: #2f373b;
   /* ghato */
   --color-primary-foreground:#394247;
   
 
   --color-secondarybox: #52636c;
+  --color-secondaryboxhover: #677a85;
 
   /* Background color End */
 
@@ -117,10 +119,13 @@ html {
   --background: oklch(0.2717 0.0093 219.82);
   --primary: oklch(0.8651 0.1162 207.69);
   --primarybox: oklch(0.3728 0.0147 232.08);
+  --color-primaryboxhover: oklch(0.3309 0.013 229.33);
+
   --primaryboxdubal: oklch(0.3728 0.0147 232.08 / 80%);
   --primary-foreground: oklch(0.3728 0.0147 232.08);
 
   --secondarybox: oklch(0.4888 0.0253 231.04);
+  --secondaryboxhover: oklch(0.568 0.0281 233.37);
 
   /* Background Color End*/
 

@@ -504,43 +504,43 @@ export default function RecentActivity() {
     () => ({
       NEW_USER: {
         icon: <User size={20} />,
-        color: "text-blue-500 dark:text-blue-400",
-        bgColor: "bg-blue-100 dark:bg-blue-900/30",
+        color: "text-blue-400",
+        bgColor: "bg-blue-900/40",
       },
       NEW_PAYMENT: {
         icon: <CreditCard size={20} />,
-        color: "text-green-500 dark:text-green-400",
-        bgColor: "bg-green-100 dark:bg-green-900/30",
+        color: "text-green-400",
+        bgColor: "bg-green-900/40",
       },
       NEW_TRANSFER: {
         icon: <Send size={20} />,
-        color: "text-purple-500 dark:text-purple-400",
-        bgColor: "bg-purple-100 dark:bg-purple-900/30",
+        color: "text-purple-400",
+        bgColor: "bg-purple-900/40",
       },
       KYC_PENDING: {
         icon: <FileText size={20} />,
-        color: "text-yellow-500 dark:text-yellow-400",
-        bgColor: "bg-yellow-100 dark:bg-yellow-900/30",
+        color: "text-yellow-400",
+        bgColor: "bg-yellow-900/40",
       },
       SUPPORT_MESSAGE: {
         icon: <MessageSquare size={20} />,
-        color: "text-indigo-500 dark:text-indigo-400",
-        bgColor: "bg-indigo-100 dark:bg-indigo-900/30",
+        color: "text-indigo-400",
+        bgColor: "bg-indigo-900/40",
       },
       KYC_VERIFIED: {
         icon: <FileText size={20} />,
-        color: "text-teal-500 dark:text-teal-400",
-        bgColor: "bg-teal-100 dark:bg-teal-900/30",
+        color: "text-teal-400",
+        bgColor: "bg-teal-900/40",
       },
       KYC_REJECTED: {
         icon: <FileText size={20} />,
-        color: "text-red-500 dark:text-red-400",
-        bgColor: "bg-red-100 dark:bg-red-900/30",
+        color: "text-red-400",
+        bgColor: "bg-red-900/40",
       },
       DEFAULT: {
         icon: <Activity size={20} />,
-        color: "text-gray-500 dark:text-gray-400",
-        bgColor: "bg-gray-100 dark:bg-gray-700/30",
+        color: "text-gray-400",
+        bgColor: "bg-gray-700/40",
       },
     }),
     []
@@ -592,10 +592,10 @@ export default function RecentActivity() {
   const showSkeletons = loading || refreshing; // Show skeletons if initial loading OR if manually refreshing
 
   // Skeleton for initial loading (covers header and full component)
-  if (loading && !refreshing && activities.length === 0) {
+  if (loading && refreshing && activities.length === 0) {
     // More specific condition for full component skeleton
     return (
-      <div className="xl:w-3/4 w-full bg-white dark:bg-primarybox sm:order-1 order-2 sm:p-6 p-4 rounded-xl border">
+      <div className="xl:w-3/4 w-full bg-primarybox sm:order-1 order-2 sm:p-6 p-4 rounded-xl">
         <div className="flex items-center justify-between mb-5">
           <Skeleton className="h-6 rounded-md w-40" />
           <Skeleton className="h-9 w-9 rounded-full" />
@@ -604,14 +604,15 @@ export default function RecentActivity() {
           {[...Array(activitiesToDisplayCount)].map((_, i) => (
             <div
               key={`skel-recent-activity-${i}`}
-              className="flex items-start bg-lightgray dark:bg-primarybox p-4 rounded-lg "
+              className="flex items-start bg-primarybox p-4 rounded-lg "
             >
-              <Skeleton className="h-10 w-10 rounded-full mr-4 flex-shrink-0 bg-lightborder dark:bg-accent" />
+              <Skeleton className="h-10 w-10 rounded-full mr-4 flex-shrink-0 bg-background/50" />
               <div className="flex-grow space-y-2.5">
-                <Skeleton className="h-4 w-4/5 rounded-full bg-lightborder dark:bg-accent" />
-                <Skeleton className="h-3 w-2/5 rounded-full bg-lightborder dark:bg-accent" />
+                <Skeleton className="h-4 w-4/5 rounded-full bg-background/50" />
+                <Skeleton className="h-3 w-2/5 rounded-full bg-background/50" />
               </div>
-              <Skeleton className="h-3 w-24 rounded-full ml-4 flex-shrink-0 self-start mt-1 bg-lightborder dark:bg-accent" />
+              <Skeleton className="h-3 w-24 rounded-full ml-4 flex-shrink-0 self-start mt-1 bg-background" />
+              {/* <Skeleton className="h-10 w-35 rounded-full ml-4 flex-shrink-0 self-start mt-1 bg-background/50" /> */}
             </div>
           ))}
         </div>
@@ -624,27 +625,31 @@ export default function RecentActivity() {
     // Don't show main error if we are just trying to refresh
     return (
       <div
-        className="xl:w-3/4 w-full bg-red-50 dark:bg-red-900/20 border sm:order-1 order-2 border-red-200 dark:border-red-800/30 text-red-700 dark:text-red-300 px-5 py-4 rounded-xl"
+        className="xl:w-3/4 flex relative justify-center items-center  bg-red-900/25 border sm:order-1 order-2 border-red-500 px-5 py-4 rounded-xl"
         role="alert"
       >
-        <div className="flex items-center gap-3">
-          <div className="flex-shrink-0">
-            <AlertCircle className="h-5 w-5" />
+        <div className="flex flex-col items-center gap-3 text-center">
+          
+          <div className="sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20 flex-shrink-0">
+            <AlertCircle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
           </div>
+
           <div className="flex-1">
-            <h4 className="font-medium text-red-800 dark:text-red-300">
+            <h4 className="font-medium sm:text-2xl text-xl text-red-600 capitalize">
               Unable to load activities
             </h4>
-            <p className="text-sm mt-1">{error}</p>
+
+            <p className="text-sm mt-2 text-red-300/90">{error}</p>
           </div>
-          <button
+        </div>
+
+         <button
             onClick={handleRefresh}
-            className="p-2 rounded-md hover:bg-red-100 dark:hover:bg-red-800/30 transition-colors"
+            className="size-10 absolute top-4 right-4 flex items-center justify-center cursor-pointer rounded-full bg-red-600/20 transition-colors"
             aria-label="Retry loading activities"
           >
-            <RefreshCw className="h-4 w-4" />
+            <RefreshCw className="h-4 w-4 text-red-500" />
           </button>
-        </div>
       </div>
     );
   }
@@ -654,14 +659,14 @@ export default function RecentActivity() {
   );
 
   return (
-    <div className="xl:w-3/4 w-full bg-white dark:bg-primarybox sm:order-1 order-2 sm:p-6 p-4 rounded-xl border relative overflow-hidden">
+    <div className="xl:w-3/4 w-full bg-primarybox sm:order-1 order-2 sm:p-6 p-4 rounded-xl relative overflow-hidden">
       <div className="flex items-center justify-between mb-5 relative">
         <div className="flex gap-3 items-center">
-          <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-            <LuActivity className="size-6 text-mainheading dark:text-primary" />
+          <div className="size-12 shrink-0 bg-secondarybox rounded-full flex items-center justify-center">
+            <LuActivity className="size-6 text-primary" />
           </div>
 
-          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">
+          <h3 className="text-lg font-semibold text-mainheadingWhite">
             Recent Activity
           </h3>
         </div>
@@ -670,7 +675,7 @@ export default function RecentActivity() {
           {!isMobile && (
             <Link
               href="/admin/activity"
-              className="flex items-center justify-center cursor-pointer gap-2 bg-primary text-neutral-900 font-medium text-base px-8 py-3 h-10 sm:w-auto w-full rounded-full hover:bg-primaryhover transition-all duration-75 ease-linear"
+              className="flex items-center justify-center cursor-pointer gap-2 bg-primary text-mainheading font-semibold text-base px-8 py-3 h-10 sm:w-auto w-full rounded-full hover:bg-primaryhover transition-all duration-75 ease-linear"
             >
               <span>All Activity</span>
             </Link>
@@ -680,7 +685,7 @@ export default function RecentActivity() {
             type="button"
             onClick={handleRefresh}
             disabled={refreshing || loading} // Disable if already refreshing or initial loading
-            className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white size-10 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
+            className="flex items-center justify-center cursor-pointer gap-2 bg-secondarybox text-primary hover:bg-secondarybox size-10 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
             aria-label="Refresh recent activity"
           >
             <RefreshCw
@@ -690,36 +695,39 @@ export default function RecentActivity() {
         </div>
       </div>
 
-      <div className="space-y-3 relative">
+      <div className="space-y-5 relative">
         {showSkeletons ? ( // Show skeletons for the list if loading OR refreshing 508px
           [...Array(activitiesToDisplayCount)].map((_, i) => (
             <div
               key={`skel-list-item-${i}`}
-              className="flex items-start bg-lightgray dark:bg-primarybox p-4 rounded-lg "
+              className="flex items-start bg-primarybox space-y-6 rounded-lg "
             >
-              <Skeleton className="h-10 w-10 rounded-full mr-4 flex-shrink-0 bg-lightborder dark:bg-accent" />
+              <Skeleton className="h-10 w-10 rounded-full mr-4 flex-shrink-0 bg-background/50" />
               <div className="flex sm:flex-row flex-col justify-between w-full">
-                <div className="flex-grow space-y-2.5">
-                  <Skeleton className="h-4 w-4/5 rounded-full bg-lightborder dark:bg-accent" />
-                  <Skeleton className="h-3 w-2/5 rounded-full bg-lightborder dark:bg-accent" />
+                <div className="flex-grow space-y-[11px]">
+                  <Skeleton className="h-3.5 sm:w-4/5 w-full rounded-full bg-background/50" />
+                  <Skeleton className="h-3.5 sm:w-4/5 w-full rounded-full bg-background/50 sm:hidden block" />
+                  <Skeleton className="h-3.5 sm:w-2/5 w-1/2 rounded-full bg-background/50" />
                 </div>
 
                 {isMobile && (
                   <div className="flex flex-col items-start gap-1 mt-1">
-                    <Skeleton className="h-3 w-36  rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
-                    <Skeleton className="h-3 w-26 rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
+                    <Skeleton className="h-3 w-50 rounded-full flex-shrink-0 mt-1 bg-background/50" />
+                    <Skeleton className="h-3 w-60 rounded-full flex-shrink-0 mt-1 bg-background/50" />
                   </div>
                 )}
+
                 {!isMobile && (
-                  <div className="flex flex-col items-end gap-1">
-                    <Skeleton className="h-3 w-36  rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
-                    <Skeleton className="h-3 w-26 rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
-                  </div>
+                  <>
+                    <div className="flex flex-col items-end gap-1">
+                      <Skeleton className="h-3 w-36  rounded-full flex-shrink-0 mt-1 bg-background/50" />
+                      <Skeleton className="h-3 w-26 rounded-full flex-shrink-0 mt-1 bg-background/50" />
+                    </div>
+                  </>
                 )}
               </div>
             </div>
           ))
-          
         ) : activities.length > 0 ? (
           activities.map((activity, index) => {
             const config = getActivityConfig(activity.type);
@@ -728,30 +736,30 @@ export default function RecentActivity() {
                 key={`${activity.itemId || "activity"}-${
                   activity.timestamp
                 }-${index}`}
-                className="flex items-start bg-lightgray dark:bg-primarybox p-3.5 sm:p-4 rounded-lg transition-all duration-150 ease-out cursor-default"
+                className="flex items-start bg-primarybox space-y-5 rounded-lg transition-all duration-150 ease-out cursor-default"
               >
                 <div
-                  className={`flex-shrink-0 h-10 w-10 sm:h-11 sm:w-11 rounded-full ${config.bgColor} flex items-center justify-center mr-3.5 sm:mr-4`}
+                  className={`flex-shrink-0 size-10 sm:size-11 rounded-full ${config.bgColor} flex items-center justify-center mr-3.5 sm:mr-4`}
                 >
                   <span className={config.color}>{config.icon}</span>
                 </div>
                 <div className="flex-grow min-w-0">
-                  <p className="text-sm text-neutral-900 dark:text-white break-words">
+                  <p className="text-sm text-mainheadingWhite capitalize break-words">
                     {activity.message}
                     {activity.itemId && (
-                      <span className="block text-xs text-gray-500 dark:text-gray-300 sm:mt-1 mt-2">
+                      <span className="block text-xs text-subheadingWhite sm:mt-1 mt-2">
                         ID: {activity.itemId}
                       </span>
                     )}
                   </p>
                   {isMobile && (
                     <div className="mt-1 flex flex-wrap items-center gap-2">
-                      <p className="text-xs text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                      <p className="text-xs text-mainheadingWhite whitespace-nowrap">
                         {moment(activity.timestamp).format(
                           "MMM D, YYYY h:mm A"
                         )}
                       </p>
-                      <p className="text-xs text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                      <p className="text-xs text-subheadingWhite whitespace-nowrap">
                         ({moment(activity.timestamp).fromNow()})
                       </p>
                     </div>
@@ -759,10 +767,10 @@ export default function RecentActivity() {
                 </div>
                 {!isMobile && (
                   <div className="flex flex-col items-end gap-1 ml-2 sm:ml-4 flex-shrink-0 self-start pt-0.5">
-                    <p className="text-xs text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                    <p className="text-xs text-mainheadingWhite whitespace-nowrap">
                       {moment(activity.timestamp).format("MMM D, YYYY h:mm A")}
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                    <p className="text-xs text-subheadingWhite whitespace-nowrap">
                       ({moment(activity.timestamp).fromNow()})
                     </p>
                   </div>
@@ -771,14 +779,14 @@ export default function RecentActivity() {
             );
           })
         ) : (
-          <div className="flex flex-col items-center justify-center py-8 text-center">
-            <div className="w-12 h-12 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3">
-              <Clock className="h-6 w-6 text-gray-400 dark:text-gray-500" />
+          <div className="flex flex-col items-center justify-center py-10 space-y-3 text-center">
+            <div className="sm:size-12 size-10 rounded-full bg-primary flex items-center justify-center">
+              <Clock className="size-6 text-mainheading" />
             </div>
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
-              No recent activity
+            <p className="sm:text-2xl text-xl text-mainheadingWhite capitalize font-medium">
+              No recent activity Found In this case
             </p>
-            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
+            <p className="text-subheadingWhite sm:text-lg text-base">
               Check back later for updates
             </p>
           </div>
@@ -788,11 +796,12 @@ export default function RecentActivity() {
       {isMobile && (
         <Link
           href="/admin/activity"
-          className="mt-3 flex items-center justify-center cursor-pointer gap-2 bg-primary text-neutral-900 font-medium text-base px-8 py-3 h-12.5 sm:w-auto w-full rounded-full hover:bg-primaryhover transition-all duration-75 ease-linear"
+          className="mt-5 flex items-center justify-center cursor-pointer gap-2 bg-primary text-neutral-900 font-medium text-base px-8 py-3 sm:h-12.5 h-12 sm:w-auto w-full rounded-full hover:bg-primaryhover transition-all duration-75 ease-linear"
         >
           <span>All Activity</span>
         </Link>
       )}
+      
     </div>
   );
 }

@@ -2036,8 +2036,8 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
   const baseMobileLinkClasses =
     "block w-full text-left px-4 py-3 rounded-full font-medium text-lg transition-all duration-75 ease-linear"; // Increased py, rounded-lg, text-lg
   const inactiveMobileLinkClasses =
-    "text-gray-300 hover:bg-gray-700/50 hover:text-white"; // Adjusted colors for dark theme
-  const activeMobileLinkClasses = "bg-primaryboxdubal text-white"; // Adjusted active state
+    "text-gray-300 hover:bg-background/30 hover:text-white"; // Adjusted colors for dark theme
+  const activeMobileLinkClasses = "bg-primary text-mainheading"; // Adjusted active state
 
   const getMobileLinkClasses = (href: string): string => {
     let isActive = false;

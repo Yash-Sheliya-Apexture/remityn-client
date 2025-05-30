@@ -1809,7 +1809,7 @@ export default function RecipientsPage() {
           ) : (
             // Display "Add New" Prompt
             <div className="Add-New-Recipients">
-              <h3 className="font-medium text-sm text-mainheadingWhite mb-5 capitalize tracking-wide leading-8 border-b">
+              <h3 className="font-medium text-sm text-mainheadingWhite mb-3 capitalize tracking-wide leading-8 border-b">
                 {searchTerm
                   ? "No matching recipients found"
                   : "No recipients yet"}
@@ -1833,26 +1833,27 @@ export default function RecipientsPage() {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="w-12.5 h-12.5 rounded-full bg-secondarybox flex items-center justify-center relative flex-shrink-0">
+                    <div className="size-12.5 rounded-full bg-secondarybox flex items-center justify-center relative flex-shrink-0">
                       <CiBank
-                        size={26}
+                        size={24}
                         className="text-white"
                       />
-                      <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full overflow-hidden bg-secondarybox flex items-center justify-center border-2 border-white darkborder-background">
+                      <div className="absolute -bottom-1 -right-1 size-5 rounded-full overflow-hidden bg-secondarybox flex items-center justify-center">
                         <FaCirclePlus size={18} className="text-green-500" />
                       </div>
                     </div>
                     <div className="min-w-0">
-                      <h5 className="font-medium text-neutral-900 dark:text-white text-sm md:text-base truncate">
+                      <h5 className="font-medium text-white text-sm md:text-base capitalize truncate">
                         Add a new recipient
                       </h5>
-                      <p className="text-xs md:text-sm text-gray-500 dark:text-gray-300 truncate">
+                      <p className="text-xs md:text-sm text-subheadingWhite truncate">
                         You'll need their bank details
                       </p>
                     </div>
                   </div>
+
                   <div className="flex-shrink-0">
-                    <IoIosArrowForward className="size-5 text-neutral-900 dark:text-white" />
+                    <IoIosArrowForward className="size-5 text-subheadingWhite" />
                   </div>
                 </div>
               </div>

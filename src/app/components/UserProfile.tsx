@@ -354,7 +354,7 @@ const UserProfileDropdownMenu: React.FC<UserProfileDropdownMenuProps> = ({
   return (
     // Use motion.div for the dropdown container
     <motion.div
-      className="absolute mt-4 right-0 w-52 z-50 border rounded-lg origin-top-right bg-white dark:bg-background" // Increased z-index, adjusted dark mode colors slightly
+      className="absolute mt-6 right-0 w-52 z-50 border rounded-lg origin-top-right bg-background" // Increased z-index, adjusted dark mode colors slightly
       style={{ transformOrigin: "top right" }}
       initial={{ opacity: 0, scale: 0.95, y: -5 }} // Start slightly above and scaled down
       animate={{ opacity: 1, scale: 1, y: 0 }} // Animate to full opacity, scale, and position
@@ -372,10 +372,10 @@ const UserProfileDropdownMenu: React.FC<UserProfileDropdownMenuProps> = ({
           {menuItems.map((item, index) => (
             <li
               key={index}
-              className={`flex items-center gap-3 px-3 py-2 text-sm font-medium rounded-3xl transition-colors duration-100 ease-linear cursor-pointer ${
+              className={`flex items-center gap-3 px-3  py-2 text-sm font-medium rounded-3xl transition-all duration-75 ease-linear cursor-pointer ${
                 item.text === "Logout"
-                  ? "text-red-600 dark:text-red-500 hover:bg-red-50 dark:hover:bg-red-500/10" // Specific styling for logout
-                  : "text-neutral-700 dark:text-neutral-200 hover:bg-gray-100 dark:hover:bg-neutral-800" // Standard item styling
+                  ? "text-red-500 hover:bg-red-500/10" // Specific styling for logout
+                  : "text-gray-300 hover:bg-primaryboxhover" // Standard item styling
               }`}
               role="menuitem"
               onClick={item.action}
@@ -444,7 +444,7 @@ const UserProfile: React.FC<UserProfileProps> = ({
           alt={`${userName}'s Profile`}
           width={48} // Standardized size
           height={48} // Standardized size
-          className="rounded-full object-cover transition-colors" // Added hover effect
+          className="rounded-full object-cover transition-all duration-75 ease-linear" // Added hover effect
           onError={(e) => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = "/assets/images/default-avatar.png"; // Use a local default avatar

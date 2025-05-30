@@ -851,7 +851,7 @@ export default function BalanceDistributionChart() {
   if (loading) {
     return (
       // Updated Skeleton Structure
-      <Card className="flex flex-col xl:w-1/4 w-full sm:order-2 order-1 dark:bg-primarybox p-6 rounded-xl  relative overflow-hidden">
+      <Card className="flex flex-col xl:w-1/4 w-full sm:order-2 order-1 bg-primarybox p-6 rounded-xl relative overflow-hidden">
         <CardHeader className="items-start pb-2">
           {/* Icon and Title */}
           <div className="flex items-center gap-2 mb-1">
@@ -896,38 +896,49 @@ export default function BalanceDistributionChart() {
 
   if (error) {
     return (
-      <Card className="flex flex-col items-center justify-center sm:order-2 order-1 xl:w-1/4 w-full h-full p-6 dark:bg-primarybox  text-center">
+      <Card className="flex flex-col items-center space-y-3 justify-center sm:order-2 order-1 xl:w-1/4 w-full p-6 bg-primarybox  text-center">
         {" "}
         {/* Added text-center */}
-        <AlertCircle className="w-12 h-12 text-destructive mb-4" />
-        <CardTitle className="text-lg text-destructive">
+        <div className="sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20 flex-shrink-0">
+          <AlertCircle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
+        </div>
+        <CardTitle className="font-medium sm:text-2xl text-xl text-red-600 capitalize">
           Loading Failed
         </CardTitle>{" "}
         {/* Removed text-center, let Card handle it */}
-        <CardDescription className="text-sm text-muted-foreground mt-1 mb-4">
+        <CardDescription className="text-sm text-red-300/90">
           {" "}
           {/* Removed text-center */}
           {error}
         </CardDescription>
-        <Button variant="outline" onClick={fetchData} size="sm">
+        <button
+          onClick={fetchData}
+          className="px-6 py-3 text-mainheadingWhite cursor-pointer flex items-center bg-secondarybox rounded-full"
+        >
           <RefreshCw className="w-4 h-4 mr-2" />
           Try Again
-        </Button>
+        </button>
       </Card>
     );
   }
 
   if (chartData.length === 0) {
     return (
-      <Card className="flex flex-col items-center  justify-center sm:order-2 order-1 text-center xl:w-1/4 w-full h-full p-6 dark:bg-primarybox ">
-        <Info className="w-12 h-12 text-muted-foreground mb-4" />
-        <CardTitle className="text-lg text-card-foreground">
-          No Balance Data
-        </CardTitle>
-        <CardDescription className="text-sm text-muted-foreground mt-1">
-          There are currently no calculated account balances to display.
-        </CardDescription>
-      </Card>
+      <div className="py-10">
+        <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-3 flex flex-col justify-center items-center">
+          <div className="lg:size-16 size-14 flex items-center justify-center bg-primary rounded-full">
+            <Info className="lg:size-8 size-6 mx-auto text-subheading" />
+          </div>
+
+          <h1 className="lg:text-3xl md:text-2xl text-xl font-medium text-mainheadingWhite max-w-xl">
+            No Balance Data
+          </h1>
+
+          <p className="sm:text-lg text-base text-subheadingWhite">
+            There are currently no calculated account balances to display.
+          </p>
+        </div>
+      </div>
     );
   }
 
@@ -936,35 +947,33 @@ export default function BalanceDistributionChart() {
       <CardHeader className="flex justify-between flex-wrap gap-3">
         {/* Icon and Title */}
         <div className="flex items-start gap-3">
-          <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-            <FaWallet className="size-6 text-mainheading dark:text-primary" />
+
+          <div className="size-12 shrink-0 bg-secondarybox rounded-full flex items-center justify-center">
+            <FaWallet className="size-6 text-primary" />
           </div>
 
           <div>
-            <CardTitle className="text-lg font-semibold text-neutral-900 dark:text-white">
+            <CardTitle className="text-lg font-semibold text-mainheadingWhite">
               Account Balances
             </CardTitle>
 
             {/* Description */}
-            <CardDescription className="text-xs text-gray-500 dark:text-gray-300 max-w-68">
+            <CardDescription className="text-xs text-subheadingWhite max-w-68">
               Net calculated balances (Completed Add Money - Completed Send
               Money) by currency.
             </CardDescription>
-
           </div>
-
         </div>
 
         {/* Total Net Balance */}
         <div className="mt-3">
-          <p className="text-xs text-gray-500 dark:text-gray-300">
+          <p className="text-xs text-mainheadingWhite">
             Total Net Balance
           </p>
 
           <p className="text-2xl font-bold text-primary">
             {formatCurrency(totalOverallBalance)}
           </p>
-
         </div>
       </CardHeader>
 
@@ -1020,9 +1029,9 @@ export default function BalanceDistributionChart() {
                       return [formatCurrency(value as number), currencyLabel];
                     }}
                     indicator="dot"
-                    className="bg-popover text-popover-foreground dark:bg-primarybox/95 dark:text-white backdrop-blur-sm"
+                    className="bg-primarybox/95 text-white backdrop-blur-sm"
                   />
-                }
+                } 
               />
               <Bar
                 dataKey="totalBalance"
@@ -1042,7 +1051,7 @@ export default function BalanceDistributionChart() {
       {/* Footer Text */}
 
       <CardFooter className="text-xs flex justify-center">
-        <p className="text-gray-500 dark:text-gray-300">
+        <p className="text-subheadingWhite text-sm">
           Showing balances for active currencies.
         </p>
       </CardFooter>

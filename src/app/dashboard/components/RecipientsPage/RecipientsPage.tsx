@@ -914,19 +914,19 @@
 //   if (loadingRecipients) {
 //     return (
 //       <section className="py-10">
-        
+
 //         {/* Added section wrapper for consistency */}
 //         <div className="container mx-auto">
-          
+
 //           {/* Added container */}
 //           <div className="flex justify-between items-center mb-6">
-            
+
 //             {/* Matched header structure */}
 //             <Skeleton className="h-8 w-36 rounded-md" />
 //             <Skeleton className="h-10 w-24 rounded-full md:hidden block" />
 //           </div>
 //           <div className="mb-8 flex items-center gap-4">
-            
+
 //             {/* Matched search/button structure */}
 //             <Skeleton className="h-12.5 flex-1 rounded-full" />
 //             <Skeleton className="h-12.5 w-36 rounded-full hidden md:block" />
@@ -1076,23 +1076,23 @@
 //               >
 //                 <div className="flex items-center justify-between">
 //                   <div className="flex items-center gap-4">
-                    
+
 //                     {/* Added gap */}
 //                     <div className="w-12 h-12 rounded-full bg-lightborder dark:bg-secondarybox flex items-center justify-center relative flex-shrink-0">
-                      
+
 //                       {/* Added flex-shrink-0 */}
 //                       <CiBank
 //                         size={24}
 //                         className="text-neutral-900 dark:text-white"
 //                       />
 //                       <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full overflow-hidden bg-white dark:bg-secondarybox flex items-center justify-center border-2 border-white dark:border-background">
-                        
+
 //                         {/* Adjusted plus icon container */}
 //                         <FaCirclePlus size={18} className="text-green-500" />
 //                       </div>
 //                     </div>
 //                     <div className="min-w-0">
-                      
+
 //                       {/* Added min-w-0 for truncation */}
 //                       <h5 className="font-medium text-neutral-900 dark:text-white text-sm md:text-base truncate">
 //                         Add a new recipient
@@ -1103,7 +1103,7 @@
 //                     </div>
 //                   </div>
 //                   <div className="flex-shrink-0">
-                    
+
 //                     {/* Added flex-shrink-0 */}
 //                     <IoIosArrowForward className="h-5 w-5 text-neutral-600 dark:text-gray-400" />
 //                   </div>
@@ -1122,9 +1122,6 @@
 //     </>
 //   );
 // }
-
-
-
 
 // "use client";
 // import React, { useState, ChangeEvent, useEffect, useCallback } from "react";
@@ -1493,8 +1490,6 @@
 //   );
 // }
 
-
-
 "use client";
 import React, { useState, ChangeEvent, useEffect, useCallback } from "react";
 import { FiAlertTriangle, FiSearch } from "react-icons/fi";
@@ -1518,7 +1513,8 @@ interface Recipient {
 
 // --- Updated AuthUser structure to match AddMoney page ---
 interface AuthUser {
-  kyc: { // *** Assume nested structure is correct ***
+  kyc: {
+    // *** Assume nested structure is correct ***
     status:
       | "verified"
       | "pending"
@@ -1570,15 +1566,17 @@ export default function RecipientsPage() {
       try {
         // Only fetch if token exists
         if (token) {
-            const data: Recipient[] = await recipientService.getUserRecipients(
-              token
-            );
-            setRecipients(data);
+          const data: Recipient[] = await recipientService.getUserRecipients(
+            token
+          );
+          setRecipients(data);
         } else {
-            // No token, don't try to fetch, maybe rely on parent layout/redirect
-             console.log("RecipientsPage: No token found, skipping recipient fetch.");
-             // Set recipients to empty array if needed
-             setRecipients([]);
+          // No token, don't try to fetch, maybe rely on parent layout/redirect
+          console.log(
+            "RecipientsPage: No token found, skipping recipient fetch."
+          );
+          // Set recipients to empty array if needed
+          setRecipients([]);
         }
       } catch (err: unknown) {
         let message = "Failed to load recipients.";
@@ -1597,11 +1595,10 @@ export default function RecipientsPage() {
 
     // Optional: Redirect if no token *after* auth has loaded
     if (!isAuthLoading && !token) {
-        console.log("RecipientsPage: No token after auth check, redirecting.");
-        // Consider a slight delay or check if component is still mounted if needed
-        // router.replace('/auth/login'); // Uncomment if redirect is desired here
+      console.log("RecipientsPage: No token after auth check, redirecting.");
+      // Consider a slight delay or check if component is still mounted if needed
+      // router.replace('/auth/login'); // Uncomment if redirect is desired here
     }
-
   }, [token, isAuthLoading, router]); // Add isAuthLoading and router (if redirecting)
 
   // --- Search Handlers ---
@@ -1651,7 +1648,9 @@ export default function RecipientsPage() {
     }
 
     // --- Proceed only if KYC is verified ---
-    console.log("Add Recipient Click: KYC verified. Navigating to add recipient page.");
+    console.log(
+      "Add Recipient Click: KYC verified. Navigating to add recipient page."
+    );
     router.push("/dashboard/recipients/addrecipient"); // Adjust path if needed
   }, [isAuthLoading, user, handleOpenKycModal, router]); // *** Depend on isAuthLoading and user ***
 
@@ -1659,13 +1658,14 @@ export default function RecipientsPage() {
   const isLoading = loadingRecipients || isAuthLoading;
 
   // --- Loading State ---
-  if (isLoading) { // *** Use combined loading state ***
+  if (isLoading) {
+    // *** Use combined loading state ***
     return (
-      <section className="py-10">
-        <div className="">
+      <section>
+        <div>
           {/* Header Skeleton */}
           <div className="flex justify-between items-center mb-6">
-            <Skeleton className="h-8 w-36 rounded-md" />
+            <Skeleton className="h-8 w-40 rounded-md" />
             <Skeleton className="h-10 w-24 rounded-full md:hidden block" />
           </div>
           {/* Search/Button Skeleton */}
@@ -1674,7 +1674,9 @@ export default function RecipientsPage() {
             <Skeleton className="h-12.5 w-36 rounded-full hidden md:block" />
           </div>
           {/* List Skeleton */}
-          <Skeleton className="h-6 w-20 mb-3 rounded-md" />
+          <div className="border-b">
+            <Skeleton className="h-5 mb-2 w-40 rounded-md" />
+          </div>
           <div className="space-y-2">
             {Array(3)
               .fill(0)
@@ -1713,7 +1715,10 @@ export default function RecipientsPage() {
         <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
           <FiAlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
         </div>
-        <p className="text-red-700 dark:text-red-300/90"> Error loading recipients: {error} </p>
+        <p className="text-red-700 dark:text-red-300/90">
+          {" "}
+          Error loading recipients: {error}{" "}
+        </p>
       </div>
     );
   }
@@ -1782,12 +1787,12 @@ export default function RecipientsPage() {
           {/* Check if token exists before showing list/prompt */}
           {!token && !isAuthLoading ? (
             <div className="text-center text-gray-500 dark:text-gray-300 mt-10">
-                Please log in to view or add recipients.
+              Please log in to view or add recipients.
             </div>
           ) : filteredRecipients.length > 0 ? (
             // Display List
             <div className="All-Recipients">
-              <h3 className="font-medium text-white/90 mb-3 leading-8 border-b">
+              <h3 className="font-medium text-mainheadingWhite mb-3 leading-8 border-b">
                 All Recipients
               </h3>
               <div className="space-y-2">
@@ -1804,7 +1809,7 @@ export default function RecipientsPage() {
           ) : (
             // Display "Add New" Prompt
             <div className="Add-New-Recipients">
-              <h3 className="font-medium text-sm text-gray-500 dark:text-gray-300 mb-3 uppercase tracking-wide leading-8 border-b">
+              <h3 className="font-medium text-sm text-mainheadingWhite mb-5 capitalize tracking-wide leading-8 border-b">
                 {searchTerm
                   ? "No matching recipients found"
                   : "No recipients yet"}
@@ -1814,24 +1819,26 @@ export default function RecipientsPage() {
                 className={`block p-4 rounded-2xl transition-all duration-75 ease-linear border-2 border-dashed ${
                   isAuthLoading
                     ? "opacity-50 cursor-not-allowed" // Style for disabled state
-                    : "hover:bg-lightgray dark:hover:bg-primarybox cursor-pointer" // Style for enabled state
+                    : "hover:bg-primarybox cursor-pointer" // Style for enabled state
                 }`}
                 onClick={!isAuthLoading ? handleAddRecipientClick : undefined} // Prevent click if loading
                 role="button"
                 tabIndex={isAuthLoading ? -1 : 0} // Remove from tab order if loading
                 onKeyPress={(e) =>
-                  !isAuthLoading && e.key === "Enter" && handleAddRecipientClick()
+                  !isAuthLoading &&
+                  e.key === "Enter" &&
+                  handleAddRecipientClick()
                 }
                 aria-disabled={isAuthLoading} // Accessibility
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="w-12.5 h-12.5 rounded-full bg-lightborder dark:bg-secondarybox flex items-center justify-center relative flex-shrink-0">
+                    <div className="w-12.5 h-12.5 rounded-full bg-secondarybox flex items-center justify-center relative flex-shrink-0">
                       <CiBank
-                        size={24}
-                        className="text-neutral-900 dark:text-white"
+                        size={26}
+                        className="text-white"
                       />
-                      <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full overflow-hidden bg-white dark:bg-secondarybox flex items-center justify-center border-2 border-white dark:border-background">
+                      <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full overflow-hidden bg-secondarybox flex items-center justify-center border-2 border-white darkborder-background">
                         <FaCirclePlus size={18} className="text-green-500" />
                       </div>
                     </div>

@@ -316,12 +316,12 @@ const NicknamePopup: React.FC<NicknamePopupProps> = ({
               </button>
             </div>
             
-            <h3 id="nickname-popup-title" className="sm:text-3xl text-2xl font-semibold text-mainheadingWhite my-6">
+            <h3 id="nickname-popup-title" className="sm:text-3xl capitalize text-2xl font-semibold text-mainheadingWhite text-left">
               {title}
             </h3>
 
             {description && (
-              <p className="text-subheadingWhite font-medium mb-6">
+              <p className="text-subheadingWhite font-medium mb-6 text-left">
                 {description}
               </p>
             )}

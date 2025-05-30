@@ -7856,7 +7856,7 @@ const TransactionsPage: React.FC = () => {
 
                                 <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
                                   <div className="text-wrap">
-                                    <h3 className="font-medium leading-relaxed text-white/90 sm:text-lg text-15px">
+                                    <h3 className="font-medium leading-relaxed text-mainheadingWhite sm:text-lg text-15px">
                                       {name}
                                     </h3>
                                     <p className="sm:text-sm text-13px text-subheadingWhite mt-1">
@@ -7864,7 +7864,7 @@ const TransactionsPage: React.FC = () => {
                                     </p>
                                   </div>
                                   <div
-                                    className={`font-medium text-white/90 whitespace-nowrap shrink-0 sm:text-base text-15px`}
+                                    className={`font-medium text-mainheadingWhite whitespace-nowrap shrink-0 sm:text-base text-15px`}
                                   >
                                     {amountPrefix}
                                     {amount.toLocaleString(undefined, {
@@ -7927,7 +7927,7 @@ const TransactionsPage: React.FC = () => {
                                 </div>
                                 <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
                                   <div className="text-wrap">
-                                    <h3 className="font-medium leading-relaxed text-white/90 sm:text-lg text-15px">
+                                    <h3 className="font-medium leading-relaxed text-mainheadingWhite sm:text-lg text-15px">
                                       {name}
                                     </h3>
                                     <p className="sm:text-sm text-13px text-subheadingWhite mt-1">
@@ -7935,7 +7935,7 @@ const TransactionsPage: React.FC = () => {
                                     </p>
                                   </div>
                                   <div
-                                    className={`font-medium text-white/90 whitespace-nowrap shrink-0 sm:text-base text-15px`}
+                                    className={`font-medium text-mainheadingWhite whitespace-nowrap shrink-0 sm:text-base text-15px`}
                                   >
                                     {amountPrefix}
                                     {amount.toLocaleString(undefined, {
@@ -7995,7 +7995,7 @@ const TransactionsPage: React.FC = () => {
                                 : recipientName;
 
                               let description = "";
-                              let amountClass = "";
+                              let amountClass = "text-mainheadingWhite";
                               switch (transaction.status) {
                                 case "completed":
                                   description = isAddMoney
@@ -8003,7 +8003,7 @@ const TransactionsPage: React.FC = () => {
                                     : `Sent by you`;
                                   amountClass = isAddMoney
                                     ? "text-green-500"
-                                    : "text-white/90";
+                                    : "text-mainheadingWhite";
                                   break;
                                 case "canceled":
                                   description = "Cancelled";
@@ -8031,7 +8031,7 @@ const TransactionsPage: React.FC = () => {
                                       </div>
                                       <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
                                         <div className="text-wrap">
-                                          <h3 className="font-medium leading-relaxed text-white/90 sm:text-lg text-15px">
+                                          <h3 className="font-medium leading-relaxed text-mainheadingWhite sm:text-lg text-15px">
                                             {name}
                                           </h3>
                                           <p className="sm:text-sm text-13px text-subheadingWhite mt-1">

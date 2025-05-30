@@ -1906,15 +1906,15 @@ const TransactionsSection: React.FC = () => {
 
     // Determine amount prefix and class for the right-side display
     const amountPrefix = isAddMoney ? "+ " : "- ";
-    let amountClass = "text-white"; // Default style
+    let amountClass = "text-mainheadingWhite"; // Default style
 
     // (Amount class logic remains the same)
     if (status === "completed") {
-        amountClass = isAddMoney ? "text-green-500" : "text-white";
+        amountClass = isAddMoney ? "text-green-500" : "text-mainheadingWhite";
     } else if (status === "canceled" || status === "failed") {
        amountClass = "text-red-600 line-through";
     } else if (status === 'pending' || status === 'processing' || status === 'in progress') {
-       amountClass = "text-white";
+       amountClass = "text-mainheadingWhite";
     }
 
     return (

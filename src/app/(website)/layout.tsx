@@ -300,8 +300,8 @@
 //       {/* Scroll to Top Button - Now with Animation */}
 //       <div
 //         ref={scrollToTopButtonRef}
-//         className={`fixed md:right-5 bottom-10 right-2 z-50 cursor-pointer rounded-full bg-primary lg:p-2.5 p-2 text-mainheading shadow-md 
-//                    hover:bg-primaryhover 
+//         className={`fixed md:right-5 bottom-10 right-2 z-50 cursor-pointer rounded-full bg-primary lg:p-2.5 p-2 text-mainheading shadow-md
+//                    hover:bg-primaryhover
 //                    transition-all duration-300 ease-in-out  // Animate ALL changes (opacity and transform)
 //                    ${
 //                      isScrollToTopVisible
@@ -319,11 +319,6 @@
 //     </WebsiteAppProvider>
 //   );
 // }
-
-
-
-
-
 
 // // app/(website)/layout.tsx
 // "use client"; // Still needed for WebsiteAppProvider or other client logic if any
@@ -383,13 +378,11 @@
 //       </div>
 //       --- END REMOVED OLD BUTTON JSX --- */}
 
-
 //       {/* Tawk.to Live Chat Script */}
 //       {tawkToSrc && <TawkToScript src={tawkToSrc} />}
 //     </WebsiteAppProvider>
 //   );
 // }
-
 
 // app/(website)/layout.tsx
 "use client"; // Still needed for WebsiteAppProvider or other client logic if any
@@ -424,20 +417,35 @@ export default function WebsiteLayout({ children }: LayoutProps) {
   // --- END REMOVED ---
 
   return (
-    <WebsiteAppProvider>
-      {/* Header */}
-      <Header />
+    <>
+      <head>
+        {/* <script dangerouslySetInnerHTML={{ __html: ThemeInitializerScript }} /> */}
 
-      {/* Main content area */}
-      <main>{children}</main>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1 " />
 
-      {/* Footer */}
-      <Footer />
+        <title>Remityn Clone - Money Transfer</title>
+        <meta
+          name="description"
+          content="Send and receive money internationally with low fees and real exchange rates."
+        />
 
-      {/* --- USE THE REUSABLE BUTTON --- */}
-      <BackToTopButton position="center" mobileBehavior="visible"/>
+        <link rel="icon" href="./Remityn.ico" sizes="any" />
+      </head>
+      <WebsiteAppProvider>
+        {/* Header */}
+        <Header />
 
-      {/* --- REMOVED OLD BUTTON JSX ---
+        {/* Main content area */}
+        <main>{children}</main>
+
+        {/* Footer */}
+        <Footer />
+
+        {/* --- USE THE REUSABLE BUTTON --- */}
+        <BackToTopButton position="center" mobileBehavior="visible" />
+
+        {/* --- REMOVED OLD BUTTON JSX ---
       <div
         ref={scrollToTopButtonRef}
         className={`fixed ... etc ... ${
@@ -450,11 +458,10 @@ export default function WebsiteLayout({ children }: LayoutProps) {
       </div>
       --- END REMOVED OLD BUTTON JSX --- */}
 
-
-      {/* Tawk.to Live Chat Script */}
-      {/* {tawkToSrc && <TawkToScript src={tawkToSrc} />} */}
-         <FloatingActionButtons />
-
-    </WebsiteAppProvider>
+        {/* Tawk.to Live Chat Script */}
+        {/* {tawkToSrc && <TawkToScript src={tawkToSrc} />} */}
+        <FloatingActionButtons />
+      </WebsiteAppProvider>
+    </>
   );
 }

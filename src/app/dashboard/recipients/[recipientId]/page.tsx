@@ -1236,7 +1236,6 @@
 
 // export default RecipientDetailsPage;
 
-
 // "use client";
 // import React, { useState, useEffect } from "react";
 // import { useParams, useRouter } from "next/navigation";
@@ -1267,7 +1266,6 @@
 //   currency: Currency;
 //   // Add any other relevant properties returned by the API
 // }
-
 
 // interface RecipientDetailsPageProps {
 //   params: { recipientId: string };
@@ -1356,7 +1354,6 @@
 //     }
 //     return initials;
 //   };
-
 
 //   const handleAddNicknameClick = () => {
 //     setNicknameInput(currentRecipient.nickname || "");
@@ -1644,9 +1641,6 @@
 
 // export default RecipientDetailsPage;
 
-
-
-
 // "use client";
 // import React, { useState, useEffect } from "react";
 // import { useParams, useRouter } from "next/navigation";
@@ -1678,7 +1672,6 @@
 //   currency: Currency;
 //   // Add any other relevant properties returned by the API
 // }
-
 
 // interface RecipientDetailsPageProps {
 //   // No explicit props needed if using useParams, but kept for potential future use
@@ -1758,7 +1751,6 @@
 //       );
 //   }
 
-
 //   if (loadingRecipient) {
 //     return (
 //       <div className="RecipientDetailsPage py-10">
@@ -1794,7 +1786,6 @@
 //     }
 //     return initials;
 //   };
-
 
 //   const handleAddNicknameClick = () => {
 //     // Ensure currentRecipient is not null before accessing its properties
@@ -2110,7 +2101,6 @@
 
 // export default RecipientDetailsPage;
 
-
 // // frontend/src/app/dashboard/recipients/[recipientId]/page.tsx
 // "use client";
 // import React, { useState, useEffect } from "react";
@@ -2147,7 +2137,6 @@
 //   currency: Currency;
 //   // Add any other relevant properties returned by the API
 // }
-
 
 // interface RecipientDetailsPageProps {
 //   // No explicit props needed if using useParams
@@ -2221,19 +2210,18 @@
 //             <AlertTriangle className="lg:size-8 size-6 mx-auto text-white dark:text-red-400" />
 //           </div>
 //           <p className="lg:text-xl text-lg text-subheadingWhite max-w-lg mx-auto">Error: Invalid or missing Recipient ID provided in the URL.</p>
-            
+
 //             <Link href="/dashboard/recipients" className="text-primary hover:underline">Go back to Recipients</Link>
 //           </div>
 //         </div>
 //       );
 //   }
 
-
 //   if (loadingRecipient) {
 //     return (
 //       <div className="RecipientDetailsPage py-10">
 //         <Skeleton className="h-8 w-48 rounded-md mb-6" />
-        
+
 //             {/* Enhanced Skeleton Loading State */}
 //             <div className="flex flex-col mb-8 space-y-4">
 //                 <Skeleton className="w-20 h-20 rounded-full" />
@@ -2252,7 +2240,7 @@
 //                     </div>
 //                 ))}
 //              </div>
-        
+
 //       </div>
 //     );
 //   }
@@ -2618,7 +2606,6 @@
 
 // export default RecipientDetailsPage;
 
-
 // frontend/src/app/dashboard/recipients/[recipientId]/page.tsx
 "use client";
 import React, { useState, useEffect } from "react";
@@ -2631,7 +2618,13 @@ import DashboardHeader from "../../../components/layout/DashboardHeader"; // Ass
 import DeleteRecipientModal from "@/app/dashboard/components/DeleteRecipientModal";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton
-import { AlertCircle, AlertTriangle, ReceiptText, ReceiptTextIcon } from "lucide-react";
+import {
+  AlertCircle,
+  AlertTriangle,
+  ReceiptText,
+  ReceiptTextIcon,
+} from "lucide-react";
+import { FaExclamationCircle } from "react-icons/fa";
 
 // Define the structure for the Currency object
 interface Currency {
@@ -2656,7 +2649,6 @@ interface Recipient {
   // Add any other relevant properties returned by the API
 }
 
-
 interface RecipientDetailsPageProps {
   // No explicit props needed if using useParams
 }
@@ -2664,11 +2656,14 @@ interface RecipientDetailsPageProps {
 const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
   const params = useParams();
   // Ensure recipientId is treated as a string. Handle potential undefined/array.
-  const recipientId = typeof params.recipientId === 'string' ? params.recipientId : '';
+  const recipientId =
+    typeof params.recipientId === "string" ? params.recipientId : "";
   const { token } = useAuth();
   const router = useRouter();
 
-  const [currentRecipient, setCurrentRecipient] = useState<Recipient | null>(null);
+  const [currentRecipient, setCurrentRecipient] = useState<Recipient | null>(
+    null
+  );
   const [isNicknamePopupOpen, setIsNicknamePopupOpen] = useState(false);
   const [nicknameInput, setNicknameInput] = useState("");
   const [loadingRecipient, setLoadingRecipient] = useState(true);
@@ -2678,23 +2673,29 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
   useEffect(() => {
     const fetchRecipientDetails = async () => {
       if (!token || !recipientId) {
-         setLoadingRecipient(false);
-         if (!recipientId) {
-             setError("Invalid or missing Recipient ID.");
-             console.error("Recipient ID is missing or invalid:", params.recipientId);
-         } else {
-             // No token case - might redirect later or rely on AuthProvider context
-             setError("Authentication required.");
-             // Potentially redirect to login if preferred: router.replace('/auth/login');
-         }
-         return;
+        setLoadingRecipient(false);
+        if (!recipientId) {
+          setError("Invalid or missing Recipient ID.");
+          console.error(
+            "Recipient ID is missing or invalid:",
+            params.recipientId
+          );
+        } else {
+          // No token case - might redirect later or rely on AuthProvider context
+          setError("Authentication required.");
+          // Potentially redirect to login if preferred: router.replace('/auth/login');
+        }
+        return;
       }
 
       setLoadingRecipient(true);
       setError(null);
       try {
         // Use recipientId directly here
-        const data: Recipient = await recipientService.getRecipientById(recipientId, token);
+        const data: Recipient = await recipientService.getRecipientById(
+          recipientId,
+          token
+        );
         // Ensure API response includes _id if you use it elsewhere
         // If API uses 'id', map it: const mappedData = { ...data, _id: data.id };
         setCurrentRecipient(data);
@@ -2703,10 +2704,14 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
         let errorMessage = "Failed to load recipient details.";
         if (err instanceof Error) {
           errorMessage = err.message;
-        } else if (typeof err === 'string') {
+        } else if (typeof err === "string") {
           errorMessage = err;
-        } else if (typeof err === 'object' && err !== null && 'message' in err) {
-            errorMessage = String((err as { message: unknown }).message);
+        } else if (
+          typeof err === "object" &&
+          err !== null &&
+          "message" in err
+        ) {
+          errorMessage = String((err as { message: unknown }).message);
         }
         setError(errorMessage);
         console.error("Error fetching recipient details:", err);
@@ -2716,50 +2721,57 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
     };
 
     fetchRecipientDetails();
-  // Add params.recipientId to dependency array to refetch if the ID changes client-side
+    // Add params.recipientId to dependency array to refetch if the ID changes client-side
   }, [token, recipientId, params.recipientId, router]);
 
   // Handle invalid ID more explicitly after attempting fetch or validation
   if (!recipientId && !loadingRecipient) {
-       return (
-        <div className="RecipientDetailsPage py-10">
-          <DashboardHeader title="Recipients" />
-          <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
-            <div className="lg:size-16 size-14 flex items-center justify-center bg-red-600 dark:bg-transparent dark:bg-gradient-to-t dark:from-red-600 rounded-full mb-2">
-            <AlertTriangle className="lg:size-8 size-6 mx-auto text-white dark:text-red-400" />
+    return (
+      <div className="RecipientDetailsPage py-10">
+        <div className="bg-red-900/25 border border-red-500 rounded-xl sm:p-6 p-4 space-y-4 min-h-[300px] flex flex-col justify-center items-center gap-3">
+          <div className="lg:size-16 size-14 rounded-full flex items-center justify-center bg-red-600/20">
+            <AlertTriangle className="text-red-500 lg:size-8 size-6 mx-auto flex-shrink-0" />
           </div>
-          <p className="lg:text-xl text-lg text-subheadingWhite max-w-lg mx-auto">Error: Invalid or missing Recipient ID provided in the URL.</p>
-            
-            <Link href="/dashboard/recipients" className="text-primary hover:underline">Go back to Recipients</Link>
-          </div>
+          <p className="lg:text-xl text-lg text-subheadingWhite max-w-lg text-center">
+            Error: Invalid or missing Recipient ID provided in the URL.
+          </p>
+          <span>
+            <Link
+              href="/dashboard/recipients"
+              className="text-primary underline underline-offset-2"
+            >
+              Go back to Recipients
+            </Link>
+          </span>
         </div>
-      );
+      </div>
+    );
   }
-
 
   if (loadingRecipient) {
     return (
       <div className="RecipientDetailsPage">
         <Skeleton className="h-8 w-48 rounded-md mb-6" />
-            {/* Enhanced Skeleton Loading State */}
-            <div className="flex flex-col mb-8 space-y-4">
-                <Skeleton className="w-20 h-20 rounded-full" />
-                <Skeleton className="h-8 w-48 sm:w-64 rounded-md" />
-                <div className="flex items-center gap-4">
-                    <Skeleton className="w-32 h-10 rounded-full" />
-                    <Skeleton className="w-32 h-10 rounded-full" />
-                </div>
-            </div>
-             <Skeleton className="h-4 w-32 rounded-md mb-6" />
-             <div className="grid sm:grid-cols-2 gap-x-8 gap-y-6 mb-8  border-t py-6">
-                {Array(7).fill(0).map((_, i) => (
-                    <div key={i}>
-                        <Skeleton className="h-4 w-40 mb-2 rounded-md"/>
-                        <Skeleton className="h-2 w-26 rounded-md"/>
-                    </div>
-                ))}
-             </div>
-        
+        {/* Enhanced Skeleton Loading State */}
+        <div className="flex flex-col mb-8 space-y-4">
+          <Skeleton className="w-20 h-20 rounded-full" />
+          <Skeleton className="h-8 w-48 rounded-md" />
+          <div className="flex items-center gap-4">
+            <Skeleton className="w-32 h-10 rounded-full" />
+            <Skeleton className="w-32 h-10 rounded-full" />
+          </div>
+        </div>
+        <Skeleton className="h-4 w-32 rounded-md mb-2" />
+        <div className="grid sm:grid-cols-2 gap-x-8 gap-y-10 border-t py-3">
+          {Array(7)
+            .fill(0)
+            .map((_, i) => (
+              <div key={i}>
+                <Skeleton className="h-4 w-40 mb-2 rounded-md" />
+                <Skeleton className="h-2 w-26 rounded-md" />
+              </div>
+            ))}
+        </div>
       </div>
     );
   }
@@ -2767,41 +2779,45 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
   if (error || !currentRecipient) {
     return (
       <div className="RecipientDetailsPage py-10">
-        <DashboardHeader title="Recipients" />
-        <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
-          <div className="lg:size-16 size-14 flex items-center justify-center bg-red-600 dark:bg-transparent dark:bg-gradient-to-t dark:from-red-600 rounded-full mb-2">
-            <ReceiptText className="lg:size-8 size-6 mx-auto text-white dark:text-red-400" />
+        <div className="bg-red-900/25 border border-red-500 rounded-xl sm:p-6 p-4 space-y-4 min-h-[300px] flex flex-col justify-center items-center gap-3">
+          <div className="lg:size-16 size-14 rounded-full flex items-center justify-center bg-red-600/20">
+            <AlertTriangle className="text-red-500 lg:size-8 size-6 mx-auto flex-shrink-0" />
           </div>
-          <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
-            Error loading recipient
-          </h2>
-          <p className="text-subheadingWhite max-w-lg mx-auto">
-            {error || "Recipient not found."}{" "}
+          <p className="lg:text-xl text-lg text-subheadingWhite max-w-lg text-center">
+            Error: Invalid or missing Recipient ID provided in the URL.
+          </p>
+
+          <span>
             <Link
               href="/dashboard/recipients"
-              className="text-primary hover:underline"
+              className="text-primary underline underline-offset-2"
             >
               Go back to Recipients
             </Link>
-          </p>
+          </span>
         </div>
       </div>
     );
   }
 
   // --- Helper Functions ---
-  const getInitials = (accountHolderName: string | undefined | null): string => {
+  const getInitials = (
+    accountHolderName: string | undefined | null
+  ): string => {
     const name = (accountHolderName || "").trim();
     if (!name) return "?";
 
-    const nameParts = name.toUpperCase().split(" ").filter(part => part.length > 0);
+    const nameParts = name
+      .toUpperCase()
+      .split(" ")
+      .filter((part) => part.length > 0);
     if (nameParts.length === 0) return "?";
 
     let initials = nameParts[0][0];
     if (nameParts.length > 1) {
       initials += nameParts[nameParts.length - 1][0];
     } else if (nameParts[0].length > 1) {
-        initials += nameParts[0][1];
+      initials += nameParts[0][1];
     }
     return initials;
   };
@@ -2817,42 +2833,43 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
 
   const handleSaveNickname = async () => {
     if (!token || !recipientId || !currentRecipient) {
-        setError("Cannot save nickname. Missing required information.");
-        return;
+      setError("Cannot save nickname. Missing required information.");
+      return;
     }
 
     // Basic validation example (can be more complex)
     if (nicknameInput.trim().length > 40) {
-        setError("Nickname cannot exceed 40 characters.");
-        // Optionally keep the popup open
-        return;
+      setError("Nickname cannot exceed 40 characters.");
+      // Optionally keep the popup open
+      return;
     }
 
     setIsNicknamePopupOpen(false);
     // Consider a specific loading state for the nickname save action
     // setLoadingNickname(true);
     try {
-      const updatedRecipient: Recipient = await recipientService.updateRecipient(
-        recipientId, // Use the validated recipientId
-        { nickname: nicknameInput.trim() || null },
-        token
-      );
+      const updatedRecipient: Recipient =
+        await recipientService.updateRecipient(
+          recipientId, // Use the validated recipientId
+          { nickname: nicknameInput.trim() || null },
+          token
+        );
       setCurrentRecipient(updatedRecipient);
       // Keep nicknameInput as the saved value
     } catch (err: unknown) {
       let errorMessage = "Failed to update nickname.";
-       if (err instanceof Error) {
-          errorMessage = err.message;
-        } else if (typeof err === 'string') {
-          errorMessage = err;
-        } else if (typeof err === 'object' && err !== null && 'message' in err) {
-             errorMessage = String((err as { message: unknown }).message);
-        }
+      if (err instanceof Error) {
+        errorMessage = err.message;
+      } else if (typeof err === "string") {
+        errorMessage = err;
+      } else if (typeof err === "object" && err !== null && "message" in err) {
+        errorMessage = String((err as { message: unknown }).message);
+      }
       setError(errorMessage);
       console.error("Error updating nickname:", err);
       setIsNicknamePopupOpen(true); // Re-open popup on error
     } finally {
-        // setLoadingNickname(false);
+      // setLoadingNickname(false);
     }
   };
 
@@ -2866,9 +2883,9 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
 
   const handleConfirmDeleteRecipient = async () => {
     if (!token || !recipientId) {
-        setError("Cannot delete recipient. Missing required information.");
-        setIsDeleteModalOpen(false);
-        return;
+      setError("Cannot delete recipient. Missing required information.");
+      setIsDeleteModalOpen(false);
+      return;
     }
     setIsDeleteModalOpen(false);
     setLoadingRecipient(true); // Use main loading state or a specific delete loading state
@@ -2881,12 +2898,12 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
     } catch (err: unknown) {
       let errorMessage = "Failed to delete recipient.";
       if (err instanceof Error) {
-          errorMessage = err.message;
-        } else if (typeof err === 'string') {
-          errorMessage = err;
-        } else if (typeof err === 'object' && err !== null && 'message' in err) {
-             errorMessage = String((err as { message: unknown }).message);
-        }
+        errorMessage = err.message;
+      } else if (typeof err === "string") {
+        errorMessage = err;
+      } else if (typeof err === "object" && err !== null && "message" in err) {
+        errorMessage = String((err as { message: unknown }).message);
+      }
       setError(errorMessage);
       console.error("Error deleting recipient:", err);
       setLoadingRecipient(false); // Turn off loading only on error
@@ -2894,14 +2911,15 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
   };
 
   // Use nickname if available, otherwise fall back to account holder name
-  const displayName = currentRecipient.nickname || currentRecipient.accountHolderName;
+  const displayName =
+    currentRecipient.nickname || currentRecipient.accountHolderName;
   const initials = getInitials(displayName); // Use display name for initials
 
   // --- Render ---
   return (
     <section className="Recipient-Details-Page">
-      <DashboardHeader title="Recipients"/>
-      <div className="">
+      <DashboardHeader title="Recipients" />
+      <div>
         {/* Profile Section */}
         <div className="flex flex-col mb-8 space-y-4">
           <div className="relative size-20 rounded-full bg-[#52636C] flex items-center justify-center">
@@ -2912,13 +2930,19 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
             {currentRecipient.currency?.code && (
               <div className="absolute bottom-1 right-0 w-6 h-6 rounded-full overflow-hidden border-2 border-white">
                 <Image
-                  src={currentRecipient.currency.flagImage || `/assets/icon/${currentRecipient.currency.code.toLowerCase()}.svg`}
+                  src={
+                    currentRecipient.currency.flagImage ||
+                    `/assets/icon/${currentRecipient.currency.code.toLowerCase()}.svg`
+                  }
                   alt={`${currentRecipient.currency.code} flag`}
                   width={24}
                   height={24}
                   unoptimized // Consider if optimization is needed based on source
                   onError={(e) => {
-                    console.error(`Error loading flag for ${currentRecipient.currency.code}:`, e.currentTarget.src);
+                    console.error(
+                      `Error loading flag for ${currentRecipient.currency.code}:`,
+                      e.currentTarget.src
+                    );
                     e.currentTarget.src = "/assets/icon/default.svg"; // Fallback image
                     e.currentTarget.alt = "Default flag";
                   }}
@@ -2934,9 +2958,15 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
           <div className="flex items-center gap-4">
             {/* === MODIFIED LINK FOR SEND BUTTON === */}
             <Link
-              href={recipientId ? `/dashboard/send/select-balance?recipientId=${recipientId}` : '#'} // Add recipientId as query param
+              href={
+                recipientId
+                  ? `/dashboard/send/select-balance?recipientId=${recipientId}`
+                  : "#"
+              } // Add recipientId as query param
               onClick={(e) => !recipientId && e.preventDefault()} // Prevent navigation if recipientId is somehow missing
-              className={`font-medium bg-primary text-neutral-900 rounded-full sm:w-32 w-full h-10 flex items-center justify-center cursor-pointer hover:bg-primaryhover transition-colors duration-200 ${!recipientId ? 'opacity-50 cursor-not-allowed' : ''}`} // Disable visually if no ID
+              className={`font-medium bg-primary text-neutral-900 rounded-full sm:w-32 w-full h-10 flex items-center justify-center cursor-pointer hover:bg-primaryhover transition-colors duration-200 ${
+                !recipientId ? "opacity-50 cursor-not-allowed" : ""
+              }`} // Disable visually if no ID
               aria-disabled={!recipientId}
             >
               Send
@@ -2961,7 +2991,7 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
             {/* Account Holder Name */}
             <div>
               <label className="block font-semibold text-white">
-                Account holder name 
+                Account holder name
               </label>
               <p className="mt-1 text-sm text-subheadingWhite break-words">
                 {currentRecipient.accountHolderName}
@@ -2969,9 +2999,7 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
             </div>
             {/* Nickname */}
             <div>
-              <label className="block font-semibold text-white">
-                Nickname
-              </label>
+              <label className="block font-semibold text-white">Nickname</label>
               <div className="flex items-center gap-4 mt-1">
                 {currentRecipient.nickname ? (
                   <div className="flex items-center gap-2 flex-wrap">
@@ -3003,7 +3031,8 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
                 Account type
               </label>
               <p className="mt-1 text-sm text-subheadingWhite break-words">
-                {currentRecipient.accountType || "N/A"} {/* Handle potential missing value */}
+                {currentRecipient.accountType || "N/A"}{" "}
+                {/* Handle potential missing value */}
               </p>
             </div>
             {/* IFSC Code */}
@@ -3012,7 +3041,8 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
                 IFSC code
               </label>
               <p className="mt-1 text-sm text-subheadingWhite break-words">
-                {currentRecipient.ifscCode || "N/A"} {/* Handle potential missing value */}
+                {currentRecipient.ifscCode || "N/A"}{" "}
+                {/* Handle potential missing value */}
               </p>
             </div>
             {/* Account Number */}
@@ -3021,7 +3051,8 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
                 Account number
               </label>
               <p className="mt-1 text-sm text-subheadingWhite break-words">
-                {currentRecipient.accountNumber || "N/A"} {/* Handle potential missing value */}
+                {currentRecipient.accountNumber || "N/A"}{" "}
+                {/* Handle potential missing value */}
               </p>
             </div>
             {/* Email (Optional) */}
@@ -3035,6 +3066,7 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
                 </p>
               </div>
             )}
+
             {/* Bank Name (Optional) */}
             {currentRecipient.bankName && (
               <div>
@@ -3046,6 +3078,7 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
                 </p>
               </div>
             )}
+
             {/* Address (Optional) */}
             {currentRecipient.address && (
               <div className="sm:col-span-2">
@@ -3081,14 +3114,14 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
             <input
               type="text"
               id="nickname"
-              className="mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all ease-linear duration-75 focus:outline-none focus:border-[#5f5f5f]"
+              className="block px-4 mt-1 py-3 bg-primarybox border  text-white placeholder-gray-400 h-14 w-full rounded-lg focus:outline-none transition-all duration-75 ease-linear pr-10"
               placeholder="E.g., Savings, John Doe USD"
               maxLength={40}
               value={nicknameInput}
               onChange={(e) => {
                 setNicknameInput(e.target.value);
                 // Clear error instantly when user types
-                if (error?.toLowerCase().includes('nickname')) setError(null);
+                if (error?.toLowerCase().includes("nickname")) setError(null);
               }}
               aria-describedby="nickname-char-count nickname-error"
             />
@@ -3099,15 +3132,20 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
               {nicknameInput.length}/40 characters
             </p>
             {/* Display nickname-specific errors here */}
-            {error?.toLowerCase().includes('nickname') && (
-                <p id="nickname-error" className="mt-1 text-red-500 text-xs">{error}</p>
+            {error?.toLowerCase().includes("nickname") && (
+              <p id="nickname-error" className="mt-1 text-red-500 text-xs">
+                {error}
+              </p>
             )}
           </div>
           <button
             className="inline-flex justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed font-medium rounded-full px-8 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear"
             onClick={handleSaveNickname}
             // Disable save if nickname hasn't changed or during loading
-            disabled={loadingRecipient || nicknameInput === (currentRecipient.nickname || "")}
+            disabled={
+              loadingRecipient ||
+              nicknameInput === (currentRecipient.nickname || "")
+            }
           >
             Save
           </button>

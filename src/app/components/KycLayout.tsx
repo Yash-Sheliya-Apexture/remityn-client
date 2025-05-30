@@ -60,7 +60,6 @@
 
 // export default KycLayout;
 
-
 // // frontend/src/app/kyc/components/KycLayout.tsx
 // 'use client';
 
@@ -177,22 +176,22 @@
 // export default KycLayoutComponent;
 
 // frontend/src/app/kyc/components/KycLayout.tsx
-'use client';
+"use client";
 
-import React, { useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { motion, AnimatePresence } from 'framer-motion';
-import KycHeader from './KycHeader';
-import KycStepper from './KycStepper';
-import { useKyc } from '../contexts/KycContext'; // Use correct relative path
-import { useAuth } from '@/app/contexts/AuthContext';
-import { Loader2 } from 'lucide-react';
+import React, { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { motion, AnimatePresence } from "framer-motion";
+import KycHeader from "./KycHeader";
+import KycStepper from "./KycStepper";
+import { useKyc } from "../contexts/KycContext"; // Use correct relative path
+import { useAuth } from "@/app/contexts/AuthContext";
+import { Loader2 } from "lucide-react";
 
 interface KycLayoutProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
-const pageVariants = { /* ... (no changes needed) ... */
+const pageVariants = {
     initial: { opacity: 0, y: 20, scale: 0.98 },
     in: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.4, ease: [0.4, 0, 0.2, 1] } },
     out: { opacity: 0, y: -20, scale: 0.98, transition: { duration: 0.3, ease: [0.4, 0, 1, 1] } },
@@ -200,88 +199,94 @@ const pageVariants = { /* ... (no changes needed) ... */
 
 // --- Loading Component ---
 const KycLayoutLoading = () => (
-    <div className="fixed inset-0 z-[150] flex justify-center items-center bg-background/90 backdrop-blur-sm">
-        <div className="text-center">
-            <Loader2 className="h-10 w-10 animate-spin text-primary mb-3 mx-auto" />
-            <p className="text-lg font-semibold text-muted-foreground">Loading Session...</p>
-        </div>
+  <div className="fixed inset-0 z-[150] flex justify-center items-center bg-background/90 backdrop-blur-sm">
+    <div className="text-center">
+      <Loader2 className="h-10 w-10 animate-spin text-primary mb-3 mx-auto" />
+      <p className="text-lg font-medium text-mainheadingWhite">
+        Loading Session...
+      </p>
     </div>
+  </div>
 );
 
 const KycLayoutComponent: React.FC<KycLayoutProps> = ({ children }) => {
-    const pathname = usePathname();
-    const router = useRouter();
-    // Get state from KycContext for stepper visibility
-    const { currentUiStepId, isInitialized: kycInitialized } = useKyc();
-    // Get auth state for loading and user check
-    const { user, loading: authLoading } = useAuth();
+  const pathname = usePathname();
+  const router = useRouter();
+  // Get state from KycContext for stepper visibility
+  const { currentUiStepId, isInitialized: kycInitialized } = useKyc();
+  // Get auth state for loading and user check
+  const { user, loading: authLoading } = useAuth();
 
-    // Determine if the stepper should be visible based on KycContext UI step
-    const showStepper = kycInitialized && ['personal', 'details', 'identity', 'upload', 'review'].includes(currentUiStepId);
-
-    // --- Authentication Check Effect ---
-    useEffect(() => {
-        // If auth is still loading, wait.
-        if (authLoading) return;
-
-        // If auth finished and NO user, redirect to login.
-        // This ensures unauthenticated users are immediately sent away from /kyc/* routes.
-        if (!user) {
-            // console.log(`KycLayout: No user detected after auth load (path: ${pathname}). Redirecting to login.`);
-            const loginUrl = `/auth/login?redirect=${encodeURIComponent(pathname)}`;
-            router.replace(loginUrl); // Use replace to avoid pushing KYC page to history
-        }
-        // If user exists, proceed to render content below.
-    }, [user, authLoading, router, pathname]);
-
-    // --- Render Logic ---
-
-    // 1. Show global loader ONLY while AuthContext is loading.
-    if (authLoading) {
-        return <KycLayoutLoading />;
-    }
-
-    // 2. If Auth is done loading, but there's no user,
-    // render a minimal loading/redirect state while the effect redirects.
-    // This prevents rendering the layout briefly before the redirect happens.
-    if (!user) {
-        return (
-             <div className="fixed inset-0 z-[150] flex justify-center items-center bg-background/90 backdrop-blur-sm">
-                 <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-             </div>
-         );
-    }
-
-    // 3. Render the actual KYC layout ONLY if authenticated.
-    // The KycProvider's internal logic will handle redirection based on KYC status if needed.
-    return (
-        <div className="flex flex-col min-h-screen bg-white dark:bg-background">
-            <KycHeader />
-            <main className="flex-grow container mx-auto px-4 py-5 md:py-10 flex flex-col items-center">
-                {/* Show stepper only if KYC context is initialized and on a form step */}
-                {showStepper && (
-                    <div className="w-full max-w-3xl ">
-                        <KycStepper />
-                    </div>
-                )}
-
-                {/* AnimatePresence helps with page transitions within the layout */}
-                <AnimatePresence mode="wait">
-                    <motion.div
-                        key={pathname} // Key based on path for animation
-                        initial="initial"
-                        animate="in"
-                        exit="out"
-                        variants={pageVariants}
-                        className="w-full flex justify-center"
-                    >
-                        {/* Render the specific KYC page content passed as children */}
-                        {children}
-                    </motion.div>
-                </AnimatePresence>
-            </main>
-        </div>
+  // Determine if the stepper should be visible based on KycContext UI step
+  const showStepper =
+    kycInitialized &&
+    ["personal", "details", "identity", "upload", "review"].includes(
+      currentUiStepId
     );
+
+  // --- Authentication Check Effect ---
+  useEffect(() => {
+    // If auth is still loading, wait.
+    if (authLoading) return;
+
+    // If auth finished and NO user, redirect to login.
+    // This ensures unauthenticated users are immediately sent away from /kyc/* routes.
+    if (!user) {
+      // console.log(`KycLayout: No user detected after auth load (path: ${pathname}). Redirecting to login.`);
+      const loginUrl = `/auth/login?redirect=${encodeURIComponent(pathname)}`;
+      router.replace(loginUrl); // Use replace to avoid pushing KYC page to history
+    }
+    // If user exists, proceed to render content below.
+  }, [user, authLoading, router, pathname]);
+
+  // --- Render Logic ---
+
+  // 1. Show global loader ONLY while AuthContext is loading.
+  if (authLoading) {
+    return <KycLayoutLoading />;
+  }
+
+  // 2. If Auth is done loading, but there's no user,
+  // render a minimal loading/redirect state while the effect redirects.
+  // This prevents rendering the layout briefly before the redirect happens.
+  if (!user) {
+    return (
+      <div className="fixed inset-0 z-[150] flex justify-center items-center bg-background/90 backdrop-blur-sm">
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+      </div>
+    );
+  }
+
+  // 3. Render the actual KYC layout ONLY if authenticated.
+  // The KycProvider's internal logic will handle redirection based on KYC status if needed.
+  return (
+    <div className="flex flex-col min-h-screen">
+      <KycHeader />
+      <main className="flex-grow container mx-auto px-4 py-5 md:py-10 flex flex-col items-center">
+        {/* Show stepper only if KYC context is initialized and on a form step */}
+        {showStepper && (
+          <div className="w-full max-w-3xl ">
+            <KycStepper />
+          </div>
+        )}
+
+        {/* AnimatePresence helps with page transitions within the layout */}
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={pathname} // Key based on path for animation
+            initial="initial"
+            animate="in"
+            exit="out"
+            variants={pageVariants}
+            className="w-full flex justify-center"
+          >
+            {/* Render the specific KYC page content passed as children */}
+            {children}
+          </motion.div>
+        </AnimatePresence>
+      </main>
+    </div>
+  );
 };
 
 export default KycLayoutComponent;

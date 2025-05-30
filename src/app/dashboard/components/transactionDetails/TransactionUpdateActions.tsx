@@ -158,17 +158,17 @@ const TransactionUpdateActions: React.FC<TransactionUpdateActionsProps> = ({
       {/* --- Action: Confirm Payment --- */}
       {shouldRenderConfirmPayment && (
         <div className="mb-6">
-          <h3 className="text-base font-semibold mb-2 text-neutral-900 dark:text-white">
+          <h3 className="text-base font-semibold mb-2 text-mainheadingWhite">
             Have you sent the payment?
           </h3>
-          <p className="text-sm text-gray-500 dark:text-gray-300 mb-4">
+          <p className="text-sm text-subheadingWhite mb-4">
             Find bank details in the{" "}
             <button onClick={onSwitchToDetailsTab} className="text-primary hover:underline font-medium cursor-pointer">Details tab</button>.
             Once transferred, click below.
           </p>
           {/* Error specific to Confirm Payment */}
           {submissionError && !isCancellationError && ( // Show only if not a cancellation error
-             <p className="mb-4 text-sm text-center text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-2 rounded border border-red-200 dark:border-red-700/40">
+             <p className="mb-4 text-sm text-center text-red-400 bg-red-900/20 p-2 rounded border border-red-700/40">
                {submissionError}
              </p>
           )}
@@ -178,7 +178,7 @@ const TransactionUpdateActions: React.FC<TransactionUpdateActionsProps> = ({
               <button
                 onClick={onOpenCancelModal}
                 disabled={isSubmitting} // Disable if any action is submitting
-                className="order-2 sm:order-1 px-4 py-2 bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary rounded-full transition-all duration-75 ease-linear cursor-pointer disabled:opacity-50"
+                className="order-2 sm:order-1 px-4 py-2 text-primary bg-primarybox hover:bg-secondarybox rounded-full transition-all duration-75 ease-linear cursor-pointer disabled:opacity-50"
               >
                 Cancel Payment
               </button>
@@ -186,7 +186,7 @@ const TransactionUpdateActions: React.FC<TransactionUpdateActionsProps> = ({
             <button
               onClick={onConfirmPayment}
               disabled={isSubmitting} // Disable if any action is submitting
-              className="order-1 sm:order-2 px-4 py-2 w-full sm:w-auto bg-primary text-neutral-900 hover:bg-primaryhover rounded-full transition-all duration-75 ease-linear cursor-pointer disabled:opacity-50"
+              className="order-1 sm:order-2 px-4 py-2 w-full sm:w-auto bg-primary text-mainheading hover:bg-primaryhover rounded-full transition-all duration-75 ease-linear cursor-pointer disabled:opacity-50"
             >
               {isSubmitting ? "Processing..." : "Yes, I've Paid"}
             </button>
@@ -200,7 +200,7 @@ const TransactionUpdateActions: React.FC<TransactionUpdateActionsProps> = ({
         <div className="flex flex-col items-end gap-3"> {/* Use gap for button spacing */}
           {/* Error specifically from a failed cancellation attempt */}
           {isCancellationError && (
-            <p className="mb-1 w-full text-sm text-center text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-2 rounded border border-red-200 dark:border-red-700/40">
+            <p className="mb-1 w-full text-sm text-center text-red-400 bg-red-900/20 p-2 rounded border border-red-700/40">
               {submissionError}
             </p>
           )}
@@ -236,7 +236,7 @@ const TransactionUpdateActions: React.FC<TransactionUpdateActionsProps> = ({
       {/* --- Fallback Error Display --- */}
       {/* Shows error if it exists but NO actions were rendered */}
       {submissionError && !shouldRenderConfirmPayment && !shouldRenderCancelAction && (
-         <p className="text-sm text-center text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 p-3 rounded-md border border-red-200 dark:border-red-700/40">
+         <p className="text-sm text-center text-red-400 bg-red-900/20 p-3 rounded-md border border-red-700/40">
            {submissionError}
          </p>
       )}

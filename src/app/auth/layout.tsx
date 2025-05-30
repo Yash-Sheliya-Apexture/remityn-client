@@ -1,4 +1,4 @@
-//layout.tsx
+// app/auth/layout.tsx
 "use client";
 import React from "react";
 import "../globals.css";

@@ -4781,8 +4781,6 @@
 //   );
 // }
 
-
-
 // frontend/src/app/dashboard/balances/[balanceId]/send/amount/page.tsx
 "use client";
 import React, {
@@ -5138,7 +5136,7 @@ export default function SendAmountPage() {
     return (
       <div className="min-h-screen animate-pulse">
         <DashboardHeader title="Send Money" steps={steps} currentStep={2} />
-        <div className="mx-auto lg:max-w-xl p-4 sm:p-6 mt-5 border rounded-2xl bg-white dark:bg-background">
+        <div className="mx-auto lg:max-w-xl p-4 sm:p-6 mt-5 border rounded-2xl bg-background">
           <SkeletonAmountSection />
           <div className="space-y-2">
             <Skeleton className="h-6 w-30" />
@@ -5159,15 +5157,15 @@ export default function SendAmountPage() {
       <div className="min-h-screen">
         <DashboardHeader title="Send Money" steps={steps} currentStep={2} />
         <div className="py-8">
-          <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-4 flex items-center gap-3">
+          <div className="bg-red-900/25 border border-red-500 rounded-lg p-4 flex items-center gap-3">
             <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
-              <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+              <AlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
             </div>
             <div className="flex items-center">
-              <span className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
+              <span className="font-medium tracking-normal text-red-200 text-base">
                 Error!
               </span>
-              <span className="ml-2 block sm:inline text-red-700 dark:text-red-300/90">
+              <span className="ml-2 block sm:inline text-red-300/90">
                 {criticalError}
               </span>
             </div>
@@ -5179,7 +5177,7 @@ export default function SendAmountPage() {
                   ? `/dashboard/balances/${balanceId}/send/select-recipient`
                   : "/dashboard"
               }
-              className="mt-6 inline-flex justify-center cursor-pointer bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 text-center sm:w-auto w-full transition-all duration-75 ease-linear"
+              className="mt-6 inline-flex justify-center cursor-pointer bg-primarybox hover:bg-secondarybox text-primary font-medium rounded-full px-8 py-3 text-center sm:w-auto w-full transition-all duration-75 ease-linear"
             >
               <IoIosArrowBack size={20} className="-ml-1 mr-1" /> Go back
             </Link>
@@ -5193,7 +5191,7 @@ export default function SendAmountPage() {
   return (
     <div className="SendAmount-Page">
       <DashboardHeader title="Send Money" steps={steps} currentStep={2} />
-      <div className="mx-auto lg:max-w-xl p-4 sm:p-6 mt-5 border rounded-2xl bg-white dark:bg-background">
+      <div className="mx-auto lg:max-w-xl p-4 sm:p-6 mt-5 border rounded-2xl bg-background">
         <RateDisplay
           rateContext={rateContext}
           apiError={apiError && !logicError ? apiError : null}
@@ -5209,7 +5207,7 @@ export default function SendAmountPage() {
               animate="visible"
               exit="exit"
             >
-              <div className="bg-lightgray dark:bg-primarybox rounded-xl lg:p-4 p-3 border-l-4 border-primary">
+              <div className="bg-primarybox rounded-xl lg:p-4 p-3 border-l-4 border-primary">
                 <div className="flex items-center gap-2">
                   <div className="bg-primary rounded-full p-2 flex-shrink-0">
                     <FaPiggyBank
@@ -5218,14 +5216,14 @@ export default function SendAmountPage() {
                     />
                   </div>
                   <div>
-                    <p className="font-bold text-neutral-900 dark:text-primary lg:text-base text-sm flex items-center gap-1">
+                    <p className="font-bold text-primary lg:text-base text-sm flex items-center gap-1">
                       <span>
                         Save up to {recipient.currency.code} {savingsAmount}{" "}
                         with Remityn
                       </span>
                       <TrendingUp size={18} />
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-300">
+                    <p className="text-sm text-subheadingWhite">
                       Better rates than traditional banks!
                     </p>
                   </div>
@@ -5257,12 +5255,10 @@ export default function SendAmountPage() {
             data-testid="send-amount-input"
           />
           <div className="text-right -mt-4 pr-4">
-            <span className="text-sm text-gray-500 dark:text-gray-300">
-              Available:{" "}
-            </span>
+            <span className="text-sm text-subheadingWhite">Available: </span>
             <button
               onClick={handleAvailableBalanceClick}
-              className="text-sm font-medium text-primary dark:text-primary cursor-pointer hover:underline focus:outline-none focus:underline disabled:opacity-50 disabled:cursor-not-allowed"
+              className="text-sm font-medium text-primary cursor-pointer hover:underline focus:outline-none focus:underline disabled:opacity-50 disabled:cursor-not-allowed"
               aria-label={`Use available balance: ${sourceAccount!.balance.toFixed(
                 2
               )} ${sourceAccount!.currency.code}`}
@@ -5300,8 +5296,8 @@ export default function SendAmountPage() {
             data-testid="receive-amount-input"
           />
           {recipient?.accountNumber && (
-            <p className="text-sm text-gray-500 dark:text-gray-300 text-right -mt-4 pr-4">
-              Account ending in {recipient.accountNumber.slice(-4)}
+            <p className="text-sm text-subheadingWhite text-right -mt-4 pr-4">
+              Account Number: <span className="text-sm font-medium text-primary">{recipient.accountNumber}</span>
             </p>
           )}
           <PayingWithDisplay sourceAccount={sourceAccount!} />
@@ -5310,8 +5306,8 @@ export default function SendAmountPage() {
             <div
               className={`relative flex justify-between items-center p-2 rounded-lg border ${
                 isInsufficientBalanceError
-                  ? "bg-red-50 dark:bg-red-900/25 border-red-500"
-                  : "bg-yellow-50 dark:bg-yellow-900/25 border-yellow-500"
+                  ? "bg-red-900/25 border-red-500"
+                  : "bg-yellow-900/25 border-yellow-500"
               }`}
               role="alert"
             >
@@ -5319,8 +5315,8 @@ export default function SendAmountPage() {
                 <div
                   className={`flex-shrink-0 size-10 rounded-full flex items-center justify-center ${
                     isInsufficientBalanceError
-                      ? "bg-red-600/20 text-red-600 dark:text-red-500"
-                      : "bg-yellow-600/20 text-yellow-600 dark:text-yellow-500"
+                      ? "bg-red-600/20 text-red-500"
+                      : "bg-yellow-600/20 text-yellow-500"
                   }`}
                 >
                   <IoIosInformationCircleOutline
@@ -5330,8 +5326,8 @@ export default function SendAmountPage() {
                 <span
                   className={`${
                     isInsufficientBalanceError
-                      ? "text-red-700 dark:text-red-300/90"
-                      : "text-yellow-700 dark:text-yellow-300/90"
+                      ? "text-red-300/90"
+                      : "text-yellow-300/90"
                   }`}
                 >
                   {displayError}
@@ -5346,8 +5342,8 @@ export default function SendAmountPage() {
                 }}
                 className={`ml-2 cursor-pointer p-2 rounded-full focus:outline-none ${
                   isInsufficientBalanceError
-                    ? " text-red-600 dark:text-red-500"
-                    : " text-yellow-600 dark:text-yellow-500"
+                    ? " text-red-500"
+                    : " text-yellow-500"
                 }`}
                 aria-label="Dismiss error message"
               >
@@ -5359,7 +5355,7 @@ export default function SendAmountPage() {
           <button
             onClick={handleContinue}
             disabled={!canContinue || isCalculating}
-            className={`flex items-center justify-center w-full bg-primary text-neutral-900 font-medium hover:bg-primaryhover space-x-3 py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
+            className={`flex items-center justify-center w-full bg-primary text-mainheading font-medium hover:bg-primaryhover space-x-3 py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
             data-testid="continue-button"
           >
             {isCalculating ? (

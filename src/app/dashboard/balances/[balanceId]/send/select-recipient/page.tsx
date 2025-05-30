@@ -647,7 +647,6 @@
 import React, { useState, ChangeEvent, useEffect, Suspense } from "react"; // Added Suspense
 import { FiSearch } from "react-icons/fi";
 import RecipientList from "@/app/dashboard/components/RecipientList"; // Check path
-import { FaCirclePlus } from "react-icons/fa6";
 import { IoIosArrowForward } from "react-icons/io";
 import { useParams, useRouter, useSearchParams } from "next/navigation"; // Added useSearchParams
 import { useAuth } from "../../../../../contexts/AuthContext"; // Adjust path
@@ -703,8 +702,6 @@ const SelectRecipientContent = () => {
   useEffect(() => {
     if (!isValidParam || !token) {
       if (isValidParam && !token) {
-        // If params are valid but token is missing, stop loading
-        // Redirect logic below will handle it
         setLoadingRecipients(false);
       }
       // If params invalid, error is already set, loading stopped above
@@ -715,9 +712,6 @@ const SelectRecipientContent = () => {
       setLoadingRecipients(true);
       setError(null);
       try {
-        // Fetch only recipients compatible with the balance currency?
-        // This might require backend changes or filtering here.
-        // For now, fetching all user recipients.
         const data: Recipient[] = await recipientService.getUserRecipients(
           token
         );
@@ -757,12 +751,6 @@ const SelectRecipientContent = () => {
   const filteredRecipients = recipients.filter((recipient) => {
     const nameToSearch =
       recipient.nickname || recipient.accountHolderName || "";
-    // Optional: Search other fields like email or bank name
-    // const emailToSearch = recipient.email || "";
-    // const bankToSearch = recipient.bankName || "";
-    // return nameToSearch.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //        emailToSearch.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    //        bankToSearch.toLowerCase().includes(searchTerm.toLowerCase());
     return nameToSearch.toLowerCase().includes(searchTerm.toLowerCase());
   });
 
@@ -805,7 +793,7 @@ const SelectRecipientContent = () => {
     );
     router.replace("/auth/login");
     return (
-      <div className="container mx-auto py-10 text-center">
+      <div className="container mx-auto py-10 text-center text-mainheadingWhite">
         Redirecting to login...
       </div>
     );
@@ -834,15 +822,15 @@ const SelectRecipientContent = () => {
   // Handle errors (fetch errors or invalid param errors)
   if (error) {
     return (
-      <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[200px] flex flex-col justify-center items-center">
-        <div className="lg:size-16 size-14 flex items-center justify-center bg-red-600 dark:bg-transparent dark:bg-gradient-to-t dark:from-red-500 rounded-full mb-2">
-          <BiSolidError className="lg:size-8 size-6 mx-auto text-white dark:text-red-400" />
+      <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+        <div className="lg:size-16 size-14 flex items-center justify-center bg-red-600 rounded-full mb-2">
+          <BiSolidError className="lg:size-8 size-6 mx-auto text-white" />
         </div>
 
-        <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+        <h2 className="lg:text-3xl text-2xl font-medium text-mainheadingWhite mt-1">
           Error Encountered
         </h2>
-        <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+        <p className="lg:text-lg text-base text-subheadingWhite max-w-xl mx-auto">
           {error} {/* Display the specific error message */} {/* Add a space */}
           Please{" "}
           <Link
@@ -859,14 +847,14 @@ const SelectRecipientContent = () => {
   // Handle case where balanceId was invalid (redundant check, but safe)
   if (!isValidParam) {
     return (
-      <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
-        <div className="lg:size-16 size-14 flex items-center justify-center bg-red-600 dark:bg-transparent dark:bg-gradient-to-t dark:from-red-500 rounded-full mb-2">
-          <BiSolidError className="lg:size-8 size-6 mx-auto text-white dark:text-red-400" />
+      <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+        <div className="lg:size-16 size-14 flex items-center justify-center bg-red-600 rounded-full mb-2">
+          <BiSolidError className="lg:size-8 size-6 mx-auto text-white" />
         </div>
-        <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+        <h2 className="lg:text-3xl text-2xl font-medium text-mainheadingWhite mt-1">
           Invalid Page Parameters
         </h2>
-        <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300 max-w-xl mx-auto">
+        <p className="lg:text-lg text-base text-subheadingWhite max-w-xl mx-auto">
           This page couldn't load correctly because the required balance
           information is missing. Please{""}
           <Link
@@ -884,21 +872,20 @@ const SelectRecipientContent = () => {
   return (
     <section className="SelectRecipient-Page">
       <div className="container mx-auto">
-        <h1 className="md:text-2xl text-xl lg:text-3xl font-semibold text-mainheading capitalize dark:text-white mb-4">
+        <h1 className="md:text-2xl text-xl lg:text-3xl font-semibold text-mainheadingWhite capitalize mb-4">
           Who are you sending money to?
         </h1>
-
         {/* Search Input */}
         <div className="mb-6 relative">
           <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
             <FiSearch
-              className="size-5 text-neutral-900 dark:text-white"
+              className="size-5 text-mainheadingWhite"
               aria-hidden="true"
             />
           </div>
           <input
             type="text"
-            className="w-full rounded-full h-12.5 py-3 pl-12 pr-10 border transition-all ease-linear duration-75 focus:outline-0 focus:border-[#5f5f5f] placeholder:text-neutral-900 dark:placeholder:text-white"
+            className="w-full rounded-full h-12.5 py-3 pl-12 pr-3  focus:outline-0 transition-all duration-75 ease-in-out placeholder:text-gray-400 border border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white bg-primarybox/50"
             placeholder="Search by name, email, or bank"
             value={searchTerm}
             onChange={handleSearchChange}
@@ -907,10 +894,10 @@ const SelectRecipientContent = () => {
           {searchTerm && (
             <button
               onClick={clearSearchTerm}
-              className="absolute inset-y-0 right-3 flex items-center text-neutral-900 dark:text-primary focus:outline-none cursor-pointer"
+              className="absolute inset-y-0 right-3 flex items-center text-primary focus:outline-none cursor-pointer"
               aria-label="Clear search"
             >
-              <MdCancel size={24} aria-hidden="true" />
+              <MdCancel size={22} aria-hidden="true" />
             </button>
           )}
         </div>
@@ -923,26 +910,26 @@ const SelectRecipientContent = () => {
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") handleAddRecipientClick();
           }}
-          className="flex items-center mb-4 bg-lightgray dark:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer"
+          className="flex items-center mb-4 bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer"
         >
           <div className="size-12.5 rounded-full bg-green-600/20 flex items-center justify-center shrink-0">
             <LuPlus className="text-green-600" size={28} />
           </div>
 
           <div className="ml-4 flex-grow">
-            <h5 className="font-medium md:text-lg text-base text-mainheading dark:text-white">
+            <h5 className="font-medium md:text-lg text-base text-mainheadingWhite">
               Add a new recipient
             </h5>
-            <p className="text-xs text-gray-700 dark:text-gray-300">
+            <p className="text-xs text-subheadingWhite">
               Add bank details for someone new.
             </p>
           </div>
-          <IoIosArrowForward className="h-5 w-5 text-neutral-900 dark:text-white shrink-0" />
+          <IoIosArrowForward className="h-5 w-5 text-mainheadingWhite shrink-0" />
         </div>
 
         {/* Recipient List or Empty/No Results Message */}
         {recipients.length === 0 && !searchTerm ? (
-          <div className="text-center text-gray-500 rounded-2xl dark:text-gray-300 text-lg bg-lightgray dark:bg-primarybox/50 py-10 mt-6">
+          <div className="text-center rounded-2xl text-mainheadingWhite text-lg bg-primarybox py-10 mt-6">
             <p className="font-medium">No recipients found.</p>
             <p className="text-sm mt-1">
               You haven't added any recipients yet. Click above to add someone.
@@ -950,7 +937,7 @@ const SelectRecipientContent = () => {
           </div>
         ) : filteredRecipients.length > 0 ? (
           <div>
-            <h3 className="font-medium text-gray-600 dark:text-white mb-3 relative after:content-[''] after:block after:w-full after:h-px after:bg-gray-200 dark:after:bg-primarybox after:mt-1">
+            <h3 className="font-medium text-mainheadingWhite mb-3 leading-8 border-b">
               Your Recipients
             </h3>
             <div className="space-y-2">
@@ -983,11 +970,11 @@ const SelectRecipientContent = () => {
         ) : (
           // Only show "No results" if there was a search term
           searchTerm && (
-            <div className="text-center text-gray-500 rounded-2xl dark:text-gray-300 text-base md:text-lg bg-lightgray dark:bg-primarybox/50 py-5">
+            <div className="text-center  rounded-2xl text-mainheadingWhite text-base md:text-lg bg-primarybox py-5">
               <p className="font-medium capitalize">
                 No recipients found matching '{searchTerm}'.
               </p>
-              <p className="text-sm mt-0.5">
+              <p className="text-sm mt-0.5 text-subheadingWhite">
                 Check the spelling or try adding them as a new recipient.
               </p>
             </div>

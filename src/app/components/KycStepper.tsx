@@ -421,7 +421,7 @@ export default function KycStepper() {
   return (
     <div className="w-full mb-8">
       {/* Floating card design */}
-      <div className="bg-white dark:bg-background rounded-xl p-3 sm:p-6 relative overflow-hidden">
+      <div className="p-3 sm:p-6 relative overflow-hidden">
 
         {/* Mobile stepper - visible only on extra small screens */}
         <div className="block sm:hidden relative z-10 mb-4">
@@ -433,7 +433,7 @@ export default function KycStepper() {
               {steps[currentStepIndex].label}
             </span>
           </div>
-          <div className="mt-3 w-full bg-gray-200 dark:bg-gray-700 h-2 rounded-full overflow-hidden">
+          <div className="mt-3 w-full bg-gray-700 h-2 rounded-full overflow-hidden">
             <motion.div 
               className="h-full bg-primary"
               initial={{ width: '0%' }}
@@ -493,7 +493,7 @@ export default function KycStepper() {
                         "relative flex h-12 w-12 md:h-16 md:w-16 items-center justify-center rounded-full",
                         status === 'complete' ? 'bg-primary/10' : 
                         status === 'current' ? 'bg-primary/10' : 
-                        'bg-gray-100 dark:bg-primarybox'
+                        'bg-primarybox'
                       )}
                       animate={{ 
                         scale: isCurrent ? [1, 1.05, 1] : 1,
@@ -509,9 +509,9 @@ export default function KycStepper() {
                       {/* Inner circle with icon */}
                       <motion.div
                         className={cn(
-                          "flex h-8 w-8 md:h-12 md:w-12 items-center justify-center rounded-full border-2",
-                          status === 'complete' ? 'border-primary bg-primary text-white' :
-                          status === 'current' ? 'border-primary text-white bg-primary' :
+                          "flex h-8 w-8 md:h-12 md:w-12 items-center justify-center text-subheadingWhite rounded-full border-2",
+                          status === 'complete' ? 'border-primary bg-primary text-mainheading' :
+                          status === 'current' ? 'border-primary text-mainheading bg-primary' :
                           ''
                         )}
                         whileHover={{ scale: 1.05 }}
@@ -530,7 +530,7 @@ export default function KycStepper() {
                       "text-xs md:text-sm font-medium mt-1 md:mt-2 text-center",
                       status === 'complete' ? 'text-primary' :
                       status === 'current' ? 'text-primary font-semibold' : 
-                      'text-gray-500 dark:text-gray-400'
+                      'text-subheadingWhite'
                     )}>
                       {step.label}
                     </span>
@@ -542,7 +542,7 @@ export default function KycStepper() {
         </nav>
         
         {/* Bottom progress indicator - visible only on larger screens */}
-        <div className="mt-4 sm:mt-6 w-full bg-lightborder dark:bg-primarybox h-1.5 rounded-full overflow-hidden hidden sm:block">
+        <div className="mt-4 sm:mt-6 w-full bg-primarybox h-1.5 rounded-full overflow-hidden hidden sm:block">
           <motion.div 
             className="h-full bg-primary"
             initial={{ width: '0%' }}

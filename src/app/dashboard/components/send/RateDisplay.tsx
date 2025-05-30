@@ -204,7 +204,7 @@ const RateDisplay: React.FC<RateDisplayProps> = ({ rateContext, apiError }) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   {/* The element that triggers the tooltip */}
-                  <div className="font-semibold sm:text-base text-sm p-2 sm:px-8 px-4 rounded-full bg-primary text-mainheading inline-flex items-center gap-1.5 cursor-default">
+                  <div className="font-medium sm:text-base text-sm p-2 sm:px-8 px-4 rounded-full bg-primary/25 text-primary inline-flex items-center gap-1.5 cursor-default">
                     <FaLock size={16} /> Our Rate: {adjustedRateDisplay}
                   </div>
                 </TooltipTrigger>
@@ -212,9 +212,9 @@ const RateDisplay: React.FC<RateDisplayProps> = ({ rateContext, apiError }) => {
                 <TooltipContent
                   side="bottom"
                   sideOffset={5}
-                  className="bg-[#e4e4e4] dark:bg-secondarybox text-white p-2 px-3 rounded-2xl max-w-60" // Copied styling
+                  className="bg-primarybox text-white p-2 px-3 rounded-2xl max-w-60" // Copied styling
                 >
-                  <p className="font-medium dark:text-white text-neutral-900 text-xs">
+                  <p className="text-subheadingWhite text-xs">
                     {" "}
                     {/* Copied styling */}
                     Rate includes Our Rate of {rateAdjustmentDisplay}%. This is
@@ -229,7 +229,7 @@ const RateDisplay: React.FC<RateDisplayProps> = ({ rateContext, apiError }) => {
               <Tooltip>
                 <TooltipTrigger asChild>
                   {/* The element that triggers the tooltip */}
-                  <div className="font-medium sm:text-sm text-13px p-2 px-4 rounded-full bg-lightgray dark:bg-primarybox text-mainheading dark:text-white inline-flex items-center gap-1.5 cursor-help">
+                  <div className="font-medium sm:text-sm text-13px p-2 px-4 rounded-full bg-blue-700/20 text-blue-500 inline-flex items-center gap-1.5 cursor-help">
                     <FaInfoCircle size={16} /> Market Rate: {liveRateDisplay}
                   </div>
                 </TooltipTrigger>
@@ -237,15 +237,17 @@ const RateDisplay: React.FC<RateDisplayProps> = ({ rateContext, apiError }) => {
                 <TooltipContent
                   side="bottom"
                   sideOffset={5}
-                  className="bg-[#e4e4e4] dark:bg-secondarybox text-white p-2 px-3 rounded-2xl max-w-47" // Copied styling
+                  className="bg-primarybox text-white p-2 px-3 rounded-2xl max-w-47" // Copied styling
                 >
-                  <p className="font-medium dark:text-white text-neutral-900 text-xs">
+                  <p className="text-subheadingWhite text-xs">
                     {" "}
                     {/* Copied styling */}
                     Current mid-market rate. For comparison purposes only.
                   </p>
                 </TooltipContent> 
+
               </Tooltip>
+              
             )}
           </>
         )}
@@ -254,7 +256,7 @@ const RateDisplay: React.FC<RateDisplayProps> = ({ rateContext, apiError }) => {
         {apiError &&
           apiError === "Failed to load initial exchange rates." &&
           !rateContext && ( // Only show if rateContext is truly null due to this error
-            <div className="text-xs p-1.5 px-2.5 rounded-md bg-red-50 border border-red-200 text-red-700 inline-flex items-center gap-1.5">
+            <div className="text-xs p-1.5 px-2.5 rounded-md bg-red-700/30 border border-red-500 text-red-400 inline-flex items-center gap-1.5">
               <AlertTriangle size={12} /> Error loading rates.
             </div>
           )}

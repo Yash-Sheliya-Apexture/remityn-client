@@ -2764,13 +2764,13 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
           </div>
         </div>
         <Skeleton className="h-4 w-32 rounded-md mb-2" />
-        <div className="grid sm:grid-cols-2 gap-x-8 gap-y-10 border-t py-3">
+        <div className="grid sm:grid-cols-2 gap-x-8 gap-y-14 py-3">
           {Array(7)
             .fill(0)
             .map((_, i) => (
               <div key={i}>
                 <Skeleton className="h-4 w-40 mb-2 rounded-md" />
-                <Skeleton className="h-2 w-26 rounded-md" />
+                <Skeleton className="h-3 w-26 rounded-md" />
               </div>
             ))}
         </div>
@@ -3149,14 +3149,14 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
           <div className="mb-4">
             <label
               htmlFor="nickname"
-              className="block font-semibold text-white/90 text-left"
+              className="block text-mainheadingWhite capitalize text-sm lg:text-base text-left"
             >
               Account nickname (Optional)
             </label>
             <input
               type="text"
               id="nickname"
-              className="block px-4 mt-1 py-3 bg-primarybox border  text-white placeholder-gray-400 h-14 w-full rounded-lg focus:outline-none transition-all duration-75 ease-linear pr-10"
+              className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500  text-white focus:outline-0"
               placeholder="E.g., Savings, John Doe USD"
               maxLength={40}
               value={nicknameInput}
@@ -3181,7 +3181,7 @@ const RecipientDetailsPage: React.FC<RecipientDetailsPageProps> = () => {
             )}
           </div>
           <button
-            className="inline-flex justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed font-medium rounded-full px-8 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear"
+            className="inline-flex justify-center cursor-pointer bg-primary hover:bg-primaryhover text-mainheading focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed font-medium rounded-full px-8 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear"
             onClick={handleSaveNickname}
             // Disable save if nickname hasn't changed or during loading
             disabled={

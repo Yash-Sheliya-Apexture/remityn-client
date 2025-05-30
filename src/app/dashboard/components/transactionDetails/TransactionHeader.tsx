@@ -18,7 +18,7 @@ const TransactionHeader: React.FC<TransactionHeaderProps> = ({
 }) => {
     const isPayment = transaction.type === 'payment';
 
-    const headerIcon = isPayment ? <LuPlus size={24} className="text-neutral-900 dark:text-white"/> : <GoArrowUp size={24} className="text-neutral-900 dark:text-white"/>;
+    const headerIcon = isPayment ? <LuPlus size={24} className="text-mainheadingWhite"/> : <GoArrowUp size={24} className="text-mainheadingWhite"/>;
     const headerTitle = isPayment
         ? `To your ${(transaction as PaymentDetails).balanceCurrency?.code ?? 'Balance'}`
         : (transaction as TransferDetails).recipient?.accountHolderName || "Outgoing Transfer";
@@ -30,7 +30,7 @@ const TransactionHeader: React.FC<TransactionHeaderProps> = ({
     return (
         <div className="sm:p-6 p-4 flex items-start gap-4 border-b">
             {/* Icon container */}
-            <div className={cn("p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center")}>
+            <div className={cn("p-3 bg-primarybox rounded-full flex items-center justify-center")}>
                 {headerIcon}
             </div>
 
@@ -38,7 +38,7 @@ const TransactionHeader: React.FC<TransactionHeaderProps> = ({
             <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
                 {/* Left side: Title and Status */}
                 <div className="text-wrap mr-2">
-                    <h2 className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg">
+                    <h2 className="font-medium leading-relaxed text-mainheadingWhite sm:text-lg">
                         {headerTitle}
                     </h2>
                     <p className={cn("text-sm mt-1", statusColorClass)}>
@@ -49,7 +49,7 @@ const TransactionHeader: React.FC<TransactionHeaderProps> = ({
                 {/* Right side: Amount */}
                 <div className={cn(
                     "font-medium whitespace-nowrap",
-                    isPayment ? 'text-green-600 dark:text-green-500' : 'text-neutral-900 dark:text-white'
+                    isPayment ? 'text-green-500' : 'text-mainheadingWhite'
                 )}>
                     {headerAmountSign} {headerAmount}
                 </div>

@@ -107,7 +107,6 @@ import { TimelineStep } from '../../../../types/transaction';
 import { Button } from "@/components/ui/button";
 import { MdErrorOutline } from "react-icons/md";
 import { FaCheck, FaRegClock } from "react-icons/fa";
-import { IoMdTime } from "react-icons/io";
 import { motion } from "framer-motion";
 
 interface TransactionTimelineProps {
@@ -127,10 +126,10 @@ const TransactionTimeline: React.FC<TransactionTimelineProps> = ({
 }) => {
     if (!steps || steps.length === 0) {
         return (
-            <div className="flex items-center justify-center p-8 rounded-lg border border-dashed border-gray-300 dark:border-gray-700">
+            <div className="flex items-center justify-center p-8 rounded-lg border border-dashed">
                 <div className="text-center">
-                    <IoMdTime className="mx-auto h-10 w-10 text-gray-400 dark:text-gray-500" />
-                    <p className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                    <FaRegClock className="mx-auto h-10 w-10 text-white" />
+                    <p className="mt-2 text-sm font-medium text-subheadingWhite">
                         Status updates are currently unavailable
                     </p>
                 </div>
@@ -140,9 +139,11 @@ const TransactionTimeline: React.FC<TransactionTimelineProps> = ({
 
     return (
         <div className="relative mt-6">
+
+            
             <div className="relative">
                 {/* Continuous vertical line running through all steps */}
-                <div className="absolute left-4 top-4 bottom-4 w-1 bg-gray-300 dark:bg-gray-600 -z-10"></div>
+                <div className="absolute left-1.5 top-4 bottom-4 w-1 bg-gray-600 -z-10"></div>
                 
                 <ul className="relative z-0">
                     {steps.map((step, index) => (
@@ -158,7 +159,7 @@ const TransactionTimeline: React.FC<TransactionTimelineProps> = ({
                                 <div 
                                     className={cn(
                                         "absolute left-[7px] top-0 h-full w-[2px] -z-10",
-                                        "bg-lightgray dark:bg-secondarybox"
+                                        "bg-secondarybox"
                                     )}
                                     aria-hidden="true"
                                 ></div>
@@ -184,17 +185,17 @@ const TransactionTimeline: React.FC<TransactionTimelineProps> = ({
                                 <div className="flex items-center mb-1">
                                     <h4 className={cn(
                                         "text-sm font-semibold tracking-wide",
-                                        step.status === 'pending' ? 'text-gray-500 dark:text-gray-400' :
-                                        step.status === 'active' ? 'text-blue-600 dark:text-blue-400' :
-                                        (step.status === 'failed' || step.status === 'cancelled') ? 'text-red-600 dark:text-red-400' :
-                                        'text-gray-900 dark:text-white'
+                                        step.status === 'pending' ? 'text-subheadingWhite/80' :
+                                        step.status === 'active' ? 'text-blue-600' :
+                                        (step.status === 'failed' || step.status === 'cancelled') ? 'text-red-600' :
+                                        'text-mainheadingWhite'
                                     )}>
                                         {step.label}
                                     </h4>
                                 </div>
                                 
                                 {step.date && (
-                                    <p className="text-xs font-medium text-gray-500 dark:text-gray-400 mb-2">
+                                    <p className="text-xs font-medium text-subheadingWhite mb-2">
                                         {step.date}
                                     </p>
                                 )}
@@ -203,11 +204,11 @@ const TransactionTimeline: React.FC<TransactionTimelineProps> = ({
                                     <motion.div 
                                         className={cn(
                                             "mt-3 text-sm p-4 rounded-lg border backdrop-blur-sm transition-all duration-300",
-                                            step.status === 'active' ? 'bg-blue-50/90 dark:bg-blue-900/20 border-blue-200 dark:border-blue-800/50 text-blue-700 dark:text-blue-300' :
-                                            step.status === 'failed' ? 'bg-rose-50/90 dark:bg-rose-900/20 border-rose-200 dark:border-rose-800/50 text-rose-700 dark:text-rose-300' :
-                                            step.status === 'cancelled' ? 'bg-red-50/90 dark:bg-red-900/20 border-red-200 dark:border-red-800/50 text-red-700 dark:text-red-300' :
-                                            step.status === 'completed' ? 'bg-green-50/90 dark:bg-green-900/20 border-green-200 dark:border-green-800/50 text-green-700 dark:text-green-300' :
-                                            'bg-gray-50/90 dark:bg-gray-800/30 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300'
+                                            step.status === 'active' ? 'bg-blue-900/20 border-blue-800/50 text-blue-300' :
+                                            step.status === 'failed' ? 'bg-rose-900/20 border-rose-800/50 text-rose-300' :
+                                            step.status === 'cancelled' ? 'bg-red-900/20 border-red-800/50 text-red-300' :
+                                            step.status === 'completed' ? 'bg-green-900/20 border-green-800/50 text-green-300' :
+                                            'bg-primarybox/20 text-gray-300'
                                         )}
                                         initial={{ opacity: 0, y: 5 }}
                                         animate={{ opacity: 1, y: 0 }}

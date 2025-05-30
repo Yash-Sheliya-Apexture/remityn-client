@@ -7,7 +7,7 @@ const TransactionDetailsPageSkeleton = () => {
     <section className="Transaction-Detial-Page-Wrapper">
       <div className="Transaction-Detial">
         {/* Main Content Card */}
-        <div className="bg-white dark:bg-background p-4 rounded-2xl border mx-auto lg:max-w-5xl">
+        <div className="bg-background p-4 rounded-2xl border mx-auto lg:max-w-5xl">
           {/* Card Header Skeleton */}
           <div className="flex items-center gap-4">
             <Skeleton className="md:size-14 size-10 rounded-full flex-shrink-0" />
@@ -44,7 +44,7 @@ const TransactionDetailsPageSkeleton = () => {
                   index // Assuming 4 timeline steps typical
                 ) => (
                   <div key={index} className="flex items-center gap-3">
-                    <Skeleton className="size-12 rounded-full flex-shrink-0" />
+                    <Skeleton className="size-6 rounded-full flex-shrink-0" />
                     {/* Icon */}
                     <div className="flex-grow">
                       <Skeleton className="h-5 w-3/4 md:w-1/4 mb-1" />{" "}

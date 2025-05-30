@@ -382,7 +382,93 @@
 //       {tawkToSrc && <TawkToScript src={tawkToSrc} />}
 //     </WebsiteAppProvider>
 //   );
+// // }
+
+// // app/(website)/layout.tsx
+// "use client"; // Still needed for WebsiteAppProvider or other client logic if any
+
+// import React, { ReactNode } from "react"; // Removed useState, useEffect, useRef
+// import Header from "./components/Header/Header"; // Make sure path is correct
+// import Footer from "./components/Footer"; // Make sure path is correct
+// import { WebsiteAppProvider } from "../contexts/WebsiteAppContext"; // Adjust path as needed
+// import BackToTopButton from "../../app/dashboard/components/BackToTopButton"; // --- IMPORT THE REUSABLE COMPONENT --- (Adjust path if necessary)
+// // import TawkToScript from "../components/TawkToScript"; // Adjust path if needed
+// import "../globals.css"; // Keep global styles
+// import FloatingActionButtons from "./components/FloatingActionButtons";
+
+// interface LayoutProps {
+//   children: ReactNode;
 // }
+
+// // const tawkToPropertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID;
+// // const tawkToWidgetId = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID;
+
+// // const tawkToSrc =
+// //   tawkToPropertyId && tawkToWidgetId
+// //     ? `https://embed.tawk.to/${tawkToPropertyId}/${tawkToWidgetId}`
+// //     : null;
+
+// export default function WebsiteLayout({ children }: LayoutProps) {
+//   // --- REMOVED ---
+//   // const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
+//   // const scrollToTopButtonRef = useRef<HTMLDivElement>(null);
+//   // const scrollToTop = () => { ... };
+//   // useEffect(() => { ... handleScroll logic ... }, []);
+//   // --- END REMOVED ---
+
+//   return (
+//     <>
+//       <head>
+//         {/* <script dangerouslySetInnerHTML={{ __html: ThemeInitializerScript }} /> */}
+
+//         <meta charSet="utf-8" />
+//         <meta name="viewport" content="width=device-width, initial-scale=1 " />
+
+//         <title>Remityn Clone - Money Transfer</title>
+//         <meta
+//           name="description"
+//           content="Send and receive money internationally with low fees and real exchange rates."
+//         />
+
+//         <link rel="icon" href="./Remityn.ico" sizes="any" />
+//       </head>
+//       <WebsiteAppProvider>
+//         {/* Header */}
+//         <Header />
+
+//         {/* Main content area */}
+//         <main>{children}</main>
+
+//         {/* Footer */}
+//         <Footer />
+
+//         {/* --- USE THE REUSABLE BUTTON --- */}
+//         <BackToTopButton position="center" mobileBehavior="visible" />
+
+//         {/* --- REMOVED OLD BUTTON JSX ---
+//       <div
+//         ref={scrollToTopButtonRef}
+//         className={`fixed ... etc ... ${
+//           isScrollToTopVisible ? ... : ...
+//         }`}
+//         title="Scroll to Top"
+//         onClick={scrollToTop}
+//       >
+//         <FaArrowUp className="lg:size-4 size-3 text-mainheading" />{" "}
+//       </div>
+//       --- END REMOVED OLD BUTTON JSX --- */}
+
+//         {/* Tawk.to Live Chat Script */}
+//         {/* {tawkToSrc && <TawkToScript src={tawkToSrc} />} */}
+//         <FloatingActionButtons />
+//       </WebsiteAppProvider>
+//     </>
+//   );
+// }
+
+
+
+
 
 // app/(website)/layout.tsx
 "use client"; // Still needed for WebsiteAppProvider or other client logic if any
@@ -392,7 +478,6 @@ import Header from "./components/Header/Header"; // Make sure path is correct
 import Footer from "./components/Footer"; // Make sure path is correct
 import { WebsiteAppProvider } from "../contexts/WebsiteAppContext"; // Adjust path as needed
 import BackToTopButton from "../../app/dashboard/components/BackToTopButton"; // --- IMPORT THE REUSABLE COMPONENT --- (Adjust path if necessary)
-// import TawkToScript from "../components/TawkToScript"; // Adjust path if needed
 import "../globals.css"; // Keep global styles
 import FloatingActionButtons from "./components/FloatingActionButtons";
 
@@ -400,39 +485,9 @@ interface LayoutProps {
   children: ReactNode;
 }
 
-// const tawkToPropertyId = process.env.NEXT_PUBLIC_TAWK_PROPERTY_ID;
-// const tawkToWidgetId = process.env.NEXT_PUBLIC_TAWK_WIDGET_ID;
-
-// const tawkToSrc =
-//   tawkToPropertyId && tawkToWidgetId
-//     ? `https://embed.tawk.to/${tawkToPropertyId}/${tawkToWidgetId}`
-//     : null;
-
 export default function WebsiteLayout({ children }: LayoutProps) {
-  // --- REMOVED ---
-  // const [isScrollToTopVisible, setIsScrollToTopVisible] = useState(false);
-  // const scrollToTopButtonRef = useRef<HTMLDivElement>(null);
-  // const scrollToTop = () => { ... };
-  // useEffect(() => { ... handleScroll logic ... }, []);
-  // --- END REMOVED ---
-
   return (
     <>
-      <head>
-        {/* <script dangerouslySetInnerHTML={{ __html: ThemeInitializerScript }} /> */}
-
-        <meta charSet="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1 " />
-
-        <title>Remityn Clone - Money Transfer</title>
-        <meta
-          name="description"
-          content="Send and receive money internationally with low fees and real exchange rates."
-        />
-
-        <link rel="icon" href="./Remityn.ico" sizes="any" />
-      </head>
-      
       <WebsiteAppProvider>
         {/* Header */}
         <Header />
@@ -445,22 +500,6 @@ export default function WebsiteLayout({ children }: LayoutProps) {
 
         {/* --- USE THE REUSABLE BUTTON --- */}
         <BackToTopButton position="center" mobileBehavior="visible" />
-
-        {/* --- REMOVED OLD BUTTON JSX ---
-      <div
-        ref={scrollToTopButtonRef}
-        className={`fixed ... etc ... ${
-          isScrollToTopVisible ? ... : ...
-        }`}
-        title="Scroll to Top"
-        onClick={scrollToTop}
-      >
-        <FaArrowUp className="lg:size-4 size-3 text-mainheading" />{" "}
-      </div>
-      --- END REMOVED OLD BUTTON JSX --- */}
-
-        {/* Tawk.to Live Chat Script */}
-        {/* {tawkToSrc && <TawkToScript src={tawkToSrc} />} */}
         <FloatingActionButtons />
       </WebsiteAppProvider>
     </>

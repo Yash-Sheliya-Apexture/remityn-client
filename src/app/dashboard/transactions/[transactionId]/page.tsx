@@ -6675,6 +6675,939 @@
 
 // export default TransactionDetailsPage;
 
+// // frontend/app/dashboard/transactions/[transactionId]/page.tsx
+// "use client";
+
+// import React, { useState, useEffect, useCallback, useMemo } from "react";
+// import { useParams, useRouter } from "next/navigation";
+// import { format, parseISO, addHours } from "date-fns"; // Added addHours
+// import axios from "axios"; // Import axios for error checking
+
+// // Custom Hooks & Services
+// import { useAuth } from "../../../contexts/AuthContext"; // Adjust path
+// import paymentService from "../../../services/payment"; // Adjust path
+// import transferService from "../../../services/transfer"; // Adjust path
+
+// // UI Components & Utils
+// import { cn } from "@/lib/utils"; // Adjust path
+// import { Button } from "@/components/ui/button"; // Adjust path
+// import CancelTransferModal from "../../components/CancelTransferModal"; // Adjust path
+
+// // Transaction Specific Components & Types
+// import {
+//   TransactionDetailsPageParams,
+//   PaymentDetails,
+//   TransferDetails,
+//   TransactionDetails,
+//   TimelineStatus,
+//   TimelineStep,
+// } from "../../../../types/transaction"; // Adjust path
+// import TransactionHeader from "../../components/transactionDetails/TransactionHeader"; // Adjust path
+// import TransactionTabs from "../../components/transactionDetails/TransactionTabs"; // Adjust path
+// import TransactionTimeline from "../../components/transactionDetails/TransactionTimeline"; // Adjust path
+// import TransactionDetailsContent from "../../components/transactionDetails/TransactionDetailsContent"; // Adjust path
+// import AwaitingVerificationView from "../../components/transactionDetails/AwaitingVerificationView"; // Adjust path
+// import TransactionUpdateActions from "../../components/transactionDetails/TransactionUpdateActions"; // Adjust path
+// import TransactionDetailsPageSkeleton from "../../components/TransactionPageSection/TransactionDetailsPageSkeleton"; // Adjust path
+
+// // --- Helper function to calculate estimated arrival date ---
+// function calculateEstimatedArrivalDate(
+//   creationDateString: string | undefined
+// ): string | null {
+//   if (!creationDateString) return null;
+
+//   try {
+//     const creationDate = parseISO(creationDateString);
+//     if (isNaN(creationDate.getTime())) {
+//       console.warn(
+//         "calculateEstimatedArrivalDate: Invalid date string provided:",
+//         creationDateString
+//       );
+//       return null;
+//     }
+
+//     const creationHour = creationDate.getHours();
+
+//     let hoursToAdd: number;
+//     if (creationHour >= 8 && creationHour < 18) {
+//       // 8 AM to 5:59 PM
+//       hoursToAdd = 48;
+//     } else {
+//       // 6 PM to 7:59 AM
+//       hoursToAdd = 64;
+//     }
+
+//     const arrivalDate = addHours(creationDate, hoursToAdd);
+//     // Format as "May 15, 2025, 4:17 PM"
+//     return format(arrivalDate, "MMM d, yyyy, h:mm a");
+//   } catch (e) {
+//     console.error(
+//       "Error calculating estimated arrival date:",
+//       e,
+//       "Input:",
+//       creationDateString
+//     );
+//     return null;
+//   }
+// }
+
+// // --- Component Definition ---
+// const TransactionDetailsPage = () => {
+//   // --- Hooks ---
+//   const params = useParams<TransactionDetailsPageParams>();
+//   const router = useRouter();
+//   const { transactionId } = params;
+//   const { token } = useAuth();
+
+//   // --- State Variables ---
+//   const [transactionDetails, setTransactionDetails] =
+//     useState<TransactionDetails | null>(null);
+//   const [isLoading, setIsLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+//   const [submissionError, setSubmissionError] = useState<string | null>(null);
+//   const [activeTab, setActiveTab] = useState<"Updates" | "Details">("Updates");
+//   const [noteText, setNoteText] = useState("");
+//   const [isSubmitting, setIsSubmitting] = useState(false);
+//   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+//   const [showAwaitingVerificationView, setShowAwaitingVerificationView] =
+//     useState(false);
+
+//   // --- Data Fetching ---
+//   const fetchTransactionDetails = useCallback(
+//     async (showLoadingSpinner = true) => {
+//       if (!transactionId || !token) {
+//         setError("Missing transaction ID or authentication token.");
+//         setIsLoading(false);
+//         return;
+//       }
+//       if (showLoadingSpinner) setIsLoading(true);
+//       setError(null);
+//       setSubmissionError(null);
+//       console.log("Fetching details for:", transactionId);
+
+//       try {
+//         let found = false;
+//         // Try Transfer
+//         try {
+//           const transferData = (await transferService.getTransferDetails(
+//             transactionId,
+//             token
+//           )) as Omit<TransferDetails, "type">;
+//           const fullTransferData: TransferDetails = {
+//             ...transferData,
+//             type: "transfer",
+//           };
+//           setTransactionDetails(fullTransferData);
+//           setNoteText(fullTransferData.note || "");
+//           setShowAwaitingVerificationView(false);
+//           found = true;
+//           console.log("Found as Transfer. Status:", fullTransferData.status);
+//         } catch (transferErr: unknown) {
+//           let message = "Unknown error fetching transfer";
+//           let status = 0;
+//           if (axios.isAxiosError(transferErr) && transferErr.response) {
+//             message = transferErr.response.data?.message || message;
+//             status = transferErr.response.status;
+//           } else if (transferErr instanceof Error) {
+//             message = transferErr.message;
+//           }
+//           const isNotFoundError =
+//             status === 404 || message?.toLowerCase().includes("not found");
+//           if (isNotFoundError) {
+//             console.warn(
+//               `Transfer ${transactionId} not found (status ${status}). Trying Payment.`
+//             );
+//           } else if (status !== 0) {
+//             console.error(
+//               `Error fetching transfer ${transactionId} (status ${status}):`,
+//               message
+//             );
+//             throw transferErr;
+//           } else {
+//             console.error(
+//               "Non-API error fetching transfer details (allowing fallback):",
+//               transferErr
+//             );
+//           }
+//         }
+//         // Try Payment if not found as Transfer
+//         if (!found) {
+//           try {
+//             const paymentData = (await paymentService.getPaymentDetails(
+//               transactionId,
+//               token
+//             )) as unknown as Omit<PaymentDetails, "type">;
+//             const fullPaymentData: PaymentDetails = {
+//               ...paymentData,
+//               type: "payment",
+//             };
+//             setTransactionDetails(fullPaymentData);
+//             setNoteText(fullPaymentData.note || "");
+//             if (fullPaymentData.status !== "pending") {
+//               setShowAwaitingVerificationView(false);
+//             }
+//             found = true;
+//             console.log("Found as Payment. Status:", fullPaymentData.status);
+//           } catch (paymentErr: unknown) {
+//             let message = "Unknown error fetching payment";
+//             let status = 0;
+//             if (axios.isAxiosError(paymentErr) && paymentErr.response) {
+//               message = paymentErr.response.data?.message || message;
+//               status = paymentErr.response.status;
+//             } else if (paymentErr instanceof Error) {
+//               message = paymentErr.message;
+//             }
+//             if (
+//               status === 404 ||
+//               message?.toLowerCase().includes("not found")
+//             ) {
+//               setError(`Transaction with ID ${transactionId} not found.`);
+//               setTransactionDetails(null);
+//             } else {
+//               console.error(
+//                 `Error fetching payment ${transactionId} (status ${status}):`,
+//                 message
+//               );
+//               throw paymentErr;
+//             }
+//           }
+//         }
+//         if (!found && !error) {
+//           setError(
+//             `Transaction ${transactionId} could not be found or accessed.`
+//           );
+//           setTransactionDetails(null);
+//         }
+//       } catch (err: unknown) {
+//         let message = "Failed to load transaction details";
+//         if (axios.isAxiosError(err) && err.response) {
+//           message = err.response.data?.message || err.message || message;
+//         } else if (err instanceof Error) {
+//           message = err.message;
+//         }
+//         setError(message);
+//         setTransactionDetails(null);
+//         console.error("Unhandled error during transaction fetch:", err);
+//       } finally {
+//         if (showLoadingSpinner) setIsLoading(false);
+//       }
+//     },
+//     [transactionId, token]
+//   );
+
+//   useEffect(() => {
+//     fetchTransactionDetails();
+//     // eslint-disable-next-line react-hooks/exhaustive-deps
+//   }, [transactionId, token]);
+
+//   const isPayment = useMemo(
+//     () => transactionDetails?.type === "payment",
+//     [transactionDetails]
+//   );
+//   const isTransfer = useMemo(
+//     () => transactionDetails?.type === "transfer",
+//     [transactionDetails]
+//   );
+
+//   const canCancelTransaction = useMemo(() => {
+//     if (!transactionDetails) return false;
+//     const { type, status } = transactionDetails;
+//     if (type === "payment") {
+//       return status === "pending" && !showAwaitingVerificationView;
+//     } else if (type === "transfer") {
+//       return status === "pending";
+//     }
+//     return false;
+//   }, [transactionDetails, showAwaitingVerificationView]);
+
+//   const formatDisplayDate = useCallback(
+//     (dateString: string | undefined): string => {
+//       if (!dateString) return "Date not available";
+//       try {
+//         const parsedDate = parseISO(dateString);
+//         if (isNaN(parsedDate.getTime())) throw new Error("Invalid date value");
+//         return format(parsedDate, "MMM d 'at' h:mm a");
+//       } catch (e) {
+//         console.error("Date formatting error:", e, "Input:", dateString);
+//         return "Invalid Date";
+//       }
+//     },
+//     []
+//   );
+
+//   const timelineSteps = useMemo((): TimelineStep[] => {
+//     if (!transactionDetails) return [];
+
+//     const {
+//       createdAt,
+//       updatedAt,
+//       status: overallStatus,
+//       failureReason,
+//       type,
+//     } = transactionDetails;
+//     const createdDate = formatDisplayDate(createdAt);
+//     const finalDate = formatDisplayDate(updatedAt);
+
+//     if (type === "payment") {
+//       const payment = transactionDetails as PaymentDetails;
+//       const isPending = overallStatus === "pending";
+//       const isInProgress = overallStatus === "in progress";
+//       const isComplete = overallStatus === "completed";
+//       const isCancelled = overallStatus === "canceled";
+//       const hasFailed = overallStatus === "failed";
+
+//       let steps: TimelineStep[] = [
+//         {
+//           id: "setup",
+//           label: "You set up this payment",
+//           status: "completed",
+//           date: createdDate,
+//         },
+//         {
+//           id: "waiting",
+//           label: "Your money's on its way to us",
+//           status: "pending",
+//           date: undefined,
+//           info: `your bank might take up to 4 hours to get it to us. we'll let you know when it arrives.`,
+//           showCancelAction: false,
+//         },
+//         {
+//           id: "receive",
+//           label: `We receive your ${payment.payInCurrency?.code || "money"}`,
+//           status: "pending",
+//           date: undefined,
+//         },
+//         {
+//           id: "add_balance",
+//           label: `We add it to your ${
+//             payment.balanceCurrency?.code || ""
+//           } balance`,
+//           status: "pending",
+//           date: undefined,
+//         },
+//         { id: "done", label: "All done!", status: "pending", date: undefined },
+//       ];
+
+//       if (isPending) {
+//         steps[1].status = "active";
+//         steps[1].showCancelAction = !showAwaitingVerificationView;
+//       } else if (isInProgress) {
+//         steps[1] = {
+//           ...steps[1],
+//           status: "completed",
+//           date: finalDate,
+//           info: null,
+//           showCancelAction: false,
+//         };
+//         steps[2] = {
+//           ...steps[2],
+//           status: "active",
+//           date: finalDate,
+//           info: `We're checking your payment of ${
+//             payment.amountToPay?.toFixed(2) ?? "N/A"
+//           } ${payment.payInCurrency?.code ?? ""}.`,
+//         };
+//       } else if (isComplete) {
+//         steps = steps.map((step, index) => ({
+//           ...step,
+//           status: "completed",
+//           date: index === 0 ? createdDate : finalDate,
+//           info: null,
+//           showCancelAction: false,
+//         }));
+//       } else if (isCancelled || hasFailed) {
+//         const finalStatusForStep: TimelineStatus = isCancelled
+//           ? "cancelled"
+//           : "failed";
+//         const finalInfo = isCancelled
+//           ? "This payment was cancelled."
+//           : `This payment failed. ${
+//               failureReason || "Check details tab or contact support."
+//             }`;
+//         let failedStepIndex = steps.findIndex(
+//           (step, index) => index > 0 && step.status !== "completed"
+//         );
+//         if (failedStepIndex === -1) failedStepIndex = steps.length - 1;
+//         for (let i = 1; i < failedStepIndex; i++) {
+//           if (steps[i].status !== "completed") {
+//             steps[i] = {
+//               ...steps[i],
+//               status: "completed",
+//               date: finalDate,
+//               info: null,
+//             };
+//           }
+//         }
+//         if (failedStepIndex >= 1) {
+//           steps[failedStepIndex] = {
+//             ...steps[failedStepIndex],
+//             status: finalStatusForStep,
+//             date: finalDate,
+//             info: finalInfo,
+//           };
+//         }
+//         for (let i = failedStepIndex + 1; i < steps.length; i++) {
+//           steps[i] = {
+//             ...steps[i],
+//             status: "pending",
+//             date: undefined,
+//             info: null,
+//           };
+//         }
+//         steps = steps.map((step) => ({ ...step, showCancelAction: false }));
+//       }
+//       return steps;
+//     } else if (type === "transfer") {
+//       const transfer = transactionDetails as TransferDetails;
+//       const isTransferPending = overallStatus === "pending";
+//       const isTransferProcessing = overallStatus === "processing";
+//       const isTransferComplete = overallStatus === "completed";
+//       const isTransferCancelled = overallStatus === "canceled";
+//       const isTransferFailed = overallStatus === "failed";
+
+//       let estimatedArrivalDateString = "";
+//       // Only calculate estimate if transaction is in an active, non-terminal state
+//       if ((isTransferPending || isTransferProcessing) && transfer.createdAt) {
+//         const estimatedArrival = calculateEstimatedArrivalDate(
+//           transfer.createdAt
+//         );
+//         if (estimatedArrival) {
+//           estimatedArrivalDateString = estimatedArrival;
+//         }
+//       }
+
+//       const deliveredStepBaseInfo = `The recipient’s bank should receive the funds shortly. However, please note that some banks may take up to 2 hours to process the transaction.`;
+
+//       let receivedStepInfo = `Your recipient should receive the funds.`;
+//       if (
+//         estimatedArrivalDateString &&
+//         (isTransferPending || isTransferProcessing)
+//       ) {
+//         receivedStepInfo = `Your recipient should receive the funds by an estimated ${estimatedArrivalDateString}.`;
+//       }
+
+//       let steps: TimelineStep[] = [
+//         {
+//           id: "setup",
+//           label: "You set up your transfer",
+//           status: "completed",
+//           date: createdDate,
+//         },
+//         {
+//           id: "funded",
+//           label: `We've taken funds from your ${
+//             transfer.sendCurrency?.code || "account"
+//           }`,
+//           status: "pending",
+//           date: undefined,
+//         },
+//         {
+//           id: "processing",
+//           label: `Your money's being processed`,
+//           status: "pending",
+//           date: undefined,
+//         },
+//         {
+//           id: "delivered",
+//           label: `Your money's been sent out to ${
+//             transfer.recipient?.accountHolderName || "recipient"
+//           }'s bank`,
+//           status: "pending",
+//           date: undefined,
+//           info: deliveredStepBaseInfo,
+//         },
+//         {
+//           id: "received",
+//           label: `${
+//             transfer.recipient?.accountHolderName || "Recipient"
+//           } received your ${transfer.receiveCurrency?.code || "money"}`,
+//           status: "pending",
+//           date: undefined,
+//           info: receivedStepInfo, // Initial info, may be overridden
+//         },
+//       ];
+
+//       if (isTransferPending) {
+//         steps[1].status = "active";
+//       } else if (isTransferProcessing) {
+//         steps[1] = { ...steps[1], status: "completed", date: finalDate };
+//         steps[2] = {
+//           ...steps[2],
+//           status: "active",
+//           date: finalDate,
+//           info: "We're converting and sending the funds.",
+//         };
+//       } else if (isTransferComplete) {
+//         steps = steps.map((step, index) => ({
+//           ...step,
+//           status: "completed",
+//           date: index === 0 ? createdDate : finalDate,
+//           info:
+//             step.id === "delivered"
+//               ? `Sent on ${finalDate}`
+//               : step.id === "received"
+//               ? `Received around ${finalDate}`
+//               : null,
+//         }));
+//       } else if (isTransferCancelled || isTransferFailed) {
+//         const finalStatusForStep: TimelineStatus = isTransferCancelled
+//           ? "cancelled"
+//           : "failed";
+//         const finalOverallInfoText = isTransferCancelled
+//           ? "Transfer cancelled."
+//           : `Transfer failed: ${
+//               failureReason || "Check details or contact support."
+//             }`;
+
+//         steps[0].status = "completed";
+
+//         // Determine at which step the failure/cancellation message should be shown.
+//         // Default to step 1 (funded) as this is where user cancellation typically occurs.
+//         let stopIndex = 1;
+
+//         // This is a simplified logic. A more robust solution would involve the backend
+//         // indicating the exact step of failure if it's a system failure beyond 'pending'.
+//         // For now, we assume if it's not 'pending' when it failed/cancelled, it might have been 'processing'.
+//         // We check if 'funded' (steps[1]) would have been marked as 'completed' by the 'isTransferProcessing' block.
+//         // This check is tricky as 'steps' array is rebuilt. We rely on `overallStatus` for a hint.
+//         // If `overallStatus` *was* 'processing' before becoming terminal, `stopIndex` could be 2.
+//         // However, `overallStatus` *is already* terminal here.
+//         // For simplicity and based on typical user cancellation:
+//         if (isTransferCancelled && canCancelTransaction) {
+//           // `canCancelTransaction` implies it was 'pending'
+//           stopIndex = 1;
+//         } else if (isTransferFailed) {
+//           // If failed, it's harder to know exactly where without more info.
+//           // Let's keep `stopIndex = 1` as a default if we can't reliably determine it reached processing.
+//           // A backend field like `failedAtStep` would be ideal.
+//           // If we want to assume failure during processing if it wasn't user-cancellable 'pending':
+//           // (This is an assumption based on limited frontend info)
+//           // if (!canCancelTransaction) { // Implies it was likely past 'pending' when it failed.
+//           //    stopIndex = 2; // Tentatively processing
+//           // }
+//           // For now, keeping stopIndex = 1 for failed as well to align with the "Transfer Cancelled" screenshot behavior.
+//           stopIndex = 1;
+//         }
+
+//         for (let i = 1; i < steps.length; i++) {
+//           if (i < stopIndex) {
+//             // Steps before the failure/cancellation point that were genuinely completed.
+//             // This depends on knowing the actual progress before failure.
+//             // If `stopIndex` is 1, this loop part won't run for `i=1`.
+//             // This part is more relevant if `stopIndex` can be > 1.
+//             // For now, if `stopIndex` is 1, this won't change `steps[0]` which is already completed.
+//             // We need to be careful not to mark things as 'completed' that weren't.
+//             // Let's assume only `steps[0]` is definitively completed if `stopIndex = 1`.
+//             // If `stopIndex = 2`, then `steps[1]` would be 'completed'.
+//             if (i < stopIndex) {
+//               // Only mark as completed if *before* the stop point
+//               steps[i] = {
+//                 ...steps[i],
+//                 status: "completed",
+//                 date: finalDate,
+//                 info: steps[i].info || null,
+//               };
+//             }
+//           } else if (i === stopIndex) {
+//             steps[i] = {
+//               ...steps[i],
+//               status: finalStatusForStep,
+//               date: finalDate,
+//               info: finalOverallInfoText,
+//             };
+//           } else {
+//             // For steps after failure/cancellation, set info to null
+//             steps[i] = {
+//               ...steps[i],
+//               status: "pending",
+//               date: undefined,
+//               info: null,
+//             };
+//           }
+//         }
+//       }
+
+//       steps = steps.map((step) => ({ ...step, showCancelAction: false }));
+//       return steps;
+//     }
+
+//     return [];
+//   }, [
+//     transactionDetails,
+//     formatDisplayDate,
+//     showAwaitingVerificationView,
+//     canCancelTransaction,
+//   ]); // Added canCancelTransaction
+
+//   const handleConfirmPaymentSubmit = useCallback(async () => {
+//     if (
+//       !transactionId ||
+//       !token ||
+//       !isPayment ||
+//       transactionDetails?.status !== "pending" ||
+//       showAwaitingVerificationView
+//     ) {
+//       console.warn("Confirm payment aborted. Conditions not met.");
+//       return;
+//     }
+//     setIsSubmitting(true);
+//     setSubmissionError(null);
+//     try {
+//       await paymentService.confirmUserTransfer(transactionId, token);
+//       setShowAwaitingVerificationView(true);
+//     } catch (err: unknown) {
+//       let message = `Failed to confirm payment`;
+//       let status = 0;
+//       if (axios.isAxiosError(err) && err.response) {
+//         message = err.response.data?.message || message;
+//         status = err.response.status;
+//       } else if (err instanceof Error) {
+//         message = err.message;
+//       }
+//       if (
+//         message.includes("not in pending state") ||
+//         status === 400 ||
+//         status === 409
+//       ) {
+//         setSubmissionError("Payment status may have changed. Refreshing...");
+//         await fetchTransactionDetails(false);
+//         setShowAwaitingVerificationView(false);
+//       } else {
+//         setSubmissionError(message);
+//       }
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   }, [
+//     transactionId,
+//     token,
+//     isPayment,
+//     transactionDetails?.status,
+//     fetchTransactionDetails,
+//     showAwaitingVerificationView,
+//   ]);
+
+//   const handleConfirmCancel = useCallback(async () => {
+//     if (!transactionId || !token || !transactionDetails) {
+//       setSubmissionError("Cannot proceed: Missing required information.");
+//       return;
+//     }
+//     if (!canCancelTransaction) {
+//       setSubmissionError(
+//         "This transaction can no longer be cancelled. Refreshing status..."
+//       );
+//       await fetchTransactionDetails(false);
+//       setIsCancelModalOpen(false);
+//       return;
+//     }
+//     setIsSubmitting(true);
+//     setSubmissionError(null);
+//     try {
+//       let cancelPromise;
+//       if (isPayment) {
+//         cancelPromise = paymentService.cancelPayment(transactionId, token);
+//       } else if (isTransfer) {
+//         cancelPromise = transferService.cancelTransfer(transactionId, token);
+//       } else {
+//         throw new Error("Cannot cancel: Unknown transaction type.");
+//       }
+//       await cancelPromise;
+//       setIsCancelModalOpen(false);
+//       await fetchTransactionDetails(false);
+//     } catch (err: unknown) {
+//       let message = `Failed to cancel ${isPayment ? "payment" : "transfer"}`;
+//       if (err instanceof Error) {
+//         message = err.message;
+//       }
+//       setSubmissionError(message);
+//       setIsCancelModalOpen(false);
+//     } finally {
+//       setIsSubmitting(false);
+//     }
+//   }, [
+//     transactionId,
+//     token,
+//     transactionDetails,
+//     isPayment,
+//     isTransfer,
+//     canCancelTransaction,
+//     fetchTransactionDetails,
+//   ]);
+
+//   const handleNoteChange = useCallback(
+//     (e: React.ChangeEvent<HTMLTextAreaElement>) => setNoteText(e.target.value),
+//     []
+//   );
+
+//   const { headerStatusText, headerStatusColorClass } = useMemo(() => {
+//     if (!transactionDetails)
+//       return {
+//         headerStatusText: "Loading...",
+//         headerStatusColorClass: "text-gray-500 dark:text-gray-400",
+//       };
+//     if (
+//       isPayment &&
+//       transactionDetails.status === "pending" &&
+//       showAwaitingVerificationView
+//     ) {
+//       return {
+//         headerStatusText: "Verifying Payment",
+//         headerStatusColorClass:
+//           "text-blue-600 dark:text-blue-400 animate-pulse",
+//       };
+//     }
+//     switch (transactionDetails.status) {
+//       case "pending":
+//         return {
+//           headerStatusText: isPayment
+//             ? "Waiting for payment"
+//             : "Transfer Pending",
+//           headerStatusColorClass: "text-orange-600 dark:text-orange-400",
+//         };
+//       case "in progress":
+//         return {
+//           headerStatusText: "Processing Payment",
+//           headerStatusColorClass: "text-blue-600 dark:text-blue-400",
+//         };
+//       case "processing":
+//         return {
+//           headerStatusText: "Transfer Processing",
+//           headerStatusColorClass: "text-blue-600 dark:text-blue-400",
+//         };
+//       case "completed":
+//         return {
+//           headerStatusText: isPayment ? "Money Added" : "Transfer Completed",
+//           headerStatusColorClass: "text-green-600 dark:text-green-400",
+//         };
+//       case "canceled":
+//         return {
+//           headerStatusText: "Transaction Cancelled",
+//           headerStatusColorClass: "text-red-600 dark:text-red-400",
+//         };
+//       case "failed":
+//         return {
+//           headerStatusText: "Transaction Failed",
+//           headerStatusColorClass: "text-red-600 dark:text-red-400",
+//         };
+//       default:
+//         return {
+//           headerStatusText: `Status: ${transactionDetails.status}`,
+//           headerStatusColorClass: "text-gray-500 dark:text-gray-400",
+//         };
+//     }
+//   }, [transactionDetails, isPayment, showAwaitingVerificationView]);
+
+//   const SvgLoader = () => (
+//     <svg
+//       className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+//       viewBox="0 0 24 24"
+//       fill="none"
+//       xmlns="http://www.w3.org/2000/svg"
+//     >
+//       <path
+//         d="M12 2V6"
+//         stroke="currentColor"
+//         strokeWidth="2"
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//       />
+//       <path
+//         d="M12 18V22"
+//         stroke="currentColor"
+//         strokeWidth="2"
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//       />
+//       <path
+//         d="M4.93 4.93L7.76 7.76"
+//         stroke="currentColor"
+//         strokeWidth="2"
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//       />
+//       <path
+//         d="M16.24 16.24L19.07 19.07"
+//         stroke="currentColor"
+//         strokeWidth="2"
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//       />
+//       <path
+//         d="M2 12H6"
+//         stroke="currentColor"
+//         strokeWidth="2"
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//       />
+//       <path
+//         d="M18 12H22"
+//         stroke="currentColor"
+//         strokeWidth="2"
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//       />
+//       <path
+//         d="M4.93 19.07L7.76 16.24"
+//         stroke="currentColor"
+//         strokeWidth="2"
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//       />
+//       <path
+//         d="M16.24 7.76L19.07 4.93"
+//         stroke="currentColor"
+//         strokeWidth="2"
+//         strokeLinecap="round"
+//         strokeLinejoin="round"
+//       />
+//     </svg>
+//   );
+
+//   if (isLoading && !transactionDetails)
+//     return <TransactionDetailsPageSkeleton />;
+//   if (error && !transactionDetails) {
+//     return (
+//       <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+//         <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white">
+//           Error Loading Transaction
+//         </h2>
+//         <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+//           {error}
+//         </p>
+//         <div className="flex sm:flex-row flex-col items-center justify-center gap-3 w-full">
+//           <button
+//             onClick={() => router.back()}
+//             className="inline-flex justify-center items-center font-medium cursor-pointer bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear"
+//           >
+//             Go Back
+//           </button>
+//           <button
+//             onClick={() => fetchTransactionDetails()}
+//             className="inline-flex justify-center items-center font-medium bg-primary hover:bg-primaryhover text-neutral-900 px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear cursor-pointer"
+//             disabled={isLoading}
+//           >
+
+//             {isLoading && <SvgLoader />}
+//             {isLoading ? "Retrying..." : "Try Again"}
+//           </button>
+//         </div>
+//       </div>
+//     );
+//   }
+//   if (!transactionDetails) {
+//     return (
+//       <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+//         <p className="lg:text-lg text-base text-neutral-900 dark:text-white max-w-lg mx-auto">
+//           Transaction details could not be loaded.
+//         </p>
+//         <button
+//           onClick={() => router.push("/dashboard/transactions")}
+//           className="inline-flex justify-center items-center font-medium bg-primary hover:bg-primaryhover text-neutral-900 px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear cursor-pointer"
+//         >
+
+//           View All Transactions
+//         </button>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <section className="Transaction-Detial-Page-Wrapper">
+//       <div className="Transaction-Detial">
+//         <div className="bg-white dark:bg-background rounded-2xl border mx-auto lg:max-w-5xl">
+//           <TransactionHeader
+//             transaction={transactionDetails}
+//             statusText={headerStatusText}
+//             statusColorClass={headerStatusColorClass}
+//           />
+//           <TransactionTabs activeTab={activeTab} onTabChange={setActiveTab} />
+//           <div className="p-4 sm:p-6">
+//             {activeTab === "Updates" && (
+//               <div>
+//                 <div className="flex items-center mb-6 text-sm gap-2">
+//                   <span className="text-gray-500 dark:text-gray-300 flex-shrink-0">
+//                     {isPayment ? "Reference Code:" : "Transfer ID:"}
+//                   </span>
+//                   <span className="font-medium text-neutral-900 dark:text-white break-all">
+//                     {isPayment
+//                       ? (transactionDetails as PaymentDetails).referenceCode ||
+//                         "N/A"
+//                       : transactionDetails._id}
+//                   </span>
+//                 </div>
+//                 {isPayment &&
+//                 transactionDetails.status === "pending" &&
+//                 showAwaitingVerificationView ? (
+//                   <AwaitingVerificationView
+//                     transaction={transactionDetails as PaymentDetails}
+//                     onRefresh={() => fetchTransactionDetails(false)}
+//                     isSubmitting={isLoading}
+//                   />
+//                 ) : (
+//                   <>
+//                     <TransactionTimeline
+//                       steps={timelineSteps}
+//                       isPayment={!!isPayment}
+//                       status={transactionDetails.status}
+//                       isSubmitting={isSubmitting && isCancelModalOpen}
+//                       onOpenCancelModal={() => {
+//                         setSubmissionError(null);
+//                         setIsCancelModalOpen(true);
+//                       }}
+//                     />
+//                     <TransactionUpdateActions
+//                       transaction={transactionDetails}
+//                       canCancel={canCancelTransaction}
+//                       isSubmitting={isSubmitting}
+//                       showAwaitingVerificationView={
+//                         showAwaitingVerificationView
+//                       }
+//                       submissionError={submissionError}
+//                       onConfirmPayment={handleConfirmPaymentSubmit}
+//                       onOpenCancelModal={() => {
+//                         setSubmissionError(null);
+//                         setIsCancelModalOpen(true);
+//                       }}
+//                       onSwitchToDetailsTab={() => setActiveTab("Details")}
+//                       onRefresh={() => fetchTransactionDetails(false)}
+//                     />
+//                   </>
+//                 )}
+//               </div>
+//             )}
+//             {activeTab === "Details" && (
+//               <TransactionDetailsContent
+//                 transaction={transactionDetails}
+//                 note={noteText}
+//                 onNoteChange={handleNoteChange}
+//                 formatDisplayDate={formatDisplayDate}
+//               />
+//             )}
+//           </div>
+//         </div>
+//       </div>
+//       {transactionDetails && (
+//         <CancelTransferModal
+//           isOpen={isCancelModalOpen}
+//           onClose={() => {
+//             if (!isSubmitting) {
+//               setIsCancelModalOpen(false);
+//               setSubmissionError(null);
+//             }
+//           }}
+//           transactionId={transactionId}
+//           transactionType={transactionDetails.type}
+//           onConfirmCancel={handleConfirmCancel}
+//           isSubmitting={isSubmitting}
+//           error={submissionError}
+//         />
+//       )}
+//     </section>
+//   );
+// };
+
+// export default TransactionDetailsPage;
+
 // frontend/app/dashboard/transactions/[transactionId]/page.tsx
 "use client";
 
@@ -7161,46 +8094,18 @@ const TransactionDetailsPage = () => {
 
         steps[0].status = "completed";
 
-        // Determine at which step the failure/cancellation message should be shown.
-        // Default to step 1 (funded) as this is where user cancellation typically occurs.
         let stopIndex = 1;
 
-        // This is a simplified logic. A more robust solution would involve the backend
-        // indicating the exact step of failure if it's a system failure beyond 'pending'.
-        // For now, we assume if it's not 'pending' when it failed/cancelled, it might have been 'processing'.
-        // We check if 'funded' (steps[1]) would have been marked as 'completed' by the 'isTransferProcessing' block.
-        // This check is tricky as 'steps' array is rebuilt. We rely on `overallStatus` for a hint.
-        // If `overallStatus` *was* 'processing' before becoming terminal, `stopIndex` could be 2.
-        // However, `overallStatus` *is already* terminal here.
-        // For simplicity and based on typical user cancellation:
         if (isTransferCancelled && canCancelTransaction) {
           // `canCancelTransaction` implies it was 'pending'
           stopIndex = 1;
         } else if (isTransferFailed) {
-          // If failed, it's harder to know exactly where without more info.
-          // Let's keep `stopIndex = 1` as a default if we can't reliably determine it reached processing.
-          // A backend field like `failedAtStep` would be ideal.
-          // If we want to assume failure during processing if it wasn't user-cancellable 'pending':
-          // (This is an assumption based on limited frontend info)
-          // if (!canCancelTransaction) { // Implies it was likely past 'pending' when it failed.
-          //    stopIndex = 2; // Tentatively processing
-          // }
-          // For now, keeping stopIndex = 1 for failed as well to align with the "Transfer Cancelled" screenshot behavior.
           stopIndex = 1;
         }
 
         for (let i = 1; i < steps.length; i++) {
           if (i < stopIndex) {
-            // Steps before the failure/cancellation point that were genuinely completed.
-            // This depends on knowing the actual progress before failure.
-            // If `stopIndex` is 1, this loop part won't run for `i=1`.
-            // This part is more relevant if `stopIndex` can be > 1.
-            // For now, if `stopIndex` is 1, this won't change `steps[0]` which is already completed.
-            // We need to be careful not to mark things as 'completed' that weren't.
-            // Let's assume only `steps[0]` is definitively completed if `stopIndex = 1`.
-            // If `stopIndex = 2`, then `steps[1]` would be 'completed'.
             if (i < stopIndex) {
-              // Only mark as completed if *before* the stop point
               steps[i] = {
                 ...steps[i],
                 status: "completed",
@@ -7467,8 +8372,8 @@ const TransactionDetailsPage = () => {
     return <TransactionDetailsPageSkeleton />;
   if (error && !transactionDetails) {
     return (
-      <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
-        <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white">
+      <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+        <h2 className="lg:text-3xl text-2xl font-medium text-mainheadingWhite">
           Error Loading Transaction
         </h2>
         <p className="lg:text-lg text-base text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
@@ -7477,7 +8382,7 @@ const TransactionDetailsPage = () => {
         <div className="flex sm:flex-row flex-col items-center justify-center gap-3 w-full">
           <button
             onClick={() => router.back()}
-            className="inline-flex justify-center items-center font-medium cursor-pointer bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear"
+            className="inline-flex justify-center items-center font-medium cursor-pointer bg-background/60 hover:bg-secondarybox text-primary dark:text-primary px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear"
           >
             Go Back
           </button>
@@ -7486,7 +8391,6 @@ const TransactionDetailsPage = () => {
             className="inline-flex justify-center items-center font-medium bg-primary hover:bg-primaryhover text-neutral-900 px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear cursor-pointer"
             disabled={isLoading}
           >
-            
             {isLoading && <SvgLoader />}
             {isLoading ? "Retrying..." : "Try Again"}
           </button>
@@ -7504,7 +8408,6 @@ const TransactionDetailsPage = () => {
           onClick={() => router.push("/dashboard/transactions")}
           className="inline-flex justify-center items-center font-medium bg-primary hover:bg-primaryhover text-neutral-900 px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear cursor-pointer"
         >
-          
           View All Transactions
         </button>
       </div>
@@ -7514,7 +8417,7 @@ const TransactionDetailsPage = () => {
   return (
     <section className="Transaction-Detial-Page-Wrapper">
       <div className="Transaction-Detial">
-        <div className="bg-white dark:bg-background rounded-2xl border mx-auto lg:max-w-5xl">
+        <div className="bg-background rounded-2xl border mx-auto lg:max-w-5xl">
           <TransactionHeader
             transaction={transactionDetails}
             statusText={headerStatusText}
@@ -7525,10 +8428,10 @@ const TransactionDetailsPage = () => {
             {activeTab === "Updates" && (
               <div>
                 <div className="flex items-center mb-6 text-sm gap-2">
-                  <span className="text-gray-500 dark:text-gray-300 flex-shrink-0">
+                  <span className="text-mainheadingWhite flex-shrink-0">
                     {isPayment ? "Reference Code:" : "Transfer ID:"}
                   </span>
-                  <span className="font-medium text-neutral-900 dark:text-white break-all">
+                  <span className="font-medium text-mainheadingWhite break-all">
                     {isPayment
                       ? (transactionDetails as PaymentDetails).referenceCode ||
                         "N/A"

@@ -112,7 +112,7 @@ const tabs = [
 const TransactionTabs: React.FC<TransactionTabsProps> = ({ activeTab, onTabChange }) => {
     return (
       <div className='p-2 sm:border-b border-b-none w-full'>
-        <div className="relative inline-flex items-center rounded-full p-1.5 gap-1 border sm:bg-transparent dark:sm:bg-transparent dark:bg-primarybox sm:w-auto w-full">
+        <div className="relative inline-flex items-center rounded-full p-1.5 gap-1 border sm:bg-transparent bg-primarybox sm:w-auto w-full">
           {tabs.map((tab) => (
             <button
               key={tab.id}
@@ -139,8 +139,8 @@ const TransactionTabs: React.FC<TransactionTabsProps> = ({ activeTab, onTabChang
                   "relative z-0 flex items-center justify-center gap-1.5 w-full", // Ensure text is above the animated background
                   // Conditional text color based on active state
                   activeTab === tab.id
-                    ? "text-neutral-900" // Text color when tab is active (ensure good contrast with bg-primary)
-                    : "text-neutral-900 dark:text-white" // Text color for inactive tabs
+                    ? "text-mainheading" // Text color when tab is active (ensure good contrast with bg-primary)
+                    : "text-mainheadingWhite" // Text color for inactive tabs
                 )}
               >
                 {tab.label}

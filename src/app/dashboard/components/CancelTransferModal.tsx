@@ -332,7 +332,7 @@ const CancelTransferModal: React.FC<CancelTransferModalProps> = ({
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className="fixed inset-0 w-full h-full bg-black/50 dark:bg-white/30 z-80 flex sm:items-center items-end justify-center" // Added padding and inset-0
+            className="fixed inset-0 w-full h-full bg-white/15 z-80 flex sm:items-center items-end justify-center" // Added padding and inset-0
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -342,7 +342,7 @@ const CancelTransferModal: React.FC<CancelTransferModalProps> = ({
             aria-labelledby="cancel-modal-title" // Added for accessibility
           >
             <motion.div
-              className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl sm:p-8 p-4 w-full sm:max-w-lg relative shadow-xl" // Added shadow
+              className="bg-background sm:rounded-3xl rounded-t-3xl sm:p-8 p-4 w-full sm:max-w-lg relative text-center" // Added shadow
               variants={modalVariants}
               initial="initial"
               animate="animate"
@@ -351,25 +351,24 @@ const CancelTransferModal: React.FC<CancelTransferModalProps> = ({
             >
               <div className="absolute top-2 right-2">
                 <button
-                  className="p-3 bg-lightborder hover:bg-neutral-300 dark:bg-primarybox dark:hover:bg-secondarybox rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
+                  className="p-2.5 bg-primarybox hover:bg-secondarybox text-primary rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
                   onClick={onClose}
                   disabled={isSubmitting} // Disable close button while submitting?
                   aria-label="Close cancellation modal" // Added aria-label
                 >
                   <IoClose
                     size={28}
-                    className="text-neutral-900 dark:text-primary"
                   />
                 </button>
               </div>
 
-              <h3 id="cancel-modal-title" className="sm:text-3xl text-2xl font-semibold text-mainheading dark:text-white my-6">
+              <h3 id="cancel-modal-title" className="sm:text-3xl text-2xl font-semibold text-mainheadingWhite my-6">
                 Cancel {typeText}
               </h3>
-              <p className="text-gray dark:text-gray-300 font-medium mb-6">
+              <p className="text-mainheadingWhite font-medium mb-6">
                 ID: {transactionId}
               </p>
-              <p className="text-gray dark:text-gray-300 font-medium mb-6">
+              <p className="text-secondheadingWhite mb-6">
                 Are you sure you want to cancel this {transactionType}?
                 {transactionType === "payment" &&
                   " We'll attempt to stop the payment process."}
@@ -377,10 +376,10 @@ const CancelTransferModal: React.FC<CancelTransferModalProps> = ({
                   " We'll refund any funds debited back to the source account. If we encounter issues, we'll contact you."}
                 This action cannot be undone.
               </p>
-
+              
               {/* --- START: Error Display Area --- */}
               {error && (
-                <div className="my-4 p-3 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700/50 text-red-700 dark:text-red-300 rounded-md text-sm text-center">
+                <div className="my-4 p-3 bg-red-900/30 border border-red-700/50 text-red-300 rounded-md text-sm text-center">
                   {error}
                 </div>
               )}
@@ -397,7 +396,7 @@ const CancelTransferModal: React.FC<CancelTransferModalProps> = ({
                     : `Yes, Cancel ${typeText}`}
                 </button>
                 <button
-                  className="bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed" // Added disabled styles
+                  className="text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed" // Added disabled styles
                   onClick={onClose}
                   disabled={isSubmitting}
                 >

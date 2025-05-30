@@ -3188,7 +3188,7 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
     if (!isFetching && !error && currencies.length === 0) {
       return (
         <div className="flex-grow flex items-center justify-center text-center py-4 min-h-[100px]">
-          <p className="text-white/90">
+          <p className="text-subheadingWhite">
             No available currencies to add at this time.
           </p>
         </div>
@@ -3237,7 +3237,7 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
                     </div>
                   )}
                   <div className="flex flex-col overflow-hidden">
-                    <span className="font-medium text-white/90 text-sm md:text-base truncate">
+                    <span className="font-medium text-mainheadingWhite text-sm md:text-base truncate">
                       {currency.code}
                     </span>
                     {currency.currencyName && (
@@ -3351,11 +3351,11 @@ const CurrencySelectorModal: React.FC<CurrencySelectorModalProps> = ({
                       className="overflow-hidden flex-shrink-0"
                       role="alert"
                     >
-                      <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
+                      <div className="bg-red-900/25 border border-red-500 rounded-xl p-3 flex items-center gap-3">
                         <div className="size-10 rounded-full flex items-center justify-center bg-red-600/20">
-                          <FaExclamationCircle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                          <FaExclamationCircle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
                         </div>
-                        <p className="text-sm font-medium text-red-700 dark:text-red-300/90">
+                        <p className="font-medium text-red-600">
                           {error}
                         </p>
                       </div>

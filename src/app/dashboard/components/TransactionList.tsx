@@ -2278,39 +2278,39 @@ const TransactionList: React.FC<TransactionListProps> = ({
                   key={transaction._id}
                   className="block"
                 >
-                  <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
+                  <div className="block hover:bg-primarybox group/item p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
                     <div className="flex items-center sm:gap-4 gap-2">
                       <div className="relative flex-shrink-0">
                         {" "}
-                        <div className="p-3 bg-yellow-100 dark:bg-yellow-800/60 rounded-full flex items-center justify-center">
+                        <div className="p-3 bg-yellow-700/50 rounded-full flex items-center justify-center">
                           {" "}
                           <LuPlus
                             size={22}
-                            className="text-yellow-700 dark:text-yellow-300"
+                            className="text-yellow-300"
                           />{" "}
                         </div>{" "}
                         <MdErrorOutline
                           size={20}
-                          className="absolute -bottom-1 -right-1 text-orange-500 bg-white dark:bg-neutral-900 dark:text-orange-400 rounded-full p-0.5"
+                          className="absolute top-8 -right-1 text-orange-500 bg-background group-hover/item:bg-primarybox rounded-full transition-all duration-75 ease-linear p-0.5"
                         />{" "}
                       </div>
                       <div className="flex-grow flex flex-row justify-between sm:items-center gap-1 sm:gap-4">
                         <div className="text-wrap">
                           {" "}
                           <h3
-                            className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px"
+                            className="font-medium leading-relaxed text-mainheadingWhite sm:text-lg text-15px"
                             title={name}
                           >
                             {" "}
                             {name}{" "}
                           </h3>{" "}
-                          <p className="sm:text-sm text-13px text-orange-600 dark:text-orange-400 font-semibold mt-1">
+                          <p className="sm:text-sm text-13px text-orange-600 dark:text-orange-400 font-medium mt-1">
                             {" "}
                             Waiting for you to pay{" "}
                           </p>{" "}
                         </div>
                         <div
-                          className={`font-medium text-neutral-900 dark:text-white whitespace-nowrap sm:text-base text-15px`}
+                          className={`font-medium text-mainheadingWhite whitespace-nowrap sm:text-base text-15px`}
                         >
                           {" "}
                           +{" "}
@@ -2332,7 +2332,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
 
       {inProgressTransactions.length > 0 && (
         <div>
-          <h2 className="font-medium text-gray-600 dark:text-white mb-3 relative after:content-[''] after:block after:w-full after:h-px after:bg-gray-200 dark:after:bg-primarybox after:mt-1">
+          <h2 className="font-medium text-white/90 mb-3 leading-8 border-b">
             {" "}
             In progress{" "}
           </h2>
@@ -2342,12 +2342,12 @@ const TransactionList: React.FC<TransactionListProps> = ({
               const icon = isAddMoney ? (
                 <LuPlus
                   size={22}
-                  className="text-neutral-900 dark:text-white"
+                  className="text-white/90"
                 />
               ) : (
                 <GoArrowUp
                   size={22}
-                  className="text-neutral-900 dark:text-white"
+                  className="text-white/90"
                 />
               );
               const description = isAddMoney
@@ -2371,9 +2371,9 @@ const TransactionList: React.FC<TransactionListProps> = ({
                   key={transaction._id}
                   className="block"
                 >
-                  <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
+                  <div className="block hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
                     <div className="flex items-center sm:gap-4 gap-2">
-                      <div className="p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center">
+                      <div className="p-3 bg-secondarybox rounded-full flex items-center justify-center">
                         {" "}
                         {icon}{" "}
                       </div>
@@ -2381,19 +2381,19 @@ const TransactionList: React.FC<TransactionListProps> = ({
                         <div className="text-wrap">
                           {" "}
                           <h3
-                            className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px"
+                            className="font-medium leading-relaxed text-mainheadingWhite sm:text-lg text-15px"
                             title={name}
                           >
                             {" "}
                             {name}{" "}
                           </h3>{" "}
-                          <p className="sm:text-sm text-13px text-gray-500 dark:text-gray-300 mt-1">
+                          <p className="sm:text-sm text-13px text-subheadingWhite mt-1">
                             {" "}
                             {description}
                           </p>{" "}
                         </div>
                         <div
-                          className={`font-medium text-neutral-900 dark:text-white whitespace-nowrap sm:text-base text-15px`}
+                          className={`font-medium text-mainheadingWhite whitespace-nowrap sm:text-base text-15px`}
                         >
                           {" "}
                           {amountPrefix}{" "}
@@ -2420,7 +2420,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
             {Object.entries(groupedProcessedTransactions).map(
               ([date, transactionsForDate]) => (
                 <div key={date}>
-                  <h3 className="font-medium text-gray-600 dark:text-white mb-3 relative after:content-[''] after:block after:w-full after:h-px after:bg-gray-200 dark:after:bg-primarybox after:mt-1">
+                  <h3 className="font-medium text-white/90 mb-3 leading-8 border-b">
                     {" "}
                     {date === "Unknown Date" || date === "Date Error"
                       ? "Older Transactions"
@@ -2432,12 +2432,12 @@ const TransactionList: React.FC<TransactionListProps> = ({
                       const icon = isAddMoney ? (
                         <LuPlus
                           size={22}
-                          className="text-neutral-900 dark:text-white"
+                          className="text-white/90"
                         />
                       ) : (
                         <GoArrowUp
                           size={22}
-                          className="text-neutral-900 dark:text-white"
+                          className="text-white/90"
                         />
                       );
                       let description = "";
@@ -2457,8 +2457,8 @@ const TransactionList: React.FC<TransactionListProps> = ({
                       switch (transaction.status) {
                         case "completed":
                           amountClass = isAddMoney
-                            ? "text-green-600 dark:text-green-500"
-                            : "text-neutral-900 dark:text-white";
+                            ? "text-green-500"
+                            : "text-mainheadingWhite";
                           description = isAddMoney ? "Added" : `Sent by you `;
                           break;
                         case "canceled":
@@ -2470,7 +2470,7 @@ const TransactionList: React.FC<TransactionListProps> = ({
                           description = "Failed";
                           break;
                         default:
-                          amountClass = "text-neutral-900 dark:text-white";
+                          amountClass = "text-mainheadingWhite";
                           description = transaction.status ?? "Unknown";
                       }
                       return (
@@ -2479,9 +2479,9 @@ const TransactionList: React.FC<TransactionListProps> = ({
                           key={transaction._id}
                           className="block"
                         >
-                          <div className="block hover:bg-lightgray dark:hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
+                          <div className="block hover:bg-primarybox p-2 sm:p-4 rounded-2xl transition-all duration-75 ease-linear cursor-pointer">
                             <div className="flex items-center sm:gap-4 gap-2">
-                              <div className="p-3 bg-lightborder dark:bg-secondarybox rounded-full flex items-center justify-center">
+                              <div className="p-3 bg-secondarybox rounded-full flex items-center justify-center">
                                 {" "}
                                 {icon}{" "}
                               </div>
@@ -2489,13 +2489,13 @@ const TransactionList: React.FC<TransactionListProps> = ({
                                 <div className="text-wrap">
                                   {" "}
                                   <h3
-                                    className="font-medium leading-relaxed text-neutral-900 dark:text-white sm:text-lg text-15px"
+                                    className="font-medium leading-relaxed text-mainheadingWhite sm:text-lg text-15px"
                                     title={name}
                                   >
                                     {" "}
                                     {name}{" "}
                                   </h3>{" "}
-                                  <p className="sm:text-sm text-13px text-gray-500 dark:text-gray-300 mt-1">
+                                  <p className="sm:text-sm text-13px text-subheadingWhite mt-1">
                                     {" "}
                                     {description}{" "}
                                   </p>{" "}

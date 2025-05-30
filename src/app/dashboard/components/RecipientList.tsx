@@ -607,7 +607,7 @@ export default function RecipientList({
             </div>
           </div>
           <div className="ml-4">
-            <h5 className="font-medium leading-relaxed text-white/90 sm:text-lg">
+            <h5 className="font-medium leading-relaxed text-mainheadingWhite sm:text-lg">
               {recipient.accountHolderName}
             </h5>
             {recipient.accountNumber && recipient.currency?.code && ( // Add check for currency code
@@ -633,7 +633,7 @@ export default function RecipientList({
           </div>
         ) : (
           <div className="ml-4">
-            <IoIosArrowForward className="size-5 text-white/90" />
+            <IoIosArrowForward className="size-5 text-mainheadingWhite" />
           </div>
         )}
       </div>

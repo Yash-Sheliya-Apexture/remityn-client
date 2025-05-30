@@ -6,5 +6,5 @@ interface DashboardRootLayoutProps {
 }
 
 export default function DashboardRootLayout({ children }: DashboardRootLayoutProps) {
-    return <DashboardLayout>{children}</DashboardLayout>;
+    return (<DashboardLayout>{children}</DashboardLayout>);
 }

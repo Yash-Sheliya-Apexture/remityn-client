@@ -879,10 +879,10 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
                     unoptimized
                   />
                   <div className="flex-grow min-w-0">
-                    <p className="text-white/90 text-lg font-semibold truncate">
+                    <p className="text-mainheadingWhite text-lg font-semibold truncate">
                       {account.currency.code} Balance
                     </p>
-                    <p className="text-secondheadingWhite font-semibold text-sm">
+                    <p className="text-subheadingWhite font-semibold text-sm">
                       {parseFloat(account.balance).toFixed(2)}{" "}
                       {account.currency.code}
                     </p>

@@ -61,14 +61,14 @@ const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed top-0 left-0 w-full h-full bg-black/50 dark:bg-white/30 z-80 flex sm:items-center items-end justify-center"
+          className="fixed inset-0 w-full h-full bg-white/15 z-80 flex sm:items-center items-end justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           onClick={onClose} // Close modal when clicking on the backdrop
         >
           <motion.div
-            className="bg-white dark:bg-background sm:rounded-3xl rounded-none w-full sm:max-w-xl relative flex flex-col overflow-hidden sm:h-auto h-screen"
+            className="bg-background sm:rounded-3xl rounded-none w-full sm:max-w-xl relative flex flex-col overflow-hidden sm:h-auto h-screen"
             onClick={(e) => e.stopPropagation()} // Prevent click propagation to backdrop
             variants={modalVariants}
             initial="initial"
@@ -77,12 +77,13 @@ const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({
           >
             {/* Header */}
             <div className="p-4 sm:p-6 flex items-center justify-between flex-shrink-0 border-b">
-              <h2 className="lg:text-2xl text-xl font-semibold text-mainheading dark:text-white">
+              <h2 className="lg:text-2xl text-xl font-semibold text-mainheadingWhite">
                 Add New Currency
               </h2>
+
               <div
                 onClick={onClose}
-                className="size-12 bg-lightgray hover:bg-lightborder cursor-pointer dark:bg-primarybox dark:hover:bg-secondarybox flex items-center justify-center rounded-full transition-all duration-75 ease-linear"
+                className="size-12 cursor-pointer  bg-primarybox hover:bg-secondarybox text-primary flex items-center justify-center rounded-full transition-all duration-75 ease-linear"
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
@@ -91,12 +92,13 @@ const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({
                 aria-label="Close modal"
               >
                 <button
-                  className="text-neutral-900 dark:text-primary cursor-pointer focus:outline-none"
                   aria-label="Close"
+                  className="cursor-pointer"
                 >
                   <IoClose size={28} />
                 </button>
               </div>
+              
             </div>
 
             {/* Scrollable Content Area */}
@@ -104,7 +106,7 @@ const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({
               <div>
                 <label
                   htmlFor="create-code"
-                  className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
+                  className="text-mainheadingWhite inline-block capitalize text-sm lg:text-base"
                 >
                   Currency Code <span className="text-red-600">*</span>
                 </label>
@@ -116,9 +118,9 @@ const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({
                   onChange={onInputChange}
                   maxLength={3}
                   placeholder="e.g., USD"
-                  className="mt-1 block px-4 py-3 bg-white dark:bg-background focus:border-[#5f5f5f] h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75"
+                  className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0"
                 />
-                <p className="mt-2 text-sm text-gray-500 font-medium dark:text-gray-300">
+                <p className="mt-2 text-sm text-subheadingWhite">
                   3-letter uppercase code.
                 </p>
               </div>
@@ -126,7 +128,7 @@ const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({
               <div>
                 <label
                   htmlFor="create-currencyName"
-                  className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
+                  className="text-mainheadingWhite inline-block capitalize text-sm lg:text-base"
                 >
                   Currency Name <span className="text-red-600">*</span>
                 </label>
@@ -137,13 +139,14 @@ const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({
                   value={newCurrencyData.currencyName}
                   onChange={onInputChange}
                   placeholder="e.g., US Dollar"
-                  className="mt-1 block px-4 py-3 bg-white focus:border-[#5f5f5f] font-medium dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75"
+                  className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0"
                 />
               </div>
+
               <div>
                 <label
                   htmlFor="create-flagImage"
-                  className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
+                  className="text-mainheadingWhite inline-block capitalize text-sm lg:text-base"
                 >
                   Flag Image Path <span className="text-red-600">*</span>
                 </label>
@@ -155,8 +158,9 @@ const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({
                     value={newCurrencyData.flagImage}
                     onChange={onInputChange}
                     placeholder="/assets/icon/flags/usd.png"
-                    className="mt-1 block px-4 py-3 focus:border-[#5f5f5f] bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75"
+                    className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0"
                   />
+
                   {newCurrencyData.flagImage && !createFlagImageError && (
                     <div className="absolute right-3 top-1/2 -translate-y-1/2 size-8 pointer-events-none">
                       <Image
@@ -177,10 +181,11 @@ const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({
                     </div>
                   )}
                 </div>
-                <p className="mt-2 text-sm text-gray-500 font-medium dark:text-gray-300">
+                <p className="mt-2 text-sm text-subheadingWhite">
                   Relative path (e.g., /assets/icon/flags/eur.png) or full URL.
                   Must be accessible.
                 </p>
+                
                 {createFlagImageError && (
                   <p className="mt-2 text-xs font-medium text-red-600">
                     Could not load the flag image. Check the path/URL.
@@ -191,7 +196,7 @@ const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({
               <div>
                 <label
                   htmlFor="create-rateAdjustmentPercentage"
-                  className="text-gray-500 dark:text-gray-300 capitalize text-sm lg:text-base flex items-center gap-2"
+                  className="text-mainheadingWhite capitalize text-sm lg:text-base flex items-center gap-2"
                 >
                   Rate Adjustment
                   <span className="text-red-600">*</span>
@@ -205,30 +210,24 @@ const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({
                     onChange={onInputChange}
                     step="any"
                     placeholder="e.g., 0.5 (for +0.5%) or -0.1 (for -0.1%)"
-                    className="mt-1 block px-4 py-3 focus:border-[#5f5f5f] bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 no-spinner"
+                    className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0 no-spinner"
                   />
                   <div className="absolute top-4 right-4">
                     <Percent
                       size={20}
-                      className="dark:text-white text-neutral-900"
+                      className="text-mainheadingWhite"
                     />
                   </div>
                 </div>
-                <p className="mt-2 text-sm text-gray-500 font-medium dark:text-gray-300">
+                <p className="mt-2 text-sm text-subheadingWhite">
                   Enter percentage adjustment. Default is 0%.
                 </p>
               </div>
             </div>
 
             {/* Footer */}
-            <div className="p-4 sm:p-6 border-t bg-white dark:bg-background flex-shrink-0">
+            <div className="p-4 sm:p-6 border-t bg-background flex-shrink-0">
               <div className="flex sm:flex-row flex-col justify-end gap-3">
-                <button
-                  onClick={onClose}
-                  className="inline-flex justify-center cursor-pointer bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear"
-                >
-                  Cancel
-                </button>
                 <button
                   onClick={onSubmit}
                   disabled={
@@ -236,12 +235,12 @@ const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({
                     !newCurrencyData.code ||
                     !newCurrencyData.currencyName
                   }
-                  className="inline-flex justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 font-medium rounded-full px-6 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="inline-flex justify-center cursor-pointer bg-primary hover:bg-primaryhover text-mainheading font-medium rounded-full px-6 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <>
                       <svg
-                        className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+                        className="h-5 w-5 text-mainheading animate-spin mr-2"
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -307,6 +306,14 @@ const AddCurrencyModal: React.FC<AddCurrencyModalProps> = ({
                   ) : null}
                   {isSubmitting ? "Adding..." : "Add Currency"}
                 </button>
+
+                 <button
+                  onClick={onClose}
+                  className="text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
+                >
+                  Cancel
+                </button>
+
               </div>
             </div>
           </motion.div>

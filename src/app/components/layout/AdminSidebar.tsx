@@ -4102,8 +4102,8 @@ const SidebarContents: React.FC<SidebarContentsProps> = ({
         </button>
       )}
 
-      <div className="p-2 border-b">
-        <div className="h-16 flex justify-center items-center">
+      <div className="p-2 px-4 border-b">
+        <div className="h-16 flex justify-start items-center">
           <Link href="/admin" className="inline-block" onClick={onLinkClick}>
             <Image
               src="/assets/images/main_logo.svg"
@@ -4334,7 +4334,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({
             <motion.aside
               key="mobile-sidebar"
               ref={mobileSidebarRef}
-              className="w-64 fixed border-r bg-background inset-y-0 left-0 z-50 h-screen flex flex-col"
+              className="w-64 fixed bg-background inset-y-0 left-0 z-50 h-screen flex flex-col"
               variants={sidebarSlideVariants}
               initial="closed"
               animate="open"

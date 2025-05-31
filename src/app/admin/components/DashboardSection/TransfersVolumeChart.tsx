@@ -9,7 +9,7 @@ export default function TransfersVolumeChart() {
       title="Send Money Volume"
       description="Total completed Send Money volume sent."
       chartType="transfers"
-      icon={<Send className="text-mainheading dark:text-primary size-6" />} // Pass the icon here
+      icon={<Send className="text-mainheading size-6" />} // Pass the icon here
       yAxisLabel="Sent Amount"
       dataKey="volume"
     />

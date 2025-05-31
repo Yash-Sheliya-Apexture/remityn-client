@@ -27,23 +27,23 @@ const CurrencyEditHeader: React.FC<CurrencyEditHeaderProps> = ({
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
         {/* Breadcrumbs and Title */}
         <div>
-          <div className="flex items-center text-sm text-slate-500 mb-2 flex-wrap">
+          <div className="flex items-center text-sm mb-2 flex-wrap">
             <Link
               href="/admin"
-              className="text-gray-500 hover:text-primary dark:text-gray-300 hover:dark:text-primary"
+              className="text-subheadingWhite hover:dark:text-primary"
             >
               Admin
             </Link>
-            <ChevronRight className="size-4 mx-1 flex-shrink-0 dark:text-white" />
+            <ChevronRight className="size-4 mx-1 flex-shrink-0 text-mainheadingWhite" />
             <Link
               href="/admin/currencies"
-              className="text-gray-500 hover:text-primary dark:text-gray-300 hover:dark:text-primary"
+              className="text-subheadingWhite hover:dark:text-primary"
             >
               Currencies
             </Link>
-            <ChevronRight className="size-4 mx-1 flex-shrink-0 dark:text-white" />
+            <ChevronRight className="size-4 mx-1 flex-shrink-0 text-mainheadingWhite" />
             <span
-              className="text-neutral-900 dark:text-white truncate" // Adjust max-width as needed
+              className="text-subheadingWhite truncate" // Adjust max-width as needed
               title={displayTitle}
             >
               Edit ({truncatedTitle})
@@ -51,7 +51,7 @@ const CurrencyEditHeader: React.FC<CurrencyEditHeaderProps> = ({
           </div>
 
 
-          <h1 className="lg:text-3xl text-2xl font-medium text-mainheading dark:text-primary">
+          <h1 className="lg:text-3xl text-2xl font-medium text-primary">
             Edit Currency
           </h1>
 
@@ -61,7 +61,7 @@ const CurrencyEditHeader: React.FC<CurrencyEditHeaderProps> = ({
         <Button
           asChild
           variant="link"
-          className="text-neutral-900 dark:text-white hover:text-primary dark:hover:text-primary p-0 h-auto self-start sm:self-center"
+          className="text-subheadingWhite hover:text-primary p-0 h-auto self-start sm:self-center"
         >
           <Link href="/admin/currencies">
             <ArrowLeft className="size-5 mr-1.5" />

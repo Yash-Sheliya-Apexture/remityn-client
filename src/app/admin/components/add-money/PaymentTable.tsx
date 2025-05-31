@@ -739,7 +739,7 @@ const PaymentTable: React.FC<PaymentTableProps> = ({
   if (loadingPayments) {
     return (
       <div className="rounded-xl border overflow-hidden">
-        <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+        <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-primarybox [&::-webkit-scrollbar-thumb]:bg-secondarybox">
           <table className="min-w-full">
             <PaymentTableHeader
               toggleSort={toggleSort}
@@ -756,10 +756,10 @@ const PaymentTable: React.FC<PaymentTableProps> = ({
                       .map((_, j) => (
                         <td
                           key={j}
-                          className="px-6 py-4 h-[70px] whitespace-nowrap"
+                          className="px-4 py-4 h-[70px] whitespace-nowrap"
                         >
                           {/* Use full width skeleton */}
-                          <Skeleton className="h-4 w-full" />{" "}
+                          <Skeleton className="h-4 w-full" />
                         </td>
                       ))}
                   </tr>
@@ -773,7 +773,7 @@ const PaymentTable: React.FC<PaymentTableProps> = ({
 
   return (
     <div className="rounded-xl border overflow-hidden">
-      <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+      <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-primarybox [&::-webkit-scrollbar-thumb]:bg-secondarybox">
         <table className="min-w-full overflow-hidden">
           <PaymentTableHeader
             toggleSort={toggleSort}
@@ -786,7 +786,7 @@ const PaymentTable: React.FC<PaymentTableProps> = ({
               <tr>
                 <td
                   colSpan={numberOfColumns} // Use numberOfColumns here as well
-                  className="px-4 py-10 text-center text-gray-500 dark:text-gray-300"
+                  className="px-4 py-10 text-center text-mainheadingWhite"
                 >
                   No payments found.
                 </td>
@@ -800,35 +800,35 @@ const PaymentTable: React.FC<PaymentTableProps> = ({
                   transition={{ delay: index * 0.05 }}
                   // className="hover:bg-lightgray dark:hover:bg-primarybox transition-all duration-75 ease-linear"
                 >
-                  <td className="px-6 py-3 whitespace-nowrap">
-                    <span className="font-medium text-neutral-900 dark:text-white">
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    <span className="font-medium text-mainheadingWhite">
                       {payment._id}
                     </span>
                   </td>
 
-                  <td className="px-6 py-3">
+                  <td className="px-4 py-3">
                     <div className="flex flex-col">
-                      <span className="font-medium capitalize text-neutral-900 dark:text-white">
+                      <span className="font-medium capitalize text-mainheadingWhite">
                         {payment.user?.fullName || "N/A"}
                       </span>
-                      <span className="text-sm text-gray-500 dark:text-gray-300">
+                      <span className="text-sm text-subheadingWhite/60">
                         {payment.user?.email || "N/A"}
                       </span>
                     </div>
                   </td>
 
-                  <td className="px-6 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
+                  <td className="px-4 py-3 whitespace-nowrap font-medium text-mainheadingWhite">
                     {payment.amountToAdd} {/* Display string amount */}
                   </td>
-                  <td className="px-6 py-3 whitespace-nowrap text-neutral-900 dark:text-white">
+                  <td className="px-4 py-3 whitespace-nowrap text-mainheadingWhite">
                     {payment.payInCurrency?.code || "N/A"}
                   </td>
-                  <td className="px-6 py-3 whitespace-nowrap">
-                    <span className="text-neutral-900 dark:text-white">
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    <span className="text-mainheadingWhite">
                       {payment.referenceCode || "N/A"}
                     </span>
                   </td>
-                  <td className="px-6 py-3 whitespace-nowrap">
+                  <td className="px-4 py-3 whitespace-nowrap">
                     <span
                       className={`inline-flex justify-center items-center px-4 py-1 w-28 font-medium rounded-3xl capitalize ${getStatusColor(
                         payment.status
@@ -837,15 +837,15 @@ const PaymentTable: React.FC<PaymentTableProps> = ({
                       {payment.status}
                     </span>
                   </td>
-                  <td className="px-6 py-3 whitespace-nowrap font-medium">
+                  <td className="px-4 py-3 whitespace-nowrap text-mainheadingWhite font-medium">
                     {formatDate(payment.createdAt)}
                   </td>
 
-                  <td className="px-6 py-3 whitespace-nowrap font-medium">
+                  <td className="px-4 py-3 whitespace-nowrap font-medium">
                     <motion.button
                       whileTap={{ scale: 0.95 }}
                       onClick={() => handleEditPayment(payment)}
-                      className="bg-primary hover:bg-primaryhover gap-1.5 dark:bg-primarybox hover:dark:bg-secondarybox transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium text-neutral-900 dark:text-primary focus:outline-none flex items-center"
+                      className="gap-1.5 bg-primarybox hover:bg-secondarybox transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium text-primary focus:outline-none flex items-center"
                     >
                       <Edit size={18} />
                       Edit

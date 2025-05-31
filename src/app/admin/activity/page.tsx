@@ -957,7 +957,7 @@ import { useAuth } from "../../contexts/AuthContext"; // Adjust path if needed
 import axios, { AxiosError } from "axios";
 // import apiConfig from '../../config/apiConfig'; // Not used directly here
 import { motion, AnimatePresence } from "framer-motion";
-import { Filter, RefreshCw } from "lucide-react";
+import { AlertCircle, Filter, RefreshCw } from "lucide-react";
 
 // Import Components
 import GenericFilters, { FiltersState } from "../components/GenericFilters"; // Adjust path
@@ -1332,20 +1332,18 @@ export default function AllRecentActivityPage() {
         <div className="space-y-6">
           {/* Header and Refresh/Filter Buttons */}
           <div className="flex flex-wrap justify-between items-center gap-4">
-            
             <div className="Activity">
               <div className="flex flex-wrap items-center gap-3">
-                <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-                  <LuActivity className="size-6 text-mainheading dark:text-primary" />
+                <div className="p-2.5 shrink-0 bg-primary rounded-full flex items-center justify-center">
+                  <LuActivity className="text-mainheading" size={26} />
                 </div>
 
-                <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+                <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
                   All Recent Activity
                 </h1>
-
               </div>
 
-              <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+              <p className="mt-2 text-subheadingWhite text-base lg:text-lg">
                 Track all user transactions, KYC submissions, and status updates
                 in real time with detailed logs for complete transparency.
               </p>
@@ -1363,7 +1361,7 @@ export default function AllRecentActivityPage() {
               <button
                 onClick={refreshData}
                 disabled={isRefreshing || loading}
-                className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white sm:px-8 px-6 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center justify-center cursor-pointer gap-2 bg-primarybox hover:bg-secondarybox text-primary sm:px-8 px-6 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Refresh activity feed"
               >
                 <RefreshCw
@@ -1377,25 +1375,32 @@ export default function AllRecentActivityPage() {
           </div>
 
           {/* Error Message */}
-          <AnimatePresence>
-            {error && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700/50 text-red-700 dark:text-red-300 px-4 py-3 rounded-md"
-              >
-                <p className="text-sm font-medium">{error}</p>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          {error && (
+            <div
+              className="w-full flex relative justify-center items-center  bg-red-900/25 border sm:order-1 order-2 border-red-500 px-5 py-4 rounded-xl"
+              role="alert"
+            >
+              <div className="flex flex-col items-center gap-3 text-center">
+                <div className="sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20 flex-shrink-0">
+                  <AlertCircle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                </div>
+
+                <div className="flex-1">
+                  <h4 className="font-medium sm:text-2xl text-xl text-red-600 capitalize">
+                    Error loading Recent Activity
+                  </h4>
+                  <p className="text-sm mt-2 text-red-300/90">{error}</p>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Page Size Controls and "Showing X-Y of Z" info */}
           <div className="flex flex-wrap justify-between items-center gap-4 mb-4">
             <div className="flex items-center gap-2">
               <label
                 htmlFor="activitiesPerPage"
-                className="text-sm font-medium text-gray-500 dark:text-gray-300 whitespace-nowrap"
+                className="text-sm font-medium text-subheadingWhite whitespace-nowrap"
               >
                 Show:
               </label>
@@ -1403,24 +1408,24 @@ export default function AllRecentActivityPage() {
                 id="activitiesPerPage"
                 value={activitiesPerPage}
                 onChange={(e) => handlePageSizeChange(Number(e.target.value))}
-                className="block w-auto pl-3 pr-8 py-2 text-sm border rounded-md focus:outline-none bg-white dark:bg-primarybox dark:text-white cursor-pointer"
+                className="block w-auto pl-3 pr-8 py-2 text-sm border rounded-md focus:outline-none bg-primarybox text-white cursor-pointer"
               >
                 {pageSizeOptions.map((size) => (
                   <option
                     key={size}
                     value={size}
-                    className="dark:bg-dropdowncolor cursor-pointer"
+                    className="bg-primarybox cursor-pointer"
                   >
                     {size}
                   </option>
                 ))}
               </select>
-              <span className="text-sm font-medium text-gray-500 dark:text-gray-300 whitespace-nowrap">
+              <span className="text-sm font-medium text-subheadingWhite  capitalize whitespace-nowrap">
                 entries
               </span>
             </div>
             {!loading && ( // Only show if not initial loading
-              <p className="text-sm text-gray-500 dark:text-gray-300">
+              <p className="text-sm text-subheadingWhite">
                 Showing {startIndex} - {endIndex} of {sortedActivities.length}{" "}
                 results
                 {totalPages > 1 && ` (Page ${currentPage} of ${totalPages})`}
@@ -1435,18 +1440,17 @@ export default function AllRecentActivityPage() {
             isRefreshing={isRefreshing} // Show skeletons on refresh action
             activitiesPerPage={activitiesPerPage} // For skeleton count
           />
-          
+
           {/* Fallback for when initial load finishes but no activities at all (even before filtering) */}
           {!loading &&
             !isRefreshing &&
             allActivities.length === 0 &&
             !error && (
-              <div className="text-center py-16 text-gray-500 dark:text-gray-400">
+              <div className="text-center font-medium py-16 text-mainheadingWhite">
                 <p>No activities recorded yet.</p>
               </div>
             )}
-            
-            
+
           {/* Pagination Component: Uses client-calculated totalPages */}
           {totalPages > 1 &&
             !loading &&
@@ -1460,7 +1464,6 @@ export default function AllRecentActivityPage() {
               />
             )}
         </div>
-
 
         {/* GenericFilters Component */}
         <GenericFilters

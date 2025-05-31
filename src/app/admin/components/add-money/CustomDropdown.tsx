@@ -663,12 +663,12 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
 
   // --- Base classes for the button ---
   const baseButtonClasses =
-    "flex items-center justify-between mt-1 px-4 py-3 bg-primarybox h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 text-mainheadingWhite";
+    "flex items-center justify-between mt-1 px-4 py-3  h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 text-mainheadingWhite";
 
   // --- Conditional classes based on disabled or loading state ---
   const conditionalClasses =
     disabled || isLoading
-      ? "bg-lightgray dark:bg-primarybox cursor-not-allowed" // Disabled or loading styles
+      ? "cursor-not-allowed" // Disabled or loading styles
       : "cursor-pointer"; // Enabled styles
 
   return (
@@ -676,7 +676,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
       {label &&
         (typeof label === "string" ? (
           <label
-            className={`block font-medium text-mainheadingWhite  dark:text-white mb-1 ${
+            className={`block font-medium text-mainheadingWhite mb-1 ${
               disabled ? "opacity-50" : "opacity-100"
             }`}
           >

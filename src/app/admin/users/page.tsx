@@ -2585,17 +2585,17 @@ const AdminUsersPage: React.FC = () => {
         <div className="flex flex-wrap justify-between items-center gap-3">
           <div className="Activity">
             <div className="flex items-center gap-3">
-              <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-                <FaUsers className="size-6 text-mainheading dark:text-primary" />
+              <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+                <FaUsers className="size-6 text-mainheading" />
               </div>
 
-              <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+              <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
                 All Recent Activity
               </h1>
 
             </div>
     
-            <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+            <p className="mt-2 text-subheadingWhite lg:text-lg">
               Track all user transactions, KYC submissions, and status updates
               in real time with detailed logs for complete transparency.
             </p>
@@ -2605,9 +2605,9 @@ const AdminUsersPage: React.FC = () => {
             {/* Filter Button - Matching Payments styling */}
             <button
               onClick={() => setShowFilterModal(true)}
-              className="flex items-center justify-center cursor-pointer gap-2 bg-primary text-neutral-900 font-medium text-base sm:px-8 px-6 py-3 h-12.5 sm:w-auto w-full rounded-full hover:bg-primaryhover transition-all duration-75 ease-linear" // Use text-secondary for light text on dark primary bg
+              className="flex items-center bg-primary hover:bg-primaryhover gap-2 h-12.5 px-8 py-3 cursor-pointer font-medium rounded-full sm:w-auto w-full justify-center transition-all duration-75 ease-linear" // Use text-secondary for light text on dark primary bg
             >
-              <Filter size={20} />
+              <Filter size={18} />
               <span>Filters</span>
             </button>
 
@@ -2615,12 +2615,12 @@ const AdminUsersPage: React.FC = () => {
             <button
               onClick={refreshData}
               disabled={isRefreshing || loadingUsers} // Disable while EITHER refreshing OR loading
-              className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white sm:px-8 px-6 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
-              title="Refresh user data"
+              className="flex items-center justify-center cursor-pointer gap-2 text-primary bg-primarybox hover:bg-secondarybox font-medium px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Refresh Send Money "
             >
               {/* Apply animate-spin class conditionally based on isRefreshing */}
               <RefreshCw
-                className={`size-5 ${isRefreshing ? "animate-spin" : ""}`}
+                className={`size-5 text-primary ${isRefreshing ? "animate-spin" : ""}`}
               />
               <span>Refresh</span>
             </button>
@@ -2632,33 +2632,35 @@ const AdminUsersPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <label
               htmlFor="usersPerPage"
-              className="text-sm font-medium text-gray-500 dark:text-gray-300 whitespace-nowrap"
+              className="text-sm font-medium text-subheadingWhite whitespace-nowrap"
             >
               Show:
             </label>
+
             <select
               id="usersPerPage"
               value={usersPerPage}
               onChange={(e) => handlePageSizeChange(Number(e.target.value))}
               // Consistent select styling
-              className="block w-auto pl-3 pr-8 py-2 text-sm border rounded-md focus:outline-none bg-white dark:bg-primarybox dark:text-white cursor-pointer"
+              className="block w-auto pl-3 pr-8 py-2 text-sm border rounded-md focus:outline-none bg-primarybox text-mainheadingWhite cursor-pointer"
             >
               {pageSizeOptions.map((size) => (
                 <option
                   key={size}
                   value={size}
-                  className="dark:bg-dropdowncolor cursor-pointer"
+                  className="bg-primarybox cursor-pointer"
                 >
                   {size}
                 </option>
               ))}
             </select>
-            <span className="text-sm font-medium text-gray-500 dark:text-gray-300 whitespace-nowrap">
+            <span className="text-sm font-medium text-subheadingWhite whitespace-nowrap">
               entries
             </span>
           </div>
+          
           {/* Consistent results text - Show based on filteredUsers length even if loading */}
-          <p className="text-sm text-gray-500 dark:text-gray-300">
+          <p className="text-sm text-subheadingWhite">
             Showing{" "}
             {loadingUsers
               ? 0

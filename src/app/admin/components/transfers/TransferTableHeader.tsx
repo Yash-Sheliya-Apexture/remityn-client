@@ -235,13 +235,13 @@ const TransferTableHeader: React.FC<TransferTableHeaderProps> = ({
 
   // Common classes for header cells and buttons
   const headerCellClasses =
-    "px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider whitespace-nowrap";
+    "px-4 py-4 text-left font-medium text-mainheadingWhite tracking-wider whitespace-nowrap";
   const buttonClasses =
     "flex items-center gap-1 hover:text-primary uppercase group cursor-pointer"; // Added group class
 
   return (
-    <thead className="bg-lightgray dark:bg-primarybox">
-      <tr className="border-b dark:border-neutral-800">
+    <thead className="bg-primarybox">
+      <tr className="transfer-head">
         {/* Ensure border for dark mode if needed */}
         <th className={headerCellClasses}>
           <button onClick={() => toggleSort("_id")} className={buttonClasses}>

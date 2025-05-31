@@ -513,7 +513,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
                   {/* --- Notification Dot --- */}
                   {unreadMessageCount > 0 && (
                     <span
-                      className="absolute top-1 right-1 block h-3 w-3 transform translate-x-1/4 -translate-y-1/4 rounded-full bg-red-700 ring-2 ring-white group-hover:ring-lightgray  dark:group-hover:ring-[#2e2e2e] dark:ring-background"
+                      className="absolute top-1 right-1 block h-3 w-3 transform translate-x-1/4 -translate-y-1/4 rounded-full bg-red-700 ring-2 ring-background group-hover:ring-primarybox"
                       aria-label="New notifications"
                     />
                   )}

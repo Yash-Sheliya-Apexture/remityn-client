@@ -3580,14 +3580,14 @@ const AdminInboxPage: React.FC = () => {
         <div className="flex flex-wrap justify-between items-center gap-4">
           <div className="inbox-massage">
             <div className="flex items-center gap-3">
-              <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-                <FaInbox className="size-6 text-mainheading dark:text-primary" />
+              <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+                <FaInbox className="size-6 text-mainheading" />
               </div>
-              <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+              <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
                 Admin Inbox
               </h1>
             </div>
-            <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+            <p className="mt-2 text-subheadingWhite lg:text-lg">
               Admin Inbox: View and manage all messages sent to users. Track
               message status, details, and perform actions like editing.
             </p>
@@ -3595,7 +3595,7 @@ const AdminInboxPage: React.FC = () => {
           <div className="flex items-center gap-3 justify-end sm:w-auto w-full">
             <button
               onClick={() => setShowFilterModal(true)}
-              className="flex items-center justify-center cursor-pointer gap-2 bg-primary text-neutral-900 font-medium text-base px-6 sm:px-8 py-3 h-12.5 sm:w-auto w-full rounded-full hover:bg-primaryhover transition-all duration-75 ease-linear"
+              className="flex items-center bg-primary text-mainheading hover:bg-primaryhover gap-2 h-12.5 px-8 py-3 cursor-pointer font-medium rounded-full sm:w-auto w-full justify-center transition-all duration-75 ease-linear"
             >
               <Filter size={18} />
               Filters
@@ -3603,7 +3603,7 @@ const AdminInboxPage: React.FC = () => {
             <button
               onClick={handleRefresh}
               disabled={isRefreshing || loadingMessages}
-              className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white px-6 sm:px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center justify-center cursor-pointer gap-2 text-primary bg-primarybox hover:bg-secondarybox font-medium px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
               title="Refresh inbox data"
             >
               <RefreshCw
@@ -3621,17 +3621,17 @@ const AdminInboxPage: React.FC = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -10 }}
-              className="p-3 rounded-md bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700/50 flex justify-between items-center"
+              className="p-3 rounded-md bg-red-900/30 border border-red-700/50 flex justify-between items-center"
             >
               <div className="flex items-center gap-2">
-                <XIcon className="text-red-600 dark:text-red-400" size={18} />
-                <p className="text-sm font-medium text-red-800 dark:text-red-300">
+                <XIcon className="text-red-400" size={18} />
+                <p className="text-sm font-medium text-red-300">
                   {pageLevelError}
                 </p>
               </div>
               <button
                 onClick={() => setPageLevelError(null)}
-                className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200"
+                className="text-red-400 hover:text-red-200"
               >
                 <XIcon size={18} />
               </button>
@@ -3643,7 +3643,7 @@ const AdminInboxPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <label
               htmlFor="itemsPerPage"
-              className="text-sm font-medium text-gray-500 dark:text-gray-300 whitespace-nowrap"
+              className="text-sm font-medium text-subheadingWhite whitespace-nowrap"
             >
               Show:
             </label>
@@ -3651,7 +3651,7 @@ const AdminInboxPage: React.FC = () => {
               id="itemsPerPage"
               value={itemsPerPage}
               onChange={(e) => handlePageSizeChange(Number(e.target.value))}
-              className="block w-auto pl-3 pr-8 py-2 text-sm border rounded-md focus:outline-none bg-white dark:bg-primarybox dark:text-white cursor-pointer"
+              className="block w-auto pl-3 pr-8 py-2 text-sm border rounded-md focus:outline-none bg-primarybox text-mainheadingWhite cursor-pointer"
               disabled={loadingMessages || isRefreshing}
             >
               {ITEMS_PER_PAGE_OPTIONS.map((size) => (
@@ -3664,11 +3664,11 @@ const AdminInboxPage: React.FC = () => {
                 </option>
               ))}
             </select>
-            <span className="text-sm font-medium text-gray-500 dark:text-gray-300 whitespace-nowrap">
+            <span className="text-sm font-medium text-subheadingWhite whitespace-nowrap">
               entries
             </span>
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-300">
+          <p className="text-sm text-subheadingWhite">
             Showing{" "}
             {displayedMessages.length > 0
               ? (currentPage - 1) * itemsPerPage + 1

@@ -1731,6 +1731,429 @@
 
 // export default BroadcastHistoryTable;
 
+// import React, { useEffect, useState } from "react";
+// import { format, formatDistanceToNow } from "date-fns";
+// import {
+//   Loader2,
+//   AlertCircle,
+//   Trash2,
+//   RefreshCw,
+//   ListChecks,
+//   Edit,
+//   ArrowDownUp,
+//   ArrowUpDown,
+// } from "lucide-react";
+// import { BroadcastBatchInfo } from "../../../../services/admin/inbox";
+// import { cn } from "@/lib/utils";
+// import { Skeleton } from "@/components/ui/skeleton";
+// import { motion } from "framer-motion";
+// import { FaBroadcastTower } from "react-icons/fa";
+
+// // "subject" removed from sortable fields
+// export type BroadcastSortField = "sentAt" | "recipientCount";
+
+// const formatDateToLocale = (dateString: string) => {
+//   if (!dateString || isNaN(new Date(dateString).getTime())) {
+//     return "Invalid Date";
+//   }
+//   const options: Intl.DateTimeFormatOptions = {
+//     year: "numeric",
+//     month: "short",
+//     day: "numeric",
+//     hour: "2-digit",
+//     minute: "2-digit",
+//   };
+//   return new Date(dateString).toLocaleString(undefined, options);
+// };
+
+// interface BroadcastHistoryTableProps {
+//   batches: BroadcastBatchInfo[];
+//   isLoading: boolean;
+//   error: string | null;
+//   currentPage: number;
+//   totalPages: number;
+//   deletingBatchId: string | null;
+//   editingBatchId: string | null;
+//   isUpdatingBatch: boolean;
+//   onRefresh: () => void;
+//   onEdit: (batch: BroadcastBatchInfo) => void;
+//   onDelete: (batch: BroadcastBatchInfo) => void;
+//   onPreviousPage: () => void;
+//   onNextPage: () => void;
+//   skeletonRowCount?: number;
+//   onSort: (field: BroadcastSortField) => void;
+//   sortField: BroadcastSortField | null; // Can be null now
+//   sortDirection: "asc" | "desc";
+// }
+
+// interface TableHeaderComponentProps {
+//   onSort: (field: BroadcastSortField) => void;
+//   sortField: BroadcastSortField | null;
+//   sortDirection: "asc" | "desc";
+// }
+
+// const TableHeaderComponent: React.FC<TableHeaderComponentProps> = ({
+//   onSort,
+//   sortField,
+//   sortDirection,
+// }) => {
+//   const headerCellClasses =
+//     "px-4 py-4 text-left font-medium text-mainheadingWhite tracking-wider whitespace-nowrap";
+//   const buttonClasses =
+//     "flex items-center gap-1 hover:text-primary uppercase group cursor-pointer";
+
+//   const renderSortIcon = (field: BroadcastSortField) => {
+//     // Only show active icon (with primary color) if this field IS the actively sorted one
+//     if (sortField === field) {
+//       return sortDirection === "asc" ? (
+//         <ArrowUpDown
+//           size={18}
+//           className="ml-1.5 text-primary transition-all duration-75 ease-linear"
+//         />
+//       ) : (
+//         <ArrowDownUp
+//           size={18}
+//           className="ml-1.5 text-primary transition-all duration-75 ease-linear"
+//         />
+//       );
+//     }
+//     // Otherwise, show the default hover-only icon
+//     return (
+//       <ArrowUpDown
+//         size={18}
+//         className="ml-1.5 opacity-0 group-hover:opacity-100 transition-all duration-75 ease-linear"
+//       />
+//     );
+//   };
+
+//   return (
+//     <thead className="bg-primarybox">
+//       <tr className="broadcast-head">
+//         {/* Subject & Snippet - No longer sortable */}
+//         <th className={`${headerCellClasses} min-w-[250px]`}>
+//           SUBJECT & SNIPPET
+//         </th>
+
+//         <th className={`${headerCellClasses} min-w-[180px]`}>
+//           <button onClick={() => onSort("sentAt")} className={buttonClasses}>
+//             SENT AT {renderSortIcon("sentAt")}
+//           </button>
+//         </th>
+
+//         <th className={`${headerCellClasses} `}>
+//           <button
+//             onClick={() => onSort("recipientCount")}
+//             className={buttonClasses}
+//           >
+//             RECIPIENT {renderSortIcon("recipientCount")}
+//           </button>
+//         </th>
+
+//         <th className={`${headerCellClasses}`}>
+//           <button>SENDER</button>
+//         </th>
+
+//         <th className={`${headerCellClasses}`}>ACTION</th>
+//       </tr>
+//     </thead>
+//   );
+// };
+
+// const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
+//   batches,
+//   isLoading,
+//   error,
+//   currentPage,
+//   totalPages,
+//   deletingBatchId,
+//   editingBatchId,
+//   isUpdatingBatch,
+//   onRefresh,
+//   onEdit,
+//   onDelete,
+//   onPreviousPage,
+//   onNextPage,
+//   skeletonRowCount = 3,
+//   onSort,
+//   sortField,
+//   sortDirection,
+// }) => {
+//   const numberOfColumns = 4;
+
+//   const renderSkeleton = () => (
+//     <div className="rounded-xl border overflow-hidden">
+//       <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+//         <table className="min-w-full">
+//           <TableHeaderComponent
+//             onSort={onSort}
+//             sortField={sortField}
+//             sortDirection={sortDirection}
+//           />
+//           <tbody>
+//             {Array(skeletonRowCount)
+//               .fill(0)
+//               .map((_, i) => (
+//                 <tr
+//                   key={`skel-batch-${i}`}
+//                   className="border-b dark:border-neutral-700"
+//                 >
+//                   {Array(numberOfColumns)
+//                     .fill(0)
+//                     .map((_, j) => (
+//                       <td
+//                         key={`skel-cell-batch-${i}-${j}`}
+//                         className="px-6 py-4 h-[70px] whitespace-nowrap"
+//                       >
+//                         <Skeleton className="h-4 w-full" />
+//                       </td>
+//                     ))}
+//                 </tr>
+//               ))}
+//           </tbody>
+//         </table>
+//       </div>
+//     </div>
+//   );
+
+//   const renderError = () => (
+//     <div className="mt-5 p-4 border bg-red-900/30 border-red-700 rounded-md flex items-start space-x-3">
+//       <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5" />
+//       <div>
+//         <h3 className="text-lg font-medium text-red-200">
+//           Error Loading History
+//         </h3>
+//         <p className="text-sm text-red-300 mt-1">{error}</p>
+//         <button
+//           type="button"
+//           onClick={onRefresh}
+//           disabled={isLoading}
+//           className={cn(
+//             "mt-2 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none",
+//             "h-9 px-3",
+//             "text-red-300 hover:bg-red-800/50"
+//           )}
+//         >
+//           <RefreshCw className="mr-1.5 h-3.5 w-3.5" /> Try Again
+//         </button>
+//       </div>
+//     </div>
+//   );
+
+//   const [isMobile, setIsMobile] = useState(false);
+//   useEffect(() => {
+//     const checkScreenSize = () => {
+//       setIsMobile(window.innerWidth < 640);
+//     };
+
+//     checkScreenSize();
+//     window.addEventListener("resize", checkScreenSize);
+
+//     return () => window.removeEventListener("resize", checkScreenSize);
+//   }, []);
+
+//   const isActionDisabled =
+//     isLoading || deletingBatchId !== null || isUpdatingBatch;
+
+//   return (
+//     <>
+//       <div className="py-5">
+//         <div className="flex items-start sm:items-center justify-between mb-6 gap-4">
+//           <div className="Broadcast-History">
+//             <div className="flex items-center gap-3">
+//               <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+//                 <FaBroadcastTower className="size-6 text-mainheading dark:text-primary" />
+//               </div>
+//               <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite dark:text-primary">
+//                 Broadcast History
+//               </h1>
+//             </div>
+//             <p className="text-subheadingWhite lg:text-lg">
+//               Review and manage previously sent broadcast messages.
+//             </p>
+//           </div>
+//           <button
+//             type="button"
+//             onClick={onRefresh}
+//             disabled={isLoading}
+//             className="flex items-center justify-center cursor-pointer gap-2 text-primary bg-primarybox hover:bg-secondarybox font-medium sm:px-8 sm:py-3 aspect-square sm:aspect-auto h-12.5 sm:w-auto w-12.5 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
+//             title="Refresh history"
+//           >
+//             <RefreshCw className={cn("size-5", isLoading && "animate-spin")} />
+//             {!isMobile && <span>Refresh</span>}
+//           </button>
+//         </div>
+
+//         {isLoading ? (
+//           renderSkeleton()
+//         ) : error ? (
+//           renderError()
+//         ) : (
+//           <>
+//             <div className="rounded-xl border overflow-hidden">
+//               <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-primarybox [&::-webkit-scrollbar-thumb]:bg-secondarybox">
+//                 <table className="min-w-full overflow-hidden">
+//                   <TableHeaderComponent
+//                     onSort={onSort}
+//                     sortField={sortField}
+//                     sortDirection={sortDirection}
+//                   />
+//                   <tbody className="divide-y overflow-hidden">
+//                     {batches.length === 0 ? (
+//                       <tr>
+//                         <td
+//                           colSpan={numberOfColumns}
+//                           className="text-center space-y-3 w-full text-subheadingWhite"
+//                         >
+//                           <div className="flex justify-center items-center">
+//                             <span className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
+//                               <ListChecks className="lg:size-8 size-6 mx-auto text-mainheadingWhite dark:text-primary" />
+//                             </span>
+//                           </div>
+
+//                           <p className="lg:text-3xl text-2xl font-medium text-mainheadingWhite mt-1">
+//                             No Past Broadcasts
+//                           </p>
+
+//                           <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+//                             It looks like there are no past broadcasts to
+//                             display at the moment. Once a broadcast is sent, it
+//                             will appear here.
+//                           </p>
+//                         </td>
+//                       </tr>
+//                     ) : (
+//                       batches.map((batch, index) => {
+//                         const isDeletingThis =
+//                           deletingBatchId === batch.batchId;
+//                         const isEditingThis =
+//                           editingBatchId === batch.batchId && isUpdatingBatch;
+//                         const rowActionDisabled =
+//                           isActionDisabled || isDeletingThis || isEditingThis;
+
+//                         return (
+//                           <motion.tr
+//                             key={batch.batchId}
+//                             initial={{ opacity: 0, y: 10 }}
+//                             animate={{ opacity: 1, y: 0 }}
+//                             transition={{ delay: index * 0.03 }}
+//                           >
+//                             <td className="px-4 py-4 max-w-sm whitespace-normal">
+//                               <div className="flex flex-col">
+//                                 <span
+//                                   className="font-semibold text-mainheadingWhite truncate"
+//                                   title={batch.subject}
+//                                 >
+//                                   {batch.subject || "N/A"}
+//                                 </span>
+//                                 <span
+//                                   className="text-xs text-subheadingWhite/60 truncate"
+//                                   title={batch.bodySnippet}
+//                                 >
+//                                   {batch.bodySnippet.length > 100
+//                                     ? `${batch.bodySnippet.substring(0, 97)}...`
+//                                     : batch.bodySnippet}
+//                                 </span>
+//                               </div>
+//                             </td>
+//                             <td className="px-4 py-4 whitespace-nowrap">
+//                               <div className="flex flex-col">
+//                                 <span className="font-medium text-mainheadingWhite">
+//                                   {formatDateToLocale(batch.sentAt)}
+//                                 </span>
+//                                 <span className="text-xs text-subheadingWhite/60">
+//                                   {formatDistanceToNow(new Date(batch.sentAt), {
+//                                     addSuffix: true,
+//                                   })}
+//                                 </span>
+//                               </div>
+//                             </td>
+//                             <td className="px-4 py-4 whitespace-nowrap">
+//                               <span className="font-medium text-mainheadingWhite">
+//                                 {batch.recipientCount}
+//                               </span>
+//                             </td>
+//                             <td className="px-4 py-4 whitespace-nowrap">
+//                               <span className="font-medium text-mainheadingWhite">
+//                                 {batch.sender}
+//                               </span>
+//                             </td>
+//                             <td className="px-4 py-4 whitespace-nowrap">
+//                               <div className="flex items-center gap-2">
+//                                 <button
+//                                   type="button"
+//                                   onClick={() => onEdit(batch)}
+//                                   disabled={rowActionDisabled}
+//                                   aria-label="Edit Batch"
+//                                   title="Edit Batch"
+//                                   className="bg-primary hover:bg-primaryhover gap-1.5 transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium text-mainheading  focus:outline-none flex items-center"
+//                                 >
+//                                   <Edit size={18} />
+//                                   Edit
+//                                 </button>
+//                                 <button
+//                                   type="button"
+//                                   onClick={() => onDelete(batch)}
+//                                   disabled={rowActionDisabled}
+//                                   aria-label="Delete Batch"
+//                                   title="Delete Batch"
+//                                   className="bg-red-600 hover:bg-red-700 gap-1.5 text-white  transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium focus:outline-none flex items-center"
+//                                 >
+//                                   <Trash2 size={18} />
+//                                   Delete
+//                                 </button>
+//                               </div>
+//                             </td>
+//                           </motion.tr>
+//                         );
+//                       })
+//                     )}
+//                   </tbody>
+//                 </table>
+//               </div>
+//             </div>
+
+//             {totalPages > 1 && (
+//               <div className="mt-6 flex justify-between items-center px-1 py-3">
+//                 <button
+//                   type="button"
+//                   onClick={onPreviousPage}
+//                   disabled={currentPage <= 1 || isLoading}
+//                   className={cn(
+//                     "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none",
+//                     "h-9 px-4",
+//                     "bg-primarybox hover:bg-primaryboxdubal text-primary"
+//                   )}
+//                 >
+//                   Previous
+//                 </button>
+//                 <span className="text-sm text-gray-700 dark:text-gray-300">
+//                   Page {currentPage} of {totalPages}
+//                 </span>
+//                 <button
+//                   type="button"
+//                   onClick={onNextPage}
+//                   disabled={currentPage >= totalPages || isLoading}
+//                   className={cn(
+//                     "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none",
+//                     "h-9 px-4",
+//                     "border border-gray-300 dark:border-neutral-700 bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+//                   )}
+//                 >
+//                   Next
+//                 </button>
+//               </div>
+//             )}
+//           </>
+//         )}
+//       </div>
+//     </>
+//   );
+// };
+
+// export default BroadcastHistoryTable;
+
+
+// frontend/src/app/components/message/send/BroadcastHistoryTable.tsx
 import React, { useEffect, useState } from "react";
 import { format, formatDistanceToNow } from "date-fns";
 import {
@@ -1748,6 +2171,9 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { motion } from "framer-motion";
 import { FaBroadcastTower } from "react-icons/fa";
+
+// Import the Pagination component
+import Pagination from "../../../components/Pagination"; // Adjust path if necessary
 
 // "subject" removed from sortable fields
 export type BroadcastSortField = "sentAt" | "recipientCount";
@@ -1780,9 +2206,10 @@ interface BroadcastHistoryTableProps {
   onDelete: (batch: BroadcastBatchInfo) => void;
   onPreviousPage: () => void;
   onNextPage: () => void;
+  paginate: (pageNumber: number) => void; // ADD THIS LINE
   skeletonRowCount?: number;
   onSort: (field: BroadcastSortField) => void;
-  sortField: BroadcastSortField | null; // Can be null now
+  sortField: BroadcastSortField | null;
   sortDirection: "asc" | "desc";
 }
 
@@ -1798,7 +2225,7 @@ const TableHeaderComponent: React.FC<TableHeaderComponentProps> = ({
   sortDirection,
 }) => {
   const headerCellClasses =
-    "px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider whitespace-nowrap";
+    "px-4 py-4 text-left font-medium text-mainheadingWhite tracking-wider whitespace-nowrap";
   const buttonClasses =
     "flex items-center gap-1 hover:text-primary uppercase group cursor-pointer";
 
@@ -1827,7 +2254,7 @@ const TableHeaderComponent: React.FC<TableHeaderComponentProps> = ({
   };
 
   return (
-    <thead className="bg-lightgray dark:bg-primarybox">
+    <thead className="bg-primarybox">
       <tr className="broadcast-head">
         {/* Subject & Snippet - No longer sortable */}
         <th className={`${headerCellClasses} min-w-[250px]`}>
@@ -1873,16 +2300,17 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
   onDelete,
   onPreviousPage,
   onNextPage,
+  paginate, // DESTRUCTURE THIS PROP
   skeletonRowCount = 3,
   onSort,
   sortField,
   sortDirection,
 }) => {
-  const numberOfColumns = 4;
+  const numberOfColumns = 5; // Updated this to 5 as there are 5 <th> elements in TableHeaderComponent
 
   const renderSkeleton = () => (
     <div className="rounded-xl border overflow-hidden">
-      <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+      <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full  [&::-webkit-scrollbar-thumb]:rounded-full  [&::-webkit-scrollbar-track]:bg-primarybox [&::-webkit-scrollbar-thumb]:bg-secondarybox">
         <table className="min-w-full">
           <TableHeaderComponent
             onSort={onSort}
@@ -1895,9 +2323,9 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
               .map((_, i) => (
                 <tr
                   key={`skel-batch-${i}`}
-                  className="border-b dark:border-neutral-700"
+                  className="border-b"
                 >
-                  {Array(numberOfColumns)
+                  {Array(numberOfColumns) // Use numberOfColumns here
                     .fill(0)
                     .map((_, j) => (
                       <td
@@ -1916,13 +2344,13 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
   );
 
   const renderError = () => (
-    <div className="mt-5 p-4 border border-red-300 bg-red-50 dark:bg-red-900/30 dark:border-red-700 rounded-md flex items-start space-x-3">
-      <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
+    <div className="mt-5 p-4 border bg-red-900/30 border-red-700 rounded-md flex items-start space-x-3">
+      <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5" />
       <div>
-        <h3 className="text-lg font-medium text-red-800 dark:text-red-200">
+        <h3 className="text-lg font-medium text-red-200">
           Error Loading History
         </h3>
-        <p className="text-sm text-red-700 dark:text-red-300 mt-1">{error}</p>
+        <p className="text-sm text-red-300 mt-1">{error}</p>
         <button
           type="button"
           onClick={onRefresh}
@@ -1930,7 +2358,7 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
           className={cn(
             "mt-2 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none",
             "h-9 px-3",
-            "text-red-700 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-800/50"
+            "text-red-300 hover:bg-red-800/50"
           )}
         >
           <RefreshCw className="mr-1.5 h-3.5 w-3.5" /> Try Again
@@ -1960,14 +2388,14 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
         <div className="flex items-start sm:items-center justify-between mb-6 gap-4">
           <div className="Broadcast-History">
             <div className="flex items-center gap-3">
-              <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
+              <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
                 <FaBroadcastTower className="size-6 text-mainheading dark:text-primary" />
               </div>
-              <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+              <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite dark:text-primary">
                 Broadcast History
               </h1>
             </div>
-            <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+            <p className="text-subheadingWhite lg:text-lg">
               Review and manage previously sent broadcast messages.
             </p>
           </div>
@@ -1975,7 +2403,7 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
             type="button"
             onClick={onRefresh}
             disabled={isLoading}
-            className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white sm:px-8 sm:py-3 aspect-square sm:aspect-auto h-12.5 sm:w-auto w-12.5 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
+            className="flex items-center justify-center cursor-pointer gap-2 text-primary bg-primarybox hover:bg-secondarybox font-medium sm:px-8 sm:py-3 aspect-square sm:aspect-auto h-12.5 sm:w-auto w-12.5 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
             title="Refresh history"
           >
             <RefreshCw className={cn("size-5", isLoading && "animate-spin")} />
@@ -1990,7 +2418,7 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
         ) : (
           <>
             <div className="rounded-xl border overflow-hidden">
-              <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+              <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-primarybox [&::-webkit-scrollbar-thumb]:bg-secondarybox">
                 <table className="min-w-full overflow-hidden">
                   <TableHeaderComponent
                     onSort={onSort}
@@ -2001,20 +2429,20 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
                     {batches.length === 0 ? (
                       <tr>
                         <td
-                          colSpan={numberOfColumns}
-                          className="text-center space-y-3 w-full text-gray-500 py-10 dark:text-gray-300"
+                          colSpan={numberOfColumns} // Use numberOfColumns here
+                          className="text-center space-y-3 w-full text-subheadingWhite"
                         >
                           <div className="flex justify-center items-center">
-                            <span className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
-                              <ListChecks className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+                            <span className="lg:size-16 size-14 flex items-center justify-center bg-primary  rounded-full mb-2">
+                              <ListChecks className="lg:size-8 size-6 mx-auto text-mainheadingWhite " />
                             </span>
                           </div>
 
-                          <p className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+                          <p className="lg:text-3xl text-2xl font-medium text-mainheadingWhite mt-1">
                             No Past Broadcasts
                           </p>
 
-                          <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+                          <p className="text-subheadingWhite max-w-lg mx-auto">
                             It looks like there are no past broadcasts to
                             display at the moment. Once a broadcast is sent, it
                             will appear here.
@@ -2037,47 +2465,50 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: index * 0.03 }}
                           >
-                            <td className="px-6 py-4 max-w-sm whitespace-normal">
+                            <td className="px-4 py-4 max-w-sm whitespace-normal">
                               <div className="flex flex-col">
                                 <span
-                                  className="font-semibold text-neutral-900 dark:text-white truncate"
+                                  className="font-semibold text-mainheadingWhite truncate"
                                   title={batch.subject}
                                 >
                                   {batch.subject || "N/A"}
                                 </span>
                                 <span
-                                  className="text-xs text-gray-500 dark:text-gray-300 truncate"
+                                  className="text-xs text-subheadingWhite/60 truncate"
                                   title={batch.bodySnippet}
                                 >
                                   {batch.bodySnippet.length > 100
-                                    ? `${batch.bodySnippet.substring(0, 97)}...`
+                                    ? `${batch.bodySnippet.substring(
+                                        0,
+                                        97
+                                      )}...`
                                     : batch.bodySnippet}
                                 </span>
                               </div>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
+                            <td className="px-4 py-4 whitespace-nowrap">
                               <div className="flex flex-col">
-                                <span className="font-medium text-neutral-900 dark:text-white">
+                                <span className="font-medium text-mainheadingWhite">
                                   {formatDateToLocale(batch.sentAt)}
                                 </span>
-                                <span className="text-xs text-gray-500 dark:text-gray-300">
+                                <span className="text-xs text-subheadingWhite/60">
                                   {formatDistanceToNow(new Date(batch.sentAt), {
                                     addSuffix: true,
                                   })}
                                 </span>
                               </div>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className="font-medium text-neutral-900 dark:text-white">
+                            <td className="px-4 py-4 whitespace-nowrap">
+                              <span className="font-medium text-mainheadingWhite">
                                 {batch.recipientCount}
                               </span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
-                              <span className="font-medium text-neutral-900 dark:text-white">
+                            <td className="px-4 py-4 whitespace-nowrap">
+                              <span className="font-medium text-mainheadingWhite">
                                 {batch.sender}
                               </span>
                             </td>
-                            <td className="px-6 py-4 whitespace-nowrap">
+                            <td className="px-4 py-4 whitespace-nowrap">
                               <div className="flex items-center gap-2">
                                 <button
                                   type="button"
@@ -2085,7 +2516,7 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
                                   disabled={rowActionDisabled}
                                   aria-label="Edit Batch"
                                   title="Edit Batch"
-                                  className="bg-primary gap-1.5 hover:bg-primaryhover dark:bg-primarybox hover:dark:bg-secondarybox transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium text-neutral-900 dark:text-primary focus:outline-none flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                                  className="bg-primary hover:bg-primaryhover gap-1.5 transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium text-mainheading  focus:outline-none flex items-center"
                                 >
                                   <Edit size={18} />
                                   Edit
@@ -2096,7 +2527,7 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
                                   disabled={rowActionDisabled}
                                   aria-label="Delete Batch"
                                   title="Delete Batch"
-                                  className="bg-red-600 gap-1.5 hover:bg-red-700 text-white transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium focus:outline-none flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
+                                  className="bg-red-600 hover:bg-red-700 gap-1.5 text-white  transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium focus:outline-none flex items-center"
                                 >
                                   <Trash2 size={18} />
                                   Delete
@@ -2112,37 +2543,14 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
               </div>
             </div>
 
-            {totalPages > 1 && (
-              <div className="mt-6 flex justify-between items-center px-1 py-3">
-                <button
-                  type="button"
-                  onClick={onPreviousPage}
-                  disabled={currentPage <= 1 || isLoading}
-                  className={cn(
-                    "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none",
-                    "h-9 px-4",
-                    "border border-gray-300 dark:border-neutral-700 bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-                  )}
-                >
-                  Previous
-                </button>
-                <span className="text-sm text-gray-700 dark:text-gray-300">
-                  Page {currentPage} of {totalPages}
-                </span>
-                <button
-                  type="button"
-                  onClick={onNextPage}
-                  disabled={currentPage >= totalPages || isLoading}
-                  className={cn(
-                    "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-indigo-500 disabled:opacity-50 disabled:pointer-events-none",
-                    "h-9 px-4",
-                    "border border-gray-300 dark:border-neutral-700 bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-                  )}
-                >
-                  Next
-                </button>
-              </div>
-            )}
+            {/* Replace old pagination with the new Pagination component */}
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              paginate={paginate}
+              goToPreviousPage={onPreviousPage}
+              goToNextPage={onNextPage}
+            />
           </>
         )}
       </div>

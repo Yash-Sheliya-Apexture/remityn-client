@@ -503,47 +503,26 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
       {isOpen &&
         message && ( // Ensure message is not null when isOpen is true
           <motion.div
-            className="fixed inset-0 w-full h-full bg-black/50 dark:bg-white/30 z-50 flex sm:items-center items-end justify-center"
+            className="fixed inset-0 w-full h-full bg-white/15 z-50 flex sm:items-center items-end justify-center"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose} // Close on overlay click
           >
             <motion.div
-              className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl w-full sm:max-w-xl relative"
+              className="bg-background sm:rounded-3xl rounded-t-3xl w-full sm:max-w-xl relative"
               variants={modalVariants}
               initial="initial"
               animate="animate"
               exit="exit"
               onClick={(e) => e.stopPropagation()} // Prevent close on modal content click
             >
-              {/* Header */}
-              {/* <div className="p-4 sm:p-6 rounded-t-2xl flex items-center justify-between border-b">
-                <div className="absolute sm:top-2 sm:right-2 top-1 right-1">
-                  <button
-                    className="p-3 bg-lightborder hover:bg-neutral-300 dark:bg-primarybox dark:hover:bg-secondarybox rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
-                    onClick={onClose}
-                    aria-label="Close modal"
-                    disabled={isLoading}
-                    type="button"
-                  >
-                    <IoClose
-                      size={28}
-                      className="text-neutral-900 dark:text-primary"
-                    />
-                  </button>
-                </div>
-                <div className="flex justify-between items-center">
-                  <h2 className="lg:text-2xl text-xl font-semibold text-mainheading dark:text-white">
-                    Confirm Deletion
-                  </h2>
-                </div>
-              </div> */}
+              
 
               <div className="p-4 sm:p-6 flex items-center justify-between flex-shrink-0 border-b">
                 <h2
                   id="edit-message-modal-title"
-                  className="lg:text-2xl text-xl font-semibold text-mainheading dark:text-white"
+                  className="lg:text-2xl text-xl font-semibold text-mainheadingWhite"
                 >
                   Confirm Deletion
                 </h2>
@@ -551,7 +530,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
                   onClick={onClose}
                   disabled={isLoading}
                   aria-label="Close modal"
-                  className="size-12 bg-lightgray cursor-pointer hover:bg-lightborder text-neutral-900 dark:text-primary dark:bg-primarybox dark:hover:bg-secondarybox flex items-center justify-center rounded-full transition-all duration-75 ease-linear focus:outline-none"
+                  className="p-2.5 bg-primarybox hover:bg-secondarybox text-primary rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
                 >
                   <IoClose size={28} />
                 </button>
@@ -559,38 +538,38 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
 
               {/* Body */}
               <div className="sm:p-6 p-4">
-                <p className="text-gray-500 dark:text-gray-300 font-medium">
+                <p className="text-subheadingWhite font-medium">
                   Are you sure you want to permanently delete this message? This
                   action cannot be undone.
                 </p>
-                <div className="mt-4 text-sm text-gray-500 dark:text-gray-300 space-y-1.5 border px-4 py-3 rounded-xl">
+                <div className="mt-4 text-sm text-subheadingWhite space-y-1.5 border px-4 py-3 rounded-xl">
                   <div className="flex items-start">
-                    <span className="font-semibold text-neutral-900 dark:text-white w-[70px] shrink-0">
+                    <span className="font-semibold text-white/90 w-[70px] shrink-0">
                       Subject:
                     </span>
-                    <span className="ml-1.5 flex-1 break-words">
+                    <span className="ml-1.5 flex-1 break-words text-subheadingWhite">
                       {message.subject}
                     </span>
                   </div>
                   <div className="flex items-start">
-                    <span className="font-semibold text-neutral-900 dark:text-white w-[70px] shrink-0">
+                    <span className="font-semibold text-white/90 w-[70px] shrink-0">
                       To:
                     </span>
-                    <span className="ml-1.5 truncate" title={recipientName}>
+                    <span className="ml-1.5 truncate text-subheadingWhite" title={recipientName}>
                       {recipientName.length > 35
                         ? `${recipientName.substring(0, 35)}...`
                         : recipientName}
                     </span>
                   </div>
                   <div className="flex items-center">
-                    <span className="font-semibold text-neutral-900 dark:text-white w-[70px] shrink-0">
+                    <span className="font-semibold text-white/90 w-[70px] shrink-0">
                       Sent:
                     </span>
-                    <span className="ml-1.5">{formatDate(message.sentAt)}</span>
+                    <span className="ml-1.5 text-subheadingWhite">{formatDate(message.sentAt)}</span>
                   </div>
                 </div>
 
-                <p className="text-sm text-gray-500 dark:text-gray-300 mt-4">
+                <p className="text-sm text-subheadingWhite mt-4">
                   This message will be permanently removed from the system.
                   Please confirm your action.
                 </p>
@@ -602,7 +581,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
                   type="button"
                   onClick={onClose}
                   disabled={isLoading}
-                  className="bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox  dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-8 py-3 h-[48px] leading-5 text-center w-full cursor-pointer transition-all duration-75 ease-linear"
+                  className="inline-flex justify-center cursor-pointer text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-[48px] text-center w-full transition-all duration-75 ease-linear"
                 >
                   Cancel
                 </button>

@@ -1016,7 +1016,7 @@ const InboxTable: React.FC<InboxTableProps> = ({
         <span
           className={cn(
             baseClasses,
-            "text-gray-600 bg-gray-100 dark:bg-gray-600/20 dark:text-gray-400"
+            "bg-gray-600/20 text-gray-400"
           )}
         >
           Read
@@ -1027,7 +1027,7 @@ const InboxTable: React.FC<InboxTableProps> = ({
       <span
         className={cn(
           baseClasses,
-          "text-blue-600 bg-blue-100 dark:bg-blue-600/20 dark:text-blue-400"
+          "bg-blue-600/20 text-blue-400"
         )}
       >
         Unread
@@ -1040,7 +1040,7 @@ const InboxTable: React.FC<InboxTableProps> = ({
   if (loading) {
     return (
       <div className="rounded-xl border overflow-hidden">
-        <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+        <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-primarybox [&::-webkit-scrollbar-thumb]:bg-secondarybox">
           <table className="min-w-full">
             <InboxTableHeader
               toggleSort={toggleSort}
@@ -1057,7 +1057,7 @@ const InboxTable: React.FC<InboxTableProps> = ({
                       .map((_, j) => (
                         <td
                           key={j}
-                          className="px-6 py-4 h-[70px] whitespace-nowrap"
+                          className="px-4 py-4 h-[70px] whitespace-nowrap"
                         >
                           <Skeleton className="h-4 w-full" />
                         </td>
@@ -1073,7 +1073,7 @@ const InboxTable: React.FC<InboxTableProps> = ({
 
   return (
     <div className="rounded-xl border overflow-hidden">
-      <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+      <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-primarybox [&::-webkit-scrollbar-thumb]:bg-secondarybox">
         <table className="min-w-full overflow-hidden">
           <InboxTableHeader
             toggleSort={toggleSort}
@@ -1085,19 +1085,19 @@ const InboxTable: React.FC<InboxTableProps> = ({
               <tr>
                 <td
                   colSpan={numberOfColumns}
-                  className="text-center space-y-3 w-full text-gray-500 py-10 dark:text-gray-300"
+                  className="text-center space-y-3 w-full text-mainheadingWhite"
                 >
                   <div className="flex justify-center items-center">
                     <span className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
-                      <ListChecks className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+                      <ListChecks className="lg:size-8 size-6 mx-auto text-mainheadingWhite" />
                     </span>
                   </div>
 
-                  <h1 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+                  <h1 className="lg:text-3xl text-2xl font-medium text-mainheadingWhite mt-1">
                     No messages found.
                   </h1>
 
-                  <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+                  <p className="text-subheadingWhite max-w-lg mx-auto">
                     There are currently no past messages in your inbox.
                     Please check back later for updates and announcements
                   </p>
@@ -1116,35 +1116,35 @@ const InboxTable: React.FC<InboxTableProps> = ({
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
                   >
-                    <td className="px-6 py-3 whitespace-nowrap">
+                    <td className="px-4 py-3 whitespace-nowrap">
                       {getStatusBadge(msg.isRead)}
                     </td>
-                    <td className="px-6 py-3 whitespace-nowrap">
+                    <td className="px-4 py-3 whitespace-nowrap">
                       <div
-                        className="font-medium text-neutral-900 dark:text-white truncate max-w-[200px]"
+                        className="font-medium text-mainheadingWhite truncate max-w-[200px]"
                         title={msg.userId?.email ?? "N/A"}
                       >
                         {msg.userId?.fullName || msg.userId?.email || (
-                          <span className="italic text-gray-500 dark:text-gray-300">
+                          <span className="italic text-subheadingWhite/60">
                             Unknown User
                           </span>
                         )}
                       </div>
-                      <div className="text-sm text-gray-500 dark:text-gray-300">
+                      <div className="text-sm text-subheadingWhite/60">
                         ID: {msg.userId?._id?.slice(-6) ?? "N/A"}
                       </div>
                     </td>
-                    <td className="px-6 py-3 font-medium whitespace-nowrap text-neutral-900 dark:text-white truncate max-w-[200px]">
+                    <td className="px-4 py-3 font-medium whitespace-nowrap text-mainheadingWhite truncate max-w-[200px]">
                       {msg.sender}
                     </td>
-                    <td className="px-6 py-3 font-medium whitespace-nowrap text-neutral-900 dark:text-white truncate max-w-[250px]">
+                    <td className="px-4 py-3 font-medium whitespace-nowrap text-mainheadingWhite truncate max-w-[250px]">
                       {msg.subject}
                     </td>
-                    <td className="px-6 py-3 font-medium whitespace-nowrap">
-                      <div className="text-neutral-900 dark:text-white">
+                    <td className="px-4 py-3 font-medium whitespace-nowrap">
+                      <div className="text-mainheadingWhite">
                         {formatDate(msg.sentAt)}
                       </div>
-                      <div className="text-xs text-gray-500 dark:text-gray-400">
+                      <div className="text-xs text-subheadingWhite/60">
                         {msg.sentAt
                           ? formatDistanceToNow(new Date(msg.sentAt), {
                               addSuffix: true,
@@ -1152,12 +1152,12 @@ const InboxTable: React.FC<InboxTableProps> = ({
                           : "N/A"}
                       </div>
                     </td>
-                    <td className="px-6 py-3 whitespace-nowrap text-right font-medium">
+                    <td className="px-4 py-3 whitespace-nowrap text-right font-medium">
                       <div className="flex items-center justify-end gap-3">
                         <button
                           onClick={() => onEdit(msg)}
                           title="Edit Message"
-                          className="bg-primary hover:bg-primaryhover gap-1.5 dark:bg-primarybox hover:dark:bg-secondarybox transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium text-neutral-900 dark:text-primary focus:outline-none flex items-center"
+                          className="bg-primary hover:bg-primaryhover gap-1.5 transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium text-mainheading dark:text-primary focus:outline-none flex items-center"
                         >
                           <Edit size={18} />
                           Edit

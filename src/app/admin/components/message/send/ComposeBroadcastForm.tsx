@@ -29,13 +29,13 @@ const ComposeBroadcastForm: React.FC<ComposeBroadcastFormProps> = ({
       <form onSubmit={onSubmit}>
         {/* Header */}
 
-        <div className="sm:px-6 px-4 py-4 bg-lightgray dark:bg-primarybox">
-          <h2 className="text-xl font-semibold text-neutral-900 dark:text-white flex flex-wrap items-center gap-1.5">
+        <div className="sm:px-6 px-4 py-4 bg-primarybox">
+          <h2 className="text-xl font-semibold text-mainheadingWhite flex flex-wrap items-center gap-1.5">
             <Newspaper size={22} className="text-primary" /> Compose New
             Broadcast
           </h2>
             
-          <p className="text-sm text-gray-500 dark:text-gray-300 mt-1">
+          <p className="text-sm text-subheadingWhite mt-1">
             This message will be delivered to the inbox of every registered
             user.
           </p>
@@ -43,13 +43,13 @@ const ComposeBroadcastForm: React.FC<ComposeBroadcastFormProps> = ({
         {/* Content */}
         <div className="sm:p-6 p-4 space-y-6">
           {sendError && (
-            <div className="bg-red-100 border border-red-300 dark:bg-red-600/20 dark:border-red-700 rounded-lg p-4 flex items-start space-x-3">
-              <AlertCircle className="h-5 w-5 flex-shrink-0 mt-1 text-red-700 dark:text-red-400 " />
+            <div className="bg-red-600/20 border-red-700 rounded-lg p-4 flex items-start space-x-3">
+              <AlertCircle className="h-5 w-5 flex-shrink-0 mt-1 text-red-400 " />
               <div>
-                <h3 className="font-medium tracking-normal text-red-700 dark:text-red-400  text-base">
+                <h3 className="font-medium tracking-normal text-red-400  text-base">
                   Sending Error
                 </h3>
-                <p className="text-red-600 dark:text-red-300">
+                <p className="text-red-300">
                   {sendError}dfdef
                 </p>
               </div>
@@ -58,7 +58,7 @@ const ComposeBroadcastForm: React.FC<ComposeBroadcastFormProps> = ({
           <div className="space-y-1.5">
             <label
               htmlFor="subject"
-              className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+              className="text-white/90 block capitalize text-sm lg:text-base"
             >
               Subject{" "}
               <span className="text-red-600">*</span>
@@ -72,13 +72,13 @@ const ComposeBroadcastForm: React.FC<ComposeBroadcastFormProps> = ({
               maxLength={100}
               required
               disabled={isSending}
-              className="mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75"
+              className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0"
             />
           </div>
           <div className="space-y-1.5">
             <label
               htmlFor="body"
-              className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+              className="text-white/90 block capitalize text-sm lg:text-base"
             >
               Body{" "}
               <span className="text-red-600">*</span>
@@ -93,7 +93,7 @@ const ComposeBroadcastForm: React.FC<ComposeBroadcastFormProps> = ({
                 rows={8}
                 required
                 disabled={isSending}
-                className="resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 bg-white dark:bg-background h-14 w-full transition-all border rounded-lg focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75 min-h-[200px]"
+                className="min-h-[200px] resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-thumb]:rounded-full  sm:[&::-webkit-scrollbar-track]:bg-primarybox sm:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white h-14 w-full transition-all border rounded-lg focus:outline-none ease-linear duration-75"
               />
             </div>
           </div>
@@ -105,12 +105,12 @@ const ComposeBroadcastForm: React.FC<ComposeBroadcastFormProps> = ({
               type="submit"
               disabled={isSubmitDisabled}
               className={cn(
-                "bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center sm:w-auto w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+                "bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center sm:w-auto w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
               )}
             >
               {isSending ? (
                 <svg
-                  className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+                  className="h-5 w-5 text-mainheading animate-spin mr-2"
                   viewBox="0 0 24 24"
                   fill="none"
                   xmlns="http://www.w3.org/2000/svg"

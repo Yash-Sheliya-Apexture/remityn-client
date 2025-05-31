@@ -409,12 +409,12 @@ const PaymentTableHeader: React.FC<PaymentTableHeaderProps> = ({
 
   // Common classes for header cells and buttons
   const headerCellClasses =
-    "px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider whitespace-nowrap";
+    "px-4 py-4 text-left font-medium text-mainheadingWhite tracking-wider whitespace-nowrap";
   const buttonClasses =
     "flex items-center gap-1 hover:text-primary uppercase group cursor-pointer"; // Group class is essential for group-hover on icon
 
   return (
-    <thead className="bg-lightgray dark:bg-primarybox">
+    <thead className="bg-primarybox">
       <tr className="payment-head">
         {/* --- Payment ID Column (Sortable) --- */}
         <th className={headerCellClasses}>

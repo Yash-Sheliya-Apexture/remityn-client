@@ -71,7 +71,7 @@ const KycRejectModal: React.FC<KycRejectModalProps> = ({
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          className="fixed inset-0 w-full h-full bg-black/40 dark:bg-white/30 z-50 flex sm:items-center items-end justify-center"
+          className="fixed inset-0 w-full h-full bg-white/15 z-50 flex sm:items-center items-end justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -83,7 +83,7 @@ const KycRejectModal: React.FC<KycRejectModalProps> = ({
           aria-modal="true"
         >
           <motion.div
-            className="bg-white dark:bg-background sm:rounded-3xl rounded-t-3xl w-full sm:max-w-lg relative"
+            className="bg-background sm:rounded-3xl rounded-t-3xl w-full sm:max-w-lg relative"
             variants={modalSpecificVariants}
             initial="initial"
             animate="animate"
@@ -93,7 +93,7 @@ const KycRejectModal: React.FC<KycRejectModalProps> = ({
             <div className="p-4 sm:p-6 flex items-center justify-between flex-shrink-0 border-b">
               <h2
                 id="edit-message-modal-title"
-                className="lg:text-2xl text-xl font-semibold text-mainheading dark:text-white"
+                className="lg:text-2xl text-xl font-semibold text-mainheadingWhite"
               >
                 Reject KYC Application 
               </h2>
@@ -101,7 +101,7 @@ const KycRejectModal: React.FC<KycRejectModalProps> = ({
                 onClick={onClose}
                 disabled={isProcessing}
                 aria-label="Close modal"
-                className="size-12 bg-lightgray cursor-pointer hover:bg-lightborder text-neutral-900 dark:text-primary dark:bg-primarybox dark:hover:bg-secondarybox flex items-center justify-center rounded-full transition-all duration-75 ease-linear focus:outline-none"
+                className="p-2.5 bg-primarybox hover:bg-secondarybox text-primary rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
               >
                 <IoClose size={28} />
               </button>
@@ -109,13 +109,13 @@ const KycRejectModal: React.FC<KycRejectModalProps> = ({
 
 
             <div className="p-4 sm:p-6 space-y-4">
-              <p className="text-sm text-gray-500 dark:text-gray-300">
+              <p className="text-sm text-subheadingWhite">
                 Provide a clear reason for rejection. This will be visible to
                 the user.
               </p>
               <Label
                 htmlFor="rejectionReasonInputModal"
-                className="text-gray-500 dark:text-gray-300 inline-block capitalize text-sm lg:text-base"
+                className="text-white/90 inline-block capitalize text-sm lg:text-base mb-1"
               >
                 Reason <span className="text-red-600">*</span>
               </Label>
@@ -130,7 +130,7 @@ const KycRejectModal: React.FC<KycRejectModalProps> = ({
                       setLocalError(null);
                   }}
                   placeholder="E.g., ID document blurry, Information mismatch, Expired document..."
-                  className="min-h-[150px] resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 bg-white dark:bg-background h-14 w-full transition-all border rounded-lg focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75"
+                  className="min-h-[150px] resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-thumb]:rounded-full  sm:[&::-webkit-scrollbar-track]:bg-primarybox sm:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white h-14 w-full transition-all border rounded-lg focus:outline-none ease-linear duration-75"
                   aria-describedby="rejection-error-message-modal"
                   disabled={isProcessing}
                 />
@@ -149,7 +149,7 @@ const KycRejectModal: React.FC<KycRejectModalProps> = ({
 
             <div className="flex sm:flex-row flex-col items-center justify-end sm:p-6 p-4 gap-4 border-t">
               <button
-                className="bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                className="text-primary bg-primarybox hover:bg-secondarybox font-medium  rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={onClose}
                 disabled={isProcessing}
               >
@@ -157,7 +157,7 @@ const KycRejectModal: React.FC<KycRejectModalProps> = ({
               </button>
 
               <button
-                className="bg-red-600 text-white hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="bg-red-600 text-white hover:bg-red-700 font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 onClick={handleSubmit}
                 disabled={isProcessing || !rejectionReason.trim()}
               >

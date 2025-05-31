@@ -411,12 +411,12 @@ const InboxTableHeader: React.FC<InboxTableHeaderProps> = ({
   };
 
   const headerCellClasses =
-    "px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider whitespace-nowrap";
+    "px-4 py-4 text-left font-medium text-mainheadingWhite tracking-wider whitespace-nowrap";
   const buttonClasses =
     "flex items-center gap-1 hover:text-primary uppercase group cursor-pointer";
 
   return (
-    <thead className="bg-lightgray dark:bg-primarybox">
+    <thead className="bg-primarybox">
       <tr className="inbox-status">
         {/* Status Column (Sortable by 'status' which maps to 'isRead') */}
         <th className={headerCellClasses}>

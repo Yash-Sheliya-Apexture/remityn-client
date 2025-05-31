@@ -2153,20 +2153,21 @@ const AdminTransfersPage: React.FC = () => {
   };
 
   // Get status color helper (keep as is)
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: string): string => {
     switch (status?.toLowerCase()) {
       case "completed":
-        return "text-green-600 bg-green-100 dark:bg-green-600/20 dark:text-green-400";
+        return "bg-green-600/20 text-green-400";
       case "pending":
-        return "text-yellow-600 bg-yellow-100 dark:bg-yellow-600/20 dark:text-yellow-400";
-      case "processing":
-        return "text-blue-600 bg-blue-100 dark:bg-blue-600/20 dark:text-blue-400";
-      case "failed":
-        return "text-rose-600 bg-rose-100 dark:bg-rose-600/20 dark:text-rose-400";
+        return "bg-yellow-600/20 text-yellow-400";
+      case "in progress":
+        return "bg-blue-600/20 text-blue-400";
       case "canceled":
-        return "text-red-600 bg-red-100 dark:bg-red-600/20 dark:text-red-400";
+      case "cancelled":
+        return "bg-red-600/20 text-red-400";
+      case "failed":
+        return "bg-rose-600/20 text-rose-400";
       default:
-        return "text-gray-600 bg-gray-100 dark:bg-gray-600/20 dark:text-gray-400";
+        return "bg-gray-600/20 text-gray-400";
     }
   };
 
@@ -2270,16 +2271,16 @@ const AdminTransfersPage: React.FC = () => {
         <div className="flex sm:flex-row flex-col justify-between items-center gap-3">
           <div className="Management">
             <div className="flex items-center gap-3">
-              <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-                <BsSend className="size-6 text-mainheading dark:text-primary" />
+              <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+                <BsSend className="size-6 text-mainheading" />
               </div>
 
-              <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+              <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
                 Send-Money Management
               </h1>
             </div>
 
-            <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+            <p className="mt-2 text-subheadingWhite lg:text-lg">
               Track and manage all money transfers seamlessly with clear
               recipient details, currency types, and real-time transaction
               statuses.
@@ -2289,7 +2290,7 @@ const AdminTransfersPage: React.FC = () => {
           <div className="flex items-center gap-3 justify-end sm:w-auto w-full">
             <button
               onClick={() => setShowFilterModal(true)}
-              className="flex items-center justify-center cursor-pointer gap-2 bg-primary text-neutral-900 font-medium text-base sm:px-8 px-6 py-3 h-12.5 sm:w-auto w-full rounded-full hover:bg-primaryhover transition-all duration-75 ease-linear"
+              className="flex items-center bg-primary text-mainheading hover:bg-primaryhover gap-2 h-12.5 px-8 py-3 cursor-pointer font-medium rounded-full sm:w-auto w-full justify-center transition-all duration-75 ease-linear"
             >
               <Filter size={18} />
               Filters
@@ -2297,8 +2298,8 @@ const AdminTransfersPage: React.FC = () => {
             <button
               onClick={refreshData}
               disabled={isRefreshing || loadingTransfers}
-              className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white sm:px-8 px-6 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
-              title="Refresh payment data"
+              className="flex items-center justify-center cursor-pointer gap-2 text-primary bg-primarybox hover:bg-secondarybox font-medium px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
+              title="Refresh Send Money data"
             >
               <RefreshCw
                 className={`size-5 ${isRefreshing ? "animate-spin" : ""}`}
@@ -2313,7 +2314,7 @@ const AdminTransfersPage: React.FC = () => {
           <div className="flex items-center gap-2">
             <label
               htmlFor="transfersPerPage"
-              className="text-sm font-medium text-gray-500 dark:text-gray-300 whitespace-nowrap"
+              className="text-sm font-medium text-subheadingWhite whitespace-nowrap"
             >
               Show:
             </label>
@@ -2321,23 +2322,23 @@ const AdminTransfersPage: React.FC = () => {
               id="transfersPerPage"
               value={transfersPerPage}
               onChange={(e) => handlePageSizeChange(Number(e.target.value))}
-              className="block w-auto pl-3 pr-8 py-2 text-sm border rounded-md focus:outline-none bg-white dark:bg-primarybox dark:text-white cursor-pointer"
+              className="block w-auto pl-3 pr-8 py-2 text-sm border rounded-md focus:outline-none bg-primarybox text-mainheadingWhite cursor-pointer"
             >
               {pageSizeOptions.map((size) => (
                 <option
                   key={size}
                   value={size}
-                  className="dark:bg-dropdowncolor"
+                  className="bg-primarybox cursor-pointer"
                 >
                   {size}
                 </option>
               ))}
             </select>
-            <span className="text-sm font-medium text-gray-500 dark:text-gray-300 whitespace-nowrap">
+            <span className="text-sm font-medium text-subheadingWhite whitespace-nowrap">
               entries
             </span>
           </div>
-          <p className="text-sm text-gray-500 dark:text-gray-300">
+          <p className="text-sm text-subheadingWhite">
             Showing{" "}
             {filteredTransfers.length > 0
               ? (currentPage - 1) * transfersPerPage + 1

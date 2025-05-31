@@ -615,7 +615,7 @@ const TransferTable: React.FC<TransferTableProps> = ({
   if (loadingTransfers) {
     return (
       <div className="rounded-xl border overflow-hidden">
-        <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+        <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-primarybox [&::-webkit-scrollbar-thumb]:bg-secondarybox">
           <table className="min-w-full">
             <TransferTableHeader
               // Cast the specific types back to general string if the Header component expects it
@@ -637,7 +637,7 @@ const TransferTable: React.FC<TransferTableProps> = ({
                         ) => (
                           <td
                             key={j}
-                            className="px-6 py-4 h-[70px] whitespace-nowrap"
+                            className="px-4 py-4 h-[70px] whitespace-nowrap"
                           >
                             {/* Use full width skeleton */}
                             <Skeleton className="h-4 w-full" />{" "}
@@ -655,7 +655,7 @@ const TransferTable: React.FC<TransferTableProps> = ({
 
   return (
     <div className="rounded-xl border overflow-hidden">
-      <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+      <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-primarybox [&::-webkit-scrollbar-thumb]:bg-secondarybox">
         <table className="min-w-full overflow-hidden">
           <TransferTableHeader
             // Cast the specific types back to general string if the Header component expects it
@@ -668,7 +668,7 @@ const TransferTable: React.FC<TransferTableProps> = ({
               <tr>
                 <td
                   colSpan={numberOfColumns} // Use the defined constant
-                  className="px-6 py-10 text-center text-gray-500 dark:text-gray-300"
+                  className="px-4 py-10 text-center text-mainheadingWhite"
                 >
                   No transfers found matching your filters.
                 </td>
@@ -681,37 +681,37 @@ const TransferTable: React.FC<TransferTableProps> = ({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                 >
-                  <td className="px-6 py-3 whitespace-nowrap">
-                    <span className="font-medium text-neutral-900 dark:text-white">
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    <span className="font-medium text-mainheadingWhite">
                       {transfer._id
                         ? `${transfer._id.substring(0, 10)}...`
                         : "N/A"}
                     </span>
                   </td>
-                  <td className="px-6 py-3">
+                  <td className="px-4 py-3">
                     <div className="flex flex-col">
-                      <span className="font-medium capitalize text-neutral-900 dark:text-white">
+                      <span className="font-medium capitalize text-mainheadingWhite">
                         {transfer.user?.fullName || "N/A"}
                       </span>
-                      <span className="text-sm text-gray-500 dark:text-gray-300">
+                      <span className="text-sm text-subheadingWhite/60">
                         {transfer.user?.email || "N/A"}
                       </span>
                     </div>
                   </td>
-                  <td className="px-6 py-3 whitespace-nowrap">
-                    <span className="font-medium capitalize text-neutral-900 dark:text-white">
+                  <td className="px-4 py-3 whitespace-nowrap">
+                    <span className="font-medium capitalize text-mainheadingWhite">
                       {transfer.recipient?.accountHolderName || "N/A"}
                     </span>
                   </td>
-                  <td className="px-6 py-3 whitespace-nowrap font-medium text-neutral-900 dark:text-white">
+                  <td className="px-4 py-3 whitespace-nowrap font-medium text-mainheadingWhite">
                     {/* Display the string amount directly */}
                     {transfer.sendAmount != null ? transfer.sendAmount : "N/A"}
                     {/* Add currency symbol or formatting if needed */}
                   </td>
-                  <td className="px-6 py-3 whitespace-nowrap text-neutral-900 dark:text-white">
+                  <td className="px-4 py-3 whitespace-nowrap text-mainheadingWhite">
                     {transfer.sendCurrency?.code || "N/A"}
                   </td>
-                  <td className="px-6 py-3 whitespace-nowrap">
+                  <td className="px-4 py-3 whitespace-nowrap">
                     <span
                       className={`inline-flex justify-center items-center px-4 py-1 w-28 font-medium rounded-3xl capitalize ${getStatusColor(
                         transfer.status || "unknown"
@@ -720,13 +720,13 @@ const TransferTable: React.FC<TransferTableProps> = ({
                       {transfer.status || "Unknown"}
                     </span>
                   </td>
-                  <td className="px-6 py-3 font-medium text-neutral-900 dark:text-white whitespace-nowrap">
+                  <td className="px-4 py-3 font-medium text-mainheadingWhite whitespace-nowrap">
                     {formatDate(transfer.createdAt)}
                   </td>
-                  <td className="px-6 py-3 font-medium text-neutral-900 dark:text-white whitespace-nowrap ">
+                  <td className="px-4 py-3 font-medium text-neutral-900 dark:text-white whitespace-nowrap ">
                     <Link
                       href={`/admin/transfer/${transfer._id}`}
-                      className="inline-flex items-center group px-6 py-2 rounded-3xl space-x-1 transition-colors duration-300 font-medium bg-primary hover:bg-primaryhover dark:bg-primarybox hover:dark:bg-secondarybox text-neutral-900 dark:text-primary focus:outline-none"
+                      className="gap-1.5 bg-primarybox hover:bg-secondarybox transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium text-primary focus:outline-none flex items-center"
                     >
                       <span>View Details</span>
                     </Link>

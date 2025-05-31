@@ -3004,8 +3004,6 @@
 
 // export default GenericFilters;
 
-
-
 // components/admin/shared/GenericFilters.tsx
 "use client";
 import React, { useState, useRef, useEffect } from "react";
@@ -3221,10 +3219,10 @@ const GenericFilters: React.FC<GenericFiltersProps> = ({
 
   // Common label/input styles (remain the same)
   const labelClassName =
-    "text-gray-500 dark:text-gray-300 font-medium mb-3 leading-8";
+    "text-mainheadingWhite block capitalize text-sm lg:text-base";
   const inputWrapperClassName = "flex items-center justify-between";
   const inputClassName =
-    "mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 focus:border-[#5f5f5f]";
+    "mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0";
 
   return (
     <AnimatePresence>
@@ -3236,7 +3234,7 @@ const GenericFilters: React.FC<GenericFiltersProps> = ({
             animate={{ opacity: 0.5 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/50 dark:bg-white/30 z-50"
+            className="fixed inset-0 bg-white/30 z-50"
             onClick={closePopup}
             aria-hidden="true"
           />
@@ -3258,7 +3256,7 @@ const GenericFilters: React.FC<GenericFiltersProps> = ({
               isMobile
                 ? "bottom-0 left-0 right-0 h-[100vh] max-h-screen"
                 : "top-0 right-0 sm:w-[600px] h-full border-l"
-            } bg-white dark:bg-background z-[51] flex flex-col overflow-hidden`}
+            } bg-background z-[51] flex flex-col overflow-hidden`}
             role="dialog"
             aria-modal="true"
             aria-labelledby="filter-modal-heading"
@@ -3267,18 +3265,16 @@ const GenericFilters: React.FC<GenericFiltersProps> = ({
             <div className="p-6 flex items-center justify-between flex-shrink-0 border-b relative h-20">
               <h3
                 id="filter-modal-heading"
-                className="font-semibold text-mainheading dark:text-white text-lg"
+                className="font-semibold text-mainheadingWhite text-xl lg:text-2xl"
               >
                 Filters
               </h3>
 
               <div
                 onClick={closePopup}
-                className="size-12 bg-lightgray hover:bg-lightborder cursor-pointer dark:bg-primarybox dark:hover:bg-secondarybox flex items-center justify-center rounded-full transition-all duration-75 ease-linear"
+                className="p-2.5 bg-primarybox hover:bg-secondarybox text-primary rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
               >
-                <button className="text-neutral-900 dark:text-primary cursor-pointer">
-                  <IoClose size={28} />
-                </button>
+                <IoClose size={28} />
               </div>
             </div>
 
@@ -3413,19 +3409,19 @@ const GenericFilters: React.FC<GenericFiltersProps> = ({
             </div>
 
             {/* Footer (remains the same) */}
-            <div className="p-4 border-t bg-white dark:bg-background flex-shrink-0">
+            <div className="sm:p-6 p-4 border-t bg-background flex-shrink-0">
               <div className="flex sm:flex-row flex-col items-center gap-3">
                 <button
                   type="button"
                   onClick={handleClearInternalFilters}
-                  className="bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear"
+                  className="text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear"
                 >
                   Clear all
                 </button>
                 <button
                   type="button"
                   onClick={handleApplyFilters}
-                  className="bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear"
+                  className="bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear"
                 >
                   Apply Filters
                 </button>
@@ -3433,7 +3429,6 @@ const GenericFilters: React.FC<GenericFiltersProps> = ({
             </div>
           </motion.div>
         </>
-        
       )}
     </AnimatePresence>
   );

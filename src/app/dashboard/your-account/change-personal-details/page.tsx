@@ -2098,7 +2098,7 @@ export default function ChangePersonalDetails() {
                                              <Popover open={occupationPopoverOpen} onOpenChange={setOccupationPopoverOpen}>
                                                 <PopoverTrigger asChild>
                                                     <FormControl>
-                                                        <Button role="combobox" aria-label="Select occupation" className={cn( "mt-1 justify-between px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0", !field.value && "text-muted-foreground" )} >
+                                                        <Button role="combobox" aria-label="Select occupation" className={cn( "mt-1 justify-between px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0", !field.value && "text-gray-400" )} >
                                                              {field.value ? occupationOptions.find( (option) => option.value === field.value )?.label : "Select Occupation"}
                                                              <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                                                          </Button>
@@ -2108,10 +2108,10 @@ export default function ChangePersonalDetails() {
                                                     <Command className="bg-background">
                                                         <CommandInput className="placeholder:text-white/90 h-12 text-white/90" placeholder="Search occupation..." />
                                                          <CommandList>
-                                                            <CommandEmpty className="py-6 text-center text-sm text-subheadingWhite">No occupation found.</CommandEmpty>
+                                                            <CommandEmpty>No occupation found.</CommandEmpty>
                                                             <CommandGroup>
                                                                 {occupationOptions.map((option) => (
-                                                                     <CommandItem className="text-mainheadingWhite rounded-full data-[selected=true]:bg-primarybox data-[selected=true]:text-mainheadingWhite"
+                                                                     <CommandItem
                                                                          value={option.value} // Use value for selection logic
                                                                          key={option.value}
                                                                          onSelect={(currentValue) => {

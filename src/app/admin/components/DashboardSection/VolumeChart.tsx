@@ -2132,7 +2132,7 @@ export function VolumeChart({
         <div className="flex lg:flex-row flex-col items-center justify-between w-full gap-3">
           <div className="flex items-center justify-between gap-3 w-full">
             <div className="flex gap-3">
-              <div className="flex justify-center items-center size-12 bg-secondarybox rounded-full flex-shrink-0">
+              <div className="flex justify-center items-center size-12 bg-primary rounded-full flex-shrink-0">
                 {icon}
               </div>
 
@@ -2152,10 +2152,10 @@ export function VolumeChart({
                 <button
                   onClick={handleRefresh}
                   disabled={loading}
-                  className="flex items-center justify-center cursor-pointer text-primary gap-2 bg-secondarybox hover:bg-secondaryboxhover size-10 rounded-full transition-all duration-75 ease-linear"
+                  className="flex items-center justify-center cursor-pointer gap-2 bg-secondarybox hover:bg-secondaryboxhover size-10 rounded-full transition-all duration-75 ease-linear"
                 >
                   <RefreshCw
-                    className={`size-4 ${loading ? "animate-spin" : ""}`}
+                    className={`size-4 text-primary ${loading ? "animate-spin" : ""}`}
                   />
                   <span className="sr-only"> Refresh</span>
                 </button>
@@ -2219,26 +2219,26 @@ export function VolumeChart({
         </div>
       </CardHeader>
 
-      <CardContent className="flex-grow flex flex-col px-2 pb-4 pt-0 sm:px-4 sm:pb-6">
+      <CardContent className="flex-grow flex bg-primarybox flex-col px-2 pb-4 pt-0 sm:px-4 sm:pb-6">
         {loading && (
           <>
             <div className="flex flex-col items-center justify-center mb-4 pt-2">
-              <Skeleton className="sm:w-1/3 w-1/2 h-10 rounded-md" />
+              <Skeleton className="sm:w-1/3 w-1/2 h-10 rounded-md bg-background/50" />
               <div className="flex items-center gap-1.5 mt-1">
-                <Skeleton className="h-6 sm:w-32 w-24 rounded-md" />
-                <Skeleton className="h-6 sm:w-25 w-18 rounded-md" />
+                <Skeleton className="h-6 sm:w-32 w-24 rounded-md bg-background/50" />
+                <Skeleton className="h-6 sm:w-25 w-18 rounded-md bg-background/50" />
               </div>
             </div>
             <div
               className="flex-grow w-full flex flex-col"
               style={{ minHeight: "194px" }}
             >
-              <Skeleton className="flex-grow w-full rounded-md" />
+              <Skeleton className="flex-grow w-full rounded-md bg-background/50" />
               <div className="flex justify-between w-full gap-1 pt-2">
                 {[...Array(timeRange === "by_currency" ? 5 : 8)].map((_, i) => (
                   <Skeleton
                     key={i}
-                    className="h-5 w-12 sm:w-16 rounded-xl opacity-70"
+                    className="h-5 w-12 sm:w-16 rounded-xl opacity-70 bg-background/50"
                   />
                 ))}
               </div>

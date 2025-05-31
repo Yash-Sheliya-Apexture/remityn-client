@@ -454,6 +454,7 @@
 //   );
 // }
 
+
 "use client";
 
 import React, { useState, useEffect, useMemo } from "react";
@@ -597,8 +598,8 @@ export default function RecentActivity() {
     return (
       <div className="xl:w-3/4 w-full bg-primarybox sm:order-1 order-2 sm:p-6 p-4 rounded-xl">
         <div className="flex items-center justify-between mb-5">
-          <Skeleton className="h-6 rounded-md w-40" />
-          <Skeleton className="h-9 w-9 rounded-full" />
+          <Skeleton className="h-6 rounded-md w-40 bg-background/50" />
+          <Skeleton className="h-9 w-9 rounded-full bg-background/50" />
         </div>
         <div className="space-y-3 mt-1">
           {[...Array(activitiesToDisplayCount)].map((_, i) => (
@@ -611,12 +612,12 @@ export default function RecentActivity() {
                 <Skeleton className="h-4 w-4/5 rounded-full bg-background/50" />
                 <Skeleton className="h-3 w-2/5 rounded-full bg-background/50" />
               </div>
-              <Skeleton className="h-3 w-24 rounded-full ml-4 flex-shrink-0 self-start mt-1 bg-background" />
+              <Skeleton className="h-3 w-24 rounded-full ml-4 flex-shrink-0 self-start mt-1 bg-background/50" />
               {/* <Skeleton className="h-10 w-35 rounded-full ml-4 flex-shrink-0 self-start mt-1 bg-background/50" /> */}
             </div>
           ))}
         </div>
-        <Skeleton className="h-10 rounded-lg w-full mt-6" />
+        <Skeleton className="h-10 rounded-lg w-full mt-6 bg-background/50" />
       </div>
     );
   }
@@ -662,8 +663,9 @@ export default function RecentActivity() {
     <div className="xl:w-3/4 w-full bg-primarybox sm:order-1 order-2 sm:p-6 p-4 rounded-xl relative overflow-hidden">
       <div className="flex items-center justify-between mb-5 relative">
         <div className="flex gap-3 items-center">
-          <div className="size-12 shrink-0 bg-secondarybox rounded-full flex items-center justify-center">
-            <LuActivity className="size-6 text-primary" />
+
+          <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+            <LuActivity className="size-6 text-subheading" />
           </div>
 
           <h3 className="text-lg font-semibold text-mainheadingWhite">
@@ -671,7 +673,7 @@ export default function RecentActivity() {
           </h3>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {!isMobile && (
             <Link
               href="/admin/activity"
@@ -685,11 +687,11 @@ export default function RecentActivity() {
             type="button"
             onClick={handleRefresh}
             disabled={refreshing || loading} // Disable if already refreshing or initial loading
-            className="flex items-center justify-center cursor-pointer gap-2 bg-secondarybox text-primary hover:bg-secondarybox size-10 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
+            className="flex items-center justify-center cursor-pointer gap-2 bg-secondarybox hover:bg-secondaryboxhover size-10 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
             aria-label="Refresh recent activity"
           >
             <RefreshCw
-              className={`h-4 w-4 ${refreshing ? "animate-spin" : ""}`}
+              className={`size-4 text-primary ${refreshing ? "animate-spin" : ""}`}
             />
           </button>
         </div>

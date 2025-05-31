@@ -1335,17 +1335,17 @@ export default function AllRecentActivityPage() {
             
             <div className="Activity">
               <div className="flex flex-wrap items-center gap-3">
-                <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-                  <LuActivity className="size-6 text-mainheading dark:text-primary" />
+                <div className="p-2.5 shrink-0 bg-primarybox rounded-full flex items-center justify-center">
+                  <LuActivity className="text-primary" size={26} />
                 </div>
 
-                <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+                <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
                   All Recent Activity
                 </h1>
 
               </div>
 
-              <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+              <p className="mt-2 text-subheadingWhite text-base lg:text-lg">
                 Track all user transactions, KYC submissions, and status updates
                 in real time with detailed logs for complete transparency.
               </p>
@@ -1363,7 +1363,7 @@ export default function AllRecentActivityPage() {
               <button
                 onClick={refreshData}
                 disabled={isRefreshing || loading}
-                className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white sm:px-8 px-6 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center justify-center cursor-pointer gap-2 bg-secondarybox hover:bg-secondaryboxhover text-mainheadingWhite sm:px-8 px-6 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Refresh activity feed"
               >
                 <RefreshCw

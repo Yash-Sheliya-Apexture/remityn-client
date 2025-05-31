@@ -2132,14 +2132,14 @@ export default function KycDetailsPage() {
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto shadow-none border animate-fadeIn sm:p-8 p-4">
+    <Card className="w-full lg:max-w-2xl max-w-full shadow-none border animate-fadeIn sm:p-8 p-4 bg-transparent">
       <CardHeader className="border-b pb-6 mb-6 space-y-2">
-        <CardTitle className="sm:text-2xl text-xl font-semibold tracking-tight flex items-start gap-2 text-mainheading dark:text-white">
-          <Briefcase className="h-6 w-6 text-primary mt-1" /> Additional
+        <CardTitle className="sm:text-2xl text-xl font-semibold tracking-normal flex items-start gap-2 text-mainheadingWhite">
+          <Briefcase className="h-6 w-6 text-primary mt-1 flex-shrink-0" /> Additional
           Details (Step {formStepOrder.indexOf("details") + 1}
            of {formStepOrder.length})
         </CardTitle>
-        <CardDescription className="text-gray-500 dark:text-gray-300">
+        <CardDescription className="text-subheadingWhite">
           Please provide your occupation, annual income range and nationality.
           Fields marked with <span className="text-red-500">*</span> are
           required.
@@ -2147,15 +2147,15 @@ export default function KycDetailsPage() {
       </CardHeader>
       <CardContent>
         {formError && (
-          <Alert className="bg-red-50 dark:bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
+          <Alert className="bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
             <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
-              <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+              <AlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
             </div>
             <div>
-              <AlertTitle className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
+              <AlertTitle className="font-medium tracking-normal text-red-600 text-base">
                 Error
               </AlertTitle>
-              <AlertDescription className="text-red-700 dark:text-red-300/90">
+              <AlertDescription className="text-red-300/90">
                 {formError}
               </AlertDescription>
             </div>
@@ -2167,8 +2167,7 @@ export default function KycDetailsPage() {
           <div className="space-y-2">
             {" "}
             {/* Mimics FormItem spacing */}
-            <Label className="flex items-center gap-1.5 text-neutral-900 dark:text-white">
-              {" "}
+            <Label className="text-mainheadingWhite block capitalize text-sm lg:text-base">
              Occupation{" "}
               <span className="text-red-600">*</span>{" "}
             </Label>
@@ -2177,7 +2176,7 @@ export default function KycDetailsPage() {
               value={occupation ?? ""} // Map undefined/null to "" for Select state
             >
               {/* Removed FormControl */}
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full border rounded-lg transition-all duration-75 ease-in-out border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0">
                 <SelectValue placeholder="Select your occupation" />
               </SelectTrigger>
               <SelectContent>
@@ -2188,7 +2187,7 @@ export default function KycDetailsPage() {
                 ))}
               </SelectContent>
             </Select>
-            <p className="text-sm text-gray-500 dark:text-gray-300">
+            <p className="text-sm text-subheadingWhite pt-1">
               {" "}
               {/* Replaces FormDescription */}
               Your primary professional activity.
@@ -2198,7 +2197,7 @@ export default function KycDetailsPage() {
 
           {/* Salary Range Select */}
           <div className="space-y-2">
-            <Label className="flex items-center gap-1.5 text-neutral-900 dark:text-white">
+            <Label className="text-mainheadingWhite block capitalize text-sm lg:text-base">
               Annual Income Range <span className="text-red-600">*</span>
             </Label>
             <Select
@@ -2206,7 +2205,7 @@ export default function KycDetailsPage() {
               value={salaryRange ?? ""} // Map null/undefined to "" for Select state
             >
               {/* Removed FormControl */}
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full border rounded-lg transition-all duration-75 ease-in-out border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0">
                 <SelectValue placeholder="Select income range" />
               </SelectTrigger>
               <SelectContent>
@@ -2217,7 +2216,7 @@ export default function KycDetailsPage() {
                 ))}
               </SelectContent>
             </Select>
-            <p className="text-sm text-gray-500 dark:text-gray-300">
+            <p className="text-sm text-subheadingWhite pt-1">
               Approximate yearly income.
             </p>
           </div>
@@ -2226,7 +2225,7 @@ export default function KycDetailsPage() {
           <div className="space-y-2 flex flex-col">
             {" "}
             {/* Mimics FormItem structure */}
-            <Label className="flex items-center gap-1.5 text-neutral-900 dark:text-white">
+            <Label className="text-mainheadingWhite block capitalize text-sm lg:text-base">
                Nationality{" "}
               <span className="text-red-600">*</span>
             </Label>
@@ -2238,13 +2237,12 @@ export default function KycDetailsPage() {
               <PopoverTrigger asChild>
                 {/* No FormControl wrapper */}
                 <Button
-                  variant="outline"
                   role="combobox"
                   aria-expanded={nationalityPopoverOpen}
                   aria-label="Select nationality"
                   className={cn(
-                    "w-full h-12 justify-between", // Adjusted height to match input
-                    !nationality && "text-muted-foreground"
+                    "mt-1 justify-between px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0", // Adjusted height to match input
+                    !nationality && "text-gray-400"
                   )}
                 >
                   {nationality
@@ -2252,7 +2250,7 @@ export default function KycDetailsPage() {
                         (country) => country.value === nationality // Compare value
                       )?.label
                     : "Select nationality..."}
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0" />
                 </Button>
                 
               </PopoverTrigger>
@@ -2274,12 +2272,12 @@ export default function KycDetailsPage() {
                       : 0;
                   }}
                 >
-                  <CommandInput placeholder="Search nationality..." />
+                  <CommandInput className="placeholder:text-white/90 h-12 text-white/90" placeholder="Search nationality..." />
                   
                   <CommandList>
                     <CommandEmpty>No nationality found.</CommandEmpty>
                     
-                    <CommandGroup>
+                    <CommandGroup className="max-h-[250px] overflow-y-auto sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-thumb]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-primarybox sm:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
                       <div className="space-y-1">
                         {countryOptions.map((country) => (
                           <CommandItem
@@ -2313,12 +2311,12 @@ export default function KycDetailsPage() {
                 </Command>
               </PopoverContent>
             </Popover>
-            <p className="text-sm text-gray-500 dark:text-gray-300">
+            <p className="text-sm text-subheadingWhite pt-1">
               Your country of citizenship.
             </p>
             {/* Display error manually if needed */}
             {!nationality && formError && (
-              <p className="text-sm font-medium text-destructive">
+              <p className="text-sm font-medium text-red-500">
                 {formError}
               </p> // Example error display
             )}
@@ -2328,7 +2326,7 @@ export default function KycDetailsPage() {
           <div className="flex flex-col sm:flex-row justify-between items-center pt-6 border-t mt-6 gap-4">
             <button
               type="button"
-              className="inline-flex items-center justify-center bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={prevStep}
               disabled={isSubmitting} // Disable back button during submission? Optional.
             >
@@ -2338,14 +2336,14 @@ export default function KycDetailsPage() {
             {/* Continue Button */}
             <button
               type="submit"
-              className="inline-flex items-center justify-center bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center justify-center bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={isSubmitting || !isFormValid} // Disable if submitting OR form is invalid
             >
               {isSubmitting ? (
                 // ----- Loading State -----
                 <>
                   <svg
-                    className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+                    className="h-5 w-5 text-mainheading animate-spin mr-2"
                     viewBox="0 0 24 24"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"

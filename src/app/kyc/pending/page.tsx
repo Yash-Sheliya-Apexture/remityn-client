@@ -931,7 +931,7 @@ export default function KycPendingPage() {
       // If definitely not logged in after checks
       return (
           <div className="flex justify-center items-center min-h-[400px]">
-              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
       );
   }
@@ -939,31 +939,31 @@ export default function KycPendingPage() {
 
   // --- Main Pending Content ---
   return (
-    <div className="mx-auto max-w-2xl">
-      <Card className="w-full border-border/50 shadow-none animate-fadeIn overflow-hidden">
-        <CardHeader className="items-center text-center p-4 md:p-8 bg-accent">
+    <div className="mx-auto lg:max-w-2xl max-w-full">
+      <Card className="bg-background w-full border shadow-none animate-fadeIn overflow-hidden">
+        <CardHeader className="items-center text-center p-4 md:p-8 bg-primarybox">
           <div className="mb-4 w-full inline-flex justify-center">
-            <div className="h-16 w-16 flex items-center justify-center rounded-full bg-primary/20 text-primaryhover border border-primary/30 ">
+            <div className="h-16 w-16 flex items-center justify-center rounded-full bg-blue-600/25 text-blue-600 border border-blue-600 ">
               {/* <Clock className="h-8 w-8" /> */}
               <Hourglass className="h-8 w-8" /> {/* Alternative Icon */}
             </div>
           </div>
-          <CardTitle className="sm:text-2xl text-xl font-semibold tracking-tight text-mainheading dark:text-white">
+          <CardTitle className="text-2xl font-semibold tracking-tight text-mainheadingWhite">
             Verification Pending
           </CardTitle>
-          <CardDescription className="sm:text-base text-sm text-gray-500 dark:text-gray-300 mt-1 px-4">
+          <CardDescription className="text-base text-subheadingWhite mt-1">
             Your submitted information is currently under review.
           </CardDescription>
           <Badge
             variant="outline"
-            className="mt-3 text-sm border-0 rounded-full font-medium text-blue-600 bg-blue-100 dark:bg-blue-600/20 dark:text-blue-400 px-4 py-2 w-28"
+            className="mt-3 text-sm border-0 rounded-full font-medium bg-blue-600/25 text-blue-500 px-4 py-2 w-28"
           >
             Pending
           </Badge>
         </CardHeader>
 
         <CardContent className="p-4 md:p-8 space-y-6">
-          <div className="text-center text-gray-500 dark:text-gray-300 sm:text-lg text-base">
+          <div className="text-center text-mainheadingWhite sm:text-lg text-base">
             <p className="">Thank you for your patience!</p>
             <p className="mt-1">
               Reviews typically take{" "}
@@ -976,45 +976,45 @@ export default function KycPendingPage() {
 
           <Separator className="my-6" />
 
-          <Alert className="p-4 rounded-lg">
-            <MailCheck className="h-5 w-5 flex-shrink-0 mt-1 text-neutral-900 dark:text-white" />
+          <div className="p-4 border flex gap-4 rounded-lg">
+            <MailCheck className="h-5 w-5 flex-shrink-0 mt-1 text-white/90" />
             <div>
 
-            <AlertTitle className="font-medium text-neutral-900 dark:text-white tracking-normal text-base">
+            <AlertTitle className="font-medium text-mainheadingWhite tracking-normal text-base mb-1">
               Email Notification
             </AlertTitle>
-            <AlertDescription className="text-gray-500 dark:text-gray-300">
+            <AlertDescription className="text-subheadingWhite">
               We will notify you via email as soon as the review process is
               complete.
             </AlertDescription>
             </div>
-          </Alert>
+          </div>
 
-          <Alert className="p-4 rounded-lg">
-            <Info className="h-5 w-5 flex-shrink-0 mt-1 text-neutral-900 dark:text-white" />
+          <div className="p-4 border flex gap-4 rounded-lg">
+            <Info className="h-5 w-5 flex-shrink-0 mt-1 text-white/90" />
             <div>
-              <AlertTitle className="font-medium text-neutral-900 dark:text-white tracking-normal text-base">
+              <AlertTitle className="font-medium text-mainheadingWhite tracking-normal text-base mb-1">
                 Account Access
               </AlertTitle>
-              <AlertDescription className="text-gray-500 dark:text-gray-300">
+              <AlertDescription className="text-subheadingWhite">
                 While your verification is pending, some account features might
                 be limited. You can still access your dashboard.
               </AlertDescription>
             </div>
-          </Alert>
+          </div>
         </CardContent>
 
-        <CardFooter className="flex flex-col sm:flex-row gap-3 p-4 md:p-8 bg-bg-accent border-t">
+        <CardFooter className="flex flex-col sm:flex-row gap-3 p-4 md:p-8 border-t">
           <button
             onClick={handleGoToDashboard}
-            className="inline-flex items-center justify-center bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
+            className="inline-flex items-center justify-center bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
           >
             <LayoutDashboard className="mr-2 h-4 w-4" /> Go to Dashboard
           </button>
           <button
             onClick={handleRefreshStatus}
             disabled={kycLoadingStatus}
-            className="inline-flex items-center justify-center bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
+            className="inline-flex items-center justify-center text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
           >
             <RefreshCw
               className={cn(

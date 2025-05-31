@@ -2395,12 +2395,528 @@
 
 // export default AdminSendAllMessagePage;
 
-// frontend/src/app/admin/inbox/page.tsx
+// // frontend/src/app/admin/send/page.tsx
+// "use client";
+
+// import React, { useState, useEffect, useCallback, useMemo } from "react";
+// import { useRouter } from "next/navigation";
+// import { format } from "date-fns"; // Keep for date formatting if used elsewhere
+
+// // Auth & Services
+// import { useAuth } from "@/app/contexts/AuthContext";
+// import inboxAdminService, {
+//   BroadcastBatchInfo,
+//   BroadcastBatchListResponse,
+//   UpdateBatchPayload,
+// } from "../../../services/admin/inbox";
+
+// import { AlertCircle, Loader2 } from "lucide-react";
+
+// import ComposeBroadcastForm from "../../components/message/send/ComposeBroadcastForm";
+// import BroadcastHistoryTable, {
+//   BroadcastSortField,
+// } from "../../components/message/send/BroadcastHistoryTable";
+// import EditBroadcastBatchModal from "../../components/message/send/EditBroadcastBatchModal";
+// import DeleteBroadcastBatchModal from "../../components/message/send/DeleteBroadcastBatchModal";
+// import { FaPaperPlane } from "react-icons/fa";
+
+// // --- Import Custom Toast and react-toastify components ---
+// import {
+//   ToastContainer,
+//   toast as reactToastifyToast,
+//   Slide,
+//   ToastContainerProps,
+//   TypeOptions,
+//   ToastOptions,
+// } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+// import CustomToast, { CustomToastProps } from "../../../components/CustomToast";
+
+// const formatDateForDisplay = (dateInput?: string | Date | null): string => {
+//   if (!dateInput) return "N/A";
+//   try {
+//     const date = new Date(dateInput);
+//     return isNaN(date.getTime())
+//       ? "Invalid Date"
+//       : format(date, "MMM d, yyyy, HH:mm");
+//   } catch (e) {
+//     return "Invalid Date";
+//   }
+// };
+
+// const BATCHES_PER_PAGE = 1;
+
+// const AdminSendAllMessagePage: React.FC = () => {
+//   const router = useRouter();
+//   const { isAdmin, loading: authLoading } = useAuth();
+
+//   const [subject, setSubject] = useState<string>("");
+//   const [body, setBody] = useState<string>("");
+//   const [isSending, setIsSending] = useState<boolean>(false);
+//   // sendError state can be removed if errors are only shown via toast
+//   // const [sendError, setSendError] = useState<string | null>(null);
+
+//   const [batchesData, setBatchesData] =
+//     useState<BroadcastBatchListResponse | null>(null);
+//   const [batchesLoading, setBatchesLoading] = useState<boolean>(true);
+//   const [batchesError, setBatchesError] = useState<string | null>(null); // For persistent page errors
+//   const [batchCurrentPage, setBatchCurrentPage] = useState<number>(1);
+
+//   const [broadcastSortField, setBroadcastSortField] =
+//     useState<BroadcastSortField | null>(null);
+//   const [broadcastSortDirection, setBroadcastSortDirection] = useState<
+//     "asc" | "desc"
+//   >("desc");
+
+//   const [deletingBatchId, setDeletingBatchId] = useState<string | null>(null);
+//   const [showDeleteConfirm, setShowDeleteConfirm] =
+//     useState<BroadcastBatchInfo | null>(null);
+
+//   const [editingBatch, setEditingBatch] = useState<BroadcastBatchInfo | null>(
+//     null
+//   );
+//   const [editBatchSubject, setEditBatchSubject] = useState<string>("");
+//   const [editBatchBody, setEditBatchBody] = useState<string>("");
+//   const [showEditBatchDialog, setShowEditBatchDialog] =
+//     useState<boolean>(false);
+//   const [isUpdatingBatch, setIsUpdatingBatch] = useState<boolean>(false);
+//   const [fullEditBodyFetched, setFullEditBodyFetched] =
+//     useState<boolean>(false);
+
+//   const [isMobile, setIsMobile] = useState(false); // For ToastContainer
+
+//   // --- Mobile Detection Effect (for ToastContainer) ---
+//   useEffect(() => {
+//     const handleResize = () => setIsMobile(window.innerWidth < 640);
+//     handleResize();
+//     window.addEventListener("resize", handleResize);
+//     return () => window.removeEventListener("resize", handleResize);
+//   }, []);
+
+//   // --- Custom Toast Invocation ---
+//   const showToast = useCallback(
+//     (
+//       message: string,
+//       type?: CustomToastProps["type"],
+//       toastSpecificOptions?: Partial<ToastOptions>
+//     ) => {
+//       const effectiveType = type || "default";
+//       let progressClassName: string;
+//       switch (effectiveType) {
+//         case "success":
+//           progressClassName = "toast-progress-success";
+//           break;
+//         case "error":
+//           progressClassName = "toast-progress-error";
+//           break;
+//         case "info":
+//           progressClassName = "toast-progress-info";
+//           break;
+//         case "warning":
+//           progressClassName = "toast-progress-warning";
+//           break;
+//         default:
+//           progressClassName = "toast-progress-default";
+//           break;
+//       }
+//       reactToastifyToast(
+//         <CustomToast message={message} type={effectiveType} />,
+//         {
+//           progressClassName,
+//           type: effectiveType as TypeOptions,
+//           icon: false,
+//           ...toastSpecificOptions,
+//         }
+//       );
+//     },
+//     []
+//   );
+
+//   // --- ToastContainer Props and Style ---
+//   const customToastContainerProps: ToastContainerProps = {
+//     position: "top-right",
+//     autoClose: 5000,
+//     hideProgressBar: false,
+//     newestOnTop: true,
+//     closeOnClick: false,
+//     closeButton: false,
+//     rtl: false,
+//     pauseOnFocusLoss: true,
+//     draggable: true,
+//     pauseOnHover: true,
+//     transition: Slide,
+//     toastClassName: () =>
+//       "p-0 shadow-none rounded-md bg-transparent w-full relative mb-3",
+//   };
+
+//   const getToastContainerStyle = (): React.CSSProperties & {
+//     [key: `--${string}`]: string | number;
+//   } => {
+//     const baseStyle = { zIndex: 30 };
+//     if (isMobile)
+//       return {
+//         ...baseStyle,
+//         top: "1rem",
+//         left: "1rem",
+//         right: "1rem",
+//         width: "auto",
+//       };
+//     return { ...baseStyle, top: "0.75rem", right: "0.75rem", width: "320px" };
+//   };
+
+//   const fetchBatches = useCallback(
+//     async (page: number) => {
+//       if (!isAdmin) return;
+//       setBatchesLoading(true);
+//       setBatchesError(null); // Clear persistent error before fetch
+//       try {
+//         const data = await inboxAdminService.getBroadcastBatchesAdmin(
+//           page,
+//           BATCHES_PER_PAGE
+//         );
+//         setBatchesData(data);
+//         // Logic for setting current page based on API response (remains the same)
+//         if (data.currentPage !== page && data.totalPages > 0) {
+//           if (data.currentPage <= data.totalPages)
+//             setBatchCurrentPage(data.currentPage);
+//           else if (data.totalPages > 0) setBatchCurrentPage(data.totalPages);
+//           else setBatchCurrentPage(1);
+//         } else if (page > data.totalPages && data.totalPages > 0) {
+//           setBatchCurrentPage(data.totalPages);
+//         } else if (data.totalPages === 0) {
+//           setBatchCurrentPage(1);
+//         }
+//       } catch (err: any) {
+//         console.error("Error fetching broadcast batches:", err);
+//         const errorMsg = err.message || "Failed to load broadcast history.";
+//         setBatchesError(errorMsg); // Set persistent error
+//         showToast(errorMsg, "error");
+//         setBatchesData(null);
+//       } finally {
+//         setBatchesLoading(false);
+//       }
+//     },
+//     [isAdmin, showToast] // Added showToast to dependencies
+//   );
+
+//   useEffect(() => {
+//     if (!authLoading && isAdmin) {
+//       fetchBatches(batchCurrentPage);
+//     }
+//     if (!isAdmin && !authLoading) {
+//       setBatchesData(null);
+//       setBatchesLoading(false);
+//       const accessError = "Administrator privileges required.";
+//       setBatchesError(accessError);
+//       showToast(accessError, "error");
+//     }
+//   }, [authLoading, isAdmin, batchCurrentPage, fetchBatches, showToast]); // Added showToast
+
+//   const sortedBatches = useMemo(() => {
+//     if (!batchesData?.batches) return [];
+//     const sortableBatches = [...batchesData.batches];
+//     const effectiveSortField = broadcastSortField ?? "sentAt";
+//     const effectiveSortDirection = broadcastSortField
+//       ? broadcastSortDirection
+//       : "desc";
+//     sortableBatches.sort((a, b) => {
+//       let valA: any, valB: any;
+//       switch (effectiveSortField) {
+//         case "sentAt":
+//           valA = new Date(a.sentAt).getTime();
+//           valB = new Date(b.sentAt).getTime();
+//           break;
+//         case "recipientCount":
+//           valA = a.recipientCount;
+//           valB = b.recipientCount;
+//           break;
+//         default:
+//           return 0;
+//       }
+//       let comparison = 0;
+//       if (isNaN(valA) && isNaN(valB)) comparison = 0;
+//       else if (isNaN(valA))
+//         comparison = effectiveSortDirection === "asc" ? 1 : -1;
+//       else if (isNaN(valB))
+//         comparison = effectiveSortDirection === "asc" ? -1 : 1;
+//       else if (valA < valB) comparison = -1;
+//       else if (valA > valB) comparison = 1;
+//       return effectiveSortDirection === "asc" ? comparison : comparison * -1;
+//     });
+//     return sortableBatches;
+//   }, [batchesData?.batches, broadcastSortField, broadcastSortDirection]);
+
+//   const handleBroadcastSort = (field: BroadcastSortField) => {
+//     const newDirection =
+//       broadcastSortField === field && broadcastSortDirection === "asc"
+//         ? "desc"
+//         : "asc";
+//     setBroadcastSortField(field);
+//     setBroadcastSortDirection(newDirection);
+//   };
+
+//   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
+//     // setSendError(null); // No longer needed if only using toasts for sendError
+//     setIsSending(true);
+//     try {
+//       const result = await inboxAdminService.sendMessageToAllAdmin(
+//         subject.trim(),
+//         body.trim()
+//       );
+//       showToast(
+//         result.message || `Message queued for ${result.totalAttempted} users.`,
+//         "success"
+//       );
+//       setSubject("");
+//       setBody("");
+//       if (batchCurrentPage !== 1) setBatchCurrentPage(1);
+//       else fetchBatches(1); // Refetch to show the new batch
+//     } catch (err: any) {
+//       const errorMsg = err.message || "Failed to send broadcast.";
+//       // setSendError(errorMsg); // No longer needed for form error display if toast is sufficient
+//       showToast(errorMsg, "error");
+//     } finally {
+//       setIsSending(false);
+//     }
+//   };
+
+//   const goToBatchPage = (newPage: number) => {
+//     if (
+//       newPage > 0 &&
+//       newPage !== batchCurrentPage &&
+//       (!batchesData || newPage <= batchesData.totalPages)
+//     ) {
+//       setBatchCurrentPage(newPage);
+//     }
+//   };
+//   const goToPreviousBatchPage = () => goToBatchPage(batchCurrentPage - 1);
+//   const goToNextBatchPage = () => goToBatchPage(batchCurrentPage + 1); // Corrected this line
+//   const handleRefreshBatches = () => {
+//     if (!batchesLoading) fetchBatches(batchCurrentPage);
+//   };
+//   const openDeleteConfirmation = (batch: BroadcastBatchInfo) =>
+//     setShowDeleteConfirm(batch);
+//   const closeDeleteConfirmation = () => setShowDeleteConfirm(null);
+
+//   const handleDeleteBatch = async () => {
+//     if (!showDeleteConfirm) return;
+//     const batchIdToDelete = showDeleteConfirm.batchId;
+//     setDeletingBatchId(batchIdToDelete);
+//     try {
+//       const result = await inboxAdminService.deleteBroadcastBatchAdmin(
+//         batchIdToDelete
+//       );
+//       showToast(
+//         result.message || `Deleted ${result.deletedCount} messages.`,
+//         "success"
+//       );
+//       const wasLastItemOnPage =
+//         sortedBatches.length === 1 && batchCurrentPage > 1;
+//       const pageToFetch = wasLastItemOnPage
+//         ? batchCurrentPage - 1
+//         : batchCurrentPage;
+//       if (wasLastItemOnPage) setBatchCurrentPage(pageToFetch);
+//       else fetchBatches(pageToFetch);
+//     } catch (err: any) {
+//       showToast(`Failed to delete batch: ${err.message}`, "error");
+//     } finally {
+//       setDeletingBatchId(null);
+//       closeDeleteConfirmation();
+//     }
+//   };
+
+//   const openEditBatchDialog = async (batch: BroadcastBatchInfo) => {
+//     setEditingBatch(batch);
+//     setEditBatchSubject(batch.subject);
+//     setShowEditBatchDialog(true);
+//     setFullEditBodyFetched(false);
+//     setEditBatchBody("Loading full message body...");
+//     try {
+//       // Assuming batch.bodySnippet is already the full body or you have a way to fetch it
+//       // If not, this logic might need adjustment based on how full body is retrieved.
+//       // For simplicity, if the snippet is the only available body, we use it.
+//       setEditBatchBody(
+//         batch.bodySnippet.endsWith("...")
+//           ? batch.bodySnippet
+//           : batch.bodySnippet
+//       );
+//       setFullEditBodyFetched(true);
+//     } catch (error) {
+//       console.error("Failed to fetch full body for edit:", error);
+//       setEditBatchBody(
+//         batch.bodySnippet +
+//           "\n\n--- (Error fetching full body, snippet shown) ---"
+//       );
+//       showToast("Could not load full message body for editing.", "error");
+//       setFullEditBodyFetched(true); // Set to true to allow editing of snippet if full fails
+//     }
+//   };
+
+//   const closeEditBatchDialog = () => {
+//     setShowEditBatchDialog(false);
+//     setEditingBatch(null);
+//     setEditBatchSubject("");
+//     setEditBatchBody("");
+//     setIsUpdatingBatch(false);
+//     setFullEditBodyFetched(false);
+//   };
+
+//   const handleUpdateBatch = async () => {
+//     if (!editingBatch || isUpdatingBatch) return;
+//     if (!editBatchSubject.trim() || !editBatchBody.trim()) {
+//       showToast("Subject and Body cannot be empty.", "error", {
+//         toastId: "edit-validation-error",
+//       });
+//       return;
+//     }
+//     setIsUpdatingBatch(true);
+//     const payload: UpdateBatchPayload = {
+//       subject: editBatchSubject.trim(),
+//       body: editBatchBody.trim(),
+//     };
+//     try {
+//       const result = await inboxAdminService.updateBroadcastBatchAdmin(
+//         editingBatch.batchId,
+//         payload
+//       );
+//       showToast(
+//         result.message || `Updated ${result.modifiedCount} messages.`,
+//         "success"
+//       );
+//       closeEditBatchDialog();
+//       fetchBatches(batchCurrentPage); // Refresh the list
+//     } catch (err: any) {
+//       showToast(`Failed to update batch: ${err.message}`, "error");
+//     } finally {
+//       setIsUpdatingBatch(false);
+//     }
+//   };
+
+//   if (authLoading) {
+//     return (
+//       <div className="flex items-center justify-center h-screen text-subheadingWhite relative">
+//         <ToastContainer
+//           {...customToastContainerProps}
+//           style={getToastContainerStyle()}
+//         />
+//         <Loader2 className="h-8 w-8 animate-spin text-primary" />
+//         <span className="ml-2 text-lg">Loading...</span>
+//       </div>
+//     );
+//   }
+//   if (!isAdmin) {
+//     // This handles the case where isAdmin is false after authLoading is done
+//     return (
+//       <div className="container mx-auto px-4 py-10 relative">
+//         <ToastContainer
+//           {...customToastContainerProps}
+//           style={getToastContainerStyle()}
+//         />
+//         {/* The batchesError will display the "Administrator privileges required." message */}
+//         {batchesError && (
+//           <div className="max-w-lg mx-auto p-4 border bg-red-900/30 border-red-700 rounded-md flex items-start space-x-3">
+//             <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5" />
+//             <div>
+//               <h3 className="text-lg font-medium text-red-200">
+//                 Access Denied
+//               </h3>
+//               <p className="text-sm text-red-300 mt-1">
+//                 {batchesError}
+//               </p>
+//             </div>
+//           </div>
+//         )}
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <div className="container mx-auto px-4 py-5 relative">
+//       <ToastContainer
+//         {...customToastContainerProps}
+//         style={getToastContainerStyle()}
+//       />
+//       <div className="Send mb-5">
+//         <div className="flex items-center gap-3">
+//           <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+//             <FaPaperPlane className="size-6 text-mainheading" />
+//           </div>
+//           <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
+//             Send Broadcast Message
+//           </h1>
+//         </div>
+//         <p className="mt-2 text-subheadingWhite lg:text-lg">
+//           Broadcast messages allow administrators to quickly and efficiently
+//           communicate important updates, alerts, or announcements to all users
+//           at once
+//         </p>
+//       </div>
+
+//       <ComposeBroadcastForm
+//         subject={subject}
+//         onSubjectChange={setSubject}
+//         body={body}
+//         onBodyChange={setBody}
+//         isSending={isSending}
+//         sendError={null} // sendError prop is kept for compatibility but error is shown via toast
+//         onSubmit={handleSendMessage}
+//       />
+
+//       <BroadcastHistoryTable
+//         batches={sortedBatches}
+//         totalPages={batchesData?.totalPages ?? 0}
+//         isLoading={batchesLoading}
+//         error={batchesError}
+//         currentPage={batchCurrentPage}
+//         deletingBatchId={deletingBatchId}
+//         editingBatchId={editingBatch?.batchId ?? null}
+//         isUpdatingBatch={isUpdatingBatch}
+//         onRefresh={handleRefreshBatches}
+//         onEdit={openEditBatchDialog}
+//         onDelete={openDeleteConfirmation}
+//         onPreviousPage={goToPreviousBatchPage}
+//         onNextPage={goToNextBatchPage} // Corrected this line
+//         onSort={handleBroadcastSort}
+//         sortField={broadcastSortField}
+//         sortDirection={broadcastSortDirection}
+//       />
+
+//       <EditBroadcastBatchModal
+//         isOpen={showEditBatchDialog}
+//         onClose={closeEditBatchDialog}
+//         batchToEdit={editingBatch}
+//         editSubject={editBatchSubject}
+//         onSubjectChange={setEditBatchSubject}
+//         editBody={editBatchBody}
+//         onBodyChange={setEditBatchBody}
+//         onUpdate={handleUpdateBatch}
+//         isUpdating={isUpdatingBatch}
+//         fullBodyFetched={fullEditBodyFetched}
+//       />
+
+//       <DeleteBroadcastBatchModal
+//         isOpen={!!showDeleteConfirm}
+//         onClose={closeDeleteConfirmation}
+//         batchToDelete={showDeleteConfirm}
+//         onDelete={handleDeleteBatch}
+//         isDeleting={deletingBatchId === showDeleteConfirm?.batchId}
+//         formatDateForDisplay={formatDateForDisplay}
+//       />
+      
+//     </div>
+//   );
+// };
+
+// export default AdminSendAllMessagePage;
+
+
+// frontend/src/app/admin/send/page.tsx
 "use client";
 
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns"; // Keep for date formatting if used elsewhere
+import { format } from "date-fns";
 
 // Auth & Services
 import { useAuth } from "@/app/contexts/AuthContext";
@@ -2430,10 +2946,7 @@ import {
   ToastOptions,
 } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-// **IMPORTANT**: Adjust this path if your CustomToast component is elsewhere
 import CustomToast, { CustomToastProps } from "../../../components/CustomToast";
-// Example path: if CustomToast is in frontend/src/app/components/CustomToast.tsx
-// import CustomToast, { CustomToastProps } from "../../components/CustomToast";
 
 const formatDateForDisplay = (dateInput?: string | Date | null): string => {
   if (!dateInput) return "N/A";
@@ -2447,7 +2960,7 @@ const formatDateForDisplay = (dateInput?: string | Date | null): string => {
   }
 };
 
-const BATCHES_PER_PAGE = 5;
+const BATCHES_PER_PAGE = 1; // This constant is not being used in the `getBroadcastBatchesAdmin` call; it's passed as `limit` in `inboxAdminService.getBroadcastBatchesAdmin`. Double check if this is the intended behavior. For pagination, the `limit` parameter to the backend is crucial.
 
 const AdminSendAllMessagePage: React.FC = () => {
   const router = useRouter();
@@ -2456,13 +2969,11 @@ const AdminSendAllMessagePage: React.FC = () => {
   const [subject, setSubject] = useState<string>("");
   const [body, setBody] = useState<string>("");
   const [isSending, setIsSending] = useState<boolean>(false);
-  // sendError state can be removed if errors are only shown via toast
-  // const [sendError, setSendError] = useState<string | null>(null);
 
   const [batchesData, setBatchesData] =
     useState<BroadcastBatchListResponse | null>(null);
   const [batchesLoading, setBatchesLoading] = useState<boolean>(true);
-  const [batchesError, setBatchesError] = useState<string | null>(null); // For persistent page errors
+  const [batchesError, setBatchesError] = useState<string | null>(null);
   const [batchCurrentPage, setBatchCurrentPage] = useState<number>(1);
 
   const [broadcastSortField, setBroadcastSortField] =
@@ -2486,9 +2997,8 @@ const AdminSendAllMessagePage: React.FC = () => {
   const [fullEditBodyFetched, setFullEditBodyFetched] =
     useState<boolean>(false);
 
-  const [isMobile, setIsMobile] = useState(false); // For ToastContainer
+  const [isMobile, setIsMobile] = useState(false);
 
-  // --- Mobile Detection Effect (for ToastContainer) ---
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 640);
     handleResize();
@@ -2496,7 +3006,6 @@ const AdminSendAllMessagePage: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // --- Custom Toast Invocation ---
   const showToast = useCallback(
     (
       message: string,
@@ -2535,7 +3044,6 @@ const AdminSendAllMessagePage: React.FC = () => {
     []
   );
 
-  // --- ToastContainer Props and Style ---
   const customToastContainerProps: ToastContainerProps = {
     position: "top-right",
     autoClose: 5000,
@@ -2571,14 +3079,14 @@ const AdminSendAllMessagePage: React.FC = () => {
     async (page: number) => {
       if (!isAdmin) return;
       setBatchesLoading(true);
-      setBatchesError(null); // Clear persistent error before fetch
+      setBatchesError(null);
       try {
+        // Ensure BATCHES_PER_PAGE is correctly passed as the limit
         const data = await inboxAdminService.getBroadcastBatchesAdmin(
           page,
           BATCHES_PER_PAGE
         );
         setBatchesData(data);
-        // Logic for setting current page based on API response (remains the same)
         if (data.currentPage !== page && data.totalPages > 0) {
           if (data.currentPage <= data.totalPages)
             setBatchCurrentPage(data.currentPage);
@@ -2592,14 +3100,14 @@ const AdminSendAllMessagePage: React.FC = () => {
       } catch (err: any) {
         console.error("Error fetching broadcast batches:", err);
         const errorMsg = err.message || "Failed to load broadcast history.";
-        setBatchesError(errorMsg); // Set persistent error
+        setBatchesError(errorMsg);
         showToast(errorMsg, "error");
         setBatchesData(null);
       } finally {
         setBatchesLoading(false);
       }
     },
-    [isAdmin, showToast] // Added showToast to dependencies
+    [isAdmin, showToast]
   );
 
   useEffect(() => {
@@ -2613,7 +3121,7 @@ const AdminSendAllMessagePage: React.FC = () => {
       setBatchesError(accessError);
       showToast(accessError, "error");
     }
-  }, [authLoading, isAdmin, batchCurrentPage, fetchBatches, showToast]); // Added showToast
+  }, [authLoading, isAdmin, batchCurrentPage, fetchBatches, showToast]);
 
   const sortedBatches = useMemo(() => {
     if (!batchesData?.batches) return [];
@@ -2660,7 +3168,6 @@ const AdminSendAllMessagePage: React.FC = () => {
 
   const handleSendMessage = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // setSendError(null); // No longer needed if only using toasts for sendError
     setIsSending(true);
     try {
       const result = await inboxAdminService.sendMessageToAllAdmin(
@@ -2674,10 +3181,9 @@ const AdminSendAllMessagePage: React.FC = () => {
       setSubject("");
       setBody("");
       if (batchCurrentPage !== 1) setBatchCurrentPage(1);
-      else fetchBatches(1); // Refetch to show the new batch
+      else fetchBatches(1);
     } catch (err: any) {
       const errorMsg = err.message || "Failed to send broadcast.";
-      // setSendError(errorMsg); // No longer needed for form error display if toast is sufficient
       showToast(errorMsg, "error");
     } finally {
       setIsSending(false);
@@ -2694,7 +3200,7 @@ const AdminSendAllMessagePage: React.FC = () => {
     }
   };
   const goToPreviousBatchPage = () => goToBatchPage(batchCurrentPage - 1);
-  const goToNextBatchPage = () => goToBatchPage(batchCurrentPage + 1); // Corrected this line
+  const goToNextBatchPage = () => goToBatchPage(batchCurrentPage + 1);
   const handleRefreshBatches = () => {
     if (!batchesLoading) fetchBatches(batchCurrentPage);
   };
@@ -2752,7 +3258,7 @@ const AdminSendAllMessagePage: React.FC = () => {
           "\n\n--- (Error fetching full body, snippet shown) ---"
       );
       showToast("Could not load full message body for editing.", "error");
-      setFullEditBodyFetched(true); // Set to true to allow editing of snippet if full fails
+      setFullEditBodyFetched(true);
     }
   };
 
@@ -2788,7 +3294,7 @@ const AdminSendAllMessagePage: React.FC = () => {
         "success"
       );
       closeEditBatchDialog();
-      fetchBatches(batchCurrentPage); // Refresh the list
+      fetchBatches(batchCurrentPage);
     } catch (err: any) {
       showToast(`Failed to update batch: ${err.message}`, "error");
     } finally {
@@ -2798,35 +3304,31 @@ const AdminSendAllMessagePage: React.FC = () => {
 
   if (authLoading) {
     return (
-      <div className="flex items-center justify-center h-screen text-gray-600 dark:text-gray-300 relative">
+      <div className="flex items-center justify-center h-screen text-subheadingWhite relative">
         <ToastContainer
           {...customToastContainerProps}
           style={getToastContainerStyle()}
         />
-        <Loader2 className="h-8 w-8 animate-spin text-indigo-600" />
+        <Loader2 className="h-8 w-8 animate-spin text-primary" />
         <span className="ml-2 text-lg">Loading...</span>
       </div>
     );
   }
   if (!isAdmin) {
-    // This handles the case where isAdmin is false after authLoading is done
     return (
       <div className="container mx-auto px-4 py-10 relative">
         <ToastContainer
           {...customToastContainerProps}
           style={getToastContainerStyle()}
         />
-        {/* The batchesError will display the "Administrator privileges required." message */}
         {batchesError && (
-          <div className="max-w-lg mx-auto p-4 border border-red-300 bg-red-50 dark:bg-red-900/30 dark:border-red-700 rounded-md flex items-start space-x-3">
-            <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 flex-shrink-0 mt-0.5" />
+          <div className="max-w-lg mx-auto p-4 border bg-red-900/30 border-red-700 rounded-md flex items-start space-x-3">
+            <AlertCircle className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5" />
             <div>
-              <h3 className="text-lg font-medium text-red-800 dark:text-red-200">
+              <h3 className="text-lg font-medium text-red-200">
                 Access Denied
               </h3>
-              <p className="text-sm text-red-700 dark:text-red-300 mt-1">
-                {batchesError}
-              </p>
+              <p className="text-sm text-red-300 mt-1">{batchesError}</p>
             </div>
           </div>
         )}
@@ -2842,14 +3344,14 @@ const AdminSendAllMessagePage: React.FC = () => {
       />
       <div className="Send mb-5">
         <div className="flex items-center gap-3">
-          <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-            <FaPaperPlane className="size-6 text-mainheading dark:text-primary" />
+          <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+            <FaPaperPlane className="size-6 text-mainheading" />
           </div>
-          <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+          <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
             Send Broadcast Message
           </h1>
         </div>
-        <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+        <p className="mt-2 text-subheadingWhite lg:text-lg">
           Broadcast messages allow administrators to quickly and efficiently
           communicate important updates, alerts, or announcements to all users
           at once
@@ -2862,7 +3364,7 @@ const AdminSendAllMessagePage: React.FC = () => {
         body={body}
         onBodyChange={setBody}
         isSending={isSending}
-        sendError={null} // sendError prop is kept for compatibility but error is shown via toast
+        sendError={null}
         onSubmit={handleSendMessage}
       />
 
@@ -2879,7 +3381,8 @@ const AdminSendAllMessagePage: React.FC = () => {
         onEdit={openEditBatchDialog}
         onDelete={openDeleteConfirmation}
         onPreviousPage={goToPreviousBatchPage}
-        onNextPage={goToNextBatchPage} // Corrected this line
+        onNextPage={goToNextBatchPage}
+        paginate={goToBatchPage}
         onSort={handleBroadcastSort}
         sortField={broadcastSortField}
         sortDirection={broadcastSortDirection}
@@ -2906,7 +3409,6 @@ const AdminSendAllMessagePage: React.FC = () => {
         isDeleting={deletingBatchId === showDeleteConfirm?.batchId}
         formatDateForDisplay={formatDateForDisplay}
       />
-      
     </div>
   );
 };

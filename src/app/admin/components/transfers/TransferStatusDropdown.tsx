@@ -439,7 +439,7 @@ const TransferStatusDropdown: React.FC<TransferStatusDropdownProps> = ({
         placeholder="Select status"
       />
       {isFinalActualStatus && (
-        <p className="text-xs text-gray-500 dark:text-gray-300 mt-1">
+        <p className="text-xs text-subheadingWhite mt-1">
           Final status reached, cannot be changed.
         </p>
       )}

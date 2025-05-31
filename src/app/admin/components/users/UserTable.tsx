@@ -390,32 +390,32 @@
     > = {
       verified: {
         color:
-          "text-green-600 bg-green-100 dark:bg-green-600/20 dark:text-green-400",
+          "bg-green-600/20 text-green-400",
         icon: ShieldCheck,
         label: "Verified",
       },
 
       rejected: {
         color:
-          "text-red-600 bg-red-100 dark:bg-red-600/20 dark:text-red-400",
+          "bg-red-600/20 text-red-400",
         icon: AlertCircle,
         label: "Rejected",
       },
       pending: {
         color:
-          "text-yellow-600 bg-yellow-100 dark:bg-yellow-600/20 dark:text-yellow-400",
+          "bg-yellow-600/20 text-yellow-400",
         icon: Clock,
         label: "Pending",
       },
       skipped: {
         color:
-          "text-blue-600 bg-blue-100 dark:bg-blue-600/20 dark:text-blue-400",
+          "bg-blue-600/20 text-blue-400",
         icon: Info,
         label: "Skipped",
       },
       not_started: {
         color:
-          "text-gray-600 bg-gray-100 dark:bg-gray-600/20 dark:text-gray-400",
+          "bg-gray-600/20 text-gray-400",
         icon: HelpCircle,
         label: "Not Started",
       },
@@ -470,7 +470,7 @@
     if (loading) {
       return (
         <div className="rounded-xl border overflow-hidden">
-          <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+          <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-primarybox [&::-webkit-scrollbar-thumb]:bg-secondarybox">
               <table className="min-w-full">
                 
               <UserTableHeader
@@ -487,7 +487,7 @@
                   .map((_, i) => (
                       <tr key={`skel-${i}`} >
                       {Array(numberOfColumns).fill(0).map((_, j) => (
-                          <td key={`skel-cell-${i}-${j}`} className="px-6 py-4 h-[70px] whitespace-nowrap">
+                          <td key={`skel-cell-${i}-${j}`} className="px-4 py-4 h-[70px] whitespace-nowrap">
                             {/* Use full-width skeleton */}
                             <Skeleton className="h-4 w-full" />
                           </td>
@@ -504,7 +504,7 @@
     return (
       <div className="rounded-xl border overflow-hidden">
         {/* Add the scrollable container with custom scrollbars */}
-        <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder dark:[&::-webkit-scrollbar-track]:bg-primarybox dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox">
+        <div className="overflow-x-auto [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar]:h-3 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-primarybox [&::-webkit-scrollbar-thumb]:bg-secondarybox">
           <table className="min-w-full overflow-hidden">
             <UserTableHeader
               toggleSort={toggleSort}
@@ -518,7 +518,7 @@
                   <td
                     // Ensure colSpan matches numberOfColumns
                     colSpan={numberOfColumns}
-                    className="px-6 py-10 text-center text-gray-500 dark:text-gray-300"
+                    className="px-4 py-10 text-center text-mainheadingWhite"
                   >
                     No users found matching your criteria.
                   </td>
@@ -540,23 +540,23 @@
                       // className="hover:bg-lightgray dark:hover:bg-primarybox transition-all duration-75 ease-linear"
                     >
                       {/* Full Name - Use styles closer to PaymentTable */}
-                      <td className="px-6 py-3 font-medium text-neutral-900 dark:text-white whitespace-nowrap capitalize">
-                        {user.fullName && user.fullName.toLowerCase() !== 'n/a' ? user.fullName : <span className="text-gray-500 dark:text-gray-300 italic">N/A</span>}
+                      <td className="px-4 py-3 font-medium text-mainheadingWhite whitespace-nowrap capitalize">
+                        {user.fullName && user.fullName.toLowerCase() !== 'n/a' ? user.fullName : <span className="text-mainheadingWhite italic">N/A</span>}
                       </td>
                       {/* Email - Use styles closer to PaymentTable */}
-                      <td className="px-6 py-3 font-medium text-neutral-900 dark:text-white whitespace-nowrap">
-                        {user.email && user.email.toLowerCase() !== 'n/a' ? user.email : <span className="text-gray-500 dark:text-gray-300 italic">N/A</span>}
+                      <td className="px-4 py-3 font-medium text-mainheadingWhite whitespace-nowrap">
+                        {user.email && user.email.toLowerCase() !== 'n/a' ? user.email : <span className="text-mainheadingWhite italic">N/A</span>}
                       </td>
                       {/* Date of Birth */}
-                      <td className="px-6 py-3 font-medium text-neutral-900 dark:text-white whitespace-nowrap">
+                      <td className="px-4 py-3 font-medium text-mainheadingWhite whitespace-nowrap">
                         {formatDateForDisplay(userDob)}
                       </td>
                       {/* Mobile */}
-                      <td className="px-6 py-3 font-medium text-neutral-900 dark:text-white whitespace-nowrap">
+                      <td className="px-4 py-3 font-medium text-mainheadingWhite whitespace-nowrap">
                         {formatMobile(user.kyc?.mobile)}
                       </td>
                       {/* KYC Status - Badge styling remains good */}
-                      <td className="px-6 py-3 font-medium text-neutral-900 dark:text-white whitespace-nowrap">
+                      <td className="px-4 py-3 font-medium text-mainheadingWhite whitespace-nowrap">
                         <div
                           className={cn(
                             "inline-flex justify-center items-center gap-1.5 px-4 py-1 w-28 font-medium rounded-3xl capitalize", // Ensure width is sufficient
@@ -567,17 +567,17 @@
                         </div>
                       </td>
                       {/* Date Joined */}
-                      <td className="px-6 py-3 font-medium text-neutral-900 dark:text-white whitespace-nowrap">
+                      <td className="px-4 py-3 font-medium text-mainheadingWhite whitespace-nowrap">
                         {formatDateJoined(user.createdAt)}
                       </td>
                       {/* Actions - Style Link to look like PaymentTable button */}
-                      <td className="px-6 py-3 font-medium text-neutral-900 dark:text-white whitespace-nowrap ">
+                      <td className="px-4 py-3 font-medium text-mainheadingWhite whitespace-nowrap ">
                       
                           <Link
                             href={`/admin/users/${user._id}`}
                             aria-label={`View details for ${user.fullName || user.email}`}
                             // Apply button styles directly to Link - matching PaymentTable Edit button
-                            className="inline-flex items-center group px-6 py-2 rounded-3xl space-x-1 transition-colors duration-300 font-medium bg-primary hover:bg-primaryhover dark:bg-primarybox hover:dark:bg-secondarybox text-neutral-900 dark:text-primary focus:outline-none" // Adjusted padding/height/text size for consistency
+                            className="inline-flex items-center group px-6 py-2 rounded-3xl space-x-1 transition-colors duration-300 font-medium bg-primary hover:bg-primaryhover text-mainheading  focus:outline-none" // Adjusted padding/height/text size for consistency
                           >
                             {/* <Eye size={16} className="mr-1" />Details */}
                             <span>View Details</span>

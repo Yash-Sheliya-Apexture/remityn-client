@@ -159,14 +159,91 @@
 // export default TransferInfoCard;
 
 
+// // FILE: src/app/admin/components/transfers/TransferInfoCard.tsx
+// "use client";
+// import React from "react";
+// import { formatFullDateTime } from "../../../utils/helpers"; // Adjust path if needed
+
+// // Define a specific interface for the transfer object's relevant properties
+// interface TransferInfo {
+//   _id?: string | null; // Transfer ID, likely a string
+//   createdAt?: string | Date | null | undefined; // Allow null/undefined/Date
+//   updatedAt?: string | Date | null | undefined; // Allow null/undefined/Date
+// }
+
+// interface TransferInfoCardProps {
+//   transfer: TransferInfo | null | undefined;
+// }
+
+// // Helper function to prepare the date value for formatFullDateTime
+// // It ensures the value passed is either string | undefined, handling Date and null.
+// const prepareDateForFormatting = (dateValue: string | Date | null | undefined): string | undefined => {
+//   if (dateValue === null || dateValue === undefined) {
+//     return undefined; // Pass undefined if null or undefined
+//   }
+//   if (dateValue instanceof Date) {
+//     return dateValue.toISOString(); // Convert Date object to ISO string
+//   }
+//   // If it's already a string, return it as is
+//   // (TypeScript knows it must be a string here if not Date/null/undefined)
+//   return dateValue;
+// };
+
+
+// const TransferInfoCard: React.FC<TransferInfoCardProps> = ({ transfer }) => {
+//   if (!transfer) return null;
+
+//   // Prepare date values using the helper function before passing them
+//   const preparedCreatedAt = prepareDateForFormatting(transfer.createdAt);
+//   const preparedUpdatedAt = prepareDateForFormatting(transfer.updatedAt);
+
+//   // Decide what to display if the formatted date is null/empty (formatFullDateTime might return empty/null for invalid inputs)
+//   const displayCreatedAt = formatFullDateTime(preparedCreatedAt) || 'N/A';
+//   const displayUpdatedAt = formatFullDateTime(preparedUpdatedAt) || 'N/A';
+
+
+//   return (
+//     <div className="bg-primarybox rounded-xl border overflow-hidden">
+//       <div className="bg-secondarybox px-6 py-4">
+//         <h3 className="text-lg font-semibold text-mainheadingWhite">Transfer Information</h3>
+//       </div>
+//       <div className="sm:p-6 p-4 space-y-4">
+//         <div>
+//           <p className="text-sm font-medium text-white/90 mb-1">Transfer ID</p>
+//           <div className="text-sm bg-secondarybox text-mainheadingWhite px-3 py-3 rounded-lg break-all">
+//             {transfer._id || 'N/A'}
+//           </div>
+//         </div>
+//         <div>
+//           <p className="text-sm font-medium text-white/90 mb-1">Created On</p>
+//           <div className="text-sm bg-secondarybox text-mainheadingWhite px-3 py-3 rounded-lg">
+//             {/* FIX: Pass value pre-processed to string | undefined */}
+//             {displayCreatedAt}
+//           </div>
+//         </div>
+//         <div>
+//           <p className="text-sm font-medium text-white/90 mb-1">Last Updated</p>
+//           <div className="text-sm bg-secondarybox text-mainheadingWhite px-3 py-3 rounded-lg">
+//              {/* FIX: Pass value pre-processed to string | undefined */}
+//             {displayUpdatedAt}
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default TransferInfoCard;
+
+
 // FILE: src/app/admin/components/transfers/TransferInfoCard.tsx
 "use client";
 import React from "react";
-import { formatFullDateTime } from "../../../utils/helpers"; // Adjust path if needed
+import { formatFullDateTime } from "../../../utils/helpers";
 
 // Define a specific interface for the transfer object's relevant properties
 interface TransferInfo {
-  _id?: string | null; // Transfer ID, likely a string
+  _id: string; // Transfer ID, made required
   createdAt?: string | Date | null | undefined; // Allow null/undefined/Date
   updatedAt?: string | Date | null | undefined; // Allow null/undefined/Date
 }
@@ -184,14 +261,11 @@ const prepareDateForFormatting = (dateValue: string | Date | null | undefined): 
   if (dateValue instanceof Date) {
     return dateValue.toISOString(); // Convert Date object to ISO string
   }
-  // If it's already a string, return it as is
-  // (TypeScript knows it must be a string here if not Date/null/undefined)
-  return dateValue;
+  return dateValue; // If it's already a string, return it as is
 };
 
-
 const TransferInfoCard: React.FC<TransferInfoCardProps> = ({ transfer }) => {
-  if (!transfer) return null;
+  if (!transfer) return null; // Defensive rendering
 
   // Prepare date values using the helper function before passing them
   const preparedCreatedAt = prepareDateForFormatting(transfer.createdAt);
@@ -201,30 +275,28 @@ const TransferInfoCard: React.FC<TransferInfoCardProps> = ({ transfer }) => {
   const displayCreatedAt = formatFullDateTime(preparedCreatedAt) || 'N/A';
   const displayUpdatedAt = formatFullDateTime(preparedUpdatedAt) || 'N/A';
 
-
   return (
-    <div className="bg-white dark:bg-primarybox rounded-xl border overflow-hidden">
-      <div className="bg-lightgray dark:bg-secondarybox px-6 py-4">
-        <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Transfer Information</h3>
+    <div className="bg-primarybox rounded-xl border overflow-hidden">
+      <div className="bg-secondarybox px-6 py-4">
+        <h3 className="text-lg font-semibold text-mainheadingWhite">Transfer Information</h3>
       </div>
       <div className="sm:p-6 p-4 space-y-4">
         <div>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-300 mb-1">Transfer ID</p>
-          <div className="text-sm bg-lightgray dark:bg-primarybox px-3 py-3 rounded-lg break-all">
-            {transfer._id || 'N/A'}
+          <p className="text-sm font-medium text-white/90 mb-1">Transfer ID</p>
+          <div className="text-sm bg-secondarybox text-mainheadingWhite px-3 py-3 rounded-lg break-all">
+            {/* Using transfer._id directly as it's made required by interface */}
+            {transfer._id}
           </div>
         </div>
         <div>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-300 mb-1">Created On</p>
-          <div className="text-sm bg-lightgray dark:bg-primarybox px-3 py-3 rounded-lg">
-            {/* FIX: Pass value pre-processed to string | undefined */}
+          <p className="text-sm font-medium text-white/90 mb-1">Created On</p>
+          <div className="text-sm bg-secondarybox text-mainheadingWhite px-3 py-3 rounded-lg">
             {displayCreatedAt}
           </div>
         </div>
         <div>
-          <p className="text-sm font-medium text-gray-500 dark:text-gray-300 mb-1">Last Updated</p>
-          <div className="text-sm bg-lightgray dark:bg-primarybox px-3 py-3 rounded-lg">
-             {/* FIX: Pass value pre-processed to string | undefined */}
+          <p className="text-sm font-medium text-white/90 mb-1">Last Updated</p>
+          <div className="text-sm bg-secondarybox text-mainheadingWhite px-3 py-3 rounded-lg">
             {displayUpdatedAt}
           </div>
         </div>

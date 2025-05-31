@@ -863,7 +863,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
     <AnimatePresence>
       {isOpen && message && (
         <motion.div
-          className="fixed inset-0 w-full h-full bg-black/50 dark:bg-white/30 z-50 flex sm:items-center items-end justify-center"
+          className="fixed inset-0 w-full h-full bg-white/15 z-50 flex sm:items-center items-end justify-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -873,7 +873,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
           aria-modal="true"
         >
           <motion.div
-            className="bg-white dark:bg-background sm:rounded-3xl rounded-none w-full sm:max-w-xl relative flex flex-col overflow-hidden sm:h-auto h-screen"
+            className="bg-background sm:rounded-3xl rounded-none w-full sm:max-w-xl relative flex flex-col overflow-hidden sm:h-auto h-screen"
             variants={modalVariants}
             initial="initial"
             animate="animate"
@@ -884,7 +884,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
             <div className="p-4 sm:p-6 flex items-center justify-between flex-shrink-0 border-b">
               <h2
                 id="edit-message-modal-title"
-                className="lg:text-2xl text-xl font-semibold text-mainheading dark:text-white"
+                className="lg:text-2xl text-xl font-semibold text-mainheadingWhite"
               >
                 Edit Message
                 
@@ -893,7 +893,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
                 onClick={onClose}
                 disabled={isLoading}
                 aria-label="Close modal"
-                className="size-12 bg-lightgray cursor-pointer hover:bg-lightborder text-neutral-900 dark:text-primary dark:bg-primarybox dark:hover:bg-secondarybox flex items-center justify-center rounded-full transition-all duration-75 ease-linear focus:outline-none"
+                className="p-2.5 bg-primarybox hover:bg-secondarybox text-primary rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
               >
                 <IoClose size={28} />
               </button>
@@ -902,12 +902,12 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
             {/* Scrollable Content Area */}
             <div className="flex-grow overflow-y-auto scrollbar-hide">
               <div className="p-4 sm:p-6 space-y-5">
-                <p className="text-gray-500 dark:text-gray-300 font-medium">
+                <p className="text-subheadingWhite font-medium">
                   Modify the subject and body of this message.
                 </p>
-                <div className="mt-4 text-sm text-gray-500 dark:text-gray-300 space-y-1.5 border px-4 py-3 rounded-xl">
+                <div className="mt-4 text-sm text-subheadingWhite space-y-1.5 border px-4 py-3 rounded-xl">
                   <div className="flex items-start">
-                    <span className="font-semibold text-neutral-900 dark:text-white shrink-0">
+                    <span className="font-semibold text-white/90 shrink-0">
                       ID:
                     </span>
                     <span className="ml-1.5 flex-1 break-words">
@@ -918,7 +918,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
                   </div>
                   {message?.userId && (
                     <div className="flex items-start">
-                      <span className="font-semibold text-neutral-900 dark:text-white shrink-0">
+                      <span className="font-semibold text-white/90 shrink-0">
                         To:
                       </span>
                       <span className="ml-1.5 truncate" title={recipientName}>
@@ -933,7 +933,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
                 <div className="space-y-1.5">
                   <label
                     htmlFor="edit-message-subject"
-                    className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+                    className="text-white/90 block capitalize text-sm lg:text-base"
                   >
                     Subject <span className="text-red-600">*</span>
                   </label>
@@ -944,7 +944,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
                     onChange={(e) => setEditSubject(e.target.value)}
                     disabled={isLoading}
                     maxLength={200}
-                    className="mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75"
+                    className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0"
                     placeholder="Enter subject"
                   />
                 </div>
@@ -952,7 +952,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
                 <div className="space-y-1.5">
                   <label
                     htmlFor="edit-message-body"
-                    className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+                    className="text-white/90 block capitalize text-sm lg:text-base"
                   >
                     Body <span className="text-red-600">*</span>
                   </label>
@@ -960,7 +960,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
                     id="edit-message-body"
                     value={editBody}
                     onChange={(e) => setEditBody(e.target.value)}
-                    className="resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 bg-white dark:bg-background h-14 w-full transition-all border rounded-lg focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75 min-h-[150px]"
+                    className="min-h-[150px] resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-thumb]:rounded-full  sm:[&::-webkit-scrollbar-track]:bg-primarybox sm:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white h-14 w-full transition-all border rounded-lg focus:outline-none ease-linear duration-75"
                     disabled={isLoading}
                     placeholder="Enter updated message body..."
                     rows={6}
@@ -970,13 +970,13 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
             </div>
 
             {/* Footer */}
-            <div className="p-4 sm:p-6 border-t bg-white dark:bg-background flex-shrink-0">
+            <div className="p-4 sm:p-6 border-t flex-shrink-0">
               <div className="flex sm:flex-row flex-col justify-end gap-3">
                 <button
                   type="button"
                   onClick={onClose}
                   disabled={isLoading}
-                  className="inline-flex justify-center cursor-pointer bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-[48px] text-center w-full transition-all duration-75 ease-linear"
+                  className="inline-flex justify-center cursor-pointer text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-[48px] text-center w-full transition-all duration-75 ease-linear"
                 >
                   Cancel
                 </button>
@@ -986,7 +986,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
                   disabled={
                     isLoading || !editSubject.trim() || !editBody.trim()
                   }
-                  className="inline-flex items-center text-nowrap justify-center cursor-pointer bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-[48px] text-center w-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="inline-flex items-center text-nowrap justify-center cursor-pointer bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-[48px] text-center w-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading && <SvgLoader />}
                   {isLoading ? "Saving..." : "Save Changes"}

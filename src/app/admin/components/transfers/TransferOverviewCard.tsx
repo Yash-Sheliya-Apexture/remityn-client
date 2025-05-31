@@ -249,6 +249,104 @@
 
 
 
+// "use client";
+// import React from "react";
+// import { Calendar, DollarSign } from "lucide-react";
+// // Make sure paths are correct
+// import { GetStatusBadge, getTimeAgo, formatCurrency } from "../../../utils/helpers";
+
+// // Interface for the currency reference (as expected in props)
+// interface CurrencyRef {
+//   _id?: string; // Optional ID
+//   code?: string | null; // Code is the primary piece needed here
+// }
+
+// // Interface for the expected transfer prop structure
+// interface TransferOverview {
+//   _id?: string | null;
+//   status?: string | null | undefined;
+//   createdAt?: string | Date | null | undefined; // Can be string or Date
+//   sendAmount?: number | null;
+//   sendCurrency?: CurrencyRef | null; // Expecting the resolved object or null
+// }
+
+// interface TransferOverviewCardProps {
+//   transfer: TransferOverview | null | undefined;
+// }
+
+// const TransferOverviewCard: React.FC<TransferOverviewCardProps> = ({
+//   transfer,
+// }) => {
+//   if (!transfer) return null;
+
+//   // Currency code is now directly available (if lookup was successful in parent)
+//   const sendCurrencyCode = transfer.sendCurrency?.code || undefined; // Use optional chaining
+
+//   // Date handling logic (keep as is, it handles string/Date/null)
+//   const getCreatedAtString = (dateValue: string | Date | null | undefined): string | undefined => {
+//     if (dateValue instanceof Date) {
+//       return dateValue.toISOString();
+//     }
+//     if (typeof dateValue === 'string') {
+//       return dateValue;
+//     }
+//     return undefined;
+//   };
+//   const createdAtStringForHelper = getCreatedAtString(transfer.createdAt);
+
+//   // Status handling (keep as is)
+//   const statusValue = transfer.status;
+
+
+//   return (
+//     <div className="bg-primarybox rounded-xl sm:p-6 p-4 mb-6"> {/* Added shadow/border */}
+//       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+//         {/* Left Side: Status and ID */}
+//         <div className="flex sm:items-center gap-4 sm:flex-row flex-col">
+//           <div className="flex-shrink-0">
+//              {/* Pass original status, provide fallback */}
+//             <GetStatusBadge status={statusValue ?? 'unknown'} />
+//           </div>
+//           <div className="min-w-0">
+//             <p className="text-sm font-medium text-subheadingWhite">Transfer ID</p>
+//             <p className="text-white/90 text-sm font-medium break-all"> {/* Added font-medium */}
+//               {transfer._id || 'N/A'}
+//             </p>
+//           </div>
+//         </div>
+
+//         {/* Right Side: Dates and Amount */}
+//         <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-6 mt-4 md:mt-0"> {/* Adjusted gap */}
+//           <div className="bg-secondarybox rounded-lg px-4 py-2 flex items-center"> {/* Added border */}
+//             <Calendar className="size-4 text-white mr-2.5 flex-shrink-0" /> {/* Adjusted margin */}
+//             <div>
+//               <p className="text-xs text-mainheadingWhite">Created</p>
+//               <p className="text-sm font-medium text-white/90">
+//                  {createdAtStringForHelper ? getTimeAgo(createdAtStringForHelper) : 'N/A'}
+//               </p>
+//             </div>
+//           </div>
+
+//           <div className="bg-secondarybox rounded-lg px-4 py-2 flex items-center border dark:border-neutral-700/70"> {/* Added border */}
+//             <DollarSign className="size-4 text-white mr-2.5 flex-shrink-0" /> {/* Adjusted margin */}
+//             <div>
+//               <p className="text-xs text-mainheadingWhite">Amount Sent</p>
+//               <p className="text-sm font-medium text-white/90">
+//                  {/* Use the code directly from the prop */}
+//                 {formatCurrency(transfer.sendAmount, sendCurrencyCode)}
+//               </p>
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default TransferOverviewCard;
+
+
+// src/app/admin/components/transfers/TransferOverviewCard.tsx
 "use client";
 import React from "react";
 import { Calendar, DollarSign } from "lucide-react";
@@ -256,18 +354,19 @@ import { Calendar, DollarSign } from "lucide-react";
 import { GetStatusBadge, getTimeAgo, formatCurrency } from "../../../utils/helpers";
 
 // Interface for the currency reference (as expected in props)
+// This is the simplified CurrencyRef passed from the parent page
 interface CurrencyRef {
-  _id?: string; // Optional ID
+  _id?: string; // Optional ID, might not be needed for display
   code?: string | null; // Code is the primary piece needed here
 }
 
 // Interface for the expected transfer prop structure
 interface TransferOverview {
-  _id?: string | null;
-  status?: string | null | undefined;
-  createdAt?: string | Date | null | undefined; // Can be string or Date
-  sendAmount?: number | null;
-  sendCurrency?: CurrencyRef | null; // Expecting the resolved object or null
+  _id: string; // Made required as it's typically always present
+  status: string | null | undefined;
+  createdAt: string | Date | null | undefined; // Can be string or Date
+  sendAmount: number | null | undefined; // Can be null/undefined
+  sendCurrency: CurrencyRef | null | undefined; // Expecting the resolved object or null
 }
 
 interface TransferOverviewCardProps {
@@ -277,10 +376,11 @@ interface TransferOverviewCardProps {
 const TransferOverviewCard: React.FC<TransferOverviewCardProps> = ({
   transfer,
 }) => {
-  if (!transfer) return null;
+  if (!transfer) return null; // Defensive rendering
 
   // Currency code is now directly available (if lookup was successful in parent)
-  const sendCurrencyCode = transfer.sendCurrency?.code || undefined; // Use optional chaining
+  // Use optional chaining for sendCurrency and provide fallback for code
+  const sendCurrencyCode = transfer.sendCurrency?.code || undefined;
 
   // Date handling logic (keep as is, it handles string/Date/null)
   const getCreatedAtString = (dateValue: string | Date | null | undefined): string | undefined => {
@@ -297,42 +397,42 @@ const TransferOverviewCard: React.FC<TransferOverviewCardProps> = ({
   // Status handling (keep as is)
   const statusValue = transfer.status;
 
-
   return (
-    <div className="bg-lightgray dark:bg-primarybox rounded-xl sm:p-6 p-4 mb-6"> {/* Added shadow/border */}
+    <div className="bg-primarybox rounded-xl sm:p-6 p-4 mb-6">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         {/* Left Side: Status and ID */}
         <div className="flex sm:items-center gap-4 sm:flex-row flex-col">
           <div className="flex-shrink-0">
-             {/* Pass original status, provide fallback */}
+            {/* Pass original status, provide fallback */}
             <GetStatusBadge status={statusValue ?? 'unknown'} />
           </div>
           <div className="min-w-0">
-            <p className="text-sm font-medium text-gray-500 dark:text-gray-300">Transfer ID</p>
-            <p className="text-neutral-900 dark:text-white text-sm font-medium break-all"> {/* Added font-medium */}
-              {transfer._id || 'N/A'}
+            <p className="text-sm font-medium text-subheadingWhite">Transfer ID</p>
+            {/* Using `transfer._id` directly as it's made required by interface */}
+            <p className="text-white/90 text-sm font-medium break-all">
+              {transfer._id}
             </p>
           </div>
         </div>
 
         {/* Right Side: Dates and Amount */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-6 mt-4 md:mt-0"> {/* Adjusted gap */}
-          <div className="bg-lightborder dark:bg-primarybox rounded-lg px-4 py-2 flex items-center border dark:border-neutral-700/70"> {/* Added border */}
-            <Calendar className="size-4 text-gray-500 dark:text-gray-300 mr-2.5 flex-shrink-0" /> {/* Adjusted margin */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-6 mt-4 md:mt-0">
+          <div className="bg-secondarybox rounded-lg px-4 py-2 flex items-center">
+            <Calendar className="size-4 text-white mr-2.5 flex-shrink-0" />
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-300">Created</p>
-              <p className="text-sm font-medium text-neutral-900 dark:text-white">
-                 {createdAtStringForHelper ? getTimeAgo(createdAtStringForHelper) : 'N/A'}
+              <p className="text-xs text-mainheadingWhite">Created</p>
+              <p className="text-sm font-medium text-white/90">
+                {createdAtStringForHelper ? getTimeAgo(createdAtStringForHelper) : 'N/A'}
               </p>
             </div>
           </div>
 
-          <div className="bg-lightborder dark:bg-primarybox rounded-lg px-4 py-2 flex items-center border dark:border-neutral-700/70"> {/* Added border */}
-            <DollarSign className="size-4 text-gray-500 dark:text-gray-300 mr-2.5 flex-shrink-0" /> {/* Adjusted margin */}
+          <div className="bg-secondarybox rounded-lg px-4 py-2 flex items-center border dark:border-neutral-700/70">
+            <DollarSign className="size-4 text-white mr-2.5 flex-shrink-0" />
             <div>
-              <p className="text-xs text-gray-500 dark:text-gray-300">Amount Sent</p>
-              <p className="text-sm font-medium text-neutral-900 dark:text-white">
-                 {/* Use the code directly from the prop */}
+              <p className="text-xs text-mainheadingWhite">Amount Sent</p>
+              <p className="text-sm font-medium text-white/90">
+                {/* Use the code directly from the prop */}
                 {formatCurrency(transfer.sendAmount, sendCurrencyCode)}
               </p>
             </div>

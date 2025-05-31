@@ -10,7 +10,6 @@ interface DashboardLayoutProps {
 export default function AuthLayout({ children }: DashboardLayoutProps) {
   return (
     <>
-      {/* <AuthHeader /> */}
       <main>
         {children}
       </main>

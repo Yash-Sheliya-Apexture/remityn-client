@@ -332,10 +332,10 @@ const UserTableHeader: React.FC<UserTableHeaderProps> = ({
   // Helper to render the sort icon conditionally
   const renderSortIcon = (field: UserSortField) => {
     // Base classes for all icons: margin, and primary transition for properties like color.
-    const baseIconClasses = "ml-1.5 transition-all ease-linear duration-75";
+    const baseIconClasses = "ml-1.5 text-primary transition-all duration-75 ease-linear";
     // Classes to make icons hidden by default and appear on hover, with opacity transition.
     const hoverRevealClasses =
-      "opacity-0 group-hover:opacity-100 transition-opacity duration-150";
+      "ml-1.5 opacity-0 group-hover:opacity-100 transition-all duration-75 ease-linear";
 
     if (sortField === field) {
       // Active sort field: Icon will be hidden by default,
@@ -360,13 +360,14 @@ const UserTableHeader: React.FC<UserTableHeaderProps> = ({
   };
 
   // Common classes for header cells and buttons
+  // Common classes for header cells and buttons
   const headerCellClasses =
-    "px-6 py-4 text-left font-medium text-neutral-900 dark:text-white tracking-wider whitespace-nowrap";
+    "px-4 py-4 text-left font-medium text-mainheadingWhite tracking-wider whitespace-nowrap";
   const buttonClasses =
-    "flex items-center gap-1 hover:text-primary uppercase group cursor-pointer";
+    "flex items-center gap-1 hover:text-primary uppercase group cursor-pointer"; // Added group class
 
   return (
-    <thead className="bg-lightgray dark:bg-primarybox">
+    <thead className="bg-primarybox">
       <tr className="table-head">
         {/* --- Full Name Column (Sortable) --- */}
         <th className={headerCellClasses}>

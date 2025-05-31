@@ -1981,7 +1981,7 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
     <AnimatePresence>
       {isEditModalOpen && selectedPaymentForEdit && (
         <motion.div
-          className="fixed top-0 left-0 w-full h-full bg-black/50 dark:bg-white/30 z-50 flex justify-center sm:items-center items-end"
+          className="fixed top-0 left-0 w-full h-full bg-white/15 z-50 flex justify-center sm:items-center items-end"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
@@ -1996,20 +1996,20 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
             initial="initial"
             animate="animate"
             exit="exit"
-            className="bg-white dark:bg-background sm:rounded-3xl rounded-none  w-full sm:max-w-xl relative flex flex-col overflow-hidden sm:h-auto h-screen" // Added flex flex-col overflow-hidden max-h
+            className="bg-background sm:rounded-3xl rounded-none  w-full sm:max-w-xl relative flex flex-col overflow-hidden sm:h-auto h-screen" // Added flex flex-col overflow-hidden max-h
             onClick={(e) => e.stopPropagation()} // Prevent close on modal content click
           >
             {/* Header */}
             <div className="p-4 sm:p-6 flex items-center justify-between flex-shrink-0 border-b">
               <h2
                 id="edit-payment-modal-title"
-                className="lg:text-2xl text-xl font-semibold text-mainheading dark:text-white"
+                className="lg:text-2xl text-xl font-semibold text-mainheadingWhite"
               >
                 Edit Payment Status
               </h2>
               <div
                 onClick={() => setIsEditModalOpen(false)}
-                className="size-12 bg-lightgray hover:bg-lightborder cursor-pointer dark:bg-primarybox dark:hover:bg-secondarybox flex items-center justify-center rounded-full transition-all duration-75 ease-linear"
+                className="p-2.5 bg-primarybox hover:bg-secondarybox text-primary rounded-full transition-all duration-75 ease-linear cursor-pointer focus:outline-none"
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
@@ -2018,12 +2018,7 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
                 }}
                 aria-label="Close modal"
               >
-                <button
-                  className="text-neutral-900 dark:text-primary cursor-pointer focus:outline-none"
-                  aria-label="Close"
-                >
                   <IoClose size={28} />
-                </button>
               </div>
             </div>
 
@@ -2040,7 +2035,7 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
                     disabled={isFinalStatus || editLoading}
                   />
                   {isFinalStatus && (
-                    <p className="text-xs text-gray-500 dark:text-gray-300 mt-2 flex items-center gap-1">
+                    <p className="text-xs text-subheadingWhite mt-2 flex items-center gap-1">
                       <AlertCircle size={18} className="text-primary size-4" />
                       This payment has reached a final status and cannot be
                       changed.
@@ -2049,40 +2044,40 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
                 </div>
 
                 {/* Payment ID Field */}
-                <div className="bg-lightgray dark:bg-primarybox rounded-lg p-4 transition-all border border-gray-200 dark:border-neutral-700">
+                <div className="bg-primarybox rounded-lg p-4 transition-all">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1">
                       <div className="flex items-center mb-1.5">
                         <Hash className="size-4 text-primary mr-2" />
-                        <span className="font-medium text-neutral-900 dark:text-white">
+                        <span className="font-medium text-mainheadingWhite">
                           Payment ID
                         </span>
                       </div>
-                      <p className="text-sm break-all text-gray-500 dark:text-gray-300">
+                      <p className="text-sm break-all text-white/90">
                         {selectedPaymentForEdit._id}
                       </p>
                     </div>
                     <button
                       onClick={() => copyPaymentId(selectedPaymentForEdit._id)}
-                      className="shrink-0 h-8 px-2.5 cursor-pointer text-xs font-medium transition-all duration-75 ease-linear focus-visible:outline-none rounded-md flex items-center justify-center text-neutral-900 bg-white hover:bg-lightborder dark:text-white dark:bg-neutral-900 dark:hover:bg-primarybox"
+                      className="shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-subheadingWhite bg-secondarybox hover:bg-secondaryboxhover cursor-pointer"
                     >
-                      <Copy className="size-3.5 mr-1 text-neutral-900 dark:text-white" />
+                      <Copy className="size-3.5 mr-1" />
                       {isPaymentIdCopied ? "Copied!" : "Copy"}
                     </button>
                   </div>
                 </div>
 
                 {/* Reference Code Field */}
-                <div className="bg-lightgray dark:bg-primarybox rounded-lg p-4 transition-all border border-gray-200 dark:border-neutral-700">
+                <div className="bg-primarybox rounded-lg p-4 transition-all">
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex-1">
                       <div className="flex items-center mb-1.5">
                         <Hash className="size-4 text-primary mr-2" />
-                        <span className="font-medium text-neutral-900 dark:text-white">
+                        <span className="font-medium text-mainheadingWhite">
                           Reference Code
                         </span>
                       </div>
-                      <p className="text-sm break-all text-gray-500 dark:text-gray-300">
+                      <p className="text-sm break-all text-white/90">
                         {selectedPaymentForEdit.referenceCode || "N/A"}
                       </p>
                     </div>
@@ -2093,9 +2088,9 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
                         )
                       }
                       disabled={!selectedPaymentForEdit.referenceCode}
-                      className="shrink-0 h-8 px-2.5 cursor-pointer text-xs font-medium transition-all duration-75 ease-linear focus-visible:outline-none rounded-md flex items-center justify-center text-neutral-900 bg-white hover:bg-lightborder dark:text-white dark:bg-neutral-900 dark:hover:bg-primarybox"
+                      className="shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-subheadingWhite bg-secondarybox hover:bg-secondaryboxhover cursor-pointer"
                     >
-                      <Copy className="size-3.5 mr-1 text-neutral-900 dark:text-white" />
+                      <Copy className="size-3.5 mr-1" />
                       {isReferenceCodeCopied ? "Copied!" : "Copy"}
                     </button>
                   </div>
@@ -2103,27 +2098,27 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
 
                 {/* Amount and Currency */}
                 <div className="flex flex-col sm:flex-row gap-4">
-                  <div className="bg-lightgray dark:bg-primarybox rounded-lg p-4 flex-1 transition-all border border-gray-200 dark:border-neutral-700">
+                  <div className="bg-primarybox rounded-lg p-4 flex-1 transition-all">
                     <div className="flex items-center mb-1.5">
                       <DollarSign className="size-4 text-primary mr-2" />
-                      <span className="font-medium text-neutral-900 dark:text-white">
+                      <span className="ffont-medium text-mainheadingWhite">
                         Amount
                       </span>
                     </div>
-                    <p className="font-semibold text-lg text-gray-700 dark:text-gray-100">
+                    <p className="font-semibold text-lg text-white/90">
                       {selectedPaymentForEdit.amountToAdd}
                     </p>
                   </div>
 
-                  <div className="bg-lightgray dark:bg-primarybox rounded-lg p-4 flex-1 transition-all border border-gray-200 dark:border-neutral-700">
+                  <div className="bg-primarybox rounded-lg p-4 flex-1 transition-all">
                     <div className="flex items-center mb-1.5">
                       <Globe className="size-4 text-primary mr-2" />
-                      <span className="font-medium text-neutral-900 dark:text-white">
+                      <span className="font-medium text-mainheadingWhite">
                         Currency
                       </span>
                     </div>
-                    <div className="text-sm font-medium border border-gray-200 rounded-md inline-block px-4 py-1 bg-white dark:bg-primarybox dark:border-neutral-600">
-                      <span className="text-gray-500 dark:text-gray-300">
+                    <div className="text-sm font-medium rounded-md inline-block px-4 py-1 bg-secondarybox">
+                      <span className="text-mainheadingWhite">
                         {selectedPaymentForEdit.payInCurrency?.code || "N/A"}
                       </span>
                     </div>
@@ -2133,11 +2128,11 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
             </div>
 
             {/* Footer */}
-            <div className="p-4 sm:p-6 border-t bg-white dark:bg-background flex-shrink-0">
+            <div className="p-4 sm:p-6 border-t flex-shrink-0">
               <div className="flex sm:flex-row flex-col justify-end gap-3">
                 <button
                   onClick={() => setIsEditModalOpen(false)}
-                  className="inline-flex justify-center cursor-pointer bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear"
+                  className="inline-flex justify-center cursor-pointer text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear"
                 >
                   Cancel
                 </button>
@@ -2146,12 +2141,12 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
                   disabled={
                     editLoading || !editFormData.status || isFinalStatus
                   }
-                  className="inline-flex justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 font-medium rounded-full px-6 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="inline-flex justify-center cursor-pointer bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 text-center w-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {editLoading ? (
                     <>
                       <svg
-                        className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+                        className="h-5 w-5 text-mainheading animate-spin mr-2"
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"

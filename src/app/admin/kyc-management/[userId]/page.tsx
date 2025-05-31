@@ -6506,29 +6506,27 @@ const salaryDisplayMap: Record<SalaryRange, string> = {
 const getStatusConfig = (status?: string) => {
   const statusMap = {
     verified: {
-      color:
-        "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300",
+      color: "bg-green-900/30 text-green-300",
       icon: CheckCircle,
       label: "Verified",
     },
     rejected: {
-      color: "bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300",
+      color: "bg-red-900/30 text-red-300",
       icon: XCircle,
       label: "Rejected",
     },
     pending: {
-      color:
-        "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300",
+      color: "bg-yellow-900/30 text-yellow-300",
       icon: Clock,
       label: "Pending",
     },
     skipped: {
-      color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
+      color: "bg-blue-900/30 text-blue-300",
       icon: ArrowLeft,
       label: "Skipped",
     },
     default: {
-      color: "bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300",
+      color: "bg-gray-700 text-gray-300",
       icon: AlertCircle,
       label: "Not Started",
     },
@@ -6558,18 +6556,20 @@ const DetailItem = ({
   isImportant?: boolean;
 }) => (
   <div className="py-2 space-y-2">
-    <dt className="text-sm font-medium text-neutral-900 dark:text-white uppercase tracking-wider flex items-center gap-2">
+    <dt className="text-sm font-medium text-mainheadingWhite uppercase tracking-wider flex items-center gap-2">
       {" "}
       {Icon && <Icon className="flex-shrink-0 text-primary size-4" />} {label}{" "}
     </dt>
     <dd
       className={cn(
-        "text-sm break-words text-gray-500 dark:text-gray-300",
+        "text-sm break-words text-subheadingWhite",
         isImportant ? "font-semibold" : ""
       )}
     >
       {" "}
-      {value || <span className="italic">Not Provided</span>}{" "}
+      {value || (
+        <span className="italic text-mainheadingWhite">Not Provided</span>
+      )}{" "}
     </dd>
   </div>
 );
@@ -6787,9 +6787,8 @@ const KycUserDetailPage: React.FC = () => {
 
   // --- Render Functions ---
   const renderLoading = () => (
-    /* Skeleton remains the same */
     <div className="space-y-8">
-      <Card className="shadow-none overflow-hidden">
+      <div className="shadow-none border rounded-xl overflow-hidden">
         <CardHeader className="flex sm:flex-row flex-col sm:items-center items-start justify-between sm:p-6 p-4 gap-4">
           <div className="flex sm:flex-row flex-col sm:items-center gap-4 flex-1">
             <Skeleton className="h-16 w-16 rounded-full flex-shrink-0" />
@@ -6810,11 +6809,11 @@ const KycUserDetailPage: React.FC = () => {
           <Skeleton className="h-12 w-52 rounded-full" />
           <Skeleton className="h-12 w-52 rounded-full" />
         </div>
-      </Card>
+      </div>
       <div className="flex xl:flex-row flex-col justify-between gap-6 mt-6">
         <div className="w-full xl:w-2/3 flex flex-col gap-6">
-          <Card className="shadow-none gap-0 overflow-hidden">
-            <CardHeader className="bg-lightgray dark:bg-primarybox px-5 py-4 h-[70]">
+          <div className="shadow-none border rounded-xl gap-0 overflow-hidden">
+            <CardHeader className="bg-primarybox px-5 py-4 h-[70]">
               <Skeleton className="h-6 w-48 rounded" />
             </CardHeader>
             <CardContent className="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 sm:gap-6 gap-4">
@@ -6825,9 +6824,9 @@ const KycUserDetailPage: React.FC = () => {
                 </div>
               ))}
             </CardContent>
-          </Card>
-          <Card className="shadow-none gap-0 overflow-hidden">
-            <CardHeader className="bg-lightgray dark:bg-primarybox px-5 py-4 h-[70px]">
+          </div>
+          <div className="shadow-none border rounded-xl gap-0 overflow-hidden">
+            <CardHeader className="bg-primarybox px-5 py-4 h-[70px]">
               <Skeleton className="h-6 w-56 rounded" />
             </CardHeader>
             <CardContent className="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 sm:gap-6 gap-4">
@@ -6838,34 +6837,34 @@ const KycUserDetailPage: React.FC = () => {
                 </div>
               ))}
             </CardContent>
-          </Card>
+          </div>
         </div>
-        <Card className="shadow-none w-full xl:w-1/3 h-fit gap-0 overflow-hidden">
-          <CardHeader className="bg-lightgray dark:bg-primarybox px-5 py-4">
+        <div className="shadow-none border rounded-xl w-full xl:w-1/3 h-fit gap-0 overflow-hidden">
+          <CardHeader className="bg-primarybox px-5 py-4">
             <Skeleton className="h-6 w-40 rounded mb-2" />
             <Skeleton className="h-4 w-full rounded" />
           </CardHeader>
           <CardContent className="p-4 sm:p-6">
             <div className="flex xl:flex-col sm:flex-row flex-col gap-4">
               {[...Array(2)].map((_, i) => (
-                <Card
+                <div
                   key={`doc-skel-${i}`}
-                  className="border overflow-hidden w-full"
+                  className="border rounded-xl overflow-hidden w-full"
                 >
                   <CardHeader className="p-3">
                     <Skeleton className="h-4 w-1/3 rounded" />
                   </CardHeader>
-                  <div className="aspect-[16/10] relative bg-muted flex items-center justify-center">
+                  <div className="aspect-[16/10] relative bg-secondarybox/20 flex items-center justify-center">
                     <ImageIcon className="h-12 w-12 text-muted-foreground/30" />
                   </div>
                   <CardFooter className="p-2">
                     <Skeleton className="h-6 w-3/4 mx-auto rounded" />
                   </CardFooter>
-                </Card>
+                </div>
               ))}
             </div>
           </CardContent>
-        </Card>
+        </div>
       </div>
     </div>
   );
@@ -6885,7 +6884,7 @@ const KycUserDetailPage: React.FC = () => {
             ? "border-destructive bg-destructive/10"
             : isActionErrorType
             ? "border-destructive bg-destructive/10"
-            : "border-yellow-500 bg-yellow-50 dark:bg-yellow-900/20"
+            : "border-yellow-500 bg-yellow-900/20"
         )}
         role="alert"
       >
@@ -6895,7 +6894,7 @@ const KycUserDetailPage: React.FC = () => {
               "h-5 w-5 mr-3 flex-shrink-0",
               isActionErrorType || isModalError
                 ? "text-destructive"
-                : "text-yellow-600 dark:text-yellow-400"
+                : "text-yellow-400"
             )}
           />
           <div>
@@ -6903,8 +6902,8 @@ const KycUserDetailPage: React.FC = () => {
               className={cn(
                 "text-sm font-medium",
                 isActionErrorType || isModalError
-                  ? "text-destructive/90 dark:text-red-300"
-                  : "text-yellow-700 dark:text-yellow-300"
+                  ? "text-red-300"
+                  : "text-yellow-300"
               )}
             >
               {isActionErrorType || isModalError ? "Action Error" : "Error"}
@@ -6913,8 +6912,8 @@ const KycUserDetailPage: React.FC = () => {
               className={cn(
                 "text-sm",
                 isActionErrorType || isModalError
-                  ? "text-destructive/80 dark:text-red-400"
-                  : "text-yellow-600 dark:text-yellow-400"
+                  ? "text-red-400"
+                  : "text-yellow-400"
               )}
             >
               {message}
@@ -6943,14 +6942,75 @@ const KycUserDetailPage: React.FC = () => {
     );
   };
 
+  // // --- Main Render Logic ---
+  // if (isLoading && !userData) {
+  //   return (
+  //     <div className="space-y-8">
+
+  //       <div className="flex xl:flex-row flex-col justify-between gap-6 mt-6">
+  //         <div className="w-full xl:w-2/3 flex flex-col gap-6">
+  //           <div className="shadow-none border rounded-xl gap-0 overflow-hidden">
+  //             <CardHeader className="bg-primarybox px-5 py-4 h-[70]">
+  //               <Skeleton className="h-6 w-48 rounded" />
+  //             </CardHeader>
+  //             <CardContent className="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 sm:gap-6 gap-4">
+  //               {[...Array(6)].map((_, i) => (
+  //                 <div key={`personal-skel-${i}`} className="py-2 space-y-2">
+  //                   <Skeleton className="h-3 w-1/4 rounded" />
+  //                   <Skeleton className="h-5 w-3/4 rounded" />
+  //                 </div>
+  //               ))}
+  //             </CardContent>
+  //           </div>
+  //           <div className="shadow-none border rounded-xl gap-0 overflow-hidden">
+  //             <CardHeader className="bg-primarybox px-5 py-4 h-[70px]">
+  //               <Skeleton className="h-6 w-56 rounded" />
+  //             </CardHeader>
+  //             <CardContent className="p-4 sm:p-6 grid grid-cols-1 md:grid-cols-2 sm:gap-6 gap-4">
+  //               {[...Array(4)].map((_, i) => (
+  //                 <div key={`id-skel-${i}`} className="py-2 space-y-2">
+  //                   <Skeleton className="h-3 w-1/4 rounded" />
+  //                   <Skeleton className="h-5 w-3/4 rounded" />
+  //                 </div>
+  //               ))}
+  //             </CardContent>
+  //           </div>
+  //         </div>
+  //         <div className="shadow-none border rounded-xl w-full xl:w-1/3 h-fit gap-0 overflow-hidden">
+  //           <CardHeader className="bg-primarybox px-5 py-4">
+  //             <Skeleton className="h-6 w-40 rounded mb-2" />
+  //             <Skeleton className="h-4 w-full rounded" />
+  //           </CardHeader>
+  //           <CardContent className="p-4 sm:p-6">
+  //             <div className="flex xl:flex-col sm:flex-row flex-col gap-4">
+  //               {[...Array(2)].map((_, i) => (
+  //                 <div
+  //                   key={`doc-skel-${i}`}
+  //                   className="border rounded-xl overflow-hidden w-full"
+  //                 >
+  //                   <CardHeader className="p-3">
+  //                     <Skeleton className="h-4 w-1/3 rounded" />
+  //                   </CardHeader>
+  //                   <div className="aspect-[16/10] relative flex items-center justify-center">
+  //                     <ImageIcon className="h-12 w-12 text-secondarybox" />
+  //                   </div>
+  //                   <CardFooter className="p-2">
+  //                     <Skeleton className="h-6 w-3/4 mx-auto rounded" />
+  //                   </CardFooter>
+  //                 </div>
+  //               ))}
+  //             </div>
+  //           </CardContent>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
+
   // --- Main Render Logic ---
   if (isLoading && !userData) {
     return (
-      <div className="min-h-screen bg-white dark:bg-background relative">
-        <ToastContainer
-          {...customToastContainerProps}
-          style={getToastContainerStyle()}
-        />
+      <div className="min-h-screen ">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
             <div>
@@ -6964,7 +7024,6 @@ const KycUserDetailPage: React.FC = () => {
       </div>
     );
   }
-
   if (error && !isLoading) {
     // Show error if loading is complete and error exists
     return (
@@ -7030,7 +7089,7 @@ const KycUserDetailPage: React.FC = () => {
   const statusConfig = getStatusConfig(kyc?.status);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-background relative">
+    <div className="min-h-screen relative">
       <ToastContainer
         {...customToastContainerProps}
         style={getToastContainerStyle()}
@@ -7052,16 +7111,15 @@ const KycUserDetailPage: React.FC = () => {
         processingError={isProcessingAction === "approve" ? actionError : null}
         isMobileView={isMobile}
       />
-
       <div className="container mx-auto px-4 py-5">
         <KycDetailHeader userId={userId} />
-        <Card className="overflow-hidden border shadow-none">
-          <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
+        <div className="overflow-hidden border rounded-xl">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
             <div className="flex items-center gap-4">
-              <Avatar className="size-14 sm:size-16 flex-shrink-0 bg-lightgray dark:bg-primarybox">
+              <Avatar className="size-14 sm:size-16 flex-shrink-0">
                 <AvatarFallback
                   className={cn(
-                    "text-xl font-semibold text-neutral-900 dark:text-white",
+                    "text-xl font-semibold text-mainheadingWhite",
                     statusConfig.color
                   )}
                 >
@@ -7069,10 +7127,10 @@ const KycUserDetailPage: React.FC = () => {
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 space-y-2">
-                <CardTitle className="text-xl text-neutral-900 dark:text-white">
+                <CardTitle className="text-xl text-mainheadingWhite">
                   {userData.fullName || "Unnamed User"}
                 </CardTitle>
-                <CardDescription className="flex flex-wrap flex-row items-center gap-3 text-sm text-gray-500 dark:text-gray-300">
+                <CardDescription className="flex flex-wrap flex-row items-center gap-3 text-sm text-subheadingWhite">
                   <span className="flex items-center gap-2">
                     <Mail className="text-primary size-5" /> {userData.email}
                   </span>
@@ -7093,9 +7151,9 @@ const KycUserDetailPage: React.FC = () => {
             >
               <statusConfig.icon className="h-4 w-4" /> {statusConfig.label}
             </Badge>
-          </CardHeader>
+          </div>
           <CardContent className="sm:p-6 p-4">
-            <div className="flex md:flex-row flex-col justify-between md:items-center gap-4 md:text-base text-sm text-gray-500 dark:text-gray-300">
+            <div className="flex md:flex-row flex-col justify-between md:items-center gap-4 md:text-base text-sm text-subheadingWhite">
               {kyc?.submittedAt && (
                 <span className="flex items-center gap-2">
                   <Clock className="size-5 text-primary" /> Submitted:{" "}
@@ -7130,7 +7188,7 @@ const KycUserDetailPage: React.FC = () => {
                 <Button
                   onClick={openApproveModal}
                   disabled={!!isProcessingAction}
-                  className="text-base bg-primary text-neutral-900 hover:bg-primaryhover dark:bg-primary dark:hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 flex justify-center items-center disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="text-base bg-primary text-mainheading hover:bg-primaryhover dark:bg-primary dark:hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 flex justify-center items-center disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <CheckCircle className="size-5" />
                   Approve Application
@@ -7146,26 +7204,27 @@ const KycUserDetailPage: React.FC = () => {
                 {renderErrorDisplay(actionError, true)}
               </div>
             )}
-        </Card>
+        </div>
         <div className="flex xl:flex-row flex-col justify-between gap-6 mt-6">
           <div className="w-full xl:w-2/3 flex flex-col gap-6">
             {kyc?.status === "rejected" && kyc.rejectionReason && (
-              <Card className="border-red-200 dark:border-red-900 bg-red-50 dark:bg-red-900/10">
+              <div className="border-red-900 bg-red-700/10 border rounded-xl">
                 <CardHeader className="p-4">
-                  <CardTitle className="text-base flex items-center gap-1.5 text-red-700 dark:text-red-400">
+                  <CardTitle className="text-base flex items-center gap-1.5 text-red-400">
                     <AlertCircle className="h-5 w-5" /> Rejection Reason
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-4 pt-0">
-                  <p className="text-sm text-red-600 dark:text-red-300 font-normal">
+                  <p className="text-sm text-red-300 font-normal">
                     {kyc.rejectionReason}
                   </p>
                 </CardContent>
-              </Card>
+              </div>
             )}
-            <Card className="shadow-none gap-0 overflow-hidden">
-              <CardHeader className="inline-flex items-center w-full bg-lightgray dark:bg-primarybox px-5 py-4 h-[70px]">
-                <CardTitle className="text-lg flex items-center gap-2">
+
+            <div className="shadow-none border rounded-xl gap-0 overflow-hidden">
+              <CardHeader className="inline-flex items-center w-full bg-primarybox px-5 py-4 h-[70px]">
+                <CardTitle className="text-lg flex items-center gap-2 text-mainheadingWhite">
                   <IdCard className="size-5 text-primary" /> Personal
                   Information
                 </CardTitle>
@@ -7213,10 +7272,10 @@ const KycUserDetailPage: React.FC = () => {
                   icon={BadgeDollarSign}
                 />
               </CardContent>
-            </Card>
-            <Card className="shadow-none gap-0 overflow-hidden">
-              <CardHeader className="inline-flex items-center w-full bg-lightgray dark:bg-primarybox px-5 py-4  h-[70px]">
-                <CardTitle className="text-lg flex items-center gap-2">
+            </div>
+            <div className="shadow-none border rounded-xl gap-0 overflow-hidden">
+              <CardHeader className="inline-flex items-center w-full bg-primarybox px-5 py-4  h-[70px]">
+                <CardTitle className="text-lg flex items-center gap-2 text-mainheadingWhite">
                   <Fingerprint className="size-5 text-primary" /> Identity
                   Document Details
                 </CardTitle>
@@ -7249,14 +7308,14 @@ const KycUserDetailPage: React.FC = () => {
                   icon={CalendarDays}
                 />
               </CardContent>
-            </Card>
+            </div>
           </div>
-          <Card className="shadow-none w-full xl:w-1/3 h-fit gap-0 overflow-hidden">
-            <CardHeader className="bg-lightgray dark:bg-primarybox px-5 py-4">
-              <CardTitle className="text-lg flex items-center gap-2">
+          <div className="shadow-none border rounded-xl w-full xl:w-1/3 h-fit gap-0 overflow-hidden">
+            <CardHeader className="bg-primarybox px-5 py-4">
+              <CardTitle className="text-lg flex items-center gap-2 text-mainheadingWhite">
                 <FileText className="size-5 text-primary" /> Submitted Documents
               </CardTitle>
-              <CardDescription className="text-gray-500 dark:text-gray-300 pt-1">
+              <CardDescription className="text-subheadingWhite pt-1">
                 Review identification documents submitted by the user
               </CardDescription>
             </CardHeader>
@@ -7264,17 +7323,17 @@ const KycUserDetailPage: React.FC = () => {
               {kyc?.documents && kyc.documents.length > 0 ? (
                 <div className="flex xl:flex-col sm:flex-row flex-col gap-4">
                   {kyc.documents.map((doc) => (
-                    <Card
+                    <div
                       key={doc.public_id}
-                      className="overflow-hidden w-full bg-muted/30 dark:bg-muted/20"
+                      className="overflow-hidden border rounded-xl w-full bg-muted/30 dark:bg-muted/20"
                     >
-                      <CardHeader className="p-3">
-                        <CardTitle className="text-sm capitalize flex items-center gap-1.5">
+                      <CardHeader className="p-3 bg-primarybox">
+                        <CardTitle className="text-sm capitalize text-mainheadingWhite flex items-center gap-1.5">
                           {doc.docType === "id_front" ? "ID Front" : "ID Back"}
                         </CardTitle>
                       </CardHeader>
                       {doc.url && !doc.url.toLowerCase().endsWith(".pdf") ? (
-                        <div className="aspect-[16/10] relative group bg-white dark:bg-background">
+                        <div className="aspect-[16/10] relative group bg-background">
                           <Image
                             src={doc.url}
                             alt={`${doc.docType} preview`}
@@ -7323,7 +7382,7 @@ const KycUserDetailPage: React.FC = () => {
                           </Link>
                         </CardContent>
                       )}
-                      <CardFooter className="p-2">
+                      <CardFooter className="p-2 bg-primarybox">
                         <Link
                           href={doc.url || "#"}
                           target="_blank"
@@ -7344,19 +7403,19 @@ const KycUserDetailPage: React.FC = () => {
                           </Button>
                         </Link>
                       </CardFooter>
-                    </Card>
+                    </div>
                   ))}
                 </div>
               ) : (
                 <div className="text-center py-8 px-4 border border-dashed rounded-lg">
-                  <Info className="h-10 w-10 text-muted-foreground/40 mx-auto mb-3" />
-                  <p className="text-sm text-muted-foreground">
+                  <Info className="h-10 w-10 text-mainheadingWhite mx-auto mb-3" />
+                  <p className="text-sm text-mainheadingWhite">
                     No documents submitted.
                   </p>
                 </div>
               )}
             </CardContent>
-          </Card>
+          </div>
         </div>
       </div>
     </div>

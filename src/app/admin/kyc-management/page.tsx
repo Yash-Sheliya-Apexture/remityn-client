@@ -1228,7 +1228,6 @@ import { FiSearch } from "react-icons/fi";
 import {
   MdCancel,
   MdManageAccounts,
-  MdOutlineAccessTime,
 } from "react-icons/md";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -1411,25 +1410,25 @@ const KycManagementPage: React.FC = () => {
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -10 }}
-      className="p-3 rounded-md bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700/50 flex justify-between items-center mt-4"
+      className="p-3 rounded-md bg-red-900/30 border border-red-700/50 flex justify-between items-center mt-4"
       role="alert"
     >
       <div className="flex items-center gap-2">
-        <AlertCircle className="text-red-600 dark:text-red-400" size={18} />
+        <AlertCircle className="text-red-400" size={18} />
         <div>
-          <p className="text-sm font-medium text-red-800 dark:text-red-300">
+          <p className="text-sm font-medium text-red-300">
             {error && pendingUsers.length > 0
               ? "Error Refreshing Data"
               : "Error Loading Applications"}
           </p>
-          <p className="mt-1 text-xs text-red-700 dark:text-red-400">{error}</p>
+          <p className="mt-1 text-xs text-red-400">{error}</p>
         </div>
       </div>
       <div className="flex items-center gap-2">
         {/* Retry button only makes sense if there was an error */}
         <button
           onClick={() => fetchPendingUsers(pendingUsers.length > 0)} // Pass true if refreshing existing data
-          className="text-xs font-medium text-red-600 dark:text-red-300 hover:underline flex items-center gap-1 disabled:opacity-50"
+          className="text-xs font-medium text-red-300 hover:underline flex items-center gap-1 disabled:opacity-50"
           disabled={isRefreshing || isLoading}
         >
           <RefreshCw
@@ -1442,7 +1441,7 @@ const KycManagementPage: React.FC = () => {
         </button>
         <button
           onClick={() => setError(null)}
-          className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-200"
+          className="text-red-400 hover:text-red-200"
         >
           <X size={16} />
         </button>
@@ -1453,17 +1452,17 @@ const KycManagementPage: React.FC = () => {
   // Empty State (Considers search query)
 
   const renderEmptyState = () => (
-    <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
-      <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
-        <ListChecks className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+    <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+      <div className="lg:size-16 size-14 flex items-center justify-center bg-primary rounded-full mb-2">
+        <ListChecks className="lg:size-8 size-6 mx-auto text-mainheading" />
       </div>
 
-      <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+      <h2 className="lg:text-3xl text-2xl font-medium text-mainheadingWhite mt-1">
         {searchQuery ? "No Matches Found" : "All Clear KYC !"}
       </h2>
 
 
-      <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+      <p className="text-subheadingWhite max-w-lg mx-auto">
         {searchQuery
           ? "No applications match your current search query."
           : "There are currently no KYC applications awaiting review so you can try agaain."}
@@ -1483,11 +1482,11 @@ const KycManagementPage: React.FC = () => {
       )}
     >
       {/* Header: Skeleton or Actual */}
-      <div className="px-6 py-4 flex sm:flex-row flex-col items-center justify-between gap-4 bg-lightgray dark:bg-primarybox">
+      <div className="px-6 py-4 flex sm:flex-row flex-col items-center justify-between gap-4 bg-primarybox">
         {isLoading ? (
           <Skeleton className="h-6 w-36" />
         ) : (
-          <h4 className="text-lg font-semibold">
+          <h4 className="text-lg text-mainheadingWhite font-semibold">
             {/* Show total filtered count, not just current page count */}
             {filteredUsers.length}{" "}
             {filteredUsers.length === 1 ? "Application" : "Applications"}
@@ -1498,7 +1497,7 @@ const KycManagementPage: React.FC = () => {
           <Skeleton className="h-10 w-44 rounded-full" />
         ) : (
           // Sorting Controls (unchanged)
-          <div className="relative inline-flex items-center rounded-full bg-white dark:bg-primarybox p-1 gap-1">
+          <div className="relative inline-flex items-center rounded-full bg-secondarybox p-1 gap-1">
             {/* Date Button */}
             <button
               onClick={() => setSortBy("date")}
@@ -1515,10 +1514,10 @@ const KycManagementPage: React.FC = () => {
               )}
               <span
                 className={cn(
-                  "relative z-10 flex items-center gap-1.5",
+                  "relative z-10 flex items-center font-medium gap-1.5",
                   sortBy === "date"
-                    ? "text-neutral-900"
-                    : "text-neutral-900 dark:text-white"
+                    ? "text-mainheading"
+                    : "text-white"
                 )}
               >
                 <Calendar className="h-4 w-4" /> Date
@@ -1541,10 +1540,10 @@ const KycManagementPage: React.FC = () => {
               )}
               <span
                 className={cn(
-                  "relative z-10 flex items-center gap-1.5",
+                  "relative z-10 flex items-center font-medium gap-1.5",
                   sortBy === "name"
-                    ? "text-neutral-900"
-                    : "text-neutral-900 dark:text-white"
+                    ? "text-mainheading"
+                    : "text-white"
                 )}
               >
                 <SortAsc className="h-4 w-4" /> Name
@@ -1596,14 +1595,14 @@ const KycManagementPage: React.FC = () => {
               {/* User data */}
               <div className="min-w-0 w-full">
                 <div className="flex flex-wrap items-center gap-3 mb-2 sm:mb-1">
-                  <p className="font-medium text-neutral-900 dark:text-white truncate">
+                  <p className="font-medium text-mainheadingWhite truncate">
                     {user.fullName || "N/A"}
                   </p>
-                  <span className="rounded-full whitespace-nowrap px-3 py-1 text-xs font-medium text-yellow-600 bg-yellow-100 dark:bg-yellow-600/20 dark:text-yellow-400">
+                  <span className="rounded-full whitespace-nowrap px-3 py-1 text-xs font-medium bg-yellow-600/20 text-yellow-400">
                     Pending
                   </span>
                 </div>
-                <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm text-gray-500 dark:text-gray-300">
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 text-sm text-subheadingWhite">
                   <p
                     className="truncate max-w-full sm:max-w-xs"
                     title={user.email}
@@ -1627,7 +1626,7 @@ const KycManagementPage: React.FC = () => {
               {/* Link to review page */}
               <Link
                 href={`/admin/kyc-management/${user._id}`}
-                className="mt-3 sm:mt-0 inline-flex items-center justify-center sm:justify-start gap-1 text-sm font-semibold px-4 py-2 text-neutral-900 dark:text-primary bg-primary dark:bg-primarybox hover:bg-primaryhover dark:hover:bg-secondarybox rounded-full transition-all duration-75 ease-linear sm:flex-shrink-0"
+                className="mt-3 sm:mt-0 inline-flex items-center justify-center sm:justify-start gap-1 text-sm font-semibold px-4 py-2 text-mainheading bg-primary rounded-full transition-all duration-75 ease-linear sm:flex-shrink-0"
               >
                 Review<span className="sr-only">, {user.fullName}</span>
                 <ChevronRight className="h-4 w-4" />
@@ -1646,13 +1645,13 @@ const KycManagementPage: React.FC = () => {
       <div className="relative flex-1">
         <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
           <FiSearch
-            className="size-5 text-neutral-900 dark:text-white"
+            className="size-5 text-mainheadingWhite"
             aria-hidden="true"
           />
         </div>
         <input
           type="text"
-          className="w-full rounded-full h-12.5 py-3 pl-12 pr-10 border transition-all ease-linear duration-75 focus:outline-0 focus:border-[#5f5f5f] placeholder:text-neutral-900 dark:placeholder:text-white"
+          className="w-full sm:w-80 rounded-full h-12.5 py-3 pl-12 pr-3  focus:outline-0 transition-all duration-75 ease-in-out placeholder:text-gray-400 border border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white bg-primarybox/50"
           placeholder="Search by name or email..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -1661,10 +1660,10 @@ const KycManagementPage: React.FC = () => {
         {searchQuery && (
           <button
             onClick={clearSearchQuery}
-            className="absolute inset-y-0 right-3 flex items-center text-neutral-900 dark:text-primary focus:outline-none cursor-pointer"
+            className="absolute inset-y-0 right-3 flex items-center text-primary focus:outline-none cursor-pointer"
             disabled={isRefreshing || isLoading}
           >
-            <MdCancel size={24} aria-hidden="true" />
+            <MdCancel size={22} aria-hidden="true" />
           </button>
         )}
       </div>
@@ -1673,7 +1672,7 @@ const KycManagementPage: React.FC = () => {
       <button
         onClick={() => fetchPendingUsers(true)} // Always trigger refresh
         disabled={isRefreshing || isLoading} // Disable during initial load or refresh
-        className="flex items-center justify-center cursor-pointer gap-2 bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white sm:px-8 sm:py-3 h-12.5 sm:w-auto w-12.5 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
+        className="flex items-center justify-center cursor-pointer font-medium gap-2 text-mainheading bg-primary hover:bg-primaryhover sm:px-8 sm:py-3 h-12.5 sm:w-auto w-12.5 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
         title="Refresh KYC Application List"
       >
         <RefreshCw
@@ -1729,7 +1728,7 @@ const KycManagementPage: React.FC = () => {
 
   // --- Component Return ---
   return (
-    <div className="min-h-screen bg-white dark:bg-background">
+    <div className="min-h-screen">
       <div className="container mx-auto px-4 py-5">
         {/* Page Header: Skeleton or Actual */}
         <div className="mb-8">
@@ -1741,16 +1740,16 @@ const KycManagementPage: React.FC = () => {
           ) : (
             <div className="Management">
               <div className="flex items-center gap-3">
-                <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-                  <MdManageAccounts className="size-6 text-mainheading dark:text-primary" />
+                <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+                  <MdManageAccounts className="size-6 text-mainheading" />
                 </div>
 
-                <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+                <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
                   KYC Management
                 </h1>
               </div>
 
-              <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+              <p className="mt-2 text-subheadingWhite lg:text-lg">
                 Easily review and manage Know Your Customer (KYC) applications.
                 Track pending verifications and ensure compliance with secure
                 identity checks — all from one central dashboard.{" "}
@@ -1776,7 +1775,7 @@ const KycManagementPage: React.FC = () => {
           ) : (
             <>
               {/* Actual Section Title */}
-              <h2 className="inline-flex items-center gap-2 text-xl font-bold text-mainheading dark:text-white flex-shrink-0">
+              <h2 className="inline-flex items-center gap-2 text-xl font-bold text-mainheadingWhite flex-shrink-0">
                 <FileClock className="h-5 w-5 text-primary" />
                 Pending 
               </h2>
@@ -1795,7 +1794,7 @@ const KycManagementPage: React.FC = () => {
               <div className="flex items-center gap-2">
                 <label
                   htmlFor="itemsPerPage"
-                  className="text-sm font-medium text-gray-500 dark:text-gray-300 whitespace-nowrap"
+                  className="text-sm font-medium text-subheadingWhite whitespace-nowrap"
                 >
                   Show:
                 </label>
@@ -1804,24 +1803,24 @@ const KycManagementPage: React.FC = () => {
                   id="itemsPerPage"
                   value={itemsPerPage}
                   onChange={(e) => handlePageSizeChange(Number(e.target.value))}
-                  className="block w-auto pl-3 pr-8 py-2 text-sm border rounded-md focus:outline-none bg-white dark:bg-primarybox dark:text-white cursor-pointer"
+                  className="block w-auto pl-3 pr-8 py-2 text-sm border rounded-md focus:outline-none bg-primarybox text-mainheadingWhite cursor-pointer"
                   disabled={isLoading || isRefreshing} // Disable while loading/refreshing
                 >
                   {pageSizeOptions.map((size) => (
                     <option
                       key={size}
                       value={size}
-                      className="dark:bg-dropdowncolor cursor-pointer"
+                      className="bg-primarybox cursor-pointer"
                     >
                       {size}
                     </option>
                   ))}
                 </select>
-                <span className="text-sm font-medium text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                <span className="text-sm font-medium text-subheadingWhite whitespace-nowrap">
                   entries
                 </span>
               </div>
-              <p className="text-sm text-gray-500 dark:text-gray-300">
+              <p className="text-sm text-subheadingWhite">
                 Showing{" "}
                 {filteredUsers.length > 0
                   ? (currentPage - 1) * itemsPerPage + 1

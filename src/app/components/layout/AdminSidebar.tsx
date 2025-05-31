@@ -3968,7 +3968,6 @@ import { TbMoneybag } from "react-icons/tb";
 import { BsSend } from "react-icons/bs";
 import { MdManageAccounts } from "react-icons/md";
 import { GrLogout } from "react-icons/gr";
-import ThemeToggle from "../../contexts/ThemeToggle";
 import { FiX } from "react-icons/fi";
 
 // --- Define UserType locally if not exported from AuthContext ---
@@ -4212,9 +4211,6 @@ const SidebarContents: React.FC<SidebarContentsProps> = ({
       </nav>
 
       <div className="p-4 border-t space-y-3">
-        <div className="flex justify-center">
-          <ThemeToggle location="admin" className="inline-block" />
-        </div>
         {user && (
           <button
             onClick={handleLogoutClick}

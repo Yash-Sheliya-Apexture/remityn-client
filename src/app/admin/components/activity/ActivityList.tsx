@@ -17,7 +17,7 @@
 // const getActivityDisplayProps = (type: ActivityItem['type']) => {
 //     switch (type) {
 //         case 'NEW_USER':
-//             return { icon: <User size={20} />, color: 'text-blue-500 dark:text-blue-400', bgColor: 'bg-blue-100 dark:bg-blue-900/30' };
+//             return { icon: <User size={20} />, color: 'text-blue-500 dark:text-blue-400', bgColor: 'bg-blue-100 dark:bg-blue-900/40' };
 //         case 'NEW_PAYMENT':
 //             return { icon: <CreditCard size={20} />, color: 'text-green-500 dark:text-green-400', bgColor: 'bg-green-100 dark:bg-green-900/30' };
 //         case 'NEW_TRANSFER':
@@ -119,6 +119,7 @@
 
 // export default ActivityList;
 
+
 "use client";
 import React, { useState, useEffect } from "react"; // Added useState and useEffect
 import { motion } from "framer-motion";
@@ -147,50 +148,50 @@ const getActivityDisplayProps = (type: ActivityItem["type"]) => {
     case "NEW_USER":
       return {
         icon: <User size={20} />,
-        color: "text-blue-500 dark:text-blue-400",
-        bgColor: "bg-blue-100 dark:bg-blue-900/30",
+        color: "text-blue-400",
+        bgColor: "bg-blue-900/40",
       };
     case "NEW_PAYMENT":
       return {
         icon: <CreditCard size={20} />,
-        color: "text-green-500 dark:text-green-400",
-        bgColor: "bg-green-100 dark:bg-green-900/30",
+        color: "text-green-400",
+        bgColor: "bg-green-900/40",
       };
     case "NEW_TRANSFER":
       return {
         icon: <Send size={20} />,
-        color: "text-purple-500 dark:text-purple-400",
-        bgColor: "bg-purple-100 dark:bg-purple-900/30",
+        color: "text-purple-400",
+        bgColor: "bg-purple-900/40",
       };
     case "KYC_PENDING":
       return {
         icon: <FileText size={20} />,
-        color: "text-yellow-500 dark:text-yellow-400",
-        bgColor: "bg-yellow-100 dark:bg-yellow-900/30",
+        color: "text-yellow-400",
+        bgColor: "bg-yellow-900/40",
       };
     case "KYC_VERIFIED":
       return {
         icon: <FileText size={20} />,
-        color: "text-teal-500 dark:text-teal-400",
-        bgColor: "bg-teal-100 dark:bg-teal-900/30",
+        color: "text-teal-400",
+        bgColor: "bg-teal-900/40",
       };
     case "KYC_REJECTED":
       return {
         icon: <FileText size={20} />,
-        color: "text-red-500 dark:text-red-400",
-        bgColor: "bg-red-100 dark:bg-red-900/30",
+        color: "text-red-400",
+        bgColor: "bg-red-900/40",
       };
     case "SUPPORT_MESSAGE":
       return {
         icon: <MessageSquare size={20} />,
-        color: "text-indigo-500 dark:text-indigo-400",
-        bgColor: "bg-indigo-100 dark:bg-indigo-900/30",
+        color: "text-indigo-400",
+        bgColor: "bg-indigo-900/40",
       };
     default:
       return {
         icon: <Activity size={20} />,
-        color: "text-gray-500 dark:text-gray-400",
-        bgColor: "bg-gray-100 dark:bg-gray-700/30",
+        color: "text-gray-400",
+        bgColor: "bg-gray-700/30",
       };
   }
 };
@@ -222,24 +223,24 @@ const ActivityList: React.FC<ActivityListProps> = ({
         {[...Array(activitiesPerPage)].map((_, i) => (
           <div
             key={`skel-activity-${i}`}
-            className="flex items-start bg-lightgray dark:bg-primarybox p-4 rounded-lg "
+            className="flex items-start bg-primarybox p-4 rounded-lg "
           >
-            <Skeleton className="h-10 w-10 rounded-full mr-4 flex-shrink-0 bg-lightborder dark:bg-accent" />
+            <Skeleton className="h-10 w-10 rounded-full mr-4 flex-shrink-0 bg-background/50" />
             <div className="flex sm:flex-row flex-col justify-between w-full">
               <div className="flex-grow space-y-1.5">
-                <Skeleton className="h-4 w-4/5 rounded-full bg-lightborder dark:bg-accent" />
-                <Skeleton className="h-3 w-2/5 rounded-full bg-lightborder dark:bg-accent" />
+                <Skeleton className="h-4 w-4/5 rounded-full bg-background/50" />
+                <Skeleton className="h-3 w-2/5 rounded-full bg-background/50" />
               </div>
               {isMobile && (
                 <div className="flex flex-col items-start gap-1 mt-1">
-                  <Skeleton className="h-3 w-36  rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
-                  <Skeleton className="h-3 w-26 rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
+                  <Skeleton className="h-3 w-36  rounded-full flex-shrink-0 mt-1 bg-background/50" />
+                  <Skeleton className="h-3 w-26 rounded-full flex-shrink-0 mt-1 bg-background/50" />
                 </div>
               )}
               {!isMobile && (
                 <div className="flex flex-col items-end gap-1">
-                  <Skeleton className="h-3 w-36  rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
-                  <Skeleton className="h-3 w-26 rounded-full flex-shrink-0 mt-1 bg-lightborder dark:bg-accent" />
+                  <Skeleton className="h-3 w-36  rounded-full flex-shrink-0 mt-1 bg-background/50" />
+                  <Skeleton className="h-3 w-26 rounded-full flex-shrink-0 mt-1 bg-background/50" />
                 </div>
               )}
             </div>
@@ -251,25 +252,24 @@ const ActivityList: React.FC<ActivityListProps> = ({
 
   if (!activities || activities.length === 0) {
     return (
-      <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center min-h-[300px] flex flex-col justify-center items-center">
+      <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center min-h-[300px] flex flex-col justify-center items-center">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3 }}
         >
           <div className="flex justify-center items-center flex-col space-y-4">
-            <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
-              <ListChecks className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+            <div className="lg:size-16 size-14 flex items-center justify-center bg-primary rounded-full mb-2">
+              <ListChecks className="lg:size-8 size-6 mx-auto text-mainheading" />
             </div>
 
-            <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+            <h2 className="lg:text-3xl text-2xl font-medium text-mainheadingWhite mt-1">
               No Matches Found
             </h2>
 
-            <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+            <p className="text-subheadingWhite max-w-lg mx-auto">
             No Recent Activity found matching your criteria so you can  try again!.
             </p>
-
           </div>
         </motion.div>
       </div>
@@ -290,7 +290,7 @@ const ActivityList: React.FC<ActivityListProps> = ({
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05, duration: 0.3 }}
-            className="flex items-start bg-lightgray dark:bg-primarybox p-3.5 sm:p-4 rounded-lg transition-all duration-150 ease-out cursor-default"
+            className="flex items-start bg-primarybox p-3.5 sm:p-4 rounded-lg transition-all duration-150 ease-out cursor-default"
           >
             {/* Icon */}
             <div
@@ -301,20 +301,21 @@ const ActivityList: React.FC<ActivityListProps> = ({
 
             {/* Main content: Message, ID, and conditionally Mobile Date/Time */}
             <div className="flex-grow min-w-0">
-              <p className="text-sm text-neutral-900 dark:text-white break-words">
+              <p className="text-sm text-mainheadingWhite break-words">
                 {activity.message}
                 {activity.itemId && (
-                  <span className="block text-xs text-gray-500 dark:text-gray-300 sm:mt-1 mt-2">
+                  <span className="block text-xs text-subheadingWhite sm:mt-1 mt-2">
                     ID: {activity.itemId}
                   </span>
                 )}
               </p>
+
               {isMobile && (
                 <div className="mt-1 flex items-center gap-2">
-                  <p className="text-xs text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                  <p className="text-xs text-mainheadingWhite whitespace-nowrap">
                     {moment(activity.timestamp).format("MMM D, YYYY h:mm A")}
                   </p>
-                  <p className="text-xs text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                  <p className="text-xs text-subheadingWhite whitespace-nowrap">
                     ({moment(activity.timestamp).fromNow()})
                   </p>
                 </div>
@@ -324,10 +325,10 @@ const ActivityList: React.FC<ActivityListProps> = ({
             {/* Conditionally Desktop Date/Time */}
             {!isMobile && (
               <div className="flex flex-col items-end gap-1 ml-2 sm:ml-4 flex-shrink-0 self-start pt-0.5">
-                <p className="text-xs text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                <p className="text-xs text-mainheadingWhite whitespace-nowrap">
                   {moment(activity.timestamp).format("MMM D, YYYY h:mm A")}
                 </p>
-                <p className="text-xs text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                <p className="text-xs text-subheadingWhite whitespace-nowrap">
                   ({moment(activity.timestamp).fromNow()})
                 </p>
               </div>

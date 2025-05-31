@@ -7075,7 +7075,7 @@
 //                 <div>
 //                   <label
 //                     htmlFor="currencyName"
-//                     className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//                     className="text-mainheadingWhite capitalize text-sm flex items-center gap-1 lg:text-base"
 //                   >
 //                     <DollarSign size={20} className="text-primary" />
 //                     Currency Name <span className="text-red-600">*</span>
@@ -8119,7 +8119,7 @@
 //             <div>
 //               <label
 //                 htmlFor="code"
-//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//                 className="text-mainheadingWhite capitalize text-sm flex items-center gap-1 lg:text-base"
 //               >
 //                 <FaGlobe size={18} className="text-primary" />
 //                 Currency Code
@@ -8142,7 +8142,7 @@
 //             <div>
 //               <label
 //                 htmlFor="currencyName"
-//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//                 className="text-mainheadingWhite capitalize text-sm flex items-center gap-1 lg:text-base"
 //               >
 //                 <DollarSign size={18} className="text-primary" />
 //                 Currency Name <span className="text-red-600">*</span>
@@ -8164,7 +8164,7 @@
 //               {/* Image input feild with logic */}
 //               <label
 //                 htmlFor="flagImage"
-//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//                 className="text-mainheadingWhite capitalize text-sm flex items-center gap-1 lg:text-base"
 //               >
 //                 <ImageIcon size={18} className="text-primary" />
 //                 Flag Image Path
@@ -8284,7 +8284,7 @@
 //             <div>
 //               <label
 //                 htmlFor="payeeName"
-//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//                 className="text-mainheadingWhite capitalize text-sm flex items-center gap-1 lg:text-base"
 //               >
 //                 <Building size={18} className="text-primary" />
 //                 Payee Name
@@ -8306,7 +8306,7 @@
 //               <div>
 //                 <label
 //                   htmlFor="iban"
-//                   className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//                   className="text-mainheadingWhite capitalize text-sm flex items-center gap-1 lg:text-base"
 //                 >
 //                   <Hash size={18} className="text-primary" />
 //                   IBAN
@@ -8325,7 +8325,7 @@
 //               <div>
 //                 <label
 //                   htmlFor="bicSwift"
-//                   className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//                   className="text-mainheadingWhite capitalize text-sm flex items-center gap-1 lg:text-base"
 //                 >
 //                   <Hash size={18} className="text-primary" />
 //                   BIC/SWIFT
@@ -8346,7 +8346,7 @@
 //             <div>
 //               <label
 //                 htmlFor="bankAddress"
-//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//                 className="text-mainheadingWhite capitalize text-sm flex items-center gap-1 lg:text-base"
 //               >
 //                 <Landmark size={18} className="text-primary" />
 //                 Bank Address
@@ -8393,7 +8393,7 @@
 //             <div>
 //               <label
 //                 htmlFor="wiseFeePercentage"
-//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//                 className="text-mainheadingWhite capitalize text-sm flex items-center gap-1 lg:text-base"
 //               >
 //                 <Percent size={18} className="text-primary" />
 //                 remityn Fees <span className="text-red-600">*</span>
@@ -8422,7 +8422,7 @@
 //             <div>
 //               <label
 //                 htmlFor="bankTransferFee"
-//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//                 className="text-mainheadingWhite capitalize text-sm flex items-center gap-1 lg:text-base"
 //               >
 //                 <DollarSign size={18} className="text-primary" />
 //                 Bank Transfer Fees
@@ -8454,7 +8454,7 @@
 //             <div>
 //               <label
 //                 htmlFor="rateAdjustmentPercentage"
-//                 className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+//                 className="text-mainheadingWhite capitalize text-sm flex items-center gap-1 lg:text-base"
 //               >
 //                 <Percent size={18} className="text-primary" />
 //                 Our Adjustment <span className="text-red-600">*</span>
@@ -8812,53 +8812,56 @@ interface ApiErrorData {
 }
 
 const LoadingSkeleton = () => (
-  <div className="container mx-auto px-4 py-5">
+  <div className="container mx-auto px-4">
     <motion.div className="py-6">
-      <div className="mx-auto max-w-5xl space-y-8">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
-          <div>
-            <Skeleton className="h-4 w-64 mb-3 rounded " />
-            <Skeleton className="h-8 w-48 rounded " />
-          </div>
-          <Skeleton className="h-9 w-32 rounded-md " />
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
+        <div>
+          <Skeleton className="h-4 w-64 mb-3 rounded" />
+          <Skeleton className="h-8 w-48 rounded " />
         </div>
+        <Skeleton className="h-4 w-32 rounded-md" />
+      </div>
+
+      <div className="mx-auto max-w-5xl space-y-8">
         <div className="space-y-8">
           <div className="overflow-hidden mb-4">
-            <div className="relative flex w-full h-full overflow-x-auto gap-3 whitespace-nowrap bg-lightborder dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
-              <Skeleton className="h-9 flex-1 rounded-full" />
-              <Skeleton className="h-9 flex-1 rounded-full" />
-              <Skeleton className="h-9 flex-1 rounded-full" />
+            <div className="relative flex w-full h-full overflow-x-auto gap-3 whitespace-nowrap bg-secondarybox p-1.5 rounded-full justify-normal items-center">
+              <Skeleton className="h-10 flex-1 rounded-full bg-background/50" />
+              <Skeleton className="h-10 flex-1 rounded-full bg-background/50" />
+              <Skeleton className="h-10 flex-1 rounded-full bg-background/50" />
             </div>
           </div>
+
           <div className="space-y-6">
-            <div className="rounded-xl bg-white dark:bg-background border lg:p-6 p-4">
-              <Skeleton className="h-5 w-1/3 rounded mb-4 border-b border-transparent pb-2" />
+            <div className="rounded-xl bg-primarybox border lg:p-6 p-4">
+              <Skeleton className="h-5 w-1/3 rounded mb-4 border-b border-transparent pb-2 bg-background/50" />
               <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Skeleton className="h-4 w-1/4 rounded" />
-                  <Skeleton className="h-12 w-full rounded-md" />
+                  <Skeleton className="h-4 w-1/4 rounded bg-background/50" />
+                  <Skeleton className="h-12 w-full rounded-md bg-background/50" />
                 </div>
                 <div className="space-y-2">
-                  <Skeleton className="h-4 w-1/3 rounded" />
-                  <Skeleton className="h-12 w-full rounded-md" />
+                  <Skeleton className="h-4 w-1/3 rounded bg-background/50" />
+                  <Skeleton className="h-12 w-full rounded-md bg-background/50" />
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <Skeleton className="h-4 w-1/3 rounded" />
-                  <Skeleton className="h-12 w-full rounded-md" />
-                  <Skeleton className="h-3 w-3/4 rounded" />
+                  <Skeleton className="h-4 w-1/3 rounded bg-background/50" />
+                  <Skeleton className="h-12 w-full rounded-md bg-background/50" />
+                  <Skeleton className="h-3 w-3/4 rounded bg-background/50" />
                 </div>
               </div>
             </div>
-            <div className="rounded-xl bg-white dark:bg-background border">
-              <Skeleton className="h-5 w-1/4 rounded m-4 lg:m-6 mb-0 border-b border-transparent pb-3" />
+
+            <div className="rounded-xl bg-primarybox border">
+              <Skeleton className="h-5 w-1/4 rounded m-4 lg:m-6 mb-0 border-b border-transparent pb-3 bg-background/50" />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:p-6 p-4">
                 <div className="space-y-2">
-                  <Skeleton className="h-4 w-1/3 rounded" />
-                  <Skeleton className="h-12 w-full rounded-md" />
+                  <Skeleton className="h-4 w-1/3 rounded bg-background/50" />
+                  <Skeleton className="h-12 w-full rounded-md bg-background/50" />
                 </div>
                 <div className="space-y-2">
-                  <Skeleton className="h-4 w-1/3 rounded" />
-                  <Skeleton className="h-12 w-full rounded-md" />
+                  <Skeleton className="h-4 w-1/3 rounded bg-background/50" />
+                  <Skeleton className="h-12 w-full rounded-md bg-background/50" />
                 </div>
               </div>
             </div>
@@ -9235,16 +9238,16 @@ const AdminEditCurrencyPage = () => {
       >
         <motion.div
           variants={itemVariants}
-          className="rounded-xl bg-white dark:bg-background border shadow-sm"
+          className="rounded-xl bg-background border"
         >
-          <h3 className="border-b px-4 py-3 md:text-lg text-base font-medium text-neutral-900 dark:text-white">
+          <h3 className="border-b px-4 py-3 md:text-lg text-base font-medium text-mainheadingWhite">
             General Information
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:p-6 p-4">
             <div>
               <label
                 htmlFor="code"
-                className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+                className="text-mainheadingWhite capitalize text-sm flex items-center gap-1.5 not-last:lg:text-base"
               >
                 <FaGlobe size={18} className="text-primary" />
                 Currency Code<span className="text-red-600">*</span>
@@ -9255,17 +9258,18 @@ const AdminEditCurrencyPage = () => {
                   id="code"
                   value={formState.code}
                   readOnly
-                  className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 w-full border cursor-not-allowed rounded-lg transition-all focus:outline-none ease-linear duration-75"
+                  className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0"
                 />
-                <span className="pointer-events-none absolute right-4.5 top-1/2 -translate-y-1/2 text-neutral-500 dark:text-gray-300">
-                  <Lock size={18} />
+                <span className="pointer-events-none absolute right-4.5 top-1/2 -translate-y-1/2 text-mainheadingWhite">
+                  <Lock size={20} />
                 </span>
               </div>
             </div>
+
             <div>
               <label
                 htmlFor="currencyName"
-                className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+                className="text-mainheadingWhite capitalize text-sm flex items-center gap-1.5 lg:text-base"
               >
                 <DollarSign size={18} className="text-primary" />
                 Currency Name <span className="text-red-600">*</span>
@@ -9278,13 +9282,13 @@ const AdminEditCurrencyPage = () => {
                 value={formState.currencyName}
                 onChange={handleChange}
                 required
-                className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 focus:border-[#5f5f5f] w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75"
+                className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0"
               />
             </div>
             <div className="md:col-span-1">
               <label
                 htmlFor="flagImage"
-                className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+                className="text-mainheadingWhite capitalize text-sm flex items-center gap-1.5 lg:text-base"
               >
                 <ImageIcon size={18} className="text-primary" />
                 Flag Image Path<span className="text-red-600">*</span>
@@ -9297,8 +9301,9 @@ const AdminEditCurrencyPage = () => {
                   value={formState.flagImage}
                   onChange={handleChange}
                   placeholder="/assets/icon/flags/eur.png or https://..."
-                  className="mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75"
+                  className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0"
                 />
+
                 {formState.flagImage && !flagImageError && (
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 size-8 pointer-events-none">
                     <Image
@@ -9317,43 +9322,47 @@ const AdminEditCurrencyPage = () => {
                   </div>
                 )}
               </div>
-              <p className="mt-2 text-sm text-gray-500 dark:text-gray-300">
+
+              <p className="mt-1 text-sm text-subheadingWhite">
                 Relative path (e.g., /assets/icon/flags/eur.png) or full URL.
                 Must be accessible.
               </p>
+
               {flagImageError && (
-                <p className="mt-2 text-xs font-medium text-red-600">
+                <p className="mt-1 text-xs font-medium text-red-600">
                   Could not load the flag image. Check the path/URL.
                 </p>
               )}
             </div>
           </div>
         </motion.div>
+
         <motion.div
           variants={itemVariants}
-          className="rounded-xl bg-white dark:bg-background border shadow-sm"
+          className="rounded-xl bg-background border"
         >
-          <h3 className="border-b px-4 py-3 md:text-lg text-base font-medium text-neutral-900 dark:text-white">
+          <h3 className="border-b px-4 py-3 md:text-lg text-base font-medium text-mainheadingWhite">
             Metadata
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:p-6 p-4">
             <div className="space-y-2">
-              <p className="font-medium text-gray-500 flex items-center gap-1 dark:text-gray-300">
+              <p className="font-medium text-mainheadingWhite flex items-center gap-1.5 ">
                 <AiOutlineCalendar size={18} className="text-primary" />
                 Created At
               </p>
-              <div className="rounded-md bg-lightgray dark:bg-primarybox py-3 px-4 text-neutral-900 dark:text-gray-300">
+              <div className="rounded-md text-mainheadingWhite bg-primarybox py-3 px-4">
                 {currency?.createdAt
                   ? new Date(currency.createdAt).toLocaleString()
                   : "N/A"}
               </div>
             </div>
+
             <div className="space-y-2">
-              <p className="font-medium text-gray-500 flex items-center gap-1 dark:text-gray-300">
+              <p className="font-medium text-mainheadingWhite flex items-center gap-1.5">
                 <MdUpdate className="text-primary" size={18} />
                 Last Updated
               </p>
-              <div className="rounded-md bg-lightgray dark:bg-primarybox py-3 px-4 text-neutral-900 dark:text-gray-300">
+              <div className="rounded-md text-mainheadingWhite bg-primarybox py-3 px-4">
                 {currency?.updatedAt
                   ? new Date(currency.updatedAt).toLocaleString()
                   : "N/A"}
@@ -9377,27 +9386,28 @@ const AdminEditCurrencyPage = () => {
       >
         <motion.div
           variants={itemVariants}
-          className="rounded-xl bg-white dark:bg-background border shadow-sm"
+          className="rounded-xl bg-background border"
         >
           <div className="border-b pb-2 px-4 py-3">
-            <h3 className="md:text-lg text-base font-medium text-neutral-900 dark:text-white">
+            <h3 className="md:text-lg text-base font-medium text-mainheadingWhite">
               Bank Details (Optional)
             </h3>
-            <p className="text-sm text-gray-500 dark:text-gray-300">
+            <p className="text-sm text-subheadingWhite">
               Provide these details if you need to store bank information
               associated with this currency.
             </p>
           </div>
+
           <div className="grid grid-cols-1 lg:p-6 p-4 gap-6">
             <div>
               <label
                 htmlFor="payeeName"
-                className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+                className="text-mainheadingWhite capitalize text-sm flex items-center gap-1.5 lg:text-base"
               >
                 <Building size={18} className="text-primary" />
                 Payee Name<span className="text-red-600">*</span>
               </label>
-              
+
               <input
                 type="text"
                 name="payeeName"
@@ -9405,14 +9415,15 @@ const AdminEditCurrencyPage = () => {
                 placeholder="Recipient's full name or company name"
                 value={formState.payeeName}
                 onChange={handleChange}
-                className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 w-full border focus:border-[#5f5f5f] rounded-lg transition-all focus:outline-none ease-linear duration-75"
+                className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0"
               />
             </div>
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label
                   htmlFor="iban"
-                  className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+                  className="text-mainheadingWhite capitalize text-sm flex items-center gap-1.5 lg:text-base"
                 >
                   <Hash size={18} className="text-primary" />
                   IBAN<span className="text-red-600">*</span>
@@ -9424,13 +9435,13 @@ const AdminEditCurrencyPage = () => {
                   placeholder="International Bank Account Number"
                   value={formState.iban}
                   onChange={handleChange}
-                  className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 focus:border-[#5f5f5f] w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75"
+                  className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0"
                 />
               </div>
               <div>
                 <label
                   htmlFor="bicSwift"
-                  className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+                  className="text-mainheadingWhite capitalize text-sm flex items-center gap-1.5 lg:text-base"
                 >
                   <Hash size={18} className="text-primary" />
                   BIC/SWIFT<span className="text-red-600">*</span>
@@ -9442,14 +9453,14 @@ const AdminEditCurrencyPage = () => {
                   placeholder="Bank Identifier Code"
                   value={formState.bicSwift}
                   onChange={handleChange}
-                  className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 focus:border-[#5f5f5f] w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75"
+                  className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0"
                 />
               </div>
             </div>
             <div>
               <label
                 htmlFor="bankAddress"
-                className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+                className="text-mainheadingWhite capitalize text-sm flex items-center gap-1.5 lg:text-base"
               >
                 <Landmark size={18} className="text-primary" />
                 Bank Address<span className="text-red-600">*</span>
@@ -9462,7 +9473,7 @@ const AdminEditCurrencyPage = () => {
                   placeholder="Full address of the recipient's bank"
                   value={formState.bankAddress}
                   onChange={handleChange}
-                  className="min-h-[100px] resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-gray-100 sm:[&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-lightborder sm:dark:[&::-webkit-scrollbar-track]:bg-primarybox sm:dark:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 bg-white dark:bg-background h-14 w-full transition-all border rounded-lg focus:outline-none focus:border-[#5f5f5f] ease-linear duration-75"
+                  className="min-h-[100px] resize-none sm:[&::-webkit-scrollbar]:w-2 sm:[&::-webkit-scrollbar]:h-3 sm:[&::-webkit-scrollbar-track]:rounded-full sm:[&::-webkit-scrollbar-thumb]:rounded-full sm:[&::-webkit-scrollbar-track]:bg-primarybox sm:[&::-webkit-scrollbar-thumb]:bg-secondarybox block px-4 py-3 bg-background h-14 w-full transition-all border rounded-lg focus:outline-none border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white ease-linear duration-75"
                 ></textarea>
               </div>
             </div>
@@ -9484,16 +9495,16 @@ const AdminEditCurrencyPage = () => {
       >
         <motion.div
           variants={itemVariants}
-          className="rounded-xl bg-white dark:bg-background border shadow-sm"
+          className="rounded-xl bg-background border shadow-sm"
         >
-          <h3 className="border-b px-4 py-3 md:text-lg text-base font-medium text-neutral-900 dark:text-white">
+          <h3 className="border-b px-4 py-3 md:text-lg text-base font-medium text-mainheadingWhite">
             Fees & Exchange Rate Settings (Optional)
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:p-6 p-4">
             <div>
               <label
                 htmlFor="wiseFeePercentage"
-                className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+                className="text-mainheadingWhite capitalize text-sm flex items-center gap-1.5 lg:text-base"
               >
                 <Percent size={18} className="text-primary" />
                 remityn Fees <span className="text-red-600">*</span>
@@ -9507,21 +9518,22 @@ const AdminEditCurrencyPage = () => {
                   onChange={handleChange}
                   step="any"
                   min="0"
-                  className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 w-full border focus:border-[#5f5f5f] rounded-lg transition-all focus:outline-none ease-linear duration-75 no-spinner"
+                  className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0 no-spinner"
                   placeholder="e.g., 0.5"
                 />
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                  <span className="text-gray-500 dark:text-gray-300">%</span>
+                  <span className="text-mainheadingWhite">%</span>
                 </div>
               </div>
-              <p className="mt-2 text-sm text-gray-500  dark:text-gray-300">
+              <p className="mt-1 text-sm text-subheadingWhite">
                 Percentage fee for remityn transfers (leave blank if none).
               </p>
             </div>
+
             <div>
               <label
                 htmlFor="bankTransferFee"
-                className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+                className="text-mainheadingWhite capitalize text-sm flex items-center gap-1.5 lg:text-base"
               >
                 <DollarSign size={18} className="text-primary" />
                 Bank Transfer Fees<span className="text-red-600">*</span>
@@ -9535,16 +9547,16 @@ const AdminEditCurrencyPage = () => {
                   onChange={handleChange}
                   step="any"
                   min="0"
-                  className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 w-full border focus:border-[#5f5f5f] rounded-lg transition-all focus:outline-none ease-linear duration-75 no-spinner"
+                  className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0 no-spinner"
                   placeholder="e.g., 5.00"
                 />
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                  <span className="text-gray-500 dark:text-gray-300 text-sm font-medium">
+                  <span className="text-mainheadingWhite text-sm font-medium">
                     {formState.code || "CUR"}
                   </span>
                 </div>
               </div>
-              <p className="mt-2 text-sm text-gray-500  dark:text-gray-300">
+              <p className="mt-1 text-sm text-subheadingWhite">
                 Fixed Fees in {formState.code || "currency"} (leave blank if
                 none).
               </p>
@@ -9552,11 +9564,12 @@ const AdminEditCurrencyPage = () => {
             <div>
               <label
                 htmlFor="rateAdjustmentPercentage"
-                className="text-gray-500 dark:text-gray-300 capitalize text-sm flex items-center gap-1 lg:text-base"
+                className="text-mainheadingWhite capitalize text-sm flex items-center gap-1.5 lg:text-base"
               >
                 <Percent size={18} className="text-primary" />
                 Our Adjustment <span className="text-red-600">*</span>
               </label>
+
               <div className="relative">
                 <input
                   type="number"
@@ -9565,24 +9578,26 @@ const AdminEditCurrencyPage = () => {
                   value={formState.rateAdjustmentPercentage}
                   onChange={handleChange}
                   step="any"
-                  className="mt-2 block px-4 py-3 bg-white dark:bg-background h-14 w-full border focus:border-[#5f5f5f] rounded-lg transition-all focus:outline-none ease-linear duration-75 no-spinner"
+                  className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0 no-spinner"
                   placeholder="e.g., -0.5 or 1.2"
                 />
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4">
-                  <span className="text-gray-500 dark:text-gray-300">%</span>
+                  <span className="text-mainheadingWhite">%</span>
                 </div>
               </div>
-              <p className="mt-2 text-sm text-gray-500  dark:text-gray-300">
+              <p className="mt-1 text-sm text-subheadingWhite">
                 Adjustment vs market rate (default 0).
               </p>
             </div>
           </div>
+
           <div className="lg:p-6 p-4">
-            <div className="rounded-md bg-lightgray dark:bg-background border overflow-hidden">
-              <h4 className="px-4 py-3 md:text-lg text-base font-medium bg-lightborder  dark:bg-primarybox text-neutral-900 dark:text-white">
+            <div className="rounded-md bg-background border overflow-hidden">
+              <h4 className="px-4 py-3 md:text-lg text-base font-medium bg-primarybox text-mainheadingWhite border-b">
                 Exchange Rate Info
               </h4>
-              <p className="px-4 py-3 text-sm text-gray-500 dark:text-gray-300">
+
+              <p className="px-4 py-3 text-sm text-subheadingWhite">
                 The Our Adjustment % modifies the market exchange rate used in
                 calculations. A positive value (e.g., 1%) increases the rate,
                 making the foreign currency relatively cheaper. A negative value
@@ -9597,9 +9612,10 @@ const AdminEditCurrencyPage = () => {
     );
   };
 
+  /* salu karvanu che  */
   if (isLoading) {
     return (
-      <div className="bg-white dark:bg-background relative">
+      <div className="bg-background relative">
         {" "}
         {/* Added relative for ToastContainer */}
         <ToastContainer
@@ -9658,7 +9674,7 @@ const AdminEditCurrencyPage = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="bg-white dark:bg-background"
+          className="bg-background"
         >
           <div className="mx-auto max-w-5xl">
             {!isLoading && formState && (
@@ -9680,19 +9696,19 @@ const AdminEditCurrencyPage = () => {
                     variants={itemVariants}
                     className="mb-4 rounded-full overflow-hidden"
                   >
-                    <TabsList className="relative z-0 flex w-full h-full whitespace-nowrap overflow-x-auto  dark:bg-primarybox p-1.5 rounded-full justify-normal items-center">
+                    <TabsList className="relative z-0 flex w-full h-full whitespace-nowrap overflow-x-auto bg-secondarybox p-1.5 rounded-full justify-normal items-center">
                       {TABS_CONFIG.map((tabInfo) => (
                         <TabsTrigger
                           key={tabInfo.value}
                           value={tabInfo.value}
                           className={cn(
-                            "relative px-4 py-3 flex items-center justify-center gap-2 text-base shrink-0 min-w-max rounded-full text-neutral-900 dark:text-white data-[state=active]:text-neutral-900 dark:data-[state=active]:text-primary border-none data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none cursor-pointer transition-colors duration-150 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                            "relative px-4 py-3 flex items-center justify-center gap-2 text-base shrink-0 min-w-max rounded-full text-white data-[state=active]:text-mainheading dark:data-[state=active]:text-primary border-none data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none cursor-pointer transition-colors duration-150 ease-in-out focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
                           )}
                         >
                           {activeTab === tabInfo.value && (
                             <motion.div
                               layoutId="active-currency-tab-indicator"
-                              className="absolute inset-0 -z-10 bg-primary dark:bg-secondarybox rounded-full shadow-sm"
+                              className="absolute inset-0 -z-10 bg-primary rounded-full shadow-sm"
                               transition={{ stiffness: 350, damping: 30 }}
                             />
                           )}
@@ -9716,11 +9732,11 @@ const AdminEditCurrencyPage = () => {
                     type="button"
                     onClick={handleReset}
                     disabled={isSubmitting || !formChanged}
-                    className="inline-flex items-center justify-center gap-2 cursor-pointer bg-lightgray hover:bg-lightborder dark:bg-primarybox dark:hover:bg-secondarybox text-neutral-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed font-medium rounded-full px-6 py-3 h-12 text-center w-full sm:w-auto transition-all duration-75 ease-linear group"
+                    className="flex items-center justify-center cursor-pointer gap-2 bg-primarybox text-primary hover:bg-primaryboxhover px-4 sm:px-8 py-3 h-[50px] w-auto rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <RefreshCw
                       size={20}
-                      className={`transition-transform duration-300 ${
+                      className={`transition-transform duration-300 class="lucide lucide-refresh-cw size-5" ${
                         formChanged && !isSubmitting
                           ? "group-hover:rotate-[-180deg]"
                           : ""
@@ -9728,15 +9744,16 @@ const AdminEditCurrencyPage = () => {
                     />{" "}
                     Reset
                   </button>
+
                   <button
                     type="submit"
                     disabled={isSubmitting || !formChanged}
-                    className="inline-flex items-center justify-center cursor-pointer bg-primary hover:bg-primaryhover text-neutral-900 disabled:opacity-50 disabled:cursor-not-allowed font-medium rounded-full px-6 py-3 h-12 text-center w-full sm:w-auto transition-all duration-75 ease-linear"
+                    className="inline-flex items-center justify-center cursor-pointer bg-primary hover:bg-primaryhover text-mainheading disabled:opacity-50 disabled:cursor-not-allowed font-medium rounded-full px-6 py-3 h-12 text-center w-full sm:w-auto transition-all duration-75 ease-linear"
                   >
                     {isSubmitting ? (
                       <>
                         <svg
-                          className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+                          className="size-5 text-mainheading animate-spin mr-2"
                           viewBox="0 0 24 24"
                           fill="none"
                           xmlns="http://www.w3.org/2000/svg"

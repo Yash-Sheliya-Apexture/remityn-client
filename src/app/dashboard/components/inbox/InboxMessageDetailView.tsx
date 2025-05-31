@@ -237,9 +237,9 @@ export const InboxMessageDetailView: React.FC<InboxMessageDetailViewProps> = ({
 
   return (
     <>
-      <div className="border border-gray-600/50 rounded-2xl overflow-hidden transition-all ease-linear duration-75 flex flex-col h-full">
+      <div className="border rounded-2xl overflow-hidden transition-all ease-linear duration-75 flex flex-col h-full">
         {/* Top Action Bar */}
-        <div className="flex items-center justify-between p-4 sm:px-6  bg-primarybox sticky top-0 z-10">
+        <div className="flex items-center justify-between p-4 sm:px-6  bg-primarybox">
           <button
             onClick={onBack}
             aria-label="Back to inbox list"
@@ -305,7 +305,7 @@ export const InboxMessageDetailView: React.FC<InboxMessageDetailViewProps> = ({
         {/* <Separator className="mx-4 sm:mx-6 my-2" /> */}
 
         {/* Message Body - Scrollable */}
-        <div className="p-4 sm:px-6 flex-grow overflow-y-auto border-t border-t-gray-600/50">
+        <div className="p-4 sm:px-6 flex-grow overflow-y-auto border-t">
           <div className="text-sm sm:text-base text-subheadingWhite leading-relaxed message-body whitespace-pre-wrap break-words">
             {message.body}
           </div>

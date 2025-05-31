@@ -1150,8 +1150,8 @@
 import Link from "next/link";
 import React, { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { BsExclamationLg } from "react-icons/bs";
-import { FiAlertTriangle, FiX } from "react-icons/fi";
-import { LuCheck, LuEye, LuEyeClosed } from "react-icons/lu";
+import { FiAlertTriangle } from "react-icons/fi";
+import { LuCheck, LuEye, LuEyeOff } from "react-icons/lu";
 import { useAuth } from "@/app/contexts/AuthContext"; // Import useAuth
 import userService from "@/app/services/user"; // Import user service
 import { Loader2 } from "lucide-react"; // For loading indicator
@@ -1309,12 +1309,12 @@ export default function ChangePassword() {
         <div className="space-y-4 w-full lg:max-w-lg mt-8">
           {/* Added mt-8 */}
           {/* Informational Message */}
-          <div className="bg-lightgray dark:bg-primarybox rounded-xl p-4 flex items-start gap-4 ">
+          <div className="bg-primarybox rounded-xl p-4 flex items-start gap-4 ">
             <div className="p-3 bg-yellow-400 rounded-full flex-shrink-0">
               <BsExclamationLg size={24} className="text-main" />
             </div>
 
-            <p className="text-gray-500 dark:text-gray-300">
+            <p className="text-subheadingWhite">
               We will never send you a temporary password by phone, email or
               text message. When changing your password, always use something
               that’s only known by you.
@@ -1325,21 +1325,21 @@ export default function ChangePassword() {
             {/* API Error Message */}
 
             {apiError && (
-              <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
+              <div className="bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
                 <div className="flex-shrink-0 size-10  rounded-full flex items-center justify-center bg-red-600/20">
-                  <FiAlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                  <FiAlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
-                <p className="text-red-700 dark:text-red-300/90">{apiError}</p>
+                <p className="text-red-300/90">{apiError}</p>
               </div>
             )}
 
             {/* Success Message */}
             {successMessage && (
-              <div className="bg-green-50 dark:bg-green-900/25 border border-green-500 rounded-lg p-3 flex items-center gap-3">
+              <div className="bg-green-900/25 border border-green-500 rounded-lg p-3 flex items-center gap-3">
                 <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-green-600/20">
-                  <LuCheck className="text-green-600 dark:text-green-500 size-5 sm:size-6 flex-shrink-0" />
+                  <LuCheck className="text-green-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
-                <p className="text-green-700 dark:text-green-300/90">
+                <p className="text-green-300/90">
                   {successMessage}
                 </p>
               </div>
@@ -1347,11 +1347,11 @@ export default function ChangePassword() {
 
             {/* Error Message: Invalid Current Password */}
             {showInvalidCurrentPasswordError && (
-              <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
+              <div className="bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
                 <div className="flex-shrink-0 size-10  rounded-full flex items-center justify-center bg-red-600/20">
-                  <FiAlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                  <FiAlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
-                <p className="text-red-700 dark:text-red-300/90">
+                <p className="text-red-300/90">
                   Incorrect current password.
                 </p>
               </div>
@@ -1359,11 +1359,11 @@ export default function ChangePassword() {
 
             {/* Error Message: Same Password */}
             {showSamePasswordError && (
-              <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
+              <div className="bg-red-900/25 border border-red-500 rounded-lg p-3 flex items-center gap-3">
                 <div className="flex-shrink-0 size-10  rounded-full flex items-center justify-center bg-red-600/20">
-                  <FiAlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                  <FiAlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
-                <p className="text-red-700 dark:text-red-300/90">
+                <p className="text-red-300/90">
                   Your new password can't be the same as the current one.
                 </p>
               </div>
@@ -1377,7 +1377,7 @@ export default function ChangePassword() {
               <div>
                 <label
                   htmlFor="currentPassword"
-                  className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+                  className="text-white block capitalize text-sm lg:text-base"
                 >
                   Current password
                 </label>
@@ -1386,10 +1386,10 @@ export default function ChangePassword() {
                   id="currentPassword"
                   name="currentPassword"
                   autoComplete="current-password"
-                  className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 ${
+                  className={`mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0 pr-10 ${
                     showInvalidCurrentPasswordError
-                      ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
-                      : "focus:border-[#5f5f5f]"
+                      ? "border-red-600 ring-1 ring-red-600"
+                      : "border-primarybox"
                   }`}
                   placeholder="Enter current password"
                   value={currentPassword}
@@ -1403,47 +1403,49 @@ export default function ChangePassword() {
               <div className="relative">
                 <label
                   htmlFor="newPassword"
-                  className="text-gray-500 dark:text-gray-300 block capitalize text-sm lg:text-base"
+                  className="text-white block capitalize text-sm lg:text-base"
                 >
                   New password
                 </label>
-                <input
-                  type={isNewPasswordVisible ? "text" : "password"}
-                  id="newPassword"
-                  name="newPassword"
-                  autoComplete="new-password"
-                  className={`mt-1 block px-4 py-3 bg-white dark:bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 ${
-                    (showSamePasswordError ||
-                      (newPassword && !isNewPasswordValid())) &&
-                    !showSortedMessage &&
-                    !successMessage // Show error border if same password or invalid (and not yet sorted/successful)
-                      ? "border-red-600 border-2 !shadow-none focus:!ring-red-600"
-                      : "focus:border-[#5f5f5f]"
-                  }`}
-                  placeholder="Enter new password"
-                  value={newPassword}
-                  onChange={handleNewPasswordChange}
-                  onCopy={handleCopyPassword}
-                  onCut={handleCopyPassword}
-                  required
-                  aria-describedby="password-hint"
-                  disabled={loading} // Disable input when loading
-                />
-                <button
-                  type="button"
-                  className="absolute right-4 top-11.5 text-gray-500 dark:text-gray-300 focus:outline-none bg-white dark:bg-background"
-                  onClick={toggleNewPasswordVisibility}
-                  aria-label={
-                    isNewPasswordVisible ? "Hide password" : "Show password"
-                  }
-                  disabled={loading} // Disable button when loading
-                >
-                  {isNewPasswordVisible ? (
-                    <LuEye size={20} />
-                  ) : (
-                    <LuEyeClosed size={20} />
-                  )}
-                </button>
+                <div className="relative">
+                  <input
+                    type={isNewPasswordVisible ? "text" : "password"}
+                    id="newPassword"
+                    name="newPassword"
+                    autoComplete="new-password"
+                    className={`mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0 pr-10 ${
+                      (showSamePasswordError ||
+                        (newPassword && !isNewPasswordValid())) &&
+                      !showSortedMessage &&
+                      !successMessage // Show error border if same password or invalid (and not yet sorted/successful)
+                        ? "border-red-600 ring-1 ring-red-600"
+                        : "border-primarybox"
+                    }`}
+                    placeholder="Enter new password"
+                    value={newPassword}
+                    onChange={handleNewPasswordChange}
+                    onCopy={handleCopyPassword}
+                    onCut={handleCopyPassword}
+                    required
+                    aria-describedby="password-hint"
+                    disabled={loading} // Disable input when loading
+                  />
+                  <button
+                    type="button"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 transform cursor-pointer text-gray-500 hover:text-gray-300 focus:outline-none"
+                    onClick={toggleNewPasswordVisibility}
+                    aria-label={
+                      isNewPasswordVisible ? "Hide password" : "Show password"
+                    }
+                    disabled={loading} // Disable button when loading
+                  >
+                    {isNewPasswordVisible ? (
+                      <LuEye size={18} />
+                    ) : (
+                      <LuEyeOff size={18} />
+                    )}
+                  </button>
+                </div>
               </div>
 
               {/* Password Hint/Validation Message Area */}
@@ -1452,11 +1454,11 @@ export default function ChangePassword() {
                 <div id="password-hint">
                   {/* Password Requirements Message */}
                   {showPasswordMessage && (
-                    <div className="bg-yellow-50 dark:bg-yellow-900/25 border border-yellow-500 rounded-lg p-3 flex items-start gap-3">
+                    <div className="bg-yellow-900/25 border border-yellow-500 rounded-lg p-3 flex items-start gap-3">
                       <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-yellow-600/20">
-                        <BsExclamationLg className="text-yellow-600 dark:text-yellow-500 size-5 sm:size-6 flex-shrink-0" />
+                        <BsExclamationLg className="text-yellow-500 size-5 sm:size-6 flex-shrink-0" />
                       </div>
-                      <p className="text-yellow-700 dark:text-yellow-300/90">
+                      <p className="text-yellow-300/90">
                         Password must contain a letter and a number, and be
                         minimum 8 characters long.
                       </p>
@@ -1466,11 +1468,11 @@ export default function ChangePassword() {
                   {/* Password Valid Message */}
                   {/* Only show if requirements met and initial message hidden */}
                   {showSortedMessage && !showPasswordMessage && (
-                    <div className="bg-green-50 dark:bg-green-900/25 border border-green-500 rounded-lg p-3 flex items-center gap-3">
+                    <div className="bg-green-900/25 border border-green-500 rounded-lg p-3 flex items-center gap-3">
                       <div className="flex-shrink-0 size-10 rounded-full flex items-center justify-center bg-green-600/20">
-                        <LuCheck className="text-green-600 dark:text-green-500 size-5 sm:size-6 flex-shrink-0" />
+                        <LuCheck className="text-green-500 size-5 sm:size-6 flex-shrink-0" />
                       </div>
-                      <p className="text-green-700 dark:text-green-300/90">
+                      <p className="text-green-300/90">
                         That’s your new password sorted.
                       </p>
                     </div>
@@ -1483,7 +1485,7 @@ export default function ChangePassword() {
                 <button
                   type="submit"
                   disabled={isSaveButtonDisabled} // Updated condition
-                  className={` flex items-center justify-center bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed `}
+                  className={` flex items-center justify-center bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed `}
                 >
                   {loading ? (
                     <Loader2 className="mr-2 h-5 w-5 animate-spin" />

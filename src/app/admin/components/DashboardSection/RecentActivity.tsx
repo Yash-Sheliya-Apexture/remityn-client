@@ -626,7 +626,7 @@ export default function RecentActivity() {
     // Don't show main error if we are just trying to refresh
     return (
       <div
-        className="xl:w-3/4 flex relative justify-center items-center  bg-red-900/25 border sm:order-1 order-2 border-red-500 px-5 py-4 rounded-xl"
+        className="xl:w-3/4 flex relative justify-center items-center bg-red-900/25 border sm:order-1 order-2 border-red-500 px-5 py-4 rounded-xl"
         role="alert"
       >
         <div className="flex flex-col items-center gap-3 text-center">

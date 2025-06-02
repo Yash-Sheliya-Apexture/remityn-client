@@ -86,8 +86,9 @@ const KycDetailHeader: React.FC<KycDetailHeaderProps> = ({ userId }) => {
       {/* Left Side: Breadcrumbs and Title */}
       <div className="KYC Details">
         <div className="flex items-center gap-3">
-          <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
-            <MdManageAccounts className="size-6 text-mainheading" />
+
+          <div className="p-2.5 shrink-0 bg-primary rounded-full flex items-center justify-center">
+            <MdManageAccounts className="text-mainheading"  size={26}/>
           </div>
 
           <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
@@ -95,7 +96,7 @@ const KycDetailHeader: React.FC<KycDetailHeaderProps> = ({ userId }) => {
           </h1>
         </div>
 
-        <p className="mt-2 text-subheadingWhite lg:text-lg">
+        <p className="mt-2 text-subheadingWhite text-base lg:text-lg">
           Track money transfers seamlessly with clear recipient details,
           currency types, and real-time transaction statuses.
         </p>
@@ -105,9 +106,9 @@ const KycDetailHeader: React.FC<KycDetailHeaderProps> = ({ userId }) => {
 
       <Link
         href="/admin/kyc-management" // Corrected link from /admin/transfer to /admin/transfers
-        className="flex items-center bg-primary text-mainheading hover:bg-primaryhover h-12.5 px-8 py-3 cursor-pointer font-medium rounded-full sm:w-auto w-full justify-center transition-all duration-75 ease-linear"
+        className="flex items-center gap-2 bg-primary text-mainheading hover:bg-primaryhover h-12.5 px-8 py-3 cursor-pointer font-medium rounded-full sm:w-auto w-full justify-center transition-all duration-75 ease-linear"
       >
-        <ArrowLeft className="size-5 mr-1.5" />
+        <ArrowLeft className="size-5" />
         All Applications
       </Link>
     </div>

@@ -544,7 +544,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
                 </p>
                 <div className="mt-4 text-sm text-subheadingWhite space-y-1.5 border px-4 py-3 rounded-xl">
                   <div className="flex items-start">
-                    <span className="font-semibold text-white/90 w-[70px] shrink-0">
+                    <span className="font-semibold text-mainheadingWhite w-[70px] shrink-0">
                       Subject:
                     </span>
                     <span className="ml-1.5 flex-1 break-words text-subheadingWhite">
@@ -552,7 +552,7 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
                     </span>
                   </div>
                   <div className="flex items-start">
-                    <span className="font-semibold text-white/90 w-[70px] shrink-0">
+                    <span className="font-semibold text-mainheadingWhite w-[70px] shrink-0">
                       To:
                     </span>
                     <span className="ml-1.5 truncate text-subheadingWhite" title={recipientName}>
@@ -562,14 +562,14 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
                     </span>
                   </div>
                   <div className="flex items-center">
-                    <span className="font-semibold text-white/90 w-[70px] shrink-0">
+                    <span className="font-semibold text-mainheadingWhite w-[70px] shrink-0">
                       Sent:
                     </span>
                     <span className="ml-1.5 text-subheadingWhite">{formatDate(message.sentAt)}</span>
                   </div>
                 </div>
 
-                <p className="text-sm text-subheadingWhite mt-4">
+                <p className="text-subheadingWhite mt-4">
                   This message will be permanently removed from the system.
                   Please confirm your action.
                 </p>
@@ -579,21 +579,23 @@ const DeleteConfirmationModal: React.FC<DeleteConfirmationModalProps> = ({
               <div className="flex sm:flex-row flex-col items-center justify-end sm:p-6 p-4 gap-4 border-t">
                 <button
                   type="button"
-                  onClick={onClose}
-                  disabled={isLoading}
-                  className="inline-flex justify-center cursor-pointer text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-[48px] text-center w-full transition-all duration-75 ease-linear"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
                   onClick={onConfirm}
                   disabled={isLoading}
-                  className="flex items-center text-nowrap justify-center bg-red-600 text-white hover:bg-red-700 font-medium rounded-full px-8 py-3 h-[48px] leading-5 text-center w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex items-center text-nowrap justify-center bg-red-500 text-white hover:bg-red-600 font-medium rounded-full px-8 py-3 text-center w-full cursor-pointer transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isLoading && <SvgLoader />}
                   {isLoading ? "Deleting..." : "Delete Message"}
                 </button>
+
+                <button
+                  type="button"
+                  onClick={onClose}
+                  disabled={isLoading}
+                  className="inline-flex justify-center cursor-pointer text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 text-center w-full transition-all duration-75 ease-linear"
+                >
+                  Cancel
+                </button>
+
               </div>
             </motion.div>
           </motion.div>

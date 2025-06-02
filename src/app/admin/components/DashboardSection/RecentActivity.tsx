@@ -307,7 +307,7 @@
 //           {[...Array(4)].map((_, i) => (
 //             <div
 //               key={i}
-//               className="flex items-center gap-4 p-3.5 rounded-lg border border-gray-200 dark:border-gray-700/50"
+//               className="flex items-center gap-4 p-3.5 rounded-xl border border-gray-200 dark:border-gray-700/50"
 //               style={{
 //                 opacity: 1 - (i * 0.15),
 //                 animation: `pulse 1.5s ease-in-out ${i * 0.1}s infinite`
@@ -626,7 +626,7 @@ export default function RecentActivity() {
     // Don't show main error if we are just trying to refresh
     return (
       <div
-        className="xl:w-3/4 flex relative justify-center items-center bg-red-900/25 border sm:order-1 order-2 border-red-500 px-5 py-4 rounded-xl"
+        className="xl:w-3/4 flex relative justify-center items-center bg-red-900/25 border sm:order-1 order-2 border-red-500 p-4 rounded-xl"
         role="alert"
       >
         <div className="flex flex-col items-center gap-3 text-center">
@@ -640,17 +640,19 @@ export default function RecentActivity() {
               Unable to load activities
             </h4>
 
-            <p className="text-sm mt-2 text-red-300/90">{error}</p>
+            <p className="text-sm mt-2 text-red-300/90">
+            {error}</p>
           </div>
         </div>
 
          <button
             onClick={handleRefresh}
-            className="size-10 absolute top-4 right-4 flex items-center justify-center cursor-pointer rounded-full bg-red-600/20 transition-colors"
+            className="size-10 absolute top-3 right-3 flex items-center justify-center cursor-pointer rounded-full bg-red-600/20 hover:bg-red-700/20 transition-all ease-linear duration-75"
             aria-label="Retry loading activities"
           >
             <RefreshCw className="h-4 w-4 text-red-500" />
           </button>
+
       </div>
     );
   }
@@ -694,6 +696,7 @@ export default function RecentActivity() {
               className={`size-4 text-primary ${refreshing ? "animate-spin" : ""}`}
             />
           </button>
+
         </div>
       </div>
 
@@ -702,14 +705,14 @@ export default function RecentActivity() {
           [...Array(activitiesToDisplayCount)].map((_, i) => (
             <div
               key={`skel-list-item-${i}`}
-              className="flex items-start bg-primarybox space-y-6 rounded-lg "
+              className="flex items-start bg-primarybox space-y-6 rounded-xl"
             >
-              <Skeleton className="h-10 w-10 rounded-full mr-4 flex-shrink-0 bg-background/50" />
+              <Skeleton className="size-10 rounded-full mr-4 flex-shrink-0 bg-background/50" />
               <div className="flex sm:flex-row flex-col justify-between w-full">
-                <div className="flex-grow space-y-[11px]">
-                  <Skeleton className="h-3.5 sm:w-4/5 w-full rounded-full bg-background/50" />
-                  <Skeleton className="h-3.5 sm:w-4/5 w-full rounded-full bg-background/50 sm:hidden block" />
-                  <Skeleton className="h-3.5 sm:w-2/5 w-1/2 rounded-full bg-background/50" />
+                <div className="flex-grow space-y-1.5">
+                  <Skeleton className="h-3 sm:w-4/5 w-full rounded-full bg-background/50" />
+                  <Skeleton className="h-3 sm:w-4/5 w-full rounded-full bg-background/50 sm:hidden block" />
+                  <Skeleton className="h-3 sm:w-2/5 w-1/2 rounded-full bg-background/50" />
                 </div>
 
                 {isMobile && (
@@ -738,7 +741,7 @@ export default function RecentActivity() {
                 key={`${activity.itemId || "activity"}-${
                   activity.timestamp
                 }-${index}`}
-                className="flex items-start bg-primarybox space-y-5 rounded-lg transition-all duration-150 ease-out cursor-default"
+                className="flex items-start bg-primarybox space-y-5 rounded-xl transition-all duration-75 ease-linear cursor-default"
               >
                 <div
                   className={`flex-shrink-0 size-10 sm:size-11 rounded-full ${config.bgColor} flex items-center justify-center mr-3.5 sm:mr-4`}
@@ -767,6 +770,7 @@ export default function RecentActivity() {
                     </div>
                   )}
                 </div>
+
                 {!isMobile && (
                   <div className="flex flex-col items-end gap-1 ml-2 sm:ml-4 flex-shrink-0 self-start pt-0.5">
                     <p className="text-xs text-mainheadingWhite whitespace-nowrap">
@@ -783,12 +787,12 @@ export default function RecentActivity() {
         ) : (
           <div className="flex flex-col items-center justify-center py-10 space-y-3 text-center">
             <div className="sm:size-12 size-10 rounded-full bg-primary flex items-center justify-center">
-              <Clock className="size-6 text-mainheading" />
+              <Clock className="sm:size-6 size-5 text-mainheading" />
             </div>
             <p className="sm:text-2xl text-xl text-mainheadingWhite capitalize font-medium">
               No recent activity Found In this case
             </p>
-            <p className="text-subheadingWhite sm:text-lg text-base">
+            <p className="text-subheadingWhite text-base">
               Check back later for updates
             </p>
           </div>

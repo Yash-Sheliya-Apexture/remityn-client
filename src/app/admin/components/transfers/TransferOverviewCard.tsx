@@ -409,7 +409,7 @@ const TransferOverviewCard: React.FC<TransferOverviewCardProps> = ({
           <div className="min-w-0">
             <p className="text-sm font-medium text-subheadingWhite">Transfer ID</p>
             {/* Using `transfer._id` directly as it's made required by interface */}
-            <p className="text-white/90 text-sm font-medium break-all">
+            <p className="text-mainheadingWhite text-sm font-medium break-all">
               {transfer._id}
             </p>
           </div>
@@ -417,21 +417,21 @@ const TransferOverviewCard: React.FC<TransferOverviewCardProps> = ({
 
         {/* Right Side: Dates and Amount */}
         <div className="flex flex-col sm:flex-row sm:items-center gap-4 md:gap-6 mt-4 md:mt-0">
-          <div className="bg-secondarybox rounded-lg px-4 py-2 flex items-center">
-            <Calendar className="size-4 text-white mr-2.5 flex-shrink-0" />
+          <div className="bg-secondarybox rounded-lg px-4 py-2 gap-2 flex items-center">
+            <Calendar className="size-4 text-primary flex-shrink-0" />
             <div>
-              <p className="text-xs text-mainheadingWhite">Created</p>
-              <p className="text-sm font-medium text-white/90">
+              <p className="text-xs text-subheadingWhite">Created</p>
+              <p className="text-sm font-medium text-mainheadingWhite">
                 {createdAtStringForHelper ? getTimeAgo(createdAtStringForHelper) : 'N/A'}
               </p>
             </div>
           </div>
 
-          <div className="bg-secondarybox rounded-lg px-4 py-2 flex items-center border dark:border-neutral-700/70">
-            <DollarSign className="size-4 text-white mr-2.5 flex-shrink-0" />
+          <div className="bg-secondarybox rounded-lg gap-2 px-4 py-2 flex items-center">
+            <DollarSign className="size-4 text-primary flex-shrink-0" />
             <div>
-              <p className="text-xs text-mainheadingWhite">Amount Sent</p>
-              <p className="text-sm font-medium text-white/90">
+              <p className="text-xs text-subheadingWhite">Amount Sent</p>
+              <p className="text-sm font-medium text-mainheadingWhite">
                 {/* Use the code directly from the prop */}
                 {formatCurrency(transfer.sendAmount, sendCurrencyCode)}
               </p>

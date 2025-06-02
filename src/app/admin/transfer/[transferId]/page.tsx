@@ -4281,7 +4281,6 @@ import adminCurrencyService from "../../../services/admin/currency";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useParams, useRouter } from "next/navigation";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
 import { XCircle, RefreshCw, ArrowLeft, AlertCircle } from "lucide-react";
 import Link from "next/link";
 
@@ -4395,7 +4394,7 @@ const LoadingSkeleton = () => (
         <Skeleton className="h-4 w-64 mb-3 rounded" />
         <Skeleton className="h-8 w-48 rounded" />
       </div>
-      <Skeleton className="h-9 w-32 rounded-md" />
+      <Skeleton className="h-12 w-43 rounded-full" />
     </div>
 
     <div className="bg-primarybox rounded-xl sm:p-6 p-4 mb-8">
@@ -4533,27 +4532,34 @@ const ErrorDisplay = ({
   error: string | null;
   onRetry: () => void;
 }) => (
-  <div className="container mx-auto p-8">
-    <div className="bg-primarybox shadow-sm rounded-xl p-8 text-center">
-      <div className="mx-auto w-16 h-16 flex items-center justify-center rounded-full bg-rose-100 mb-6">
-        <XCircle className="h-8 w-8 text-rose-600" />
+  <div className="container mx-auto px-4 py-5">
+    <div className="bg-primarybox space-y-3 rounded-xl p-4 text-center">
+      <div className="sm:size-12 mx-auto size-10 rounded-full flex items-center justify-center bg-primary flex-shrink-0">
+        <XCircle className="text-mainheading sm:size-6 size-5 flex-shrink-0" />
       </div>
-      <h2 className="text-2xl font-semibold mb-3 text-mainheadingWhite">
+
+      <h2 className="lg:text-2xl text-xl font-semibold text-mainheadingWhite">
         Unable to Load Transfer
       </h2>
-      <p className="text-subheadingWhite text-lg mb-6 max-w-lg mx-auto">
+
+      <p className="text-subheadingWhite lg:text-base test-sm max-w-lg mx-auto">
         {error ||
           "The requested transfer details could not be found or accessed."}
       </p>
-      <div className="flex flex-wrap justify-center gap-4">
-        <button onClick={onRetry} className="flex justify-center items-center gap-1 bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 transition-all cursor-pointer duration-75 ease-linear">
-          <RefreshCw className="size-4 mr-2" /> Retry
+
+      <div className="flex flex-wrap justify-center gap-4 mt-6">
+        <button
+          onClick={onRetry}
+          className="flex justify-center items-center gap-2 bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12 transition-all cursor-pointer duration-75 ease-linear"
+        >
+          <RefreshCw className="size-4" /> Retry
         </button>
+
         <Link
           href="/admin/transfers"
-          className=" flex justify-center items-center gap-1 text-primary bg-secondarybox hover:bg-secondaryboxhover font-medium rounded-full px-8 py-3 h-12.5 transition-all duration-75 ease-linear"
+          className=" flex justify-center items-center gap-2 text-primary bg-secondarybox hover:bg-secondaryboxhover font-medium rounded-full px-8 py-3 h-12 transition-all duration-75 ease-linear"
         >
-          <ArrowLeft className="size-4 mr-2" /> Back to Transfers
+          <ArrowLeft className="size-4" /> Back to Transfers
         </Link>
       </div>
     </div>
@@ -4562,21 +4568,25 @@ const ErrorDisplay = ({
 
 // --- Access Restricted Component ---
 const AccessRestrictedDisplay = () => (
-   <div className="container mx-auto p-8">
-    <div className="bg-secondarybox shadow-sm rounded-xl p-8 text-center">
-      <div className="mx-auto w-16 h-16 flex items-center justify-center rounded-full bg-amber-100 mb-6">
-        <AlertCircle className="h-8 w-8 text-amber-600" />
+  <div className="container mx-auto px-4 py-5">
+    <div className="bg-secondarybox rounded-xl p-4 text-center space-y-4">
+      <div className="mx-auto sm:size-12 size-10 flex items-center font-medium justify-center rounded-full bg-primary">
+        <AlertCircle className="size-6 text-mainheading" />
       </div>
-      <h2 className="text-2xl font-semibold mb-3 text-mainheadingWhite">
+      <h2 className="lg:text-2xl text-xl font-semibold text-mainheadingWhite">
         Access Restricted
       </h2>
-      <p className="text-subheadingWhite mb-6 max-w-lg mx-auto">
+      <p className="text-subheadyingWhite max-w-lg lg:text-base text-sm mx-auto">
         This page requires administrator privileges. You do not have the
         necessary permissions to view this content.
       </p>
+
       <div className="inline-block">
-        <Link href="/dashboard" className="flex justify-center items-center gap-1 bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12.5 transition-all cursor-pointer duration-75 ease-linear">
-          <ArrowLeft className="size-4 mr-2" /> Return to Dashboard
+        <Link
+          href="/dashboard"
+          className="flex justify-center gap-2 items-center bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-8 py-3 h-12 transition-all cursor-pointer duration-75 ease-linear"
+        >
+          <ArrowLeft className="size-4" /> Return to Dashboard
         </Link>
       </div>
     </div>
@@ -4854,9 +4864,10 @@ const AdminTransferDetailPage = () => {
             />
             <TransferInfoCard transfer={transfer} />
           </div>
+
           <div className="lg:col-span-2">
             <div className="rounded-xl border bg-primarybox overflow-hidden">
-              <div className="bg-secondarybox px-6 py-4 border-b">
+              <div className="bg-secondarybox px-6 py-4">
                 <h3 className="text-lg font-semibold text-mainheadingWhite">
                   Detailed Information
                 </h3>

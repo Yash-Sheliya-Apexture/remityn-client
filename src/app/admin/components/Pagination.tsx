@@ -715,12 +715,12 @@ const Pagination: React.FC<PaginationProps> = ({
     };
 
     // Button style classes
-    const navButtonClasses = "relative flex items-center justify-center rounded-3xl px-2 py-2 size-12 bg-primarybox hover:bg-secondarybox text-sm font-medium text-white hover:bg-lightborder focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200";
+    const navButtonClasses = "relative flex items-center justify-center rounded-3xl px-2 py-2 size-12 bg-primarybox hover:bg-secondarybox text-sm font-medium text-mainheadingWhite hover:bg-lightborder focus:outline-none cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200";
 
     const pageButtonClasses = (isActive: boolean) => `
-        relative z-10 flex items-center justify-center w-full h-full font-semibold rounded-3xl cursor-pointer focus:z-10 focus:outline-none transition-colors duration-150 ease-in-out
+        relative z-10 flex items-center justify-center w-full h-full font-semibold rounded-3xl cursor-pointer focus:z-10 focus:outline-none transition-all duration-150 ease-linear
         ${isActive
-            ? "text-mainheading" // Active page text contrast with primary bg
+            ? "text-mainheading bg-primary hover:bg-primaryhover" // Active page text contrast with primary bg
             : "text-white bg-primarybox hover:bg-secondarybox"}
     `;
 
@@ -730,11 +730,11 @@ const Pagination: React.FC<PaginationProps> = ({
             <div className="flex justify-between w-full sm:hidden">
                 <button
                     onClick={goToPreviousPage}
-                    className="inline-flex items-center w-32 justify-center cursor-pointer gap-2  bg-primarybox hover:bg-secondarybox text-primary px-4 py-2 h-12 rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="inline-flex items-center w-32 justify-center cursor-pointer gap-2 bg-primarybox hover:bg-secondarybox text-primary px-4 py-2 h-12 rounded-full transition-all duration-150 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={currentPage === 1}
                     aria-label="Previous page"
                 >
-                    <IoChevronBack className="h-4 w-4 mr-1.5" />
+                    <IoChevronBack className="size-4" />
                     <span>Previous</span>
                 </button>
 
@@ -746,12 +746,13 @@ const Pagination: React.FC<PaginationProps> = ({
 
                 <button
                     onClick={goToNextPage}
-                    className="inline-flex items-center w-32 justify-center cursor-pointer gap-2 bg-primarybox hover:bg-secondarybox text-primary px-4 py-2 h-12 rounded-full transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="inline-flex items-center w-32 justify-center cursor-pointer gap-2 bg-primarybox hover:bg-secondarybox text-primary px-4 py-2 h-12 rounded-full transition-all duration-150 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
                     disabled={currentPage === totalPages}
                     aria-label="Next page"
                 >
                     <span>Next</span>
-                    <IoChevronForward className="h-4 w-4 ml-1.5" />
+
+                    <IoChevronForward className="size-4" />
                 </button>
             </div>
 
@@ -769,19 +770,19 @@ const Pagination: React.FC<PaginationProps> = ({
                         className={navButtonClasses}
                         aria-label="Previous page"
                         disabled={currentPage === 1}
-                    >
-                        <IoChevronBack className="h-5 w-5" />
+                    > 
+                        <IoChevronBack className="size-5 text-mainheadingWhite" />
                     </button>
 
                     {/* Page Numbers/Ellipsis */}
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1.5">
                         {pageNumbers.map((page, index) => {
                             if (typeof page === 'string') {
                                 // Render Ellipsis
                                 return (
                                     <span
                                         key={`ellipsis-${index}`}
-                                        className="relative inline-flex items-center justify-center rounded-3xl px-2 py-2 size-12 text-sm font-medium text-mainheadingWhite select-none"
+                                        className="relative inline-flex items-center justify-center rounded-full px-2 py-2 size-12 text-sm font-medium text-mainheadingWhite select-none"
                                         aria-hidden="true"
                                     >
                                         {page}
@@ -797,7 +798,7 @@ const Pagination: React.FC<PaginationProps> = ({
                                             {isActive && (
                                                 <motion.div
                                                     layoutId="active-page-indicator"
-                                                    className="absolute inset-0 bg-primary rounded-3xl z-0"
+                                                    className="absolute inset-0 bg-primary rounded-full z-0"
                                                     initial="initial"
                                                     animate="animate"
                                                     exit="exit"
@@ -834,7 +835,7 @@ const Pagination: React.FC<PaginationProps> = ({
                         aria-label="Next page"
                         disabled={currentPage === totalPages}
                     >
-                        <IoChevronForward className="h-5 w-5" />
+                        <IoChevronForward  className="size-5 text-mainheadingWhite" />
                     </button>
                 </nav>
             </div>

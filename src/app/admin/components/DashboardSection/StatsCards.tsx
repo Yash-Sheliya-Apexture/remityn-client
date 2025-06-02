@@ -97,6 +97,8 @@
 //   );
 // }
 
+
+
 // frontend/src/components/DashboardSection/StatsCards.tsx
 "use client";
 
@@ -164,12 +166,27 @@ export default function StatsCards() {
   if (error) {
     // Error display remains the same
     return (
-      <div
-        className="mb-8 bg-red-900/30 border border-red-700 text-red-300 px-4 py-3 rounded-xl relative flex items-center"
-        role="alert"
-      >
-        <AlertCircle className="h-5 w-5 mr-2" />
-        <span className="block sm:inline">{error}</span>
+      <div className="py-5"> 
+        <div
+          className="w-full flex relative items-center  bg-red-900/25 border sm:order-1 order-2 border-red-500 p-4 rounded-xl"
+          role="alert"
+        >
+          <div className="flex items-center gap-3 text-center">
+            <div className="sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20 flex-shrink-0">
+              <AlertCircle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
+            </div>
+
+            <div className="flex-1 text-left">
+              <h4 className="font-medium sm:text-2xl text-lg text-red-600 capitalize">
+                Error loading StatsCards
+              </h4>
+
+              <p className="text-sm text-left text-red-300/90">
+                {error}
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -269,7 +286,7 @@ export default function StatsCards() {
       </div>
 
       {/* Today's Add Money Card */}
-      <div className="bg-primarybox sm:p-6 p-4 rounded-2xl">
+      <div className="bg-primarybox sm:p-6 p-4 rounded-xl">
         <div className="flex justify-between items-start">
           <div>
             <p className="text-lg font-medium text-subheadingWhite">
@@ -297,7 +314,7 @@ export default function StatsCards() {
       </div>
 
       {/* Today's Send Money Card - Now Dynamic */}
-      <div className="bg-primarybox sm:p-6 p-4 rounded-2xl">
+      <div className="bg-primarybox sm:p-6 p-4 rounded-xl">
         <div className="flex justify-between items-start">
           <div>
             <p className="text-lg font-medium text-subheadingWhite">
@@ -325,7 +342,7 @@ export default function StatsCards() {
       </div>
 
       {/* Completed Transfers Card - Now Dynamic */}
-      <div className="bg-primarybox sm:p-6 p-4 rounded-2xl">
+      <div className="bg-primarybox sm:p-6 p-4 rounded-xl">
         <div className="flex justify-between items-start">
           <div>
             <p className="text-lg font-medium text-subheadingWhite">

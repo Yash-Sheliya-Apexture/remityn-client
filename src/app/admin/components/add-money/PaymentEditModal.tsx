@@ -2018,7 +2018,7 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
                 }}
                 aria-label="Close modal"
               >
-                  <IoClose size={28} />
+                  <IoClose size={26} />
               </div>
             </div>
 
@@ -2035,7 +2035,7 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
                     disabled={isFinalStatus || editLoading}
                   />
                   {isFinalStatus && (
-                    <p className="text-xs text-subheadingWhite mt-2 flex items-center gap-1">
+                    <p className="text-sm text-subheadingWhite mt-2 flex items-center gap-1">
                       <AlertCircle size={18} className="text-primary size-4" />
                       This payment has reached a final status and cannot be
                       changed.
@@ -2059,9 +2059,9 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
                     </div>
                     <button
                       onClick={() => copyPaymentId(selectedPaymentForEdit._id)}
-                      className="shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-subheadingWhite bg-secondarybox hover:bg-secondaryboxhover cursor-pointer"
+                      className="shrink-0 h-8 px-3 gap-2 text-xs font-medium transition-all duration-75 ease-linear focus-visible:outline-none rounded-full flex items-center justify-center text-mainheadingWhite bg-secondarybox hover:bg-secondaryboxhover cursor-pointer"
                     >
-                      <Copy className="size-3.5 mr-1" />
+                      <Copy className="size-3.5" />
                       {isPaymentIdCopied ? "Copied!" : "Copy"}
                     </button>
                   </div>
@@ -2088,9 +2088,9 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
                         )
                       }
                       disabled={!selectedPaymentForEdit.referenceCode}
-                      className="shrink-0 h-8 px-2.5 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-md flex items-center justify-center text-subheadingWhite bg-secondarybox hover:bg-secondaryboxhover cursor-pointer"
+                      className="shrink-0 h-8 px-3 gap-2 text-xs font-medium transition-colors duration-150 ease-in-out focus-visible:outline-none rounded-full flex items-center justify-center text-mainheadingWhite bg-secondarybox hover:bg-secondaryboxhover cursor-pointer"
                     >
-                      <Copy className="size-3.5 mr-1" />
+                      <Copy className="size-3.5" />
                       {isReferenceCodeCopied ? "Copied!" : "Copy"}
                     </button>
                   </div>
@@ -2105,7 +2105,7 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
                         Amount
                       </span>
                     </div>
-                    <p className="font-semibold text-lg text-white/90">
+                    <p className="font-semibold text-lg text-mainheadingWhite">
                       {selectedPaymentForEdit.amountToAdd}
                     </p>
                   </div>
@@ -2117,7 +2117,7 @@ const PaymentEditModal: React.FC<PaymentEditModalProps> = ({
                         Currency
                       </span>
                     </div>
-                    <div className="text-sm font-medium rounded-md inline-block px-4 py-1 bg-secondarybox">
+                    <div className="text-sm font-medium rounded-full inline-block px-4 py-1 bg-secondarybox">
                       <span className="text-mainheadingWhite">
                         {selectedPaymentForEdit.payInCurrency?.code || "N/A"}
                       </span>

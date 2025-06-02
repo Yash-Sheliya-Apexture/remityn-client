@@ -6797,9 +6797,9 @@ const KycUserDetailPage: React.FC = () => {
               <Skeleton className="h-4 w-3/4 rounded" />
             </div>
           </div>
-          <Skeleton className="h-8 w-24 rounded-full" />
+          <Skeleton className="h-9 w-27 rounded-full" />
         </CardHeader>
-        <CardContent className="sm:p-6 p-4">
+        <CardContent className="sm:p-6 p-4 border-t">
           <div className="flex md:flex-row flex-col justify-between md:items-center gap-4">
             <Skeleton className="h-5 w-48 rounded" />
             <Skeleton className="h-5 w-48 rounded" />
@@ -6854,7 +6854,7 @@ const KycUserDetailPage: React.FC = () => {
                   <CardHeader className="p-3">
                     <Skeleton className="h-4 w-1/3 rounded" />
                   </CardHeader>
-                  <div className="aspect-[16/10] relative bg-secondarybox/20 flex items-center justify-center">
+                  <div className="aspect-[16/10] relative bg-primarybox flex items-center justify-center">
                     <ImageIcon className="h-12 w-12 text-muted-foreground/30" />
                   </div>
                   <CardFooter className="p-2">
@@ -7008,26 +7008,27 @@ const KycUserDetailPage: React.FC = () => {
   // }
 
   // --- Main Render Logic ---
-  if (isLoading && !userData) {
+  if (isLoading && userData) {
     return (
       <div className="min-h-screen ">
         <div className="container mx-auto px-4 py-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
             <div>
-              <Skeleton className="h-4 w-64 mb-3 rounded " />
-              <Skeleton className="h-8 w-48 rounded " />
+              <Skeleton className="h-10 w-64 mb-3 rounded " />
+              <Skeleton className="h-4 w-48  rounded " />
             </div>
-            <Skeleton className="h-9 w-32 rounded-md " />
+            <Skeleton className="h-12.5 w-50 rounded-full" />
           </div>
           {renderLoading()}
         </div>
       </div>
     );
   }
+
   if (error && !isLoading) {
     // Show error if loading is complete and error exists
     return (
-      <div className="min-h-screen bg-white dark:bg-background relative">
+      <div className="min-h-screen bg-background relative">
         <ToastContainer
           {...customToastContainerProps}
           style={getToastContainerStyle()}
@@ -7049,7 +7050,7 @@ const KycUserDetailPage: React.FC = () => {
   if (!userData && !isLoading) {
     // If no data and not loading (implies an earlier error or user not found)
     return (
-      <div className="min-h-screen bg-white dark:bg-background relative">
+      <div className="min-h-screen bg-background relative">
         <ToastContainer
           {...customToastContainerProps}
           style={getToastContainerStyle()}
@@ -7073,7 +7074,7 @@ const KycUserDetailPage: React.FC = () => {
   // Fallback if userData is somehow still null after checks (should ideally not be hit)
   if (!userData)
     return (
-      <div className="min-h-screen bg-white dark:bg-background relative">
+      <div className="min-h-screen bg-background relative">
         <ToastContainer
           {...customToastContainerProps}
           style={getToastContainerStyle()}
@@ -7094,6 +7095,7 @@ const KycUserDetailPage: React.FC = () => {
         {...customToastContainerProps}
         style={getToastContainerStyle()}
       />
+
       <KycRejectModal
         isOpen={showRejectionModal}
         onClose={() => setShowRejectionModal(false)}
@@ -7113,6 +7115,7 @@ const KycUserDetailPage: React.FC = () => {
       />
       <div className="container mx-auto px-4 py-5">
         <KycDetailHeader userId={userId} />
+
         <div className="overflow-hidden border rounded-xl">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
             <div className="flex items-center gap-4">
@@ -7161,13 +7164,13 @@ const KycUserDetailPage: React.FC = () => {
                 </span>
               )}
               {kyc?.verifiedAt && (
-                <span className="flex items-center gap-2 text-green-600 dark:text-green-400">
+                <span className="flex items-center gap-2 text-green-400">
                   <CheckCircle className="size-5" /> Verified:{" "}
                   {formatDate(kyc.verifiedAt, true)}
                 </span>
               )}
               {kyc?.rejectedAt && (
-                <span className="flex items-center gap-2 text-red-600 dark:text-red-400">
+                <span className="flex items-center gap-2 text-red-400">
                   <XCircle className="size-5" /> Rejected:{" "}
                   {formatDate(kyc.rejectedAt, true)}
                 </span>
@@ -7180,7 +7183,7 @@ const KycUserDetailPage: React.FC = () => {
                 <button
                   onClick={openRejectModal}
                   disabled={!!isProcessingAction}
-                  className="text-base bg-red-600 gap-2 text-white hover:bg-red-700 font-medium rounded-full px-6 py-3 h-12.5 flex justify-center items-center transition-all duration-75 ease-linear cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="bg-red-500 text-white gap-2 flex justify-center items-center hover:bg-red-600 font-medium rounded-full px-8 py-3 h-12.5 text-center cursor-pointer transition-all duration-75 ease-linear sm:w-fit w-full disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <XCircle className="size-5" />
                   Reject Application
@@ -7188,7 +7191,7 @@ const KycUserDetailPage: React.FC = () => {
                 <Button
                   onClick={openApproveModal}
                   disabled={!!isProcessingAction}
-                  className="text-base bg-primary text-mainheading hover:bg-primaryhover dark:bg-primary dark:hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 flex justify-center items-center disabled:opacity-60 disabled:cursor-not-allowed"
+                  className="text-base bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 flex justify-center items-center disabled:opacity-60 disabled:cursor-not-allowed"
                 >
                   <CheckCircle className="size-5" />
                   Approve Application
@@ -7325,7 +7328,7 @@ const KycUserDetailPage: React.FC = () => {
                   {kyc.documents.map((doc) => (
                     <div
                       key={doc.public_id}
-                      className="overflow-hidden border rounded-xl w-full bg-muted/30 dark:bg-muted/20"
+                      className="overflow-hidden border rounded-xl w-full"
                     >
                       <CardHeader className="p-3 bg-primarybox">
                         <CardTitle className="text-sm capitalize text-mainheadingWhite flex items-center gap-1.5">

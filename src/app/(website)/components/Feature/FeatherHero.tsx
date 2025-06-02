@@ -21,11 +21,11 @@ const SecuritySection = () => {
             <div className="space-y-4 text-center md:text-left">
               <div className="space-y-4 text-center md:text-left max-w-4xl mx-auto md:mx-0">
                 <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
-                  Seamless Money{" "}
-                  <span className="text-primary"> Transfers to India</span>
+                  Streamlined Control for{" "}
+                  <span className="text-primary">Seamless Transfers</span>
                 </h3>
                 <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">
-                  Experience a secure, fast, and cost-effective way to send money to your loved ones in India. We offer better rates and a transparent process.
+                  Easily manage your money transfers with track transactions in real time, create and manage currency wallets, add recipients, and monitor exchange rates—all in one secure and streamlined interface.
                 </p>
               </div>
               <div className="flex justify-center md:justify-start mt-8">

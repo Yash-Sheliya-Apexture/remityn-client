@@ -8164,11 +8164,11 @@ export const KycProvider = ({ children }: KycProviderProps) => {
     <KycContext.Provider value={value}>
       {showInitializing && <KycContextLoadingOverlay message="Initializing KYC..." />}
       {showSubmitting && (
-        <div className="fixed inset-0 z-[210] flex justify-center items-center bg-black/60 backdrop-blur-sm" role="alertdialog" aria-live="assertive" aria-busy="true">
-          <div className="text-center text-white p-6 bg-card rounded-lg shadow-lg border border-primary">
+        <div className="fixed inset-0 z-[210] flex justify-center items-center bg-white/15 backdrop-blur-sm" role="alertdialog" aria-live="assertive" aria-busy="true">
+          <div className="text-center p-6 bg-primarybox rounded-xl shadow-lg border">
             <Loader2 className="h-10 w-10 animate-spin text-primary mb-3 mx-auto" />
-            <p className="text-xl font-semibold text-foreground">Submitting Information...</p>
-            <p className="text-sm text-muted-foreground">Please wait...</p>
+            <p className="text-xl font-semibold text-mainheadingWhite">Submitting Information...</p>
+            <p className="text-sm text-subheadingWhite">Please wait...</p>
           </div>
         </div>
       )}

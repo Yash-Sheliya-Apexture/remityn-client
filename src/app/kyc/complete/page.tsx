@@ -521,7 +521,7 @@ export default function KycCompletePage() {
       return (
           <div className="flex justify-center items-center min-h-[400px]">
               {/* Use muted color if definitely not logged in */}
-              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
       );
   }
@@ -529,24 +529,24 @@ export default function KycCompletePage() {
   // --- Main Complete Content ---
   return (
     // Adopt layout and max-width from Pending page
-    <div className="mx-auto max-w-2xl py-8 px-4">
+    <div className="mx-auto lg:max-w-2xl w-full">
       {/* Adopt Card styling from Pending page - standard border, shadow, animation */}
-      <Card className="w-full border-border/50 shadow-none animate-fadeIn overflow-hidden">
+      <Card className="bg-background w-full border shadow-none animate-fadeIn overflow-hidden">
         {/* Adopt Header structure and styling from Pending page */}
-        <CardHeader className="items-center text-center p-4 md:p-8 bg-accent">
+        <CardHeader className="items-center text-center p-4 md:p-8 bg-primarybox">
           {/* Icon Container - styled with Green theme */}
           <div className="mb-4 w-full inline-flex justify-center">
-            <div className="h-16 w-16 flex items-center justify-center rounded-full bg-green-100 dark:bg-green-900/40 text-green-600 dark:text-green-400 border border-green-200 dark:border-green-700 shadow-inner">
+            <div className="h-16 w-16 flex items-center justify-center rounded-full bg-green-600/25 text-green-600 border border-green-600 ">
               <CheckCircle className="h-8 w-8" />
             </div>
           </div>
           {/* Title - Adopt font styling from Pending */}
-          <CardTitle className="sm:text-2xl text-xl font-semibold tracking-tight text-mainheading dark:text-white">
+          <CardTitle className="text-2xl font-semibold tracking-tight text-mainheadingWhite">
             Verification Successful!{" "}
             <PartyPopper className="inline-block h-6 w-6 ml-1 mb-1 text-yellow-500 animate-bounce" />
           </CardTitle>
           {/* Description - Adopt styling from Pending */}
-          <CardDescription className="sm:text-base text-sm text-gray-500 dark:text-gray-300 mt-1 px-4">
+          <CardDescription className="text-base text-subheadingWhite mt-1">
             Congratulations
             {user.fullName ? `, ${user.fullName.split(" ")[0]}` : ""}! Your
             identity has been verified.
@@ -554,7 +554,7 @@ export default function KycCompletePage() {
           {/* Badge - Adopt structure/styling from Pending, use Green theme */}
           <Badge
             variant="outline"
-            className="mt-3 text-sm border-0 rounded-full font-medium text-green-700 bg-green-100 dark:bg-green-600/20 dark:text-green-400 px-4 py-2 w-28"
+            className="mt-3 text-sm border-0 rounded-full font-medium bg-green-600/25 text-green-500 px-4 py-2 w-28"
           >
             Verified
           </Badge>
@@ -563,7 +563,7 @@ export default function KycCompletePage() {
         {/* Adopt Content structure from Pending page */}
         <CardContent className="p-4 md:p-8 space-y-6">
           {/* Introductory Text - Adopt styling from Pending */}
-          <div className="text-center text-gray-500 dark:text-gray-300 sm:text-lg text-base">
+          <div className="text-center text-mainheadingWhite sm:text-lg text-base">
             <p className="">Welcome aboard!</p>
             <p className="mt-1">
               You now have{" "}
@@ -575,42 +575,42 @@ export default function KycCompletePage() {
           <Separator className="my-6" />
 
           {/* Alerts - Adopt structure/styling from Pending, adapt content */}
-          <Alert className="rounded-lg p-4">
-            <ShieldCheck className="h-5 w-5 flex-shrink-0 mt-1 text-green-600 dark:text-green-500" />{" "}
+          <div className="p-4 border flex gap-4 rounded-lg">
+            <ShieldCheck className="h-5 w-5 flex-shrink-0 mt-1 text-green-500" />{" "}
             {/* Success Icon */}
             <div>
-              <AlertTitle className="font-medium text-neutral-900 dark:text-white tracking-normal text-base">
+              <AlertTitle className="font-medium text-mainheadingWhite tracking-normal text-base mb-1">
                 Verification Complete
               </AlertTitle>
-              <AlertDescription className="text-gray-500 dark:text-gray-300">
+              <AlertDescription className="text-subheadingWhite">
                 Your identity documents have been successfully reviewed and
                 approved.
               </AlertDescription>
             </div>
-          </Alert>
+          </div>
 
-          <Alert className="rounded-lg p-4">
+          <div className="p-4 border flex gap-4 rounded-lg">
             <Star className="h-5 w-5 flex-shrink-0 mt-1 text-yellow-500" />{" "}
             {/* Feature/Access Icon */}
             <div>
-              <AlertTitle className="font-medium text-neutral-900 dark:text-white tracking-normal text-base">
+              <AlertTitle className="font-medium text-mainheadingWhite tracking-normal text-base mb-1">
                 Full Access Unlocked
               </AlertTitle>
-              <AlertDescription className="text-gray-500 dark:text-gray-300">
+              <AlertDescription className="text-subheadingWhite">
                 Explore your dashboard and utilize all the features available to
                 verified users.
               </AlertDescription>
             </div>
-          </Alert>
+          </div>
         </CardContent>
 
         {/* Adopt Footer structure from Pending page */}
-        <CardFooter className="flex flex-col sm:flex-row gap-3 p-4 md:p-8 bg-bg-accent border-t">
+        <CardFooter className="flex flex-col sm:flex-row gap-3 p-4 md:p-8 border-t">
           {/* Adopt button styling from Pending, but use green gradient for primary action */}
           <button
             onClick={handleGoToDashboard}
             // Combine custom styles from Pending's button with the gradient from original Complete button
-            className="inline-flex items-center justify-center bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
+            className="inline-flex items-center justify-center bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
           >
             <LayoutDashboard className="mr-2 h-4 w-4" /> Proceed to Dashboard
           </button>

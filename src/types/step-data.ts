@@ -11,8 +11,6 @@ export interface StepData {
   id: number;
   iconDefault: IconType;
   iconActive: IconType;
-  title: string;
-  subtitle: string;
   contentTitle: string;
   contentSubtitle: React.ReactNode;
   contentImages: {

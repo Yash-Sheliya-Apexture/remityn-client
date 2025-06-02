@@ -15,6 +15,7 @@ export interface StepData {
   contentSubtitle: React.ReactNode;
   contentImages: {
     img: string;
+    imgTitle: string; // <-- ADD THIS LINE
   };
   contentBlocks?: ContentBlock[];
 }

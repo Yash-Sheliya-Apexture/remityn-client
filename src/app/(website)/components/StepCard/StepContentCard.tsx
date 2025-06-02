@@ -1884,6 +1884,7 @@ const stepsData: StepData[] = [
     contentSubtitle: "Sign up quickly with our instant account setup by providing basic details. Complete a simple KYC verification process to unlock full access, including wallet creation and international money transfers.",
     contentImages: {
       img: "/assets/images/Register-and-verify.png",
+      imgTitle: "Remityn showing registration and verification screen", // <-- ADDED
     },
     contentBlocks: [
       { text: "Instant account setup", type: "success" },
@@ -1899,6 +1900,8 @@ const stepsData: StepData[] = [
     contentSubtitle: "You can easily create a digital wallet for currencies like USD, EUR, or GBP. Then you can add funds to your wallet via bank transfer. Once the funds are added, you are ready to transfer money to India.",
     contentImages: {
       img: "/assets/images/Create-a-Digital-Wallet.png",
+      imgTitle: "Remityn showing add fund screen", // <-- ADDED
+
     },
     contentBlocks: [
       { text: "Choose your currency", type: "success" },
@@ -1914,6 +1917,7 @@ const stepsData: StepData[] = [
     contentSubtitle: "After the money is deposited in your wallet, you can add a recipient. In which you can add the recipient by entering the details like the recipient's full name, their bank account number, IFSC code of their Indian bank, etc. once the recipient details are added, you can save them for future use. and You can also easily manage multiple recipients",
     contentImages: {
       img: "/assets/images/Add-Recipients.png",
+      imgTitle: "Remityn showing add recipients screen with a list of recipients", // <-- ADDED
     },
     contentBlocks: [
       { text: "Manage multiple recipients", type: "success" },
@@ -1929,6 +1933,7 @@ const stepsData: StepData[] = [
     contentSubtitle: "Finally, to initiate your transfer, select your funded currency wallet and the intended Indian recipient, then enter the amount you wish to send money. You can track the status of the transaction after you confirm the transaction.",
     contentImages: {
       img: "/assets/images/Transfer-Money.png",
+      imgTitle: "Remityn showing transfer money screen with currency conversion details", // <-- ADDED
     },
     contentBlocks: [
       { text: "Initiate your transfer", type: "success" },
@@ -2006,7 +2011,7 @@ const StepCardContent: React.FC = () => {
     <section ref={sectionRef} className="StePCardSection relative  py-10 lg:py-16">
       <div className="container mx-auto px-4">
         <div className="space-y-4 text-center">
-          <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+          <h3 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-mainheadingWhite">
             4 easy steps to<span className="text-primary"> Transfer to India </span>
           </h3>
           <p className="text-subheadingWhite md:text-lg text-base lg:max-w-4xl max-w-full mx-auto">

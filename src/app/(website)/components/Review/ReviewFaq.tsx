@@ -99,12 +99,12 @@ const ReviewFaq: React.FC = () => {
   return (
     <section className="lg:py-20 py-5 overflow-hidden" id="faq">
       <div className="container mx-auto px-4">
-        <div className="lg:max-w-3xl max-w-full mb-12 md:mb-16 lg:mb-20">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold capitalize mb-6 max-w-2xl leading-tight text-mainheadingWhite">
+        <div className="mb-12 md:mb-16 lg:mb-20">
+          <h3 className="text-4xl md:text-5xl xl:text-6xl font-bold capitalize mb-6 lg:max-w-2xl max-w-full leading-tight text-mainheadingWhite">
             Your questions, <span className="text-primary">answered.</span>
-          </h2>
+          </h3>
 
-          <p className="text-subheadingWhite md:text-lg text-base lg:max-w-3xl max-w-full">
+          <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">
             Find clear, concise answers to the most common questions about our
             services. Whether you're new or a returning customer, we've covered
             everything you need to know — from how it works to what sets us

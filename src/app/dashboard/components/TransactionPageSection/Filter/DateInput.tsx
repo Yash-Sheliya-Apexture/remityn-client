@@ -223,7 +223,7 @@ const DateInput: React.FC<DateInputProps> = ({
           <input
             ref={inputRef}
             type="text"
-            className="block px-4 py-3 text-white/90 placeholder:text-gray-400 bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 focus:border-gray-500"
+            className="block px-4 py-3 text-mainheadingWhite placeholder:text-mainheadingWhite bg-background h-14 w-full border rounded-lg transition-all focus:outline-none ease-linear duration-75 focus:border-gray-500"
             placeholder={placeholder}
             value={displayValue}
             onClick={toggleCalendar}

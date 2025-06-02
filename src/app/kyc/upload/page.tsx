@@ -1729,7 +1729,7 @@ const FileInput: React.FC<FileInputProps> = ({
     <div className="space-y-2">
       <label
         htmlFor={id}
-        className="text-sm text-neutral-900 dark:text-white font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center"
+        className="text-mainheadingWhite block capitalize text-sm lg:text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
       >
         {label} {/* Add red asterisk if required */}
         {required && <span className="text-red-600 ml-1">*</span>}
@@ -1739,7 +1739,7 @@ const FileInput: React.FC<FileInputProps> = ({
         <div
           className={cn(
             "p-4 border rounded-lg flex flex-col sm:flex-row items-center gap-3 relative", // Added relative for potential absolute positioning inside
-            "border-green-600 bg-green-50 dark:bg-green-900/20 dark:border-green-700" // Adjusted colors
+            " bg-green-900/25 border-green-500" // Adjusted colors
           )}
         >
           {/* Preview Area */}
@@ -1761,12 +1761,12 @@ const FileInput: React.FC<FileInputProps> = ({
           {/* File Info */}
           <div className="flex-grow text-sm text-center sm:text-left overflow-hidden space-y-1">
             <p
-              className="font-medium text-green-800 dark:text-green-400 break-words" // Use break-words
+              className="font-medium text-green-400 break-words" // Use break-words
               title={file.name}
             >
               {file.name}
             </p>
-            <p className="text-xs text-gray-500 dark:text-gray-300">
+            <p className="text-sm text-white/90">
               {file.type} - {(file.size / 1024 / 1024).toFixed(2)} MB
             </p>
           </div>
@@ -1775,8 +1775,8 @@ const FileInput: React.FC<FileInputProps> = ({
             type="button"
             onClick={handleRemoveFile}
             className={cn(
-              "inline-flex items-center justify-center text-red-600",
-              "bg-red-100 dark:bg-red-600/20 hover:bg-red-200 dark:hover:bg-red-600/30",
+              "inline-flex items-center justify-center text-red-500",
+              "bg-red-600/25 hover:bg-red-800/30",
               "ml-0 mt-2 sm:mt-0 sm:ml-2 py-1.5 px-4 rounded-full text-sm font-medium transition-all duration-75 ease-linear", // Adjusted padding/size
               disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
             )}
@@ -1797,17 +1797,17 @@ const FileInput: React.FC<FileInputProps> = ({
                 ? "opacity-50 cursor-not-allowed bg-muted/50 border-gray-300 dark:border-gray-700"
                 : "",
               error
-                ? "bg-red-100 dark:bg-red-600/10 border-red-600 hover:bg-red-500/20 dark:hover:bg-red-500/20"
-                : "bg-background hover:bg-accent border-input hover:border-primary dark:border-input dark:hover:border-primary"
+                ? "bg-red-600/25 hover:bg-red-800/30 border-red-500 hover:border-red-500/90"
+                : "bg-primarybox hover:bg-primaryboxhover border-primary hover:border-primaryhover"
             )}
           >
             <div className="flex flex-col items-center justify-center pt-5 pb-6 text-center px-2">
               <UploadCloud
                 className={cn(
-                  "w-8 h-8 mb-3",
+                  "w-6 h-6 mb-3",
                   error
-                    ? "text-red-500 dark:text-red-400"
-                    : "text-gray-400 dark:text-gray-500"
+                    ? "text-red-400"
+                    : "text-white/90"
                 )}
                 aria-hidden="true"
               />
@@ -1815,8 +1815,8 @@ const FileInput: React.FC<FileInputProps> = ({
                 className={cn(
                   "mb-1 text-sm",
                   error
-                    ? "text-red-500 dark:text-red-400"
-                    : "text-gray-500 dark:text-gray-400"
+                    ? "text-red-500"
+                    : "text-mainheadingWhite"
                 )}
               >
                 <span className="font-semibold">Click to upload</span> or drag &
@@ -1826,8 +1826,8 @@ const FileInput: React.FC<FileInputProps> = ({
                 className={cn(
                   "text-xs",
                   error
-                    ? "text-red-500 dark:text-red-400"
-                    : "text-gray-500 dark:text-gray-400"
+                    ? "text-red-400"
+                    : "text-subheadingWhite"
                 )}
               >
                 {ACCEPTED_FILE_TYPES_STRING} (MAX. {maxSizeMB}MB)
@@ -1980,14 +1980,14 @@ export default function KycUploadPage() {
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto shadow-none border animate-fadeIn sm:p-8 p-4">
+    <Card className="w-full lg:max-w-2xl max-w-full mx-auto shadow-none border animate-fadeIn sm:p-8 p-4 bg-transparent">
       <CardHeader className="border-b mb-6 pb-6 space-y-2">
-        <CardTitle className="sm:text-2xl text-xl font-semibold tracking-tight flex items-start gap-2 text-mainheading dark:text-white">
-          <UploadCloud className="h-6 w-6 text-primary mt-1" />
+        <CardTitle className="sm:text-2xl text-xl font-semibold tracking-normal flex items-start gap-2 text-mainheadingWhite">
+          <UploadCloud className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
           Upload Documents (Step {formStepOrder.indexOf("upload") + 1} of{" "}
           {formStepOrder.length})
         </CardTitle>
-        <CardDescription className="text-gray-500 dark:text-gray-300">
+        <CardDescription className="text-subheadingWhite">
           Upload clear images or PDFs of your selected 
           <span className="font-semibold">{idTypeDisplayName}</span>. Ensure all
           text and photo are readable. Fields marked with{" "}
@@ -1998,15 +1998,15 @@ export default function KycUploadPage() {
         {" "}
         {/* Increased spacing */}
         {formError && (
-          <Alert className="bg-red-50 dark:bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
+          <Alert className="bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
             <div className="flex-shrink-0 sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20">
-              <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+              <AlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
             </div>
             <div>
-              <AlertTitle className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
+              <AlertTitle className="font-medium tracking-normal text-red-600 text-base">
                 Missing Documents
               </AlertTitle>
-              <AlertDescription className="text-red-700 dark:text-red-300/90">
+              <AlertDescription className="text-red-300/90">
                 {formError}
               </AlertDescription>
             </div>
@@ -2055,7 +2055,7 @@ export default function KycUploadPage() {
           {/* Increased margin-top */}
           <button
             type="button"
-            className="inline-flex items-center justify-center bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+            className="inline-flex items-center justify-center text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
             onClick={prevStep}
             disabled={isProcessing} // Disable back button while processing next step
           >

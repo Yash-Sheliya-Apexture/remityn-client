@@ -1225,10 +1225,7 @@ import {
 
 import { cn } from "@/lib/utils";
 import { FiSearch } from "react-icons/fi";
-import {
-  MdCancel,
-  MdManageAccounts,
-} from "react-icons/md";
+import { MdCancel, MdManageAccounts } from "react-icons/md";
 import { Skeleton } from "@/components/ui/skeleton";
 
 // Import Pagination Component
@@ -1461,7 +1458,6 @@ const KycManagementPage: React.FC = () => {
         {searchQuery ? "No Matches Found" : "All Clear KYC !"}
       </h2>
 
-
       <p className="text-subheadingWhite max-w-lg mx-auto">
         {searchQuery
           ? "No applications match your current search query."
@@ -1515,9 +1511,7 @@ const KycManagementPage: React.FC = () => {
               <span
                 className={cn(
                   "relative z-10 flex items-center font-medium gap-1.5",
-                  sortBy === "date"
-                    ? "text-mainheading"
-                    : "text-white"
+                  sortBy === "date" ? "text-mainheading" : "text-white"
                 )}
               >
                 <Calendar className="h-4 w-4" /> Date
@@ -1541,9 +1535,7 @@ const KycManagementPage: React.FC = () => {
               <span
                 className={cn(
                   "relative z-10 flex items-center font-medium gap-1.5",
-                  sortBy === "name"
-                    ? "text-mainheading"
-                    : "text-white"
+                  sortBy === "name" ? "text-mainheading" : "text-white"
                 )}
               >
                 <SortAsc className="h-4 w-4" /> Name
@@ -1626,10 +1618,10 @@ const KycManagementPage: React.FC = () => {
               {/* Link to review page */}
               <Link
                 href={`/admin/kyc-management/${user._id}`}
-                className="mt-3 sm:mt-0 inline-flex items-center justify-center sm:justify-start gap-1 text-sm font-semibold px-4 py-2 text-mainheading bg-primary rounded-full transition-all duration-75 ease-linear sm:flex-shrink-0"
+                className="mt-3 sm:mt-0 inline-flex items-center justify-center sm:justify-start gap-1 text-sm font-semibold px-4 py-3 text-mainheading bg-primary rounded-full transition-all duration-75 ease-linear sm:flex-shrink-0"
               >
                 Review<span className="sr-only">, {user.fullName}</span>
-                <ChevronRight className="h-4 w-4" />
+                <ChevronRight className="size-5" />
               </Link>
             </motion.li>
           ))}
@@ -1672,7 +1664,7 @@ const KycManagementPage: React.FC = () => {
       <button
         onClick={() => fetchPendingUsers(true)} // Always trigger refresh
         disabled={isRefreshing || isLoading} // Disable during initial load or refresh
-        className="flex items-center justify-center cursor-pointer font-medium gap-2 text-mainheading bg-primary hover:bg-primaryhover sm:px-8 sm:py-3 h-12.5 sm:w-auto w-12.5 rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
+        className="flex items-center justify-center cursor-pointer font-medium gap-2 text-primary bg-primarybox hover:bg-secondarybox sm:px-8 sm:py-3 h-12.5 sm:w-auto w-12.5  rounded-full transition-all duration-75 ease-linear disabled:opacity-60 disabled:cursor-not-allowed"
         title="Refresh KYC Application List"
       >
         <RefreshCw
@@ -1740,8 +1732,8 @@ const KycManagementPage: React.FC = () => {
           ) : (
             <div className="Management">
               <div className="flex items-center gap-3">
-                <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
-                  <MdManageAccounts className="size-6 text-mainheading" />
+                <div className="p-2.5 shrink-0 bg-primary rounded-full flex items-center justify-center">
+                  <MdManageAccounts className="text-mainheading" size={26} />
                 </div>
 
                 <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
@@ -1749,10 +1741,13 @@ const KycManagementPage: React.FC = () => {
                 </h1>
               </div>
 
-              <p className="mt-2 text-subheadingWhite lg:text-lg">
-                Easily review and manage Know Your Customer (KYC) applications.
-                Track pending verifications and ensure compliance with secure
-                identity checks — all from one central dashboard.{" "}
+              <p className="mt-2 text-subheadingWhite text-base lg:text-lg">
+                Simplify identity verification and regulatory compliance with
+                the powerful KYC Management system. Effortlessly review,
+                approve, or reject Know Your Customer (KYC) applications through
+                a secure and centralized dashboard. Track pending, approved, and
+                rejected submissions in real time, and view detailed user
+                documents with full audit logs.
               </p>
             </div>
           )}
@@ -1777,7 +1772,7 @@ const KycManagementPage: React.FC = () => {
               {/* Actual Section Title */}
               <h2 className="inline-flex items-center gap-2 text-xl font-bold text-mainheadingWhite flex-shrink-0">
                 <FileClock className="h-5 w-5 text-primary" />
-                Pending 
+                Pending
               </h2>
 
               {/* Actual Controls (Rendered only if no initial load error) */}
@@ -1817,7 +1812,7 @@ const KycManagementPage: React.FC = () => {
                   ))}
                 </select>
                 <span className="text-sm font-medium text-subheadingWhite whitespace-nowrap">
-                  entries
+                  Entries
                 </span>
               </div>
               <p className="text-sm text-subheadingWhite">

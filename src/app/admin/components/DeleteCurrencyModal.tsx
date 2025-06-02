@@ -77,7 +77,7 @@ const DeleteCurrencyModal: React.FC<DeleteCurrencyModalProps> = ({
               Delete Currency ?
             </h3>
 
-            <p className="text-secondheadingWhite font-medium">
+            <p className="text-subheadingWhite font-medium">
               Confirmation modal to delete a selected currency, warning the
               admin that this action is irreversible.
             </p>

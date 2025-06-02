@@ -1752,8 +1752,7 @@
 
 // export default AdminTransfersPage;
 
-
-// new latest code 
+// new latest code
 // frontend/src/app/admin/transfers/page.tsx
 "use client";
 import React, { useState, useEffect, useCallback, useMemo } from "react"; // Added useMemo
@@ -2271,7 +2270,7 @@ const AdminTransfersPage: React.FC = () => {
         <div className="flex sm:flex-row flex-col justify-between items-center gap-3">
           <div className="Management">
             <div className="flex items-center gap-3">
-              <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+              <div className="p-2.5 shrink-0 bg-primary rounded-full flex items-center justify-center">
                 <BsSend className="size-6 text-mainheading" />
               </div>
 
@@ -2280,10 +2279,11 @@ const AdminTransfersPage: React.FC = () => {
               </h1>
             </div>
 
-            <p className="mt-2 text-subheadingWhite lg:text-lg">
-              Track and manage all money transfers seamlessly with clear
-              recipient details, currency types, and real-time transaction
-              statuses.
+            <p className="mt-2 text-subheadingWhite text-base lg:text-lg max-w-5xl">
+              Streamline your entire money transfer process with the Send-Money
+              Management system. Effortlessly track and manage all outgoing
+              transfers with real-time visibility into transaction statuses,
+              recipient details, and currency types.
             </p>
           </div>
 
@@ -2335,9 +2335,10 @@ const AdminTransfersPage: React.FC = () => {
               ))}
             </select>
             <span className="text-sm font-medium text-subheadingWhite whitespace-nowrap">
-              entries
+              Entries
             </span>
           </div>
+          
           <p className="text-sm text-subheadingWhite">
             Showing{" "}
             {filteredTransfers.length > 0

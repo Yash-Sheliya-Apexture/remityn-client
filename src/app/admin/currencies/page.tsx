@@ -6684,24 +6684,26 @@ interface ApiErrorResponse {
 }
 
 const LoadingSkeleton = () => (
-  <div className="container mx-auto px-4 py-5 bg-primarybox">
+  <div className="container mx-auto px-4 py-5">
     <div className="space-y-6">
       <div className="pb-6 mb-6 border-b">
         <div className="flex gap-3 items-center">
-          <Skeleton className="size-12 rounded-full mb-3 bg-background/50" />
-          <Skeleton className="h-9 w-3/5 sm:w-1/5 rounded mb-3 bg-background/50" />
+          <Skeleton className="size-12 rounded-full mb-3" />
+          <Skeleton className="h-9 w-3/5 sm:w-1/5 rounded mb-3" />
         </div>
         <div className="space-y-1.5">
-          <Skeleton className="h-4 w-full sm:w-3/4 rounded bg-background/50" />
-          <Skeleton className="h-4 w-full sm:w-1/2 rounded sm:hidden block bg-background/50" />
-          <Skeleton className="h-4 w-40 sm:w-1/2 rounded sm:hidden block bg-background/50" />
+          <Skeleton className="h-4 w-full rounded" />
+          <Skeleton className="h-4 w-full sm:w-1/2 rounded" />
+          <Skeleton className="h-4 w-full sm:w-1/2 rounded sm:hidden block" />
+          <Skeleton className="h-4 w-40 sm:w-1/2 rounded sm:hidden block" />
         </div>
       </div>
 
       <div className="flex sm:justify-between flex-row w-full items-center mb-6 gap-4">
-        <Skeleton className="size-12.5 sm:w-50 rounded-full bg-background/50" />
-        <Skeleton className="h-12.5 flex-1 sm:flex-none sm:w-70 rounded-full bg-background/50" />
+        <Skeleton className="size-12.5 sm:w-50 rounded-full" />
+        <Skeleton className="h-12.5 flex-1 sm:flex-none sm:w-70 rounded-full" />
       </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {Array.from({ length: 8 }).map((_, index) => (
           <div
@@ -6710,23 +6712,23 @@ const LoadingSkeleton = () => (
           >
             <div className="lg:p-5 p-4 flex-grow">
               <div className="flex items-center gap-4 mb-4">
-                <Skeleton className="size-14 rounded-full flex-shrink-0 bg-background/50" />
+                <Skeleton className="size-14 rounded-full flex-shrink-0" />
                 <div className="flex-1 space-y-1.5">
-                  <Skeleton className="h-7 w-1/3 rounded bg-background/50" />
-                  <Skeleton className="h-5 w-2/3 rounded bg-background/50" />
+                  <Skeleton className="h-7 w-1/3 rounded" />
+                  <Skeleton className="h-5 w-2/3 rounded" />
                 </div>
               </div>
               <div className="p-3 space-y-2 rounded-lg border">
-                <Skeleton className="h-6 w-1/4 rounded bg-background/50 mb-1" />
-                <Skeleton className="h-7 w-1/2 rounded bg-background/50" />
-                <Skeleton className="h-6 w-full rounded bg-background/50 mt-1" />
+                <Skeleton className="h-6 w-1/4 rounded mb-1" />
+                <Skeleton className="h-7 w-1/2 rounded" />
+                <Skeleton className="h-6 w-full rounded mt-1" />
               </div>
             </div>
             <div className="border-t p-4">
               <div className="flex w-full gap-2">
-                <Skeleton className="h-12.5 flex-1 rounded-full bg-background/50" />
-                <Skeleton className="h-12.5 flex-1 rounded-full bg-background/50" />
-                <Skeleton className="h-12.5 flex-1 rounded-full bg-background/50" />
+                <Skeleton className="h-12.5 flex-1 rounded-full" />
+                <Skeleton className="h-12.5 flex-1 rounded-full" />
+                <Skeleton className="h-12.5 flex-1 rounded-full" />
               </div>
             </div>
           </div>
@@ -7081,7 +7083,7 @@ const AdminCurrenciesPage: React.FC = () => {
         />
         <LoadingSkeleton />
       </div>
-    );  
+    );
   }
 
   return (
@@ -7094,7 +7096,6 @@ const AdminCurrenciesPage: React.FC = () => {
       <div className="space-y-6">
         <div className="Activity pb-6 mb-6 border-b">
           <div className="flex items-center gap-3">
-
             <div className="p-2.5 shrink-0 bg-primary rounded-full flex items-center justify-center">
               <FaCoins className="text-mainheading" size={26} />
             </div>
@@ -7105,8 +7106,11 @@ const AdminCurrenciesPage: React.FC = () => {
           </div>
 
           <p className="mt-2 text-subheadingWhite text-base lg:text-lg">
-            Easily manage all supported currencies, customize rates, and
-            maintain real-time control over your exchange offerings.
+            Take full control of your currency exchange operations with our
+            intuitive Currency Management system. Effortlessly handle all
+            supported currencies, update and customize exchange rates to suit
+            your business needs, and ensure accuracy with real-time rate
+            adjustments.
           </p>
         </div>
 
@@ -7155,19 +7159,24 @@ const AdminCurrenciesPage: React.FC = () => {
         {/* loding chalu karavanu che */}
         {isLoading &&
           currencies.length > 0 && ( // Show loader overlay if loading but already have some data
-            <div className="fixed inset-0 bg-black/50 backdrop-blur-[1px] h-screen flex items-center justify-center z-50">
+            <div className="fixed gap-2 inset-0 bg-black/50 backdrop-blur-[1px] capitalize h-screen flex items-center justify-center z-50">
               <Loader2 size={48} className="text-primary animate-spin" />
+              <p className="text-mainheadingWhite font-medium">
+                Loading currency data...
+              </p>
             </div>
           )}
 
         {!isLoading && filteredCurrencies.length === 0 ? (
           <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
-            <div className="lg:size-16 size-14 flex items-center justify-center bg-primary rounded-full mb-2">
-              <MdCurrencyRupee className="lg:size-8 size-6 mx-auto text-mainheading" />
+            <div className="lg:size-12 size-10 flex items-center justify-center bg-primary rounded-full mb-2">
+              <MdCurrencyRupee className="lg:size-6 size-4 mx-auto text-mainheading" />
             </div>
+
             <h2 className="lg:text-3xl text-2xl font-medium text-mainheadingWhite mt-1">
               No currencies found
             </h2>
+
             <p className="text-subheadingWhite max-w-lg mx-auto">
               Currently, there are no currencies available that match your
               search or filter criteria.
@@ -7218,7 +7227,6 @@ const AdminCurrenciesPage: React.FC = () => {
                       </p>
                     </div>
                   </div>
-
 
                   <div className="p-3 space-y-2 rounded-lg border">
                     <label className="font-medium text-subheadingWhite mb-1 flex items-center gap-1">
@@ -7343,7 +7351,7 @@ const AdminCurrenciesPage: React.FC = () => {
                         className="flex-1 flex cursor-pointer justify-center items-center gap-1.5 border text-red-600 font-medium lg:px-6 px-4 py-3 h-12.5 rounded-full transition-all duration-75 ease-linear focus:outline-none"
                       >
                         <IoMdCloseCircle size={20} />
-                        <span>Cancel</span> 
+                        <span>Cancel</span>
                       </button>
                     </div>
                   ) : (

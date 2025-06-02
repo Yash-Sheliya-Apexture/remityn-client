@@ -94,13 +94,11 @@
 
 // export default TransferHeader;
 
-
 //src/app/admin/components/transfers/TransferHeader.tsx
 "use client";
 import React from "react";
 import Link from "next/link";
-import { ChevronRight, ArrowLeft } from "lucide-react"; // ChevronRight not used, can remove
-import { Button } from "@/components/ui/button"; // Button not used, can remove
+import { ArrowLeft } from "lucide-react"; // ChevronRight not used, can remove
 import { BsSend } from "react-icons/bs";
 
 interface TransferHeaderProps {
@@ -114,8 +112,9 @@ const TransferHeader: React.FC<TransferHeaderProps> = ({ transferId }) => {
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
       <div className="Management">
         <div className="flex items-center gap-3">
-          <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
-            <BsSend className="size-6 text-mainheading" />
+          <div className="
+          p-2.5 shrink-0 bg-primary rounded-full flex items-center justify-center">
+            <BsSend className="size-6 text-mainheading" size={26} />
           </div>
 
           <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
@@ -123,17 +122,19 @@ const TransferHeader: React.FC<TransferHeaderProps> = ({ transferId }) => {
           </h1>
         </div>
 
-        <p className="mt-2 text-subheadingWhite lg:text-lg">
-          Track money transfers seamlessly with clear recipient
-          details, currency types, and real-time transaction statuses.
+        <p className="mt-2 text-subheadingWhite text-base lg:text-lg max-w-5xl">
+          Access in-depth information on every money transfer with the Send
+          Money Details feature. Get a clear view of each transaction, including
+          recipient information, selected currency, transfer amount, applied
+          exchange rate, and real-time status updates
         </p>
       </div>
 
       <Link
         href="/admin/transfers" // Corrected link from /admin/transfer to /admin/transfers
-        className="flex items-center bg-primary text-mainheading hover:bg-primaryhover h-12.5 px-8 py-3 cursor-pointer font-medium rounded-full sm:w-auto w-full justify-center transition-all duration-75 ease-linear"
+        className="flex items-center text-mainheading gap-2 bg-primary px-6 py-3 cursor-pointer font-medium rounded-full sm:w-auto w-full justify-center transition-all duration-75 ease-linear"
       >
-        <ArrowLeft className="size-5 mr-1.5" />
+        <ArrowLeft className="size-5" />
         All Transfers
       </Link>
     </div>

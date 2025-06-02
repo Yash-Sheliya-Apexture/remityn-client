@@ -9157,8 +9157,6 @@
 
 // export default AdminPaymentsPage;
 
-
-
 // frontend/src/app/admin/payments/page.tsx
 "use client";
 import React, { useState, useEffect, useCallback, useMemo } from "react";
@@ -9783,8 +9781,9 @@ const AdminPaymentsPage: React.FC = () => {
         <div className="flex sm:flex-row flex-col justify-between items-center gap-3">
           <div className="Add-Money">
             <div className="flex items-center gap-3">
-              <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
-                <TbMoneybag className="size-6 text-mainheading" />
+
+              <div className="p-2.5 shrink-0 bg-primary rounded-full flex items-center justify-center">
+                <TbMoneybag className="text-mainheading" size={26} />
               </div>
 
               <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
@@ -9792,9 +9791,11 @@ const AdminPaymentsPage: React.FC = () => {
               </h1>
             </div>
 
-            <p className="mt-2 text-subheadingWhite lg:text-lg">
-              Track and manage all incoming payments, statuses, and user
-              transactions in real time with full control and visibility.
+            <p className="mt-2 text-subheadingWhite text-base lg:text-lg max-w-5xl">
+              Efficiently oversee all incoming funds with the Add-Money
+              Management system. Monitor user deposits, track payment statuses,
+              and manage every transaction in real time from a single, intuitive
+              dashboard.
             </p>
           </div>
 
@@ -9845,7 +9846,7 @@ const AdminPaymentsPage: React.FC = () => {
               ))}
             </select>
             <span className="text-sm font-medium text-subheadingWhite whitespace-nowrap">
-              entries
+              Entries
             </span>
           </div>
           <p className="text-sm text-subheadingWhite">

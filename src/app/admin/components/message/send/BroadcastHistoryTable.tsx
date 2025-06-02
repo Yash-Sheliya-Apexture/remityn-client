@@ -2152,7 +2152,6 @@
 
 // export default BroadcastHistoryTable;
 
-
 // frontend/src/app/components/message/send/BroadcastHistoryTable.tsx
 import React, { useEffect, useState } from "react";
 import { format, formatDistanceToNow } from "date-fns";
@@ -2321,10 +2320,7 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
             {Array(skeletonRowCount)
               .fill(0)
               .map((_, i) => (
-                <tr
-                  key={`skel-batch-${i}`}
-                  className="border-b"
-                >
+                <tr key={`skel-batch-${i}`} className="border-b">
                   {Array(numberOfColumns) // Use numberOfColumns here
                     .fill(0)
                     .map((_, j) => (
@@ -2388,15 +2384,17 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
         <div className="flex items-start sm:items-center justify-between mb-6 gap-4">
           <div className="Broadcast-History">
             <div className="flex items-center gap-3">
-              <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+              <div className="p-2.5 shrink-0 bg-primary rounded-full flex items-center justify-center">
                 <FaBroadcastTower className="size-6 text-mainheading dark:text-primary" />
               </div>
-              <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite dark:text-primary">
+              <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
                 Broadcast History
               </h1>
             </div>
-            <p className="text-subheadingWhite lg:text-lg">
-              Review and manage previously sent broadcast messages.
+            <p className="mt-2 text-subheadingWhite text-base lg:text-lg max-w-5xl">
+              track of all your past communications with the Broadcast History
+              feature. Easily review previously sent broadcast messages,
+              including their content, delivery time, and recipient reach
             </p>
           </div>
           <button
@@ -2433,12 +2431,12 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
                           className="text-center space-y-3 w-full text-subheadingWhite"
                         >
                           <div className="flex justify-center items-center">
-                            <span className="lg:size-16 size-14 flex items-center justify-center bg-primary  rounded-full mb-2">
-                              <ListChecks className="lg:size-8 size-6 mx-auto text-mainheadingWhite " />
+                            <span className="lg:size-12 size-10 flex items-center justify-center bg-primary rounded-full">
+                              <ListChecks className="lg:size-6 size-4 mx-auto text-mainheading " />
                             </span>
                           </div>
 
-                          <p className="lg:text-3xl text-2xl font-medium text-mainheadingWhite mt-1">
+                          <p className="lg:text-3xl text-2xl font-medium text-mainheadingWhite">
                             No Past Broadcasts
                           </p>
 
@@ -2478,10 +2476,7 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
                                   title={batch.bodySnippet}
                                 >
                                   {batch.bodySnippet.length > 100
-                                    ? `${batch.bodySnippet.substring(
-                                        0,
-                                        97
-                                      )}...`
+                                    ? `${batch.bodySnippet.substring(0, 97)}...`
                                     : batch.bodySnippet}
                                 </span>
                               </div>
@@ -2516,7 +2511,7 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
                                   disabled={rowActionDisabled}
                                   aria-label="Edit Batch"
                                   title="Edit Batch"
-                                  className="bg-primary hover:bg-primaryhover gap-1.5 transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium text-mainheading  focus:outline-none flex items-center"
+                                  className="bg-primarybox hover:bg-secondarybox gap-2 transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium text-primary focus:outline-none flex items-center"
                                 >
                                   <Edit size={18} />
                                   Edit
@@ -2527,7 +2522,7 @@ const BroadcastHistoryTable: React.FC<BroadcastHistoryTableProps> = ({
                                   disabled={rowActionDisabled}
                                   aria-label="Delete Batch"
                                   title="Delete Batch"
-                                  className="bg-red-600 hover:bg-red-700 gap-1.5 text-white  transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium focus:outline-none flex items-center"
+                                  className="bg-red-500 hover:bg-red-600 gap-2 text-white  transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium focus:outline-none flex items-center"
                                 >
                                   <Trash2 size={18} />
                                   Delete

@@ -3580,18 +3580,21 @@ const AdminInboxPage: React.FC = () => {
         <div className="flex flex-wrap justify-between items-center gap-4">
           <div className="inbox-massage">
             <div className="flex items-center gap-3">
-              <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+              <div className="p-2.5 shrink-0 bg-primary rounded-full flex items-center justify-center">
                 <FaInbox className="size-6 text-mainheading" />
               </div>
               <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
                 Admin Inbox
               </h1>
             </div>
-            <p className="mt-2 text-subheadingWhite lg:text-lg">
-              Admin Inbox: View and manage all messages sent to users. Track
-              message status, details, and perform actions like editing.
+            <p className="mt-2 text-subheadingWhite text-base lg:text-lg max-w-5xl">
+              Stay on top of all communication with users through the Admin
+              Inbox. Easily view, manage, and organize messages sent from the
+              admin panel, including system notifications, updates, and personal
+              responses.
             </p>
           </div>
+
           <div className="flex items-center gap-3 justify-end sm:w-auto w-full">
             <button
               onClick={() => setShowFilterModal(true)}
@@ -3600,6 +3603,7 @@ const AdminInboxPage: React.FC = () => {
               <Filter size={18} />
               Filters
             </button>
+
             <button
               onClick={handleRefresh}
               disabled={isRefreshing || loadingMessages}
@@ -3665,9 +3669,10 @@ const AdminInboxPage: React.FC = () => {
               ))}
             </select>
             <span className="text-sm font-medium text-subheadingWhite whitespace-nowrap">
-              entries
+              Entries
             </span>
           </div>
+
           <p className="text-sm text-subheadingWhite">
             Showing{" "}
             {displayedMessages.length > 0
@@ -3734,6 +3739,7 @@ const AdminInboxPage: React.FC = () => {
         allStatusesLabel="All Statuses"
         allCurrenciesLabel="All Currencies"
       />
+      
       <EditMessageModal
         isOpen={showEditDialog}
         onClose={closeEditDialog}

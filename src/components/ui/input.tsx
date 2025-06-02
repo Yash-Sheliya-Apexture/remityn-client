@@ -36,7 +36,7 @@ function Input({ className, type, ...props }: React.ComponentProps<"input">) {
       className={cn(
         " placeholder:text-muted-foreground  dark:bg-input/30 border-input flex w-full min-w-0 rounded-md border bg-transparent px-4 py-3 text-base transition-[color,box-shadow] outline-none disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm h-12",
         // " focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
-        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+        "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-red-500",
         className
       )}
       {...props}

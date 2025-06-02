@@ -2081,7 +2081,7 @@ import type { AdminUserListItem } from "../../services/admin/user.admin"; // Adj
 import type { KycStatus } from "../../services/kyc"; // Adjust path
 import { motion, AnimatePresence } from "framer-motion";
 // Use consistent icons from Payments page where applicable
-import { Filter, RefreshCw, Users } from "lucide-react";
+import { Filter, Loader2, RefreshCw, Users } from "lucide-react";
 
 // Import Components (using consistent naming/paths if possible)
 import UserTable from "../components/users/UserTable"; // Path verified
@@ -2570,8 +2570,11 @@ const AdminUsersPage: React.FC = () => {
   if (authLoading) {
     // Consistent basic loading indicator
     return (
-      <div className="flex justify-center items-center h-screen">
-        <p>Loading authentication...</p>
+      <div className="fixed gap-2 inset-0 bg-black/50 backdrop-blur-[1px] h-screen flex items-center justify-center z-50">
+        <Loader2 size={48} className="text-primary animate-spin" />
+        <p className="text-mainheadingWhite font-medium">
+          Loading authentication...
+        </p>
       </div>
     );
   }
@@ -2585,19 +2588,21 @@ const AdminUsersPage: React.FC = () => {
         <div className="flex flex-wrap justify-between items-center gap-3">
           <div className="Activity">
             <div className="flex items-center gap-3">
-              <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+              
+              <div className="p-2.5 shrink-0 bg-primary rounded-full flex items-center justify-center">
                 <FaUsers className="size-6 text-mainheading" />
               </div>
 
               <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
-                All Recent Activity
+                All Users Activity
               </h1>
-
             </div>
-    
-            <p className="mt-2 text-subheadingWhite lg:text-lg">
-              Track all user transactions, KYC submissions, and status updates
-              in real time with detailed logs for complete transparency.
+
+            <p className="mt-2 text-subheadingWhite text-base lg:text-lg max-w-5xl">
+              Gain complete visibility into every user’s actions with the All
+              Users Activity panel. Monitor transactions, KYC submissions, login
+              events, profile updates, and status changes in real time—all in
+              one centralized dashboard.
             </p>
           </div>
 
@@ -2620,7 +2625,9 @@ const AdminUsersPage: React.FC = () => {
             >
               {/* Apply animate-spin class conditionally based on isRefreshing */}
               <RefreshCw
-                className={`size-5 text-primary ${isRefreshing ? "animate-spin" : ""}`}
+                className={`size-5 text-primary ${
+                  isRefreshing ? "animate-spin" : ""
+                }`}
               />
               <span>Refresh</span>
             </button>
@@ -2655,10 +2662,10 @@ const AdminUsersPage: React.FC = () => {
               ))}
             </select>
             <span className="text-sm font-medium text-subheadingWhite whitespace-nowrap">
-              entries
+              Entries
             </span>
           </div>
-          
+
           {/* Consistent results text - Show based on filteredUsers length even if loading */}
           <p className="text-sm text-subheadingWhite">
             Showing{" "}

@@ -193,7 +193,7 @@ const SkeletonMessageListItem: React.FC<{ isUnreadLook: boolean }> = ({
   isUnreadLook,
 }) => {
   // Define the specific background class for skeletons in unread/new items
-  const newMessagesSkeletonBgClass = isUnreadLook ? "bg-background" : "";
+  const newMessagesSkeletonBgClass = isUnreadLook ? "bg-background/50" : "";
 
   return (
     <div

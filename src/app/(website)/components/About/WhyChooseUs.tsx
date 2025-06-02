@@ -214,10 +214,10 @@ const WhyChooseUs: React.FC = () => {
       <div className="mx-auto container px-4">
         {/* Heading Section */}
         <div className="mx-auto max-w-4xl text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl capitalize font-bold mb-6 leading-tight text-mainheadingWhite">
-            Find out why{" "}
-            <span className="text-primary">millions choose Remityn</span>
-          </h1>
+          <h3 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-mainheadingWhite">
+            Find Out Why{" "}
+            <span className="text-primary">Millions Choose Remityn</span>
+          </h3>
 
           <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">
             For over 10 years, Remityn Corporation Inc. Trusted by travelers and

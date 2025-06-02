@@ -4,7 +4,7 @@ import ClientTestimonialSection from "./components/home/ClientTestimonialSection
 import SecuritySection from "./components/home/SecuritySection";
 import InternationalTransferSection from "./components/InternationalTransferSection";
 import CallToActionSection from "./components/CallToActionSection";
-import FeaturesSection from "./components/home/FeaturesSection";
+import FeaturesList from "./components/FeaturesList";
 import StepCardContent from "./components/StepCard/StepContentCard";
 
 export default function Home() {
@@ -15,7 +15,7 @@ export default function Home() {
       <InternationalTransferSection />
       <SecuritySection />
       <ClientTestimonialSection />
-      <FeaturesSection />
+      <FeaturesList />
       <StepCardContent />
       <CallToActionSection />
     </>

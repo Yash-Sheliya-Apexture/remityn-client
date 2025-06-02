@@ -311,7 +311,7 @@ const SecuritySection = () => {
               </div>
               
               <div className="space-y-4 text-center md:text-left max-w-4xl mx-auto md:mx-0">
-                <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite lg:block hidden">
+                <h3 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-mainheadingWhite lg:block hidden">
                   Secure Currency Exchange{" "}
                   <span className="text-primary">You Can Trust</span>
                 </h3>
@@ -330,7 +330,7 @@ const SecuritySection = () => {
                   href="/faqs"
                   className="inline-block" // Added inline-block
                 >
-                  <button className="bg-primary hover:bg-primaryhover text-neutral-900 cursor-pointer font-medium text-base lg:text-lg py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
+                  <button className="bg-primary hover:bg-primaryhover text-mainheading cursor-pointer font-medium text-base lg:text-lg py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
                     How we keep your money safe
                   </button>
                 </Link>

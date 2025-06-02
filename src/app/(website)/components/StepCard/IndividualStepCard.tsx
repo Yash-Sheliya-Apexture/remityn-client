@@ -122,7 +122,7 @@ const IndividualStepCard: React.FC<IndividualStepCardProps> = ({
       <div className="relative flex justify-center h-full lg:mt-20 mt-10">
         <Image
           src={step.contentImages.img}
-          alt={`${step.title}`}
+          alt={`${step.contentImages.imgTitle}`}
           width={1600}
           height={1000}
           priority={isFirst} // Prioritize loading for the very first card (index 0)

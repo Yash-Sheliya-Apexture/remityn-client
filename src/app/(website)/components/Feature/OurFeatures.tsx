@@ -1090,136 +1090,189 @@
 
 
 
-import React from "react";
-// Import appropriate icons from react-icons
-import {
-  FaUserPlus,      // For Account Setup
-  FaWallet,        // For Fund Your Account
-  FaPaperPlane,    // For Direct Transfers
-  FaExchangeAlt,   // For Exchange Rates
-  FaShieldAlt,     // For Security
-  FaReceipt,       // For Transparent Fees
-  FaHeadset,       // For Customer Support (new Card 7)
-} from "react-icons/fa";
-// Removed: import { icons } from 'lucide-react'; as it's not used
+// import React from "react";
+// // Import appropriate icons from react-icons
+// import {
+//   FaUserPlus,      // For Account Setup
+//   FaWallet,        // For Fund Your Account
+//   FaPaperPlane,    // For Direct Transfers
+//   FaExchangeAlt,   // For Exchange Rates
+//   FaShieldAlt,     // For Security
+//   FaReceipt,       // For Transparent Fees
+//   FaHeadset,       // For Customer Support (new Card 7)
+// } from "react-icons/fa";
+// // Removed: import { icons } from 'lucide-react'; as it's not used
 
-interface Feature {
-  id: number;
-  icon: React.ElementType;
-  title: string;
-  description: string;
-  colSpanLarge: string; // To define column span on large screens (lg:)
-  iconBgColor: string;
-}
+// interface Feature {
+//   id: number;
+//   icon: React.ElementType;
+//   title: string;
+//   description: string;
+//   colSpanLarge: string; // To define column span on large screens (lg:)
+//   iconBgColor: string;
+// }
 
-const features: Feature[] = [
-  {
-    id: 1,
-    icon: FaUserPlus,
-    title: "Quick & Easy Account Setup",
-    description: "Get started in minutes. Create your secure account and begin your journey to hassle-free money transfers.",
-    colSpanLarge: "lg:col-span-3", // Spans 3 of 6 columns on large screens
-    iconBgColor: "#e3ffd1", // Light green
-  },
-  {
-    id: 2,
-    icon: FaWallet,
-    title: "Fund Your Account Your Way",
-    description: "Easily add funds to your account balance using your local currency through various secure payment methods.",
-    colSpanLarge: "lg:col-span-3", // Spans 3 of 6 columns on large screens
-    iconBgColor: "#9bf7ff", // Light blue
-  },
-  {
-    id: 3,
-    icon: FaPaperPlane,
-    title: "Direct Transfers to India",
-    description: "Send money directly to any bank account or UPI ID in India. Our specialized service ensures your funds reach their destination efficiently.",
-    colSpanLarge: "lg:col-span-2", // Spans 2 of 6 columns on large screens
-    iconBgColor: "#e2c9fb", // Light pink
-  },
-  {
-    id: 4,
-    icon: FaExchangeAlt,
-    title: "Competitive Exchange Rates",
-    description: "Enjoy exchange rates that are better than the market average. Get more INR for your currency, maximizing value for your recipient.",
-    colSpanLarge: "lg:col-span-2", // Spans 2 of 6 columns on large screens
-    iconBgColor: "#fbcdcd", // Light orange
-  },
-  {
-    id: 5,
-    icon: FaShieldAlt,
-    title: "Bank-Grade Security",
-    description: "Your security is our priority. We use advanced encryption and security protocols to protect your funds and personal data.",
-    colSpanLarge: "lg:col-span-2", // Spans 2 of 6 columns on large screens
-    iconBgColor: "#fee09f", // Light purple
-  },
-  {
-    id: 6,
-    icon: FaReceipt,
-    title: "Transparent Fees & Process",
-    description: "No hidden charges. See all fees upfront before you send. Track your transfer every step of the way.",
-    colSpanLarge: "lg:col-span-3", // Spans 3 of 6 columns on large screens
-    iconBgColor: "#98FB98", // Light cyan
-  },
-  {
-    id: 7,
-    icon: FaHeadset,
-    title: "24/7 Customer Support",
-    description: "Get help anytime with our dedicated support team, ready to assist you with any queries or issues.",
-    colSpanLarge: "lg:col-span-3", // Spans 3 of 6 columns on large screens
-    iconBgColor: "#FFA07A", // Light yellow
-  },
-];
+// const features: Feature[] = [
+//   {
+//     id: 1,
+//     icon: FaUserPlus,
+//     title: "Quick & Easy Account Setup",
+//     description: "Get started in minutes. Create your secure account and begin your journey to hassle-free money transfers.",
+//     colSpanLarge: "lg:col-span-3", // Spans 3 of 6 columns on large screens
+//     iconBgColor: "#e3ffd1", // Light green
+//   },
+//   {
+//     id: 2,
+//     icon: FaWallet,
+//     title: "Fund Your Account Your Way",
+//     description: "Easily add funds to your account balance using your local currency through various secure payment methods.",
+//     colSpanLarge: "lg:col-span-3", // Spans 3 of 6 columns on large screens
+//     iconBgColor: "#9bf7ff", // Light blue
+//   },
+//   {
+//     id: 3,
+//     icon: FaPaperPlane,
+//     title: "Direct Transfers to India",
+//     description: "Send money directly to any bank account or UPI ID in India. Our specialized service ensures your funds reach their destination efficiently.",
+//     colSpanLarge: "lg:col-span-2", // Spans 2 of 6 columns on large screens
+//     iconBgColor: "#e2c9fb", // Light pink
+//   },
+//   {
+//     id: 4,
+//     icon: FaExchangeAlt,
+//     title: "Competitive Exchange Rates",
+//     description: "Enjoy exchange rates that are better than the market average. Get more INR for your currency, maximizing value for your recipient.",
+//     colSpanLarge: "lg:col-span-2", // Spans 2 of 6 columns on large screens
+//     iconBgColor: "#fbcdcd", // Light orange
+//   },
+//   {
+//     id: 5,
+//     icon: FaShieldAlt,
+//     title: "Bank-Grade Security",
+//     description: "Your security is our priority. We use advanced encryption and security protocols to protect your funds and personal data.",
+//     colSpanLarge: "lg:col-span-2", // Spans 2 of 6 columns on large screens
+//     iconBgColor: "#fee09f", // Light purple
+//   },
+//   {
+//     id: 6,
+//     icon: FaReceipt,
+//     title: "Transparent Fees & Process",
+//     description: "No hidden charges. See all fees upfront before you send. Track your transfer every step of the way.",
+//     colSpanLarge: "lg:col-span-3", // Spans 3 of 6 columns on large screens
+//     iconBgColor: "#98FB98", // Light cyan
+//   },
+//   {
+//     id: 7,
+//     icon: FaHeadset,
+//     title: "24/7 Customer Support",
+//     description: "Get help anytime with our dedicated support team, ready to assist you with any queries or issues.",
+//     colSpanLarge: "lg:col-span-3", // Spans 3 of 6 columns on large screens
+//     iconBgColor: "#FFA07A", // Light yellow
+//   },
+// ];
 
-interface FeatureCardProps {
-  icon: React.ElementType;
-  title: string;
-  description: string;
-  iconBgColor: string;
-}
+// interface FeatureCardProps {
+//   icon: React.ElementType;
+//   title: string;
+//   description: string;
+//   iconBgColor: string;
+// }
 
-// Corrected this component
-const FeatureCard: React.FC<FeatureCardProps> = ({
-  icon: Icon,
-  title,
-  description,
-  iconBgColor,
-}) => {
-  // Added iconBgColor to destructuring
-  return (
-    // Card styling updated for new image
-    <div className="bg-background relative w-full h-full xl:h-[20rem] rounded-3xl p-4 md:p-6 flex flex-col ">
-      <div className="mb-4">
+// // Corrected this component
+// const FeatureCard: React.FC<FeatureCardProps> = ({
+//   icon: Icon,
+//   title,
+//   description,
+//   iconBgColor,
+// }) => {
+//   // Added iconBgColor to destructuring
+//   return (
+//     // Card styling updated for new image
+//     <div className="bg-background relative w-full h-full xl:h-[20rem] rounded-3xl p-4 md:p-6 flex flex-col ">
+//       <div className="mb-4">
 
-        <div
-          className="xl:w-20 lg:w-18 w-14 xl:h-20 lg:h-18 h-14 xl:rounded-2xl rounded-xl flex items-center justify-center"
-          style={{ backgroundColor: iconBgColor }} 
-        >
+//         <div
+//           className="xl:w-20 lg:w-18 w-14 xl:h-20 lg:h-18 h-14 xl:rounded-2xl rounded-xl flex items-center justify-center"
+//           style={{ backgroundColor: iconBgColor }} 
+//         >
          
-          <Icon className="text-mainheading transition-colors duration-300 ease-in-out xl:size-6 size-5" />
-        </div>
-      </div>
-      <div className="flex flex-col flex-grow xl:justify-end">
+//           <Icon className="text-mainheading transition-colors duration-300 ease-in-out xl:size-6 size-5" />
+//         </div>
+//       </div>
+//       <div className="flex flex-col flex-grow xl:justify-end">
   
-        <h3 className=" text-mainheadingWhite group-hover:text-primary text-2xl font-semibold line-clamp-2 mb-2">
-          {title}
-        </h3>
-        <p className="text-subheadingWhite lg:text-lg text-base">
-          {description}
-        </p>
-      </div>
-    </div>
-  );
-};
+//         <h3 className=" text-mainheadingWhite group-hover:text-primary text-2xl font-semibold line-clamp-2 mb-2">
+//           {title}
+//         </h3>
+//         <p className="text-subheadingWhite lg:text-lg text-base">
+//           {description}
+//         </p>
+//       </div>
+//     </div>
+//   );
+// };
+
+// const OurFeatures: React.FC = () => {
+//   return (
+//     <section className="FeatureSection sm:py-16 py-10">
+//       <div className="container mx-auto px-4">
+//         <div className="space-y-4 text-center md:text-left">
+//           <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+//             Our Core{" "}
+//             <span className="text-primary">Features</span>
+//           </h3>
+//           <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">
+//             Experience seamless international transfers with fast setup,
+//             transparent fees, and secure delivery. Our in-house security
+//             protects your data, backed by 24/7 support for complete peace of
+//             mind.
+//           </p>
+//         </div>
+//         {/*
+//           Grid setup:
+//           - Default: 1 column
+//           - sm (small screens, 640px+): 2 columns. Items will naturally flow.
+//             An item that is lg:col-span-3 will still only take up 1 of 2 columns here.
+//             An item that is lg:col-span-2 will also take up 1 of 2 columns here.
+//             This provides a simpler 2-column layout on medium devices.
+//           - lg (large screens, 1024px+): 6 columns. Items use their specific colSpanLarge.
+//         */}
+//         <div className="w-full box-border lg:mt-16 mt-10">
+//           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-[3] bg-[#394247] rounded-3xl border-3 border-[#394247]">
+//             {features.map((feature) => (
+//               <div key={feature.id} className={feature.colSpanLarge}>
+//                 <FeatureCard
+//                   icon={feature.icon}
+//                   title={feature.title}
+//                   description={feature.description}
+//                   iconBgColor={feature.iconBgColor}
+//                 />
+//               </div>
+//             ))}
+//           </div>
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default OurFeatures;
+
+
+
+// src/components/OurFeatures.tsx
+import React from "react";
+// Import FeatureCard component, features data, and Feature interface from FeatureCard.tsx
+import FeatureCard, { features, Feature } from "../FeatureCard"; // Adjust path if necessary
+
 
 const OurFeatures: React.FC = () => {
   return (
     <section className="FeatureSection sm:py-16 py-10">
       <div className="container mx-auto px-4">
         <div className="space-y-4 text-center md:text-left">
-          <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
-            Our Core{" "}
-            <span className="text-primary">Features</span>
+          <h3 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-mainheadingWhite">
+            Our Core <span className="text-primary">Features</span>
           </h3>
           <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">
             Experience seamless international transfers with fast setup,
@@ -1228,18 +1281,10 @@ const OurFeatures: React.FC = () => {
             mind.
           </p>
         </div>
-        {/*
-          Grid setup:
-          - Default: 1 column
-          - sm (small screens, 640px+): 2 columns. Items will naturally flow.
-            An item that is lg:col-span-3 will still only take up 1 of 2 columns here.
-            An item that is lg:col-span-2 will also take up 1 of 2 columns here.
-            This provides a simpler 2-column layout on medium devices.
-          - lg (large screens, 1024px+): 6 columns. Items use their specific colSpanLarge.
-        */}
         <div className="w-full box-border lg:mt-16 mt-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-[3] bg-[#394247] rounded-3xl border-3 border-[#394247]">
-            {features.map((feature) => (
+            {/* Use the imported features array */}
+            {features.map((feature: Feature) => ( // Explicitly typing feature here is optional but good practice
               <div key={feature.id} className={feature.colSpanLarge}>
                 <FeatureCard
                   icon={feature.icon}

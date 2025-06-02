@@ -1343,12 +1343,12 @@ const ReviewCards: React.FC = () => {
           <span className="text-subheadingWhite/30">]</span>
         </span>
       </div>
-      <div className="space-y-4 text-center md:text-left max-w-4xl mx-auto md:mx-0">
-        <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+      <div className="space-y-4 text-center md:text-left">
+        <h2 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-mainheadingWhite lg:max-w-3xl max-w-full">
           Honest Reviews,{" "}
           <span className="text-primary">Real Travelers Like You</span>
         </h2>
-        <p className="text-subheadingWhite md:text-lg text-base max-w-5xl">
+        <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">
           Discover what real travelers have to say about their experiences with
           our currency exchange services. From frequent flyers to first-time
           tourists, our customers share honest feedback about fast, reliable,
@@ -1363,14 +1363,14 @@ const ReviewCards: React.FC = () => {
       <section className="Reviews md:pt-14 pt-10 overflow-hidden">
         <div className="container mx-auto px-4">
           {renderHeader()}
-          <div className="mt-10 text-center p-6 md:p-10 border border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-900/20 rounded-lg shadow-md">
-            <h3 className="text-xl md:text-2xl font-semibold text-red-700 dark:text-red-400 mb-3">
+          <div className="mt-10 text-center p-6 md:p-10 border border-red-500 bg-red-900/25 rounded-lg shadow-md">
+            <h3 className="text-xl md:text-2xl font-semibold text-red-400 mb-3">
               Oops! Something Went Wrong
             </h3>
-            <p className="text-red-600 dark:text-red-300 mb-1">
+            <p className="text-red-500 mb-1">
               We couldn't load the reviews at this time. Please try again later.
             </p>
-            <p className="mt-2 text-sm text-red-500 dark:text-red-400">
+            <p className="mt-2 text-sm text-red-500">
               Error details: {error.message}
             </p>
           </div>

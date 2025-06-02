@@ -4216,7 +4216,7 @@ export default function RegisterPage() {
                       ${
                         passwordError
                           ? "border-red-600 ring-1 ring-red-600"
-                          : "border-[#3A3A3A]" // Matched login page
+                          : "border-primarybox" // Matched login page
                       }`}
                     value={password}
                     onChange={(e) => {
@@ -4270,7 +4270,7 @@ export default function RegisterPage() {
                       ${
                         confirmPasswordError
                           ? "border-red-600 ring-1 ring-red-600"
-                          : "border-[#3A3A3A]" // Matched login page
+                          : "border-primarybox" // Matched login page
                       }`}
                     value={confirmPassword}
                     onChange={(e) => {
@@ -4309,7 +4309,7 @@ export default function RegisterPage() {
               <motion.div variants={itemVariants} className="pt-2">
                 <button
                   type="submit"
-                  className={`bg-primary hover:bg-primaryhover w-full text-neutral-900 font-semibold py-3 px-8 h-14 rounded-lg transition-all duration-75 ease-linear flex items-center justify-center 
+                  className={`bg-primary hover:bg-primaryhover w-full text-mainheading font-semibold py-3 px-8 h-14 rounded-lg transition-all duration-75 ease-linear flex items-center justify-center 
                     ${
                       isSubmitting
                         ? "opacity-70 cursor-not-allowed"
@@ -4320,7 +4320,7 @@ export default function RegisterPage() {
                   {isSubmitting ? (
                     <>
                       <svg
-                        className="h-4 w-4 text-[#1E1E1E] animate-spin mr-2"
+                        className="h-4 w-4 text-mainheading animate-spin mr-2"
                         viewBox="0 0 24 24"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"

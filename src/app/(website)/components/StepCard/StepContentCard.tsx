@@ -1880,71 +1880,64 @@ const stepsData: StepData[] = [
     id: 0,
     iconDefault: FaCheckCircle,
     iconActive: FaCheckCircle,
-    title: "Register and verify",
-    subtitle: "Complete verification process",
-    contentTitle: "Register & Verify",
-    contentSubtitle: "Get started in minutes with a secure and simple sign-up process. We use top-level identity verification to protect your account and ensure compliance with international money transfer regulations.",
+    contentTitle: "Sign Up and Get Verified",
+    contentSubtitle: "Sign up quickly with our instant account setup by providing basic details. Complete a simple KYC verification process to unlock full access, including wallet creation and international money transfers.",
     contentImages: {
-      light: "/assets/images/Register-and-verify-light.png",
-      dark: "/assets/images/Register-and-verify-dark.png",
+      img: "/assets/images/Register-and-verify.png",
+      imgTitle: "Remityn showing registration and verification screen", // <-- ADDED
     },
     contentBlocks: [
-      { text: "Instant Account Setup", type: "success" },
-      { text: "Seamless KYC Verification", type: "secondry" },
-      { text: "Enhanced Security with Passkeys", type: "warning" },
+      { text: "Instant account setup", type: "success" },
+      { text: "Seamless KYC verification", type: "secondry" },
+      { text: "Unlock full access", type: "warning" },
     ],
   },
   {
     id: 1,
     iconDefault: FaWallet,
     iconActive: FaWallet,
-    title: "Create a Digital Wallet",
-    subtitle: "Add transfer amount",
-    contentTitle: "Create Your Digital Wallet with Passkey",
-    contentSubtitle: "Set up your secure digital wallet in seconds. With integrated passkey protection, your funds and personal details are safeguarded from the start.",
+    contentTitle: " Create & Fund Your Currency Wallet",
+    contentSubtitle: "You can easily create a digital wallet for currencies like USD, EUR, or GBP. Then you can add funds to your wallet via bank transfer. Once the funds are added, you are ready to transfer money to India.",
     contentImages: {
-      light: "/assets/images/Create-a-Digital-Wallet-light.png",
-      dark: "/assets/images/Create-a-Digital-Wallet-dark.png",
+      img: "/assets/images/Create-a-Digital-Wallet.png",
+      imgTitle: "Remityn showing add fund screen", // <-- ADDED
+
     },
     contentBlocks: [
-      { text: "Passkeys: The Future of Security", type: "success" },
-      { text: "Defends Against Online Threats", type: "secondry" },
-      { text: "Peace of Mind, Always", type: "warning" },
+      { text: "Choose your currency", type: "success" },
+      { text: "Add funds to your wallet", type: "secondry" },
+      { text: "Available to transfer money", type: "warning" },
     ],
   },
   {
     id: 2,
     iconDefault: FaUserFriends,
     iconActive: FaUserFriends,
-    title: "Add Recipients",
-    subtitle: "Who do we send to?",
-    contentTitle: "Add Recipients",
-    contentSubtitle: "Easily link the bank accounts or digital wallets of the people you wish to send money to. Manage recipients securely and send funds with confidence.",
+    contentTitle: "Add Your Recipient",
+    contentSubtitle: "After the money is deposited in your wallet, you can add a recipient. In which you can add the recipient by entering the details like the recipient's full name, their bank account number, IFSC code of their Indian bank, etc. once the recipient details are added, you can save them for future use. and You can also easily manage multiple recipients",
     contentImages: {
-      light: "/assets/images/Add-Recipients-light.png",
-      dark: "/assets/images/Add-Recipients-dark.png",
+      img: "/assets/images/Add-Recipients.png",
+      imgTitle: "Remityn showing add recipients screen with a list of recipients", // <-- ADDED
     },
     contentBlocks: [
-      { text: "Multiple Recipient Support", type: "success" },
-      { text: "Secure Data Handling", type: "secondry" },
-      { text: "Quick Add Feature", type: "warning" },
+      { text: "Manage multiple recipients", type: "success" },
+      { text: "Saved recipient details", type: "secondry" },
+      { text: "Useful for the future", type: "warning" },
     ],
   },
   {
     id: 3,
     iconDefault: FaMoneyBillTransfer,
     iconActive: FaMoneyBillTransfer,
-    title: "Transfer Money",
-    subtitle: "Complete transfer process",
     contentTitle: "Transfer Money Seamlessly",
-    contentSubtitle: "Complete your money transfer in just a few taps. Enjoy real-time processing, transparent fees, and secure delivery to your recipients in India.",
+    contentSubtitle: "Finally, to initiate your transfer, select your funded currency wallet and the intended Indian recipient, then enter the amount you wish to send money. You can track the status of the transaction after you confirm the transaction.",
     contentImages: {
-      light: "/assets/images/Transfer-Money-light.png",
-      dark: "/assets/images/Transfer-Money-dark.png",
+      img: "/assets/images/Transfer-Money.png",
+      imgTitle: "Remityn showing transfer money screen with currency conversion details", // <-- ADDED
     },
     contentBlocks: [
-      { text: "Instant Transfers", type: "success" },
-      { text: "Secure Data Handling", type: "secondry" },
+      { text: "Initiate your transfer", type: "success" },
+      { text: "Transparent transactions", type: "secondry" },
       { text: "24/7 Secure Transactions", type: "warning" },
     ],
   },
@@ -2018,7 +2011,7 @@ const StepCardContent: React.FC = () => {
     <section ref={sectionRef} className="StePCardSection relative  py-10 lg:py-16">
       <div className="container mx-auto px-4">
         <div className="space-y-4 text-center">
-          <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+          <h3 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-mainheadingWhite">
             4 easy steps to<span className="text-primary"> Transfer to India </span>
           </h3>
           <p className="text-subheadingWhite md:text-lg text-base lg:max-w-4xl max-w-full mx-auto">

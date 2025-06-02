@@ -11,13 +11,11 @@ export interface StepData {
   id: number;
   iconDefault: IconType;
   iconActive: IconType;
-  title: string;
-  subtitle: string;
   contentTitle: string;
   contentSubtitle: React.ReactNode;
   contentImages: {
-    light: string;
-    dark: string;
+    img: string;
+    imgTitle: string; // <-- ADD THIS LINE
   };
   contentBlocks?: ContentBlock[];
 }

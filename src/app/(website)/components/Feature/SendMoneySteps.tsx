@@ -94,30 +94,30 @@ const SendMoneySteps = () => {
   {
     id: 1,
     icon: <UserPlus className="w-6 h-6 text-primary" />,
-    title: "Create Your Account",
+    title: "Sign Up and Get Verified",
     description:
-      "Sign up quickly with minimal information to get started. All you need is a valid email address and a few personal details.",
+      "Create your account in minutes and verify your identity with a secure, seamless KYC process.",
   },
   {
     id: 2,
     icon: <Wallet className="w-6 h-6 text-primary" />,
-    title: "Fund Your Wallet",
+    title: "Create & Fund Your Currency Wallet",
     description:
-      "Easily add money to your wallet using your preferred payment method. We support a range of local currency options for your convenience.",
+      "Set up a wallet in your preferred currency and easily fund it to begin sending money.",
   },
   {
     id: 3,
     icon: <Send className="w-6 h-6 text-primary" />,
-    title: "Initiate Transfer to India",
+    title: "Add Your Recipient",
     description:
-      "Enter the recipient's bank details and the amount you wish to send. Review the exchange rate and confirm your transfer in a few clicks.",
+      "Securely add recipient details and manage multiple beneficiaries with ease.",
   },
   {
     id: 4,
     icon: <CheckCircle className="w-6 h-6 text-primary" />,
-    title: "Money Received",
+    title: "Transfer Money Seamlessly",
     description:
-      "The recipient receives the money directly into their Indian bank account. They are notified instantly once the transfer is successful.",
+      "Send money with confidence—track every transaction in real time from wallet to recipient.",
   },
 ];
 
@@ -128,7 +128,7 @@ const SendMoneySteps = () => {
       {/* Assuming this class might set a theme, e.g., dark background */}
       <div className="container mx-auto px-4">
         <div className="space-y-4 text-center md:text-left">
-          <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+          <h3 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-mainheadingWhite">
             Send Money in <span className="text-primary">4 Simple Steps</span>
           </h3>
           <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">
@@ -160,7 +160,7 @@ const SendMoneySteps = () => {
                 )}
 
                 {/* Step Content Wrapper (Icon + Text Block) */}
-                <div className="flex items-start gap-8 relative z-[2]">
+                <div className="flex items-start sm:gap-8 gap-6 relative z-[2]">
                   {/* Left Side - Icon Container */}
                   <div className="flex justify-center bg-background shrink-0">
                     <div className="w-20 h-20 rounded-full icon-outer-wrapper flex items-center justify-center">

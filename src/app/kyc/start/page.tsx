@@ -2430,7 +2430,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Separator } from "@/components/ui/separator";
 import {
   Loader2,
   AlertTriangle,
@@ -2715,7 +2714,7 @@ export default function KycStartPage() {
                   <AlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
                 <div>
-                  <AlertTitle className="font-medium tracking-normal text-red-200 text-base mb-1">
+                  <AlertTitle className="font-medium tracking-normal text-red-500 text-base mb-1">
                     Previous Attempt Failed
                   </AlertTitle>
                   <AlertDescription className="text-red-300/90">

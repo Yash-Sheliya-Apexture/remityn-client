@@ -148,7 +148,7 @@ const CurrencyExchangeServices: React.FC<
                 <span className="text-subheadingWhite/30">]</span>
               </span>
               <div className="space-y-4 text-center md:text-left max-w-4xl mx-auto md:mx-0">
-                <h3 className="text-4xl md:text-5xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+                <h3 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-mainheadingWhite">
                   Empowering Transparent{" "}
                   <span className="text-primary"> lobal Exchange</span>
                 </h3>
@@ -167,7 +167,7 @@ const CurrencyExchangeServices: React.FC<
             </div>
 
             <div className="block md:hidden">
-              <p className="text-subheadingWhite md:text-lg text-base max-w-5xl pt-8 text-center">
+              <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full pt-8 text-center">
                 We are committed to making global currency exchange simple and
                 clear. Our platform ensures transparency with honest rates and
                 no hidden fees. Trust and reliability are at the heart of every
@@ -178,7 +178,7 @@ const CurrencyExchangeServices: React.FC<
 
               <div className="flex justify-center md:justify-start mt-8">
                 <Link href="/auth/register" className="inline-block">
-                  <button className="bg-primary hover:bg-primaryhover text-neutral-900 cursor-pointer font-medium text-base lg:text-lg py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
+                  <button className="bg-primary hover:bg-primaryhover text-mainheading cursor-pointer font-medium text-base lg:text-lg py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
                     Create A Free Account
                   </button>
                 </Link>
@@ -199,11 +199,11 @@ const CurrencyExchangeServices: React.FC<
               </div>
 
               <div className="space-y-4 text-center md:text-left max-w-4xl mx-auto md:mx-0">
-                <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite sm:block hidden">
+                <h3 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-mainheadingWhite sm:block hidden">
                   Empowering Transparent{" "}
                   <span className="text-primary">Global Exchange </span>
                 </h3>
-                <p className="text-subheadingWhite md:text-lg text-base max-w-5xl">
+                <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">
                   We are committed to making global currency exchange simple and
                   clear. Our platform ensures transparency with honest rates and
                   no hidden fees. Trust and reliability are at the heart of
@@ -217,7 +217,7 @@ const CurrencyExchangeServices: React.FC<
 
             <div className="flex justify-center md:justify-start mt-8">
               <Link href="/auth/register" className="inline-block">
-                <button className="bg-primary hover:bg-primaryhover text-neutral-900 cursor-pointer font-medium text-base lg:text-lg py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
+                <button className="bg-primary hover:bg-primaryhover text-mainheading cursor-pointer font-medium text-base lg:text-lg py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
                   Create A Free Account
                 </button>
               </Link>

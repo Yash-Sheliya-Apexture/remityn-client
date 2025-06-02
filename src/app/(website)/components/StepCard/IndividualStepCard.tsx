@@ -113,20 +113,20 @@ const IndividualStepCard: React.FC<IndividualStepCardProps> = ({
 
   // Define Image Column JSX
   const ImageColumn = (
-    <div className="lg:w-3/5 w-full relative bg-background rounded-[22px] overflow-hidden">
+    <div className="lg:w-3/5 w-full relative bg-background rounded-[22px] overflow-hidden xl:max-h-[610px] xl:h-auto lg:h-[500px] h-[300px]">
       {/* Dotted background layer */}
       <div
         className="absolute inset-0 bg-[url('/assets/images/dot.svg')] bg-center bg-repeat"
         aria-hidden="true" // Decorative background, hide from screen readers
       />
-      <div className="relative flex items-center justify-center h-full lg:mt-20 mt-10">
+      <div className="relative flex justify-center h-full lg:mt-20 mt-10">
         <Image
-          src={step.contentImages.light}
-          alt={`${step.title} illustration (light)`}
-          width={600}
-          height={550}
+          src={step.contentImages.img}
+          alt={`${step.contentImages.imgTitle}`}
+          width={1600}
+          height={1000}
           priority={isFirst} // Prioritize loading for the very first card (index 0)
-          className="lg:h-[550px] h-[280px] object-contain"
+          className="lg:h-[750px] h-[580px] object-contain"
         />
       </div>
     </div>

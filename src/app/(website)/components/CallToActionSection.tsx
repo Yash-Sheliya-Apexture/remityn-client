@@ -45,7 +45,7 @@ const CallToActionSection: React.FC = () => {
 
               {/* Right Content Block: Call to Action Button */}
               <div className="flex-shrink-0">
-                <a href="/faqs" className="bg-primary hover:bg-primaryhover text-neutral-900 cursor-pointer font-medium text-base lg:text-lg py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
+                <a href="/faqs" className="bg-primary hover:bg-primaryhover text-mainheading cursor-pointer font-medium text-base lg:text-lg py-3 px-8 h-12.5 rounded-full transition-all duration-75 ease-linear flex items-center justify-center">
                   Read more FAQs
                 </a>
               </div>

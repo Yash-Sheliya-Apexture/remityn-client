@@ -1014,7 +1014,7 @@ import statsAdminService, {
 // Import the KYC Card component
 import KycVerificationCard from "./KycVerificationCard"; // Adjust path if needed
 import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton
-import { FaPercentage, FaRegClock } from "react-icons/fa";
+import { FaClock, FaPercentage, FaRegClock } from "react-icons/fa";
 import { AlertCircle } from "lucide-react";
 
 export default function TransferInsights() {
@@ -1136,7 +1136,7 @@ export default function TransferInsights() {
               {/* Icon: Clock */}
             </div>
             {/* List of Corridor Skeletons */}
-            <div className="space-y-3">
+            <div className="space-y-4">
               {" "}
               {/* Matches structure of success state's list container */}
               {[1, 2, 3, 4].map(
@@ -1215,20 +1215,20 @@ export default function TransferInsights() {
     // Error Display state
     return (
       <div
-        className="w-full flex relative justify-center items-center  bg-red-900/25 border sm:order-1 order-2 border-red-500 px-5 py-4 rounded-xl"
+        className="w-full flex relative items-center  bg-red-900/25 border sm:order-1 order-2 border-red-500 p-4 rounded-xl"
         role="alert"
       >
-        <div className="flex flex-col items-center gap-3 text-center">
+        <div className="flex items-center gap-3 text-center">
           <div className="sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20 flex-shrink-0">
             <AlertCircle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
           </div>
 
-          <div className="flex-1">
-            <h4 className="font-medium sm:text-2xl text-xl text-red-600 capitalize">
+          <div className="flex-1 text-left">
+            <h4 className="font-medium sm:text-2xl text-lg text-red-600 capitalize">
               Error loading Insights
             </h4>
 
-            <p className="text-sm mt-2 text-red-300/90">{error}</p>
+            <p className="text-sm text-left text-red-300/90">{error}</p>
           </div>
         </div>
       </div>
@@ -1250,7 +1250,7 @@ export default function TransferInsights() {
               Corridors (Last 90d)
             </h1>
             <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
-              <FaPercentage className="size-6 text-mainheading" />
+              <FaRegClock  className="size-6 text-mainheading" />
             </div>
           </div>
 

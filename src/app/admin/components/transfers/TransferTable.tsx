@@ -723,10 +723,10 @@ const TransferTable: React.FC<TransferTableProps> = ({
                   <td className="px-4 py-3 font-medium text-mainheadingWhite whitespace-nowrap">
                     {formatDate(transfer.createdAt)}
                   </td>
-                  <td className="px-4 py-3 font-medium text-neutral-900 dark:text-white whitespace-nowrap ">
+                  <td className="px-4 py-3 font-medium whitespace-nowrap ">
                     <Link
                       href={`/admin/transfer/${transfer._id}`}
-                      className="gap-1.5 bg-primarybox hover:bg-secondarybox transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium text-primary focus:outline-none flex items-center"
+                      className="bg-primarybox hover:bg-secondarybox transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium text-primary focus:outline-none flex items-center"
                     >
                       <span>View Details</span>
                     </Link>

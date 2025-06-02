@@ -5956,6 +5956,7 @@ import {
   ArrowUpDown,
   ArrowDownUp,
   ListChecks,
+  Loader2,
 } from "lucide-react";
 
 // Utility & Toast
@@ -6031,8 +6032,7 @@ const getKycStatusConfig = (status?: KycStatus | null) => {
     { color: string; icon: React.ElementType; label: string }
   > = {
     verified: {
-      color:
-        "bg-green-900/40 text-green-400",
+      color: "bg-green-900/40 text-green-400",
       icon: CheckCircle,
       label: "Verified",
     },
@@ -6042,8 +6042,7 @@ const getKycStatusConfig = (status?: KycStatus | null) => {
       label: "Rejected",
     },
     pending: {
-      color:
-        "bg-yellow-900/40 text-yellow-400",
+      color: "bg-yellow-900/40 text-yellow-400",
       icon: Clock,
       label: "Pending",
     },
@@ -6144,36 +6143,37 @@ const LoadingSkeleton = () => (
     <div className="space-y-6 pb-10">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
         <div>
-          <Skeleton className="h-4 w-64 mb-3 rounded " />
+          <Skeleton className="h-4 w-64 mb-1 rounded " />
           <Skeleton className="h-10 w-48 rounded " />
         </div>
         <div className="flex items-center gap-2">
-          <Skeleton className="h-12 w-50 rounded-full" />
+          <Skeleton className="h-12 w-44 rounded-full" />
         </div>
       </div>
-      <div className="border rounded-lg bg-primarybox overflow-hidden">
+
+      <div className="border rounded-lg overflow-hidden">
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5 border-b">
           <div className="flex items-center gap-4 flex-1">
-            <Skeleton className="h-14 w-14 sm:h-16 sm:w-16 rounded-full flex-shrink-0 bg-background/50" />
+            <Skeleton className="h-14 w-14 sm:h-16 sm:w-16 rounded-full flex-shrink-0" />
             <div className="space-y-1.5 flex-1">
-              <Skeleton className="h-6 w-3/4 bg-background/50 rounded" />
-              <Skeleton className="h-4 w-1/2 bg-background/50 rounded" />
-              <Skeleton className="h-8.5 w-27 bg-background/50 rounded-full" />
+              <Skeleton className="h-6 w-3/4 rounded" />
+              <Skeleton className="h-4 w-1/2 rounded" />
+              <Skeleton className="h-8.5 w-27 rounded-full" />
             </div>
           </div>
           <div className="space-y-1 text-right flex-shrink-0">
-            <Skeleton className="h-3 w-28 bg-background/50 rounded" />
-            <Skeleton className="h-3 w-24 bg-background/50 rounded" />
-            <Skeleton className="h-3 w-32 bg-background/50 rounded" />
+            <Skeleton className="h-3 w-28 rounded" />
+            <Skeleton className="h-3 w-24 rounded" />
+            <Skeleton className="h-3 w-32 rounded" />
           </div>
         </div>
         <div className="p-4 sm:p-6">
-          <Skeleton className="h-5 w-1/4 bg-background/50 rounded mb-4" />
+          <Skeleton className="h-5 w-1/4 rounded mb-4" />
           <div className="flex flex-nowrap overflow-x-auto space-x-4 pb-2 sm:grid sm:grid-cols-3 sm:gap-4 md:grid-cols-4 lg:grid-cols-5 sm:space-x-0 sm:pb-0 sm:overflow-x-visible">
             {[...Array(5)].map((_, i) => (
               <Skeleton
                 key={i}
-                className="flex-shrink-0 w-36 sm:w-auto bg-background/50 h-24 rounded-lg"
+                className="flex-shrink-0 w-36 sm:w-auto h-24 rounded-lg"
               />
             ))}
           </div>
@@ -6182,7 +6182,7 @@ const LoadingSkeleton = () => (
 
       <div className="w-full">
         <div className="overflow-hidden mb-4">
-          <div className="relative flex w-full h-full overflow-x-auto whitespace-nowrap gap-3 bg-primarybox p-1.5 rounded-full justify-normal items-center">
+          <div className="relative flex w-full h-full overflow-x-auto bg-primarybox whitespace-nowrap gap-3 p-1.5 rounded-full justify-normal items-center">
             <Skeleton className="h-9 flex-1 rounded-full bg-background/50" />
             <Skeleton className="h-9 flex-1 rounded-full bg-background/50" />
             <Skeleton className="h-9 flex-1 rounded-full bg-background/50" />
@@ -6190,11 +6190,11 @@ const LoadingSkeleton = () => (
         </div>
 
         <div className="space-y-4">
-          <div className="border rounded-lg bg-card overflow-hidden">
-            <div className="px-6 py-4 bg-primarybox">
+          <div className="border rounded-lg bg-background overflow-hidden">
+            <div className="px-6 py-4">
               <div className="flex items-center justify-between">
-                <Skeleton className="h-6 w-40 bg-background/50 rounded" />
-                <Skeleton className="h-7 w-24 bg-background/50 rounded-full" />
+                <Skeleton className="h-6 w-40 rounded" />
+                <Skeleton className="h-7 w-24 rounded-full" />
               </div>
             </div>
 
@@ -6210,7 +6210,7 @@ const LoadingSkeleton = () => (
                   ))}
                 </div>
               </div>
-              
+
               <div>
                 <Skeleton className="h-4 w-40  rounded mb-3 border-b border-transparent pb-2" />
                 <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-3">
@@ -6237,7 +6237,7 @@ const LoadingSkeleton = () => (
           </div>
 
           <div className="border rounded-lg bg-background overflow-hidden">
-            <div className="px-6 py-4 bg-primarybox">
+            <div className="px-6 py-4">
               <Skeleton className="h-6 w-44 rounded" />
             </div>
             <div className="p-4 sm:p-6">
@@ -6270,21 +6270,32 @@ const ErrorDisplay = ({
   error: string | null;
   onRetry: () => void;
 }) => (
-  <Alert variant="destructive" className="mt-6">
-    <AlertCircle className="h-4 w-4" />
-    <AlertTitle>Error Loading User Details</AlertTitle>
-    <AlertDescription>
-      {error || "An unexpected error occurred."}
-      <Button
-        variant="destructive"
-        size="sm"
-        onClick={onRetry}
-        className="mt-2 ml-auto block"
-      >
+  <div className="my-10">
+    <div
+      className="w-full flex justify-between relative items-center bg-red-900/25 border sm:order-1 order-2 border-red-500 p-4 rounded-xl"
+      role="alert"
+    >
+      <div className="flex items-center gap-3 text-center">
+        <div className="sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20 flex-shrink-0">
+          <AlertCircle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
+        </div>
+
+        <div className="flex-1 text-left">
+          <h4 className="font-medium sm:text-2xl text-lg text-red-600 capitalize">
+            Error Loading User Details
+          </h4>
+
+          <p className="text-sm text-left text-red-300/90">
+            {error || "An unexpected error occurred."}
+          </p>
+        </div>
+      </div>
+
+      <button onClick={onRetry} className="mt-2 block px-6 py-2 bg-red-700/20 rounded-full text-red-600 hover:bg-red-800/20 transition-all ease-linear duration-75 cursor-pointer font-medium">
         Retry
-      </Button>
-    </AlertDescription>
-  </Alert>
+      </button>
+    </div>
+  </div>
 );
 
 interface TransactionTableProps {
@@ -6413,7 +6424,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
               <td
                 colSpan={numberOfDataColumns}
                 className="px-6 py-10 text-center text-subheadingWhite"
-              > 
+              >
                 No {type}s found.
               </td>
             </tr>
@@ -6472,20 +6483,21 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
                           sideOffset={5}
                           className="bg-secondarybox text-mainheadingWhite p-2 px-3 rounded-2xl max-w-50 xl:max-w-lg"
                         >
-                          <p>{isCopied ? "Copied!" : "Copy ID"}</p>
+                          <p>{isCopied ? "Copied!" : "Copy Id"}</p>
                         </TooltipContent>
                       </Tooltip>
                     </div>
                   </td>
+
                   {type === "transfer" && (
-                    <td className="px-4 py-3 whitespace-nowrap font-medium capitalize text-subheadingWhite">
+                    <td className="px-4 py-3 whitespace-nowrap font-medium capitalize text-mainheadingWhite">
                       {recipientName || "N/A"}
                     </td>
                   )}
-                  <td className="px-4 py-3 whitespace-nowrap font-medium text-subheadingWhite">
+                  <td className="px-4 py-3 whitespace-nowrap font-medium text-mainheadingWhite">
                     {formattedAmount}
                   </td>
-                  <td className="px-4 py-3 whitespace-nowrap font-medium text-subheadingWhite">
+                  <td className="px-4 py-3 whitespace-nowrap font-medium text-mainheadingWhite">
                     {currencyCode || "N/A"}
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap">
@@ -6498,19 +6510,18 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
                       {item.status || "Unknown"}
                     </span>
                   </td>
-                  <td className="px-6 py-3 whitespace-nowrap font-medium text-subheadingWhite">
+                  <td className="px-6 py-3 whitespace-nowrap font-medium text-mainheadingWhite">
                     {formatDate(item.createdAt, true)}
                   </td>
                   <td className="px-6 py-3 whitespace-nowrap ">
-                    <Button
-                      asChild
-                      className="inline-flex items-center group px-6 py-2 rounded-3xl space-x-1 transition-all duration-75 ease-linear font-medium bg-primary hover:bg-primaryhover text-mainheading focus:outline-none"
+                    <button
+                      className="inline-flex items-center group px-6 py-2 rounded-3xl transition-all duration-75 ease-linear font-medium bg-primarybox hover:bg-secondarybox text-primary focus:outline-none"
                       title={`View ${type} details`}
                     >
                       <Link href={detailLink}>
                         <span>View Details</span>
                       </Link>
-                    </Button>
+                    </button>
                   </td>
                 </tr>
               );
@@ -6808,15 +6819,18 @@ const UserDetailPage: React.FC = () => {
       </div>
     );
   }
+
   if (!userData) {
     return (
-      <div className="relative min-h-screen bg-background p-4 sm:p-6 lg:p-8 text-center py-16">
-        <ToastContainer
+       <div className="fixed gap-2 inset-0 bg-black/50 backdrop-blur-[1px] h-screen flex items-center justify-center z-50">
+         <ToastContainer
           {...customToastContainerProps}
           style={getToastContainerStyle()}
         />
-        User data not found. This might be due to an earlier error or invalid
-        ID.
+        <Loader2 size={48} className="text-primary animate-spin" />
+        <p className="text-mainheadingWhite font-medium">
+          Loading UsersData...
+        </p>
       </div>
     );
   }
@@ -6854,7 +6868,7 @@ const UserDetailPage: React.FC = () => {
         <div className="space-y-6 pb-10">
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
             <div className="Heading">
-              <div className="flex items-center text-sm  mb-2 flex-wrap">
+              <div className="flex items-center text-sm flex-wrap">
                 <Link
                   href="/admin"
                   className="text-subheadingWhite hover:text-primary"
@@ -6869,25 +6883,23 @@ const UserDetailPage: React.FC = () => {
                   Users
                 </Link>
                 <ChevronRight className="size-4 mx-1 flex-shrink-0 text-mainheadingWhite" />
-                <span
-                  className="text-subheadingWhite truncate"
-                  title={userId}
-                >
+                <span className="text-subheadingWhite truncate" title={userId}>
                   Details (
                   {userId ? `${userId.substring(0, 8)}...` : "Loading..."})
                 </span>
               </div>
-              
-              <h1 className="text-2xl md:text-3xl font-bold text-mainheadingWhite">
+
+              <h1 className="text-2xl md:text-3xl mt-1 font-bold text-mainheadingWhite">
                 User Details
               </h1>
             </div>
+
             <div className="flex items-center gap-2 flex-wrap">
               <button
                 onClick={() => setIsSendMessageModalOpen(true)}
-                className="flex items-center justify-center cursor-pointer gap-2 bg-primarybox hover:bg-secondarybox text-mainheadingWhite px-8 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear"
+                className="flex items-center justify-center cursor-pointer gap-2 bg-primarybox hover:bg-secondarybox text-mainheadingWhite px-6 py-3 h-12 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear"
               >
-                <MessageSquarePlus className="size-4 mr-1.5" /> Send Message
+                <MessageSquarePlus className="size-4" /> Send Message
               </button>
             </div>
           </div>
@@ -6895,7 +6907,6 @@ const UserDetailPage: React.FC = () => {
           <Card className="overflow-hidden bg-primarybox shadow-none">
             <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 p-4 sm:p-5">
               <div className="flex items-center gap-4">
-
                 <Avatar className="size-14 sm:size-16 flex-shrink-0">
                   <AvatarFallback className="text-xl font-semibold text-mainheadingWhite">
                     {getInitials(userData.fullName)}
@@ -6946,9 +6957,7 @@ const UserDetailPage: React.FC = () => {
                     sideOffset={5}
                     className="bg-secondarybox text-mainheadingWhite p-2 px-3 sm:mr-5 mr-0 rounded-2xl max-w-60 xl:max-w-lg"
                   >
-                    <p className="font-medium text-xs">
-                      {userData._id}
-                    </p>
+                    <p className="font-medium text-xs">{userData._id}</p>
                   </TooltipContent>
                 </Tooltip>
               </div>
@@ -6995,7 +7004,7 @@ const UserDetailPage: React.FC = () => {
             className="w-full"
           >
             <div className="overflow-hidden mb-4 rounded-full z-0">
-              <TabsList className="relative z-20 flex w-full h-full overflow-x-auto whitespace-nowrap bg-secondarybox p-1.5 rounded-full justify-normal items-center">
+              <TabsList className="relative z-20 flex w-full h-full overflow-x-auto whitespace-nowrap bg-primarybox p-1.5 rounded-full justify-normal items-center">
                 {tabs.map((tab) => (
                   <TabsTrigger
                     key={tab.value}
@@ -7213,8 +7222,8 @@ const UserDetailPage: React.FC = () => {
                                         " "
                                       )} document`}
                                     >
-                                      <Eye className="h-6 w-6 mb-1 text-mainheading" />{" "}
-                                      <span className="text-sm font-medium text-mainheading">
+                                      <Eye className="h-6 w-6 mb-1 text-white" />{" "}
+                                      <span className="text-sm font-medium text-white">
                                         {" "}
                                         View Full Document{" "}
                                       </span>
@@ -7269,10 +7278,9 @@ const UserDetailPage: React.FC = () => {
                       <CardDescription className="text-sm mt-1 text-subheadingWhite">
                         Last 5 transfers by this user.
                       </CardDescription>
-
                     </CardHeader>
+                    
                     <CardContent className="p-0">
-                      
                       <TransactionTable
                         data={sortedTransfers}
                         type="transfer"

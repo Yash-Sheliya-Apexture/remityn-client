@@ -956,7 +956,6 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useAuth } from "../../contexts/AuthContext"; // Adjust path if needed
 import axios, { AxiosError } from "axios";
 // import apiConfig from '../../config/apiConfig'; // Not used directly here
-import { motion, AnimatePresence } from "framer-motion";
 import { AlertCircle, Filter, RefreshCw } from "lucide-react";
 
 // Import Components
@@ -1335,7 +1334,7 @@ export default function AllRecentActivityPage() {
             <div className="Activity">
               <div className="flex flex-wrap items-center gap-3">
                 <div className="p-2.5 shrink-0 bg-primary rounded-full flex items-center justify-center">
-                  <LuActivity className="text-mainheading" size={26} />
+                  <LuActivity className="text-mainheading size-6" size={26} />
                 </div>
 
                 <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
@@ -1343,9 +1342,11 @@ export default function AllRecentActivityPage() {
                 </h1>
               </div>
 
-              <p className="mt-2 text-subheadingWhite text-base lg:text-lg">
-                Track all user transactions, KYC submissions, and status updates
-                in real time with detailed logs for complete transparency.
+              <p className="mt-2 text-subheadingWhite max-w-5xl text-base lg:text-lg">
+                Stay informed with a comprehensive overview of every action
+                taken on your platform. The All Recent Activity dashboard allows
+                you to monitor user transactions, KYC submissions, account
+                changes, and status updates in real time.
               </p>
             </div>
 
@@ -1361,7 +1362,7 @@ export default function AllRecentActivityPage() {
               <button
                 onClick={refreshData}
                 disabled={isRefreshing || loading}
-                className="flex items-center justify-center cursor-pointer gap-2 bg-primarybox hover:bg-secondarybox text-primary sm:px-8 px-6 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex items-center justify-center cursor-pointer fon gap-2 bg-primarybox hover:bg-secondarybox text-primary sm:px-8 px-6 py-3 h-12.5 sm:w-auto w-full rounded-full transition-all duration-75 ease-linear disabled:opacity-50 disabled:cursor-not-allowed"
                 title="Refresh activity feed"
               >
                 <RefreshCw
@@ -1377,19 +1378,20 @@ export default function AllRecentActivityPage() {
           {/* Error Message */}
           {error && (
             <div
-              className="w-full flex relative justify-center items-center  bg-red-900/25 border sm:order-1 order-2 border-red-500 px-5 py-4 rounded-xl"
+              className="w-full flex relative items-center  bg-red-900/25 border sm:order-1 order-2 border-red-500 p-4 rounded-xl"
               role="alert"
             >
-              <div className="flex flex-col items-center gap-3 text-center">
+              <div className="flex items-center gap-3 text-center">
                 <div className="sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20 flex-shrink-0">
                   <AlertCircle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
                 </div>
 
-                <div className="flex-1">
-                  <h4 className="font-medium sm:text-2xl text-xl text-red-600 capitalize">
+                <div className="flex-1 text-left">
+                  <h4 className="font-medium sm:text-2xl text-lg text-red-600 capitalize">
                     Error loading Recent Activity
                   </h4>
-                  <p className="text-sm mt-2 text-red-300/90">{error}</p>
+
+                  <p className="text-sm text-left text-red-300/90">{error}</p>
                 </div>
               </div>
             </div>

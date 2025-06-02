@@ -8812,20 +8812,20 @@ interface ApiErrorData {
 }
 
 const LoadingSkeleton = () => (
-  <div className="container mx-auto px-4">
+  <div className="container mx-auto px-4 bg-background">
     <motion.div className="py-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-6 gap-4">
         <div>
-          <Skeleton className="h-4 w-64 mb-3 rounded" />
-          <Skeleton className="h-8 w-48 rounded " />
+          <Skeleton className="h-4 w-88 mb-3 rounded" />
+          <Skeleton className="h-8 w-50 rounded " />
         </div>
-        <Skeleton className="h-4 w-32 rounded-md" />
+        <Skeleton className="h-4 w-40 rounded-md" />
       </div>
 
       <div className="mx-auto max-w-5xl space-y-8">
         <div className="space-y-8">
           <div className="overflow-hidden mb-4">
-            <div className="relative flex w-full h-full overflow-x-auto gap-3 whitespace-nowrap bg-secondarybox p-1.5 rounded-full justify-normal items-center">
+            <div className="relative flex w-full h-full overflow-x-auto gap-3 whitespace-nowrap bg-primarybox p-1.5 rounded-full justify-normal items-center">
               <Skeleton className="h-10 flex-1 rounded-full bg-background/50" />
               <Skeleton className="h-10 flex-1 rounded-full bg-background/50" />
               <Skeleton className="h-10 flex-1 rounded-full bg-background/50" />
@@ -8833,35 +8833,35 @@ const LoadingSkeleton = () => (
           </div>
 
           <div className="space-y-6">
-            <div className="rounded-xl bg-primarybox border lg:p-6 p-4">
-              <Skeleton className="h-5 w-1/3 rounded mb-4 border-b border-transparent pb-2 bg-background/50" />
+            <div className="rounded-xl border lg:p-6 p-4">
+              <Skeleton className="h-5 w-1/3 rounded mb-4 border-b border-transparent pb-2" />
               <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Skeleton className="h-4 w-1/4 rounded bg-background/50" />
-                  <Skeleton className="h-12 w-full rounded-md bg-background/50" />
+                  <Skeleton className="h-4 w-1/4 rounded" />
+                  <Skeleton className="h-12 w-full rounded-md" />
                 </div>
                 <div className="space-y-2">
-                  <Skeleton className="h-4 w-1/3 rounded bg-background/50" />
-                  <Skeleton className="h-12 w-full rounded-md bg-background/50" />
+                  <Skeleton className="h-4 w-1/3 rounded" />
+                  <Skeleton className="h-12 w-full rounded-md" />
                 </div>
                 <div className="md:col-span-2 space-y-2">
-                  <Skeleton className="h-4 w-1/3 rounded bg-background/50" />
-                  <Skeleton className="h-12 w-full rounded-md bg-background/50" />
-                  <Skeleton className="h-3 w-3/4 rounded bg-background/50" />
+                  <Skeleton className="h-4 w-1/3 rounded" />
+                  <Skeleton className="h-12 w-full rounded-md" />
+                  <Skeleton className="h-3 w-3/4 rounded" />
                 </div>
               </div>
             </div>
 
-            <div className="rounded-xl bg-primarybox border">
-              <Skeleton className="h-5 w-1/4 rounded m-4 lg:m-6 mb-0 border-b border-transparent pb-3 bg-background/50" />
+            <div className="rounded-xl border">
+              <Skeleton className="h-5 w-1/4 rounded m-4 lg:m-6 mb-0 border-b border-transparent pb-3" />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:p-6 p-4">
                 <div className="space-y-2">
-                  <Skeleton className="h-4 w-1/3 rounded bg-background/50" />
-                  <Skeleton className="h-12 w-full rounded-md bg-background/50" />
+                  <Skeleton className="h-4 w-1/3 rounded" />
+                  <Skeleton className="h-12 w-full rounded-md" />
                 </div>
                 <div className="space-y-2">
-                  <Skeleton className="h-4 w-1/3 rounded bg-background/50" />
-                  <Skeleton className="h-12 w-full rounded-md bg-background/50" />
+                  <Skeleton className="h-4 w-1/3 rounded" />
+                  <Skeleton className="h-12 w-full rounded-md" />
                 </div>
               </div>
             </div>
@@ -9696,7 +9696,7 @@ const AdminEditCurrencyPage = () => {
                     variants={itemVariants}
                     className="mb-4 rounded-full overflow-hidden"
                   >
-                    <TabsList className="relative z-0 flex w-full h-full whitespace-nowrap overflow-x-auto bg-secondarybox p-1.5 rounded-full justify-normal items-center">
+                    <TabsList className="relative z-0 flex w-full h-full whitespace-nowrap overflow-x-auto bg-primarybox p-1.5 rounded-full justify-normal items-center">
                       {TABS_CONFIG.map((tabInfo) => (
                         <TabsTrigger
                           key={tabInfo.value}

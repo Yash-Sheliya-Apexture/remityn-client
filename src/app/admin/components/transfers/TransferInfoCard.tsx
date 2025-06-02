@@ -282,21 +282,21 @@ const TransferInfoCard: React.FC<TransferInfoCardProps> = ({ transfer }) => {
       </div>
       <div className="sm:p-6 p-4 space-y-4">
         <div>
-          <p className="text-sm font-medium text-white/90 mb-1">Transfer ID</p>
-          <div className="text-sm bg-secondarybox text-mainheadingWhite px-3 py-3 rounded-lg break-all">
+          <p className="text-sm font-medium text-mainheadingWhite mb-1">Transfer ID</p>
+          <div className="text-sm bg-secondarybox text-white px-3 py-3 rounded-lg break-all">
             {/* Using transfer._id directly as it's made required by interface */}
             {transfer._id}
           </div>
         </div>
         <div>
-          <p className="text-sm font-medium text-white/90 mb-1">Created On</p>
-          <div className="text-sm bg-secondarybox text-mainheadingWhite px-3 py-3 rounded-lg">
+          <p className="text-sm font-medium text-mainheadingWhite mb-1">Created On</p>
+          <div className="text-sm bg-secondarybox text-white px-3 py-3 rounded-lg">
             {displayCreatedAt}
           </div>
         </div>
         <div>
-          <p className="text-sm font-medium text-white/90 mb-1">Last Updated</p>
-          <div className="text-sm bg-secondarybox text-mainheadingWhite px-3 py-3 rounded-lg">
+          <p className="text-sm font-medium text-mainheadingWhite mb-1">Last Updated</p>
+          <div className="text-sm bg-secondarybox text-white px-3 py-3 rounded-lg">
             {displayUpdatedAt}
           </div>
         </div>

@@ -16,7 +16,7 @@ body {
   --font-SatoshiVariable: var(--font-SatoshiVariable);
   --font-SatoshiVariableItalic: var(--font-SatoshiVariableItalic);
 
-  /* Background Color Start*/
+  /* Background Color */
   --color-background: #22282a;
   --color-primary: #66e8fa;
   --color-primaryhover: #9cf0fc;
@@ -161,21 +161,29 @@ html {
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
-  --chart-1: 220 80% 60%;
-  /* Blueish */
-  --chart-2: 150 70% 45%;
-  /* Greenish */
-  --chart-3: 40 90% 55%;
-  /* Orange/Yellow */
-  --chart-4: 300 75% 60%;
-  /* Purple/Magenta */
-  --chart-5: 0 70% 50%;
-  /* Reddish */
-  --chart-6: 180 60% 40%;
-  /* Cyan/Teal */
-  --chart-7: 260 70% 65%;
+
+  --chart-1: 188, 100%, 50%;
+  /* GBP */
+
+  --chart-2: 188, 84%, 58%;
+  /* AED */
+  
+  --chart-3: 188, 69%, 65%;
+  /* EUR */
+
+  --chart-4:  188, 61%, 70%;
+  /* USD */
+
+  --chart-5: 188, 50%, 80%;
+  /* INR */
+
+  --chart-6: 188, 40%, 85%;
+  /* JPY */
+
+  --chart-7: 188, 30%, 89%;
   /* Indigo */
-  --chart-8: 60 85% 50%;
+
+  --chart-8: 188, 20%, 91%;
   /* Bright Yellow */
 
   /* Icon Background Gradient Color Start */

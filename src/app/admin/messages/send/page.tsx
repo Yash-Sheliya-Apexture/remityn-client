@@ -2903,13 +2903,12 @@
 //         isDeleting={deletingBatchId === showDeleteConfirm?.batchId}
 //         formatDateForDisplay={formatDateForDisplay}
 //       />
-      
+
 //     </div>
 //   );
 // };
 
 // export default AdminSendAllMessagePage;
-
 
 // frontend/src/app/admin/send/page.tsx
 "use client";
@@ -3344,18 +3343,23 @@ const AdminSendAllMessagePage: React.FC = () => {
       />
       <div className="Send mb-5">
         <div className="flex items-center gap-3">
-          <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
-            <FaPaperPlane className="size-6 text-mainheading" />
+          
+          <div className="p-2.5 shrink-0 bg-primary rounded-full flex items-center justify-center">
+            <FaPaperPlane className="text-mainheading" size={26} />
           </div>
+
           <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
             Send Broadcast Message
           </h1>
         </div>
-        <p className="mt-2 text-subheadingWhite lg:text-lg">
-          Broadcast messages allow administrators to quickly and efficiently
-          communicate important updates, alerts, or announcements to all users
-          at once
+
+        <p className="mt-2 text-subheadingWhite text-base lg:text-lg">
+          Communicate important updates instantly with the Send Broadcast
+          Message feature. Designed for speed and efficiency, this tool allows
+          administrators to send announcements, alerts, or critical information
+          to all users at once.
         </p>
+        
       </div>
 
       <ComposeBroadcastForm

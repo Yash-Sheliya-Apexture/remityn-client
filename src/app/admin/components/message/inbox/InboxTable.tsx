@@ -1088,12 +1088,12 @@ const InboxTable: React.FC<InboxTableProps> = ({
                   className="text-center space-y-3 w-full text-mainheadingWhite"
                 >
                   <div className="flex justify-center items-center">
-                    <span className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
-                      <ListChecks className="lg:size-8 size-6 mx-auto text-mainheadingWhite" />
+                    <span className="lg:size-12 size-10 flex items-center justify-center bg-primary rounded-full ">
+                      <ListChecks className="lg:size-6 size-4 mx-auto text-mainheadingWhite" />
                     </span>
                   </div>
 
-                  <h1 className="lg:text-3xl text-2xl font-medium text-mainheadingWhite mt-1">
+                  <h1 className="lg:text-3xl text-2xl font-medium text-mainheadingWhite">
                     No messages found.
                   </h1>
 
@@ -1157,7 +1157,7 @@ const InboxTable: React.FC<InboxTableProps> = ({
                         <button
                           onClick={() => onEdit(msg)}
                           title="Edit Message"
-                          className="bg-primary hover:bg-primaryhover gap-1.5 transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium text-mainheading dark:text-primary focus:outline-none flex items-center"
+                          className="bg-primarybox hover:bg-secondarybox gap-2 transition-all duration-75 ease-linear cursor-pointer rounded-full px-6 py-2 font-medium text-primary focus:outline-none flex items-center"
                         >
                           <Edit size={18} />
                           Edit
@@ -1165,7 +1165,7 @@ const InboxTable: React.FC<InboxTableProps> = ({
                         <button
                           onClick={() => onDelete(msg)}
                           title="Delete Message"
-                          className="bg-red-600 hover:bg-red-700 text-white  transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium focus:outline-none flex items-center"
+                          className="bg-red-500 hover:bg-red-600 text-white  transition-all duration-75 ease-linear cursor-pointer rounded-3xl px-6 py-2 font-medium focus:outline-none flex items-center"
                         >
                           <Trash2 size={18} className="mr-1" />
                           Delete

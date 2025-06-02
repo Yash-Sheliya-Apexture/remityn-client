@@ -4,26 +4,25 @@
             "id": 1,
             "reviews": [
                 {
-                    "reviewerName": "Tom Diaz | The Sales Booster",
-                    "subtitle": "The Sales Booster",
+                    "reviewerName": "Ashta Gondaliya",
                     "avatarUrl": "./assets/images/Tom.jpg",
-                    "rating": 5,
-                    "DateAndTime": "10:16 AM · Jan 4, 2024",
-                    "comment": "Planning my honeymoon abroad was stressful, but at least exchanging money wasn’t. This site gave me the best rate after comparing a few options online. The instructions were clear, and the process was smooth from start to finish. I felt secure entering my details and appreciated the instant confirmation. Five stars from a happy newlywed traveler!"
+                    "rating": 4.8,
+                    "DateAndTime": "3:15 PM · Jan 3, 2025",
+                    "comment": "Quick signup and KYC. AED transfer was smooth. Great service."
                 },
                 {
-                    "reviewerName": "John Taylor | Sales Manager",
+                    "reviewerName": "Michael Johnson",
                     "avatarUrl": "./assets/images/John.png",
-                    "rating": 5,
-                    "DateAndTime": "4:16 PM · Jul 20, 2023",
-                    "comment": "This website has become my go-to for exchanging money before every trip. I always get competitive exchange rates and zero hidden fees. The interface is clean and super easy to navigate, even for first-time users. Every transaction I’ve made has been smooth and reliable. Definitely one of the best online currency exchange platforms."
+                    "rating": 4.5,
+                    "DateAndTime": "10:12 AM · Jan 4, 2025",
+                    "comment": "The instant account setup was genuinely fast. KYC was simpler than I expected. Funding my USD wallet and sending to India was straightforward. Being able to save recipient details is a huge time saver."
                 },
                 {
-                    "reviewerName": "Ryan Cooper | Market Analysis",
+                    "reviewerName": "Nilesh Patel",
                     "avatarUrl": "./assets/images/Ryan.jpg",
-                    "rating": 4.5,
-                    "DateAndTime": "3:24 PM · Feb 2, 2024",
-                    "comment": "I was amazed by how quickly my money reached my family abroad. The exchange rates beat every other service I’ve used, and the process was smooth from start to finish. Highly recommend this platform for all international travelers. Every transaction went smoothly complated."
+                    "rating": 5.0,
+                    "DateAndTime": "11:05 AM · Jan 4, 2025",
+                    "comment": "So easy! Sent USD to INR in minutes. Love it!"
                 }
             ]
         },
@@ -31,25 +30,25 @@
             "id": 2,
             "reviews": [
                 {
-                    "reviewerName": "Krunal Kathiriya | IOS App Developer",
+                    "reviewerName": "Krish Shihora",
                     "avatarUrl": "./assets/images/krunal.jpg",
-                    "rating": 5,
-                    "DateAndTime": "3:16 PM · Apr 16, 2024",
-                    "comment": "As someone who values efficiency, this website checks every box. It’s simple, secure, and offers great exchange rates. It helped me prepare for a recent trip overseas without any stress. If you travel internationally, you’ll love how easy this platform makes the process to I used it before a trip to South America, and it worked perfectly."
+                    "rating": 5.0,
+                    "DateAndTime": "2:55 PM · Jan 3, 2025",
+                    "comment": " Impressed with the ease of creating a EUR wallet. Bank transfer for funding was clear. Adding my family's Indian bank details (IFSC code and all) was simple. Transfer status tracking is very helpful."
                 },
                 {
-                    "reviewerName": "Lisa Carter | Product Design",
+                    "reviewerName": "Isabella Garcia",
                     "avatarUrl": "./assets/images/Lisa-Carter.jpg",
-                    "rating": 4.5,
-                    "DateAndTime": "10:01 PM · Apr 7, 2022",
-                    "comment": "I was able to exchange currency while sitting at the airport lounge. That alone is impressive.What’s even better is how intuitive the platform is. You see current rates, lock them in, and transfer money in minutes. It’s perfect when time is tight. I received updates during every step. The entire exchange felt fast and safe."
+                    "rating": 5.0,
+                    "DateAndTime": "12:35 PM · Jan 4, 2025",
+                    "comment": " I was looking for a reliable and simple way to send USD to my parents in India, and this website is perfect! The 'instant account' setup actually lived up to its name – just basic details and I was in. The KYC process was surprisingly quick and unlocked everything. Creating the USD digital wallet and adding funds via bank transfer was very clear. I especially loved how easy it was to add my parents as recipients with their bank account number and IFSC code, and that I can save their details for future transfers. The final step of sending the money was just a few clicks, and the tracking feature gave me complete peace of mind. Five stars!"
                 },
                 {
-                    "reviewerName": "Amelia Brown | CEO of Fremantle",
+                    "reviewerName": "Isha Bhatt",
                     "avatarUrl": "./assets/images/Amelia.jpg",
-                    "rating": 4.5,
-                    "DateAndTime": "5:57 PM · Oct 23, 2022",
-                    "comment": "Safe, simple, and very efficient—this website made exchanging currency a breeze. I used it before a trip to South America, and it worked perfectly. I’ll be using it again for all my future travel needs. It’s exactly what you want when handling international money.  travel often for business and always need a reliable currency exchange platform."
+                    "rating": 4.7,
+                    "DateAndTime": "10:00 AM · Jan 2, 2025",
+                    "comment": "I was a bit apprehensive about online money transfers, but this website made it so easy. The initial sign-up asked for just basic details. The KYC was a simple verification step, and after that, I had full access to create my GBP wallet. The instructions for adding funds via bank transfer were clear and easy to follow. What I really appreciated was the recipient management – I entered my sister's full name, her Indian bank account number, and the IFSC code, and now she's saved for future transfers. Sending the money was then just a matter of selecting her, my wallet, and the amount. I could even track the transaction status, which was reassuring."
                 }
             ]
         },
@@ -57,40 +56,40 @@
             "id": 3,
             "reviews": [
                 {
-                    "reviewerName": "Sarah Mitchell | CEO of Cycling UK",
+                    "reviewerName": "Sanjay Parmar",
                     "avatarUrl": "./assets/images/Sarah.jpg",
-                    "rating": 4.5,
-                    "DateAndTime": "08:47 PM · Feb 19, 2024",
-                    "comment": "I liked how this site showed the exact fees before the transaction. Total transparency.I could plan my travel money without guessing what I’d lose in fees. The process is mobile-friendly and accessible 24/7. I checked rates on the go and completed everything in a few minutes. That kind of convenience is hard trying to beat."
+                    "rating": 4.9,
+                    "DateAndTime": "5:50 PM · Jan 3, 2025",
+                    "comment": " I've used a few services to send AED to India, but this one stands out for its simplicity. The signup really is quick, and the KYC verification didn't take long at all. Once that was done, setting up my AED wallet and transferring funds into it from my bank was smooth. The best part for me is managing recipients; I send to different family members, and being able to add all their details (name, bank account, IFSC) and save them is incredibly convenient. Initiating the transfer itself is very intuitive – select wallet, select recipient, enter amount, confirm. The tracking is also a great feature. Definitely my new go-to."
                 },
                 {
-                    "reviewerName": "Emily Clarke | Business Development Consultant",
+                    "reviewerName": "Avni Goyani",
                     "avatarUrl": "./assets/images/Emily.avif",
-                    "rating": 5,
-                    "DateAndTime": "11:02 AM · Mar 7, 2024",
-                    "comment": "It’s rare to find a service that balances speed and security. This one does both.I exchanged a decent sum before my trip and received it quickly. I loved getting an invoice with all details spelled out. No vague charges or bad surprises."
+                    "rating": 5.0,
+                    "DateAndTime": "6:22 PM · Jan 1, 2025",
+                    "comment": "EUR to INR, fast and reliable. Tracking is a plus!"
                 },
                 {
-                    "reviewerName": "Jake Miller | Concept Artist",
+                    "reviewerName": "Arman Malik",
                     "avatarUrl": "./assets/images/Jake.jpg",
                     "location": "Austin, TX",
-                    "rating": 4,
+                    "rating": 4.1,
                     "DateAndTime": "06:33 AM · May 25, 2024",
-                    "comment": "I first found this platform while looking for low-cost ways to send money internationally, and I haven’t looked back. The experience is seamless—from setting up the account to confirming each transfer. It’s a great tool for both casual and frequent best platform for a travelers likes."
+                    "comment": "Excellent platform! GBP wallet setup was a breeze. Highly recommend."
                 },
                 {
-                    "reviewerName": "Liam Brown | Los Angeles",
+                    "reviewerName": "Smith Carter",
                     "avatarUrl": "./assets/images/Liam.jpg",
-                    "rating": 4.5,
-                    "DateAndTime": "09:56 AM · Dec 1, 2024",
-                    "comment": "I had to make a last-minute money transfer while abroad. This platform saved the day.I was surprised how quickly everything went through. I logged in, chose the currency, and sent the amount—all in less than 10 minutes. The recipient got the money that same day. The real-time rate check was a great bonus."
+                    "rating": 4.2,
+                    "DateAndTime": "9:02 AM · Jan 3, 2025",
+                    "comment": "Good overall service for GBP to INR. Signup and KYC were quick. I appreciate being able to manage multiple recipients. The transfer was completed in a reasonable time."
                 },
                 {
-                    "reviewerName": "Sofia Vyas | Freelance Writer",
+                    "reviewerName": "Noora Al Hammadi",
                     "avatarUrl": "./assets/images/Sofia.png",
-                    "rating": 5,
-                    "DateAndTime": "4:05 PM · Jan 9, 2023",
-                    "comment": "I found this service while researching currency exchange options before my backpacking trip. It turned out to be a great find with very competitive rates. Signing up was easy, and the whole process was seamless. I even recommended it to other travelers I met abroad. A fantastic tool for anyone traveling internationally."
+                    "rating": 5.0,
+                    "DateAndTime": "7:30 PM · Jan 2, 2025",
+                    "comment": "Finally, a truly user-friendly way to send AED to India! The wallet creation is intuitive, and adding funds was no hassle. Selecting the recipient and sending money was very quick."
                 }
             ]
         },
@@ -98,40 +97,39 @@
             "id": 4,
             "reviews": [
                 {
-                    "reviewerName": "Sarah Mitchell | CEO of Cycling UK",
+                    "reviewerName": "Hit Lakhani",
                     "avatarUrl": "./assets/images/Sarah.jpg",
                     "rating": 4.5,
-                    "DateAndTime": "08:47 PM · Feb 19, 2024",
-                    "comment": "I liked how this site showed the exact fees before the transaction. Total transparency.I could plan my travel money without guessing what I’d lose in fees. The process is mobile-friendly and accessible 24/7. I checked rates on the go and completed everything in a few minutes. That kind of convenience is hard trying to beat."
+                    "DateAndTime": "10:00 AM · Jan 2, 2025",
+                    "comment": " I was a bit apprehensive about online money transfers, but this website made it so easy. The initial sign-up asked for just basic details. The KYC was a simple verification step, and after that, I had full access to create my GBP wallet. The instructions for adding funds via bank transfer were clear and easy to follow. What I really appreciated was the recipient management – I entered my sister's full name, her Indian bank account number, and the IFSC code, and now she's saved for future transfers. Sending the money was then just a matter of selecting her, my wallet, and the amount. I could even track the transaction status, which was reassuring."
                 },
                 {
-                    "reviewerName": "Emily Clarke | Business Development Consultant",
-                    "avatarUrl": "./assets/images/Emily.avif",
-                    "rating": 5,
-                    "DateAndTime": "11:02 AM · Mar 7, 2024",
-                    "comment": "It’s rare to find a service that balances speed and security. This one does both.I exchanged a decent sum before my trip and received it quickly. I loved getting an invoice with all details spelled out. No vague charges or bad surprises."
-                },
-                {
-                    "reviewerName": "Jake Miller | Concept Artist",
+                    "reviewerName": "Ben Stock",
                     "avatarUrl": "./assets/images/Jake.jpg",
-                    "location": "Austin, TX",
+                    "rating": 4.8,
+                    "DateAndTime": "3:40 PM · Jan 1, 2025",
+                    "comment": "Excellent service for EUR to INR transfers. The commitment to 'easy and simple steps' is evident throughout the process. Account setup was indeed quick. KYC verification was handled efficiently, unlocking the wallet creation and international transfer capabilities. I created my EUR wallet, added funds through a bank transfer without any hitches. Adding my beneficiary in India, including their bank details like IFSC code, was straightforward, and the option to save these details is very practical for repeat transactions. The final transfer initiation was just a few clicks, and the ability to track the transaction's progress is a valuable feature."
+                },
+                {
+                    "reviewerName": "Fatima A.",
+                    "avatarUrl": "./assets/images/Emily.avif",
                     "rating": 4,
-                    "DateAndTime": "06:33 AM · May 25, 2024",
-                    "comment": "I first found this platform while looking for low-cost ways to send money internationally, and I haven’t looked back. The experience is seamless—from setting up the account to confirming each transfer. It’s a great tool for both casual and frequent best platform for a travelers likes."
+                    "DateAndTime": "4:10 PM · Dec 28, 2024",
+                    "comment": "Best AED to INR service I've found. Truly simple."
                 },
                 {
-                    "reviewerName": "Liam Brown | Los Angeles",
+                    "reviewerName": "David W.",
                     "avatarUrl": "./assets/images/Liam.jpg",
-                    "rating": 4.5,
-                    "DateAndTime": "09:56 AM · Dec 1, 2024",
-                    "comment": "I had to make a last-minute money transfer while abroad. This platform saved the day.I was surprised how quickly everything went through. I logged in, chose the currency, and sent the amount—all in less than 10 minutes. The recipient got the money that same day. The real-time rate check was a great bonus."
+                    "rating": 4.7,
+                    "DateAndTime": "1:50 PM · Dec 30, 2025",
+                    "comment": "Simple steps as promised. Adding recipients is very easy."
                 },
                 {
-                    "reviewerName": "Sofia Vyas | Freelance Writer",
+                    "reviewerName": "Samuel Green",
                     "avatarUrl": "./assets/images/Sofia.png",
-                    "rating": 5,
-                    "DateAndTime": "4:05 PM · Jan 9, 2023",
-                    "comment": "The site lets you compare rates in real time before committing. I liked seeing my savings compared to other options. Support was available the moment I needed it. No unnecessary waiting or confusion. Everything was explained clearly before and after payment.I trust you this site more than my local banks."
+                    "rating": 5.0,
+                    "DateAndTime": "8:18 AM · Dec 30, 2025",
+                    "comment": "Solid platform. Signup was fast, KYC was straightforward. Funded my GBP wallet without issues. Initiating the transfer to India and tracking its status was easy. Will use again."
                 }
             ]
         },
@@ -139,40 +137,39 @@
             "id": 5,
             "reviews": [
                 {
-                    "reviewerName": "Sarah Mitchell | CEO of Cycling UK",
-                    "avatarUrl": "./assets/images/Sarah.jpg",
-                    "rating": 4.5,
-                    "DateAndTime": "08:47 PM · Feb 19, 2024",
-                    "comment": "I liked how this site showed the exact fees before the transaction. Total transparency.I could plan my travel money without guessing what I’d lose in fees. The process is mobile-friendly and accessible 24/7. I checked rates on the go and completed everything in a few minutes. That kind of convenience is hard trying to beat."
-                },
-                {
-                    "reviewerName": "Emily Clarke | Business Development Consultant",
+                    "reviewerName": "Vinit Ghelani",
                     "avatarUrl": "./assets/images/Emily.avif",
-                    "rating": 5,
-                    "DateAndTime": "11:02 AM · Mar 7, 2024",
-                    "comment": "It’s rare to find a service that balances speed and security. This one does both.I exchanged a decent sum before my trip and received it quickly. I loved getting an invoice with all details spelled out. No vague charges or bad surprises."
+                    "rating": 4.6,
+                    "DateAndTime": "6:05 PM · Dec 29, 2025",
+                    "comment": "I needed to send USD to a colleague in India. This website provided a very streamlined experience. The quick account setup with basic details got me started fast. Completing the simple KYC verification unlocked the wallet and transfer features smoothly. I created a USD digital wallet and funded it via bank transfer. Adding my colleague's recipient details, including their full name, bank account number, and the bank's IFSC code, was easy, and I appreciate that I can save these for potential future use. Initiating the transfer was just a matter of selecting the funded wallet, the recipient, and entering the amount. The transaction tracking was a nice touch to monitor progress."
                 },
                 {
-                    "reviewerName": "Jake Miller | Concept Artist",
+                    "reviewerName": "Chelsy Desai",
+                    "avatarUrl": "./assets/images/Sarah.jpg",
+                    "rating": 4.1,
+                    "DateAndTime": "4:05 PM · Dec 31, 2025",
+                    "comment": "Used this for a EUR transfer. The process of adding my recipient and their bank details was very clear. I like that I can save them for next time. The digital wallet system is also very convenient."
+                },
+                {
+                    "reviewerName": "Aarav Sharma",
                     "avatarUrl": "./assets/images/Jake.jpg",
-                    "location": "Austin, TX",
-                    "rating": 4,
-                    "DateAndTime": "06:33 AM · May 25, 2024",
-                    "comment": "I first found this platform while looking for low-cost ways to send money internationally, and I haven’t looked back. The experience is seamless—from setting up the account to confirming each transfer. It’s a great tool for both casual and frequent best platform for a travelers likes."
+                    "rating": 5.0,
+                    "DateAndTime": "9:20 AM · Dec 31, 2025",
+                    "comment": "My father needed to receive funds from a relative in the UK (GBP). I helped him check out this platform from the sender's perspective (as described). The sender confirmed the signup was very fast, and KYC was simpler than other platforms. They easily created a GBP wallet, funded it, and then added my father's Indian bank details (account number, IFSC code) as a recipient. The sender mentioned how easy it was to save these details. The money arrived in my father's account quickly, and the sender could track it all the way. This service seems to make a complex process very simple for everyone involved."
                 },
                 {
-                    "reviewerName": "Liam Brown | Los Angeles",
+                    "reviewerName": "Rushil Vaghela",
                     "avatarUrl": "./assets/images/Liam.jpg",
-                    "rating": 4.5,
-                    "DateAndTime": "09:56 AM · Dec 1, 2024",
-                    "comment": "I had to make a last-minute money transfer while abroad. This platform saved the day.I was surprised how quickly everything went through. I logged in, chose the currency, and sent the amount—all in less than 10 minutes. The recipient got the money that same day. The real-time rate check was a great bonus."
+                    "rating": 4.9,
+                    "DateAndTime": "11:45 AM · Jan 1, 2025",
+                    "comment": "The platform delivers on its promise of simple steps. Quick account setup, easy KYC, and my USD wallet was ready to go. Transferring to India was seamless. Happy with the transaction tracking."
                 },
                 {
-                    "reviewerName": "Sofia Vyas | Freelance Writer",
+                    "reviewerName": "Chen L.",
                     "avatarUrl": "./assets/images/Sofia.png",
-                    "rating": 5,
-                    "DateAndTime": "4:05 PM · Jan 9, 2023",
-                    "comment": "The site lets you compare rates in real time before committing. I liked seeing my savings compared to other options. Support was available the moment I needed it. No unnecessary waiting or confusion. Everything was explained clearly before and after payment.I trust you this site more than my local banks."
+                    "rating": 4.6,
+                    "DateAndTime": "4:05 PM · Jan 9, 2025",
+                    "comment": "Good experience. USD wallet funded easily. Transaction went well."
                 }
             ]
         }

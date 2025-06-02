@@ -43,11 +43,11 @@ const SecuritySection = () => {
 
           {/* Right Image Block */}
           <div className="w-full lg:w-1/2">
-            <div className="relative lg:w-[52vw] w-full h-auto flex justify-center">
+            <div className="relative lg:w-[52vw] w-full h-auto flex justify-center pb-4 border-4 rounded-3xl overflow-hidden">
               <Image
-                src="/assets/images/Dashboard.avif"
-                width={550}
-                height={800}
+                src="/assets/images/sdesdrfdsfdsgdsgdsgf.png"
+                width={6050}
+                height={3000}
                 alt="Padlock symbolizing security"
                 className="object-contain rounded-3xl overflow-visible w-full h-auto"
               />

@@ -1883,8 +1883,7 @@ const stepsData: StepData[] = [
     contentTitle: "Sign Up and Get Verified",
     contentSubtitle: "Sign up quickly with our instant account setup by providing basic details. Complete a simple KYC verification process to unlock full access, including wallet creation and international money transfers.",
     contentImages: {
-      light: "/assets/images/Register-and-verify-light.png",
-      dark: "/assets/images/Register-and-verify-dark.png",
+      img: "/assets/images/Register-and-verify.png",
     },
     contentBlocks: [
       { text: "Instant account setup", type: "success" },
@@ -1899,8 +1898,7 @@ const stepsData: StepData[] = [
     contentTitle: " Create & Fund Your Currency Wallet",
     contentSubtitle: "You can easily create a digital wallet for currencies like USD, EUR, or GBP. Then you can add funds to your wallet via bank transfer. Once the funds are added, you are ready to transfer money to India.",
     contentImages: {
-      light: "/assets/images/Create-a-Digital-Wallet-light.png",
-      dark: "/assets/images/Create-a-Digital-Wallet-dark.png",
+      img: "/assets/images/Create-a-Digital-Wallet.png",
     },
     contentBlocks: [
       { text: "Choose your currency", type: "success" },
@@ -1915,8 +1913,7 @@ const stepsData: StepData[] = [
     contentTitle: "Add Your Recipient",
     contentSubtitle: "After the money is deposited in your wallet, you can add a recipient. In which you can add the recipient by entering the details like the recipient's full name, their bank account number, IFSC code of their Indian bank, etc. once the recipient details are added, you can save them for future use. and You can also easily manage multiple recipients",
     contentImages: {
-      light: "/assets/images/Add-Recipients-light.png",
-      dark: "/assets/images/Add-Recipients-dark.png",
+      img: "/assets/images/Add-Recipients.png",
     },
     contentBlocks: [
       { text: "Manage multiple recipients", type: "success" },
@@ -1931,8 +1928,7 @@ const stepsData: StepData[] = [
     contentTitle: "Transfer Money Seamlessly",
     contentSubtitle: "Finally, to initiate your transfer, select your funded currency wallet and the intended Indian recipient, then enter the amount you wish to send money. You can track the status of the transaction after you confirm the transaction.",
     contentImages: {
-      light: "/assets/images/Transfer-Money-light.png",
-      dark: "/assets/images/Transfer-Money-dark.png",
+      img: "/assets/images/Transfer-Money.png",
     },
     contentBlocks: [
       { text: "Initiate your transfer", type: "success" },

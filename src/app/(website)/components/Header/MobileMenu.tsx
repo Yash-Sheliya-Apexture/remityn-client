@@ -2119,7 +2119,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               <div className="h-12 w-full bg-gray-700/50 rounded-full animate-pulse"></div>
               <div className="h-12 w-full bg-gray-700/50 rounded-full animate-pulse"></div>
             </div>
-          ) : !isLoggedIn ? (
+          ) : isLoggedIn ? (
             <>
               <Link
                 href="/dashboard"

@@ -471,23 +471,11 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
                   alt="logo"
                   width={40}
                   height={40}
-                  className="block dark:hidden"
                 />
               </Link>
-              
+        
             )}
-            {isMobile && (
-              <Link href="/dashboard">
-                <Image
-                  src="/assets/images/mobile_dark_logo.svg"
-                  alt="logo"
-                  width={40}
-                  height={40}
-                  className="hidden dark:block"
-                />
-              </Link>
-              
-            )}
+          
 
             {showBackArrow && (
               <button

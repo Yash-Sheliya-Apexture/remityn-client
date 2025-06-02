@@ -5735,7 +5735,7 @@ export default function LoginPage() {
                       ${
                         passwordError
                           ? "border-red-600 ring-1 ring-red-600"
-                          : "border-[#3A3A3A]"
+                          : "border-primarybox"
                       }`}
                     value={password}
                     onChange={(e) => {

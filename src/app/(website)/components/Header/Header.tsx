@@ -4939,7 +4939,7 @@ const Header: React.FC = () => {
                 <Link
                   href="/"
                   onClick={isMobileMenuOpen ? closeMobileMenu : undefined}
-                  className="block" // Added for better click area
+                  className="block relative" // Added for better click area
                 >
                   <Image
                     src="/assets/images/main_logo.svg" // Ensure this path is correct

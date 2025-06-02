@@ -1885,8 +1885,7 @@ const stepsData: StepData[] = [
     contentTitle: "Register & Verify",
     contentSubtitle: "Get started in minutes with a secure and simple sign-up process. We use top-level identity verification to protect your account and ensure compliance with international money transfer regulations.",
     contentImages: {
-      light: "/assets/images/Register-and-verify-light.png",
-      dark: "/assets/images/Register-and-verify-dark.png",
+      img: "/assets/images/Register-and-verify.png",
     },
     contentBlocks: [
       { text: "Instant Account Setup", type: "success" },
@@ -1903,8 +1902,7 @@ const stepsData: StepData[] = [
     contentTitle: "Create Your Digital Wallet with Passkey",
     contentSubtitle: "Set up your secure digital wallet in seconds. With integrated passkey protection, your funds and personal details are safeguarded from the start.",
     contentImages: {
-      light: "/assets/images/Create-a-Digital-Wallet-light.png",
-      dark: "/assets/images/Create-a-Digital-Wallet-dark.png",
+      img: "/assets/images/Create-a-Digital-Wallet.png",
     },
     contentBlocks: [
       { text: "Passkeys: The Future of Security", type: "success" },
@@ -1921,8 +1919,7 @@ const stepsData: StepData[] = [
     contentTitle: "Add Recipients",
     contentSubtitle: "Easily link the bank accounts or digital wallets of the people you wish to send money to. Manage recipients securely and send funds with confidence.",
     contentImages: {
-      light: "/assets/images/Add-Recipients-light.png",
-      dark: "/assets/images/Add-Recipients-dark.png",
+      img: "/assets/images/Add-Recipients.png",
     },
     contentBlocks: [
       { text: "Multiple Recipient Support", type: "success" },
@@ -1939,8 +1936,7 @@ const stepsData: StepData[] = [
     contentTitle: "Transfer Money Seamlessly",
     contentSubtitle: "Complete your money transfer in just a few taps. Enjoy real-time processing, transparent fees, and secure delivery to your recipients in India.",
     contentImages: {
-      light: "/assets/images/Transfer-Money-light.png",
-      dark: "/assets/images/Transfer-Money-dark.png",
+      img: "/assets/images/Transfer-Money.png",
     },
     contentBlocks: [
       { text: "Instant Transfers", type: "success" },

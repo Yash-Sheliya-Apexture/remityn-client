@@ -1015,6 +1015,7 @@ import statsAdminService, {
 import KycVerificationCard from "./KycVerificationCard"; // Adjust path if needed
 import { Skeleton } from "@/components/ui/skeleton"; // Import Skeleton
 import { FaPercentage, FaRegClock } from "react-icons/fa";
+import { AlertCircle } from "lucide-react";
 
 export default function TransferInsights() {
   // State for Popular Corridors
@@ -1071,44 +1072,44 @@ export default function TransferInsights() {
     // Expanded color palette for potentially more unique colors
     const colors = [
       {
-        bg: "bg-blue-100 dark:bg-blue-800/30",
-        text: "text-blue-600 dark:text-blue-400",
+        bg: "bg-blue-800/40",
+        text: "text-blue-400",
       },
       {
-        bg: "bg-green-100 dark:bg-green-800/30",
-        text: "text-green-600 dark:text-green-400",
+        bg: "bg-green-800/40",
+        text: "text-green-400",
       },
       {
-        bg: "bg-purple-100 dark:bg-purple-800/30",
-        text: "text-purple-600 dark:text-purple-400",
+        bg: "bg-purple-800/40",
+        text: "text-purple-400",
       },
       {
-        bg: "bg-yellow-100 dark:bg-yellow-800/30",
-        text: "text-yellow-600 dark:text-yellow-400",
+        bg: "bg-yellow-800/40",
+        text: "text-yellow-400",
       },
       {
-        bg: "bg-red-100 dark:bg-red-800/30",
-        text: "text-red-600 dark:text-red-400",
+        bg: "bg-red-800/40",
+        text: "text-red-400",
       },
       {
-        bg: "bg-indigo-100 dark:bg-indigo-800/30",
-        text: "text-indigo-600 dark:text-indigo-400",
+        bg: "bg-indigo-800/40",
+        text: "text-indigo-400",
       },
       {
-        bg: "bg-pink-100 dark:bg-pink-800/30",
-        text: "text-pink-600 dark:text-pink-400",
+        bg: "bg-pink-800/40",
+        text: "text-pink-400",
       },
       {
-        bg: "bg-teal-100 dark:bg-teal-800/30",
-        text: "text-teal-600 dark:text-teal-400",
+        bg: "bg-teal-800/40",
+        text: "text-teal-400",
       },
       {
-        bg: "bg-orange-100 dark:bg-orange-800/30",
-        text: "text-orange-600 dark:text-orange-400",
+        bg: "bg-orange-800/40",
+        text: "text-orange-400",
       },
       {
-        bg: "bg-cyan-100 dark:bg-cyan-800/30",
-        text: "text-cyan-600 dark:text-cyan-400",
+        bg: "bg-cyan-800/40",
+        text: "text-cyan-400",
       },
     ];
     return colors[Math.abs(hash) % colors.length];
@@ -1118,7 +1119,7 @@ export default function TransferInsights() {
     // Skeleton state representing both cards
     return (
       <div className="mb-8">
-        <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-4">
+        <h3 className="text-xl font-semibold text-mainheadingWhite mb-4">
           Transfer Insights & KYC Status{" "}
           {/* Updated text to match success state */}
         </h3>
@@ -1126,12 +1127,13 @@ export default function TransferInsights() {
         {/* Grid for 2 items */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Skeleton for Popular Corridors */}
-          <div className="bg-white dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
+          <div className="bg-primarybox sm:p-6 p-4 rounded-xl">
             {/* Header: Title and Icon */}
             <div className="flex justify-between items-center mb-4">
-              <Skeleton className="h-6 w-1/3 rounded" />{" "}
+              <Skeleton className="h-6 w-1/3 rounded bg-background/50" />{" "}
               {/* Title: "Corridors (Last 90d)" */}
-              <Skeleton className="h-5 w-5 rounded-full" /> {/* Icon: Clock */}
+              <Skeleton className="size-12 rounded-full bg-background/50" />{" "}
+              {/* Icon: Clock */}
             </div>
             {/* List of Corridor Skeletons */}
             <div className="space-y-3">
@@ -1144,42 +1146,66 @@ export default function TransferInsights() {
                   <div key={i} className="flex justify-between items-center">
                     {/* Left part: Icon + Texts */}
                     <div className="flex items-center mr-2">
-                      <Skeleton className="sm:size-12 size-10 rounded-full mr-2 shrink-0" />{" "}
+                      <Skeleton className="sm:size-12 size-10 rounded-full mr-2 shrink-0 bg-background/50" />{" "}
                       {/* Currency Icon */}
                       <div className="space-y-1">
                         {" "}
                         {/* Texts container */}
-                        <Skeleton className="h-4 w-24 rounded" />{" "}
+                        <Skeleton className="h-4 w-24 rounded bg-background/50" />{" "}
                         {/* Placeholder for "EUR -> INR" */}
-                        <Skeleton className="h-3 w-16 rounded" />{" "}
+                        <Skeleton className="h-3 w-16 rounded bg-background/50" />{" "}
                         {/* Placeholder for "11 transfers" */}
                       </div>
                     </div>
                     {/* Right part: Percentage */}
-                    <Skeleton className="h-4 w-12 rounded" />{" "}
+                    <Skeleton className="h-4 w-12 rounded bg-background/50" />{" "}
                     {/* Placeholder for "55.0%" */}
                   </div>
                 )
               )}
             </div>
           </div>
-          
-          {/* Skeleton for KYC Card (5 items) - This remains as is */}
-          <div className="bg-white dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
+
+          <div className="w-full bg-primarybox sm:p-6 p-4 rounded-xl h-full flex flex-col justify-between">
+            {" "}
+            {/* Added h-full and flex column layout */}
+            {/* Header Skeleton */}
             <div className="flex justify-between items-center mb-4">
-              <Skeleton className="h-6 w-3/5 rounded" />
-              <Skeleton className="h-5 w-5 rounded-full" />
+              {" "}
+              {/* Added mb-4 to match actual header spacing */}
+              <Skeleton className="h-6 w-1/3 rounded-md bg-background/50" />{" "}
+              {/* Title: "KYC Verifications", slightly wider w-1/3 */}
+              <Skeleton className="size-12 rounded-full bg-background/50" />{" "}
+              {/* Icon, rounded-full to match dot style */}
             </div>
-            <div className="space-y-3 mb-4">
-              <Skeleton className="h-4 w-full rounded" />
-              <Skeleton className="h-4 w-3/4 rounded" />
-              <Skeleton className="h-4 w-2/3 rounded" />
-              <Skeleton className="h-4 w-3/5 rounded" />
-              <Skeleton className="h-4 w-1/2 rounded" />
+            {/* Content Rows Skeleton */}
+            {/* space-y-3 matches the actual content's spacing */}
+            <div className="space-y-4 flex-grow">
+              {" "}
+              {/* Use flex-grow to fill available space like the actual content wrapper */}
+              {/* Row Skeletons (5 rows matching Not Started, Pending, etc.) */}
+              {Array.from({ length: 5 }).map((_, index) => (
+                <div key={index} className="flex justify-between items-center">
+                  <Skeleton className="h-4 w-28 rounded-md bg-background/50" />{" "}
+                  {/* Label */}
+                  <div className="flex items-center">
+                    <Skeleton className="h-4 w-8 rounded-md bg-background/50" />{" "}
+                    {/* Count */}
+                    {/* Dot Skeleton: size-2 matches the actual dot size */}
+                    <Skeleton className="ml-2 size-2 rounded-full bg-background/50" />
+                  </div>
+                </div>
+              ))}
             </div>
-            <Skeleton className="h-5 w-1/3 rounded mt-6" />
+            {/* Footer Link Skeleton */}
+            {/* mt-6 matches the margin before the actual link */}
+            <div className="mt-6">
+              {" "}
+              {/* Wrap in a div to match the footer structure */}
+              <Skeleton className="h-5 w-1/3 rounded-md bg-background/50" />{" "}
+              {/* Adjusted height to h-5 for link appearance */}
+            </div>
           </div>
-          
         </div>
       </div>
     );
@@ -1189,11 +1215,22 @@ export default function TransferInsights() {
     // Error Display state
     return (
       <div
-        className="mb-8 bg-red-100 dark:bg-red-900/30 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-xl relative"
+        className="w-full flex relative justify-center items-center  bg-red-900/25 border sm:order-1 order-2 border-red-500 px-5 py-4 rounded-xl"
         role="alert"
       >
-        <strong className="font-bold">Error loading Insights:</strong>
-        <span className="block sm:inline"> {error}</span>
+        <div className="flex flex-col items-center gap-3 text-center">
+          <div className="sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20 flex-shrink-0">
+            <AlertCircle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
+          </div>
+
+          <div className="flex-1">
+            <h4 className="font-medium sm:text-2xl text-xl text-red-600 capitalize">
+              Error loading Insights
+            </h4>
+
+            <p className="text-sm mt-2 text-red-300/90">{error}</p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -1201,19 +1238,19 @@ export default function TransferInsights() {
   // Success State - Render the cards
   return (
     <div className="mb-8">
-      <h3 className="text-xl font-semibold text-neutral-900 dark:text-white mb-4">
+      <h3 className="text-xl font-semibold text-mainheadingWhite capitalize mb-4">
         Transfer Insights & KYC Status
       </h3>
       {/* Grid layout for the two cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Popular Corridors Card */}
-        <div className="dark:bg-primarybox sm:p-6 p-4 rounded-xl border">
+        <div className="bg-primarybox sm:p-6 p-4 rounded-xl">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-lg font-medium text-neutral-900 dark:text-white">
+            <h1 className="text-lg font-medium text-mainheadingWhite">
               Corridors (Last 90d)
             </h1>
-            <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-              <FaPercentage className="size-6 text-mainheading dark:text-primary" />
+            <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+              <FaPercentage className="size-6 text-mainheading" />
             </div>
           </div>
 
@@ -1239,24 +1276,24 @@ export default function TransferInsights() {
                         </span>
                       </div>
                       <div className="truncate">
-                        <p className="text-sm font-medium text-neutral-900 dark:text-white truncate">
+                        <p className="text-sm font-medium text-mainheadingWhite truncate">
                           {corridor.sendCurrencyCode} →{" "}
                           {corridor.receiveCurrencyCode}
                         </p>
-                        <p className="text-xs text-gray-500 dark:text-gray-300">
+                        <p className="text-xs text-subheadingWhite">
                           {corridor.count} transfers
                         </p>
                       </div>
                     </div>
-                    <p className="text-sm font-semibold text-neutral-900 dark:text-white shrink-0 ml-2">
+                    <p className="text-sm font-semibold text-mainheadingWhite shrink-0 ml-2">
                       {corridor.percentage.toFixed(1)}%
                     </p>
                   </div>
                 );
               })
             ) : (
-              <p className="text-sm text-gray-500 dark:text-gray-300">
-                No popular corridor data available.
+              <p className="font-medium text-center text-mainheadingWhite">
+                No popular corridor data available Now.
               </p>
             )}
           </div>

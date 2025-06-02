@@ -6684,23 +6684,23 @@ interface ApiErrorResponse {
 }
 
 const LoadingSkeleton = () => (
-  <div className="container mx-auto px-4 py-5 bg-white dark:bg-background">
+  <div className="container mx-auto px-4 py-5 bg-primarybox">
     <div className="space-y-6">
       <div className="pb-6 mb-6 border-b">
         <div className="flex gap-3 items-center">
-          <Skeleton className="size-12 rounded-full mb-3" />
-          <Skeleton className="h-9 w-3/5 sm:w-1/5 rounded mb-3" />
+          <Skeleton className="size-12 rounded-full mb-3 bg-background/50" />
+          <Skeleton className="h-9 w-3/5 sm:w-1/5 rounded mb-3 bg-background/50" />
         </div>
         <div className="space-y-1.5">
-          <Skeleton className="h-4 w-full sm:w-3/4 rounded" />
-          <Skeleton className="h-4 w-full sm:w-1/2 rounded sm:hidden block" />
-          <Skeleton className="h-4 w-40 sm:w-1/2 rounded sm:hidden block" />
+          <Skeleton className="h-4 w-full sm:w-3/4 rounded bg-background/50" />
+          <Skeleton className="h-4 w-full sm:w-1/2 rounded sm:hidden block bg-background/50" />
+          <Skeleton className="h-4 w-40 sm:w-1/2 rounded sm:hidden block bg-background/50" />
         </div>
       </div>
 
       <div className="flex sm:justify-between flex-row w-full items-center mb-6 gap-4">
-        <Skeleton className="size-12.5 sm:w-50 rounded-full" />
-        <Skeleton className="h-12.5 flex-1 sm:flex-none sm:w-70 rounded-full" />
+        <Skeleton className="size-12.5 sm:w-50 rounded-full bg-background/50" />
+        <Skeleton className="h-12.5 flex-1 sm:flex-none sm:w-70 rounded-full bg-background/50" />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
         {Array.from({ length: 8 }).map((_, index) => (
@@ -6710,23 +6710,23 @@ const LoadingSkeleton = () => (
           >
             <div className="lg:p-5 p-4 flex-grow">
               <div className="flex items-center gap-4 mb-4">
-                <Skeleton className="size-14 rounded-full flex-shrink-0" />
+                <Skeleton className="size-14 rounded-full flex-shrink-0 bg-background/50" />
                 <div className="flex-1 space-y-1.5">
-                  <Skeleton className="h-7 w-1/3 rounded" />
-                  <Skeleton className="h-5 w-2/3 rounded" />
+                  <Skeleton className="h-7 w-1/3 rounded bg-background/50" />
+                  <Skeleton className="h-5 w-2/3 rounded bg-background/50" />
                 </div>
               </div>
               <div className="p-3 space-y-2 rounded-lg border">
-                <Skeleton className="h-6 w-1/4 rounded mb-1" />
-                <Skeleton className="h-7 w-1/2 rounded" />
-                <Skeleton className="h-6 w-full rounded mt-1" />
+                <Skeleton className="h-6 w-1/4 rounded bg-background/50 mb-1" />
+                <Skeleton className="h-7 w-1/2 rounded bg-background/50" />
+                <Skeleton className="h-6 w-full rounded bg-background/50 mt-1" />
               </div>
             </div>
             <div className="border-t p-4">
               <div className="flex w-full gap-2">
-                <Skeleton className="h-12.5 flex-1 rounded-full" />
-                <Skeleton className="h-12.5 flex-1 rounded-full" />
-                <Skeleton className="h-12.5 flex-1 rounded-full" />
+                <Skeleton className="h-12.5 flex-1 rounded-full bg-background/50" />
+                <Skeleton className="h-12.5 flex-1 rounded-full bg-background/50" />
+                <Skeleton className="h-12.5 flex-1 rounded-full bg-background/50" />
               </div>
             </div>
           </div>
@@ -7081,7 +7081,7 @@ const AdminCurrenciesPage: React.FC = () => {
         />
         <LoadingSkeleton />
       </div>
-    );
+    );  
   }
 
   return (
@@ -7094,14 +7094,17 @@ const AdminCurrenciesPage: React.FC = () => {
       <div className="space-y-6">
         <div className="Activity pb-6 mb-6 border-b">
           <div className="flex items-center gap-3">
-            <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-              <FaCoins className="size-6 text-mainheading dark:text-primary" />
+
+            <div className="p-2.5 shrink-0 bg-primary rounded-full flex items-center justify-center">
+              <FaCoins className="text-mainheading" size={26} />
             </div>
-            <h1 className="lg:text-3xl text-2xl font-semibold text-mainheading dark:text-primary">
+
+            <h1 className="lg:text-3xl text-2xl font-semibold text-mainheadingWhite">
               Currency Management
             </h1>
           </div>
-          <p className="text-gray-500 mt-2 dark:text-gray-300 lg:text-lg">
+
+          <p className="mt-2 text-subheadingWhite text-base lg:text-lg">
             Easily manage all supported currencies, customize rates, and
             maintain real-time control over your exchange offerings.
           </p>
@@ -7111,7 +7114,7 @@ const AdminCurrenciesPage: React.FC = () => {
           <div>
             <button
               onClick={openCreateModal}
-              className="bg-primary text-neutral-900 flex items-center justify-center gap-1 hover:bg-primaryhover text-nowrap font-medium rounded-full text-center sm:px-8 sm:py-3 h-12.5 sm:w-auto w-12.5 cursor-pointer transition-all duration-75 ease-linear"
+              className="bg-primary text-mainheading  flex items-center justify-center gap-1 hover:bg-primaryhover text-nowrap font-medium rounded-full text-center sm:px-8 sm:py-3 h-12.5 sm:w-auto w-12.5 cursor-pointer transition-all duration-75 ease-linear"
             >
               <IoMdAdd
                 size={28}
@@ -7120,17 +7123,19 @@ const AdminCurrenciesPage: React.FC = () => {
               {!isMobile && <span>Add Currency</span>}
             </button>
           </div>
+
           <div className="relative sm:w-auto w-full">
             <div className="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
               <FiSearch
-                className="size-5 text-neutral-900 dark:text-white"
+                className="size-5  text-mainheadingWhite"
                 aria-hidden="true"
               />
             </div>
+
             <input
               type="text"
               placeholder="Search currencies..."
-              className="w-full rounded-full h-12.5 py-3 pl-12 pr-10 border transition-all ease-linear duration-75 focus:outline-0 focus:border-[#5f5f5f] placeholder:text-neutral-900 dark:placeholder:text-white"
+              className="w-full sm:w-80 rounded-full h-12.5 py-3 pl-12 pr-3  focus:outline-0 transition-all duration-75 ease-in-out placeholder:text-gray-400 border border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white bg-primarybox/50"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -7138,7 +7143,7 @@ const AdminCurrenciesPage: React.FC = () => {
               <button
                 type="button"
                 onClick={clearSearchTerm}
-                className="absolute inset-y-0 right-3 flex items-center text-neutral-900 dark:text-primary focus:outline-none cursor-pointer"
+                className="absolute inset-y-0 right-3 flex items-center text-primary dark:text-primary focus:outline-none cursor-pointer"
                 aria-label="Clear search"
               >
                 <MdCancel size={24} aria-hidden="true" />
@@ -7147,22 +7152,23 @@ const AdminCurrenciesPage: React.FC = () => {
           </div>
         </div>
 
+        {/* loding chalu karavanu che */}
         {isLoading &&
           currencies.length > 0 && ( // Show loader overlay if loading but already have some data
-            <div className="fixed inset-0 bg-white/50  dark:bg-black/50 flex items-center justify-center z-50">
+            <div className="fixed inset-0 bg-black/50 backdrop-blur-[1px] h-screen flex items-center justify-center z-50">
               <Loader2 size={48} className="text-primary animate-spin" />
             </div>
           )}
 
         {!isLoading && filteredCurrencies.length === 0 ? (
-          <div className="bg-lightgray dark:bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
-            <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full mb-2">
-              <MdCurrencyRupee className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+          <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-4 min-h-[300px] flex flex-col justify-center items-center">
+            <div className="lg:size-16 size-14 flex items-center justify-center bg-primary rounded-full mb-2">
+              <MdCurrencyRupee className="lg:size-8 size-6 mx-auto text-mainheading" />
             </div>
-            <h2 className="lg:text-3xl text-2xl font-medium text-neutral-900 dark:text-white mt-1">
+            <h2 className="lg:text-3xl text-2xl font-medium text-mainheadingWhite mt-1">
               No currencies found
             </h2>
-            <p className="text-gray-500 dark:text-gray-300 max-w-lg mx-auto">
+            <p className="text-subheadingWhite max-w-lg mx-auto">
               Currently, there are no currencies available that match your
               search or filter criteria.
             </p>
@@ -7172,7 +7178,7 @@ const AdminCurrenciesPage: React.FC = () => {
             {filteredCurrencies.map((currency) => (
               <div
                 key={currency._id}
-                className="rounded-xl overflow-hidden transition-all duration-300 border flex flex-col"
+                className="rounded-xl overflow-hidden transition-all duration-300 flex flex-col border"
               >
                 <div className="lg:p-5 p-4 flex-grow">
                   <div className="flex items-center gap-4 mb-4">
@@ -7186,10 +7192,11 @@ const AdminCurrenciesPage: React.FC = () => {
                         unoptimized={currency.flagImage.startsWith("http")}
                       />
                     ) : (
-                      <div className="size-14 border bg-gray-100 dark:bg-gray-700 rounded-full flex items-center justify-center text-xs text-gray-500 dark:text-gray-400">
+                      <div className="size-14 bg-secondarybox rounded-full flex items-center justify-center text-xs text-mainheadingWhite">
                         No flag
                       </div>
                     )}
+
                     <div className="flex-1">
                       {editingCurrencyId === currency._id ? (
                         <input
@@ -7197,24 +7204,27 @@ const AdminCurrenciesPage: React.FC = () => {
                           name="code"
                           value={editingFields.code}
                           onChange={handleEditingInputChange}
-                          className="text-lg font-bold text-main dark:text-white border-b border-primary focus:outline-none bg-primary/8 dark:bg-transparent px-1 py-0.5 w-20"
+                          className="text-lg font-bold text-mainheadingWhite border-b border-primary focus:outline-none bg-primary/8 dark:bg-transparent px-1 py-0.5 w-20"
                           autoFocus
                           maxLength={3}
                         />
                       ) : (
-                        <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                        <h3 className="text-lg font-bold text-mainheadingWhite">
                           {currency.code}
                         </h3>
                       )}
-                      <p className="text-sm text-gray-500 dark:text-gray-300 mt-0.5">
+                      <p className="text-sm text-subheadingWhite mt-0.5">
                         {currency.currencyName}
                       </p>
                     </div>
                   </div>
+
+
                   <div className="p-3 space-y-2 rounded-lg border">
-                    <label className="font-medium text-gray-500 dark:text-gray-300 mb-1 flex items-center gap-1">
+                    <label className="font-medium text-subheadingWhite mb-1 flex items-center gap-1">
                       Our Rates
                     </label>
+
                     {editingCurrencyId === currency._id ? (
                       <input
                         type="number"
@@ -7223,14 +7233,14 @@ const AdminCurrenciesPage: React.FC = () => {
                         onChange={handleEditingInputChange}
                         placeholder="e.g., 0.5 or +0.1"
                         step="any"
-                        className="text-base font-semibold text-gray-800 dark:text-white border-b border-primary focus:outline-none bg-transparent w-full py-0.5 no-spinner"
+                        className="text-base font-semibold text-mainheadingWhite border-b border-primary focus:outline-none bg-transparent w-full py-0.5 no-spinner"
                       />
                     ) : (
                       <p
                         className={`text-lg font-bold ${
                           currency.rateAdjustmentPercentage != null
-                            ? "text-neutral-900 font-medium dark:text-white"
-                            : "text-gray-400 italic dark:text-gray-500"
+                            ? "text-mainheadingWhite"
+                            : "italic text-mainheadingWhite"
                         }`}
                       >
                         {currency.rateAdjustmentPercentage != null
@@ -7244,7 +7254,7 @@ const AdminCurrenciesPage: React.FC = () => {
                           : "Not Set"}
                       </p>
                     )}
-                    <p className="text-gray-500 dark:text-gray-300 mt-1">
+                    <p className="text-subheadingWhite mt-1">
                       Our Rates vs market rate.
                     </p>
                   </div>
@@ -7256,11 +7266,11 @@ const AdminCurrenciesPage: React.FC = () => {
                       <button
                         onClick={handleUpdateCurrency}
                         disabled={isSubmitting}
-                        className="flex-1 flex cursor-pointer justify-center gap-1.5 items-center border text-gray-500 dark:text-gray-300 font-medium lg:px-6 px-4 py-3 h-12.5 rounded-full transition duration-200 focus:outline-none"
+                        className="flex-1 flex cursor-pointer justify-center gap-1.5 items-center border  text-mainheadingWhite font-medium lg:px-6 px-4 py-3 h-12.5 rounded-full transition-all duration-75 ease-linear focus:outline-none"
                       >
                         {isSubmitting ? (
                           <svg
-                            className="h-5 w-5 text-gray-500 dark:text-gray-300 animate-spin"
+                            className="h-5 w-5 text-white animate-spin"
                             viewBox="0 0 24 24"
                             fill="none"
                             xmlns="http://www.w3.org/2000/svg"
@@ -7327,25 +7337,27 @@ const AdminCurrenciesPage: React.FC = () => {
                         )}{" "}
                         Save
                       </button>
+
                       <button
                         onClick={cancelEditing}
-                        className="flex-1 flex cursor-pointer justify-center items-center gap-1.5 border text-red-600 font-medium lg:px-6 px-4 py-3 h-12.5 rounded-full transition duration-200 focus:outline-none"
+                        className="flex-1 flex cursor-pointer justify-center items-center gap-1.5 border text-red-600 font-medium lg:px-6 px-4 py-3 h-12.5 rounded-full transition-all duration-75 ease-linear focus:outline-none"
                       >
-                        <IoMdCloseCircle size={20} /> Cancel
+                        <IoMdCloseCircle size={20} />
+                        <span>Cancel</span> 
                       </button>
                     </div>
                   ) : (
                     <div className="flex flex-wrap flex-row gap-3">
                       <Link
                         href={`/admin/currencies/${currency._id}`}
-                        className="flex-1 flex cursor-pointer justify-center items-center gap-1.5 border text-gray-700 dark:text-gray-300 font-medium lg:px-6 px-4 py-3 h-12.5 rounded-full transition duration-200 focus:outline-none"
+                        className="flex-1 flex cursor-pointer justify-center items-center gap-1.5 border text-mainheadingWhite font-medium lg:px-6 px-4 py-3 h-12.5 rounded-full transition-all duration-75 ease-linear focus:outline-none"
                       >
                         <Info size={20} /> Details
                       </Link>
 
                       <button
                         onClick={() => startEditing(currency)}
-                        className="flex-1 flex cursor-pointer justify-center items-center gap-1.5 border text-gray-700 dark:text-gray-300 font-medium lg:px-6 px-4 py-3 h-12.5 rounded-full transition duration-200 focus:outline-none"
+                        className="flex-1 flex cursor-pointer justify-center items-center gap-1.5 border text-mainheadingWhite font-medium lg:px-6 px-4 py-3 h-12.5 rounded-full transition-all duration-75 ease-linear focus:outline-none"
                       >
                         <Edit size={20} /> Edit
                       </button>
@@ -7355,7 +7367,7 @@ const AdminCurrenciesPage: React.FC = () => {
                           setCurrencyToDeleteId(currency._id);
                           setIsDeleteConfirmationOpen(true);
                         }}
-                        className="flex-1 flex cursor-pointer justify-center items-center gap-1.5 border text-red-600 font-medium lg:px-6 px-4 py-3 h-12.5 rounded-full transition duration-200 focus:outline-none"
+                        className="flex-1 flex cursor-pointer justify-center items-center gap-1.5 border text-red-600 font-medium lg:px-6 px-4 py-3 h-12.5 rounded-full transition-all duration-75 ease-linear focus:outline-none"
                       >
                         <Trash2 size={20} /> Delete
                       </button>

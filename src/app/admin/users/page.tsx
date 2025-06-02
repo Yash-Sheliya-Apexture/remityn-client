@@ -2605,7 +2605,7 @@ const AdminUsersPage: React.FC = () => {
             {/* Filter Button - Matching Payments styling */}
             <button
               onClick={() => setShowFilterModal(true)}
-              className="flex items-center bg-primary text-mainheading hover:bg-primaryhover gap-2 h-12.5 px-8 py-3 cursor-pointer font-medium rounded-full sm:w-auto w-full justify-center transition-all duration-75 ease-linear" // Use text-secondary for light text on dark primary bg
+              className="flex items-center bg-primary hover:bg-primaryhover gap-2 h-12.5 px-8 py-3 cursor-pointer font-medium rounded-full sm:w-auto w-full justify-center transition-all duration-75 ease-linear" // Use text-secondary for light text on dark primary bg
             >
               <Filter size={18} />
               <span>Filters</span>
@@ -2620,7 +2620,7 @@ const AdminUsersPage: React.FC = () => {
             >
               {/* Apply animate-spin class conditionally based on isRefreshing */}
               <RefreshCw
-                className={`size-5 ${isRefreshing ? "animate-spin" : ""}`}
+                className={`size-5 text-primary ${isRefreshing ? "animate-spin" : ""}`}
               />
               <span>Refresh</span>
             </button>
@@ -2636,6 +2636,7 @@ const AdminUsersPage: React.FC = () => {
             >
               Show:
             </label>
+
             <select
               id="usersPerPage"
               value={usersPerPage}
@@ -2657,6 +2658,7 @@ const AdminUsersPage: React.FC = () => {
               entries
             </span>
           </div>
+          
           {/* Consistent results text - Show based on filteredUsers length even if loading */}
           <p className="text-sm text-subheadingWhite">
             Showing{" "}

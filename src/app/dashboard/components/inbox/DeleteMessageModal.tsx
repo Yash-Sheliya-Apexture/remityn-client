@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { IoClose } from "react-icons/io5";
+import { CheckCircle } from "lucide-react";
 
 interface DeleteMessageModalProps {
   isOpen: boolean;
@@ -66,7 +67,7 @@ const DeleteMessageModal: React.FC<DeleteMessageModalProps> = ({
           onClick={onClose} // Close modal on backdrop click
         >
           <motion.div
-            className="bg-background sm:rounded-3xl rounded-t-3xl sm:p-8 p-4 w-full sm:max-w-lg relative text-center"
+            className="bg-background sm:rounded-3xl rounded-t-3xl space-y-3 sm:p-8 p-4 w-full sm:max-w-lg relative text-center"
             variants={modalVariants}
             initial="initial"
             animate="animate"
@@ -79,20 +80,27 @@ const DeleteMessageModal: React.FC<DeleteMessageModalProps> = ({
                 onClick={onClose}
                 aria-label="Close modal"
               >
-                <IoClose
-                  size={28}
-                />
+                <IoClose size={28} />
               </button>
             </div>
-            <h3 className="sm:text-3xl text-2xl font-semibold text-mainheadingWhite my-6">
+
+            <div className="flex justify-center">
+              <div className="p-3 bg-red-900/30 rounded-full">
+                <CheckCircle className="size-10 text-red-400" />
+              </div>
+            </div>
+
+            <h3 className="sm:text-3xl text-2xl font-semibold text-mainheadingWhite">
               Delete message?
             </h3>
-            <p className="text-secondheadingWhite font-medium mb-6">
+
+            <p className="text-secondheadingWhite font-medium">
               Are you sure you want to delete the message:{" "}
               <span className="font-semibold">"{messageSubject}"</span>? This
               action cannot be undone.
             </p>
-            <div className="flex sm:flex-row flex-col justify-center gap-4 mt-8">
+
+            <div className="flex sm:flex-row flex-col justify-center gap-3 mt-8">
               <button
                 className="bg-red-500 text-white hover:bg-red-600 font-medium rounded-full px-8 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear"
                 onClick={() => {

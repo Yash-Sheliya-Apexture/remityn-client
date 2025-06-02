@@ -1233,14 +1233,14 @@ const   DetailItem: React.FC<DetailItemProps> = ({
         className
       )}
     >
-      <div className="flex items-center gap-2 text-neutral-900 dark:text-white">
+      <div className="flex items-center gap-2 text-mainheadingWhite">
         <div className="w-5 h-5 flex items-center justify-center flex-shrink-0">
           {Icon && (
             <Icon
               className={cn(
-                "size-4.5",
+                "size-5",
                 isEmptyOrMissing
-                  ? "text-muted-foreground/60"
+                  ? "text-white/50"
                   : ""
               )}
             />
@@ -1248,20 +1248,20 @@ const   DetailItem: React.FC<DetailItemProps> = ({
         </div>
         <dt
           className={cn(
-            "text-sm font-medium truncate",
-            isEmptyOrMissing ? "text-muted-foreground" : ""
+            "text-base font-medium",
+            isEmptyOrMissing ? "text-white/50" : ""
           )}
         >
           {label}:
         </dt>
       </div>
 
-      <dd className="flex items-center justify-end gap-1.5 text-neutral-900 dark:text-white">
+      <dd className="flex items-center justify-end gap-1.5 text-subheadingWhite">
         <span
           className={cn(
             "text-sm break-words",
             isEmptyOrMissing && !isMissing
-              ? "text-muted-foreground italic"
+              ? "text-white/50 italic"
               : "font-medium",
             isMissing
               ? "text-red-400 font-semibold italic flex items-center gap-1.5"
@@ -1280,7 +1280,7 @@ const   DetailItem: React.FC<DetailItemProps> = ({
         {!isMissing && (
           <button
             onClick={handleEditClick}
-            className="opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity h-7 w-7 flex-shrink-0 text-neutral-900 dark:text-white cursor-pointer"
+            className="opacity-0 group-hover:opacity-100 focus-visible:opacity-100 transition-opacity h-7 w-7 flex-shrink-0 text-white/90 cursor-pointer"
             aria-label={`Edit ${label}`}
           >
             <Edit className="h-4 w-4" />
@@ -1349,12 +1349,12 @@ const FileDisplay: React.FC<{ file: File | null }> = ({ file }) => {
       </div>
       <div className="flex-grow overflow-hidden">
         <span
-          className="font-medium truncate text-foreground block"
+          className="font-medium truncate block"
           title={file.name}
         >
           {file.name}
         </span>
-        <span className="text-xs text-muted-foreground whitespace-nowrap block">
+        <span className="text-xs whitespace-nowrap block">
           ({(file.size / 1024 / 1024).toFixed(2)} MB)
         </span>
       </div>
@@ -1504,14 +1504,14 @@ export default function KycReviewPage() {
   const displayError = localSubmitError || contextSubmissionError; // Show local validation error first, then context API error
 
   return (
-    <Card className="w-full max-w-2xl mx-auto shadow-none border animate-fadeIn mb-10 p-4 md:p-8 ">
+    <Card className="w-full lg:max-w-2xl max-w-full mx-auto shadow-none border animate-fadeIn mb-10 p-4 md:p-8 bg-transparent">
       <CardHeader className="border-b pb-6 mb-6 space-y-2">
-        <CardTitle className="sm:text-2xl text-xl font-semibold tracking-tight flex items-start gap-2 text-mainheading dark:text-white">
-          <CheckCircle className="h-6 w-6 text-primary mt-1" />
+        <CardTitle className="sm:text-2xl text-xl font-semibold tracking-tight flex items-start gap-2 text-mainheadingWhite">
+          <CheckCircle className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
           Review & Submit&nbsp;(Step {formStepOrder.indexOf("review") + 1}
           &nbsp;of&nbsp;{formStepOrder.length})
         </CardTitle>
-        <CardDescription className="text-gray-500 dark:text-gray-300">
+        <CardDescription className="text-subheadingWhite">
           Please carefully review all details. Click{" "}
           <Edit className="inline size-3.5 mx-1 text-primary" /> to make
           corrections.
@@ -1521,15 +1521,15 @@ export default function KycReviewPage() {
       <CardContent className="space-y-6">
         {/* Display combined error */}
         {displayError && (
-          <Alert className="bg-red-50 dark:bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
+          <Alert className="bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
             <div className="flex-shrink-0 sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20">
-              <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+              <AlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
             </div>
             <div>
-              <AlertTitle className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
+              <AlertTitle className="font-medium tracking-normal text-red-600 text-base">
                 Submission Problem
               </AlertTitle>
-              <AlertDescription className="text-red-700 dark:text-red-300/90">
+              <AlertDescription className="text-red-300/90">
                 {displayError}
               </AlertDescription>
             </div>
@@ -1537,15 +1537,15 @@ export default function KycReviewPage() {
         )}
         {/* Show missing fields warning only if no other error is present */}
         {missingFields.length > 0 && !displayError && (
-          <Alert className="bg-yellow-50 dark:bg-yellow-900/25 border-yellow-500 rounded-lg p-4 gap-3 mb-6">
+          <Alert className="bg-yellow-900/25 border-yellow-500 rounded-lg p-4 gap-3 mb-6">
             <div className="flex-shrink-0 sm:size-12 size-10 rounded-full flex items-center justify-center bg-yellow-600/20">
-              <AlertTriangle className="text-yellow-600 dark:text-yellow-500 size-5 sm:size-6 flex-shrink-0" />
+              <AlertTriangle className="text-yellow-500 size-5 sm:size-6 flex-shrink-0" />
             </div>
             <div>
-              <AlertTitle className="font-medium text-yellow-800 dark:text-yellow-200 tracking-normal text-base">
+              <AlertTitle className="font-medium text-yellow-600 tracking-normal text-base">
                 Incomplete Information
               </AlertTitle>
-              <AlertDescription className="text-yellow-700 dark:text-yellow-300/90">
+              <AlertDescription className="text-yellow-300/90">
                 Before submitting, please provide:
                 <span className="font-light">{missingFields.join(", ")}</span>
               </AlertDescription>
@@ -1561,9 +1561,9 @@ export default function KycReviewPage() {
           {/* Personal Details Section */}
           <AccordionItem
             value="personal"
-            className="border rounded-lg overflow-hidden bg-white dark:bg-background "
+            className="border rounded-lg overflow-hidden"
           >
-            <AccordionTrigger className="text-base font-semibold text-neutral-900 dark:text-white hover:no-underline px-4 py-3 bg-accent items-center [&[data-state=open]>svg]:rotate-180 rounded-none cursor-pointer">
+            <AccordionTrigger className="text-base font-semibold bg-primarybox text-primary hover:no-underline px-4 py-3 items-center [&[data-state=open]>svg]:rotate-180 rounded-none cursor-pointer">
               Personal & Contact Details
             </AccordionTrigger>
             <AccordionContent className="px-4 pt-0 pb-0">
@@ -1630,9 +1630,9 @@ export default function KycReviewPage() {
           {/* Identity Document Section */}
           <AccordionItem
             value="identity"
-            className="border rounded-lg overflow-hidden bg-white dark:bg-background"
+            className="border rounded-lg overflow-hidden"
           >
-            <AccordionTrigger className="text-base font-semibold text-neutral-900 dark:text-white hover:no-underline px-4 py-3 bg-accent items-center [&[data-state=open]>svg]:rotate-180 rounded-none cursor-pointer">
+            <AccordionTrigger className="text-base font-semibold bg-primarybox text-primary hover:no-underline px-4 py-3 items-center [&[data-state=open]>svg]:rotate-180 rounded-none cursor-pointer">
               Identity Document Details
             </AccordionTrigger>
             <AccordionContent className="px-4 pt-0 pb-0">
@@ -1670,9 +1670,9 @@ export default function KycReviewPage() {
           {/* Uploaded Documents Section */}
           <AccordionItem
             value="documents"
-            className="border rounded-lg overflow-hidden bg-white dark:bg-background"
+            className="border rounded-lg overflow-hidden"
           >
-            <AccordionTrigger className="text-base font-semibold text-neutral-900 dark:text-white hover:no-underline px-4 py-3 bg-accent items-center [&[data-state=open]>svg]:rotate-180 rounded-none cursor-pointer">
+            <AccordionTrigger className="text-base font-semibold bg-primarybox text-primary hover:no-underline px-4 py-3 items-center [&[data-state=open]>svg]:rotate-180 rounded-none cursor-pointer">
               Uploaded Documents
             </AccordionTrigger>
 
@@ -1704,7 +1704,7 @@ export default function KycReviewPage() {
         <div className="flex flex-col sm:flex-row justify-between items-center pt-6 border-t mt-6 gap-4">
           <button
             type="button"
-            className="inline-flex items-center justify-center bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
+            className="inline-flex items-center justify-center text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
             onClick={() => goToStep("upload")}
             disabled={isSubmitting}
           >

@@ -577,7 +577,7 @@
                             href={`/admin/users/${user._id}`}
                             aria-label={`View details for ${user.fullName || user.email}`}
                             // Apply button styles directly to Link - matching PaymentTable Edit button
-                            className="inline-flex items-center group px-6 py-2 rounded-3xl space-x-1 transition-colors duration-300 font-medium bg-primary hover:bg-primaryhover text-mainheading  focus:outline-none" // Adjusted padding/height/text size for consistency
+                            className="inline-flex items-center group px-6 py-2 rounded-3xl space-x-1 transition-colors duration-300 font-medium bg-primarybox hover:bg-secondarybox text-primary focus:outline-none" // Adjusted padding/height/text size for consistency
                           >
                             {/* <Eye size={16} className="mr-1" />Details */}
                             <span>View Details</span>

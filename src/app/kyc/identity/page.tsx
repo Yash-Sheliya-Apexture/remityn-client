@@ -2433,6 +2433,7 @@ import {
   Check,
   BookUser,
   Contact,
+  IdCard,
 } from "lucide-react";
 
 // --- App Specific Imports ---
@@ -2751,14 +2752,14 @@ export default function KycIdentityPage() {
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto shadow-none border animate-fadeIn sm:p-8 p-4">
+    <Card className="w-full lg:max-w-2xl max-w-full mx-auto shadow-none border animate-fadeIn sm:p-8 p-4 bg-transparent">
       <CardHeader className="border-b pb-6 mb-6 space-y-2">
-        <CardTitle className="sm:text-2xl text-xl font-semibold tracking-tight flex items-start gap-2 text-mainheading dark:text-white">
-          <Fingerprint className="h-6 w-6 text-primary mt-1" />
+        <CardTitle className="sm:text-2xl text-xl font-semibold tracking-normal flex items-start gap-2 text-mainheadingWhite">
+          <Fingerprint className="h-6 w-6 text-primary mt-1 flex-shrink-0" />
           Identity Document (Step {formStepOrder.indexOf("identity") +
             1} of {formStepOrder.length})
         </CardTitle>
-        <CardDescription className="text-gray-500 dark:text-gray-300">
+        <CardDescription className="text-subheadingWhite">
           Select the ID type and enter details exactly as shown on the document.
           Fields marked with <span className="text-red-600">*</span> are
           required once an ID type is selected.
@@ -2766,29 +2767,31 @@ export default function KycIdentityPage() {
       </CardHeader>
       <CardContent>
         {formError && (
-          <Alert className="bg-red-50 dark:bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
+          <Alert className="bg-red-900/25 border-red-500 rounded-lg p-4 gap-3 mb-6">
             <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
-              <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+              <AlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
             </div>
             <div>
-              <AlertTitle className="font-medium tracking-normal text-red-800 dark:text-red-200 text-base">
+              <AlertTitle className="font-medium tracking-normal text-red-600 text-base">
                 Error
               </AlertTitle>
-              <AlertDescription className="text-red-700 dark:text-red-300/90"> {/* Corrected typo, removed variant */}
+              <AlertDescription className="text-red-300/90">
+                {" "}
+                {/* Corrected typo, removed variant */}
                 {formError}
               </AlertDescription>
             </div>
           </Alert>
         )}
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="">
             {/* ID Type Radio Group */}
             <FormField
               control={form.control}
               name="idType"
               render={({ field }) => (
                 <FormItem className="space-y-4">
-                  <FormLabel className="text-base font-medium text-neutral-900 dark:text-white">
+                  <FormLabel className="text-mainheadingWhite block capitalize text-sm lg:text-base">
                     Select ID Type <span className="text-red-600">*</span>
                   </FormLabel>
                   <FormControl>
@@ -2797,7 +2800,7 @@ export default function KycIdentityPage() {
                         field.onChange(value as IdType);
                       }}
                       value={field.value ?? ""}
-                      className="grid grid-cols-1 sm:grid-cols-2 gap-4"
+                      className="grid grid-cols-1 sm:grid-cols-2"
                     >
                       <FormItem>
                         <FormControl>
@@ -2809,17 +2812,19 @@ export default function KycIdentityPage() {
                         </FormControl>
                         <FormLabel
                           htmlFor="passport-radio"
-                          className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors duration-200" // Reverted: removed min-h, text-center
+                          className={cn("flex-col items-center justify-center h-28 rounded-lg bg-primarybox p-4 hover:bg-primaryboxhover cursor-pointer transition-all duration-75 ease-linear border", field.value === "passport" ? "border-primary" : "border-transparent")} 
                         >
-                          <BookUser className="h-6 w-6 text-gray-500 dark:text-gray-300 mb-2" />
-                          <span className="font-semibold text-neutral-900 dark:text-white"> {/* Reverted: removed text-center */}
+                          <BookUser className="h-6 w-6 text-primary" />
+                          <span className="font-semibold text-mainheadingWhite">
+                            {" "}
+                            {/* Reverted: removed text-center */}
                             Passport
                           </span>
-                          <div className="h-5 mt-1">
-                            {field.value === "passport" && (
+                          {field.value === "passport" && (
+                            <div className="h-5 mt-1">
                               <Check className="h-5 w-5 text-primary" />
-                            )}
-                          </div>
+                            </div>
+                          )}
                         </FormLabel>
                       </FormItem>
                       <FormItem>
@@ -2832,17 +2837,19 @@ export default function KycIdentityPage() {
                         </FormControl>
                         <FormLabel
                           htmlFor="resident_permit-radio"
-                          className="flex flex-col items-center justify-between rounded-lg border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer transition-colors duration-200" // Reverted: removed min-h, text-center
+                          className={cn("flex-col items-center justify-center h-28 rounded-lg bg-primarybox p-4 hover:bg-primaryboxhover cursor-pointer transition-all duration-75 ease-linear border", field.value === "resident_permit" ? "border-primary" : "border-transparent")} 
                         >
-                          <Contact className="h-6 w-6 text-gray-500 dark:text-gray-300 mb-2" />
-                          <span className="font-semibold text-neutral-900 dark:text-white"> {/* Reverted: removed text-center */}
+                          <IdCard className="h-6 w-6 text-primary" />
+                          <span className="font-semibold text-mainheadingWhite">
+                            {" "}
+                            {/* Reverted: removed text-center */}
                             Resident Permit / National ID
                           </span>
-                          <div className="h-5 mt-1">
-                            {field.value === "resident_permit" && (
+                          {field.value === "resident_permit" && (
+                            <div className="h-5 mt-1">
                               <Check className="h-5 w-5 text-primary" />
-                            )}
-                          </div>
+                            </div>
+                          )}
                         </FormLabel>
                       </FormItem>
                     </RadioGroup>
@@ -2855,7 +2862,7 @@ export default function KycIdentityPage() {
             {/* Conditionally Rendered Fields */}
             <div
               className={cn(
-                "space-y-6 pt-6 border-t transition-opacity duration-300 ease-in-out",
+                "space-y-6 pt-6 mt-8 border-t transition-opacity duration-300 ease-in-out",
                 selectedIdType
                   ? "opacity-100"
                   : "opacity-0 h-0 overflow-hidden pointer-events-none"
@@ -2868,14 +2875,14 @@ export default function KycIdentityPage() {
                 name="idNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-neutral-900 dark:text-white">
+                    <FormLabel className="text-mainheadingWhite block capitalize text-sm lg:text-base">
                       {selectedIdType === "passport"
                         ? "Passport Number"
                         : "Permit / ID Number"}{" "}
                       <span className="text-red-600">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input
+                      <Input className="mt-1 block px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0"
                         placeholder="Enter document number"
                         {...field}
                         disabled={!selectedIdType || isSubmitting}
@@ -2883,7 +2890,7 @@ export default function KycIdentityPage() {
                         value={field.value ?? ""}
                       />
                     </FormControl>
-                    <FormDescription className="text-gray-500 dark:text-gray-300">
+                    <FormDescription className="text-sm text-subheadingWhite pt-1">
                       Enter the full ID number.
                     </FormDescription>
                     <FormMessage />
@@ -2899,7 +2906,7 @@ export default function KycIdentityPage() {
                   name="idIssueDate"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel className="text-neutral-900 dark:text-white">
+                      <FormLabel className="text-mainheadingWhite block capitalize text-sm lg:text-base">
                         Date of Issue <span className="text-red-600">*</span>
                       </FormLabel>
                       <Popover
@@ -2907,21 +2914,20 @@ export default function KycIdentityPage() {
                         onOpenChange={(isOpen) => {
                           setIssueDatePickerOpen(isOpen);
                           if (isOpen) {
-                            setTempIssueDate(field.value); 
+                            setTempIssueDate(field.value);
                             if (field.value && isDateValid(field.value)) {
-                              setIssueCalendarDate(field.value); 
+                              setIssueCalendarDate(field.value);
                             }
                           }
                         }}
                       >
                         <PopoverTrigger asChild>
                           {/* Using ShadCN Button for PopoverTrigger */}
-                          <Button 
-                            variant={"outline"}
+                          <Button
                             disabled={!selectedIdType || isSubmitting}
                             className={cn(
-                              "w-full h-12 justify-start text-left font-normal",
-                              !field.value && "text-muted-foreground"
+                              "justify-start text-left font-normal mt-1 px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0",
+                              !field.value && "text-gray-400"
                             )}
                             aria-required="true"
                           >
@@ -2944,7 +2950,9 @@ export default function KycIdentityPage() {
                               }
                               onValueChange={handleIssueMonthChange}
                             >
-                              <SelectTrigger className="w-36 h-8"> {/* Reverted: removed size="sm" */}
+                              <SelectTrigger className="w-36 h-8">
+                                {" "}
+                                {/* Reverted: removed size="sm" */}
                                 <SelectValue placeholder="Month" />
                               </SelectTrigger>
                               <SelectContent className="max-h-60">
@@ -2959,11 +2967,14 @@ export default function KycIdentityPage() {
                               value={issueCalendarDate.getFullYear().toString()}
                               onValueChange={handleIssueYearChange}
                             >
-                              <SelectTrigger className="w-28 h-8"> {/* Reverted: removed size="sm" */}
+                              <SelectTrigger className="w-28 h-8">
+                                {" "}
+                                {/* Reverted: removed size="sm" */}
                                 <SelectValue placeholder="Year" />
                               </SelectTrigger>
                               <SelectContent className="max-h-60">
-                                {Array.from( // Reverted to original year generation
+                                {Array.from(
+                                  // Reverted to original year generation
                                   { length: 71 },
                                   (_, i) => new Date().getFullYear() - i
                                 ).map((year) => (
@@ -2979,35 +2990,38 @@ export default function KycIdentityPage() {
                           </div>
                           <Calendar
                             mode="single"
-                            selected={ tempIssueDate && isDateValid(tempIssueDate) ? tempIssueDate : undefined }
+                            selected={
+                              tempIssueDate && isDateValid(tempIssueDate)
+                                ? tempIssueDate
+                                : undefined
+                            }
                             onSelect={(date) => {
-                                const newSelectedDate = date || undefined;
-                                setTempIssueDate(newSelectedDate);
-                                if (newSelectedDate) {
-                                    setIssueCalendarDate(newSelectedDate); 
-                                }
+                              const newSelectedDate = date || undefined;
+                              setTempIssueDate(newSelectedDate);
+                              if (newSelectedDate) {
+                                setIssueCalendarDate(newSelectedDate);
+                              }
                             }}
                             month={issueCalendarDate}
                             onMonthChange={setIssueCalendarDate}
                             disabled={(date) =>
-                              date > todayStart ||
-                              date < minIssueDate
+                              date > todayStart || date < minIssueDate
                             }
                             initialFocus
                           />
                           <div className="p-3 border-t">
                             {/* Using ShadCN Button for Apply */}
-                            <Button 
-                                type="button"
-                                className="w-full bg-primary hover:bg-primaryhover text-neutral-900 rounded-full"
-                                size="sm" // Keep size sm for apply button within popover
-                                onClick={() => {
-                                    field.onChange(tempIssueDate);
-                                    field.onBlur(); 
-                                    setIssueDatePickerOpen(false);
-                                }}
+                            <Button
+                              type="button"
+                              className="w-full bg-primary hover:bg-primaryhover text-neutral-900 rounded-full"
+                              size="sm" // Keep size sm for apply button within popover
+                              onClick={() => {
+                                field.onChange(tempIssueDate);
+                                field.onBlur();
+                                setIssueDatePickerOpen(false);
+                              }}
                             >
-                                Apply
+                              Apply
                             </Button>
                           </div>
                         </PopoverContent>
@@ -3023,7 +3037,7 @@ export default function KycIdentityPage() {
                   name="idExpiryDate"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel className="text-neutral-900 dark:text-white">
+                      <FormLabel className="text-mainheadingWhite block capitalize text-sm lg:text-base">
                         Date of Expiry <span className="text-red-500">*</span>
                       </FormLabel>
                       <Popover
@@ -3031,7 +3045,7 @@ export default function KycIdentityPage() {
                         onOpenChange={(isOpen) => {
                           setExpiryDatePickerOpen(isOpen);
                           if (isOpen) {
-                            setTempExpiryDate(field.value); 
+                            setTempExpiryDate(field.value);
                             if (field.value && isDateValid(field.value)) {
                               setExpiryCalendarDate(field.value);
                             }
@@ -3041,11 +3055,10 @@ export default function KycIdentityPage() {
                         <PopoverTrigger asChild>
                           {/* Using ShadCN Button for PopoverTrigger */}
                           <Button
-                            variant={"outline"}
                             disabled={!selectedIdType || isSubmitting}
                             className={cn(
-                              "w-full h-12 justify-start text-left font-normal",
-                              !field.value && "text-muted-foreground"
+                              "justify-start text-left font-normal mt-1 px-4 py-3 bg-background h-14 w-full border rounded-lg transition-all duration-75 ease-in-out placeholder:text-gray-400 border-gray-600 hover:border-gray-500 focus:border-gray-500 text-white focus:outline-0",
+                              !field.value && "text-gray-400"
                             )}
                             aria-required="true"
                           >
@@ -3068,7 +3081,9 @@ export default function KycIdentityPage() {
                               }
                               onValueChange={handleExpiryMonthChange}
                             >
-                              <SelectTrigger className="w-36 h-8"> {/* Reverted: removed size="sm" */}
+                              <SelectTrigger className="w-36 h-8 ">
+                                {" "}
+                                {/* Reverted: removed size="sm" */}
                                 <SelectValue placeholder="Month" />
                               </SelectTrigger>
                               <SelectContent className="max-h-60">
@@ -3085,13 +3100,15 @@ export default function KycIdentityPage() {
                                 .toString()}
                               onValueChange={handleExpiryYearChange}
                             >
-                              <SelectTrigger className="w-28 h-8"> {/* Reverted: removed size="sm" */}
+                              <SelectTrigger className="w-28 h-8 ">
+                                {" "}
+                                {/* Reverted: removed size="sm" */}
                                 <SelectValue placeholder="Year" />
                               </SelectTrigger>
                               <SelectContent className="max-h-60">
                                 {Array.from(
-                                  { length: 31 }, 
-                                  (_, i) => new Date().getFullYear() + i 
+                                  { length: 31 },
+                                  (_, i) => new Date().getFullYear() + i
                                 ).map((year) => (
                                   <SelectItem
                                     key={year}
@@ -3105,39 +3122,41 @@ export default function KycIdentityPage() {
                           </div>
                           <Calendar
                             mode="single"
-                            selected={ tempExpiryDate && isDateValid(tempExpiryDate) ? tempExpiryDate : undefined }
+                            selected={
+                              tempExpiryDate && isDateValid(tempExpiryDate)
+                                ? tempExpiryDate
+                                : undefined
+                            }
                             onSelect={(date) => {
-                                const newSelectedDate = date || undefined;
-                                setTempExpiryDate(newSelectedDate);
-                                if (newSelectedDate) {
-                                    setExpiryCalendarDate(newSelectedDate);
-                                }
+                              const newSelectedDate = date || undefined;
+                              setTempExpiryDate(newSelectedDate);
+                              if (newSelectedDate) {
+                                setExpiryCalendarDate(newSelectedDate);
+                              }
                             }}
                             month={expiryCalendarDate}
                             onMonthChange={setExpiryCalendarDate}
-                            disabled={(date) =>
-                              date < minExpiryDate
-                            }
+                            disabled={(date) => date < minExpiryDate}
                             initialFocus
                           />
-                           <div className="p-3 border-t">
+                          <div className="p-3 border-t">
                             {/* Using ShadCN Button for Apply */}
                             <Button
-                                type="button"
-                                className="w-full bg-primary hover:bg-primaryhover text-neutral-900 rounded-full"
-                                size="sm" // Keep size sm for apply button within popover
-                                onClick={() => {
-                                    field.onChange(tempExpiryDate);
-                                    field.onBlur(); 
-                                    setExpiryDatePickerOpen(false);
-                                }}
+                              type="button"
+                              className="w-full bg-primary hover:bg-primaryhover text-neutral-900 rounded-full"
+                              size="sm" // Keep size sm for apply button within popover
+                              onClick={() => {
+                                field.onChange(tempExpiryDate);
+                                field.onBlur();
+                                setExpiryDatePickerOpen(false);
+                              }}
                             >
-                                Apply
+                              Apply
                             </Button>
                           </div>
                         </PopoverContent>
                       </Popover>
-                      <FormDescription className="text-gray-500 dark:text-gray-300">
+                      <FormDescription className="text-sm text-subheadingWhite pt-1">
                         Your ID must not be expired.
                       </FormDescription>
                       <FormMessage />
@@ -3151,7 +3170,7 @@ export default function KycIdentityPage() {
             <div className="flex flex-col sm:flex-row justify-between items-center pt-6 border-t mt-6 gap-4">
               <button
                 type="button"
-                className="inline-flex items-center justify-center bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
+                className="inline-flex items-center justify-center text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
                 onClick={prevStep}
                 disabled={isSubmitting}
               >
@@ -3159,7 +3178,7 @@ export default function KycIdentityPage() {
               </button>
               <button
                 type="submit"
-                className=" inline-flex items-center justify-center bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
+                className=" inline-flex items-center justify-center bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={
                   isSubmitting || !selectedIdType || !form.formState.isValid
                 }
@@ -3167,7 +3186,7 @@ export default function KycIdentityPage() {
                 {isSubmitting ? (
                   <>
                     <svg
-                      className="h-5 w-5 text-neutral-900 animate-spin mr-2"
+                      className="h-5 w-5 text-mainheading animate-spin mr-2"
                       viewBox="0 0 24 24"
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
@@ -3236,10 +3255,7 @@ export default function KycIdentityPage() {
                   // ----- Normal State -----
                   <>
                     <span>Continue</span>
-                    <ArrowRight
-                      className="ml-2 size-5"
-                      aria-hidden="true"
-                    />
+                    <ArrowRight className="ml-2 size-5" aria-hidden="true" />
                   </>
                 )}
               </button>

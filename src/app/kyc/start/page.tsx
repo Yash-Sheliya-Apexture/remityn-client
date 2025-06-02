@@ -2671,7 +2671,7 @@ export default function KycStartPage() {
     }
 
     return (
-      <div className="mx-auto max-w-2xl">
+      <div className="mx-auto lg:max-w-2xl max-w-full">
         <Card className="bg-background w-full border shadow-none animate-fadeIn overflow-hidden">
           <CardHeader className="items-center text-center p-4 md:p-8 bg-primarybox">
             <div className="mb-4 w-full inline-flex justify-center">

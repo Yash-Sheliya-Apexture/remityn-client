@@ -587,6 +587,7 @@ import React from "react";
 import Link from "next/link";
 import { Skeleton } from "@/components/ui/skeleton";
 import { BsShieldLock } from "react-icons/bs"; // Keep import as it's used in the final view
+import { AlertCircle } from "lucide-react";
 
 interface KycVerificationCardProps {
   loading: boolean;
@@ -611,16 +612,16 @@ export default function KycVerificationCard({
   if (loading) {
     return (
       // Outer container matches the actual card's padding, border, etc.
-      <div className="w-full bg-white dark:bg-primarybox sm:p-6 p-4 rounded-xl border h-fullflex flex-col justify-between">
+      <div className="w-full bg-primarybox sm:p-6 p-4 rounded-xl h-full flex flex-col justify-between">
         {" "}
         {/* Added h-full and flex column layout */}
         {/* Header Skeleton */}
         <div className="flex justify-between items-center mb-4">
           {" "}
           {/* Added mb-4 to match actual header spacing */}
-          <Skeleton className="h-6 w-1/3 rounded-md" />{" "}
+          <Skeleton className="h-6 w-1/3 rounded-md bg-background/50" />{" "}
           {/* Title: "KYC Verifications", slightly wider w-1/3 */}
-          <Skeleton className="h-5 w-5 rounded-full" />{" "}
+          <Skeleton className="size-12 rounded-full bg-background/50" />{" "}
           {/* Icon, rounded-full to match dot style */}
         </div>
         {/* Content Rows Skeleton */}
@@ -631,11 +632,13 @@ export default function KycVerificationCard({
           {/* Row Skeletons (5 rows matching Not Started, Pending, etc.) */}
           {Array.from({ length: 5 }).map((_, index) => (
             <div key={index} className="flex justify-between items-center">
-              <Skeleton className="h-4 w-28 rounded-md" /> {/* Label */}
+              <Skeleton className="h-4 w-28 rounded-md bg-background/50" />{" "}
+              {/* Label */}
               <div className="flex items-center">
-                <Skeleton className="h-4 w-8 rounded-md" /> {/* Count */}
+                <Skeleton className="h-4 w-8 rounded-md bg-background/50" />{" "}
+                {/* Count */}
                 {/* Dot Skeleton: size-2 matches the actual dot size */}
-                <Skeleton className="ml-2 size-2 rounded-full" />
+                <Skeleton className="ml-2 size-2 rounded-full bg-background/50" />
               </div>
             </div>
           ))}
@@ -645,7 +648,7 @@ export default function KycVerificationCard({
         <div className="mt-6">
           {" "}
           {/* Wrap in a div to match the footer structure */}
-          <Skeleton className="h-5 w-1/2 rounded-md" />{" "}
+          <Skeleton className="h-5 w-1/3 rounded-md bg-background/50" />{" "}
           {/* Adjusted height to h-5 for link appearance */}
         </div>
       </div>
@@ -656,13 +659,22 @@ export default function KycVerificationCard({
   if (error) {
     return (
       <div
-        className="w-full bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-700 text-red-700 dark:text-red-300 px-4 py-3 rounded-xl relative h-full flex flex-col justify-center text-center" // Added text-center and h-full
+        className="w-full flex relative justify-center items-center  bg-red-900/25 border sm:order-1 order-2 border-red-500 px-5 py-4 rounded-xl"
         role="alert"
       >
-        <p className="text-sm font-medium">Error loading KYC Stats:</p>{" "}
-        {/* Kept text alignment */}
-        <p className="text-xs mt-1">{error}</p> {/* Kept text alignment */}
-        {/* Add a skeleton or simple retry button here if desired */}
+        <div className="flex flex-col items-center gap-3 text-center">
+          <div className="sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20 flex-shrink-0">
+            <AlertCircle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
+          </div>
+
+          <div className="flex-1">
+            <h4 className="font-medium sm:text-2xl text-xl text-red-600 capitalize">
+              Error loading KYC Stats
+            </h4>
+
+            <p className="text-sm mt-2 text-red-300/90">{error}</p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -683,7 +695,7 @@ export default function KycVerificationCard({
       const applyAnimation = actualCount > 0 && wantsAnimation;
       return (
         <div
-          className={`ml-2 h-2 w-2 rounded-full ${colorClass} ${
+          className={`ml-2 size-2 rounded-full ${colorClass} ${
             applyAnimation ? "animate-pulse" : ""
           }`}
         ></div>
@@ -694,27 +706,27 @@ export default function KycVerificationCard({
 
   // Actual Card Content
   return (
-    <div className="w-full bg-white dark:bg-primarybox sm:p-6 p-4 rounded-xl border h-full flex flex-col justify-between">
+    <div className="w-full bg-primarybox sm:p-6 p-4 rounded-xl h-full flex flex-col justify-between">
       <div className="flex-grow">
         <div className="flex justify-between items-center mb-4">
-          <h1 className="text-lg font-medium text-neutral-900 dark:text-white">
+          <h1 className="text-lg font-medium text-mainheadingWhite">
             KYC Verifications
           </h1>
 
-          <div className="size-12 shrink-0 bg-primary dark:bg-primarybox rounded-full flex items-center justify-center">
-            <BsShieldLock className="size-6 text-mainheading dark:text-primary" />
+          <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
+            <BsShieldLock className="size-6 text-mainheading" />
           </div>
         </div>
+
         <div className="space-y-4">
           {" "}
           {/* space-y-3 matches skeleton */}
-          {/* Not Started */}
           <div className="flex justify-between items-center">
-            <p className="text-sm font-medium text-neutral-900 dark:text-white">
+            <p className="text-sm font-medium text-mainheadingWhite">
               Not Started
             </p>
             <div className="flex items-center">
-              <p className="text-sm font-semibold text-neutral-900 dark:text-white">
+              <p className="text-sm font-semibold text-subheadingWhite">
                 {notStartedCount ?? "0"}
               </p>
               {renderDot(notStartedCount, "bg-blue-400", {
@@ -724,11 +736,9 @@ export default function KycVerificationCard({
           </div>
           {/* Pending */}
           <div className="flex justify-between items-center">
-            <p className="text-sm font-medium text-neutral-900 dark:text-white">
-              Pending
-            </p>
+            <p className="text-sm font-medium text-mainheadingWhite">Pending</p>
             <div className="flex items-center">
-              <p className="text-sm font-semibold text-neutral-900 dark:text-white">
+              <p className="text-sm font-semibold text-subheadingWhite">
                 {pendingCount ?? "0"}
               </p>
               {renderDot(pendingCount, "bg-yellow-500", {
@@ -739,11 +749,11 @@ export default function KycVerificationCard({
           </div>
           {/* Verified */}
           <div className="flex justify-between items-center">
-            <p className="text-sm font-medium text-neutral-900 dark:text-white">
+            <p className="text-sm font-medium text-mainheadingWhite">
               Verified
             </p>
             <div className="flex items-center">
-              <p className="text-sm font-semibold text-neutral-900 dark:text-white">
+              <p className="text-sm font-semibold text-subheadingWhite">
                 {verifiedCount ?? "0"}
               </p>
               {renderDot(verifiedCount, "bg-green-500", {
@@ -753,11 +763,11 @@ export default function KycVerificationCard({
           </div>
           {/* Rejected */}
           <div className="flex justify-between items-center">
-            <p className="text-sm font-medium text-neutral-900 dark:text-white">
+            <p className="text-sm font-medium text-mainheadingWhite">
               Rejected
             </p>
             <div className="flex items-center">
-              <p className="text-sm font-semibold text-neutral-900 dark:text-white">
+              <p className="text-sm font-semibold text-subheadingWhite">
                 {rejectedCount ?? "0"}
               </p>
               {renderDot(rejectedCount, "bg-red-500", {
@@ -767,11 +777,9 @@ export default function KycVerificationCard({
           </div>
           {/* Skipped */}
           <div className="flex justify-between items-center">
-            <p className="text-sm font-medium text-neutral-900 dark:text-white">
-              Skipped
-            </p>
+            <p className="text-sm font-medium text-mainheadingWhite">Skipped</p>
             <div className="flex items-center">
-              <p className="text-sm font-semibold text-neutral-900 dark:text-white">
+              <p className="text-sm font-semibold text-subheadingWhite">
                 {skippedCount ?? "0"}
               </p>
               {renderDot(skippedCount, "bg-gray-400", {

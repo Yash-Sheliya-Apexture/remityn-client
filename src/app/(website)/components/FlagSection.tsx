@@ -708,7 +708,7 @@ const FlagSection = () => {
           >
             {/* Animated Title, Heading, Desc */}
             <motion.div // Animate the text block as one container
-              className="space-y-4 text-center md:text-left lg:pl-6 "
+              className="space-y-4 text-center md:text-left lg:pl-6"
               variants={containerVariants} // Stagger the children (badge, h1, p)
               initial="hidden"
               whileInView="visible"
@@ -755,10 +755,10 @@ const FlagSection = () => {
                   const IconComponent = benefit.icon;
                   // Determine border classes based on index (Kept Exactly As Is)
                   const borderClasses = [
-                    "sm:p-6 p-4 border-b md:border-r border-r-0 border-lightborder dark:border-primarybox", // Top-Left (added border color)
-                    "sm:p-6 p-4 border-b border-lightborder dark:border-primarybox", // Top-Right (added border color)
-                    "sm:p-6 p-4 md:border-r border-r-0 md:border-b-0 border-b border-lightborder dark:border-primarybox", // Bottom-Left (added border color)
-                    "sm:p-6 p-4 md:border-b-0", // Bottom-Right (no border needed)
+                    "sm:p-4 py-4 border-b md:border-r border-r-0 border-lightborder dark:border-primarybox", // Top-Left (added border color)
+                    "sm:p-4 py-4 border-b border-lightborder dark:border-primarybox", // Top-Right (added border color)
+                    "sm:p-4 py-4 md:border-r border-r-0 md:border-b-0 border-b border-lightborder dark:border-primarybox", // Bottom-Left (added border color)
+                    "sm:p-4 py-4 md:border-b-0", // Bottom-Right (no border needed)
                   ][index];
 
                   return (

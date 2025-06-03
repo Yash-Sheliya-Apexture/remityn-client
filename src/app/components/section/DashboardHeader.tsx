@@ -74,8 +74,8 @@ const DashboardHeader: React.FC = () => {
           <div>
             <Image
               src={logoSrc}
-              width={100} // Keep original dimensions or adjust as needed
-              height={24}  // Adjusted height for a more typical logo aspect ratio (you might need to check the actual SVG)
+              width={160} // Keep original dimensions or adjust as needed
+              height={50}  // Adjusted height for a more typical logo aspect ratio (you might need to check the actual SVG)
               alt="Wise Logo" // Changed alt text for clarity
             />
           </div>

@@ -528,6 +528,8 @@ input:-webkit-autofill:active {
   color: #6b7280;
   /* Example: gray-500 */
 }
+<<<<<<< HEAD
+=======
 
 
 .background-image {
@@ -536,3 +538,4 @@ input:-webkit-autofill:active {
   background-repeat: no-repeat;
   background-size: cover;
 }
+>>>>>>> d1c7971a24c1dceb65b30ece13c5fb56d109dc71

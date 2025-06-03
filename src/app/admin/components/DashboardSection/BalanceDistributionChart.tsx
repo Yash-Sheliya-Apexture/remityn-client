@@ -1403,7 +1403,7 @@ import {
   Cell,
   LabelList, // Added LabelList for optional labels on bars
 } from "recharts";
-import { AlertCircle, RefreshCw, Info, BarChart2 } from "lucide-react"; // BarChart2 is not used
+import {  RefreshCw, Info } from "lucide-react"; // BarChart2 is not used
 
 import {
   Card,
@@ -1420,11 +1420,10 @@ import {
   ChartTooltipContent as ShadcnChartTooltipContent,
 } from "@/components/ui/chart";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button"; // Button is used in error state but not directly in skeleton
 import statsAdminService, {
   BalanceDistributionDataPoint,
 } from "../../../services/admin/stats.admin";
-import { FaWallet } from "react-icons/fa6";
+import { IoWalletOutline } from "react-icons/io5";
 
 const PREDEFINED_COLORS_HSL = [
   "hsl(var(--chart-1))",
@@ -1528,7 +1527,9 @@ export default function BalanceDistributionChart() {
             <div>
               <Skeleton className="h-5 w-48 rounded-md bg-background/50" />{" "}
               {/* Title (text-lg is ~18px, h-5 is 20px) */}
-              <Skeleton className="h-3 w-64 rounded-md bg-background/50 mt-2" />{" "}
+              <Skeleton className="h-3 sm:w-68 w-62 rounded-md bg-background/50 mt-2" />{" "}
+              <Skeleton className="h-3 sm:w-68 w-62 rounded-md bg-background/50 mt-2" />{" "}
+              <Skeleton className="h-3 sm:w-40 w-full rounded-md bg-background/50 mt-2" />{" "}
               {/* Description (text-xs is ~12px, h-3 is 12px) */}
             </div>
           </div>
@@ -1539,7 +1540,7 @@ export default function BalanceDistributionChart() {
             {/* This div takes full width when wrapped, common for flex-wrap */}
             <Skeleton className="h-3 w-28 rounded-md bg-background/50" />{" "}
             {/* Label (text-xs is ~12px) */}
-            <Skeleton className="h-6 w-40 rounded-md bg-background/50 mt-1" />{" "}
+            <Skeleton className="h-7 w-40 rounded-md bg-background/50 mt-1" />{" "}
             {/* Value (text-2xl is ~24px, h-6 is 24px) */}
           </div>
         </CardHeader>
@@ -1580,20 +1581,17 @@ export default function BalanceDistributionChart() {
   if (error) {
     return (
       <Card className="flex flex-col items-center space-y-3 justify-center sm:order-2 order-1 xl:w-1/4 w-full p-6 bg-primarybox text-center">
-        <div className="sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20 flex-shrink-0">
-          <AlertCircle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
-        </div>
-        <CardTitle className="font-medium sm:text-2xl text-xl text-red-600 capitalize">
-          Loading Failed
+        <CardTitle className="font-medium sm:text-2xl text-xl text-mainheadingWhite capitalize">
+          Loading Balance Failed
         </CardTitle>
-        <CardDescription className="text-sm text-red-300/90">
+        <CardDescription className=" text-subheadingWhite">
           {error}
         </CardDescription>
         <button
           onClick={fetchData}
-          className="px-6 py-3 text-mainheadingWhite cursor-pointer flex items-center bg-secondarybox  hover:bg-secondaryboxhover transition-all ease-linear duration-75 rounded-full"
+          className="px-8 py-3 gap-2 text-mainheadingWhite cursor-pointer flex items-center bg-secondarybox hover:bg-secondaryboxhover transition-all ease-linear duration-75 rounded-full"
         >
-          <RefreshCw className="w-4 h-4 mr-2" />
+          <RefreshCw className="size-4" />
           Try Again
         </button>
       </Card>
@@ -1604,13 +1602,13 @@ export default function BalanceDistributionChart() {
     return (
       <div className="py-10">
         <div className="bg-primarybox rounded-2xl sm:p-6 p-4 text-center space-y-3 flex flex-col justify-center items-center">
-          <div className="lg:size-16 size-14 flex items-center justify-center bg-primary rounded-full">
-            <Info className="lg:size-8 size-6 mx-auto text-subheading" />
+          <div className="lg:size-12 size-10 flex items-center justify-center bg-primary rounded-full">
+            <Info className="lg:size-6 size-4 mx-auto text-mainheading" />
           </div>
-          <h1 className="lg:text-3xl md:text-2xl text-xl font-medium text-mainheadingWhite max-w-xl">
+          <h1 className="sm:text-3xl text-2xl font-medium text-mainheadingWhite max-w-xl">
             No Balance Data
           </h1>
-          <p className="sm:text-lg text-base text-subheadingWhite">
+          <p className="text-subheadingWhite">
             There are currently no calculated account balances to display.
           </p>
         </div>
@@ -1624,14 +1622,15 @@ export default function BalanceDistributionChart() {
         {/* Icon and Title */}
         <div className="flex items-start gap-3">
           <div className="size-12 shrink-0 bg-primary rounded-full flex items-center justify-center">
-            <FaWallet className="size-6 text-mainheading" />
+            <IoWalletOutline className="size-6 text-mainheading" />
           </div>
 
           <div>
             <CardTitle className="text-lg font-semibold text-mainheadingWhite">
               Account Balances
             </CardTitle>
-            <CardDescription className="text-xs text-subheadingWhite max-w-68">
+
+            <CardDescription className="text-sm text-subheadingWhite max-w-68">
               Net calculated balances (Completed Add Money - Completed Send
               Money) by currency.
             </CardDescription>

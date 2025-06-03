@@ -51,11 +51,11 @@ const InternationalTransferSection: React.FC = () => {
   const currentProducts = individualsProductsData;
 
   return (
-    <section className="InternationalTransferSection sm:py-16 pt-7.5 pb-10">
+    <section className="InternationalTransferSection sm:py-14 pt-7.5 pb-10">
       <div className="container mx-auto px-4">
         {/* Header Section - simplified as tabs are removed */}
         <div className="text-center lg:text-left">
-          <h3 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+          <h3 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-mainheadingWhite">
             Send Money to <span className="text-primary">India</span>
           </h3>
           <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">

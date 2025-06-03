@@ -485,7 +485,7 @@
                   {Array(skeletonRowCount)
                   .fill(0)
                   .map((_, i) => (
-                      <tr key={`skel-${i}`} >
+                      <tr key={`skel-${i}`} className="border-b">
                       {Array(numberOfColumns).fill(0).map((_, j) => (
                           <td key={`skel-cell-${i}-${j}`} className="px-4 py-4 h-[70px] whitespace-nowrap">
                             {/* Use full-width skeleton */}
@@ -577,7 +577,7 @@
                             href={`/admin/users/${user._id}`}
                             aria-label={`View details for ${user.fullName || user.email}`}
                             // Apply button styles directly to Link - matching PaymentTable Edit button
-                            className="inline-flex items-center group px-6 py-2 rounded-3xl space-x-1 transition-colors duration-300 font-medium bg-primarybox hover:bg-secondarybox text-primary focus:outline-none" // Adjusted padding/height/text size for consistency
+                            className="inline-flex items-center group px-6 py-2 rounded-full transition-all duration-75 ease-linear font-medium bg-primarybox hover:bg-secondarybox text-primary focus:outline-none" // Adjusted padding/height/text size for consistency
                           >
                             {/* <Eye size={16} className="mr-1" />Details */}
                             <span>View Details</span>

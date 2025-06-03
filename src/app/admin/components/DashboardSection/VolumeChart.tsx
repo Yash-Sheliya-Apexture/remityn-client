@@ -833,7 +833,6 @@
 //   className?: string;
 // }
 
-
 // // export function VolumeChart({
 //   title,
 //   description,
@@ -1145,7 +1144,6 @@
 //     </Card>
 //   );
 // }
-
 
 // // frontend/src/components/DashboardSection/VolumeChart.tsx
 
@@ -1468,7 +1466,7 @@
 //                 <span className="text-sm">
 //                   Total {timeRange === "month" ? "30 days" : "12 months"}
 //                 </span>
-                
+
 //                 <Badge
 //                   variant="outline"
 //                   className="text-xs font-normal bg-[oklch(0.44_0_0)] text-white"
@@ -1477,7 +1475,7 @@
 //                 </Badge>
 //               </div>
 //             </div>
-            
+
 //             <ChartContainer
 //               config={chartConfig}
 //               className="aspect-auto h-[200px] w-full flex-grow"
@@ -1531,7 +1529,6 @@
 //     </Card>
 //   );
 // }
-
 
 // // frontend/src/app/admin/components/DashboardSection/VolumeChart.tsx
 // "use client";
@@ -1917,8 +1914,6 @@
 //   );
 // }
 
-
-
 "use client";
 
 import React, { useState, useEffect, useMemo, useCallback } from "react";
@@ -2000,7 +1995,7 @@ export function VolumeChart({
         // 'volume'
         label: yAxisLabel,
         color: fillColorVar || "hsl(var(--primary))",
-      },  
+      },
     };
     if (timeRange === "by_currency" && chartData.length > 0) {
       chartData.forEach((item) => {
@@ -2026,8 +2021,7 @@ export function VolumeChart({
         );
         setChartData(data);
       } catch (err: any) {
-        const errorMessage =
-          err.message || `Failed to load ${chartType} data.`;
+        const errorMessage = err.message || `Failed to load ${chartType} data.`;
         setError(errorMessage);
         setChartData([]);
       } finally {
@@ -2116,8 +2110,7 @@ export function VolumeChart({
     if (timeRange === "month") return "last 30 days";
     if (timeRange === "year") return "last 12 months";
     if (timeRange === "all") return "all time";
-    if (timeRange === "by_currency")
-      return "across all currencies (all time)";
+    if (timeRange === "by_currency") return "across all currencies (all time)";
     return "";
   };
 
@@ -2155,7 +2148,9 @@ export function VolumeChart({
                   className="flex items-center justify-center cursor-pointer gap-2 bg-secondarybox hover:bg-secondaryboxhover size-10 rounded-full transition-all duration-75 ease-linear"
                 >
                   <RefreshCw
-                    className={`size-4 text-primary ${loading ? "animate-spin" : ""}`}
+                    className={`size-4 text-primary ${
+                      loading ? "animate-spin" : ""
+                    }`}
                   />
                   <span className="sr-only"> Refresh</span>
                 </button>
@@ -2186,7 +2181,7 @@ export function VolumeChart({
                       "flex items-center justify-center",
                       "transition-all duration-75 ease-linear focus:outline-none cursor-pointer",
                       "focus-visible:ring-0 focus-visible:ring-offset-0 focus-visible:outline-none",
-                      "border-none data-[state=active]:bg-transparent dark:data-[state=active]:bg-transparent data-[state=active]:shadow-none"
+                      "border-none data-[state=active]:bg-transparent data-[state=active]:shadow-none"
                     )}
                     style={{ WebkitTapHighlightColor: "transparent" }}
                   >
@@ -2206,7 +2201,7 @@ export function VolumeChart({
                         "relative z-10 ",
                         timeRange === tab.id
                           ? "text-mainheading font-semibold"
-                          : "text-subheadingWhite"
+                          : "text-mainheadingWhite"
                       )}
                     >
                       {tab.label}
@@ -2219,7 +2214,7 @@ export function VolumeChart({
         </div>
       </CardHeader>
 
-      <CardContent className="flex-grow flex bg-primarybox flex-col px-2 pb-4 pt-0 sm:px-4 sm:pb-6">
+      <CardContent className="flex-grow flex bg-primarybox rounded-xl flex-col px-2 pb-4 pt-0 sm:px-4 sm:pb-6">
         {loading && (
           <>
             <div className="flex flex-col items-center justify-center mb-4 pt-2">
@@ -2245,17 +2240,21 @@ export function VolumeChart({
             </div>
           </>
         )}
-
+        
         {error && !loading && (
-          <div className="flex-grow flex flex-col justify-center items-center text-center space-y-3">
-              <p className="lg:text-2xl text-xl font-semibold text-mainheadingWhite">Error Loading Chart Data</p>
-              <p className="text-subheadingWhite">{error}</p>
-              <button
-                onClick={handleRefresh}
-                className="flex items-center text-center px-8 py-3 mx-auto bg-secondarybox hover:bg-secondaryboxhover text-primary transition-all ease-linear duration-75 cursor-pointer rounded-full"
-              >
-                <RefreshCw className="size-4 mr-1.5" /> Try Again
-              </button>
+          <div className="flex-grow flex flex-col justify-center items-center text-center space-y-3 py-10">
+
+            <h1 className="lg:text-2xl text-xl font-semibold text-mainheadingWhite">
+              Error Loading Chart Data
+            </h1>
+
+            <p className="text-subheadingWhite">{error} </p>
+            <button
+              onClick={handleRefresh}
+              className="flex items-center text-center px-8 py-3 mx-auto bg-secondarybox font-medium hover:bg-secondaryboxhover text-primary transition-all ease-linear duration-75 cursor-pointer rounded-full"
+            >
+              <RefreshCw className="size-5 mr-1.5" /> Try Again
+            </button>
           </div>
         )}
 
@@ -2266,7 +2265,6 @@ export function VolumeChart({
             </p>
           </div>
         )}
-
 
         {!loading && !error && chartData.length > 0 && (
           <>
@@ -2316,7 +2314,7 @@ export function VolumeChart({
                     stroke="hsl(var(--border))"
                     strokeOpacity={0.7}
                   />
-                  
+
                   <XAxis
                     dataKey={xAxisDataKey} // Use generic 'category'
                     tickLine={false}

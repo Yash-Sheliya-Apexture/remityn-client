@@ -504,43 +504,43 @@ const testimonialsData: Testimonial[] = [
     id: 1,
     imageSrc: "./assets/images/John.png",
     quote:
-      "This website has become my go-to for exchanging money before every trip. I always get competitive exchange rates and zero hidden fees. The interface is clean and super easy to navigate, even for first-time users.",
-    name: "John Taylor | Sales Manager",
+      "The platform delivers on its promise of simple steps. Quick account setup, easy KYC, and my USD wallet was ready to go. Transferring to India was seamless. Happy with the transaction tracking.",
+    name: "Rushil Vaghela",
   },
   {
     id: 2,
     imageSrc: "./assets/images/Lisa-Carter.jpg",
     quote:
-      "I was able to exchange currency while sitting at the airport lounge. That alone is impressive.What’s even better is how intuitive the platform is. You see current rates, lock them in, and transfer money in minutes.",
-    name: "Lisa Carter | Product Design",
+      "Finally, a truly user-friendly way to send AED to India! The wallet creation is intuitive, and adding funds was no hassle. Selecting the recipient and sending money was very quick.",
+    name: "Noora Al Hammadi",
   },
   {
     id: 3,
     imageSrc: "./assets/images/Tom.jpg",
     quote:
-      "Planning my honeymoon abroad was stressful, but at least exchanging money wasn’t. This site gave me the best rate after comparing a few options online. The instructions were clear.",
-    name: "Tom Diaz | The Sales Booster",
+      "I've used a few services to send AED to India, but this one stands out for its simplicity. The signup really is quick, and the KYC verification didn't take long at all. Once that was done, setting up my AED wallet and transferring funds into it from my bank was smooth. The best part for me is managing recipients; I send to different family members, and being able to add all their details (name, bank account, IFSC) and save them is incredibly convenient. Initiating the transfer itself is very intuitive – select wallet, select recipient, enter amount, confirm. The tracking is also a great feature. Definitely my new go-to.",
+    name: "Sanjay Parmar",
   },
   {
     id: 4,
     imageSrc: "./assets/images/Sofia.png",
     quote:
-      "I found this service while researching currency exchange options before my backpacking trip. It turned out to be a great find with very competitive rates. Signing up was easy, and the whole process was seamless.",
-    name: "Sofia Vyas | Freelance Writer",
+      "Used this for a EUR transfer. The process of adding my recipient and their bank details was very clear. I like that I can save them for next time. The digital wallet system is also very convenient.",
+    name: "Chelsy Desai",
   },
   {
     id: 5,
     imageSrc: "./assets/images/Ryan.jpg",
     quote:
-      "I was amazed by how quickly my money reached my family abroad. The exchange rates beat every other service I’ve used, and the process was smooth from start to finish. Highly recommend this platform for all international travelers.",
-    name: "Sofia Vyas | Freelance Writer",
+      "Good overall service for GBP to INR. Signup and KYC were quick. I appreciate being able to manage multiple recipients. The transfer was completed in a reasonable time.",
+    name: "Ben Carter",
   },
   {
     id: 6,
     imageSrc: "./assets/images/Emily.avif",
     quote:
-      "It’s rare to find a service that balances speed and security. This one does both.I exchanged a decent sum before my trip and received it quickly. I loved getting an invoice with all details spelled out. No vague charges or bad surprises.",
-    name: "Emily Clarke | Business Development",
+      "I was a bit apprehensive about online money transfers, but this website made it so easy. The initial sign-up asked for just basic details. The KYC was a simple verification step, and after that, I had full access to create my GBP wallet. The instructions for adding funds via bank transfer were clear and easy to follow. What I really appreciated was the recipient management – I entered my sister's full name, her Indian bank account number, and the IFSC code, and now she's saved for future transfers. Sending the money was then just a matter of selecting her, my wallet, and the amount. I could even track the transaction status, which was reassuring.",
+    name: "Isha Bhatt",
   },
 ];
 
@@ -593,7 +593,7 @@ const ClientTestimonialSection: React.FC = () => {
                         <div className="w-full md:w-[calc(100%-338px-2.5rem)]">
                           {/* Target '.content' for animation */}
                           <div className="content lg:py-8 sm:py-4 py-8 h-full flex flex-col justify-between text-center md:text-left">
-                            <p className="text-xl sm:text-2xl lg:text-3xl text-subheadingWhite font-medium">
+                            <p className="text-xl sm:text-2xl lg:text-3xl text-subheadingWhite font-medium line-clamp-5">
                               ”{testimonial.quote}”
                             </p>
                             <div className="mt-5">

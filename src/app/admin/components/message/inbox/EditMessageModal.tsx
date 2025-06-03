@@ -907,7 +907,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
                 </p>
                 <div className="mt-4 text-sm text-subheadingWhite space-y-1.5 border px-4 py-3 rounded-xl">
                   <div className="flex items-start">
-                    <span className="font-semibold text-white/90 shrink-0">
+                    <span className="font-semibold text-mainheadingWhite shrink-0">
                       ID:
                     </span>
                     <span className="ml-1.5 flex-1 break-words">
@@ -918,7 +918,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
                   </div>
                   {message?.userId && (
                     <div className="flex items-start">
-                      <span className="font-semibold text-white/90 shrink-0">
+                      <span className="font-semibold text-mainheadingWhite shrink-0">
                         To:
                       </span>
                       <span className="ml-1.5 truncate" title={recipientName}>
@@ -933,7 +933,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
                 <div className="space-y-1.5">
                   <label
                     htmlFor="edit-message-subject"
-                    className="text-white/90 block capitalize text-sm lg:text-base"
+                    className="text-subheadingWhite block capitalize text-sm lg:text-base"
                   >
                     Subject <span className="text-red-600">*</span>
                   </label>
@@ -952,7 +952,7 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
                 <div className="space-y-1.5">
                   <label
                     htmlFor="edit-message-body"
-                    className="text-white/90 block capitalize text-sm lg:text-base"
+                    className="text-subheadingWhite block capitalize text-sm lg:text-base"
                   >
                     Body <span className="text-red-600">*</span>
                   </label>
@@ -974,14 +974,6 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
               <div className="flex sm:flex-row flex-col justify-end gap-3">
                 <button
                   type="button"
-                  onClick={onClose}
-                  disabled={isLoading}
-                  className="inline-flex justify-center cursor-pointer text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-[48px] text-center w-full transition-all duration-75 ease-linear"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
                   onClick={handleSave}
                   disabled={
                     isLoading || !editSubject.trim() || !editBody.trim()
@@ -990,6 +982,15 @@ const EditMessageModal: React.FC<EditMessageModalProps> = ({
                 >
                   {isLoading && <SvgLoader />}
                   {isLoading ? "Saving..." : "Save Changes"}
+                </button>
+
+                <button
+                  type="button"
+                  onClick={onClose}
+                  disabled={isLoading}
+                  className="inline-flex justify-center cursor-pointer text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-[48px] text-center w-full transition-all duration-75 ease-linear"
+                >
+                  Cancel
                 </button>
               </div>
             </div>

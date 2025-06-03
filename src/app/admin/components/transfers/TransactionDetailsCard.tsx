@@ -637,7 +637,7 @@ const CurrencyDisplay: React.FC<CurrencyDisplayProps> = ({ currencyIdentifier, c
   }
 
   if (!currencyCode) {
-    return <span className="text-sm text-white/90 font-medium">N/A</span>;
+    return <span className="text-sm text-white font-medium">N/A</span>;
   }
 
   return (
@@ -645,7 +645,7 @@ const CurrencyDisplay: React.FC<CurrencyDisplayProps> = ({ currencyIdentifier, c
       <span className="text-mainheadingWhite font-medium mr-1.5">{currencyCode}</span>
       {/* Use flagImage from the full currencyInfo if found */}
       {currencyInfo?.flagImage && (
-        <div className="relative w-7 h-7 rounded-full overflow-hidden">
+        <div className="relative size-6 rounded-full overflow-hidden">
           <Image
             src={currencyInfo.flagImage}
             alt={`${currencyCode} flag`}
@@ -686,17 +686,17 @@ const TransactionDetailsCard: React.FC<TransactionDetailsCardProps> = ({
         Transaction Details
       </h4>
 
-      <div className="rounded-xl border overflow-hidden bg-secondarybox">
+      <div className="rounded-xl border overflow-hidden bg-primarybox">
         {/* Exchange Information */}
         <div className="sm:p-5 p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
             {/* Sent Amount */}
-            <div className="bg-secondaryboxhover rounded-lg p-4">
-              <p className="text-mainheadingWhite text-sm font-medium mb-1">
+            <div className="bg-secondarybox rounded-lg p-4">
+              <p className="text-subheadingWhite text-sm font-medium mb-1">
                 Sent Amount
               </p>
               <div className="flex items-baseline">
-                <div className="text-xl font-bold text-white/90">
+                <div className="text-xl font-bold text-mainheadingWhite">
                   {/* Format using amount */}
                   {formatCurrency(actualSendAmount, sendCurrencyCode, 2)}
                 </div>
@@ -709,12 +709,12 @@ const TransactionDetailsCard: React.FC<TransactionDetailsCardProps> = ({
             </div>
 
             {/* Received Amount */}
-            <div className="bg-secondaryboxhover rounded-lg p-4">
+            <div className="bg-secondarybox rounded-lg p-4">
               <p className="text-mainheadingWhite text-sm font-medium mb-1">
                 Recipient Gets (approx)
               </p>
               <div className="flex items-baseline">
-                <div className="text-xl font-bold text-white/90">
+                <div className="text-xl font-bold text-mainheadingWhite">
                   {/* Format using amount and CODE */}
                   {formatCurrency(actualReceiveAmount, receiveCurrencyCode, 2)}
                 </div>
@@ -729,10 +729,10 @@ const TransactionDetailsCard: React.FC<TransactionDetailsCardProps> = ({
         </div>
 
         {/* Additional Info */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x border-y border-secondaryboxhover">
-          <div className="p-4 border-secondaryboxhover">
+        <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x border-y">
+          <div className="p-4">
             <p className="text-sm text-subheadingWhite mb-1">Exchange Rate</p>
-            <p className="text-white/90 font-medium text-sm">
+            <p className="text-mainheadingWhite font-medium text-sm">
               {/* Use the extracted codes */}
               {sendCurrencyCode && receiveCurrencyCode && typeof transfer.exchangeRate === 'number' ? (
                 <>
@@ -750,7 +750,7 @@ const TransactionDetailsCard: React.FC<TransactionDetailsCardProps> = ({
           </div>
           <div className="p-4">
             <p className="text-sm text-subheadingWhite mb-1">Fee</p>
-            <p className="text-white/90 font-medium text-sm">
+            <p className="text-mainheadingWhite font-medium text-sm">
               {/* Format using fee amount and SEND currency code */}
               {formatCurrency(actualFees, sendCurrencyCode, 2)}
             </p>
@@ -760,15 +760,15 @@ const TransactionDetailsCard: React.FC<TransactionDetailsCardProps> = ({
         {/* Summary */}
         <div className="p-4">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium text-mainheadingWhite">
+            <p className="text-sm font-medium text-subheadingWhite">
               Total Debit Amount
             </p>
-            <p className="font-semibold text-lg text-white/90">
+            <p className="font-semibold text-lg text-mainheadingWhite">
               {/* Format using total and SEND currency code */}
               {formatCurrency(totalDebit, sendCurrencyCode, 2)}
             </p>
           </div>
-          <p className="text-xs text-mainheadingWhite mt-1 text-right">
+          <p className="text-xs text-subheadingWhite mt-1 text-right">
             (Amount + Fee)
           </p>
         </div>

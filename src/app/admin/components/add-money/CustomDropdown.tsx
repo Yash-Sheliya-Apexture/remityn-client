@@ -587,7 +587,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, RefreshCw } from "lucide-react"; // Added RefreshCw
-import { GiCheckMark } from "react-icons/gi";
+import { FaCheck } from "react-icons/fa6";
 
 interface CustomDropdownProps {
   label?: React.ReactNode; // Label is optional
@@ -696,10 +696,10 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
       >
         <span>{getButtonDisplayText()}</span>
         {isLoading ? (
-          <RefreshCw className="size-5 animate-spin text-neutral-300" />
+          <RefreshCw className="size-5 animate-spin text-mainheadingWhite" />
         ) : (
           <ChevronDown
-            className={`size-5 transition-transform duration-200 ${
+            className={`size-5 transition-all duration-150 ease-linear ${
               isOpen ? "rotate-180" : ""
             } ${
               disabled
@@ -718,7 +718,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
             exit={{ opacity: 0, y: -5 }}
             transition={{ duration: 0.15 }}
             role="listbox"
-            className="absolute z-20 mt-2 w-full rounded-xl shadow-sm bg-background border overflow-hidden p-2 space-y-2"
+            className="absolute z-20 mt-2 w-full rounded-xl bg-background border overflow-hidden p-2 space-y-2"
           >
             {options.map((option) => (
               <motion.li
@@ -726,10 +726,10 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
                 onClick={() => handleSelect(option)}
                 role="option"
                 aria-selected={value === option}
-                className={`px-4 py-2 cursor-pointer rounded-full transition-colors font-medium duration-300 ease-in-out flex justify-between items-center ${
+                className={`px-4 py-2 cursor-pointer rounded-full transition-all font-semibold duration-75 ease-linear flex justify-between items-center ${
                   value === option
                     ? "bg-primary text-mainheading" // Selected item style
-                    : "hover:bg-primarybox text-subheadingWhite "
+                    : "hover:bg-primarybox text-subheadingWhite"
                 }`}
               >
                 {/* Display option as is, or use allOptionText if it's the designated 'all' value */}
@@ -739,7 +739,7 @@ const CustomDropdown: React.FC<CustomDropdownProps> = ({
                     : option}
                 </span>
                 {value === option && (
-                  <GiCheckMark className="text-mainheading" size={16} />
+                  <FaCheck className="text-mainheading size-5" />
                 )}
               </motion.li>
             ))}

@@ -196,29 +196,33 @@ const CustomCalendar: React.FC<CustomCalendarProps> = ({ onDateSelect, selectedD
     return (
         <div className="bg-background sm:w-96 w-full rounded-2xl shadow border mt-2 p-4 absolute sm:left-20 left-0 z-10">
             <div className="flex justify-between items-center mb-4">
-                <button onClick={prevMonth} className="p-2 hover:bg-primary hover:text-mainheading text-white/90 transition-colors duration-300 ease-in-out cursor-pointer rounded-md">
+                <button onClick={prevMonth} className="p-2 bg-primary hover:bg-primaryhover text-mainheading font-medium transition-all duration-150 ease-linear cursor-pointer rounded-full">
                     <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path></svg>
                 </button>
-                <span className="font-semibold text-white/90">{format(new Date(year, month), 'MMMM yyyy')}</span>
-                <button onClick={nextMonth} className="p-2 hover:bg-primary hover:text-mainheading text-white/90 transition-colors duration-300 ease-in-out cursor-pointer rounded-md">
+
+                <span className="font-semibold capitalize text-mainheadingWhite">{format(new Date(year, month), 'MMMM yyyy')}</span>
+
+                <button onClick={nextMonth} className="p-2 bg-primary hover:bg-primaryhover text-mainheading font-medium transition-all duration-150 ease-linear cursor-pointer rounded-full">
                     <svg className="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
                 </button>
             </div>
+
             <div className="grid grid-cols-7 gap-1 mb-2">
                 {daysInWeek.map((day, index) => (
-                    <div key={index} className="text-center text-white/90 font-semibold text-sm">{day}</div>
+                    <div key={index} className="text-center text-subheadingWhite font-semibold text-sm">{day}</div>
                 ))}
             </div>
+            
             <div className="grid grid-cols-7 gap-1.5">
                 {days.map((day, index) => (
                     <button
                         key={index}
                         onClick={() => handleDateClick(day)}
-                        className={`rounded-sm size-10 focus:outline-none
-                            ${isSameMonth(day, new Date(year, month)) ? 'text-gray-300 font-medium' : 'text-gray-500'}
+                        className={`rounded-full hover:bg-primary hover:text-mainheading transition-all ease-linear duration-150 size-10 focus:outline-none
+                            ${isSameMonth(day, new Date(year, month)) ? 'font-medium text-gray-300' : 'text-subheadingWhite'}
                             ${isToday(day) && isSameMonth(day, new Date(year, month)) ? 'font-semibold' : ''}
                             ${selectedDate && isSameDay(day, selectedDate) ? 'bg-primary text-mainheading' : ''}
-                            ${!isSameMonth(day, new Date(year, month)) ? 'opacity-50 cursor-default hover:bg-transparent' : 'cursor-pointer'}
+                            ${!isSameMonth(day, new Date(year, month)) ? 'opacity-50 cursor-no-drop hover:bg-transparent hover:text-subheadingWhite' : 'cursor-pointer'}
                           `}
                         disabled={!isSameMonth(day, new Date(year, month))}
                     >

@@ -1143,14 +1143,12 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
   Loader2,
-  AlertTriangle, // Good icon for general warning
   RotateCcw,
   LayoutDashboard,
   FileWarning, // Specific for document issues
   HelpCircle,
   XCircle, // Explicit rejection icon
 } from "lucide-react";
-import { cn } from "@/lib/utils"; // Ensure cn is imported
 
 // --- App Specific Imports ---
 import { useAuth } from "@/app/contexts/AuthContext";
@@ -1222,7 +1220,7 @@ export default function KycRejectedPage() {
    if (!user) {
       return (
           <div className="flex justify-center items-center min-h-[400px]">
-              <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
       );
   }
@@ -1231,32 +1229,32 @@ export default function KycRejectedPage() {
   // --- Main Rejected Content ---
   return (
     // Adopt layout and max-width from other pages
-    <div className="mx-auto max-w-2xl py-8 px-4">
+    <div className="mx-auto lg:max-w-2xl w-full">
       {/* Adopt Card styling from other pages - standard border, shadow, animation */}
-      <Card className="w-full border-border/50 shadow-none animate-fadeIn overflow-hidden">
+      <Card className="bg-background w-full border shadow-none animate-fadeIn overflow-hidden">
         {/* Adopt Header structure and styling, use Accent background */}
-        <CardHeader className="items-center text-center p-4 md:p-8 bg-accent">
+        <CardHeader className="items-center text-center p-4 md:p-8 bg-primarybox">
           {/* Icon Container - styled with Destructive theme */}
           <div className="mb-4 w-full inline-flex justify-center">
             {/* Use destructive colors */}
-            <div className="h-16 w-16 flex items-center justify-center rounded-full bg-red-100 dark:bg-red-900/40 text-destructive dark:text-red-400 border border-red-200 dark:border-red-700 shadow-inner">
+            <div className="h-16 w-16 flex items-center justify-center rounded-full bg-red-600/25 text-red-600 border border-red-600 ">
               {/* <AlertTriangle className="h-8 w-8" /> */}
               <XCircle className="h-8 w-8" /> {/* More explicit rejection */}
             </div>
           </div>
           {/* Title - Adopt font styling */}
-          <CardTitle className="sm:text-2xl text-xl font-semibold tracking-tight text-mainheading dark:text-white">
+          <CardTitle className="text-2xl font-semibold tracking-tight text-mainheadingWhite">
             Verification Action Required
           </CardTitle>
           {/* Description - Adopt styling */}
-          <CardDescription className="sm:text-base text-sm text-gray-500 dark:text-gray-300 mt-1 px-4">
+          <CardDescription className="text-base text-subheadingWhite mt-1">
             Unfortunately, we couldn't verify your identity based on the
             information provided.
           </CardDescription>
           {/* Badge - Adopt structure/styling, use Destructive theme */}
           <Badge
             variant="destructive" // Use destructive variant for styling
-            className="mt-3 text-sm border-0 rounded-full font-medium text-red-700 bg-red-100 dark:bg-red-600/20 dark:text-red-400 px-4 py-2 w-28"
+            className="mt-3 text-sm border-0 rounded-full font-medium bg-red-600/25 text-red-500 px-4 py-2 w-28"
           >
             Rejected
           </Badge>
@@ -1265,13 +1263,15 @@ export default function KycRejectedPage() {
         {/* Adopt Content structure */}
         <CardContent className="p-4 md:p-8 space-y-6">
           {/* Rejection Reason Alert - Crucial information */}
-          <Alert className="bg-red-100 border-red-300 dark:bg-red-600/20 dark:border-red-700 rounded-lg p-4">
-            <FileWarning className="h-5 w-5 flex-shrink-0 mt-1 text-red-700 dark:text-red-400 " />
+          <Alert className="bg-red-900/25 border-red-500 rounded-lg p-4 gap-3">
+            <div className="flex-shrink-0 sm:size-12 size-10 rounded-full flex items-center justify-center bg-red-600/20">
+              <FileWarning className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
+            </div>
             <div>
-              <AlertTitle className="font-medium tracking-normal text-red-700 dark:text-red-400  text-base">
+              <AlertTitle className="font-medium tracking-normal text-red-600 text-base mb-1">
                 Reason for Rejection
               </AlertTitle>
-              <AlertDescription className="text-red-600 dark:text-red-300">
+              <AlertDescription className="text-red-300/90">
                 {rejectionReason ||
                   "No specific reason provided. Common issues include unclear document images, expired documents, or mismatched information. Please review your submission carefully."}
               </AlertDescription>
@@ -1282,7 +1282,7 @@ export default function KycRejectedPage() {
           <Separator className="my-6" />
 
           {/* Introductory Text - Guide user */}
-          <div className="text-center text-gray-500 dark:text-gray-300 sm:text-lg text-base">
+          <div className="text-center text-mainheadingWhite sm:text-lg text-base">
             <p className="">Please review the feedback above.</p>
             <p className="mt-1">
               You can{" "}
@@ -1306,13 +1306,13 @@ export default function KycRejectedPage() {
         </CardContent>
 
         {/* Adopt Footer structure */}
-        <CardFooter className="flex flex-col gap-3 p-4 md:p-8 bg-bg-accent border-t">
+        <CardFooter className="flex flex-col gap-3 p-4 md:p-8 border-t">
           <div className="flex flex-col sm:flex-row gap-3 w-full">
             {/* Dashboard Button - Secondary Action (Dark Style) */}
             <button
               onClick={handleGoToDashboard}
               // Use secondary button style from KycPendingPage
-              className="inline-flex items-center justify-center bg-primary text-neutral-900 hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
+              className="inline-flex items-center justify-center bg-primary text-mainheading hover:bg-primaryhover font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
             >
               <LayoutDashboard className="mr-2 h-4 w-4" /> Go to Dashboard
             </button>
@@ -1321,19 +1321,19 @@ export default function KycRejectedPage() {
             <button
               onClick={handleRetryVerification}
               // Use destructive color scheme, similar structure to other primary buttons
-              className="inline-flex items-center justify-center bg-neutral-900 hover:bg-neutral-700 text-primary dark:bg-primarybox dark:hover:bg-secondarybox dark:text-primary font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
+              className="inline-flex items-center justify-center text-primary bg-primarybox hover:bg-secondarybox font-medium rounded-full px-6 py-3 h-12.5 text-center w-full cursor-pointer transition-all duration-75 ease-linear focus:outline-none"
             >
               <RotateCcw className="mr-2 h-4 w-4" /> Retry Verification
             </button>
           </div>
           {/* Support Link - Moved to footer */}
           <div className="w-full text-center pt-4">
-            <p className="text-sm text-neutral-900 dark:text-white">
+            <p className="text-sm text-subheadingWhite">
               Need help?{" "}
               <Link href="/support" className="underline hover:text-primary">
                 Contact support{" "}
               </Link>
-              <HelpCircle className="inline h-4 w-4 ml-1" />
+              <HelpCircle className="inline h-4 w-4 ml-0.5" />
             </p>
           </div>
         </CardFooter>

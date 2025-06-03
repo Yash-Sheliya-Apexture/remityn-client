@@ -1858,7 +1858,7 @@ const FAQPage: React.FC = () => {
     <section className="FAQSection min-h-screen lg:py-20 py-5 overflow-hidden"> 
       <div className="container mx-auto px-4">
         <div className="text-left">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite"> 
+          <h1 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-mainheadingWhite"> 
             Frequently Asked
             <span className="text-primary"> Questions </span> 
           </h1>

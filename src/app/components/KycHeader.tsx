@@ -38,7 +38,6 @@
 
 // export default KycHeader;
 
-
 // // frontend/src/app/kyc/components/KycHeader.tsx
 // import React from 'react';
 // import Link from 'next/link';
@@ -78,10 +77,10 @@
 
 // frontend/src/app/kyc/components/KycHeader.tsx
 // (No changes needed)
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { HelpCircle } from 'lucide-react'; // Import an icon
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { HelpCircle } from "lucide-react"; // Import an icon
 
 const KycHeader: React.FC = () => {
     return (

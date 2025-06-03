@@ -211,6 +211,8 @@
 
 // export default MobileDownloadSection;
 
+
+
 "use client"; // Required for Framer Motion
 import Image from "next/image";
 import React from "react";
@@ -432,3 +434,8 @@ const MobileDownloadSection: React.FC = () => {
 };
 
 export default MobileDownloadSection;
+
+
+
+
+

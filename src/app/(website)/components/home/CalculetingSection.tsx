@@ -24977,7 +24977,7 @@ const CalculetingSection: React.FC = () => {
     if (user) {
       return `/dashboard/send/select-balance`;
     }
-    return "/register";
+    return "/auth/register";
   };
 
   // =============================================================================
@@ -25373,8 +25373,8 @@ const CalculetingSection: React.FC = () => {
                   className={`w-full block text-center py-3.5 px-6 font-medium rounded-full text-base lg:text-lg transition-all duration-75 ease-linear transform active:scale-95
                     ${
                       isButtonDisabled
-                        ? "bg-gray-500 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-70"
-                        : "bg-primary hover:bg-primaryhover text-mainheading "
+                        ? "bg-primary hover:bg-primaryhover text-mainheading  cursor-not-allowed opacity-70"
+                        : "bg-primary hover:bg-primaryhovertext-mainheading "
                     }`}
                   aria-disabled={isButtonDisabled}
                   onClick={(e) => {

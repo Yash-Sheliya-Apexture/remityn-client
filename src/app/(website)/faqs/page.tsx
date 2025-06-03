@@ -1819,6 +1819,8 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
           </div>
         </button>
       </h3>
+
+
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div

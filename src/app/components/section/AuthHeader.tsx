@@ -152,6 +152,7 @@ const AuthHeader: React.FC = () => {
               priority
               className="w-40 h-auto dark:hidden block"
             />
+            
             <Image
               src="/assets/images/dark_logo.svg"
               alt="Wise Logo"

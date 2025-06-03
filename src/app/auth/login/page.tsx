@@ -5475,7 +5475,7 @@ export default function LoginPage() {
   return (
     <div className="flex flex-col lg:flex-row min-h-screen lg:p-3">
       {/* Left Panel - Visible on large screens */}
-      <div className="hidden lg:flex lg:w-[55%] xl:w-[60%] bg-[url(/assets/images/leftPartImage.png)] bg-cover bg-no-repeat bg-center p-10 xl:p-16 rounded-3xl flex-col justify-between relative">
+      <div className="hidden lg:flex lg:w-[55%] xl:w-[60%] background-image p-10 xl:p-16 rounded-3xl flex-col justify-between relative">
         <div className="absolute top-16 xl:left-16 ">
           <Link href={"/"}>
             <Image
@@ -5649,10 +5649,11 @@ export default function LoginPage() {
                     <FaCheck className="text-green-500 size-5" />
                   </div>
                   <div>
-                    <span className="text-white block font-medium text-sm">
+                    <span className="text-mainheadingWhite block font-medium text-sm">
                       Login successful!
                     </span>
-                    <span className="text-white block">
+                    
+                    <span className="text-subheadingWhite block">
                       Redirecting to your dashboard...
                     </span>
                   </div>
@@ -5759,7 +5760,7 @@ export default function LoginPage() {
                     )}
                   </button>
                 </div>
-                <p className="text-gray-400 text-sm mt-1.5">
+                <p className="text-subheadingWhite text-sm mt-1.5">
                   Must be at least 8 characters.
                 </p>
                 {passwordError && (

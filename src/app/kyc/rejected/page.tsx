@@ -1184,7 +1184,7 @@ export default function KycRejectedPage() {
   // Effect 3: Rely on context for redirection if status changes from 'rejected'
 
   const handleRetryVerification = useCallback(async () => {
-    console.log("KYC Rejected: Retrying verification via resetKycProgress...");
+    // console.log("KYC Rejected: Retrying verification via resetKycProgress...");
     await resetKycProgress(true); // Clear state and navigate
   }, [resetKycProgress]);
 

@@ -3347,7 +3347,7 @@ const ReviewSendPage = () => {
         }
       );
 
-      console.log("Transfer execution response:", response.data);
+      // console.log("Transfer execution response:", response.data);
       localStorage.removeItem("sendTransferSummary");
       const transferId = response.data?._id ?? "";
 

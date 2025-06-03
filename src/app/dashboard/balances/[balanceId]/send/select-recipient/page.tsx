@@ -760,9 +760,9 @@ const SelectRecipientContent = () => {
       setError("Cannot proceed without a valid balance ID.");
       return;
     }
-    console.log(
-      `Selected recipient ${recipientId} for balance ${balanceId}. Navigating to amount.`
-    );
+    // console.log(
+    //   `Selected recipient ${recipientId} for balance ${balanceId}. Navigating to amount.`
+    // );
     router.push(
       `/dashboard/balances/${balanceId}/send/amount?recipientId=${recipientId}`
     );
@@ -776,7 +776,7 @@ const SelectRecipientContent = () => {
     }
     // Construct the return URL to come back to *this* page after adding
     const returnUrl = `/dashboard/balances/${balanceId}/send/select-recipient`;
-    console.log(`Navigating to add recipient, will return to: ${returnUrl}`);
+    // console.log(`Navigating to add recipient, will return to: ${returnUrl}`);
     router.push(
       `/dashboard/recipients/addrecipient?returnTo=${encodeURIComponent(
         returnUrl
@@ -788,9 +788,9 @@ const SelectRecipientContent = () => {
 
   // Redirect to login if no token after loading checks
   if (!loadingRecipients && !token && isValidParam) {
-    console.log(
-      "No auth token found on Select Recipient page, redirecting to login."
-    );
+    // console.log(
+    //   "No auth token found on Select Recipient page, redirecting to login."
+    // );
     router.replace("/auth/login");
     return (
       <div className="container mx-auto py-10 text-center text-mainheadingWhite">

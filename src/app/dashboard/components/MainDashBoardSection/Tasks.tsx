@@ -793,11 +793,11 @@ const TasksPage: React.FC = () => {
 
   // --- Data Fetching Effect ---
   useEffect(() => {
-    console.log("TasksPage: useEffect triggered.");
+    // console.log("TasksPage: useEffect triggered.");
 
     const fetchPendingPayments = async () => {
       if (!token) {
-        console.log("TasksPage: No token found, skipping fetch.");
+        // console.log("TasksPage: No token found, skipping fetch.");
         setIsLoading(false);
         return;
       }
@@ -807,13 +807,13 @@ const TasksPage: React.FC = () => {
       setPendingPayments([]);
       setVisibleTaskCount(initialVisibleTaskCount); // Reset to initial count on refresh
       setAllTasksVisible(false); // Reset allTasksVisible on refresh
-      console.log("TasksPage: Starting fetch for pending payments.");
+      // console.log("TasksPage: Starting fetch for pending payments.");
 
       try {
         const allUserPayments = await paymentService.getUserPayments(token);
-        console.log(
-          `TasksPage: Received ${allUserPayments.length} raw payments from API.`
-        );
+        // console.log(
+        //   `TasksPage: Received ${allUserPayments.length} raw payments from API.`
+        // );
 
         // Instead of using a type predicate:
         // Use a filter followed by a map to explicitly convert types:
@@ -836,9 +836,9 @@ const TasksPage: React.FC = () => {
                 // Include any other required Transaction properties
               } as Transaction)
           );
-        console.log(
-          `TasksPage: Filtered down to ${pending.length} pending 'Add Money' tasks.`
-        );
+        // console.log(
+        //   `TasksPage: Filtered down to ${pending.length} pending 'Add Money' tasks.`
+        // );
         setPendingPayments(pending);
       } catch (err: unknown) {
         // Changed 'any' to 'unknown'
@@ -858,7 +858,7 @@ const TasksPage: React.FC = () => {
         console.error("TasksPage: Error fetching pending payments:", err);
       } finally {
         setIsLoading(false);
-        console.log("TasksPage: Fetch finished.");
+        // console.log("TasksPage: Fetch finished.");
       }
     };
 
@@ -876,7 +876,7 @@ const TasksPage: React.FC = () => {
 
   // --- Early Return Condition ---
   if (!isLoading && !error && pendingPayments.length === 0) {
-    console.log("TasksPage: No pending tasks found, rendering null.");
+    // console.log("TasksPage: No pending tasks found, rendering null.");
     return null; // Render absolutely nothing
   }
 

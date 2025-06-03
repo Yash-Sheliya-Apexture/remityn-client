@@ -178,11 +178,11 @@ export default function BrevoManager() {
         if (typeof window === 'undefined') return; // Ensure running in browser
         if (!brevoConversationsId) return; // Don't do anything if ID is missing
 
-        console.log("BrevoManager: Setting up onChatboxLoaded callback.");
+        // console.log("BrevoManager: Setting up onChatboxLoaded callback.");
 
         // Define the callback function that fires when the chatbox UI is ready
         const handleBrevoChatboxLoaded = () => {
-            console.log("BrevoManager: Brevo 'onChatboxLoaded' event fired. API is now considered ready.");
+            // console.log("BrevoManager: Brevo 'onChatboxLoaded' event fired. API is now considered ready.");
 
             brevoApiReady.current = true; // Mark API as ready
 
@@ -196,7 +196,7 @@ export default function BrevoManager() {
             // Use the direct window.BrevoConversations call here as this callback
             // is invoked by Brevo's internal mechanism once the full API is ready.
              if (typeof window !== 'undefined' && window.BrevoConversations) {
-                console.log(`BrevoManager: Calling 'hideChatbox' initially for path: ${currentPathAtLoaded}`);
+                // console.log(`BrevoManager: Calling 'hideChatbox' initially for path: ${currentPathAtLoaded}`);
                 window.BrevoConversations('hideChatbox'); // Hide immediately
 
                 // Determine the correct visibility based on the path at the moment the chatbox loaded
@@ -204,11 +204,11 @@ export default function BrevoManager() {
 
                 // Apply the correct visibility state
                 if (shouldShow) {
-                     console.log(`BrevoManager: Path ${currentPathAtLoaded} allows show. Calling 'showChatbox'.`);
+                    //  console.log(`BrevoManager: Path ${currentPathAtLoaded} allows show. Calling 'showChatbox'.`);
                     window.BrevoConversations('showChatbox');
                 } else {
                      // It's already hidden from the "hide first" call, no need to call hide again.
-                     console.log(`BrevoManager: Widget remains hidden for path: ${currentPathAtLoaded} based on rules after load.`);
+                    //  console.log(`BrevoManager: Widget remains hidden for path: ${currentPathAtLoaded} based on rules after load.`);
                 }
              } else {
                  console.error("BrevoManager: window.BrevoConversations not available inside onChatboxLoaded callback unexpectedly.");
@@ -221,7 +221,7 @@ export default function BrevoManager() {
         // The snippet ensures window.BrevoConversations exists as a function (the queue placeholder) here.
         if (typeof window !== 'undefined' && window.BrevoConversations) {
             window.BrevoConversations('onChatboxLoaded', handleBrevoChatboxLoaded);
-             console.log("BrevoManager: Registered 'onChatboxLoaded' callback.");
+            //  console.log("BrevoManager: Registered 'onChatboxLoaded' callback.");
         } else {
              // This error should now be fixed by changing the script strategy to 'beforeInteractive'.
              // If you still see this, there's a deeper issue with script loading or env var.
@@ -230,7 +230,7 @@ export default function BrevoManager() {
 
         // Cleanup: Standard effect cleanup.
         return () => {
-             console.log("BrevoManager: Brevo onChatboxLoaded effect cleanup.");
+            //  console.log("BrevoManager: Brevo onChatboxLoaded effect cleanup.");
         };
     }, [brevoConversationsId]); // Dependency: Re-run if the ID changes (unlikely)
 
@@ -245,7 +245,7 @@ export default function BrevoManager() {
             const currentPath = pathname; // Use the pathname from the hook for navigation changes
             const shouldShow = shouldShowBrevoWidgetBasedOnPath(currentPath);
 
-            console.log(`BrevoManager: Path changed to ${currentPath}. Should show: ${shouldShow}.`);
+            // console.log(`BrevoManager: Path changed to ${currentPath}. Should show: ${shouldShow}.`);
 
             // Apply the correct visibility state for the new path
             if (shouldShow) {

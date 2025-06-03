@@ -4933,7 +4933,7 @@ const Header: React.FC = () => {
             aria-label="Global"
           >
             {/* Pill container */}
-            <div className="flex items-center justify-between w-full max-w-screen-md lg:max-w-screen-lg sm:p-3 p-2.5 bg-primary-foreground border border-gray-700/50 rounded-full">
+            <div className="flex items-center justify-between w-full max-w-screen-md lg:max-w-screen-lg sm:p-3 p-2.5 bg-primary-foreground border border-gray-500/30 rounded-full">
               {/* Logo */}
               <div className="flex-shrink-0">
                 <Link

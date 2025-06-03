@@ -9495,14 +9495,14 @@ const BalanceDetailPage = () => {
 
   // Effect for filtering and searching transactions
   useEffect(() => {
-     console.log("Transaction filtering effect running...");
+    //  console.log("Transaction filtering effect running...");
     if (isTransactionsLoading) {
-        console.log("Filtering skipped: Transactions still loading.");
+        // console.log("Filtering skipped: Transactions still loading.");
         setDisplayTransactions([]); // Clear display while loading or if data isn't ready
         return;
     }
     if (!balanceSpecificTransactions) {
-         console.log("Filtering skipped: balanceSpecificTransactions is null/undefined.");
+        //  console.log("Filtering skipped: balanceSpecificTransactions is null/undefined.");
          setDisplayTransactions([]);
          return;
     }
@@ -9637,7 +9637,7 @@ const BalanceDetailPage = () => {
     }
 
     // Finally, update the displayed transactions
-    console.log(`Filtered transactions: ${results.length} results.`);
+    // console.log(`Filtered transactions: ${results.length} results.`);
     setDisplayTransactions(results);
 
   }, [
@@ -9651,7 +9651,7 @@ const BalanceDetailPage = () => {
 
   // Effect to fetch and calculate rates against INR
   useEffect(() => {
-      console.log("Fetching rates effect triggered.");
+      // console.log("Fetching rates effect triggered.");
     // Only fetch and calculate if balanceDetail is available and the currency is not INR
     if (
       !typedBalanceDetail ||
@@ -9659,7 +9659,7 @@ const BalanceDetailPage = () => {
       currencyCode === "N/A" ||
       currencyCode === "INR"
     ) {
-        console.log("Rates fetch skipped: Balance detail unavailable or currency is INR.");
+        // console.log("Rates fetch skipped: Balance detail unavailable or currency is INR.");
         // Reset rates if conditions are not met
         setMarketRateAgainstINR(null);
         setOurRateAgainstINR(null);
@@ -9667,7 +9667,7 @@ const BalanceDetailPage = () => {
     }
 
     const fetchRatesAgainstINR = async () => {
-        console.log(`Fetching rates against INR for ${currencyCode}...`);
+        // console.log(`Fetching rates against INR for ${currencyCode}...`);
       try {
         // This service call now fetches rates scraped from Google Finance against INR
         const ratesData: ExchangeRateApiResponse =
@@ -9704,7 +9704,7 @@ const BalanceDetailPage = () => {
         const ourRateToINR = marketRateForCurrency * adjustedRateMultiplier;
 
         setOurRateAgainstINR(ourRateToINR);
-        console.log(`Rates calculated for ${currencyCode}/INR: Market=${marketRateForCurrency.toFixed(4)}, Our=${ourRateToINR.toFixed(4)}, Adjustment=${adjustmentPercent}%`);
+        // console.log(`Rates calculated for ${currencyCode}/INR: Market=${marketRateForCurrency.toFixed(4)}, Our=${ourRateToINR.toFixed(4)}, Adjustment=${adjustmentPercent}%`);
 
       } catch (error) {
         console.error("Error fetching/calculating rates:", error);
@@ -9724,7 +9724,7 @@ const BalanceDetailPage = () => {
   // --- Handlers ---
 
   const handleFiltersApply = useCallback((filters: AppliedFilters) => {
-    console.log("Applying filters:", filters);
+    // console.log("Applying filters:", filters);
     setActiveFilters(filters);
     setIsFilterModalOpen(false);
   }, []);
@@ -9786,23 +9786,23 @@ const BalanceDetailPage = () => {
 
 
   const handleSendClick = useCallback(() => {
-      console.log("Send button clicked. Checking KYC and balance...");
+      // console.log("Send button clicked. Checking KYC and balance...");
     if (authLoading || !user) {
-         console.log("Send click skipped: Auth loading or no user.");
+        //  console.log("Send click skipped: Auth loading or no user.");
          return; // Cannot proceed if auth is loading or user is not logged in
     }
     // Check KYC Status first
     if (kycStatus !== "verified") {
-         console.log("Send click: KYC not verified. Opening KYC modal.");
+        //  console.log("Send click: KYC not verified. Opening KYC modal.");
          handleOpenKycModal();
          return; // Stop processing if KYC is required
     }
     // KYC is verified, now check balance
     if (hasSufficientFunds) {
-         console.log("Send click: KYC verified and sufficient funds. Navigating to select recipient.");
+        //  console.log("Send click: KYC verified and sufficient funds. Navigating to select recipient.");
       router.push(`/dashboard/balances/${balanceId}/send/select-recipient`);
     } else {
-         console.log("Send click: KYC verified but insufficient funds. Opening insufficient balance modal.");
+        //  console.log("Send click: KYC verified but insufficient funds. Opening insufficient balance modal.");
       handleOpenInsufficientBalanceModal();
     }
   }, [
@@ -9838,7 +9838,7 @@ const BalanceDetailPage = () => {
 
   // Skeleton Loader
   if (isPageLoading && !typedBalanceDetail && !error) {
-      console.log("Rendering Skeleton Loader...");
+      // console.log("Rendering Skeleton Loader...");
     return (
       <div className="">
         <div className="pb-6 mb-8 border-b">

@@ -1572,9 +1572,9 @@ export default function RecipientsPage() {
           setRecipients(data);
         } else {
           // No token, don't try to fetch, maybe rely on parent layout/redirect
-          console.log(
-            "RecipientsPage: No token found, skipping recipient fetch."
-          );
+          // console.log(
+          //   "RecipientsPage: No token found, skipping recipient fetch."
+          // );
           // Set recipients to empty array if needed
           setRecipients([]);
         }
@@ -1595,7 +1595,7 @@ export default function RecipientsPage() {
 
     // Optional: Redirect if no token *after* auth has loaded
     if (!isAuthLoading && !token) {
-      console.log("RecipientsPage: No token after auth check, redirecting.");
+      // console.log("RecipientsPage: No token after auth check, redirecting.");
       // Consider a slight delay or check if component is still mounted if needed
       // router.replace('/auth/login'); // Uncomment if redirect is desired here
     }
@@ -1631,7 +1631,7 @@ export default function RecipientsPage() {
   const handleAddRecipientClick = useCallback(() => {
     // 1. Wait for auth loading to finish
     if (isAuthLoading) {
-      console.log("Add Recipient Click: Waiting for auth...");
+      // console.log("Add Recipient Click: Waiting for auth...");
       // Button should ideally be disabled while isAuthLoading is true
       return;
     }
@@ -1640,17 +1640,17 @@ export default function RecipientsPage() {
     // *** Use the correct nested path ***
     const currentKycStatus = user?.kyc?.status;
     if (currentKycStatus !== "verified") {
-      console.log(
-        `Add Recipient Click: KYC status is '${currentKycStatus}'. Showing KYC modal.`
-      );
+      // console.log(
+      //   `Add Recipient Click: KYC status is '${currentKycStatus}'. Showing KYC modal.`
+      // );
       handleOpenKycModal();
       return; // Stop processing
     }
 
     // --- Proceed only if KYC is verified ---
-    console.log(
-      "Add Recipient Click: KYC verified. Navigating to add recipient page."
-    );
+    // console.log(
+    //   "Add Recipient Click: KYC verified. Navigating to add recipient page."
+    // );
     router.push("/dashboard/recipients/addrecipient"); // Adjust path if needed
   }, [isAuthLoading, user, handleOpenKycModal, router]); // *** Depend on isAuthLoading and user ***
 

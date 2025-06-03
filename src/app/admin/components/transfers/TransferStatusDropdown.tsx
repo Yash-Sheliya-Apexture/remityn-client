@@ -393,38 +393,38 @@ const TransferStatusDropdown: React.FC<TransferStatusDropdownProps> = ({
     if (!newDisplayValue) return;
     const newActualStatus = newDisplayValue.toLowerCase();
 
-    console.log('[TransferStatusDropdown] handleDropdownChange:', { newDisplayValue, newActualStatus, currentStatus });
+    // console.log('[TransferStatusDropdown] handleDropdownChange:', { newDisplayValue, newActualStatus, currentStatus });
 
     if (newActualStatus === currentStatus.toLowerCase() || isUpdating || !token || isFinalActualStatus) {
-      console.log('[TransferStatusDropdown] Condition not met, returning early:', {
-        isSameStatus: newActualStatus === currentStatus.toLowerCase(), isUpdating, hasToken: !!token, isFinalActualStatus,
-      });
+      // console.log('[TransferStatusDropdown] Condition not met, returning early:', {
+      //   isSameStatus: newActualStatus === currentStatus.toLowerCase(), isUpdating, hasToken: !!token, isFinalActualStatus,
+      // });
       return;
     }
 
     setIsUpdating(true);
-    console.log('[TransferStatusDropdown] Attempting to update status to:', newActualStatus);
+    // console.log('[TransferStatusDropdown] Attempting to update status to:', newActualStatus);
 
     try {
       await adminTransferService.updateAdminTransferStatus(transferId, newActualStatus, null, token);
       const toastType = mapStatusToToastType(newActualStatus);
       const successMessage = `Transfer status updated to "${newDisplayValue}" successfully!`;
       
-      console.log(`[TransferStatusDropdown] SUCCESS: API call successful. Preparing to show toast. Message: "${successMessage}", Type: "${toastType}", New Actual Status: "${newActualStatus}"`);
+      // console.log(`[TransferStatusDropdown] SUCCESS: API call successful. Preparing to show toast. Message: "${successMessage}", Type: "${toastType}", New Actual Status: "${newActualStatus}"`);
       showToast(successMessage, toastType);
-      console.log('[TransferStatusDropdown] SUCCESS: showToast called. Calling onStatusUpdated.');
+      // console.log('[TransferStatusDropdown] SUCCESS: showToast called. Calling onStatusUpdated.');
       
       onStatusUpdated(); 
     } catch (err) {
       const error = err as ApiError;
       const errorMessage = error.response?.data?.message || error.message || "Failed to update status.";
       console.error('[TransferStatusDropdown] ERROR: API call failed or error during update.', { errorMessage, errorObj: err });
-      console.log(`[TransferStatusDropdown] ERROR: Preparing to show error toast. Message: "${errorMessage}"`);
+      // console.log(`[TransferStatusDropdown] ERROR: Preparing to show error toast. Message: "${errorMessage}"`);
       showToast(errorMessage, 'error');
-      console.log('[TransferStatusDropdown] ERROR: showToast for error called.');
+      // console.log('[TransferStatusDropdown] ERROR: showToast for error called.');
     } finally {
       setIsUpdating(false);
-      console.log('[TransferStatusDropdown] Update process finished, isUpdating set to false.');
+      // console.log('[TransferStatusDropdown] Update process finished, isUpdating set to false.');
     }
   };
 

@@ -399,7 +399,7 @@ const PaymentSuccessPage = () => {
           await paymentService.getPaymentDetails(paymentId, token);
 
         // --- BETTER DEBUGGING: Log the RAW response ---
-        console.log("Raw API Response for Payment Details:", apiResponse);
+        // console.log("Raw API Response for Payment Details:", apiResponse);
 
         // --- ADDED CHECK: Ensure apiResponse is not empty and has essential keys ---
         // Check for _id as a minimum requirement from the API itself

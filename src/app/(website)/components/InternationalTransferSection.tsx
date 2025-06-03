@@ -32,7 +32,7 @@ type Product = {
 const individualsProductsData: Product[] = [
   {
     icon: icons.transfer,
-    title: 'Send Money to India (INR)',
+    title: 'Effortless Money Transfers to India',
     description: 'Easily transfer funds to family and friends in India. Enjoy a seamless experience with direct bank deposits and UPI payments.',
   },
   {
@@ -43,7 +43,7 @@ const individualsProductsData: Product[] = [
   {
     icon: icons.wallet,
     title: 'Competitive INR Exchange Rates',
-    description: 'Get the best value for your money with our highly competitive exchange rates for USD, EUR, GBP (and more) to INR, and transparent low fees.',
+    description: 'Get the best value for your money with our highly competitive exchange rates for USD, EUR, GBP (and more) to INR, and transparent zero fees.',
   },
 ];
 
@@ -56,7 +56,7 @@ const InternationalTransferSection: React.FC = () => {
         {/* Header Section - simplified as tabs are removed */}
         <div className="text-center lg:text-left">
           <h3 className="text-4xl md:text-5xl xl:text-6xl font-bold mb-6 leading-tight text-mainheadingWhite">
-            Send Money to <span className="text-primary">India</span>
+            Send Money to{" "}<span className="text-primary">India</span>
           </h3>
           <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">
             Transfer funds internationally to India with ease, speed, and

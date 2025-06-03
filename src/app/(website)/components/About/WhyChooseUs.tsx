@@ -181,21 +181,21 @@ interface FeatureItem {
 // Array containing the data for the feature boxes
 const featuresData: FeatureItem[] = [
   {
-    title: "Global reach",
+    title: "Effortless Transactions, Every Time",
     description:
-      "Send and receive money across 200+ countries and territories in over 170+ currencies. Receiving your money is easy. Connect a bank account or opt for cash pick-up at one of our 500,000 locations worldwide.",
+      "We've designed Remityn for ultimate simplicity. From instant account setup to easy recipient management and intuitive transfers, sending money to India is just a few clicks away.",
     icons: <FaGlobe className="size-6 lg:size-8 text-primary" />,
   },
   {
-    title: "Transparent prices",
+    title: "Swift Setup & Secure Wallets",
     description:
-      "With our transparent rates, you’ll always be in the know. You’ll never have to worry about surprises or sneaky deductions with our competitive exchange rates and minimal fees.",
+      "Get started in minutes with our quick sign-up and simple KYC. Create your secure digital wallets for USD, EUR, GBP and many more, fund them easily, and gain full control over your international transfers.",
     icons: <BsCashStack className="size-6 lg:size-8 text-primary" />,
   },
   {
-    title: "Fast Money transfers",
+    title: " Transparent Tracking & Trusted Service",
     description:
-      "We understand the value of your hard-earned money. That’s why we prioritize safe and speedy transfers. Send money within seconds and your recipient will receive it within 1-5 days.",
+      "Add recipients with ease, save their details for future use, and monitor your transaction status every step of the way. Experience the peace of mind that comes with a reliable and transparent money transfer service.",
     icons: (
       <RiMoneyDollarCircleLine className="size-6 lg:size-8 text-primary" />
     ),
@@ -220,10 +220,7 @@ const WhyChooseUs: React.FC = () => {
           </h3>
 
           <p className="text-subheadingWhite md:text-lg text-base lg:max-w-5xl max-w-full">
-            For over 10 years, Remityn Corporation Inc. Trusted by travelers and
-            expats worldwide, Remityn offers fast, secure, and affordable money
-            transfers—anytime, anywhere. Join the global community that moves
-            money with confidence.
+            At Remityn, we’re redefining how international money transfers work. With a focus on security, simplicity, and speed, thousands trust us to move their money reliably to India. Whether you're supporting family or managing personal finances abroad, our platform offers an intuitive experience, competitive exchange rates, and bank transfer method—all backed by responsive customer support and transparent processes.
           </p>
         </div>
 

@@ -1,0 +1,25 @@
+# robots.txt for Remityn Clone
+
+User-agent: *
+Disallow: /api/          # Disallow crawling of API routes
+Disallow: /auth/         # Disallow crawling of authentication pages
+Disallow: /admin/        # Disallow crawling of admin section
+Disallow: /dashboard/    # Disallow crawling of user dashboards
+Disallow: /add-money/    # Typically transactional, not for SEO
+Disallow: /send-money/   # Typically transactional, not for SEO
+Disallow: /transactions/ # User-specific, not for SEO
+Disallow: /your-account/ # User-specific, not for SEO
+Disallow: /kyc/          # User-specific, not for SEO
+Disallow: /_next/        # Disallow crawling of Next.js internal files
+
+# Allow crawling of important public pages
+Allow: /$
+Allow: /about-us$
+Allow: /faqs$
+Allow: /features$
+Allow: /privacy-policy$
+Allow: /reviews$
+Allow: /terms-and-conditions$
+# Add any other public pages you want crawled
+
+Sitemap: [YOUR_SITE_URL]/sitemap.xml

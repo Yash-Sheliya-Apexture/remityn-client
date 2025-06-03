@@ -4780,7 +4780,7 @@ const InboxPage: React.FC = () => {
         await inboxService.markAsRead(message._id);
         if (fetchUnreadInboxCount) {
             await fetchUnreadInboxCount();
-            console.log("InboxPage: Unread count refreshed after marking message as read.");
+            // console.log("InboxPage: Unread count refreshed after marking message as read.");
         }
       } catch (err) {
         console.error("Failed to mark as read:", err);

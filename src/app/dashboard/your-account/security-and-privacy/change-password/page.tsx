@@ -1255,7 +1255,7 @@ export default function ChangePassword() {
       );
 
       // --- Success ---
-      console.log("Password change successful:", response.message);
+      // console.log("Password change successful:", response.message);
       setSuccessMessage(response.message || "Password changed successfully!"); // Use message from API
 
       // Reset state after successful change

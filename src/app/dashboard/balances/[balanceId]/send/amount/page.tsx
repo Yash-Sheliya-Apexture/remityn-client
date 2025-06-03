@@ -5055,7 +5055,7 @@ export default function SendAmountPage() {
 
     setLogicError(null); // Clear any previous non-blocking errors
 
-    console.log("Saving transfer summary:", summary);
+    // console.log("Saving transfer summary:", summary);
     localStorage.setItem("sendTransferSummary", JSON.stringify(summary));
 
     const needsReason = recipient?.currency.code === "INR";

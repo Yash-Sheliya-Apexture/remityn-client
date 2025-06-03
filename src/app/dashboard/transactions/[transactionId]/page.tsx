@@ -7734,7 +7734,7 @@ const TransactionDetailsPage = () => {
           setNoteText(fullTransferData.note || "");
           setShowAwaitingVerificationView(false);
           found = true;
-          console.log("Found as Transfer. Status:", fullTransferData.status);
+          // console.log("Found as Transfer. Status:", fullTransferData.status);
         } catch (transferErr: unknown) {
           let message = "Unknown error fetching transfer";
           let status = 0;
@@ -7780,7 +7780,7 @@ const TransactionDetailsPage = () => {
               setShowAwaitingVerificationView(false);
             }
             found = true;
-            console.log("Found as Payment. Status:", fullPaymentData.status);
+            // console.log("Found as Payment. Status:", fullPaymentData.status);
           } catch (paymentErr: unknown) {
             let message = "Unknown error fetching payment";
             let status = 0;

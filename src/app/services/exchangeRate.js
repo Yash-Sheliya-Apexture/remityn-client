@@ -153,6 +153,54 @@
 // export default exchangeRateService;
 
 
+// // frontend/src/services/exchangeRate.js
+// import axios from 'axios';
+// import apiConfig from '../config/apiConfig';
+
+// const apiClient = axios.create({
+//     baseURL: apiConfig.baseUrl,
+// });
+
+// /**
+//  * Fetches all available exchange rates from the backend.
+//  * The backend is expected to return an object like: { rates: { USD: 1, EUR: 0.9, ... } }
+//  * @returns {Promise<{ rates: { [key: string]: number } }>} A promise resolving to the backend's response structure.
+//  * @throws {Error} Throws an error if the request fails or data is missing/malformed.
+//  */
+// const getExchangeRatesForCurrencies = async () => {
+//     try {
+//         const response = await apiClient.get('/exchange-rates'); // Backend endpoint for ALL rates
+//         console.log("Exchange Rate API Response (Raw):", response); // Log raw response
+
+//         // --- MODIFICATION START ---
+//         // Expecting backend response like { rates: { USD: 1, EUR: 0.9, ... } }
+//         const responseData = response.data;
+//         console.log("Exchange Rate API Response Data:", responseData);
+
+//         // Check if the expected 'rates' key exists and is an object
+//         if (responseData && typeof responseData.rates === 'object' && responseData.rates !== null && Object.keys(responseData.rates).length > 0) {
+//             // Return the entire structure { rates: { ... } } as received from backend
+//             return responseData;
+//         } else {
+//             console.error('Invalid or empty exchange rates data received (expected { rates: {...} }):', responseData);
+//             throw new Error('No valid exchange rates data received from the server.');
+//         }
+//         // --- MODIFICATION END ---
+
+//     } catch (error) {
+//         console.error('Error fetching exchange rates:', error);
+//         const errorMessage = error.response?.data?.message || error.message || 'Failed to fetch exchange rates.';
+//         throw new Error(errorMessage);
+//     }
+// };
+
+// const exchangeRateService = {
+//     getExchangeRatesForCurrencies,
+// };
+
+// export default exchangeRateService;
+
+
 // frontend/src/services/exchangeRate.js
 import axios from 'axios';
 import apiConfig from '../config/apiConfig';
@@ -170,12 +218,12 @@ const apiClient = axios.create({
 const getExchangeRatesForCurrencies = async () => {
     try {
         const response = await apiClient.get('/exchange-rates'); // Backend endpoint for ALL rates
-        console.log("Exchange Rate API Response (Raw):", response); // Log raw response
+        // console.log("Exchange Rate API Response (Raw):", response); // Log raw response
 
         // --- MODIFICATION START ---
         // Expecting backend response like { rates: { USD: 1, EUR: 0.9, ... } }
         const responseData = response.data;
-        console.log("Exchange Rate API Response Data:", responseData);
+        // console.log("Exchange Rate API Response Data:", responseData);
 
         // Check if the expected 'rates' key exists and is an object
         if (responseData && typeof responseData.rates === 'object' && responseData.rates !== null && Object.keys(responseData.rates).length > 0) {

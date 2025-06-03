@@ -467,10 +467,11 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
             {isMobile && (
               <Link href="/dashboard">
                 <Image
-                  src="/assets/images/mobile_white_logo.svg"
+                  src="/assets/images/mobile_logo.svg"
                   alt="logo"
                   width={40}
                   height={40}
+                  // priority
                 />
               </Link>
         

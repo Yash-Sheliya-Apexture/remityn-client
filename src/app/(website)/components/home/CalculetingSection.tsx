@@ -24975,24 +24975,7 @@ const CalculetingSection: React.FC = () => {
   const getButtonLink = () => {
     if (authLoading) return "#";
     if (user) {
-      const queryParams = new URLSearchParams();
-      if (state.sendAmount && parseNumericAmount(state.sendAmount) > 0) {
-        queryParams.append(
-          "sendAmount",
-          parseNumericAmount(state.sendAmount).toString()
-        );
-      }
-      if (selectedSendCurrency) {
-        queryParams.append("sendCurrency", selectedSendCurrency);
-      }
-      if (
-        calculation.receiveAmount &&
-        parseFloat(calculation.receiveAmount) > 0
-      ) {
-        queryParams.append("receiveAmount", calculation.receiveAmount);
-      }
-      queryParams.append("receiveCurrency", CONFIG.RECEIVE_CURRENCY);
-      return `/dashboard/send-money?${queryParams.toString()}`;
+      return `/dashboard/send/select-balance`;
     }
     return "/register";
   };
@@ -25387,11 +25370,11 @@ const CalculetingSection: React.FC = () => {
                 <Link
                   href={!isButtonDisabled ? getButtonLink() : "#"}
                   passHref
-                  className={`w-full block text-center py-3.5 px-6 font-medium rounded-full text-base lg:text-lg transition-all duration-200 ease-in-out transform active:scale-95
+                  className={`w-full block text-center py-3.5 px-6 font-medium rounded-full text-base lg:text-lg transition-all duration-75 ease-linear transform active:scale-95
                     ${
                       isButtonDisabled
                         ? "bg-gray-500 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed opacity-70"
-                        : "bg-primary hover:bg-primaryhover text-neutral-900 "
+                        : "bg-primary hover:bg-primaryhover text-mainheading "
                     }`}
                   aria-disabled={isButtonDisabled}
                   onClick={(e) => {

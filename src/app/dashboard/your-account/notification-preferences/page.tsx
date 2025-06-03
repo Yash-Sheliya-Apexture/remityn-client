@@ -799,12 +799,12 @@ export default function Notifications() {
       };
       setEmailTransfers(false);
       setEmailUpdates(false);
-      console.log("Main toggle OFF -> Remembering:", rememberedStates.current, "Setting all sub-toggles OFF");
+      // console.log("Main toggle OFF -> Remembering:", rememberedStates.current, "Setting all sub-toggles OFF");
     } else {
       // Restore the remembered state when enabling
       setEmailTransfers(rememberedStates.current.emailTransfers);
       setEmailUpdates(rememberedStates.current.emailUpdates);
-      console.log("Main toggle ON -> Restoring:", rememberedStates.current);
+      // console.log("Main toggle ON -> Restoring:", rememberedStates.current);
     }
     setAllowNotifications(nextValue);
   };
@@ -813,13 +813,13 @@ export default function Notifications() {
     // No explicit disabled check needed due to NotificationItem's logic,
     // but state update should only happen if allowed. Component correctly prevents call if disabled.
     setEmailTransfers((prev) => !prev);
-    console.log("Email Transfers toggled:", !emailTransfers);
+    // console.log("Email Transfers toggled:", !emailTransfers);
   };
 
   const handleEmailUpdatesChange = () => {
      // Component correctly prevents call if disabled.
     setEmailUpdates((prev) => !prev);
-    console.log("Email Updates toggled:", !emailUpdates);
+    // console.log("Email Updates toggled:", !emailUpdates);
   };
 
   // --- Render Logic ---

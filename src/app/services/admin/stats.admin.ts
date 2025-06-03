@@ -329,11 +329,11 @@ const getErrorMessage = (error: unknown): string => {
 
 const getAdminDashboardOverviewStats = async (): Promise<AdminDashboardStats> => {
     try {
-        console.log('[Admin Stats Service] Fetching dashboard overview stats...');
+        // console.log('[Admin Stats Service] Fetching dashboard overview stats...');
         const response = await apiClient.get<AdminDashboardStatsApiResponse>(`/admin/stats/overview`);
 
         if (response.data && response.data.success && response.data.data) {
-            console.log('[Admin Stats Service] Stats fetched successfully:', response.data.data);
+            // console.log('[Admin Stats Service] Stats fetched successfully:', response.data.data);
             return response.data.data;
         } else {
             console.error('[Admin Stats Service] Invalid stats response format:', response.data);
@@ -351,12 +351,12 @@ type ChartType = 'payments' | 'transfers'; // ChartType is defined here but not 
 
 const getAdminChartData = async (type: ChartType, range: ChartRange): Promise<ChartDataPoint[]> => {
     try {
-        console.log(`Fetching chart data - Type: ${type}, Range: ${range}`);
+        // console.log(`Fetching chart data - Type: ${type}, Range: ${range}`);
         const response = await apiClient.get<ChartDataResponse>(`/admin/stats/chart-data`, {
             params: { type, range }
         });
         if (response.data && response.data.success && Array.isArray(response.data.data)) {
-            console.log(`Received ${response.data.data.length} data points for ${type}/${range}`);
+            // console.log(`Received ${response.data.data.length} data points for ${type}/${range}`);
             return response.data.data as ChartDataPoint[];
         }
         throw new Error(response.data?.message || `Invalid data received for ${type} chart.`);

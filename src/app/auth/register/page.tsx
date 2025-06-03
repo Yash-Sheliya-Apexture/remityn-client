@@ -3844,7 +3844,7 @@ export default function RegisterPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      console.log("Register page: User logged in. Redirecting to dashboard.");
+      // console.log("Register page: User logged in. Redirecting to dashboard.");
       router.push("/dashboard"); // Or appropriate logged-in route
     }
   }, [user, loading, router]);
@@ -3906,7 +3906,7 @@ export default function RegisterPage() {
     setIsSubmitting(true);
     try {
       await authService.register({ fullName, email, password });
-      console.log("Registration successful in component");
+      // console.log("Registration successful in component");
       setRegisterSuccess(true);
       setTimeout(() => {
         router.push("/auth/login?registerSuccess=true");

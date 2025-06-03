@@ -309,7 +309,7 @@ const UserProfileDropdownMenu: React.FC<UserProfileDropdownMenuProps> = ({
 
   // 3. Define the logout handler function
   const handleLogout = async () => {
-    console.log("Logout Clicked"); // Optional: for debugging
+    // console.log("Logout Clicked"); // Optional: for debugging
     try {
       await logout(); // Call the logout function from the context
       onClose(); // Close the dropdown menu
@@ -327,7 +327,7 @@ const UserProfileDropdownMenu: React.FC<UserProfileDropdownMenuProps> = ({
       text: "Profile",
       icon: <IoPersonOutline className="size-5" />,
       action: () => {
-        console.log("Profile Clicked");
+        // console.log("Profile Clicked");
         // Add navigation or modal logic for profile
         onClose();
       },
@@ -337,7 +337,7 @@ const UserProfileDropdownMenu: React.FC<UserProfileDropdownMenuProps> = ({
       text: "Settings",
       icon: <FaCog className="size-5" />,
       action: () => {
-        console.log("Settings Clicked");
+        // console.log("Settings Clicked");
         // Add navigation or modal logic for settings
         onClose();
       },

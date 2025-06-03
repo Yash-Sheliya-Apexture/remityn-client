@@ -895,9 +895,9 @@ const AddMoneySelectBalancePage = () => {
   useEffect(() => {
     // Redirect ONLY after initial auth loading is complete
     if (!isAuthLoading && !token) {
-      console.log(
-        "Add Money: No token after auth check, redirecting to login."
-      );
+      // console.log(
+      //   "Add Money: No token after auth check, redirecting to login."
+      // );
       router.replace("/auth/login");
     }
   }, [token, isAuthLoading, router]);
@@ -914,20 +914,20 @@ const AddMoneySelectBalancePage = () => {
   const handleSelectBalanceForAddMoney = useCallback(
     (balanceId: string) => {
       if (isAuthLoading) {
-        console.log("Select Balance (Add Money): Waiting for auth...");
+        // console.log("Select Balance (Add Money): Waiting for auth...");
         return;
       }
       if (!isKycVerified) {
-        console.log(
-          "Select Balance (Add Money): KYC not verified. Showing KYC modal."
-        );
+        // console.log(
+        //   "Select Balance (Add Money): KYC not verified. Showing KYC modal."
+        // );
         handleOpenKycModal();
         return;
       }
-      console.log(
-        "Select Balance (Add Money): KYC verified. Navigating to add money page for balance:",
-        balanceId
-      );
+      // console.log(
+      //   "Select Balance (Add Money): KYC verified. Navigating to add money page for balance:",
+      //   balanceId
+      // );
       router.push(`/dashboard/balances/${balanceId}/add-money`);
     },
     [router, isKycVerified, isAuthLoading, handleOpenKycModal]
@@ -936,15 +936,15 @@ const AddMoneySelectBalancePage = () => {
   // --- Handler for clicking "Add New Balance" card/link (KYC check REMOVED for this action) ---
   const handleAddBalanceClick = useCallback(() => {
     if (isAuthLoading) {
-      console.log("Add Balance Click: Waiting for auth...");
+      // console.log("Add Balance Click: Waiting for auth...");
       return;
     }
     // If !isAuthLoading, it implies token/user status is determined.
     // If !token, the useEffect would have redirected. So token should exist if we reach here.
     // No KYC check here - directly open currency selector.
-    console.log(
-      "Add Balance Click: Opening currency selector modal."
-    );
+    // console.log(
+    //   "Add Balance Click: Opening currency selector modal."
+    // );
     setIsCurrencyModalOpen(true);
   }, [isAuthLoading]); // Dependencies updated
 
@@ -955,7 +955,7 @@ const AddMoneySelectBalancePage = () => {
 
   const handleCurrencyAdded = useCallback(
     (newAccountInfo: AddedAccountInfo) => {
-      console.log("New currency account added:", newAccountInfo);
+      // console.log("New currency account added:", newAccountInfo);
       handleCloseCurrencyModal();
       refetchBalances();
     },

@@ -760,9 +760,9 @@ const SelectRecipientContent = () => {
       setError("Cannot proceed without a valid balance ID.");
       return;
     }
-    console.log(
-      `Selected recipient ${recipientId} for balance ${balanceId}. Navigating to amount.`
-    );
+    // console.log(
+    //   `Selected recipient ${recipientId} for balance ${balanceId}. Navigating to amount.`
+    // );
     router.push(
       `/dashboard/balances/${balanceId}/send/amount?recipientId=${recipientId}`
     );
@@ -776,7 +776,7 @@ const SelectRecipientContent = () => {
     }
     // Construct the return URL to come back to *this* page after adding
     const returnUrl = `/dashboard/balances/${balanceId}/send/select-recipient`;
-    console.log(`Navigating to add recipient, will return to: ${returnUrl}`);
+    // console.log(`Navigating to add recipient, will return to: ${returnUrl}`);
     router.push(
       `/dashboard/recipients/addrecipient?returnTo=${encodeURIComponent(
         returnUrl
@@ -788,9 +788,9 @@ const SelectRecipientContent = () => {
 
   // Redirect to login if no token after loading checks
   if (!loadingRecipients && !token && isValidParam) {
-    console.log(
-      "No auth token found on Select Recipient page, redirecting to login."
-    );
+    // console.log(
+    //   "No auth token found on Select Recipient page, redirecting to login."
+    // );
     router.replace("/auth/login");
     return (
       <div className="container mx-auto py-10 text-center text-mainheadingWhite">
@@ -804,15 +804,15 @@ const SelectRecipientContent = () => {
     return (
       <>
         {/* Enhanced Skeleton */}
-        <Skeleton className="h-10 sm:w-96 w-full mb-6 rounded-full" />
+        <Skeleton className="h-9 sm:w-1/2 w-full mb-4 rounded-md" />
         <Skeleton className="h-12.5 w-full mb-6 rounded-full" />
-        <Skeleton className="h-20 w-full mb-4 rounded-2xl" />
-        <Skeleton className="h-6 w-24 mb-3 rounded-md" />
+        <Skeleton className="h-20.5 w-full mb-4 rounded-2xl" />
+        <Skeleton className="h-8 w-28 my-3 rounded-md" />
         <div className="space-y-2">
           {Array(3)
             .fill(0)
             .map((_, index) => (
-              <Skeleton key={index} className="h-20 w-full rounded-lg" />
+              <Skeleton key={index} className="h-21 w-full rounded-lg" />
             ))}
         </div>
       </>

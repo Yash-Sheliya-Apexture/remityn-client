@@ -749,6 +749,7 @@ const SelectBalanceComponent: React.FC<SelectBalanceComponentProps> = ({
       <div className="rounded-full border-2 border-gray-400/40 p-2 flex items-center justify-center mb-2">
         <GoPlus size={28} className="text-white" />
       </div>
+      
       <span className="text-center text-white">
         {addBalanceLinkText}
       </span>

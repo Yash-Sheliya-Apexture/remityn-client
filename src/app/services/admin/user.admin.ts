@@ -149,9 +149,9 @@ const getErrorMessage = (error: unknown): string => {
 const getAllUsersAdmin = async (): Promise<AdminUserListResponse> => {
     // ... (implementation unchanged)
     try {
-        console.log('[Admin User Service] Fetching all users...');
+        // console.log('[Admin User Service] Fetching all users...');
         const response = await apiClient.get<AdminUserListResponse | { data: AdminUserListResponse }>(`/admin/users`);
-        console.log('[Admin User Service] Raw response:', response);
+        // console.log('[Admin User Service] Raw response:', response);
 
         let usersData: AdminUserListResponse;
         if (Array.isArray(response.data)) {
@@ -162,7 +162,7 @@ const getAllUsersAdmin = async (): Promise<AdminUserListResponse> => {
             console.warn('[Admin User Service] Unexpected response format for getAllUsersAdmin.', response.data);
             return [];
         }
-        console.log('[Admin User Service] Users fetched successfully:', usersData?.length ?? 0);
+        // console.log('[Admin User Service] Users fetched successfully:', usersData?.length ?? 0);
         return Array.isArray(usersData) ? usersData : [];
     } catch (error: unknown) {
         console.error(`[Admin User Service] Error fetching all users:`, error);
@@ -186,11 +186,11 @@ const getUserDetailsAdmin = async (userId: string): Promise<AdminUserDetailRespo
          throw new Error("Invalid User ID provided.");
      }
     try {
-        console.log(`[Admin User Service] Fetching details for user ${userId}...`);
+        // console.log(`[Admin User Service] Fetching details for user ${userId}...`);
         // Make the GET request to the specific user endpoint
         const response = await apiClient.get<AdminUserDetailResponse>(`/admin/users/${userId}`);
 
-        console.log(`[Admin User Service] User details for ${userId} fetched successfully.`);
+        // console.log(`[Admin User Service] User details for ${userId} fetched successfully.`);
 
         // Validate the received data structure (basic checks)
         if (!response.data || typeof response.data !== 'object' || !response.data._id) {
@@ -239,11 +239,11 @@ const sendMessageToUser = async (userId: string, messageData: SendMessageData): 
     }
 
     try {
-        console.log(`[Admin User Service] Sending message to user ${userId}...`);
+        // console.log(`[Admin User Service] Sending message to user ${userId}...`);
         // Use the nested route structure
         const response = await apiClient.post<SendMessageResponse>(`/admin/users/${userId}/inbox`, messageData);
 
-        console.log(`[Admin User Service] Message sent successfully to ${userId}.`);
+        // console.log(`[Admin User Service] Message sent successfully to ${userId}.`);
         return response.data;
 
     } catch (error: unknown) {

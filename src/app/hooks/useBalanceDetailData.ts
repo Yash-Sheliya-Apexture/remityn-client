@@ -628,16 +628,16 @@ export const useBalanceDetailData = (balanceId: string | undefined) => {
             return;
         }
 
-        console.log(`Fetching data for balance ID: ${balanceId}`); // Log start
+        // console.log(`Fetching data for balance ID: ${balanceId}`); // Log start
 
         try {
             // 1. Fetch Balance Details
-            console.log("Fetching balance details...");
+            // console.log("Fetching balance details...");
             const balanceResponse = await apiClient.get<BalanceDetail>(`/accounts/${balanceId}`, { headers: { Authorization: `Bearer ${token}` } });
             const fetchedBalanceDetail = balanceResponse.data;
             setBalanceDetail(fetchedBalanceDetail);
             setIsLoading(false); // Balance detail loaded
-            console.log("Balance details fetched:", fetchedBalanceDetail);
+            // console.log("Balance details fetched:", fetchedBalanceDetail);
 
             const currentCurrencyCode = fetchedBalanceDetail?.currency?.code;
              if (!currentCurrencyCode) {
@@ -645,7 +645,7 @@ export const useBalanceDetailData = (balanceId: string | undefined) => {
             }
 
             // 2. Fetch All Payments and Transfers
-            console.log("Fetching payments and transfers...");
+            // console.log("Fetching payments and transfers...");
             const [paymentsResult, transfersResult] = await Promise.allSettled([
                 paymentService.getUserPayments(token),
                 transferService.getUserTransfers(token),
@@ -656,7 +656,7 @@ export const useBalanceDetailData = (balanceId: string | undefined) => {
 
             // --- Process Payments Result ---
             if (paymentsResult.status === 'fulfilled') {
-                console.log(`Processing ${paymentsResult.value.length} payments.`);
+                // console.log(`Processing ${paymentsResult.value.length} payments.`);
                 const mappedPayments: Transaction[] = paymentsResult.value
                     .map((payment: PaymentDetailsResponse): Transaction | null => {
                         // Basic validation
@@ -722,7 +722,7 @@ export const useBalanceDetailData = (balanceId: string | undefined) => {
                     .filter((tx): tx is Transaction => tx !== null); // Filter out any nulls from validation
 
                  combinedTransactions = [...combinedTransactions, ...mappedPayments];
-                 console.log(`Mapped ${mappedPayments.length} valid payments.`);
+                //  console.log(`Mapped ${mappedPayments.length} valid payments.`);
             } else {
                  console.error("Payments fetch error:", paymentsResult.reason);
                 transactionFetchError = "Failed to load payment history.";
@@ -730,7 +730,7 @@ export const useBalanceDetailData = (balanceId: string | undefined) => {
 
             // --- Process Transfers Result ---
             if (transfersResult.status === 'fulfilled') {
-                 console.log(`Processing ${transfersResult.value.length} transfers.`);
+                //  console.log(`Processing ${transfersResult.value.length} transfers.`);
                  const mappedTransfers: Transaction[] = transfersResult.value
                      .map((transfer: TransferDetailsResponse): Transaction | null => {
                          // Basic validation
@@ -772,7 +772,7 @@ export const useBalanceDetailData = (balanceId: string | undefined) => {
                      .filter((tx): tx is Transaction => tx !== null);
 
                  combinedTransactions = [...combinedTransactions, ...mappedTransfers];
-                 console.log(`Mapped ${mappedTransfers.length} valid transfers.`);
+                //  console.log(`Mapped ${mappedTransfers.length} valid transfers.`);
             } else {
                 console.error("Transfers fetch error:", transfersResult.reason);
                  if (!transactionFetchError) transactionFetchError = "Failed to load transfer history."; // Set error if not already set by payments
@@ -780,7 +780,7 @@ export const useBalanceDetailData = (balanceId: string | undefined) => {
 
 
              // --- Filter specific transactions FOR THIS BALANCE ID ---
-            console.log(`Filtering ${combinedTransactions.length} total mapped transactions for balance ID ${balanceId}...`);
+            // console.log(`Filtering ${combinedTransactions.length} total mapped transactions for balance ID ${balanceId}...`);
              const filteredTransactions = combinedTransactions.filter((transaction) => {
                 if (transaction.type === "Add Money") {
                     // Account ID for Add Money transactions (The balance it was added TO)
@@ -800,7 +800,7 @@ export const useBalanceDetailData = (balanceId: string | undefined) => {
                 }
                 return false; // Should not happen with current types
             });
-            console.log(`Found ${filteredTransactions.length} transactions specific to this balance.`);
+            // console.log(`Found ${filteredTransactions.length} transactions specific to this balance.`);
 
              // --- Sort the FINAL filtered list ---
              filteredTransactions.sort((a, b) => {
@@ -824,7 +824,7 @@ export const useBalanceDetailData = (balanceId: string | undefined) => {
 
         } catch (err: unknown) {
             // Catch errors during balance detail fetch or other unexpected issues
-             console.error("Error fetching balance detail or mapping transactions:", err);
+            //  console.error("Error fetching balance detail or mapping transactions:", err);
             let message = "An unexpected error occurred loading balance details.";
             if (isAxiosError(err)) {
                 message = err.response?.data?.message || err.message || message;
@@ -836,7 +836,7 @@ export const useBalanceDetailData = (balanceId: string | undefined) => {
          } finally {
             // Mark transactions as "done loading", even if there was an error fetching them
              setIsTransactionsLoading(false);
-             console.log("Fetch data function finished.");
+            //  console.log("Fetch data function finished.");
          }
 
     }, [balanceId, token]); // Removed 'error' dependency as it causes loops if fetch fails

@@ -1932,13 +1932,13 @@ export default function ChangePersonalDetails() {
 
 
         try {
-            console.log("Submitting KYC Update Payload:", payload);
+            // console.log("Submitting KYC Update Payload:", payload);
             // Ensure the payload type matches what the service expects, even if partial
             const updatedKycResult = await kycService.updateMyKycDetails(payload as UpdateDetailsPayload);
 
             // Update Auth Context state locally for immediate feedback
             if (updatedKycResult?.kyc) {
-                 console.log("Updating AuthContext with API result:", updatedKycResult.kyc);
+                //  console.log("Updating AuthContext with API result:", updatedKycResult.kyc);
                  // Update the specific fields that were changed + potentially others returned by API
                  updateAuthUserKyc({
                      firstName: updatedKycResult.kyc.firstName,

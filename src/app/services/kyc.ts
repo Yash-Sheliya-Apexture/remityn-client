@@ -2093,7 +2093,7 @@ const getMyKycStatus = async (): Promise<KycStatusResponse> => {
  * Updates editable KYC details for the current user (if backend allows).
  */
 const updateMyKycDetails = async (updateData: UpdateDetailsPayload): Promise<KycSuccessResponse> => {
-    console.log('[kycService] Updating KYC details:', updateData);
+    // console.log('[kycService] Updating KYC details:', updateData);
     try {
         const response: AxiosResponse<KycSuccessResponse> = await apiClient.put(
             '/kyc/update-details',
@@ -2101,7 +2101,7 @@ const updateMyKycDetails = async (updateData: UpdateDetailsPayload): Promise<Kyc
             // Explicitly set Content-Type for PUT request with JSON body
             { headers: { 'Content-Type': 'application/json' } }
         );
-        console.log('[kycService] KYC Details Update Successful:', response.data);
+        // console.log('[kycService] KYC Details Update Successful:', response.data);
         return response.data;
     } catch (error: unknown) {
         console.error('[kycService] Update KYC Details Error:', error);

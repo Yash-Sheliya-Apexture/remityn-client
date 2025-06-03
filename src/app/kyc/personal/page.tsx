@@ -5059,9 +5059,9 @@ export default function KycPersonalPage() {
   const handleSkip = useCallback(async () => {
     // If KYC status is already 'skipped', redirect to dashboard immediately.
     if (backendStatus === "skipped") {
-      console.log(
-        "KYC Personal: KYC status is already 'skipped'. Redirecting to dashboard."
-      );
+      // console.log(
+      //   "KYC Personal: KYC status is already 'skipped'. Redirecting to dashboard."
+      // );
       router.push("/dashboard");
       return;
     }
@@ -5080,16 +5080,16 @@ export default function KycPersonalPage() {
       // The API call should only happen if the status allows (e.g., not_started, or if backend handles rejected->skipped)
       // For robustness, one might add a check here: if (backendStatus !== "not_started" && backendStatus !== "rejected") return;
       // However, the primary guard is the backendStatus === "skipped" check above.
-      console.log("KYC Personal: Attempting to skip KYC via service...");
+      // console.log("KYC Personal: Attempting to skip KYC via service...");
       await kycService.skipKyc();
-      console.log(
-        "KYC Personal: Skip API call successful. Refetching contexts..."
-      );
+      // console.log(
+      //   "KYC Personal: Skip API call successful. Refetching contexts..."
+      // );
       await refetchUser();
       await fetchKycStatus(true); // Force refetch of KYC status
-      console.log(
-        "KYC Personal: Contexts refetched. Redirecting to dashboard."
-      );
+      // console.log(
+      //   "KYC Personal: Contexts refetched. Redirecting to dashboard."
+      // );
       router.push("/dashboard"); // Redirect after successful skip
     } catch (err: any) {
       console.error("KYC Personal: Error skipping KYC:", err);

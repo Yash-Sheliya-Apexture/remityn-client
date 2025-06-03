@@ -226,7 +226,7 @@ const TransactionTimeline: React.FC<TransactionTimelineProps> = ({
                                         className="mt-4"
                                     >
                                         <button
-                                            className="mt-3 px-5 py-2 rounded-full text-white bg-red-600 hover:bg-red-700 transition-all duration-75 ease-linear cursor-pointer"
+                                            className="mt-3 px-5 py-2 flex justify-center items-center rounded-full text-white bg-red-600 hover:bg-red-700 transition-all duration-75 ease-linear cursor-pointer"
                                             onClick={onOpenCancelModal}
                                             disabled={isSubmitting}
                                         >

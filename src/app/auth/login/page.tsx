@@ -5379,10 +5379,10 @@ export default function LoginPage() {
       );
       urlNeedsCleaning = true;
     } else if (registerSuccessParam === "true") {
-      console.log("Registration successful parameter detected.");
+      // console.log("Registration successful parameter detected.");
       urlNeedsCleaning = true;
     } else if (resetSuccessParam === "true") {
-      console.log("Password reset successful parameter detected.");
+      // console.log("Password reset successful parameter detected.");
       urlNeedsCleaning = true;
     }
 
@@ -5394,7 +5394,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (!loading && user) {
-      console.log("Login page: User logged in. AuthContext handles redirect.");
+      // console.log("Login page: User logged in. AuthContext handles redirect.");
       // The AuthContext should handle the redirect logic.
       // Example: router.push('/dashboard');
     }

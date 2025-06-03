@@ -366,41 +366,218 @@
 
 // export default HeroSection;
 
+// // app/(website)/components/Hero/HeroSection.tsx
+// "use client";
+// import React from "react";
+// import Link from "next/link";
+// import { Globe } from "lucide-react";
+// import UserSuppliedHighlightSVG from "../Hero/UserSuppliedHighlightSVG";
+// import { IoTrendingUp } from "react-icons/io5";
+
+// const HeroSection: React.FC = () => {
+//   const [circleSize, setCircleSize] = React.useState(1200); // Initial default
+
+//   React.useEffect(() => {
+//     const updateSize = () => {
+//       // Determine a base size dynamically
+//       // Make it proportional to viewport dimensions, allowing it to bleed off-screen
+//       const widthBasedSize = window.innerWidth * 1.4; // e.g., 140% of viewport width
+//       const heightBasedSize = window.innerHeight * 1.1; // e.g., 110% of viewport height
+
+//       // Use the smaller of these two to ensure it's not excessively large based on one dimension
+//       let dynamicSize = Math.min(widthBasedSize, heightBasedSize);
+
+//       // Apply clamps: a minimum size for small screens and a maximum for large screens
+//       const minSize = 260; // Smallest size for mobile
+//       const maxSize = 1500; // Largest size for desktop
+
+//       setCircleSize(Math.max(minSize, Math.min(dynamicSize, maxSize)));
+//     };
+
+//     updateSize(); // Set initial size
+//     window.addEventListener("resize", updateSize);
+//     return () => window.removeEventListener("resize", updateSize);
+//   }, []);
+
+//   const radius = circleSize / 2 - 1; // -1 for stroke width consideration
+
+//   return (
+//     <section className="relative text-white flex pt-24 pb-20 px-4 overflow-hidden -mt-28">
+//       <style jsx global>{`
+//         @keyframes twinkle {
+//           0%,
+//           100% {
+//             opacity: 0.1;
+//             transform: scale(0.4);
+//           }
+//           50% {
+//             opacity: 0.5;
+//             transform: scale(0.8);
+//           }
+//         }
+//         @keyframes spin-slow {
+//           from {
+//             transform: rotate(360deg);
+//           }
+//           to {
+//             transform: rotate(0deg);
+//           }
+//         }
+//         .animate-spin-slow {
+//           animation: spin-slow 40s linear infinite;
+//         }
+//       `}</style>
+
+//       {/* Container for the Static Full Circle and Rotating Highlights */}
+//       <div
+//         className="absolute left-1/2 transform -translate-x-1/2 pointer-events-none"
+//         style={{
+//           top: "3rem", // Adjust if needed based on new circle sizes
+//           width: `${circleSize}px`,
+//           height: `${circleSize}px`,
+//         }}
+//       >
+//         {/* 1. The FAINT, STATIC, FULL CIRCULAR BORDER */}
+//         <svg
+//           width={circleSize}
+//           height={circleSize}
+//           viewBox={`0 0 ${circleSize} ${circleSize}`}
+//           fill="none"
+//           xmlns="http://www.w3.org/2000/svg"
+//           className="absolute opacity-20"
+//         >
+//           <circle
+//             cx={circleSize / 2}
+//             cy={circleSize / 2}
+//             r={radius > 0 ? radius : 0} // Ensure radius is not negative if circleSize is very small
+//             stroke="rgba(220, 200, 255, 0.3)"
+//             strokeWidth="1"
+//           />
+//         </svg>
+
+//         {/* 2. The ROTATING Brighter Highlights */}
+//         <div className="animate-spin-slow w-full h-full relative">
+//           {[0, 120, 240].map((angle, index) => (
+//             <div
+//               key={`highlight-wrapper-${index}`}
+//               className="absolute w-full h-full"
+//               style={{ transform: `rotate(${angle}deg)` }}
+//             >
+//               <div
+//                 className="absolute left-1/2 top-0"
+//                 style={{
+//                   width: `100%`,
+//                   height: `100%`,
+//                   transform: `translateX(-50%)`,
+//                 }}
+//               >
+//                 <UserSuppliedHighlightSVG
+//                   idSuffix={`h${index + 1}`}
+//                   style={{ width: "100%", height: "100%" }}
+//                 />
+//               </div>
+//             </div>
+//           ))}
+//         </div>
+//       </div>
+
+//       {/* Central Text Content (remains the same) */}
+//       <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto mt-16 sm:mt-24 md:mt-20">
+//         <div className="mb-6 inline-flex items-center bg-primarybox backdrop-blur-md text-white px-4 py-1.5 rounded-full text-sm sm:text-base border">
+//           <IoTrendingUp  size={20} className="mr-2 text-primary" />
+//           All Time Latest Rates
+//         </div>
+
+//         <h1 className="text-4xl font-SatoshiVariable sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight text-mainheadingWhite">
+//           Easy Global Money Exchange at{" "}
+//           <span className="text-primary font-SatoshiVariableItalic">
+//             0% Fees
+//           </span>
+//         </h1>
+
+//         <p className="text-lg md:text-xl text-subheadingWhite mb-10 max-w-3xl px-2">
+//           Experience global money exchange with 0% fees and instant transfers.
+//           Our platform offers secure, transparent transactions with real-time
+//           exchange rates.
+//         </p>
+
+//         <Link
+//           href="/signup"
+//           className="px-8 sm:px-10 py-3 sm:py-3.5 bg-primary hover:bg-primaryhover text-neutral-900 font-medium rounded-full text-base sm:text-lg transform transition-all duration-200 ease-out"
+//         >
+//           Start Your Free Trial
+//         </Link>
+        
+//         <p className="mt-8 text-sm sm:text-base text-subheadingWhite flex items-center justify-center">
+//           <Globe size={20} className="mr-1.5 text-primary" />
+//           <span className="opacity-90">use and helping over </span> {" "}
+//           {/* Changed to   for consistent spacing */}
+//           <span className="font-bold text-white mx-0.5">2000+</span>
+//           <span className="opacity-90">clients</span>
+//         </p>
+//       </div>
+
+//       {/* Responsive Decorative Lighting */}
+//       <div className="left-right-lighting -z-1">
+//         <div className="absolute -left-10 -top-10">
+//           <img src="/assets/images/sdfsfd.png" width={600} alt="" />
+//         </div>
+//         <div className="absolute -right-10 -top-10">
+//           <img src="/assets/images/sadasdasdasd.png" width={600} alt="" />
+//         </div>
+//       </div>
+//     </section>
+//   );
+// };
+
+// export default HeroSection;
+
+
 // app/(website)/components/Hero/HeroSection.tsx
 "use client";
 import React from "react";
 import Link from "next/link";
 import { Globe } from "lucide-react";
-import { FiSend } from "react-icons/fi";
+// FiSend is not used in the provided code snippet, removed unless needed elsewhere
+// import { FiSend } from "react-icons/fi"; 
 import UserSuppliedHighlightSVG from "../Hero/UserSuppliedHighlightSVG";
 import { IoTrendingUp } from "react-icons/io5";
+import { useAuth } from "@/app/contexts/AuthContext"; // Import useAuth
 
 const HeroSection: React.FC = () => {
   const [circleSize, setCircleSize] = React.useState(1200); // Initial default
+  const { user, loading: authLoading } = useAuth(); // Get user and loading state from AuthContext
 
   React.useEffect(() => {
     const updateSize = () => {
-      // Determine a base size dynamically
-      // Make it proportional to viewport dimensions, allowing it to bleed off-screen
-      const widthBasedSize = window.innerWidth * 1.4; // e.g., 140% of viewport width
-      const heightBasedSize = window.innerHeight * 1.1; // e.g., 110% of viewport height
-
-      // Use the smaller of these two to ensure it's not excessively large based on one dimension
+      const widthBasedSize = window.innerWidth * 1.4;
+      const heightBasedSize = window.innerHeight * 1.1;
       let dynamicSize = Math.min(widthBasedSize, heightBasedSize);
-
-      // Apply clamps: a minimum size for small screens and a maximum for large screens
-      const minSize = 260; // Smallest size for mobile
-      const maxSize = 1500; // Largest size for desktop
-
+      const minSize = 260;
+      const maxSize = 1500;
       setCircleSize(Math.max(minSize, Math.min(dynamicSize, maxSize)));
     };
 
-    updateSize(); // Set initial size
+    updateSize();
     window.addEventListener("resize", updateSize);
     return () => window.removeEventListener("resize", updateSize);
   }, []);
 
-  const radius = circleSize / 2 - 1; // -1 for stroke width consideration
+  const radius = circleSize / 2 - 1;
+
+  // Determine button text and link based on authentication state
+  let buttonText: string;
+  let buttonLink: string;
+
+  if (!authLoading && user) {
+    // User is logged in
+    buttonText = "Get Started";
+    buttonLink = "/dashboard/send/select-balance";
+  } else {
+    // User is not logged in or auth state is loading
+    buttonText = "Create A Free Account";
+    buttonLink = "/signup";
+  }
 
   return (
     <section className="relative text-white flex pt-24 pb-20 px-4 overflow-hidden -mt-28">
@@ -433,7 +610,7 @@ const HeroSection: React.FC = () => {
       <div
         className="absolute left-1/2 transform -translate-x-1/2 pointer-events-none"
         style={{
-          top: "3rem", // Adjust if needed based on new circle sizes
+          top: "3rem",
           width: `${circleSize}px`,
           height: `${circleSize}px`,
         }}
@@ -450,7 +627,7 @@ const HeroSection: React.FC = () => {
           <circle
             cx={circleSize / 2}
             cy={circleSize / 2}
-            r={radius > 0 ? radius : 0} // Ensure radius is not negative if circleSize is very small
+            r={radius > 0 ? radius : 0}
             stroke="rgba(220, 200, 255, 0.3)"
             strokeWidth="1"
           />
@@ -482,10 +659,10 @@ const HeroSection: React.FC = () => {
         </div>
       </div>
 
-      {/* Central Text Content (remains the same) */}
+      {/* Central Text Content */}
       <div className="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto mt-16 sm:mt-24 md:mt-20">
         <div className="mb-6 inline-flex items-center bg-primarybox backdrop-blur-md text-white px-4 py-1.5 rounded-full text-sm sm:text-base border">
-          <IoTrendingUp  size={20} className="mr-2 text-primary" />
+          <IoTrendingUp size={20} className="mr-2 text-primary" />
           All Time Latest Rates
         </div>
 
@@ -502,17 +679,17 @@ const HeroSection: React.FC = () => {
           exchange rates.
         </p>
 
+        {/* MODIFIED BUTTON */}
         <Link
-          href="/signup"
-          className="px-8 sm:px-10 py-3 sm:py-3.5 bg-primary hover:bg-primaryhover text-neutral-900 font-medium rounded-full text-base sm:text-lg transform transition-all duration-200 ease-out"
+          href={buttonLink}
+          className="px-8 sm:px-10 py-3 sm:py-3.5 bg-primary hover:bg-primaryhover transition-all duration-75 ease-linear text-mainheading font-medium rounded-full text-base sm:text-lg"
         >
-          Start Your Free Trial
+          {buttonText}
         </Link>
         
         <p className="mt-8 text-sm sm:text-base text-subheadingWhite flex items-center justify-center">
           <Globe size={20} className="mr-1.5 text-primary" />
           <span className="opacity-90">use and helping over </span> {" "}
-          {/* Changed to   for consistent spacing */}
           <span className="font-bold text-white mx-0.5">2000+</span>
           <span className="opacity-90">clients</span>
         </p>

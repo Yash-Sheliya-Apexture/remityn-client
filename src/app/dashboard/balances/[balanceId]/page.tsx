@@ -9906,15 +9906,15 @@ const BalanceDetailPage = () => {
      const message = typeof error === 'string' ? error : "Balance details not found or you may not have access.";
         return (
           <> {/* Wrap error state in py-5 for consistent spacing */}
-             <div className="bg-red-50 dark:bg-red-900/25 border border-red-500 sm:p-10 p-4 flex sm:flex-col sm:items-center justify-center gap-3 rounded-lg ">
+             <div className="bg-red-900/25 border border-red-500 sm:p-10 p-4 flex sm:flex-col sm:items-center justify-center gap-3 rounded-lg ">
                <div className="flex-shrink-0 sm:size-12 size-10  rounded-full flex items-center justify-center bg-red-600/20">
-                 <AlertTriangle className="text-red-600 dark:text-red-500 size-5 sm:size-6 flex-shrink-0" />
+                 <AlertTriangle className="text-red-500 size-5 sm:size-6 flex-shrink-0" />
                </div>
                <div className="flex flex-col sm:items-center w-full">
-                 <p className="font-semibold text-red-800 dark:text-red-200">
+                 <p className="font-semibold text-red-200">
                    Error Loading Balance
                  </p>
-                 <p className="text-sm text-red-700 dark:text-red-300/90 mt-1">
+                 <p className="text-sm text-red-300/90 mt-1">
                    {message}
                  </p>
                </div>
@@ -9977,7 +9977,7 @@ const BalanceDetailPage = () => {
             <div className="flex justify-between items-center gap-4 sm:w-auto w-full">
               <Search searchTerm={searchTerm} onSearchChange={setSearchTerm} />
               <button
-                className="inline-flex items-center justify-center gap-3 bg-primary text-neutral-900 hover:bg-primaryhover h-12.5 md:w-40 w-12.5 font-medium rounded-full transition-all duration-75 ease-linear cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="inline-flex items-center justify-center gap-3 bg-primary text-mainheading hover:bg-primaryhover h-12.5 md:w-40 w-12.5 font-medium rounded-full transition-all duration-75 ease-linear cursor-pointer shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={handleOpenFilterModal}
                 aria-haspopup="dialog"
                 // Disable filter button if loading, or if initially empty and no filters/search are active yet
@@ -10015,16 +10015,16 @@ const BalanceDetailPage = () => {
 
         {/* "No Transactions Match Filters" Empty State */}
         {showNoMatchEmptyState && (
-          <div className="text-center flex flex-col items-center text-lg px-4 text-gray-500 dark:text-gray-300 bg-lightgray py-8 dark:bg-white/5 rounded-lg space-y-4">
+          <div className="text-center flex flex-col items-center text-lg px-4 text-gray-500  py-8 bg-primarybox rounded-lg space-y-4">
             <div className="lg:size-16 size-14 flex items-center justify-center bg-primary dark:bg-transparent dark:bg-gradient-to-t dark:from-primary rounded-full">
-              <Inbox className="lg:size-8 size-6 mx-auto text-neutral-900 dark:text-primary" />
+              <Inbox className="lg:size-8 size-6 mx-auto text-mainheading dark:text-primary" />
             </div>
-            <span className="text-gray-500 dark:text-gray-300">
+            <span className="text-subheadingWhite">
               No transactions match your current filter or search criteria.
             </span>
             <Button
               onClick={clearAllFiltersAndSearch}
-              className="px-6 cursor-pointer lg:py-3 py-2.5 lg:text-base text-sm font-medium w-auto bg-primary text-neutral-900 rounded-full hover:bg-primaryhover transition-colors duration-500 ease-in-out"
+              className="px-6 cursor-pointer lg:py-3 py-2.5 lg:text-base text-sm font-medium w-auto bg-primary text-mainheading rounded-full hover:bg-primaryhover transition-colors duration-500 ease-in-out"
             >
               Clear Filters
             </Button>

@@ -273,7 +273,7 @@ export const useSendAmountLogic = (balanceId?: string, recipientId?: string | nu
     // --- Fetch Initial Data ---
     useEffect(() => {
         const fetchInitialData = async () => {
-            console.log("Hook: Fetching initial data and rates...");
+            // console.log("Hook: Fetching initial data and rates...");
             setIsLoading(true);
             setApiError(null); setError(null); setSummary(null); setInitialRateSummary(null);
             setSourceAccount(null); setRecipient(null); // Clear previous data
@@ -296,7 +296,7 @@ export const useSendAmountLogic = (balanceId?: string, recipientId?: string | nu
                 fetchedRecipient = recipientRes.data;
                 setSourceAccount(fetchedAccount);
                 setRecipient(fetchedRecipient);
-                console.log("Hook: Account/Recipient loaded.");
+                // console.log("Hook: Account/Recipient loaded.");
 
                 // Fetch initial rate context
                 if (fetchedAccount && fetchedRecipient) {
@@ -308,7 +308,7 @@ export const useSendAmountLogic = (balanceId?: string, recipientId?: string | nu
                             { headers: { Authorization: `Bearer ${token}` } }
                         );
                         setInitialRateSummary(initialRateResponse.data);
-                        console.log("Hook: Initial rates loaded.", initialRateResponse.data);
+                        // console.log("Hook: Initial rates loaded.", initialRateResponse.data);
                         setApiError(null);
                     } catch (rateErr: unknown) { // <-- FIX 1: Use unknown
                         console.error("Hook: Error fetching initial rates:", rateErr);
@@ -336,7 +336,7 @@ export const useSendAmountLogic = (balanceId?: string, recipientId?: string | nu
                 setApiError(message); // Also set apiError for consistency if needed
             } finally {
                 setIsLoading(false);
-                console.log("Hook: Initial fetch complete.");
+                // console.log("Hook: Initial fetch complete.");
             }
         };
         fetchInitialData();
@@ -353,7 +353,7 @@ export const useSendAmountLogic = (balanceId?: string, recipientId?: string | nu
 
                 // Bail out conditions
                 if (!currentSourceAccount || !currentRecipient || !currentToken || isNaN(amount) || amount <= 0) {
-                    console.log("Hook: Calculation skipped (invalid input/state).");
+                    // console.log("Hook: Calculation skipped (invalid input/state).");
                     setSummary(null); // Clear summary if input is invalid
                     setIsCalculating(false);
                      if (currentError && currentError !== "Insufficient balance.") setError(null); // Clear non-balance errors
@@ -361,7 +361,7 @@ export const useSendAmountLogic = (balanceId?: string, recipientId?: string | nu
                     return null;
                 }
 
-                console.log(`Hook: Debounced calculate running: amount=${amount}, isSending=${isSending}`);
+                // console.log(`Hook: Debounced calculate running: amount=${amount}, isSending=${isSending}`);
                 setIsCalculating(true);
                  if (currentError && currentError !== "Insufficient balance.") setError(null); // Clear non-balance errors
                 setApiError(null); // Clear previous API calc errors
@@ -372,7 +372,7 @@ export const useSendAmountLogic = (balanceId?: string, recipientId?: string | nu
                         { sourceAccountId: currentSourceAccount._id, recipientId: currentRecipient._id, amount, isSendingAmount: isSending },
                         { headers: { Authorization: `Bearer ${currentToken}` } }
                     );
-                    console.log("Hook: Calculation success:", response.data);
+                    // console.log("Hook: Calculation success:", response.data);
                     setSummary(response.data);
                     setError(null); // Clear errors on success
                     setApiError(null);
@@ -401,7 +401,7 @@ export const useSendAmountLogic = (balanceId?: string, recipientId?: string | nu
                     return null; // Indicate failure
                 } finally {
                     setIsCalculating(false);
-                    console.log("Hook: Calculation finished.");
+                    // console.log("Hook: Calculation finished.");
                 }
             }, 500),
         [] // No dependencies needed due to refs

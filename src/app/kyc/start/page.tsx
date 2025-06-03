@@ -2522,7 +2522,7 @@ export default function KycStartPage() {
       return;
     }
     setActionError(null);
-    console.log("KYC Start: Initiating verification flow...");
+    // console.log("KYC Start: Initiating verification flow...");
     await startKycFlow(); // This should navigate to the appropriate KYC step
   }, [user, backendStatus, startKycFlow, setActionError]);
 
@@ -2535,9 +2535,9 @@ export default function KycStartPage() {
 
     // If KYC status is already 'skipped', redirect to dashboard immediately.
     if (backendStatus === "skipped") {
-      console.log(
-        "KYC Start: KYC status is already 'skipped'. Redirecting to dashboard."
-      );
+      // console.log(
+      //   "KYC Start: KYC status is already 'skipped'. Redirecting to dashboard."
+      // );
       router.push("/dashboard");
       return;
     }
@@ -2567,17 +2567,17 @@ export default function KycStartPage() {
     setIsSkipping(true);
     setActionError(null);
     try {
-      console.log(
-        "KYC Start: Attempting to skip KYC via service (status was 'not_started')..."
-      );
+      // console.log(
+      //   "KYC Start: Attempting to skip KYC via service (status was 'not_started')..."
+      // );
       await kycService.skipKyc();
-      console.log(
-        "KYC Start: Skip API call successful. Refetching user and KYC status..."
-      );
+      // console.log(
+      //   "KYC Start: Skip API call successful. Refetching user and KYC status..."
+      // );
       await refetchUser(); // Refetch user data
       await fetchKycStatus(true); // Force refetch KYC status
       // After refetch, KycContext's backendStatus should update to 'skipped'.
-      console.log("KYC Start: Contexts refetched. Redirecting to dashboard.");
+      // console.log("KYC Start: Contexts refetched. Redirecting to dashboard.");
       router.push("/dashboard"); // Redirect after successful skip and refetch
     } catch (err: any) {
       console.error("KYC Start: Error skipping KYC:", err);

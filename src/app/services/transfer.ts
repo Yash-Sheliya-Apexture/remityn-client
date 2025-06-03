@@ -404,7 +404,7 @@ const cancelTransfer = async (transferId: string, token: string | null): Promise
         const response = await axios.post<CancelTransferResponse>(`/transfers/${transferId}/cancel`, {}, {
             headers: { Authorization: `Bearer ${token}` },
         });
-        console.log(`Cancellation response for ${transferId}:`, response.data);
+        // console.log(`Cancellation response for ${transferId}:`, response.data);
         return response.data;
     } catch (error: unknown) {
         let specificMessage = 'Failed to cancel transfer. Please try again.'; // Default message
@@ -429,7 +429,7 @@ const cancelTransfer = async (transferId: string, token: string | null): Promise
         }
 
         // Throw a new error using the *extracted* specific message
-        console.log(`Throwing error with message: "${specificMessage}"`); // Log the final message being thrown
+        // console.log(`Throwing error with message: "${specificMessage}"`); // Log the final message being thrown
         throw new Error(specificMessage);
     }
 };

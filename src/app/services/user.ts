@@ -206,7 +206,7 @@ const getUserById = async (userId: string): Promise<User | null> => { // Add typ
          const axiosError = error as AxiosError<ApiErrorResponse>;
          // Handle 404 specifically if needed
          if (axiosError.response?.status === 404) {
-            console.log(`User with ID ${userId} not found.`);
+            // console.log(`User with ID ${userId} not found.`);
             return null; // Or throw a specific "NotFound" error
          }
         const errorMessage = axiosError.response?.data?.message || axiosError.message || 'Error fetching user';

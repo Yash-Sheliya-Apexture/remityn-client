@@ -928,9 +928,9 @@ const getErrorMessage = (error: any): string => {
  */
 const getPendingKycUsersAdmin = async (): Promise<PendingKycUsersResponse> => {
     try {
-        console.log('[Admin Service] Fetching pending KYC users...');
+        // console.log('[Admin Service] Fetching pending KYC users...');
         const response = await apiClient.get<PendingKycUsersResponse>(`/admin/kyc/pending`);
-        console.log('[Admin Service] Pending KYC users fetched successfully:', response.data.length);
+        // console.log('[Admin Service] Pending KYC users fetched successfully:', response.data.length);
         return response.data || [];
     } catch (error: any) {
         console.error(`[Admin Service] Error fetching pending KYC users:`, error);
@@ -948,9 +948,9 @@ const getKycDetailsAdmin = async (userId: string): Promise<AdminKycUserResponse>
          throw new Error("User ID is required and must be a valid string.");
     }
     try {
-        console.log(`[Admin Service] Fetching KYC details for user ${userId}...`);
+        // console.log(`[Admin Service] Fetching KYC details for user ${userId}...`);
         const response = await apiClient.get<AdminKycUserResponse>(`/admin/kyc/users/${userId}`);
-        console.log(`[Admin Service] KYC details for user ${userId} fetched successfully.`);
+        // console.log(`[Admin Service] KYC details for user ${userId} fetched successfully.`);
         if (!response.data) throw new Error("Received empty response from server.");
         return response.data;
     } catch (error: any) {
@@ -979,9 +979,9 @@ const updateKycStatusAdmin = async (userId: string, payload: AdminUpdateStatusPa
     }
 
     try {
-        console.log(`[Admin Service] Updating KYC status for user ${userId} to ${payload.status}...`);
+        // console.log(`[Admin Service] Updating KYC status for user ${userId} to ${payload.status}...`);
         const response = await apiClient.put<AdminKycUpdateResponse>(`/admin/kyc/users/${userId}/status`, payload);
-        console.log(`[Admin Service] KYC status updated successfully for user ${userId}:`, response.data);
+        // console.log(`[Admin Service] KYC status updated successfully for user ${userId}:`, response.data);
         return response.data;
     } catch (error: any) {
         console.error(`[Admin Service] Error updating KYC status for user ${userId}:`, error);

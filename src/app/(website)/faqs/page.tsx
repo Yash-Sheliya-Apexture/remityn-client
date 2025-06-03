@@ -1775,7 +1775,7 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
           aria-expanded={isOpen}
           onClick={onToggle}
           // Updated styling: Text sizes, colors, hover states, transitions from FaqSection
-          className={`flex w-full cursor-pointer flex-1 gap-4 items-start justify-between text-start xl:text-[28px] text-xl font-medium transition-all ease-linear duration-75
+          className={`flex w-full cursor-pointer flex-1 gap-4 items-start justify-between text-start xl:text-2xl text-xl font-medium transition-all ease-linear duration-75
             ${
               isOpen
                 ? "text-primary hover:text-primaryhover" 
@@ -1786,28 +1786,24 @@ const AccordionItem: React.FC<AccordionItemProps> = ({
           {item.question}
           {/* New Animated Plus/Minus Icon */}
           <div
-            className="xl:size-6 size-4 shrink-0 relative mt-2"
+            className="xl:size-8 size-6 shrink-0 relative"
             aria-hidden="true"
           >
             <motion.div
-              className="absolute bg-current" // Inherits text color from parent button
+              className="absolute  left-[50%] top-0 bg-current" // Inherits text color from parent button
               style={{
                 width: "2px",
                 height: "100%",
-                left: "50%",
-                top: "0%",
                 transform: "translateX(-50%)",
               }}
               animate={{ rotate: isOpen ? 90 : 0 }}
               transition={{ duration: 0.3, ease: "easeInOut" }}
             />
             <motion.div
-              className="absolute bg-current" // Inherits text color from parent button
+              className="absolute  top-[50%] left-0 bg-current" // Inherits text color from parent button
               style={{
                 width: "100%",
                 height: "2px",
-                left: "0%",
-                top: "50%",
                 transform: "translateY(-50%)",
               }}
               animate={{

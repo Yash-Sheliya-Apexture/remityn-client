@@ -4242,7 +4242,7 @@ export default function RegisterPage() {
                     )}
                   </button>
                 </div>
-                <p className="text-gray-400 text-sm mt-1.5">
+                <p className="text-subheadingWhite text-sm mt-1.5">
                   Must be at least 8 characters.
                 </p>
                 {passwordError && (
@@ -4394,7 +4394,7 @@ export default function RegisterPage() {
             </form>
             <motion.p
               variants={itemVariants}
-              className="text-gray-400 text-xs mt-6 text-center"
+              className="text-subheadingWhite text-sm mt-6 text-center"
             >
               By creating an account, you agree to our{" "}
               <Link

@@ -804,15 +804,15 @@ const SelectRecipientContent = () => {
     return (
       <>
         {/* Enhanced Skeleton */}
-        <Skeleton className="h-10 sm:w-96 w-full mb-6 rounded-full" />
+        <Skeleton className="h-9 sm:w-1/2 w-full mb-4 rounded-md" />
         <Skeleton className="h-12.5 w-full mb-6 rounded-full" />
-        <Skeleton className="h-20 w-full mb-4 rounded-2xl" />
-        <Skeleton className="h-6 w-24 mb-3 rounded-md" />
+        <Skeleton className="h-20.5 w-full mb-4 rounded-2xl" />
+        <Skeleton className="h-8 w-28 my-3 rounded-md" />
         <div className="space-y-2">
           {Array(3)
             .fill(0)
             .map((_, index) => (
-              <Skeleton key={index} className="h-20 w-full rounded-lg" />
+              <Skeleton key={index} className="h-21 w-full rounded-lg" />
             ))}
         </div>
       </>
